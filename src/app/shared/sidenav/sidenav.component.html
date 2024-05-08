@@ -1,0 +1,178 @@
+<main class="bg-light">
+<!--  <mat-toolbar #toolbar [class]="!sidenav?.opened && sidenav?.mode == 'over' ? 'position-fixed z-2' : ''"-->
+<!--               *ngIf="(userService?.isLoggedIn && userService?.hasWorkspace && (!sidenav?.opened && sidenav?.mode == 'over'))-->
+<!--               || (userService?.isLoggedIn && userService?.hasWorkspace && (sidenav?.opened && sidenav?.mode == 'side')) "-->
+<!--  >-->
+    <mat-toolbar #toolbar [class]="!sidenav?.opened && sidenav?.mode == 'over' ? 'position-fixed z-2' : ''"
+                 *ngIf="(userService?.isLoggedIn && (!sidenav?.opened && sidenav?.mode == 'over'))
+               || (userService?.isLoggedIn && (sidenav?.opened && sidenav?.mode == 'side')) "
+    >
+    <button
+      mat-icon-button
+      class="z-3"
+      *ngIf="sidenav?.mode === 'over'"
+      (click)="sidenav.toggle()">
+      <mat-icon *ngIf="!sidenav?.opened"> menu</mat-icon>
+      <mat-icon *ngIf="sidenav?.opened"> close</mat-icon>
+    </button>
+    <span class="text-white headerPageName z-3">{{generalService?.pageName}}</span>
+  </mat-toolbar>
+  <mat-sidenav-container [style]="generalService.token ? 'height: calc(100vh)' : 'height: calc(100vh)'">
+<!--    <mat-sidenav #sidenav="matSidenav" mode="side" class="mat-elevation-z8"-->
+<!--                 *ngIf="userService?.isLoggedIn && userService?.hasWorkspace">-->
+      <mat-sidenav #sidenav="matSidenav" mode="side" class="mat-elevation-z8"
+                   *ngIf="userService?.isLoggedIn">
+      <mat-list class="p-0 bg-white">
+        <mat-list-item style="cursor: pointer" [matMenuTriggerFor]="menu">
+          <div class="avatar-title rounded-full css-1wywoy2 m-auto"
+               matListItemIcon>{{generalService.profileImageName}}</div>
+          <div matListItemTitle class="ps-1">{{generalService?.full_name}}</div>
+        </mat-list-item>
+      </mat-list>
+      <mat-menu #menu="matMenu" class="accountMenu">
+        <mat-list class="matListAccountMenu pb-0">
+          <div matListItemLine>{{generalService?.email}}</div>
+          <mat-list-item>
+            <div class="avatar-title rounded-full css-1wywoy2 m-auto"
+                 matListItemIcon>{{generalService?.profileImageName}}</div>
+            <div matListItemTitle class="ps-1">{{generalService?.full_name}}</div>
+            <small *ngIf="walletService?.credit >= 0 && subscriptionService?.activePlan[1] == 0"> Balance:
+              ${{(walletService?.credit / 100).toFixed(2)}}</small>
+          </mat-list-item>
+          <div class="line"></div>
+          <ng-container *ngFor="let acc of generalService.account">
+            <mat-list-item *ngIf="acc != generalService.email" style="padding: 0">
+              <i class="bi bi-person-up" style="color: darkgray"></i>
+              &nbsp;<small class="pointer" (click)="switchUser(acc)" style="color: darkgray">{{acc}}</small>
+              <!--              <i class="bi bi-box-arrow-right" (click)="deleteAccount(acc)" style="float: right; margin-right: 6px; color: indianred;"></i>-->
+            </mat-list-item>
+          </ng-container>
+          <mat-list-item class="p-0" *ngIf="generalService.account.length < 3">
+            <small (click)="addAccount()" class="pointer"
+                   style="color: dodgerblue">Add Account</small>
+          </mat-list-item>
+        </mat-list>
+        <button mat-menu-item (click)="closeNavMenu()" [routerLink]="['profile']">
+          <i class="bi-person-vcard"></i>
+          Profile
+        </button>
+        <button mat-menu-item (click)="closeNavMenu()" [routerLink]="['billing']"
+                *ngIf="subscriptionService?.activePlan[1] == 0">
+          <i class="bi-credit-card"></i>
+          Top Up
+        </button>
+        <button mat-menu-item (click)="closeNavMenu()" [routerLink]="['plans']">
+          <i class="bi-boxes"></i>
+          Plans
+        </button>
+        <button mat-menu-item (click)="closeNavMenu()" [routerLink]="['invoices']">
+          <i class="bi-receipt"></i>
+          Invoices
+        </button>
+        <div class="line"></div>
+        <button mat-menu-item (click)="userService.forceToLoginAgain()">
+          <i class="bi-door-closed"></i>
+          Logout All Accounts
+        </button>
+      </mat-menu>
+      <span class="text-cap text-start">INHOUSE</span>
+      <!-- List -->
+      <ul class="nav nav-sm mb-4 text-start">
+        <a class="nav-link w-100 pointer" (click)="closeNavMenu(); gotoAddCard()">
+          <i class="bi-terminal nav-icon"></i> Add Card
+        </a>
+        <a class="nav-link w-100" (click)="closeNavMenu()" [routerLink]="['card-list']">
+          <i class="bi-house nav-icon"></i> Inhouse Cards
+        </a>
+        <a class="nav-link w-100" (click)="closeNavMenu()" [routerLink]="['public-card-list']">
+          <i class="bi-cart3 nav-icon"></i> Public Cards
+        </a>
+      </ul>
+      <span class="text-cap text-start">MY WORKSPACES
+                         <a class="nav-link pointer d-inline-block float-end" style="margin-right: 20px"
+                            (click)="closeNavMenu()" [routerLink]="['add-workspace', '0']">
+                           <i class="bi-plus-circle"></i>
+                         </a>
+                        </span>
+      <div style="max-height: 40vh; overflow: overlay;">
+        <mat-spinner style="margin: 10px auto" [diameter]="15" *ngIf="!workspaceService?.workspaceList"></mat-spinner>
+        <div *ngFor="let ws of workspaceService?.workspaceList; let i=index">
+          <input type="checkbox" [id]="'vote_score_'+i"/>
+          <div class="responsive-menu" *ngIf="ws?.member_type =='owner'">
+            <ul style="padding-left: 10px" *ngIf="!ws?.deleted_at">
+              <li>
+                <label [for]="'vote_score_'+i">
+                  <a class="nav-link pointer">
+                    <i class="bi-collection nav-icon"></i>
+                    {{ws?.title.length > 15 ? (ws?.title | slice:0:15) + '...' : ws?.title }}
+                  </a>
+                </label>
+                <ul style="padding-left: 14px">
+                  <li *ngIf="ws?.member_type !='guest'">
+                    <a class="nav-link pointer"
+                       (click)="closeNavMenu(); gotoWSCards(ws.id_hash, ws.title, ws.member_type)">
+                      <i class="bi-list-ul nav-icon"></i> Board
+                    </a>
+                  </li>
+                  <li>
+                    <a class="nav-link pointer" (click)="closeNavMenu(); viewOrders(ws.id_hash)">
+                      <i class="bi-clock-history nav-icon"></i> Request History
+                    </a>
+                  </li>
+                  <li *ngIf="ws?.member_type !='guest'">
+                    <a class="nav-link pointer" (click)="closeNavMenu(); openMembersListModal(ws.id_hash)">
+                      <i class="bi-person-add nav-icon"></i> Members
+                    </a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div style="max-height: 40vh; overflow: overlay;">
+        <span class="text-cap text-start">OTHERE WORKSPACES</span>
+        <div *ngFor="let ws of workspaceService?.workspaceList; let i=index">
+          <input type="checkbox" [id]="'vote_score_other_'+i"/>
+          <div class="responsive-menu" *ngIf="ws?.member_type !='owner'">
+            <ul style="padding-left: 10px" *ngIf="!ws?.deleted_at">
+              <li>
+                <label [for]="'vote_score_other_'+i">
+                  <a class="nav-link pointer">
+                    <i class="bi-collection nav-icon"></i>
+                    {{ws?.title.length > 15 ? (ws?.title | slice:0:15) + '...' : ws?.title }}
+                  </a>
+                </label>
+                <ul style="padding-left: 14px">
+                  <li *ngIf="ws?.member_type !='guest'">
+                    <a class="nav-link pointer"
+                       (click)="closeNavMenu(); gotoWSCards(ws.id_hash, ws.title, ws.member_type)">
+                      <i class="bi-list-ul nav-icon"></i> Board
+                    </a>
+                  </li>
+                  <li>
+                    <a class="nav-link pointer" (click)="closeNavMenu(); viewOrders(ws.id_hash)">
+                      <i class="bi-clock-history nav-icon"></i> Request History
+                    </a>
+                  </li>
+                  <li *ngIf="ws?.member_type !='guest'">
+                    <a class="nav-link pointer" (click)="closeNavMenu(); openMembersListModal(ws.id_hash)">
+                      <i class="bi-person-add nav-icon"></i> Members
+                    </a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </mat-sidenav>
+    <mat-sidenav-content [style]="!sidenav?.opened && sidenav?.mode == 'over' ? 'top: 65px' : ''">
+      <div class="mat-elevation-z8" [class]="generalService.token ? 'content col-lg-11' : 'shadow-none col-lg-10'"
+           style="margin:auto">
+        <router-outlet id="top"></router-outlet>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</main>
