@@ -1,0 +1,58 @@
+<div class="container" style="width: 35%">
+  <div class="flex-grow-1 card p-5 pb-3 border-0">
+    <div class="text-center mb-3">
+      <div class="logo radius">LOGO</div>
+      <br>
+      <h5>Login to your 1QMA account</h5>
+    </div>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" autocomplete="off">
+      <mat-form-field appearance="outline" class="w-100 mb-3" [hideRequiredMarker]="true">
+        <mat-label>Email</mat-label>
+        <input matInput placeholder="Enter your email" type="email" name="username"
+               [formControlName]="'email'" required>
+        <mat-error>Please enter your email</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="w-100" [hideRequiredMarker]="true">
+        <mat-label>Password</mat-label>
+        <div class="d-inline-flex w-100">
+          <input matInput placeholder="Enter your password" [type]="hide ? 'password' : 'text'" name="password"
+                 [formControlName]="'password'" placeholder="8+ characters required" required>
+          <i (click)="hide = !hide" [class]="hide? 'bi-eye-slash' : 'bi-eye'"></i>
+        </div>
+        <mat-error>Please enter your password</mat-error>
+      </mat-form-field>
+      <div role="alert" style="color: #ff5722; margin: 10px 0">
+        {{error}}
+      </div>
+      <button mat-raised-button color="primary" type="submit" [disabled]="!loginForm.valid || loading"
+              class="w-100 p-4">
+        <span>Login</span>
+      </button>
+      <br>
+      <p class="text-end">
+        <b class="link text-decoration-none" [routerLink]="['/forget-password']">Forgot Password?</b>
+      </p>
+      <div class="mediaAccounts radius">
+        <button mat-mini-fab color="primary" aria-label="Example icon button with a plus one icon">
+          <mat-icon>plus_one</mat-icon>
+        </button>
+        <button mat-mini-fab color="primary" aria-label="Example icon button with a plus one icon">
+          <mat-icon>facebook</mat-icon>
+        </button>
+        <button mat-mini-fab color="primary" aria-label="Example icon button with a plus one icon">
+          <mat-icon>apple</mat-icon>
+        </button>
+        <button mat-mini-fab color="primary" aria-label="Example icon button with a plus one icon">
+          <mat-icon>plus_one</mat-icon>
+        </button>
+      </div>
+      <br>
+      <div class="text-center" [routerLink]="['/signup']"><b class="link text-decoration-none"> Don't have an account?
+        Sign Up</b></div>
+    </form>
+  </div>
+</div>
+
+<div class="loading" *ngIf="loading$ | async">
+</div>
+

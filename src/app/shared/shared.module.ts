@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {MaterialModule} from "./material/material.module";
-import { SidenavComponent } from './sidenav/sidenav.component';
 import {RouterModule} from "@angular/router";
+import {SidenavComponent} from "./sidenav/sidenav.component";
 
 @NgModule({
   declarations: [
@@ -12,7 +12,8 @@ import {RouterModule} from "@angular/router";
         CommonModule, MaterialModule, RouterModule
     ],
   exports: [
-    SidenavComponent
-  ]
+    MaterialModule, SidenavComponent
+  ],
+  providers: []
 })
 export class SharedModule { }

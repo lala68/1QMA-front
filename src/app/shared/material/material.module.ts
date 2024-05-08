@@ -18,7 +18,6 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatNativeDateModule} from "@angular/material/core";
-import {NgbDatepickerModule} from "@ng-bootstrap/ng-bootstrap";
 import {MatSelectModule} from "@angular/material/select";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatTableModule} from "@angular/material/table";
@@ -54,7 +53,6 @@ import {MatAutocompleteModule} from "@angular/material/autocomplete";
     MatInputModule,
     MatNativeDateModule,
     MatDatepickerModule,
-    NgbDatepickerModule,
     MatSelectModule,
     MatExpansionModule,
     MatTableModule,
