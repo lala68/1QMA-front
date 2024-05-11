@@ -34,3 +34,28 @@
 .radius {
   border-radius: 5px;
 }
+
+.country-selector {
+  opacity: 1 !important;
+  top: 5px !important;
+}
+
+input:not(.country-search) {
+  bottom: 0px;
+  left: 10px;
+}
+
+.mat-menu-content:not(:empty) {
+  max-height: 250px;
+}
+
+.country-list-button {
+  font-size: 0.8rem !important;
+}
+
+.vertical-middle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+

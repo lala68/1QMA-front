@@ -11,10 +11,11 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
 import {RouterModule} from "@angular/router";
 import {ClipboardModule} from "@angular/cdk/clipboard";
+import {NgxMatIntlTelInputComponent} from "ngx-mat-intl-tel-input";
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     HttpClientModule,
@@ -27,7 +28,7 @@ import {ClipboardModule} from "@angular/cdk/clipboard";
     ReactiveFormsModule,
     MaterialModule,
     RouterModule,
-    ClipboardModule,
+    ClipboardModule
   ],
   exports: [
   ],

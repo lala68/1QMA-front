@@ -1,0 +1,17 @@
+.line {
+  flex: 1;
+  height: 1px;
+  background-color: black;
+}
+
+.text-on-line {
+  position: absolute;
+  top: -15px;
+  left: 0;
+  right: 0;
+  background: white;
+  width: 50px;
+  text-align: center;
+  border-radius: 5px;
+  margin: 0 auto;
+}
