@@ -1,5 +1,7 @@
-<div class="container" style="width: 35%">
+<app-header></app-header>
+<div class="container" style="width: 35%; margin-top: 60px">
   <div class="flex-grow-1 card p-5 pb-3 border-0">
+    <mat-icon class="back-btn-register" *ngIf="step !== 3" (click)="prevStep()">arrow_back_ios</mat-icon>
     <div class="text-center mb-3">
       <div class="logo radius">LOGO</div>
       <br>
@@ -110,3 +112,5 @@
     </div>
   </div>
 </div>
+
+<app-footer></app-footer>

@@ -3,7 +3,7 @@ import {FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators} 
 import {LoaderService} from "../../services/loader/loader.service";
 import {CommonModule} from "@angular/common";
 import {SharedModule} from "../../shared/shared.module";
-import {RouterModule} from "@angular/router";
+import {Router, RouterModule} from "@angular/router";
 import {MaterialModule} from "../../shared/material/material.module";
 import {NgxMatIntlTelInputComponent} from "ngx-mat-intl-tel-input";
 
@@ -40,7 +40,7 @@ export class SignupComponent {
   loadingCodeEmail = false;
   loadingCodePhone = false;
 
-  constructor(private _formBuilder: FormBuilder, private loader: LoaderService,) {
+  constructor(private _formBuilder: FormBuilder, private loader: LoaderService, private router: Router) {
   }
 
   onSubmit() {
@@ -97,5 +97,13 @@ export class SignupComponent {
 
   async resendCodePhone() {
     this.resendAblePhone = false;
+  }
+
+  async prevStep() {
+    if (this.step === 1) {
+      await this.router.navigateByUrl('/login');
+    } else {
+      --this.step;
+    }
   }
 }
