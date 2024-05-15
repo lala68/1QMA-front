@@ -5,13 +5,13 @@
     <div class="text-center mb-3">
       <div class="logo radius">LOGO</div>
       <br>
-      <h5>Sign up for a new account</h5>
+      <h5>{{'Sign up for a new account' | translate}}</h5>
     </div>
     <div *ngIf="step === 1">
       <form [formGroup]="signUpReferralForm" (ngSubmit)="onSubmit()" autocomplete="off">
         <mat-form-field appearance="outline" class="w-100 mb-2" [hideRequiredMarker]="true">
-          <mat-label>Referral Code</mat-label>
-          <input matInput placeholder="Referral Code" type="text" name="referral"
+          <mat-label>{{'Referral Code' | translate}}</mat-label>
+          <input matInput placeholder="{{'Referral Code' | translate}}" type="text" name="referral"
                  [formControlName]="'referral'" required>
           <mat-error>Please enter your referral code</mat-error>
         </mat-form-field>
@@ -22,15 +22,15 @@
       </form>
       <div class="position-relative mt-4">
         <div class="line"></div>
-        <div class="text-on-line">or</div>
+        <div class="text-on-line">{{'or' | translate}}</div>
       </div>
       <br>
       <form #f="ngForm" [formGroup]="signUpWaitListForm" (ngSubmit)="onSubmitSignUpWaitList()" autocomplete="off">
         <mat-form-field appearance="outline" class="w-100 mb-2" [hideRequiredMarker]="true">
-          <mat-label>E-mail Address</mat-label>
-          <input matInput placeholder="Referral Code" type="text" name="email"
+          <mat-label>{{'E - mail Address' | translate}}</mat-label>
+          <input matInput placeholder="{{'Referral Code' | translate}}" type="text" name="email"
                  [formControlName]="'email'" required>
-          <mat-error>Please enter your email address</mat-error>
+          <mat-error>{{'Please enter your email address' | translate}}</mat-error>
         </mat-form-field>
         <mat-form-field appearance="outline" class="w-100 mb-2">
           <ngx-mat-intl-tel-input
@@ -42,57 +42,57 @@
         </mat-form-field>
         <button mat-raised-button color="primary" type="submit" [disabled]="!signUpWaitListForm.valid || loading"
                 class="w-100 p-4">
-          <span>Join the wait list</span>
+          <span>{{'Join the wait list' | translate}}</span>
         </button>
         <br>
         <div class="text-center mt-3" [routerLink]="['/login']"><b class="link text-decoration-none">
-          Have an account? Log in</b></div>
+          {{'Have an account ? Log in' | translate}}</b></div>
       </form>
     </div>
     <div *ngIf="step === 2">
-      <mat-label>To verify your E-mail address and phone number, please enter codes send to you:</mat-label>
+      <mat-label>{{'To verify your E - mail address and phone number, please enter codes send to you:' | translate}}</mat-label>
       <br>
       <br>
       <form #f="ngForm" [formGroup]="signUpVerifyForm" (ngSubmit)="onSubmitSignUpVerify()" autocomplete="off">
         <div class="d-flex">
           <mat-form-field appearance="outline" class="w-50 mb-2" [hideRequiredMarker]="true">
-            <mat-label>E-mail</mat-label>
-            <input matInput placeholder="email Code" type="text" name="text"
+            <mat-label>{{'E-mail' | translate}}</mat-label>
+            <input matInput placeholder="{{'email Code' | translate}}" type="text" name="text"
                    [(ngModel)]="email" [ngModelOptions]="{standalone: true}" required>
           </mat-form-field>&nbsp;
           <mat-form-field appearance="outline" class="w-25 mb-2" [hideRequiredMarker]="true">
-            <mat-label>Phone</mat-label>
-            <input matInput placeholder="phone Code" type="text" name="text"
+            <mat-label>{{'Phone' | translate}}</mat-label>
+            <input matInput placeholder="{{'phone Code' | translate}}" type="text" name="text"
                    [formControlName]="'emailCode'" required>
           </mat-form-field>
-          <div *ngIf="!resendAblePhone" class="w-25 mb-2 vertical-middle">
+          <div *ngIf="!resendAbleEmail" class="w-25 mb-2 vertical-middle">
             {{countDownEmail}}: 00
           </div>
           <mat-label class="w-25 mb-2 vertical-middle" *ngIf="resendAbleEmail" (click)="resendCodeEmail()">
-            Resend
+            {{'Resend' | translate}}
           </mat-label>
         </div>
         <div class="d-flex">
           <mat-form-field appearance="outline" class="w-50 mb-2" [hideRequiredMarker]="true">
-            <mat-label>Phone</mat-label>
-            <input matInput placeholder="phone Code" type="text" name="text"
+            <mat-label>{{'Phone' | translate}}</mat-label>
+            <input matInput placeholder="{{'phone Code' | translate}}" type="text" name="text"
                    [(ngModel)]="phone" [ngModelOptions]="{standalone: true}" required>
           </mat-form-field>&nbsp;
           <mat-form-field appearance="outline" class="w-25 mb-2" [hideRequiredMarker]="true">
-            <mat-label>Phone</mat-label>
-            <input matInput placeholder="phone Code" type="text" name="text"
+            <mat-label>{{'Phone' | translate}}</mat-label>
+            <input matInput placeholder="{{'phone Code' | translate}}" type="text" name="text"
                    [formControlName]="'phoneCode'" required>
           </mat-form-field>
           <div *ngIf="!resendAblePhone" class="w-25 mb-2 vertical-middle">
             {{countDownPhone}}: 00
           </div>
           <mat-label class="w-25 mb-2 vertical-middle" *ngIf="resendAblePhone" (click)="resendCodePhone()">
-            Resend
+            {{'Resend' | translate}}
           </mat-label>
         </div>
         <button mat-raised-button color="primary" type="submit" [disabled]="!signUpVerifyForm.valid || loading"
                 class="w-100 p-4">
-          <span>Verify</span>
+          <span>{{'Verify' | translate}}</span>
         </button>
       </form>
     </div>
@@ -100,9 +100,9 @@
     <div *ngIf="step === 3">
       <div class="d-block text-center">
         <mat-icon>check</mat-icon>
-        <h5>Congratulations!</h5><br>
+        <h5>{{'Congratulations!' | translate}}</h5><br>
         <mat-label>
-          You've been successfully joined our waiting list. We will notify you soon.
+          {{'You\'ve been successfully joined our waiting list. We will notify you soon.' | translate}}
         </mat-label>
       </div>
     </div>
@@ -113,4 +113,4 @@
   </div>
 </div>
 
-<app-footer></app-footer>
+<app-footer> </app-footer>

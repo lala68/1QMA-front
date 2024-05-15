@@ -1,0 +1,96 @@
+<app-header></app-header>
+<br>
+<div class="card p-4 w-50 border-0" style="margin: 60px auto 20px">
+  <h5>{{'Lets get to know each other' | translate}}</h5>
+  <mat-label>{{'this helps us suggest you customized games you enjoy' | translate}}</mat-label>
+</div>
+<div class="card p-4 w-50 border-0" style="width: 50%;margin: 10px auto; min-height: calc(100vh - 300px)">
+  <div style="min-height: 50vh;">
+    <mat-stepper linear #stepper>
+      <mat-step [stepControl]="firstFormGroup" editable="false" >
+        <form [formGroup]="firstFormGroup">
+          <h5>
+            {{'Language' | translate}}
+          </h5>
+          <mat-label>{{'Choose your preferred language to continue in' | translate}}</mat-label>
+          <br><br>
+          <mat-form-field appearance="outline">
+            <mat-select formControlName="language">
+              <mat-option value="English">English</mat-option>
+              <mat-option value="Farsi">Farsi</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div>
+            <button mat-button matStepperNext>{{'Next' | translate}}</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step editable="false" >
+        <app-personal-information [formGroup]="form" [stepper]="stepper"></app-personal-information>
+      </mat-step>
+      <mat-step editable="false" >
+        <app-preferences></app-preferences>
+      </mat-step>
+      <mat-step editable="false" >
+        <app-question-types></app-question-types>
+      </mat-step>
+      <mat-step editable="false" >
+        <form [formGroup]="accountTypeForm">
+          <h5>
+            {{'Account type' | translate}}
+          </h5>
+          <mat-label>{{'Choose your account type' | translate}}</mat-label>
+          <br><br>
+          <mat-card *ngFor="let cat of [].constructor(3);let i= index" class="m-2 d-inline-block" style="flex: 1;"
+                    (click)="selectType(i)"
+                    [class]="{'account-type-checked': selectedType == i}">
+            <mat-card-content class="text-start">
+              <mat-icon>home</mat-icon>
+              <br>
+              <mat-label>category {{i}}</mat-label>
+            </mat-card-content>
+          </mat-card>
+          <div>
+            <button mat-button matStepperPrevious>{{'Back' | translate}}</button>
+            <button mat-button matStepperNext>{{'Next' | translate}}</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step editable="false" >
+        <form [formGroup]="accountTypeForm">
+          <h5>
+            {{'Game Explanation' | translate}}
+          </h5>
+          <mat-label>{{'Road this to learn more about our game' | translate}}</mat-label>
+          <br><br>
+          <mat-list *ngFor="let item of [].constructor(3)">
+            <mat-list-item>
+              <mat-icon matListItemIcon>folder</mat-icon>
+              <div matListItemTitle>title</div>
+              <div matListItemLine>description...</div>
+            </mat-list-item>
+          </mat-list>
+          <div>
+            <button mat-button matStepperPrevious>{{'Back' | translate}}</button>
+            <button mat-button matStepperNext>{{'Next' | translate}}</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step editable="false" >
+        <div class="d-block text-center">
+          <mat-icon>check</mat-icon>
+          <h5>{{'Welcome' | translate}}</h5><br>
+          <mat-label>
+            {{'Your account has been created successful.Now you can start playing games.' | translate}}
+          </mat-label>
+          <br><br>
+          <button mat-raised-button color="primary"
+                  class="w-50 p-4">
+            <span>{{'Go to dashboard' | translate}}</span>
+          </button>
+        </div>
+      </mat-step>
+    </mat-stepper>
+  </div>
+</div>
+<app-footer></app-footer>

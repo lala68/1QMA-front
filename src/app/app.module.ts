@@ -1,4 +1,4 @@
-import {NgModule, isDevMode} from '@angular/core';
+import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 
 import {AppRoutingModule} from './app-routing/app-routing.module';
@@ -6,12 +6,15 @@ import {AppComponent} from './app.component';
 import {MaterialModule} from "./shared/material/material.module";
 import {SharedModule} from "./shared/shared.module";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+import {HttpClient, HttpClientModule} from "@angular/common/http";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
 import {RouterModule} from "@angular/router";
 import {ClipboardModule} from "@angular/cdk/clipboard";
-import {NgxMatIntlTelInputComponent} from "ngx-mat-intl-tel-input";
+import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
+import {TranslateHttpLoader} from "@ngx-translate/http-loader";
+
+export const httpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(http, './assets/i18n/', '.json');
 
 @NgModule({
   declarations: [
@@ -28,7 +31,14 @@ import {NgxMatIntlTelInputComponent} from "ngx-mat-intl-tel-input";
     ReactiveFormsModule,
     MaterialModule,
     RouterModule,
-    ClipboardModule
+    ClipboardModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: httpLoaderFactory,
+        deps: [HttpClient],
+      },
+    }),
   ],
   exports: [
   ],

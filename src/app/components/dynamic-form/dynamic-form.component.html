@@ -1,0 +1,9 @@
+<form [formGroup]="dynamicForm" (ngSubmit)="onSubmit()">
+  <div *ngFor="let property of properties">
+    <input type="text" [formControlName]="property.id" [placeholder]="property.propertyName"/>
+    <br>
+  </div>
+  <button type="submit" class="orangedBtn" [disabled]="!dynamicForm.valid">
+    <span>ذخیره</span>
+  </button>
+</form>

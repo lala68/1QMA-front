@@ -6,11 +6,13 @@ import {SharedModule} from "../../shared/shared.module";
 import {Router, RouterModule} from "@angular/router";
 import {MaterialModule} from "../../shared/material/material.module";
 import {NgxMatIntlTelInputComponent} from "ngx-mat-intl-tel-input";
+import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-signup',
   standalone: true,
-  imports: [CommonModule, FormsModule, SharedModule, ReactiveFormsModule, RouterModule, MaterialModule, NgxMatIntlTelInputComponent],
+  imports: [CommonModule, FormsModule, SharedModule, ReactiveFormsModule, RouterModule, MaterialModule,
+    NgxMatIntlTelInputComponent, TranslateModule],
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.scss',
 })
@@ -44,7 +46,7 @@ export class SignupComponent {
   }
 
   onSubmit() {
-
+    this.router.navigate(['wizard'])
   }
 
   countryChangedEvent(event: any) {
@@ -59,6 +61,8 @@ export class SignupComponent {
     clearInterval(this.countDownPhone);
     this.startTimerEmail();
     this.startTimerPhone();
+    this.phone = this.signUpWaitListForm.controls.phone.value;
+    this.email = this.signUpWaitListForm.controls.email.value;
   }
 
   onSubmitSignUpVerify() {

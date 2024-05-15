@@ -5,11 +5,13 @@ import {SharedModule} from "../../shared/shared.module";
 import {Router, RouterModule} from "@angular/router";
 import {MaterialModule} from "../../shared/material/material.module";
 import {NgxMatIntlTelInputComponent} from "ngx-mat-intl-tel-input";
+import {TranslateModule} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-forget-password',
   standalone: true,
-  imports: [CommonModule, FormsModule, SharedModule, ReactiveFormsModule, RouterModule, MaterialModule, NgxMatIntlTelInputComponent],
+  imports: [CommonModule, FormsModule, SharedModule, ReactiveFormsModule, RouterModule, MaterialModule,
+    NgxMatIntlTelInputComponent, TranslateModule],
   templateUrl: './forget-password.component.html',
   styleUrl: './forget-password.component.scss'
 })
@@ -19,10 +21,19 @@ export class ForgetPasswordComponent {
   email: any;
   phone: any;
   resetPasswordForm = this._formBuilder.group({
-    verification: new FormControl('', [Validators.required, Validators.email]),
+    verification: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required]),
     retypePassword: new FormControl('', [Validators.required]),
   });
+
+  emailFormControl = new FormControl('', [
+    Validators.required,
+    Validators.email
+  ]);
+
+  phoneFormControl = new FormControl('', [
+    Validators.required
+  ]);
 
   constructor(private _formBuilder: FormBuilder, private router: Router) {
   }
@@ -48,6 +59,10 @@ export class ForgetPasswordComponent {
     if (this.step === 1) {
       await this.router.navigateByUrl('/login');
     } else {
+      if (this.step === 2) {
+        this.emailFormControl.reset()
+        this.phoneFormControl.reset()
+      }
       --this.step;
     }
   }
