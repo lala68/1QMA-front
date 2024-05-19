@@ -4,9 +4,11 @@ import {LoaderService} from "../../services/loader/loader.service";
 import {AuthService} from "../../services/auth/auth.service";
 import {SharedModule} from "../../shared/shared.module";
 import {CommonModule} from "@angular/common";
-import {RouterModule} from "@angular/router";
+import {Router, RouterModule} from "@angular/router";
 import {MaterialModule} from "../../shared/material/material.module";
 import {TranslateModule} from "@ngx-translate/core";
+import {Preferences} from "@capacitor/preferences";
+import {GeneralService} from "../../services/general/general.service";
 
 @Component({
   selector: 'app-login',
@@ -26,12 +28,39 @@ export class LoginComponent {
   error: any;
   hide = true;
 
-  constructor(private _formBuilder: FormBuilder,private loader: LoaderService,
-              public authService: AuthService) {
+  constructor(private _formBuilder: FormBuilder, private loader: LoaderService,
+              public authService: AuthService, private router: Router, private generalService: GeneralService) {
   }
 
   onSubmit() {
+    this.error = '';
+    this.loading = true;
+    this.authService.loginWithEmail(this.loginForm.value).then(async data => {
+      this.loading = false;
+      if (data?.status == 1) {
+        await Preferences.set({key: 'account', value: JSON.stringify(data.data)});
+        await this.authService.isAuthenticated();
+        await this.generalService.getUserData();
+        if (this.generalService.userId && !this.generalService.hasCompletedSignup) {
+          this.authService.registerInit().then(res => {
+            if (res.status == 1) {
+              this.generalService.initData = res.data;
+              this.router.navigate(['/wizard']);
+            }
+          })
+        } else if (this.generalService.userId && this.generalService.hasCompletedSignup) {
+          this.authService.registerInit().then(res => {
+            if (res.status == 1) {
+              this.generalService.initData = res.data;
+              this.router.navigate(['/dashboard']);
+            }
+          })
+        }
+      } else if (data?.status == -1) {
+        this.error = data?.message;
+      }
 
+    })
   }
 
 }

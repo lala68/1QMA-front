@@ -7,6 +7,8 @@ import {Router, RouterModule} from "@angular/router";
 import {MaterialModule} from "../../shared/material/material.module";
 import {NgxMatIntlTelInputComponent} from "ngx-mat-intl-tel-input";
 import {TranslateModule} from "@ngx-translate/core";
+import {AuthService} from "../../services/auth/auth.service";
+import {Preferences} from "@capacitor/preferences";
 
 @Component({
   selector: 'app-signup',
@@ -20,18 +22,20 @@ export class SignupComponent {
   loading$ = this.loader.isLoading$;
   loading: boolean = false;
   signUpReferralForm = this._formBuilder.group({
-    referral: new FormControl('', [Validators.required]),
+    referer: new FormControl('', [Validators.required]),
   });
   signUpWaitListForm = this._formBuilder.group({
     email: new FormControl('', [Validators.required, Validators.email]),
-    phone: new FormControl('', [Validators.required]),
+    mobile: new FormControl('', [Validators.required]),
   });
-  signUpVerifyForm = this._formBuilder.group({
-    phoneCode: new FormControl('', [Validators.required]),
-    emailCode: new FormControl('', [Validators.required]),
+  signUpVerifyFormEmail = this._formBuilder.group({
+    email: new FormControl('', [Validators.required]),
+    verificationCode: new FormControl('', [Validators.required]),
   });
-  email: any;
-  phone: any;
+  signUpVerifyFormMobile = this._formBuilder.group({
+    mobile: new FormControl('', [Validators.required]),
+    verificationCode: new FormControl('', [Validators.required]),
+  });
   step: any = 1;
   countDownPhone = 10;
   countDownEmail = 10;
@@ -41,12 +45,26 @@ export class SignupComponent {
   intervalIdPhone: any;
   loadingCodeEmail = false;
   loadingCodePhone = false;
+  error: any;
+  errorWaitList: any;
 
-  constructor(private _formBuilder: FormBuilder, private loader: LoaderService, private router: Router) {
+  constructor(private _formBuilder: FormBuilder, private loader: LoaderService, private router: Router,
+              public authService: AuthService) {
   }
 
   onSubmit() {
-    this.router.navigate(['wizard'])
+    this.error = '';
+    this.errorWaitList = '';
+    this.loading = true;
+    this.authService.signupWithReferral(this.signUpReferralForm.value).then(async data => {
+      this.loading = false;
+      if (data?.status == 1) {
+        await Preferences.set({key: 'account', value: JSON.stringify(data.data)});
+        await this.router.navigate(['wizard']);
+      } else if (data?.status == -1) {
+        this.error = data?.message;
+      }
+    })
   }
 
   countryChangedEvent(event: any) {
@@ -54,18 +72,34 @@ export class SignupComponent {
   }
 
   onSubmitSignUpWaitList() {
-    this.step = 2;
-    this.countDownEmail = 10;
-    this.countDownPhone = 10;
-    clearInterval(this.intervalIdEmail);
-    clearInterval(this.countDownPhone);
-    this.startTimerEmail();
-    this.startTimerPhone();
-    this.phone = this.signUpWaitListForm.controls.phone.value;
-    this.email = this.signUpWaitListForm.controls.email.value;
+    this.error = '';
+    this.errorWaitList = '';
+    this.loading = true;
+    this.authService.joinToWaitList(this.signUpWaitListForm.value).then(data => {
+      this.loading = false;
+      if (data?.status == 1) {
+        this.step = 2;
+        this.countDownEmail = 10;
+        this.countDownPhone = 10;
+        clearInterval(this.intervalIdEmail);
+        clearInterval(this.countDownPhone);
+        this.startTimerEmail();
+        this.startTimerPhone();
+        this.signUpVerifyFormMobile.controls.mobile.setValue(this.signUpWaitListForm.controls.mobile.value);
+        this.signUpVerifyFormEmail.controls.email.setValue(this.signUpWaitListForm.controls.email.value);
+      } else if (data?.status == -1) {
+        this.errorWaitList = data?.message;
+      }
+    })
   }
 
   onSubmitSignUpVerify() {
+    this.authService.verifyEmail(this.signUpVerifyFormEmail.value).then(data => {
+
+    });
+    this.authService.verifyMobile(this.signUpVerifyFormMobile.value).then(data => {
+
+    });
     this.step = 3;
   }
 
@@ -97,10 +131,18 @@ export class SignupComponent {
 
   async resendCodeEmail() {
     this.resendAbleEmail = false;
+    this.startTimerEmail();
+    this.authService.resendCodeEmail(this.signUpVerifyFormEmail.controls.email.value).then(data => {
+
+    })
   }
 
   async resendCodePhone() {
     this.resendAblePhone = false;
+    this.startTimerPhone();
+    this.authService.resendCodeMobile(this.signUpVerifyFormMobile.controls.mobile.value).then(data => {
+
+    })
   }
 
   async prevStep() {

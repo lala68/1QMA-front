@@ -12,9 +12,12 @@
         <mat-form-field appearance="outline" class="w-100 mb-2" [hideRequiredMarker]="true">
           <mat-label>{{'Referral Code' | translate}}</mat-label>
           <input matInput placeholder="{{'Referral Code' | translate}}" type="text" name="referral"
-                 [formControlName]="'referral'" required>
+                 [formControlName]="'referer'" required>
           <mat-error>Please enter your referral code</mat-error>
         </mat-form-field>
+        <div role="alert" style="color: #ff5722; margin: 10px 0">
+          {{error}}
+        </div>
         <button mat-raised-button color="primary" type="submit" [disabled]="!signUpReferralForm.valid || loading"
                 class="w-100 p-4">
           <span>Sign up</span>
@@ -27,7 +30,7 @@
       <br>
       <form #f="ngForm" [formGroup]="signUpWaitListForm" (ngSubmit)="onSubmitSignUpWaitList()" autocomplete="off">
         <mat-form-field appearance="outline" class="w-100 mb-2" [hideRequiredMarker]="true">
-          <mat-label>{{'E - mail Address' | translate}}</mat-label>
+          <mat-label>{{'E-mail Address' | translate}}</mat-label>
           <input matInput placeholder="{{'Referral Code' | translate}}" type="text" name="email"
                  [formControlName]="'email'" required>
           <mat-error>{{'Please enter your email address' | translate}}</mat-error>
@@ -36,10 +39,14 @@
           <ngx-mat-intl-tel-input
             [enablePlaceholder]="true"
             [enableSearch]="true"
+            [preferredCountries]="['ir']"
             name="phone"
             (countryChanged)="countryChangedEvent($event)"
-            [formControlName]="'phone'"></ngx-mat-intl-tel-input>
+            [formControlName]="'mobile'"></ngx-mat-intl-tel-input>
         </mat-form-field>
+        <div role="alert" style="color: #ff5722; margin: 10px 0">
+          {{errorWaitList}}
+        </div>
         <button mat-raised-button color="primary" type="submit" [disabled]="!signUpWaitListForm.valid || loading"
                 class="w-100 p-4">
           <span>{{'Join the wait list' | translate}}</span>
@@ -50,20 +57,20 @@
       </form>
     </div>
     <div *ngIf="step === 2">
-      <mat-label>{{'To verify your E - mail address and phone number, please enter codes send to you:' | translate}}</mat-label>
+      <mat-label>{{'To verify your E-mail address and phone number, please enter codes send to you:' | translate}}</mat-label>
       <br>
       <br>
-      <form #f="ngForm" [formGroup]="signUpVerifyForm" (ngSubmit)="onSubmitSignUpVerify()" autocomplete="off">
+      <form #f="ngForm" [formGroup]="signUpVerifyFormEmail" autocomplete="off">
         <div class="d-flex">
           <mat-form-field appearance="outline" class="w-50 mb-2" [hideRequiredMarker]="true">
             <mat-label>{{'E-mail' | translate}}</mat-label>
-            <input matInput placeholder="{{'email Code' | translate}}" type="text" name="text"
-                   [(ngModel)]="email" [ngModelOptions]="{standalone: true}" required>
+            <input matInput placeholder="{{'email' | translate}}" type="text" name="text"
+                   [formControlName]="'email'" required>
           </mat-form-field>&nbsp;
           <mat-form-field appearance="outline" class="w-25 mb-2" [hideRequiredMarker]="true">
-            <mat-label>{{'Phone' | translate}}</mat-label>
-            <input matInput placeholder="{{'phone Code' | translate}}" type="text" name="text"
-                   [formControlName]="'emailCode'" required>
+            <mat-label>{{'email Code' | translate}}</mat-label>
+            <input matInput placeholder="{{'email Code' | translate}}" type="text" name="text"
+                   [formControlName]="'verificationCode'" required>
           </mat-form-field>
           <div *ngIf="!resendAbleEmail" class="w-25 mb-2 vertical-middle">
             {{countDownEmail}}: 00
@@ -72,11 +79,13 @@
             {{'Resend' | translate}}
           </mat-label>
         </div>
+      </form>
+      <form #f="ngForm" [formGroup]="signUpVerifyFormMobile" autocomplete="off">
         <div class="d-flex">
           <mat-form-field appearance="outline" class="w-50 mb-2" [hideRequiredMarker]="true">
             <mat-label>{{'Phone' | translate}}</mat-label>
-            <input matInput placeholder="{{'phone Code' | translate}}" type="text" name="text"
-                   [(ngModel)]="phone" [ngModelOptions]="{standalone: true}" required>
+            <input matInput placeholder="{{'phone' | translate}}" type="text" name="text"
+                   [formControlName]="'mobile'" required>
           </mat-form-field>&nbsp;
           <mat-form-field appearance="outline" class="w-25 mb-2" [hideRequiredMarker]="true">
             <mat-label>{{'Phone' | translate}}</mat-label>
@@ -90,11 +99,12 @@
             {{'Resend' | translate}}
           </mat-label>
         </div>
-        <button mat-raised-button color="primary" type="submit" [disabled]="!signUpVerifyForm.valid || loading"
-                class="w-100 p-4">
-          <span>{{'Verify' | translate}}</span>
-        </button>
       </form>
+      <button mat-raised-button color="primary" type="submit"
+              [disabled]="!signUpVerifyFormMobile.valid || !signUpVerifyFormEmail.valid || loading"
+              class="w-100 p-4" (click)="onSubmitSignUpVerify()">
+        <span>{{'Verify' | translate}}</span>
+      </button>
     </div>
 
     <div *ngIf="step === 3">
@@ -113,4 +123,4 @@
   </div>
 </div>
 
-<app-footer> </app-footer>
+<app-footer></app-footer>

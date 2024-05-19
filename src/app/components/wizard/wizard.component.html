@@ -7,7 +7,7 @@
 <div class="card p-4 w-50 border-0" style="width: 50%;margin: 10px auto; min-height: calc(100vh - 300px)">
   <div style="min-height: 50vh;">
     <mat-stepper linear #stepper>
-      <mat-step [stepControl]="firstFormGroup" editable="false" >
+      <mat-step [stepControl]="firstFormGroup" editable="false">
         <form [formGroup]="firstFormGroup">
           <h5>
             {{'Language' | translate}}
@@ -15,48 +15,53 @@
           <mat-label>{{'Choose your preferred language to continue in' | translate}}</mat-label>
           <br><br>
           <mat-form-field appearance="outline">
-            <mat-select formControlName="language">
-              <mat-option value="English">English</mat-option>
-              <mat-option value="Farsi">Farsi</mat-option>
+            <mat-select [formControlName]="'language'">
+              <mat-option *ngFor="let lang of generalService?.initData?.languages | keyvalue"
+                          [value]="lang.key">{{lang.value}}</mat-option>
             </mat-select>
           </mat-form-field>
+          <div role="alert" style="color: #ff5722; margin: 10px 0">
+            {{error}}
+          </div>
           <div>
-            <button mat-button matStepperNext>{{'Next' | translate}}</button>
+            <button mat-button [disabled]="!generalService?.initData?.languages || loadingLanguage" (click)="saveLanguage()">{{'Next' | translate}}</button>
           </div>
         </form>
       </mat-step>
-      <mat-step editable="false" >
+      <mat-step editable="false">
         <app-personal-information [formGroup]="form" [stepper]="stepper"></app-personal-information>
       </mat-step>
-      <mat-step editable="false" >
-        <app-preferences></app-preferences>
+      <mat-step editable="false">
+        <app-preferences [stepper]="stepper"></app-preferences>
       </mat-step>
-      <mat-step editable="false" >
-        <app-question-types></app-question-types>
-      </mat-step>
-      <mat-step editable="false" >
+      <mat-step editable="false">
         <form [formGroup]="accountTypeForm">
           <h5>
             {{'Account type' | translate}}
           </h5>
           <mat-label>{{'Choose your account type' | translate}}</mat-label>
           <br><br>
-          <mat-card *ngFor="let cat of [].constructor(3);let i= index" class="m-2 d-inline-block" style="flex: 1;"
-                    (click)="selectType(i)"
-                    [class]="{'account-type-checked': selectedType == i}">
+          <mat-card *ngFor="let acc of generalService?.initData?.accountTypes | keyvalue" class="m-2 d-inline-block"
+                    style="flex: 1;"
+                    (click)="selectType(acc.key)"
+                    [class]="{'account-type-checked': selectedType == acc.key}">
             <mat-card-content class="text-start">
               <mat-icon>home</mat-icon>
               <br>
-              <mat-label>category {{i}}</mat-label>
+              <mat-label>{{acc.value}}</mat-label>
             </mat-card-content>
           </mat-card>
+          <div role="alert" style="color: #ff5722; margin: 10px 0">
+            {{error}}
+          </div>
           <div>
-            <button mat-button matStepperPrevious>{{'Back' | translate}}</button>
-            <button mat-button matStepperNext>{{'Next' | translate}}</button>
+            <!--            <button mat-button matStepperPrevious>{{'Back' | translate}}</button>-->
+            <button mat-button [disabled]="loadingAccountType"
+                    (click)="submitAccountType()">{{'Next' | translate}}</button>
           </div>
         </form>
       </mat-step>
-      <mat-step editable="false" >
+      <mat-step editable="false">
         <form [formGroup]="accountTypeForm">
           <h5>
             {{'Game Explanation' | translate}}
@@ -76,7 +81,11 @@
           </div>
         </form>
       </mat-step>
-      <mat-step editable="false" >
+      <mat-step editable="false">
+        <app-question-types></app-question-types>
+      </mat-step>
+
+      <mat-step editable="false">
         <div class="d-block text-center">
           <mat-icon>check</mat-icon>
           <h5>{{'Welcome' | translate}}</h5><br>

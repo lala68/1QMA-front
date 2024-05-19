@@ -3,16 +3,21 @@
 </h5>
 <mat-label>{{'Select at least three categories' | translate}}</mat-label>
 <br>
-<mat-card *ngFor="let cat of [].constructor(20);let i= index" class="m-2 d-inline-block" style="flex: 1;"
-          (click)="selectCat(i)"
-          [class]="{'cat-checked': selectedCategory.includes(i), 'cat-not-checked': !selectedCategory.includes(i)}">
+<mat-card *ngFor="let cat of generalService?.initData?.categories | keyvalue"
+          class="m-2 d-inline-block" style="flex: 1;"
+          (click)="selectCat(cat.key)"
+          [class]="{'cat-checked': selectedCategory.includes(cat.key), 'cat-not-checked': !selectedCategory.includes(cat.key)}">
   <mat-card-content class="text-start">
     <mat-icon>home</mat-icon>
-    <mat-label>category {{i}}</mat-label>
+    <mat-label>{{ cat.value }}</mat-label>
   </mat-card-content>
 </mat-card>
+<div role="alert" style="color: #ff5722; margin: 10px 0">
+  {{error}}
+</div>
 <div>
-  <button mat-button matStepperPrevious>{{'Back' | translate}}</button>
-  <button mat-button matStepperNext [disabled]="selectedCategory.length < 3">{{'Next' | translate}}</button>
+  <!--  <button mat-button matStepperPrevious>{{'Back' | translate}}</button>-->
+  <button mat-button [disabled]="loading || selectedCategory.length==0"
+          (click)="submit()">{{'Next' | translate}}</button>
 </div>
 <br><br>

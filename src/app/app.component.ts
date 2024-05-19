@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {Router} from "@angular/router";
-import { register } from 'swiper/element/bundle';
+import {register} from 'swiper/element/bundle';
 import {TranslateService} from "@ngx-translate/core";
+import {GeneralService} from "./services/general/general.service";
+import {AuthService} from "./services/auth/auth.service";
 
 register();
 
@@ -13,8 +15,34 @@ register();
 export class AppComponent {
   title = 'maGames';
 
-  constructor(private router: Router, private translateService: TranslateService,) {
-    this.router.navigate(['login']);
+  constructor(private router: Router, private translateService: TranslateService,
+              private generalService: GeneralService, private authService: AuthService) {
     this.translateService.setDefaultLang('en');
+    this.starter().then((data) => {
+      if (this.generalService.userId && !this.generalService.hasCompletedSignup) {
+        this.authService.registerInit().then(res => {
+          console.log(res)
+          if (res.status == 1) {
+            this.generalService.initData = res.data;
+            this.router.navigate(['/wizard']);
+          }
+        })
+      } else if (this.generalService.userId && this.generalService.hasCompletedSignup) {
+        this.authService.registerInit().then(res => {
+          if (res.status == 1) {
+            this.generalService.initData = res.data;
+            this.router.navigate(['/dashboard']);
+          }
+        })
+      } else {
+        this.router.navigate(['login']);
+      }
+    })
+  }
+
+  async starter() {
+    if (await this.authService.isAuthenticated()) {
+      await this.generalService.getUserData();
+    }
   }
 }

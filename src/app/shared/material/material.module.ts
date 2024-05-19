@@ -33,6 +33,7 @@ import {CdkAccordionModule} from "@angular/cdk/accordion";
 import {MatSortModule} from "@angular/material/sort";
 import {MatTabsModule} from "@angular/material/tabs";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import {NgxMatSelectSearchModule} from "ngx-mat-select-search";
 
 @NgModule({
   exports: [
@@ -68,6 +69,7 @@ import {MatAutocompleteModule} from "@angular/material/autocomplete";
     MatSortModule,
     MatTabsModule,
     MatAutocompleteModule,
+    NgxMatSelectSearchModule
   ],
 })
 export class MaterialModule {

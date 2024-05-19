@@ -6,6 +6,9 @@ import {NgxMatIntlTelInputComponent} from "ngx-mat-intl-tel-input";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {MaterialModule} from "../../shared/material/material.module";
 import {TranslateModule} from "@ngx-translate/core";
+import {GeneralService} from "../../services/general/general.service";
+import {AuthService} from "../../services/auth/auth.service";
+import {Preferences} from "@capacitor/preferences";
 
 @Component({
   selector: 'app-personal-information',
@@ -17,20 +20,24 @@ import {TranslateModule} from "@ngx-translate/core";
 export class PersonalInformationComponent implements OnInit {
   @Input() stepper: any;
   form: FormGroup = new FormGroup({}); // Initialize with an empty form group
+  loading: boolean = false;
+  error: any;
 
-  constructor(private _formBuilder: FormBuilder, public dialog: MatDialog, private cdr: ChangeDetectorRef) {
+  constructor(private _formBuilder: FormBuilder, public dialog: MatDialog, public generalService: GeneralService,
+              private authService: AuthService) {
   }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.form = this._formBuilder.group({
-      name: ['', [Validators.required]],
-      lastName: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.email]],
-      phone: ['', [Validators.required]],
-      gender: ['', [Validators.required]],
-      country: ['', [Validators.required]],
-      education: ['', [Validators.required]],
-      city: ['', [Validators.required]],
+      firstName: [this.generalService?.userObj?.firstName ? this.generalService?.userObj?.firstName : '', [Validators.required]],
+      lastName: [this.generalService?.userObj?.lastName ? this.generalService?.userObj?.lastName : '', [Validators.required]],
+      email: [this.generalService?.userObj?.email ? this.generalService?.userObj?.email : '', [Validators.required, Validators.email]],
+      mobile: [this.generalService?.userObj?.mobile ? this.generalService?.userObj?.mobile : '', [Validators.required]],
+      password: ['', [Validators.required]],
+      gender: [this.generalService?.userObj?.gender ? this.generalService?.userObj?.gender : '', [Validators.required]],
+      country: [this.generalService?.userObj?.country ? this.generalService?.userObj?.country : '', [Validators.required]],
+      education: [this.generalService?.userObj?.education ? this.generalService?.userObj?.education : '', [Validators.required]],
+      city: [this.generalService?.userObj?.city ? this.generalService?.userObj?.city : '', [Validators.required]],
     });
   }
 
@@ -43,21 +50,32 @@ export class PersonalInformationComponent implements OnInit {
   }
 
   openVerificationModal() {
-    this.openDialogVerification('0', '0');
+    this.loading = true;
+    this.error = '';
+    this.authService.updateProfile(this.form.value, this.generalService.userId).then(async data => {
+      this.loading = false;
+      if (data?.status == 1) {
+        await Preferences.remove({key: 'account'});
+        await Preferences.set({key: 'account', value: JSON.stringify(data.data)});
+        await this.generalService.getUserData();
+        this.openDialogVerification('0', '0');
+      } else if (data?.status == -1) {
+        this.error = data?.message;
+      }
+    })
   }
 
   openDialogVerification(enterAnimationDuration: string, exitAnimationDuration: string): void {
     const dialogRef = this.dialog.open(VerificationDialog, {
       width: '500px',
       data: {
-        email: this.form.get('email')?.value, phone: this.form.get('phone')?.value
+        email: this.form.get('email')?.value, phone: this.form.get('mobile')?.value
       },
       enterAnimationDuration,
       exitAnimationDuration,
     });
     dialogRef.afterClosed().subscribe(async result => {
-      if (result) {
-        console.log(result)
+      if (result == 'success') {
         this.stepper.next();
       }
     });
@@ -73,9 +91,13 @@ export class PersonalInformationComponent implements OnInit {
 })
 
 export class VerificationDialog {
-  verifyForm = this._formBuilder.group({
-    phoneCode: new FormControl('', [Validators.required]),
-    emailCode: new FormControl('', [Validators.required]),
+  verifyFormEmail = this._formBuilder.group({
+    email: new FormControl({value: '', disabled: true}, [Validators.required]),
+    verificationCode: new FormControl('', [Validators.required]),
+  });
+  verifyFormMobile = this._formBuilder.group({
+    mobile: new FormControl({value: '', disabled: true}, [Validators.required]),
+    verificationCode: new FormControl('', [Validators.required]),
   });
   countDownPhone = 10;
   countDownEmail = 10;
@@ -85,13 +107,15 @@ export class VerificationDialog {
   intervalIdPhone: any;
   loadingCodeEmail = false;
   loadingCodePhone = false;
-  email: any;
-  phone: any;
+  loading = false;
+  error: any;
+  mobileSuccess: boolean = false;
+  emailSuccess: boolean = false;
 
   constructor(public dialogRef: MatDialogRef<VerificationDialog>, private _formBuilder: FormBuilder,
-              @Inject(MAT_DIALOG_DATA) public data: any) {
-    this.email = data?.email;
-    this.phone = data?.phone;
+              @Inject(MAT_DIALOG_DATA) public data: any, private authService: AuthService, private generalService: GeneralService) {
+    this.verifyFormEmail.controls.email.setValue(data?.email);
+    this.verifyFormMobile.controls.mobile.setValue(data?.phone);
     this.startTimerEmail();
     this.startTimerPhone();
   }
@@ -130,7 +154,33 @@ export class VerificationDialog {
     this.resendAblePhone = false;
   }
 
-  submit() {
+  async submit() {
+    this.loading = true;
+    this.error = '';
+    await this.authService.verifyEmail(this.verifyFormEmail.getRawValue()).then(async data => {
+      if (data?.status == 1) {
+        await Preferences.remove({key: 'account'});
+        await Preferences.set({key: 'account', value: JSON.stringify(data.data)});
+        await this.generalService.getUserData();
+        this.emailSuccess = true;
+      } else if (data?.status == -1) {
+        this.error = data?.message;
+      }
+    });
+    await this.authService.verifyMobile(this.verifyFormMobile.getRawValue()).then(async data => {
+      this.loading = false;
+      if (data?.status == 1) {
+        await Preferences.remove({key: 'account'});
+        await Preferences.set({key: 'account', value: JSON.stringify(data.data)});
+        await this.generalService.getUserData();
+        this.mobileSuccess = true;
+      } else if (data?.status == -1) {
+        this.error = data?.message;
+      }
+    });
+    if (this.mobileSuccess && this.emailSuccess) {
+      this.dialogRef.close('success')
+    }
 
   }
 }

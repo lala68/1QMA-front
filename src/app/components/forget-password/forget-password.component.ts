@@ -6,6 +6,7 @@ import {Router, RouterModule} from "@angular/router";
 import {MaterialModule} from "../../shared/material/material.module";
 import {NgxMatIntlTelInputComponent} from "ngx-mat-intl-tel-input";
 import {TranslateModule} from "@ngx-translate/core";
+import {AuthService} from "../../services/auth/auth.service";
 
 @Component({
   selector: 'app-forget-password',
@@ -18,12 +19,11 @@ import {TranslateModule} from "@ngx-translate/core";
 export class ForgetPasswordComponent {
   step: any = 1;
   type: any;
-  email: any;
-  phone: any;
+  loading: boolean = false;
   resetPasswordForm = this._formBuilder.group({
-    verification: new FormControl('', [Validators.required]),
+    verificationCode: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required]),
-    retypePassword: new FormControl('', [Validators.required]),
+    passwordConfirmation: new FormControl('', [Validators.required]),
   });
 
   emailFormControl = new FormControl('', [
@@ -32,10 +32,12 @@ export class ForgetPasswordComponent {
   ]);
 
   phoneFormControl = new FormControl('', [
-    Validators.required
+    Validators.required,
   ]);
+  error: any;
 
-  constructor(private _formBuilder: FormBuilder, private router: Router) {
+  constructor(private _formBuilder: FormBuilder, private router: Router,
+              private authService: AuthService) {
   }
 
   gotoStepTwo(type: any) {
@@ -44,11 +46,52 @@ export class ForgetPasswordComponent {
   }
 
   gotoStepThree() {
-    this.step = 3;
+    this.loading = true;
+    this.error = '';
+    if (this.type == 'email') {
+      this.authService.forgetPasswordEmail(this.emailFormControl.value).then(data => {
+        this.loading = false;
+        console.log(data?.message)
+        if (data?.status == 1) {
+          this.step = 3;
+        } else if (data?.status == -1) {
+          this.error = data?.message;
+        }
+      })
+    } else {
+      this.authService.forgetPasswordMobile(this.phoneFormControl.value).then(data => {
+        this.loading = false;
+        if (data?.status == 1) {
+          this.step = 3;
+        } else if (data?.status == -1) {
+          this.error = data?.message;
+        }
+      })
+    }
   }
 
   onSubmit() {
-    this.step = 4;
+    this.error = '';
+    this.loading = true;
+    if (this.type == 'email') {
+      this.authService.updatePasswordEmail(this.resetPasswordForm.value, this.emailFormControl.value).then(data => {
+        this.loading = false;
+        if (data?.status == 1) {
+          this.step = 4;
+        } else if (data?.status == -1) {
+          this.error = data?.message;
+        }
+      })
+    } else {
+      this.authService.updatePasswordMobile(this.resetPasswordForm.value, this.phoneFormControl.value).then(data => {
+        this.loading = false;
+        if (data?.status == 1) {
+          this.step = 4;
+        } else if (data?.status == -1) {
+          this.error = data?.message;
+        }
+      })
+    }
   }
 
   countryChangedEvent(event: any) {
@@ -56,6 +99,7 @@ export class ForgetPasswordComponent {
   }
 
   async prevStep() {
+    this.error = '';
     if (this.step === 1) {
       await this.router.navigateByUrl('/login');
     } else {
