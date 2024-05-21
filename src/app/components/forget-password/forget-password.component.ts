@@ -20,6 +20,8 @@ export class ForgetPasswordComponent {
   step: any = 1;
   type: any;
   loading: boolean = false;
+  hideCopy = true;
+  hide = true;
   resetPasswordForm = this._formBuilder.group({
     verificationCode: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required]),

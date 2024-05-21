@@ -24,15 +24,19 @@
             {{error}}
           </div>
           <div>
-            <button mat-button [disabled]="!generalService?.initData?.languages || loadingLanguage" (click)="saveLanguage()">{{'Next' | translate}}</button>
+            <button mat-button [disabled]="!generalService?.initData?.languages || loadingLanguage"
+                    (click)="saveLanguage()">{{'Next' | translate}}</button>
           </div>
         </form>
       </mat-step>
-      <mat-step editable="false">
+      <mat-step *ngIf="generalService?.userObj" editable="false">
         <app-personal-information [formGroup]="form" [stepper]="stepper"></app-personal-information>
       </mat-step>
       <mat-step editable="false">
         <app-preferences [stepper]="stepper"></app-preferences>
+      </mat-step>
+      <mat-step editable="false">
+        <app-question-types></app-question-types>
       </mat-step>
       <mat-step editable="false">
         <form [formGroup]="accountTypeForm">
@@ -81,10 +85,6 @@
           </div>
         </form>
       </mat-step>
-      <mat-step editable="false">
-        <app-question-types></app-question-types>
-      </mat-step>
-
       <mat-step editable="false">
         <div class="d-block text-center">
           <mat-icon>check</mat-icon>

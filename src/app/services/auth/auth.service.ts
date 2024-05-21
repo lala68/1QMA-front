@@ -76,7 +76,10 @@ export class AuthService {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json'
     })
-    return this.http.post<any>(this.config.url('auth/updatePassword/mobile'), {...data, mobile: mobile}, {headers: headers})
+    return this.http.post<any>(this.config.url('auth/updatePassword/mobile'), {
+      ...data,
+      mobile: mobile
+    }, {headers: headers})
       .toPromise();
   }
 
@@ -84,7 +87,10 @@ export class AuthService {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json'
     })
-    return this.http.post<any>(this.config.url('auth/updatePassword/email'), {...data,email: email}, {headers: headers})
+    return this.http.post<any>(this.config.url('auth/updatePassword/email'), {
+      ...data,
+      email: email
+    }, {headers: headers})
       .toPromise();
   }
 

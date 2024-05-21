@@ -1,10 +1,10 @@
-import {Injectable} from '@angular/core';
+import {Injectable, OnInit} from '@angular/core';
 import {Preferences} from "@capacitor/preferences";
 
 @Injectable({
   providedIn: 'root'
 })
-export class GeneralService {
+export class GeneralService implements OnInit {
   countryListEng = [
     {
       "name": "Afghanistan",
@@ -1465,7 +1465,10 @@ export class GeneralService {
   userObj: any;
 
   constructor() {
-    this.getUserData();
+  }
+
+  async ngOnInit(): Promise<void> {
+    await this.getUserData();
   }
 
   saveToStorage(storageKey: any, value: any) {

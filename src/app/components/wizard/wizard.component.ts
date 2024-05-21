@@ -71,7 +71,7 @@ export class WizardComponent implements OnInit {
     })
   }
 
-  async saveLanguage() {
+  async saveLanguage(): Promise<void> {
     this.loadingLanguage = true;
     this.error = '';
     this.authService.updateLanguage(this.firstFormGroup.controls.language.value).then(async data => {
