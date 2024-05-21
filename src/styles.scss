@@ -78,11 +78,15 @@ input:not(.country-search) {
   padding-left: 10px;
 }
 
+.example-spacer {
+  flex: 1 1 auto;
+}
+
 .footer {
   position: relative;
   width: 100%;
   background-color: #000;
-  height: 120px;
+  height: 160px;
   //display: flex;
   align-items: center;
   padding: 15px;
@@ -92,5 +96,27 @@ input:not(.country-search) {
   }
 }
 
+.bottom-10{
+  bottom: 10px;
+}
+
+.end-10 {
+  right: 10px;
+}
+
+.w-10 {
+  width: 10%;
+}
+
+.copyright {
+  height: 30px;
+  text-align: center;
+  color: white;
+  background: #333;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
 
 
