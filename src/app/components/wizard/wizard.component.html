@@ -1,20 +1,28 @@
 <app-header></app-header>
 <br>
-<div class="card p-4 w-50 border-0" style="margin: 60px auto 20px">
-  <h5>{{'Lets get to know each other' | translate}}</h5>
-  <mat-label>{{'this helps us suggest you customized games you enjoy' | translate}}</mat-label>
+<div class="card p-4 border-0 wizard-header">
+  <img src="assets/images/handshake%201.svg" width="92" height="66">
+  <div class="position-absolute text-white" style="left: 120px; top: 25px">
+    <div class="font-size-18 weight-700">{{'Lets get to know each other' | translate}}</div>
+    <mat-label
+      class="font-size-16 weight-400">{{'this helps us suggest you customized games you enjoy' | translate}}</mat-label>
+  </div>
 </div>
-<div class="card p-4 w-50 border-0" style="width: 50%;margin: 10px auto; min-height: calc(100vh - 300px)">
+<div class="card p-4 border-0" style="width: 746px;margin: 10px auto; min-height: calc(100vh - 300px)">
   <div style="min-height: 50vh;">
     <mat-stepper linear #stepper>
-      <mat-step [stepControl]="firstFormGroup" editable="false">
+      <mat-step [stepControl]="firstFormGroup">
         <form [formGroup]="firstFormGroup">
-          <h5>
-            {{'Language' | translate}}
-          </h5>
-          <mat-label>{{'Choose your preferred language to continue in' | translate}}</mat-label>
+          <div class="d-inline-block">
+            <img src="assets/images/book.svg" width="52" height="52">
+            <div class="position-absolute" style="left: 90px; top: 25px">
+              <div class="font-size-18 weight-700">{{'Language' | translate}}</div>
+              <mat-label
+                class="font-size-16 weight-400">{{'Choose your preferred language to continue in' | translate}}</mat-label>
+            </div>
+          </div>
           <br><br>
-          <mat-form-field appearance="outline">
+          <mat-form-field appearance="outline" class="w-50">
             <mat-select [formControlName]="'language'">
               <mat-option *ngFor="let lang of generalService?.initData?.languages | keyvalue"
                           [value]="lang.key">{{lang.value}}</mat-option>
@@ -23,83 +31,234 @@
           <div role="alert" style="color: #ff5722; margin: 10px 0">
             {{error}}
           </div>
-          <div>
-            <button mat-button [disabled]="!generalService?.initData?.languages || loadingLanguage"
-                    (click)="saveLanguage()">{{'Next' | translate}}</button>
-          </div>
+          <!--          <div>-->
+          <!--            <button mat-button [disabled]="!generalService?.initData?.languages || loadingLanguage"-->
+          <!--                    (click)="saveLanguage()">{{'Next' | translate}}</button>-->
+          <!--          </div>-->
         </form>
       </mat-step>
-      <mat-step *ngIf="generalService?.userObj" editable="false">
-        <app-personal-information [formGroup]="form" [stepper]="stepper"></app-personal-information>
+      <mat-step *ngIf="generalService?.userObj">
+        <!--        <app-personal-information [formGroup]="form" [stepper]="stepper"></app-personal-information>-->
+        <mat-spinner *ngIf="loadingUserData"></mat-spinner>
+        <div *ngIf="!loadingUserData">
+          <form class="mb-3" [formGroup]="form">
+            <div class="d-inline-block">
+              <img src="assets/images/profile.svg" width="50" height="50">
+              <div class="position-absolute" style="left: 90px; top: 25px">
+                <div class="font-size-18 weight-700">{{'Account Information' | translate}}</div>
+                <mat-label
+                  class="font-size-16 weight-400">{{'Description for this title' | translate}}</mat-label>
+              </div>
+            </div>
+            <br>
+            <br>
+            <mat-form-field appearance="outline" class="w-100" [hideRequiredMarker]="true">
+              <mat-label>{{'Name' | translate}}</mat-label>
+              <input matInput placeholder="{{'First name' | translate}}" type="text" [formControlName]="'firstName'">
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="w-100" [hideRequiredMarker]="true">
+              <mat-label>{{'Last Name' | translate}}</mat-label>
+              <input matInput placeholder="{{'Last name' | translate}}" type="text" [formControlName]="'lastName'">
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="w-100" [hideRequiredMarker]="true">
+              <mat-label>{{'E-mail' | translate}}</mat-label>
+              <input matInput placeholder="{{'email' | translate}}" type="email" [formControlName]="'email'">
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="w-100">
+              <ngx-mat-intl-tel-input
+                [enablePlaceholder]="true"
+                [enableSearch]="true"
+                [preferredCountries]="['ir']"
+                name="phone"
+                (countryChanged)="countryChangedEvent($event)"
+                [formControlName]="'mobile'"></ngx-mat-intl-tel-input>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="w-100" [hideRequiredMarker]="true">
+              <mat-label>{{'password' | translate}}</mat-label>
+              <div class="d-inline-flex w-100">
+                <input matInput placeholder="{{'password' | translate}}" [type]="hide ? 'password' : 'text'"
+                       [formControlName]="'password'">
+                <i (click)="hide = !hide" [class]="hide? 'bi-eye-slash' : 'bi-eye'"></i>
+              </div>
+            </mat-form-field>
+            <div class="d-flex">
+              <mat-form-field class="w-50" appearance="outline">
+                <mat-label>{{'Gender' | translate}}</mat-label>
+                <mat-select [formControlName]="'gender'">
+                  <mat-option value="male">Male</mat-option>
+                  <mat-option value="female">Female</mat-option>
+                </mat-select>
+              </mat-form-field>&nbsp;&nbsp;
+              <mat-form-field class="w-50" appearance="outline">
+                <mat-label>{{'Education' | translate}}</mat-label>
+                <mat-select [formControlName]="'education'">
+                  <mat-option value="master">Master</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="d-flex">
+              <mat-form-field class="w-50" appearance="outline">
+                <mat-label>{{'Country' | translate}}</mat-label>
+                <mat-select [formControlName]="'country'">
+                  <mat-option *ngFor="let country of generalService?.countryListEng"
+                              [value]="country.code">{{country.name}}</mat-option>
+                </mat-select>
+              </mat-form-field>&nbsp;&nbsp;
+              <mat-form-field class="w-50" appearance="outline">
+                <mat-label>{{'City' | translate}}</mat-label>
+                <mat-select [formControlName]="'city'">
+                  <mat-option value="shiraz">Shiraz</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div role="alert" style="color: #ff5722; margin: 10px 0">
+              {{error}}
+            </div>
+          </form>
+        </div>
       </mat-step>
-      <mat-step editable="false">
-        <app-preferences [stepper]="stepper"></app-preferences>
+      <mat-step>
+        <!--        <app-preferences [stepper]="stepper"></app-preferences>-->
+        <div class="d-inline-block">
+          <img src="assets/images/preferences.svg" width="84" height="84"
+               style="position: absolute; top: 10px; left: 10px">
+          <div class="position-absolute" style="left: 90px; top: 25px">
+            <div class="font-size-18 weight-700">{{'Preferences' | translate}}</div>
+            <mat-label
+              class="font-size-16 weight-400">{{'Select at least three categories' | translate}}</mat-label>
+          </div>
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <mat-card *ngFor="let cat of generalService?.initData?.categories"
+                  class="m-2 d-inline-block"
+                  (click)="selectCat(cat._id)"
+                  [class]="{'mat-card-pref-selected': selectedCategory.includes(cat._id), 'mat-card-pref': !selectedCategory.includes(cat._id)}">
+          <mat-card-content class="text-start">
+            <mat-label>{{ cat.name }}</mat-label>
+          </mat-card-content>
+        </mat-card>
+        <div role="alert" style="color: #ff5722; margin: 10px 0">
+          {{error}}
+        </div>
       </mat-step>
-      <mat-step editable="false">
-        <app-question-types></app-question-types>
-      </mat-step>
-      <mat-step editable="false">
+      <!--      <mat-step editable="false">-->
+      <!--        <app-question-types></app-question-types>-->
+      <!--      </mat-step>-->
+      <mat-step>
         <form [formGroup]="accountTypeForm">
-          <h5>
-            {{'Account type' | translate}}
-          </h5>
-          <mat-label>{{'Choose your account type' | translate}}</mat-label>
-          <br><br>
-          <mat-card *ngFor="let acc of generalService?.initData?.accountTypes | keyvalue" class="m-2 d-inline-block"
-                    style="flex: 1;"
-                    (click)="selectType(acc.key)"
-                    [class]="{'account-type-checked': selectedType == acc.key}">
-            <mat-card-content class="text-start">
-              <mat-icon>home</mat-icon>
+          <div class="d-inline-block">
+            <img src="assets/images/accountType.svg" width="61" height="61"
+                 style="position: absolute; top: 10px; left: 10px">
+            <div class="position-absolute" style="left: 90px; top: 25px">
+              <div class="font-size-18 weight-700">{{'Account type' | translate}}</div>
+              <mat-label
+                class="font-size-16 weight-400">{{'Choose your account type' | translate}}</mat-label>
+            </div>
+          </div>
+          <br><br><br><br>
+          <mat-card *ngFor="let acc of generalService?.initData?.accountTypes" class="m-2 d-inline-block"
+                    (click)="selectType(acc._id)"
+                    [class]="{'mat-card-account-selected': selectedType == acc._id, 'mat-card-account': selectedType != acc._id}">
+            <mat-card-content class="text-center">
+              <img src="assets/images/base.svg" *ngIf="acc?.name == 'Basic'" width="106" height="106">
+              <img src="assets/images/education.svg" *ngIf="acc?.name == 'Educational'" width="106" height="106">
+              <img src="assets/images/verticalBook.svg" *ngIf="acc?.name == 'Bussiness'" width="106" height="106">
               <br>
-              <mat-label>{{acc.value}}</mat-label>
+              <br>
+              <mat-label class="font-size-16 weight-700">{{acc.name}}</mat-label>
             </mat-card-content>
           </mat-card>
           <div role="alert" style="color: #ff5722; margin: 10px 0">
             {{error}}
           </div>
-          <div>
-            <!--            <button mat-button matStepperPrevious>{{'Back' | translate}}</button>-->
-            <button mat-button [disabled]="loadingAccountType"
-                    (click)="submitAccountType()">{{'Next' | translate}}</button>
-          </div>
         </form>
       </mat-step>
-      <mat-step editable="false">
+      <mat-step>
         <form [formGroup]="accountTypeForm">
-          <h5>
-            {{'Game Explanation' | translate}}
-          </h5>
-          <mat-label>{{'Road this to learn more about our game' | translate}}</mat-label>
+          <div class="d-inline-block">
+            <img src="assets/images/reading.svg" width="69" height="69">
+            <div class="position-absolute" style="left: 90px; top: 25px">
+              <div class="font-size-18 weight-700">{{'Game Explanation' | translate}}</div>
+              <mat-label
+                class="font-size-16 weight-400">{{'Road this to learn more about our game' | translate}}</mat-label>
+            </div>
+          </div>
           <br><br>
-          <mat-list *ngFor="let item of [].constructor(3)">
-            <mat-list-item>
-              <mat-icon matListItemIcon>folder</mat-icon>
-              <div matListItemTitle>title</div>
-              <div matListItemLine>description...</div>
-            </mat-list-item>
-          </mat-list>
-          <div>
-            <button mat-button matStepperPrevious>{{'Back' | translate}}</button>
-            <button mat-button matStepperNext>{{'Next' | translate}}</button>
+          <div class="d-inline-block position-relative w-100 mb-4" *ngFor="let item of [].constructor(3)">
+            <img src="assets/images/pocket.svg" width="137" height="86">
+            <div class="position-absolute" style="left: 140px; top: 0px">
+              <div class="font-size-14 weight-600">Title for this part</div>
+              <mat-label
+                class="font-size-14 weight-500">There are many variations of passages of Lorem Ipsum available, but the
+                majority have
+                suffered alteration in some form, by injected humour, or randomised words which don't look even slightly
+                believable.
+              </mat-label>
+            </div>
           </div>
         </form>
       </mat-step>
-      <mat-step editable="false">
+      <mat-step>
         <div class="d-block text-center">
-          <mat-icon>check</mat-icon>
-          <h5>{{'Welcome' | translate}}</h5><br>
-          <mat-label>
+          <img src="assets/images/like.svg" width="127">
+          <div class="font-size-16 weight-700">{{'Welcome' | translate}}</div>
+          <br>
+          <mat-label class="font-size-14 weight-500" style="color: #585858">
             {{'Your account has been created successful.Now you can start playing games.' | translate}}
           </mat-label>
           <br><br>
           <button mat-raised-button color="primary"
                   class="w-50 p-4">
-            <span>{{'Go to dashboard' | translate}}</span>
+            <span>{{'Lets play a game' | translate}}</span>
           </button>
         </div>
       </mat-step>
     </mat-stepper>
   </div>
 </div>
+<div class="card p-4 border-0" style="margin: 20px auto 20px; width: 746px">
+  <footer>
+    <div class="bullet-navigation">
+      <button mat-raised-button color="primary" [disabled]="stepper?.selectedIndex == 0"
+              (click)="gotoPrevStep()" class="prev-step">
+        <i class="bi bi-arrow-left"></i>
+        {{'Previous' | translate}}
+      </button>
+      <div class="bullet-container">
+        <div *ngFor="let step of steps; let i = index" class="bullet" [class.active]="stepper.selectedIndex === i">
+          •
+        </div>
+      </div>
+      <div class="next-button">
+        <button mat-raised-button color="primary" *ngIf="stepper?.selectedIndex == 0"
+                [disabled]="!generalService?.initData?.languages || loadingLanguage"
+                (click)="saveLanguage()" class="next-step">
+          {{'Next Step' | translate}}
+          <i class="bi bi-arrow-right"></i>
+        </button>
+        <button mat-raised-button color="primary" *ngIf="stepper?.selectedIndex == 1" (click)="openVerificationModal()"
+                [disabled]="form?.invalid || loading" class="next-step">{{'Next Step' | translate}}
+          <i class="bi bi-arrow-right"></i>
+        </button>
+        <button mat-raised-button color="primary" *ngIf="stepper?.selectedIndex == 2"
+                [disabled]="loading || selectedCategory.length==0"
+                (click)="submitPref()" class="next-step">{{'Next Step' | translate}}
+          <i class="bi bi-arrow-right"></i>
+        </button>
+        <button mat-raised-button color="primary" *ngIf="stepper?.selectedIndex == 3" [disabled]="loadingAccountType"
+                (click)="submitAccountType()" class="next-step">{{'Next Step' | translate}}
+          <i class="bi bi-arrow-right"></i>
+        </button>
+        <button mat-raised-button color="primary" *ngIf="stepper?.selectedIndex == 4"
+                (click)="stepper?.next()" class="next-step">{{'Next Step' | translate}}
+          <i class="bi bi-arrow-right"></i>
+        </button>
+      </div>
+    </div>
+  </footer>
+</div>
+
 <app-footer></app-footer>

@@ -26,7 +26,7 @@ export class SignupComponent {
   });
   signUpWaitListForm = this._formBuilder.group({
     email: new FormControl('', [Validators.required, Validators.email]),
-    mobile: new FormControl('', [Validators.required]),
+    mobile: new FormControl('', [Validators.required, Validators.minLength(10)]),
   });
   signUpVerifyFormEmail = this._formBuilder.group({
     email: new FormControl('', [Validators.required]),
@@ -47,9 +47,15 @@ export class SignupComponent {
   loadingCodePhone = false;
   error: any;
   errorWaitList: any;
+  email: any;
 
   constructor(private _formBuilder: FormBuilder, private loader: LoaderService, private router: Router,
               public authService: AuthService) {
+    this.email = this.router.getCurrentNavigation()?.extras?.state?.['email'] ? this.router.getCurrentNavigation()?.extras?.state?.['email'] : '';
+    if (this.email) {
+      this.signUpWaitListForm.controls.email.setValue(this.email);
+      this.signUpWaitListForm.controls.email.disable();
+    }
   }
 
   onSubmit() {
@@ -75,7 +81,7 @@ export class SignupComponent {
     this.error = '';
     this.errorWaitList = '';
     this.loading = true;
-    this.authService.joinToWaitList(this.signUpWaitListForm.value).then(data => {
+    this.authService.joinToWaitList(this.signUpWaitListForm.getRawValue()).then(data => {
       this.loading = false;
       if (data?.status == 1) {
         this.step = 2;
@@ -86,7 +92,9 @@ export class SignupComponent {
         this.startTimerEmail();
         this.startTimerPhone();
         this.signUpVerifyFormMobile.controls.mobile.setValue(this.signUpWaitListForm.controls.mobile.value);
+        this.signUpVerifyFormMobile.controls.mobile.disable();
         this.signUpVerifyFormEmail.controls.email.setValue(this.signUpWaitListForm.controls.email.value);
+        this.signUpVerifyFormEmail.controls.email.disable();
       } else if (data?.status == -1) {
         this.errorWaitList = data?.message;
       }

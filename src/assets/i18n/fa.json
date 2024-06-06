@@ -6,8 +6,9 @@
   "Email": "Email",
   "Enter your password": "Enter your password",
   "Please enter your password": "Please enter your password",
-  "Forgot Password?": "Forgot Password?",
-  "Don't have an account? Sign Up": "Don't have an account? Sign Up",
+  "Forgot Password": "Forgot Password?",
+  "Don\\'t have an account?": "Don\\'t have an account?",
+  "Sign up": "Sign up",
   "Login": "Login",
   "Sign up for a new account": "Sign up for a new account",
   "Referral Code": "Referral Code",
@@ -57,9 +58,8 @@
   "Gender": "Gender",
   "Country": "Country",
   "City": "City",
-  "Verify": "Verify",
   "code": "code",
-  "Verify": "Verify",
-  "Verify": "Verify",
-  "Gender": "Gender"
+  "Previous": "Previous",
+  "Next Step": "Next Step",
+  "To verify your phone number, please enter code sent to you:" : "To verify your phone number, please enter code sent to you:"
 }

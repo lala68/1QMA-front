@@ -1,3 +1,119 @@
 .account-type-checked {
   border: 1px solid red;
 }
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+}
+
+header .logo {
+  width: 100px;
+  height: auto;
+}
+
+.content {
+  width: 50%;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  background-color: #fff;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+
+.bullet {
+  cursor: pointer;
+  font-size: 24px;
+  margin: 0 5px;
+}
+
+.bullet.active {
+  color: #3f51b5;
+}
+
+.footer-menu a {
+  margin-right: 15px;
+  color: #000;
+  text-decoration: none;
+}
+
+.footer-language .form-control {
+  display: inline-block;
+  width: auto;
+}
+
+.copyright {
+  text-align: right;
+}
+
+.cat-checked {
+  border: 1px solid red;
+}
+
+.cat-not-checked {
+  border: 1px solid lightgray;
+}
+
+.next-step, .prev-step {
+  width: 150px;
+  height: 48px;
+}
+
+.bullet-navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.bullet-container {
+  display: flex;
+  flex-grow: 1;
+  justify-content: center;
+}
+
+.next-button {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.mat-card-pref {
+  width: 210px;
+  background: #F9F7F7;
+  border: 1px solid #E8E2E0;
+  border-radius: 6px;
+}
+
+.mat-card-pref-selected {
+  width: 210px;
+  background: #EDF9FF;
+  border: 1px solid #0B6FEA;
+  border-radius: 6px;
+  color: #0B6FEA;
+}
+
+
+.mat-card-account {
+  width: 211px;
+  height: 214px;
+  background: #F9F7F7;
+  border: 1px solid #E8E2E0;
+  border-radius: 6px;
+}
+
+.mat-card-account-selected {
+  width: 211px;
+  height: 214px;
+  background: #EDF9FF;
+  border: 1px solid #0B6FEA;
+  border-radius: 6px;
+  color: #0B6FEA;
+}
+

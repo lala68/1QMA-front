@@ -10,5 +10,6 @@ export const routes: Routes = [
   {path: 'signup', component: SignupComponent},
   {path: 'forget-password', component: ForgetPasswordComponent},
   {path: 'wizard', component: WizardComponent, canActivate: [authGuard]},
+  // {path: 'wizard', component: WizardComponent},
   {path: '', redirectTo: '', pathMatch: 'full'},
 ];

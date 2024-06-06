@@ -1,28 +1,30 @@
-import {Component, OnInit, viewChild, ViewChild} from '@angular/core';
+import {Component, Inject, OnInit, viewChild, ViewChild} from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {SharedModule} from "../../shared/shared.module";
-import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {RouterModule} from "@angular/router";
-import {PersonalInformationComponent} from "../personal-information/personal-information.component";
-import {PreferencesComponent} from "../preferences/preferences.component";
 import {MatStepper} from "@angular/material/stepper";
 import {QuestionTypesComponent} from "../question-types/question-types.component";
 import {TranslateModule} from "@ngx-translate/core";
 import {GeneralService} from "../../services/general/general.service";
 import {AuthService} from "../../services/auth/auth.service";
 import {Preferences} from "@capacitor/preferences";
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {MaterialModule} from "../../shared/material/material.module";
+import {CountdownTimerComponent} from "../countdown-timer/countdown-timer.component";
+import {NgxMatIntlTelInputComponent} from "ngx-mat-intl-tel-input";
 
 @Component({
   selector: 'app-wizard',
   standalone: true,
-  imports: [CommonModule, SharedModule, FormsModule, RouterModule, ReactiveFormsModule, PersonalInformationComponent,
-    PreferencesComponent, QuestionTypesComponent, TranslateModule],
+  imports: [CommonModule, SharedModule, FormsModule, RouterModule, ReactiveFormsModule,
+    QuestionTypesComponent, TranslateModule, NgxMatIntlTelInputComponent],
   templateUrl: './wizard.component.html',
   styleUrl: './wizard.component.scss',
-  providers: [PersonalInformationComponent]
+  providers: []
 })
 export class WizardComponent implements OnInit {
-  @ViewChild(MatStepper) stepper: any;
+  @ViewChild('stepper') stepper: any;
   selectedType: any = [];
   loadingAccountType: boolean = false;
 
@@ -30,17 +32,22 @@ export class WizardComponent implements OnInit {
     language: ['English', Validators.required],
   });
   form: FormGroup = new FormGroup({}); // Initialize with an empty form group
-
+  steps: number[] = [0, 1, 2, 3, 4, 5]; // Number of steps
   accountTypeForm = this._formBuilder.group({
     type: ['', Validators.required],
   });
   error: any;
+  loading: boolean = false;
   loadingLanguage: boolean = false;
+  loadingUserData: boolean = true;
+  hide = true;
+  selectedCategory: any = [];
 
-  constructor(private _formBuilder: FormBuilder, public personalInformationPage: PersonalInformationComponent,
-              public generalService: GeneralService, public authService: AuthService) {
+  constructor(private _formBuilder: FormBuilder,
+              public generalService: GeneralService, public authService: AuthService, public dialog: MatDialog,) {
     if (this.generalService?.userObj?.preferedCategories) {
       this.selectedType = this.generalService?.userObj?.accountType;
+      this.selectedCategory = this.generalService?.userObj?.preferedCategories;
     }
   }
 
@@ -48,6 +55,18 @@ export class WizardComponent implements OnInit {
     this.firstFormGroup = this._formBuilder.group({
       language: [this.generalService?.userObj?.preferedLanguage ? this.generalService?.userObj?.preferedLanguage : 'en', [Validators.required]],
     });
+    this.form = this._formBuilder.group({
+      firstName: [this.generalService?.userObj?.firstName ? this.generalService?.userObj?.firstName : '', [Validators.required]],
+      lastName: [this.generalService?.userObj?.lastName ? this.generalService?.userObj?.lastName : '', [Validators.required]],
+      email: [this.generalService?.userObj?.email ? this.generalService?.userObj?.email : '', [Validators.required, Validators.email]],
+      mobile: [this.generalService?.userObj?.mobile ? this.generalService?.userObj?.mobile : '', [Validators.required]],
+      password: ['', []],
+      gender: [this.generalService?.userObj?.gender ? this.generalService?.userObj?.gender : '', []],
+      country: [this.generalService?.userObj?.country ? this.generalService?.userObj?.country : '', []],
+      education: [this.generalService?.userObj?.education ? this.generalService?.userObj?.education : '', []],
+      city: [this.generalService?.userObj?.city ? this.generalService?.userObj?.city : '', []],
+    });
+    await this.setPasswordValidators();
   }
 
 
@@ -85,6 +104,225 @@ export class WizardComponent implements OnInit {
         this.error = data.message;
       }
     })
+  }
+
+  async gotoPrevStep() {
+    const index = this.stepper?.selectedIndex;
+    if (index > 0) {
+      await this.stepper.previous();
+    }
+  }
+
+
+  async setPasswordValidators(): Promise<void> {
+    // Your condition to check if the password should be required
+    const isPasswordRequired = !this.generalService?.userObj?.password;
+
+    if (isPasswordRequired) {
+      this.form.get('password')?.setValidators([Validators.required]);
+    } else {
+      this.form.get('password')?.clearValidators();
+    }
+
+    // Update the validity of the password field
+    await this.form.get('password')?.updateValueAndValidity();
+    this.loadingUserData = false;
+    console.log(this.generalService?.userObj)
+  }
+
+  countryChangedEvent(event: any) {
+
+  }
+
+  openVerificationModal() {
+    this.loading = true;
+    this.error = '';
+    console.log(this.form.value)
+    this.authService.updateProfile(this.form.value, this.generalService.userId).then(async data => {
+      this.loading = false;
+      if (data?.status == 1) {
+        await Preferences.remove({key: 'account'});
+        await Preferences.set({key: 'account', value: JSON.stringify(data.data)});
+        await this.generalService.getUserData();
+        if (!this.generalService?.userObj?.emailVerified || !this.generalService?.userObj?.mobileVerified) {
+          this.openDialogVerification('0', '0');
+        }
+      } else if (data?.status == -1) {
+        this.error = data?.message;
+      }
+    })
+  }
+
+  openDialogVerification(enterAnimationDuration: string, exitAnimationDuration: string): void {
+    const dialogRef = this.dialog.open(VerificationDialog, {
+      width: '500px',
+      data: {
+        email: this.form.get('email')?.value, phone: this.form.get('mobile')?.value
+      },
+      enterAnimationDuration,
+      exitAnimationDuration,
+    });
+    dialogRef.afterClosed().subscribe(async result => {
+      if (result == 'success') {
+        this.stepper.next();
+      }
+    });
+  }
+
+
+  selectCat(item: any) {
+    console.log(item)
+    const index = this.selectedCategory.indexOf(item);
+
+    if (index >= 0) {
+      this.selectedCategory.splice(index, 1);
+    } else {
+      this.selectedCategory.push(item);
+    }
+  }
+
+  submitPref() {
+    this.loading = true;
+    this.error = '';
+    this.authService.updateCategoryPreferences(this.selectedCategory).then(async data => {
+      this.loading = false;
+      if (data.status == 1) {
+        await Preferences.remove({key: 'account'});
+        await Preferences.set({key: 'account', value: JSON.stringify(data.data)});
+        await this.generalService.getUserData();
+        await this.stepper.next();
+      } else {
+        this.error = data.message;
+      }
+    })
+  }
+}
+
+
+@Component({
+  selector: 'verification',
+  templateUrl: 'verification.html',
+  standalone: true,
+  imports: [MaterialModule, CommonModule, FormsModule, ReactiveFormsModule, SharedModule, TranslateModule, CountdownTimerComponent],
+  providers: [CountdownTimerComponent]
+})
+
+export class VerificationDialog {
+  verifyFormEmail = this._formBuilder.group({
+    email: new FormControl({value: '', disabled: true}, [Validators.required]),
+    verificationCode: new FormControl('', [Validators.required]),
+  });
+  verifyFormMobile = this._formBuilder.group({
+    mobile: new FormControl({value: '', disabled: true}, [Validators.required]),
+    verificationCode: new FormControl('', [Validators.required]),
+  });
+  // countDownPhone = this.generalService?.initData?.nextVerificationMinutes * 60;
+  // countDownEmail = this.generalService?.initData?.nextVerificationMinutes * 60;
+  resendAblePhone = false;
+  resendAbleEmail = false;
+  intervalIdEmail: any;
+  intervalIdPhone: any;
+  loadingCodeEmail = false;
+  loadingCodePhone = false;
+  loading = false;
+  errorEmail: any;
+  errorMobile: any;
+  mobileSuccess: boolean = false;
+  emailSuccess: boolean = false;
+
+  constructor(public dialogRef: MatDialogRef<VerificationDialog>, private _formBuilder: FormBuilder,
+              @Inject(MAT_DIALOG_DATA) public data: any, private authService: AuthService, public generalService: GeneralService) {
+    this.verifyFormEmail.controls.email.setValue(data?.email);
+    this.verifyFormMobile.controls.mobile.setValue(data?.phone);
+    // this.startTimerEmail();
+    // this.startTimerPhone();
+  }
+
+  // startTimerEmail() {
+  //   this.intervalIdEmail = setInterval(() => {
+  //     if (this.countDownEmail > 0) {
+  //       this.countDownEmail -= 1;
+  //     } else {
+  //       this.countDownEmail = 10;
+  //       this.resendAbleEmail = true;
+  //       this.loadingCodeEmail = false;
+  //       clearInterval(this.intervalIdEmail);
+  //     }
+  //   }, 1000);
+  // }
+  //
+  // startTimerPhone() {
+  //   this.intervalIdPhone = setInterval(() => {
+  //     if (this.countDownPhone > 0) {
+  //       this.countDownPhone -= 1;
+  //     } else {
+  //       this.countDownPhone = 10;
+  //       this.resendAblePhone = true;
+  //       this.loadingCodePhone = false;
+  //       clearInterval(this.intervalIdPhone);
+  //     }
+  //   }, 1000);
+  // }
+
+  handleCountdownFinishedEmail() {
+    this.resendAbleEmail = true;
+  }
+
+  handleCountdownFinishedMobile() {
+    this.resendAblePhone = true;
+  }
+
+  async resendCodeEmail() {
+    this.resendAbleEmail = false;
+    this.authService.resendCodeEmail({email: this.verifyFormEmail.controls.email.value}).then(data => {
+
+    })
+  }
+
+  async resendCodePhone() {
+    this.resendAblePhone = false;
+    this.authService.resendCodeMobile({mobile: this.verifyFormMobile.controls.mobile.value}).then(data => {
+
+    })
+  }
+
+  async submit() {
+    this.loading = true;
+    this.errorEmail = '';
+    this.errorMobile = '';
+    if (!this.generalService?.userObj?.emailVerified) {
+      await this.authService.verifyEmail(this.verifyFormEmail.getRawValue()).then(async data => {
+        if (data?.status == 1) {
+          // await Preferences.remove({key: 'account'});
+          // await Preferences.set({key: 'account', value: JSON.stringify(data.data)});
+          // await this.generalService.getUserData();
+          this.emailSuccess = true;
+        } else if (data?.status == -1) {
+          this.errorEmail = data?.message;
+        }
+      });
+    } else {
+      this.emailSuccess = true;
+    }
+    if (!this.generalService?.userObj?.mobileVerified) {
+      await this.authService.verifyMobile(this.verifyFormMobile.getRawValue()).then(async data => {
+        this.loading = false;
+        if (data?.status == 1) {
+          // await Preferences.remove({key: 'account'});
+          // await Preferences.set({key: 'account', value: JSON.stringify(data.data)});
+          // await this.generalService.getUserData();
+          this.mobileSuccess = true;
+        } else if (data?.status == -1) {
+          this.errorMobile = data?.message;
+        }
+      });
+    } else {
+      this.mobileSuccess = true;
+    }
+    if (this.mobileSuccess && this.emailSuccess) {
+      this.dialogRef.close('success')
+    }
 
   }
 }
+

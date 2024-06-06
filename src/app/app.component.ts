@@ -13,7 +13,7 @@ register();
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'maGames';
+  title = '1QMA';
 
   constructor(private router: Router, private translateService: TranslateService,
               private generalService: GeneralService, private authService: AuthService) {
@@ -36,6 +36,7 @@ export class AppComponent {
         })
       } else {
         this.router.navigate(['login']);
+        // this.router.navigate(['wizard']);
       }
     })
   }

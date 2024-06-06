@@ -1,26 +1,28 @@
 <app-header></app-header>
-<div class="container" style="width: 35%;margin-top: 60px">
-  <div class="flex-grow-1 card p-5 pb-3 border-0">
-    <div class="text-center mb-3">
-      <div class="logo radius">LOGO</div>
+<div class="w-100">
+  <br>
+  <br>
+  <br>
+  <div style="height: 677px; width: 460px; margin: 60px auto 10px" class="card p-5 pb-3 border-0">
+    <div class="text-center mb-5">
+      <img src="assets/images/logo.png" width="128" height="98">
       <br>
-      <h5>{{'Login to your 1QMA account' | translate}}</h5>
+      <div style="font-size: 16px; font-weight: 700">{{'Login to your 1QMA account' | translate}}</div>
     </div>
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" autocomplete="off">
-      <mat-form-field appearance="outline" class="w-100 mb-3" [hideRequiredMarker]="true">
+      <mat-form-field appearance="outline" class="w-100" [hideRequiredMarker]="true">
         <mat-label>{{'Email' | translate}}</mat-label>
         <input matInput placeholder="{{'Enter your email' | translate}}" type="email" name="username"
                [formControlName]="'email'" required>
-        <mat-error>{{'Please enter your email' | translate}}</mat-error>
       </mat-form-field>
       <mat-form-field appearance="outline" class="w-100" [hideRequiredMarker]="true">
         <mat-label>{{'Password' | translate}}</mat-label>
         <div class="d-inline-flex w-100">
-          <input matInput placeholder="{{'Enter your password' | translate}}" [type]="hide ? 'password' : 'text'" name="password"
+          <input matInput placeholder="{{'Enter your password' | translate}}" [type]="hide ? 'password' : 'text'"
+                 name="password"
                  [formControlName]="'password'" required>
           <i (click)="hide = !hide" [class]="hide? 'bi-eye-slash' : 'bi-eye'"></i>
         </div>
-        <mat-error>{{'Please enter your password' | translate}}</mat-error>
       </mat-form-field>
       <div role="alert" style="color: #ff5722; margin: 10px 0">
         {{error}}
@@ -30,31 +32,29 @@
         <span>{{'Login' | translate}}</span>
       </button>
       <br>
-      <p class="text-end">
-        <b class="link text-decoration-none" [routerLink]="['/forget-password']">{{'Forgot Password ?' | translate}}</b>
-      </p>
-      <div class="mediaAccounts radius">
-        <button mat-mini-fab color="primary" aria-label="Example icon button with a plus one icon">
-          <mat-icon>plus_one</mat-icon>
-        </button>
-        <button mat-mini-fab color="primary" aria-label="Example icon button with a plus one icon">
-          <mat-icon>facebook</mat-icon>
-        </button>
-        <button mat-mini-fab color="primary" aria-label="Example icon button with a plus one icon">
-          <mat-icon>apple</mat-icon>
-        </button>
-        <button mat-mini-fab color="primary" aria-label="Example icon button with a plus one icon">
-          <mat-icon>plus_one</mat-icon>
-        </button>
-      </div>
-      <br>
-      <div class="text-center" [routerLink]="['/signup']"><b class="link text-decoration-none"> {{'Don\'t have an account? Sign Up' | translate}}</b></div>
     </form>
+    <div class="text-end link text-decoration-none mt-3 mb-3"
+         [routerLink]="['/forget-password']">{{'Forgot Password' | translate}}</div>
+    <div class="mediaAccounts radius">
+      <button class="social-button-div border-0" (click)="gotoSignup()"><img src="assets/images/google.svg" width="23"/></button>
+      <button class="social-button-div border-0" (click)="gotoSignup()"><img src="assets/images/facebook.svg" width="23"/></button>
+      <button class="social-button-div border-0" (click)="gotoSignup()"><img src="assets/images/apple.svg" width="23"/></button>
+      <button class="social-button-div border-0" (click)="gotoSignup()"><img src="assets/images/x-media.svg" width="23"/></button>
+    </div>
+    <br>
+    <br>
+    <br>
+    <div class="text-center" [routerLink]="['/signup']">
+      <div class="d-inline-flex font-size-14 weight-600">{{'Don\'t have an account?' | translate}}
+        <div class="link text-decoration-none font-size-14 weight-600">&nbsp; {{'Sign Up' | translate}}</div>
+      </div>
+    </div>
+  </div>
+  <div style="height: 52px; width: 460px; margin: 0px auto 20px" class="card border-0 text-center weight-600 pt-2">
+    Sponsored by: Company name
   </div>
 </div>
+<app-footer></app-footer>
 
 <div class="loading" *ngIf="loading$ | async">
 </div>
-
-<app-footer></app-footer>
-

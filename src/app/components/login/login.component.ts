@@ -1,5 +1,5 @@
-import {Component, CUSTOM_ELEMENTS_SCHEMA, Inject} from '@angular/core';
-import {FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
+import {Component, CUSTOM_ELEMENTS_SCHEMA, Inject, ViewChild} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {LoaderService} from "../../services/loader/loader.service";
 import {AuthService} from "../../services/auth/auth.service";
 import {SharedModule} from "../../shared/shared.module";
@@ -9,6 +9,7 @@ import {MaterialModule} from "../../shared/material/material.module";
 import {TranslateModule} from "@ngx-translate/core";
 import {Preferences} from "@capacitor/preferences";
 import {GeneralService} from "../../services/general/general.service";
+import {MatStepper} from "@angular/material/stepper";
 
 @Component({
   selector: 'app-login',
@@ -61,6 +62,10 @@ export class LoginComponent {
       }
 
     })
+  }
+
+  async gotoSignup() {
+    await this.router.navigate(['signup'], {state: {email: 'test@test.com'}});
   }
 
 }

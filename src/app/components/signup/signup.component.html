@@ -1,19 +1,22 @@
 <app-header></app-header>
-<div class="container" style="width: 35%; margin-top: 60px">
-  <div class="flex-grow-1 card p-5 pb-3 border-0">
+<div class="w-100">
+  <br>
+  <br>
+  <br>
+  <div style="height: 710px; width: 460px; margin: 60px auto 10px" class="card p-5 pb-3 border-0">
     <mat-icon class="back-btn-register" *ngIf="step !== 3" (click)="prevStep()">arrow_back_ios</mat-icon>
     <div class="text-center mb-3">
-      <div class="logo radius">LOGO</div>
+      <img src="assets/images/logo.png" width="128" height="98">
       <br>
-      <h5>{{'Sign up for a new account' | translate}}</h5>
+      <div style="font-size: 16px; font-weight: 700">{{'Sign up for a new account' | translate}}</div>
     </div>
     <div *ngIf="step === 1">
-      <form [formGroup]="signUpReferralForm" (ngSubmit)="onSubmit()" autocomplete="off">
+      <form [formGroup]="signUpReferralForm" (ngSubmit)="onSubmit()" autocomplete="off" *ngIf="!email">
         <mat-form-field appearance="outline" class="w-100 mb-2" [hideRequiredMarker]="true">
           <mat-label>{{'Referral Code' | translate}}</mat-label>
           <input matInput placeholder="{{'Referral Code' | translate}}" type="text" name="referral"
                  [formControlName]="'referer'" required>
-          <mat-error>Please enter your referral code</mat-error>
+          <!--          <mat-error>Please enter your referral code</mat-error>-->
         </mat-form-field>
         <div role="alert" style="color: #ff5722; margin: 10px 0">
           {{error}}
@@ -23,7 +26,7 @@
           <span>Sign up</span>
         </button>
       </form>
-      <div class="position-relative mt-4">
+      <div class="position-relative mt-4" *ngIf="!email">
         <div class="line"></div>
         <div class="text-on-line">{{'or' | translate}}</div>
       </div>
@@ -33,7 +36,7 @@
           <mat-label>{{'E-mail Address' | translate}}</mat-label>
           <input matInput placeholder="{{'Referral Code' | translate}}" type="text" name="email"
                  [formControlName]="'email'" required>
-          <mat-error>{{'Please enter your email address' | translate}}</mat-error>
+          <!--          <mat-error>{{'Please enter your email address' | translate}}</mat-error>-->
         </mat-form-field>
         <mat-form-field appearance="outline" class="w-100 mb-2">
           <ngx-mat-intl-tel-input
@@ -52,53 +55,56 @@
           <span>{{'Join the wait list' | translate}}</span>
         </button>
         <br>
-        <div class="text-center mt-3" [routerLink]="['/login']"><b class="link text-decoration-none">
-          {{'Have an account ? Log in' | translate}}</b></div>
+        <br>
+        <div class="text-center" *ngIf="!email" [routerLink]="['/login']">
+          <div class="d-inline-flex font-size-14 weight-600">{{'Have an account?' | translate}}
+            <div class="link text-decoration-none font-size-14 weight-600">&nbsp; {{'Log in' | translate}}</div>
+          </div>
+        </div>
       </form>
     </div>
     <div *ngIf="step === 2">
-      <mat-label>{{'To verify your E-mail address and phone number, please enter codes send to you:' | translate}}</mat-label>
+      <br>
+      <mat-label
+        style="font-size: 14px; font-weight: 500">{{'To verify your E-mail address and phone number, please enter codes send to you:' | translate}}</mat-label>
       <br>
       <br>
       <form #f="ngForm" [formGroup]="signUpVerifyFormEmail" autocomplete="off">
-        <div class="d-flex">
-          <mat-form-field appearance="outline" class="w-50 mb-2" [hideRequiredMarker]="true">
-            <mat-label>{{'E-mail' | translate}}</mat-label>
-            <input matInput placeholder="{{'email' | translate}}" type="text" name="text"
-                   [formControlName]="'email'" required>
-          </mat-form-field>&nbsp;
-          <mat-form-field appearance="outline" class="w-25 mb-2" [hideRequiredMarker]="true">
-            <mat-label>{{'email Code' | translate}}</mat-label>
-            <input matInput placeholder="{{'email Code' | translate}}" type="text" name="text"
-                   [formControlName]="'verificationCode'" required>
-          </mat-form-field>
-          <div *ngIf="!resendAbleEmail" class="w-25 mb-2 vertical-middle">
-            {{countDownEmail}}: 00
-          </div>
-          <mat-label class="w-25 mb-2 vertical-middle" *ngIf="resendAbleEmail" (click)="resendCodeEmail()">
-            {{'Resend' | translate}}
-          </mat-label>
+        <mat-form-field appearance="outline" class="w-100" style="height: 40px" [hideRequiredMarker]="true">
+          <mat-label>{{'Email Address' | translate}}</mat-label>
+          <input matInput placeholder="{{'Email Address' | translate}}" type="text" name="text"
+                 [formControlName]="'email'" required>
+        </mat-form-field>&nbsp;
+        <mat-form-field appearance="outline" class="w-100" [hideRequiredMarker]="true">
+          <mat-label>{{'Email Verification Code' | translate}}</mat-label>
+          <input matInput placeholder="{{'Email Verification Code' | translate}}" type="text" name="text"
+                 [formControlName]="'verificationCode'" required>
+        </mat-form-field>
+        <div *ngIf="!resendAbleEmail" class="w-100 mb-2" style="color: #828282; font-size: 12px">
+          Resend in: {{countDownEmail}}: 00
         </div>
+        <mat-label class="w-100 mb-2 font-size-12" style="color: #0B6FEA" *ngIf="resendAbleEmail" (click)="resendCodeEmail()">
+          {{'Resend' | translate}}
+        </mat-label>
       </form>
+      <br>
       <form #f="ngForm" [formGroup]="signUpVerifyFormMobile" autocomplete="off">
-        <div class="d-flex">
-          <mat-form-field appearance="outline" class="w-50 mb-2" [hideRequiredMarker]="true">
-            <mat-label>{{'Phone' | translate}}</mat-label>
-            <input matInput placeholder="{{'phone' | translate}}" type="text" name="text"
-                   [formControlName]="'mobile'" required>
-          </mat-form-field>&nbsp;
-          <mat-form-field appearance="outline" class="w-25 mb-2" [hideRequiredMarker]="true">
-            <mat-label>{{'Phone' | translate}}</mat-label>
-            <input matInput placeholder="{{'phone Code' | translate}}" type="text" name="text"
-                   [formControlName]="'phoneCode'" required>
-          </mat-form-field>
-          <div *ngIf="!resendAblePhone" class="w-25 mb-2 vertical-middle">
-            {{countDownPhone}}: 00
-          </div>
-          <mat-label class="w-25 mb-2 vertical-middle" *ngIf="resendAblePhone" (click)="resendCodePhone()">
-            {{'Resend' | translate}}
-          </mat-label>
+        <mat-form-field appearance="outline" class="w-100" style="height: 40px" [hideRequiredMarker]="true">
+          <mat-label>{{'Phone Number' | translate}}</mat-label>
+          <input matInput placeholder="{{'Phone Number' | translate}}" type="text" name="text"
+                 [formControlName]="'mobile'" required>
+        </mat-form-field>&nbsp;
+        <mat-form-field appearance="outline" class="w-100" [hideRequiredMarker]="true">
+          <mat-label>{{'Phone Verification Code' | translate}}</mat-label>
+          <input matInput placeholder="{{'Phone Verification Code' | translate}}" type="text" name="text"
+                 [formControlName]="'phoneCode'" required>
+        </mat-form-field>
+        <div *ngIf="!resendAblePhone" class="w-100 mb-2" style="color: #828282; font-size: 12px">
+          Resend in: {{countDownPhone}}: 00
         </div>
+        <mat-label class="w-100 mb-2 font-size-12" style="color: #0B6FEA" *ngIf="resendAblePhone" (click)="resendCodePhone()">
+          {{'Resend' | translate}}
+        </mat-label>
       </form>
       <button mat-raised-button color="primary" type="submit"
               [disabled]="!signUpVerifyFormMobile.valid || !signUpVerifyFormEmail.valid || loading"
@@ -109,9 +115,10 @@
 
     <div *ngIf="step === 3">
       <div class="d-block text-center">
-        <mat-icon>check</mat-icon>
-        <h5>{{'Congratulations!' | translate}}</h5><br>
-        <mat-label>
+        <img src="assets/images/like.svg" width="127">
+        <div class="font-size-16 weight-700">{{'Congratulations!' | translate}}</div>
+        <br>
+        <mat-label class="font-size-14 weight-500" style="color: #585858">
           {{'You\'ve been successfully joined our waiting list. We will notify you soon.' | translate}}
         </mat-label>
       </div>
@@ -120,6 +127,9 @@
 
     <div class="loading" *ngIf="loading$ | async">
     </div>
+  </div>
+  <div style="height: 52px; width: 460px; margin: 0px auto 20px" class="card border-0 text-center weight-600 pt-2">
+    Sponsored by: Company name
   </div>
 </div>
 

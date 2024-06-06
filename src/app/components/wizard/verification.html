@@ -1,0 +1,59 @@
+<div class="font-size-14 weight-700 mt-2 ms-2">{{'Verify' | translate}}</div>
+<div mat-dialog-content class="m-2">
+  <mat-label
+    style="font-size: 14px; font-weight: 500">{{'To verify your phone number, please enter code sent to you:' | translate}}</mat-label>
+<br>
+<br>
+  <form #f="ngForm" [formGroup]="verifyFormEmail" class="mt-3" autocomplete="off"
+        *ngIf="!generalService?.userObj?.emailVerified">
+      <mat-form-field appearance="outline" class="w-100" style="height: 40px" [hideRequiredMarker]="true">
+        <mat-label>{{'E-mail' | translate}}</mat-label>
+        <input matInput placeholder="{{'email Code' | translate}}" type="text" name="text"
+               [formControlName]="'email'" required>
+      </mat-form-field>&nbsp;
+      <mat-form-field appearance="outline" class="w-100" [hideRequiredMarker]="true">
+        <mat-label>{{'E-mail' | translate}}</mat-label>
+        <input matInput placeholder="{{'code' | translate}}" type="text" name="text"
+               [formControlName]="'verificationCode'" required>
+      </mat-form-field>
+      <div *ngIf="!resendAbleEmail" class="w-25 vertical-middle">
+        <app-countdown-timer (countdownFinished)="handleCountdownFinishedEmail()"></app-countdown-timer>
+      </div>
+    <mat-label class="w-100 mb-2 font-size-12" style="color: #0B6FEA" *ngIf="resendAbleEmail" (click)="resendCodeEmail()">
+      {{'Resend' | translate}}
+    </mat-label>
+    <div role="alert" style="color: #ff5722; margin-bottom: 50px; font-size: small">
+      {{errorEmail}}
+    </div>
+  </form>
+  <form #f="ngForm" [formGroup]="verifyFormMobile" class="mt-3" autocomplete="off"
+        *ngIf="!generalService?.userObj?.mobileVerified">
+      <mat-form-field appearance="outline" class="w-100" style="height: 40px" [hideRequiredMarker]="true">
+        <mat-label>{{'Phone' | translate}}</mat-label>
+        <input matInput placeholder="{{'code' | translate}}" type="text" name="text"
+               [formControlName]="'mobile'" required>
+      </mat-form-field>&nbsp;
+      <mat-form-field appearance="outline" class="w-100" [hideRequiredMarker]="true">
+        <mat-label>{{'Phone' | translate}}</mat-label>
+        <input matInput placeholder="{{'phone Code' | translate}}" type="text" name="text"
+               [formControlName]="'verificationCode'" required>
+      </mat-form-field>
+      <div *ngIf="!resendAblePhone" class="w-100">
+        <app-countdown-timer (countdownFinished)="handleCountdownFinishedMobile()"></app-countdown-timer>
+      </div>
+    <mat-label class="w-100 mb-2 font-size-12" style="color: #0B6FEA" *ngIf="resendAblePhone" (click)="resendCodeEmail()">
+      {{'Resend' | translate}}
+    </mat-label>
+    <div role="alert" style="color: #ff5722; margin: 10px 0; font-size: small">
+      {{errorMobile}}
+    </div>
+  </form>
+</div>
+<div mat-dialog-actions class="m-2">
+  <button mat-raised-button color="primary" type="submit"
+          [disabled]="(!this.generalService?.userObj?.emailVerified && !verifyFormEmail.valid) ||
+           (!this.generalService?.userObj?.mobileVerified && !verifyFormMobile.valid) || loading"
+          class="w-75 p-4" style="margin: 0 auto" (click)="submit()">
+    <span>{{'Verify' | translate}}</span>
+  </button>
+</div>
