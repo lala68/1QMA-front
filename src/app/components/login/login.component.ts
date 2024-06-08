@@ -10,6 +10,7 @@ import {TranslateModule} from "@ngx-translate/core";
 import {Preferences} from "@capacitor/preferences";
 import {GeneralService} from "../../services/general/general.service";
 import {MatStepper} from "@angular/material/stepper";
+import {CountdownTimerComponent} from "../countdown-timer/countdown-timer.component";
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,7 @@ import {MatStepper} from "@angular/material/stepper";
   imports: [CommonModule, FormsModule, SharedModule, ReactiveFormsModule, RouterModule, MaterialModule, TranslateModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class LoginComponent {
   loading$ = this.loader.isLoading$;
@@ -64,8 +65,10 @@ export class LoginComponent {
     })
   }
 
-  async gotoSignup() {
-    await this.router.navigate(['signup'], {state: {email: 'test@test.com'}});
+  async gotoDashboard() {
+    // await this.router.navigate(['signup'], {state: {email: 'test@test.com'}});
+    console.log(11)
+    await this.router.navigate(['/dashboard']);
   }
 
 }

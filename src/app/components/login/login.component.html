@@ -3,6 +3,9 @@
   <br>
   <br>
   <br>
+  <div class="w-100">
+    <app-countdown-timer ></app-countdown-timer>
+  </div>
   <div style="height: 677px; width: 460px; margin: 60px auto 10px" class="card p-5 pb-3 border-0">
     <div class="text-center mb-5">
       <img src="assets/images/logo.png" width="128" height="98">
@@ -36,10 +39,10 @@
     <div class="text-end link text-decoration-none mt-3 mb-3"
          [routerLink]="['/forget-password']">{{'Forgot Password' | translate}}</div>
     <div class="mediaAccounts radius">
-      <button class="social-button-div border-0" (click)="gotoSignup()"><img src="assets/images/google.svg" width="23"/></button>
-      <button class="social-button-div border-0" (click)="gotoSignup()"><img src="assets/images/facebook.svg" width="23"/></button>
-      <button class="social-button-div border-0" (click)="gotoSignup()"><img src="assets/images/apple.svg" width="23"/></button>
-      <button class="social-button-div border-0" (click)="gotoSignup()"><img src="assets/images/x-media.svg" width="23"/></button>
+      <button class="social-button-div border-0" (click)="gotoDashboard()"><img src="assets/images/google.png" width="23"/></button>
+      <button class="social-button-div border-0" (click)="gotoDashboard()"><img src="assets/images/facebook.png" width="23"/></button>
+      <button class="social-button-div border-0" (click)="gotoDashboard()"><img src="assets/images/apple.png" width="23"/></button>
+      <button class="social-button-div border-0" (click)="gotoDashboard()"><img src="assets/images/x-media.png" width="23"/></button>
     </div>
     <br>
     <br>

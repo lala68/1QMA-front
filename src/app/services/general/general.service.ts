@@ -1489,4 +1489,17 @@ export class GeneralService implements OnInit {
   getKeys(obj: any): Array<string> {
     return Object.keys(obj);
   }
+
+  generateRandomEmail(): any {
+    const domains = ['example.com', 'test.com', 'demo.com'];
+    const randomDomain = domains[Math.floor(Math.random() * domains.length)];
+
+    const chars = 'abcdefghijklmnopqrstuvwxyz1234567890';
+    let username = '';
+    for (let i = 0; i < 10; i++) {
+      username += chars[Math.floor(Math.random() * chars.length)];
+    }
+    console.log(`${username}@${randomDomain}`)
+    return `${username}@${randomDomain}`;
+  }
 }

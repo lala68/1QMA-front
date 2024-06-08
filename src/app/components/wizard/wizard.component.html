@@ -1,7 +1,7 @@
 <app-header></app-header>
 <br>
 <div class="card p-4 border-0 wizard-header">
-  <img src="assets/images/handshake%201.svg" width="92" height="66">
+  <img src="assets/images/handshake.png" width="92" height="66">
   <div class="position-absolute text-white" style="left: 120px; top: 25px">
     <div class="font-size-18 weight-700">{{'Lets get to know each other' | translate}}</div>
     <mat-label
@@ -14,7 +14,7 @@
       <mat-step [stepControl]="firstFormGroup">
         <form [formGroup]="firstFormGroup">
           <div class="d-inline-block">
-            <img src="assets/images/book.svg" width="52" height="52">
+            <img src="assets/images/book.png" width="52" height="52">
             <div class="position-absolute" style="left: 90px; top: 25px">
               <div class="font-size-18 weight-700">{{'Language' | translate}}</div>
               <mat-label
@@ -43,7 +43,7 @@
         <div *ngIf="!loadingUserData">
           <form class="mb-3" [formGroup]="form">
             <div class="d-inline-block">
-              <img src="assets/images/profile.svg" width="50" height="50">
+              <img src="assets/images/profile.png" width="50" height="50">
               <div class="position-absolute" style="left: 90px; top: 25px">
                 <div class="font-size-18 weight-700">{{'Account Information' | translate}}</div>
                 <mat-label
@@ -72,14 +72,6 @@
                 name="phone"
                 (countryChanged)="countryChangedEvent($event)"
                 [formControlName]="'mobile'"></ngx-mat-intl-tel-input>
-            </mat-form-field>
-            <mat-form-field appearance="outline" class="w-100" [hideRequiredMarker]="true">
-              <mat-label>{{'password' | translate}}</mat-label>
-              <div class="d-inline-flex w-100">
-                <input matInput placeholder="{{'password' | translate}}" [type]="hide ? 'password' : 'text'"
-                       [formControlName]="'password'">
-                <i (click)="hide = !hide" [class]="hide? 'bi-eye-slash' : 'bi-eye'"></i>
-              </div>
             </mat-form-field>
             <div class="d-flex">
               <mat-form-field class="w-50" appearance="outline">
@@ -120,7 +112,7 @@
       <mat-step>
         <!--        <app-preferences [stepper]="stepper"></app-preferences>-->
         <div class="d-inline-block">
-          <img src="assets/images/preferences.svg" width="84" height="84"
+          <img src="assets/images/preferences.png" width="84" height="84"
                style="position: absolute; top: 10px; left: 10px">
           <div class="position-absolute" style="left: 90px; top: 25px">
             <div class="font-size-18 weight-700">{{'Preferences' | translate}}</div>
@@ -134,8 +126,8 @@
         <br>
         <mat-card *ngFor="let cat of generalService?.initData?.categories"
                   class="m-2 d-inline-block"
-                  (click)="selectCat(cat._id)"
-                  [class]="{'mat-card-pref-selected': selectedCategory.includes(cat._id), 'mat-card-pref': !selectedCategory.includes(cat._id)}">
+                  (click)="selectCat(cat)"
+                  [class]="{'mat-card-pref-selected': selectedCategory.includes(cat), 'mat-card-pref': !selectedCategory.includes(cat)}">
           <mat-card-content class="text-start">
             <mat-label>{{ cat.name }}</mat-label>
           </mat-card-content>
@@ -150,7 +142,7 @@
       <mat-step>
         <form [formGroup]="accountTypeForm">
           <div class="d-inline-block">
-            <img src="assets/images/accountType.svg" width="61" height="61"
+            <img src="assets/images/accountType.png" width="61" height="61"
                  style="position: absolute; top: 10px; left: 10px">
             <div class="position-absolute" style="left: 90px; top: 25px">
               <div class="font-size-18 weight-700">{{'Account type' | translate}}</div>
@@ -163,9 +155,9 @@
                     (click)="selectType(acc._id)"
                     [class]="{'mat-card-account-selected': selectedType == acc._id, 'mat-card-account': selectedType != acc._id}">
             <mat-card-content class="text-center">
-              <img src="assets/images/base.svg" *ngIf="acc?.name == 'Basic'" width="106" height="106">
-              <img src="assets/images/education.svg" *ngIf="acc?.name == 'Educational'" width="106" height="106">
-              <img src="assets/images/verticalBook.svg" *ngIf="acc?.name == 'Bussiness'" width="106" height="106">
+              <img src="assets/images/base.png" *ngIf="acc?.name == 'Basic'" width="106" height="106">
+              <img src="assets/images/education.png" *ngIf="acc?.name == 'Educational'" width="106" height="106">
+              <img src="assets/images/verticalBook.png" *ngIf="acc?.name == 'Bussiness'" width="106" height="106">
               <br>
               <br>
               <mat-label class="font-size-16 weight-700">{{acc.name}}</mat-label>
@@ -179,7 +171,7 @@
       <mat-step>
         <form [formGroup]="accountTypeForm">
           <div class="d-inline-block">
-            <img src="assets/images/reading.svg" width="69" height="69">
+            <img src="assets/images/reading.png" width="69" height="69">
             <div class="position-absolute" style="left: 90px; top: 25px">
               <div class="font-size-18 weight-700">{{'Game Explanation' | translate}}</div>
               <mat-label
@@ -188,7 +180,7 @@
           </div>
           <br><br>
           <div class="d-inline-block position-relative w-100 mb-4" *ngFor="let item of [].constructor(3)">
-            <img src="assets/images/pocket.svg" width="137" height="86">
+            <img src="assets/images/pocket.png" width="137" height="86">
             <div class="position-absolute" style="left: 140px; top: 0px">
               <div class="font-size-14 weight-600">Title for this part</div>
               <mat-label
@@ -203,7 +195,7 @@
       </mat-step>
       <mat-step>
         <div class="d-block text-center">
-          <img src="assets/images/like.svg" width="127">
+          <img src="assets/images/like.png" width="127">
           <div class="font-size-16 weight-700">{{'Welcome' | translate}}</div>
           <br>
           <mat-label class="font-size-14 weight-500" style="color: #585858">

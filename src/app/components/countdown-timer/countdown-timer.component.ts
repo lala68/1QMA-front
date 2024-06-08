@@ -46,8 +46,10 @@ export class CountdownTimerComponent implements OnInit, OnDestroy {
 
   private formatTime(seconds: number): string {
     const minutes: number = Math.floor(seconds / 60);
+    const formattedMinutes: any = minutes.toString().padStart(2, '0');
     const secondsRemaining: number = seconds % 60;
-    return `${minutes} : ${minutes !== 1 ? '' : ''} ${secondsRemaining} ${secondsRemaining !== 1 ? '' : ''}`;
+    const formattedSeconds: any = secondsRemaining.toString().padStart(2, '0');
+    return `${formattedMinutes} : ${formattedMinutes !== 1 ? '' : ''} ${formattedSeconds} ${formattedSeconds !== 1 ? '' : ''}`;
   }
 
 }

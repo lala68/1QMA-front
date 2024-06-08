@@ -56,12 +56,24 @@
         </button>
         <br>
         <br>
-        <div class="text-center" *ngIf="!email" [routerLink]="['/login']">
-          <div class="d-inline-flex font-size-14 weight-600">{{'Have an account?' | translate}}
-            <div class="link text-decoration-none font-size-14 weight-600">&nbsp; {{'Log in' | translate}}</div>
-          </div>
-        </div>
       </form>
+      <div class="mediaAccounts radius">
+        <button class="social-button-div border-0" (click)="gotoSignup()"><img src="assets/images/google.png"
+                                                                               width="23"/></button>
+        <button class="social-button-div border-0" (click)="gotoSignup()"><img src="assets/images/facebook.png"
+                                                                               width="23"/></button>
+        <button class="social-button-div border-0" (click)="gotoSignup()"><img src="assets/images/apple.png"
+                                                                               width="23"/></button>
+        <button class="social-button-div border-0" (click)="gotoSignup()"><img src="assets/images/x-media.png"
+                                                                               width="23"/></button>
+      </div>
+      <br>
+      <br>
+      <div class="text-center" *ngIf="!email" [routerLink]="['/login']">
+        <div class="d-inline-flex font-size-14 weight-600">{{'Have an account?' | translate}}
+          <div class="link text-decoration-none font-size-14 weight-600">&nbsp; {{'Log in' | translate}}</div>
+        </div>
+      </div>
     </div>
     <div *ngIf="step === 2">
       <br>
@@ -70,20 +82,22 @@
       <br>
       <br>
       <form #f="ngForm" [formGroup]="signUpVerifyFormEmail" autocomplete="off">
-        <mat-form-field appearance="outline" class="w-100" style="height: 40px" [hideRequiredMarker]="true">
+        <mat-form-field appearance="outline" class="w-100" [hideRequiredMarker]="true">
           <mat-label>{{'Email Address' | translate}}</mat-label>
           <input matInput placeholder="{{'Email Address' | translate}}" type="text" name="text"
                  [formControlName]="'email'" required>
-        </mat-form-field>&nbsp;
+        </mat-form-field>
         <mat-form-field appearance="outline" class="w-100" [hideRequiredMarker]="true">
           <mat-label>{{'Email Verification Code' | translate}}</mat-label>
           <input matInput placeholder="{{'Email Verification Code' | translate}}" type="text" name="text"
                  [formControlName]="'verificationCode'" required>
         </mat-form-field>
-        <div *ngIf="!resendAbleEmail" class="w-100 mb-2" style="color: #828282; font-size: 12px">
-          Resend in: {{countDownEmail}}: 00
+        <div *ngIf="!resendAbleEmail" class="w-100 d-inline-block">
+          Resend in:
+          <app-countdown-timer (countdownFinished)="handleCountdownFinishedEmail()"></app-countdown-timer>
         </div>
-        <mat-label class="w-100 mb-2 font-size-12" style="color: #0B6FEA" *ngIf="resendAbleEmail" (click)="resendCodeEmail()">
+        <mat-label class="w-100 mb-2 font-size-12" style="color: #0B6FEA" *ngIf="resendAbleEmail"
+                   (click)="resendCodeEmail()">
           {{'Resend' | translate}}
         </mat-label>
       </form>
@@ -97,17 +111,22 @@
         <mat-form-field appearance="outline" class="w-100" [hideRequiredMarker]="true">
           <mat-label>{{'Phone Verification Code' | translate}}</mat-label>
           <input matInput placeholder="{{'Phone Verification Code' | translate}}" type="text" name="text"
-                 [formControlName]="'phoneCode'" required>
+                 [formControlName]="'verificationCode'" required>
         </mat-form-field>
-        <div *ngIf="!resendAblePhone" class="w-100 mb-2" style="color: #828282; font-size: 12px">
-          Resend in: {{countDownPhone}}: 00
+        <div *ngIf="!resendAblePhone" class="w-100 d-inline-block">
+          Resend in:
+          <app-countdown-timer (countdownFinished)="handleCountdownFinishedMobile()"></app-countdown-timer>
         </div>
-        <mat-label class="w-100 mb-2 font-size-12" style="color: #0B6FEA" *ngIf="resendAblePhone" (click)="resendCodePhone()">
+        <mat-label class="w-100 mb-2 font-size-12" style="color: #0B6FEA" *ngIf="resendAblePhone"
+                   (click)="resendCodePhone()">
           {{'Resend' | translate}}
         </mat-label>
       </form>
+      <div role="alert" style="color: #ff5722; margin: 10px 0">
+        {{error}}
+      </div>
       <button mat-raised-button color="primary" type="submit"
-              [disabled]="!signUpVerifyFormMobile.valid || !signUpVerifyFormEmail.valid || loading"
+              [disabled]="loading"
               class="w-100 p-4" (click)="onSubmitSignUpVerify()">
         <span>{{'Verify' | translate}}</span>
       </button>
@@ -115,7 +134,7 @@
 
     <div *ngIf="step === 3">
       <div class="d-block text-center">
-        <img src="assets/images/like.svg" width="127">
+        <img src="assets/images/like.png" width="127">
         <div class="font-size-16 weight-700">{{'Congratulations!' | translate}}</div>
         <br>
         <mat-label class="font-size-14 weight-500" style="color: #585858">

@@ -35,7 +35,13 @@ export class AppComponent {
           }
         })
       } else {
-        this.router.navigate(['login']);
+        this.authService.registerInit().then(res => {
+          console.log(res)
+          if (res.status == 1) {
+            this.generalService.initData = res.data;
+            this.router.navigate(['login']);
+          }
+        })
         // this.router.navigate(['wizard']);
       }
     })

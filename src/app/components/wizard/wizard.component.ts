@@ -60,7 +60,6 @@ export class WizardComponent implements OnInit {
       lastName: [this.generalService?.userObj?.lastName ? this.generalService?.userObj?.lastName : '', [Validators.required]],
       email: [this.generalService?.userObj?.email ? this.generalService?.userObj?.email : '', [Validators.required, Validators.email]],
       mobile: [this.generalService?.userObj?.mobile ? this.generalService?.userObj?.mobile : '', [Validators.required]],
-      password: ['', []],
       gender: [this.generalService?.userObj?.gender ? this.generalService?.userObj?.gender : '', []],
       country: [this.generalService?.userObj?.country ? this.generalService?.userObj?.country : '', []],
       education: [this.generalService?.userObj?.education ? this.generalService?.userObj?.education : '', []],
@@ -177,7 +176,7 @@ export class WizardComponent implements OnInit {
     if (index >= 0) {
       this.selectedCategory.splice(index, 1);
     } else {
-      this.selectedCategory.push(item);
+      this.selectedCategory.push({id: item._id, name: item.name});
     }
   }
 
