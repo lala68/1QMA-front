@@ -21,6 +21,7 @@ export class HeaderComponent {
         await Preferences.clear();
         this.authService.isLoggedIn = false;
         this.generalService.userId = '';
+        this.generalService.userObj = '';
         this.generalService.hasCompletedSignup = false;
         await this.router.navigate(['/login']);
       }

@@ -46,7 +46,7 @@ export class SignupSocialComponent {
   onSubmitSignUpWaitList() {
     this.errorWaitList = '';
     this.loading = true;
-    this.authService.joinToWaitList(this.signUpWaitListForm.getRawValue()).then(data => {
+    this.authService.joinToWaitListWithMobile(this.signUpWaitListForm.getRawValue()).then(data => {
       this.loading = false;
       if (data?.status == 1) {
         this.step = 2;
@@ -76,5 +76,13 @@ export class SignupSocialComponent {
     this.authService.resendCodeMobile(this.signUpVerifyFormMobile.controls.mobile.value).then(data => {
 
     })
+  }
+
+  async prevStep() {
+    if (this.step === 1) {
+      await this.router.navigateByUrl('/signup');
+    } else {
+      --this.step;
+    }
   }
 }

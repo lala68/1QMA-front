@@ -2,7 +2,7 @@ import {Component, Inject, OnInit, viewChild, ViewChild} from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {SharedModule} from "../../shared/shared.module";
 import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
-import {RouterModule} from "@angular/router";
+import {Router, RouterModule} from "@angular/router";
 import {MatStepper} from "@angular/material/stepper";
 import {QuestionTypesComponent} from "../question-types/question-types.component";
 import {TranslateModule} from "@ngx-translate/core";
@@ -42,12 +42,16 @@ export class WizardComponent implements OnInit {
   loadingUserData: boolean = true;
   hide = true;
   selectedCategory: any = [];
+  email: any;
 
-  constructor(private _formBuilder: FormBuilder,
+  constructor(private _formBuilder: FormBuilder, private router: Router,
               public generalService: GeneralService, public authService: AuthService, public dialog: MatDialog,) {
+    this.email = this.router.getCurrentNavigation()?.extras?.state?.['email'] ? this.router.getCurrentNavigation()?.extras?.state?.['email'] : this.generalService?.userObj?.email;
+    console.log(this.generalService?.userObj)
     if (this.generalService?.userObj?.preferedCategories) {
       this.selectedType = this.generalService?.userObj?.accountType;
       this.selectedCategory = this.generalService?.userObj?.preferedCategories;
+      console.log(this.selectedCategory)
     }
   }
 
@@ -58,7 +62,10 @@ export class WizardComponent implements OnInit {
     this.form = this._formBuilder.group({
       firstName: [this.generalService?.userObj?.firstName ? this.generalService?.userObj?.firstName : '', [Validators.required]],
       lastName: [this.generalService?.userObj?.lastName ? this.generalService?.userObj?.lastName : '', [Validators.required]],
-      email: [this.generalService?.userObj?.email ? this.generalService?.userObj?.email : '', [Validators.required, Validators.email]],
+      email: [{
+        value: this.email ? this.email : this.generalService?.userObj?.email,
+        disabled: true
+      }, [Validators.required, Validators.email]],
       mobile: [this.generalService?.userObj?.mobile ? this.generalService?.userObj?.mobile : '', [Validators.required]],
       gender: [this.generalService?.userObj?.gender ? this.generalService?.userObj?.gender : '', []],
       country: [this.generalService?.userObj?.country ? this.generalService?.userObj?.country : '', []],
@@ -145,6 +152,8 @@ export class WizardComponent implements OnInit {
         await this.generalService.getUserData();
         if (!this.generalService?.userObj?.emailVerified || !this.generalService?.userObj?.mobileVerified) {
           this.openDialogVerification('0', '0');
+        } else {
+          this.stepper.next();
         }
       } else if (data?.status == -1) {
         this.error = data?.message;
@@ -168,16 +177,26 @@ export class WizardComponent implements OnInit {
     });
   }
 
+  isSelected(item: any): boolean {
+    return this.selectedCategory.some((category: any) => category._id === item._id);
+  }
 
   selectCat(item: any) {
-    console.log(item)
-    const index = this.selectedCategory.indexOf(item);
-
-    if (index >= 0) {
+    console.log(this.selectedCategory)
+    const index = this.selectedCategory.findIndex((data: any) => data._id === item._id);
+    console.log(index)
+    if (index !== -1) {
+      // Remove the item from the array
       this.selectedCategory.splice(index, 1);
     } else {
-      this.selectedCategory.push({id: item._id, name: item.name});
+      this.selectedCategory.push(item);
     }
+    // const indexId = this.selectedCategoryId.indexOf(item._id);
+    // if (indexId >= 0) {
+    //   this.selectedCategoryId.splice(indexId, 1);
+    // } else {
+    //   this.selectedCategoryId.push(item?._id);
+    // }
   }
 
   submitPref() {

@@ -40,7 +40,9 @@ export class SignupReferEmailComponent {
 
   async onSubmitEmail() {
     this.error = '';
-    this.authService.resendCodeEmail(this.signUpEmailForm.value).then(data => {
+    this.loading = true;
+    this.authService.setEmail(this.signUpEmailForm.controls.email.value).then(data => {
+      this.loading = false;
       if (data.status == 1) {
         this.step = 2;
       } else {
@@ -54,6 +56,20 @@ export class SignupReferEmailComponent {
   }
 
   async onSubmitPassword() {
-    await this.router.navigate(['/wizard'], {state: {email: this.signUpEmailForm.controls.email.value}});
+    this.loading = true;
+    this.authService.setReferPassword(this.signUpEmailForm.controls.email.value, this.setPasswordForm.value).then(data => {
+      this.loading = false;
+      if (data.status == 1) {
+        this.router.navigate(['/wizard'], {state: {email: this.signUpEmailForm.controls.email.value}});
+      }
+    })
+  }
+
+  async prevStep() {
+    if (this.step === 1) {
+      await this.router.navigateByUrl('/signup');
+    } else {
+      --this.step;
+    }
   }
 }

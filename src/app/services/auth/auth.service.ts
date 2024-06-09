@@ -32,11 +32,44 @@ export class AuthService {
       .toPromise();
   }
 
-  async joinToWaitList(data: any): Promise<any> {
+  async joinToWaitListWithEmailAndMobile(data: any): Promise<any> {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json'
     })
-    return this.http.post<any>(this.config.url('auth/joinToWaitList'), data, {headers: headers})
+    return this.http.post<any>(this.config.url('auth/joinToWaitListWithEmailAndMobile'), data, {headers: headers})
+      .toPromise();
+  }
+
+  async joinToWaitListWithMobile(data: any): Promise<any> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    })
+    return this.http.post<any>(this.config.url('auth/joinToWaitListWithMobile'), data, {headers: headers})
+      .toPromise();
+  }
+
+  async setEmail(data: any): Promise<any> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    })
+    return this.http.post<any>(this.config.url('auth/setEmail'), {
+      id: this.generalService.userId,
+      email: data
+    }, {headers: headers})
+      .toPromise();
+  }
+
+  async setReferPassword(email: any, data: any): Promise<any> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    })
+    return this.http.post<any>(this.config.url('auth/setPassword'), {
+      id: this.generalService.userId,
+      email: email,
+      verificationCode: data?.verificationCode,
+      password: data?.password,
+      passwordConfirmation: data?.passwordConfirmation
+    }, {headers: headers})
       .toPromise();
   }
 

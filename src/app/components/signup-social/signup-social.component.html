@@ -4,7 +4,7 @@
   <br>
   <br>
   <div style="height: 710px; width: 460px; margin: 60px auto 10px" class="card p-5 pb-3 border-0">
-    <mat-icon class="back-btn-register" [routerLink]="['/signup']">arrow_back_ios</mat-icon>
+    <mat-icon class="back-btn-register" *ngIf="step !== 3" (click)="prevStep()">arrow_back_ios</mat-icon>
     <div class="text-center mb-3">
       <img src="assets/images/logo.png" width="128" height="98">
       <br>
@@ -14,7 +14,7 @@
       <form #f="ngForm" [formGroup]="signUpWaitListForm" (ngSubmit)="onSubmitSignUpWaitList()" autocomplete="off">
         <mat-form-field appearance="outline" class="w-100 mb-2" [hideRequiredMarker]="true">
           <mat-label>{{'E-mail Address' | translate}}</mat-label>
-          <input matInput placeholder="{{'Referral Code' | translate}}" type="text" name="email"
+          <input matInput placeholder="{{'E-mail Address' | translate}}" type="text" name="email"
                  [formControlName]="'email'" required>
           <!--          <mat-error>{{'Please enter your email address' | translate}}</mat-error>-->
         </mat-form-field>

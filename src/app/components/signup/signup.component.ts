@@ -67,6 +67,7 @@ export class SignupComponent {
       this.loading = false;
       if (data?.status == 1) {
         await Preferences.set({key: 'account', value: JSON.stringify(data.data)});
+        this.generalService.userId = data.data?._id;
         await this.router.navigate(['signup-refer-email']);
       } else if (data?.status == -1) {
         this.error = data?.message;
@@ -82,7 +83,7 @@ export class SignupComponent {
     this.error = '';
     this.errorWaitList = '';
     this.loading = true;
-    this.authService.joinToWaitList(this.signUpWaitListForm.getRawValue()).then(data => {
+    this.authService.joinToWaitListWithEmailAndMobile(this.signUpWaitListForm.getRawValue()).then(data => {
       this.loading = false;
       if (data?.status == 1) {
         this.step = 2;
