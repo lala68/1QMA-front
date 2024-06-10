@@ -34,6 +34,7 @@ import {MatSortModule} from "@angular/material/sort";
 import {MatTabsModule} from "@angular/material/tabs";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {NgxMatSelectSearchModule} from "ngx-mat-select-search";
+import {MatProgressBarModule} from "@angular/material/progress-bar";
 
 @NgModule({
   exports: [
@@ -47,6 +48,7 @@ import {NgxMatSelectSearchModule} from "ngx-mat-select-search";
     MatTooltipModule,
     MatMenuModule,
     MatBadgeModule,
+    MatProgressBarModule,
     MatListModule,
     MatCardModule,
     MatGridListModule,

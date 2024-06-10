@@ -2,12 +2,14 @@
 @use '@angular/material' as mat-colors;
 
 $primary-palette: mat-colors.define-palette(mat-colors.$brown-palette);
+$success-palette: mat-colors.define-palette(mat-colors.$light-green-palette);
 $accent-palette: mat-colors.define-palette(mat-colors.$pink-palette);
 $warn-palette: mat-colors.define-palette(mat-colors.$red-palette);
 
 $custom-theme: mat.define-light-theme((
   color: (
     primary: $primary-palette,
+    success: $success-palette,
     accent: $accent-palette,
     warn: $warn-palette,
   ),

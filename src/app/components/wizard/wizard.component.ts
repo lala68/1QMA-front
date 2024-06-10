@@ -24,7 +24,7 @@ import {NgxMatIntlTelInputComponent} from "ngx-mat-intl-tel-input";
   providers: []
 })
 export class WizardComponent implements OnInit {
-  @ViewChild('stepper') stepper: any;
+  @ViewChild('stepper') stepper: any = {selectedIndex: 0};
   selectedType: any = [];
   loadingAccountType: boolean = false;
 
@@ -32,7 +32,7 @@ export class WizardComponent implements OnInit {
     language: ['English', Validators.required],
   });
   form: FormGroup = new FormGroup({}); // Initialize with an empty form group
-  steps: number[] = [0, 1, 2, 3, 4, 5]; // Number of steps
+  // steps: number[] = [0, 1, 2, 3, 4, 5]; // Number of steps
   accountTypeForm = this._formBuilder.group({
     type: ['', Validators.required],
   });
@@ -43,11 +43,16 @@ export class WizardComponent implements OnInit {
   hide = true;
   selectedCategory: any = [];
   email: any;
+  steps = [
+    {name: 'Step 1', progress: 20},
+    {name: 'Step 2', progress: 40},
+    {name: 'Step 3', progress: 60},
+    {name: 'Step 4', progress: 80},
+    {name: 'Step 5', progress: 100}
+  ];
 
   constructor(private _formBuilder: FormBuilder, private router: Router,
               public generalService: GeneralService, public authService: AuthService, public dialog: MatDialog,) {
-    this.email = this.router.getCurrentNavigation()?.extras?.state?.['email'] ? this.router.getCurrentNavigation()?.extras?.state?.['email'] : this.generalService?.userObj?.email;
-    console.log(this.generalService?.userObj)
     if (this.generalService?.userObj?.preferedCategories) {
       this.selectedType = this.generalService?.userObj?.accountType;
       this.selectedCategory = this.generalService?.userObj?.preferedCategories;
@@ -56,6 +61,8 @@ export class WizardComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<any> {
+    await this.generalService?.getUserData();
+    this.email = this.router.getCurrentNavigation()?.extras?.state?.['email'] ? this.router.getCurrentNavigation()?.extras?.state?.['email'] : this.generalService?.userObj?.email;
     this.firstFormGroup = this._formBuilder.group({
       language: [this.generalService?.userObj?.preferedLanguage ? this.generalService?.userObj?.preferedLanguage : 'en', [Validators.required]],
     });
@@ -214,6 +221,14 @@ export class WizardComponent implements OnInit {
       }
     })
   }
+
+  getProgressValue(index: number): number {
+    return this.steps[index].progress;
+  }
+
+  getProgressBarClass(index: number): string {
+    return `progress-bar-${index}`;
+  }
 }
 
 
@@ -234,12 +249,8 @@ export class VerificationDialog {
     mobile: new FormControl({value: '', disabled: true}, [Validators.required]),
     verificationCode: new FormControl('', [Validators.required]),
   });
-  // countDownPhone = this.generalService?.initData?.nextVerificationMinutes * 60;
-  // countDownEmail = this.generalService?.initData?.nextVerificationMinutes * 60;
   resendAblePhone = false;
   resendAbleEmail = false;
-  intervalIdEmail: any;
-  intervalIdPhone: any;
   loadingCodeEmail = false;
   loadingCodePhone = false;
   loading = false;
@@ -252,35 +263,8 @@ export class VerificationDialog {
               @Inject(MAT_DIALOG_DATA) public data: any, private authService: AuthService, public generalService: GeneralService) {
     this.verifyFormEmail.controls.email.setValue(data?.email);
     this.verifyFormMobile.controls.mobile.setValue(data?.phone);
-    // this.startTimerEmail();
-    // this.startTimerPhone();
   }
 
-  // startTimerEmail() {
-  //   this.intervalIdEmail = setInterval(() => {
-  //     if (this.countDownEmail > 0) {
-  //       this.countDownEmail -= 1;
-  //     } else {
-  //       this.countDownEmail = 10;
-  //       this.resendAbleEmail = true;
-  //       this.loadingCodeEmail = false;
-  //       clearInterval(this.intervalIdEmail);
-  //     }
-  //   }, 1000);
-  // }
-  //
-  // startTimerPhone() {
-  //   this.intervalIdPhone = setInterval(() => {
-  //     if (this.countDownPhone > 0) {
-  //       this.countDownPhone -= 1;
-  //     } else {
-  //       this.countDownPhone = 10;
-  //       this.resendAblePhone = true;
-  //       this.loadingCodePhone = false;
-  //       clearInterval(this.intervalIdPhone);
-  //     }
-  //   }, 1000);
-  // }
 
   handleCountdownFinishedEmail() {
     this.resendAbleEmail = true;
@@ -340,7 +324,6 @@ export class VerificationDialog {
     if (this.mobileSuccess && this.emailSuccess) {
       this.dialogRef.close('success')
     }
-
   }
 }
 

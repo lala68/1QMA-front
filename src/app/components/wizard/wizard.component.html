@@ -215,8 +215,14 @@
         {{'Previous' | translate}}
       </button>
       <div class="bullet-container">
+        <!--        <div *ngFor="let step of steps; let i = index" class="bullet" [class.active]="stepper.selectedIndex === i">-->
+        <!--          •-->
+        <!--        </div>-->
         <div *ngFor="let step of steps; let i = index" class="bullet" [class.active]="stepper.selectedIndex === i">
-          •
+          <mat-progress-bar style="width: 310px; border-radius: 10px"
+                            color="success"
+                            *ngIf="stepper.selectedIndex == i"
+                            mode="determinate" [value]="getProgressValue(i)"></mat-progress-bar>
         </div>
       </div>
       <div class="next-button">

@@ -57,15 +57,19 @@ export class SignupReferEmailComponent {
 
   async onSubmitPassword() {
     this.loading = true;
+    this.error = '';
     this.authService.setReferPassword(this.signUpEmailForm.controls.email.value, this.setPasswordForm.value).then(data => {
       this.loading = false;
       if (data.status == 1) {
         this.router.navigate(['/wizard'], {state: {email: this.signUpEmailForm.controls.email.value}});
+      } else {
+        this.error = data.message;
       }
     })
   }
 
   async prevStep() {
+    this.error = '';
     if (this.step === 1) {
       await this.router.navigateByUrl('/signup');
     } else {
