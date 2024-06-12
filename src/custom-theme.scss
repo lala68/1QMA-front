@@ -9,7 +9,6 @@ $warn-palette: mat-colors.define-palette(mat-colors.$red-palette);
 $custom-theme: mat.define-light-theme((
   color: (
     primary: $primary-palette,
-    success: $success-palette,
     accent: $accent-palette,
     warn: $warn-palette,
   ),
@@ -18,3 +17,6 @@ $custom-theme: mat.define-light-theme((
 @include mat.core();
 @include mat.all-component-themes($custom-theme);
 
+:root {
+  --mat-progress-bar-success-color: mat.get-color-from-palette($success-palette, 500);
+}

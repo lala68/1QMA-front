@@ -27,6 +27,10 @@
   border: 2px solid black;
 }
 
+.mat-progress-bar.success-color .mat-progress-bar-fill::after {
+  background-color: var(--mat-progress-bar-success-color) !important;
+}
+
 .mediaAccounts {
   width: 100%;
   height: 56px;
