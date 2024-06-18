@@ -1,3 +1,49 @@
 <main class="bg-light">
+  <app-header></app-header>
+  <mat-drawer-container style="height: 100vh">
+    <mat-drawer class="bg-transparent border-0" mode="side" opened *ngIf="generalService?.hasCompletedSignup">
+      <div class="dashboard-sidebar">
+        <mat-card class="sidebar-user-detail" appearance="outlined">
+          <mat-card-header class="pe-1 ps-1">
+            <div mat-card-avatar class="avatar-header-image"></div>
+            <mat-card-title>{{generalService?.userObj?.firstName + ' ' + generalService?.userObj?.lastName }}</mat-card-title>
+            <mat-card-subtitle>
+              <img src="assets/images/coin-bronze.png"
+                   width="15">&nbsp;<span>{{generalService?.userObj?.assets?.coins?.bronze}}</span>&nbsp;
+              <img src="assets/images/coin-silver.png"
+                   width="15">&nbsp;<span>{{generalService?.userObj?.assets?.coins?.silver}}</span>&nbsp;
+              <img src="assets/images/coin-gold.png"
+                   width="15">&nbsp;<span>{{generalService?.userObj?.assets?.coins?.gold}}</span>
+            </mat-card-subtitle>
+          </mat-card-header>
+        </mat-card>
+        <div class="card border-0 mt-3" style="height: 248px">
+          <mat-list>
+            <mat-list-item>
+              <img matListItemIcon src="assets/images/home.png" width="25">
+              <span class="font-size-14 weight-600" matListItemTitle>Dashboard</span>
+            </mat-list-item>
+            <mat-list-item>
+              <img matListItemIcon src="assets/images/game.png" width="25">
+              <span class="font-size-14 weight-600" matListItemTitle>Games</span>
+            </mat-list-item>
+            <mat-list-item>
+              <img matListItemIcon src="assets/images/book-side.png" width="25">
+              <span class="font-size-14 weight-600" matListItemTitle>Trival Hub</span>
+            </mat-list-item>
+            <mat-list-item>
+              <img matListItemIcon src="assets/images/shop.png" width="25">
+              <span class="font-size-14 weight-600" matListItemTitle>Shop</span>
+            </mat-list-item>
+          </mat-list>
+        </div>
+      </div>
+    </mat-drawer>
+    <mat-drawer-content>
+      <div class="border-0"
+           [class]="{'dashboard-content' : generalService.hasCompletedSignup, '' : !generalService.hasCompletedSignup }">
         <router-outlet id="top"></router-outlet>
+      </div>
+    </mat-drawer-content>
+  </mat-drawer-container>
 </main>

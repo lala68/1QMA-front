@@ -7,6 +7,8 @@ import {authGuard} from "../auth.guard";
 import {SignupSocialComponent} from "../components/signup-social/signup-social.component";
 import {SignupReferEmailComponent} from "../components/signup-refer-email/signup-refer-email.component";
 import {DashboardComponent} from "../components/dashboard/dashboard.component";
+import {SettingsComponent} from "../components/settings/settings.component";
+import {AccountInfoComponent} from "../components/account-info/account-info.component";
 
 export const routes: Routes = [
   {path: 'login', component: LoginComponent},
@@ -16,6 +18,8 @@ export const routes: Routes = [
   {path: 'dashboard', component: DashboardComponent},
   {path: 'signup-social', component: SignupSocialComponent},
   {path: 'signup-refer-email', component: SignupReferEmailComponent},
+  {path: 'settings', component: SettingsComponent, canActivate: [authGuard]},
+  {path: 'account-info', component: AccountInfoComponent, canActivate: [authGuard]},
   // {path: 'wizard', component: WizardComponent},
   {path: '', redirectTo: '', pathMatch: 'full'},
 ];

@@ -1,0 +1,32 @@
+<br><br>
+<div class="card border-0 p-4 font-size-16 weight-600" *ngIf="generalService?.userObj">
+  Setting
+</div>
+<br>
+<div class="card border-0 p-4" *ngIf="generalService?.userObj">
+  <form [formGroup]="settingsForm" (ngSubmit)="updateSettings()">
+    <mat-form-field appearance="fill" class="custom-form-field w-50">
+      <mat-label>{{'Language' | translate}}</mat-label>
+      <mat-select [formControlName]="'language'">
+        <mat-option *ngFor="let lang of generalService?.clientInit?.languages"
+                    [value]="lang._id">{{lang.title}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <br>
+    <mat-form-field appearance="fill" class="custom-form-field w-50">
+      <mat-label>{{'Homepage' | translate}}</mat-label>
+      <mat-select [formControlName]="'defaultHomePage'">
+        <mat-option *ngFor="let hp of generalService?.clientInit?.homePages"
+                    [value]="hp.id">{{hp.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <br><br><br>
+    <div role="alert" style="color: #ff5722; margin: 10px 0">
+      {{error}}
+    </div>
+    <button mat-raised-button color="primary" type="submit" [disabled]="loading"
+            class="w-50 p-4">
+      <span>{{'Update' | translate}}</span>
+    </button>
+  </form>
+</div>

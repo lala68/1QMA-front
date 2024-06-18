@@ -1,10 +1,10 @@
 <mat-toolbar class="header">
   <img src="assets/images/logo.png" width="57">
   <span class="example-spacer"></span>
-  <button mat-icon-button [matMenuTriggerFor]="menu" *ngIf="generalService?.hasCompletedSignup">
-    <mat-icon>notifications</mat-icon>
+  <button mat-icon-button *ngIf="generalService?.hasCompletedSignup" [routerLink]="'/settings'">
+    <img src="assets/images/setting-2.svg" class="mb-3">
   </button>
-  <button mat-icon-button [matMenuTriggerFor]="menu" *ngIf="generalService?.hasCompletedSignup">
+  <button mat-icon-button *ngIf="generalService?.hasCompletedSignup">
     <mat-icon>card_giftcard</mat-icon>
   </button>
   <button mat-icon-button *ngIf="authService?.isLoggedIn" [matMenuTriggerFor]="menu">

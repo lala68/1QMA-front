@@ -67,6 +67,12 @@ mat-form-field {
   height: 48px;
 }
 
+.prev-step {
+  background: white;
+  color: #3e2723;
+  border: 1px solid #3e2723;
+}
+
 .bullet-navigation {
   display: flex;
   justify-content: space-between;
@@ -115,5 +121,14 @@ mat-form-field {
   border: 1px solid #0B6FEA;
   border-radius: 6px;
   color: #0B6FEA;
+}
+
+.stepIndex{
+  text-align: center;
+  color: #43a047;
+  background: #EDF9FF;
+  border-radius: 10px;
+  width: 50px;
+  margin: 10px auto;
 }
 

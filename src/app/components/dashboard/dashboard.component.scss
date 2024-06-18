@@ -1,0 +1,52 @@
+.card-title-profile-dashboard {
+  font-size: 14px !important;
+  font-weight: 700 !important;
+}
+
+.card-subtitle-profile-dashboard {
+  font-size: 12px !important;
+  font-weight: 500 !important;
+}
+
+.avatar-header-image-profile-dashboard {
+  background-image: url('/assets/images/avatar-09.png');
+  background-size: cover;
+  width: 53px;
+  height: 53px;
+}
+
+.edit-img {
+  position: absolute;
+  top: 1rem;
+  right: 0;
+}
+
+.border-bottom {
+  border-bottom: 1px solid #E8E2E0;
+}
+
+.crown-progress {
+  //display: inline-table;
+}
+
+.card-games {
+  background: #F9F7F7;
+  border-radius: 6px;
+  border: 1px solid #E8E2E0;
+  display: inline-flex;
+  width: 175px;
+  padding: 5px;
+  margin: 5px;
+}
+
+
+.card-games-small {
+  background: #F9F7F7;
+  border-radius: 6px;
+  border: 1px solid #E8E2E0;
+  display: inline-flex;
+  width: 115px;
+  padding: 5px;
+  margin: 5px;
+}
+

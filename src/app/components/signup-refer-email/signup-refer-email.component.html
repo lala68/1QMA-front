@@ -1,4 +1,4 @@
-<app-header></app-header>
+<!--<app-header></app-header>-->
 <div class="w-100">
   <br>
   <br>
@@ -17,7 +17,7 @@
       <br>
       <br>
       <form #f="ngForm" [formGroup]="signUpEmailForm" (ngSubmit)="onSubmitEmail()" autocomplete="off">
-        <mat-form-field appearance="outline" class="w-100 mb-2" [hideRequiredMarker]="true">
+        <mat-form-field appearance="fill" class="custom-form-field w-100 mb-2" [hideRequiredMarker]="true">
           <mat-label>{{'E-mail Address' | translate}}</mat-label>
           <input matInput placeholder="{{'E-mail Address' | translate}}" type="text" name="email"
                  [formControlName]="'email'" required>
@@ -55,11 +55,11 @@
         <img src="assets/images/user.png" width="18" style="background: #D9D9D9; border-radius: 50px">&nbsp;&nbsp;<div
         class="d-inline-block weight-500">{{signUpEmailForm.controls.email.value}}</div>
         <br><br>
-        <mat-form-field appearance="outline" class="w-100" [hideRequiredMarker]="true">
+        <mat-form-field appearance="fill" class="custom-form-field w-100" [hideRequiredMarker]="true">
           <mat-label>Verification Code</mat-label>
           <input matInput placeholder="Verification Code" type="text" [formControlName]="'verificationCode'" required>
         </mat-form-field>
-        <mat-form-field appearance="outline" class="w-100" [hideRequiredMarker]="true">
+        <mat-form-field appearance="fill" class="custom-form-field w-100" [hideRequiredMarker]="true">
           <mat-label>New password</mat-label>
           <div class="d-inline-flex w-100">
             <input matInput placeholder="New password" [type]="hide ? 'password' : 'text'"
@@ -68,7 +68,7 @@
           </div>
 
         </mat-form-field>
-        <mat-form-field appearance="outline" class="w-100 mb-2" [hideRequiredMarker]="true">
+        <mat-form-field appearance="fill" class="custom-form-field w-100 mb-2" [hideRequiredMarker]="true">
           <mat-label>Retype new password</mat-label>
           <div class="d-inline-flex w-100">
             <input matInput placeholder="Retype new password" [type]="hideCopy ? 'password' : 'text'"

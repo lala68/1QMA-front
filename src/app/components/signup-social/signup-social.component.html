@@ -1,4 +1,4 @@
-<app-header></app-header>
+<!--<app-header></app-header>-->
 <div class="w-100">
   <br>
   <br>
@@ -12,13 +12,16 @@
     </div>
     <div *ngIf="step === 1">
       <form #f="ngForm" [formGroup]="signUpWaitListForm" (ngSubmit)="onSubmitSignUpWaitList()" autocomplete="off">
-        <mat-form-field appearance="outline" class="w-100 mb-2" [hideRequiredMarker]="true">
+        <mat-form-field appearance="fill" class="custom-form-field w-100 mb-2" [hideRequiredMarker]="true">
           <mat-label>{{'E-mail Address' | translate}}</mat-label>
+          <div class="d-inline-flex w-100">
           <input matInput placeholder="{{'E-mail Address' | translate}}" type="text" name="email"
                  [formControlName]="'email'" required>
+            <img *ngIf="email" src="assets/images/tick-circle.svg" width="25">
+          </div>
           <!--          <mat-error>{{'Please enter your email address' | translate}}</mat-error>-->
         </mat-form-field>
-        <mat-form-field appearance="outline" class="w-100 mb-2">
+        <mat-form-field appearance="fill" class="custom-form-field w-100 mb-2">
           <ngx-mat-intl-tel-input
             [enablePlaceholder]="true"
             [enableSearch]="true"
@@ -43,21 +46,27 @@
         style="font-size: 14px; font-weight: 500">{{'To verify your phone number, please enter codes send to you:' | translate}}</mat-label>
       <br>
       <br>
-      <mat-form-field appearance="outline" class="w-100" [hideRequiredMarker]="true">
+      <mat-form-field appearance="fill" class="custom-form-field w-100" [hideRequiredMarker]="true">
         <mat-label>{{'E-mail Address' | translate}}</mat-label>
-        <input matInput placeholder="{{'E-mail Address' | translate}}" type="text" name="email"
-               [(ngModel)]="email" required disabled>
+        <div class="d-inline-flex w-100">
+          <input matInput placeholder="{{'E-mail Address' | translate}}" type="text" name="email"
+                 [(ngModel)]="email" required disabled>
+          <img src="assets/images/tick-circle.svg" width="25">
+        </div>
         <!--          <mat-error>{{'Please enter your email address' | translate}}</mat-error>-->
       </mat-form-field>
       <br>
       <br>
       <form #f="ngForm" [formGroup]="signUpVerifyFormMobile" autocomplete="off">
-        <mat-form-field appearance="outline" class="w-100" [hideRequiredMarker]="true">
+        <mat-form-field appearance="fill" class="custom-form-field w-100" [hideRequiredMarker]="true">
           <mat-label>{{'Phone Number' | translate}}</mat-label>
+          <div class="d-inline-flex w-100">
           <input matInput placeholder="{{'Phone Number' | translate}}" type="text" name="text"
                  [formControlName]="'mobile'" required>
+            <img src="assets/images/tick-circle.svg" width="25">
+          </div>
         </mat-form-field>
-        <mat-form-field appearance="outline" class="w-100" [hideRequiredMarker]="true">
+        <mat-form-field appearance="fill" class="custom-form-field w-100" [hideRequiredMarker]="true">
           <mat-label>{{'Phone Verification Code' | translate}}</mat-label>
           <input matInput placeholder="{{'Phone Verification Code' | translate}}" type="text" name="text"
                  [formControlName]="'verificationCode'" required>

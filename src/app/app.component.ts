@@ -4,6 +4,7 @@ import {register} from 'swiper/element/bundle';
 import {TranslateService} from "@ngx-translate/core";
 import {GeneralService} from "./services/general/general.service";
 import {AuthService} from "./services/auth/auth.service";
+import {ClientService} from "./services/client/client.service";
 
 register();
 
@@ -16,7 +17,8 @@ export class AppComponent {
   title = '1QMA';
 
   constructor(private router: Router, private translateService: TranslateService,
-              private generalService: GeneralService, private authService: AuthService) {
+              private generalService: GeneralService, private authService: AuthService,
+              private clientService: ClientService) {
     this.translateService.setDefaultLang('en');
     this.starter().then((data) => {
       if (this.generalService.userId && !this.generalService.hasCompletedSignup) {
@@ -28,12 +30,10 @@ export class AppComponent {
           }
         })
       } else if (this.generalService.userId && this.generalService.hasCompletedSignup) {
-        this.authService.registerInit().then(res => {
-          if (res.status == 1) {
-            this.generalService.initData = res.data;
-            this.router.navigate(['/dashboard']);
-          }
-        })
+        this.clientService.clientInit().then(data => {
+          this.generalService.clientInit = data.data;
+        });
+        this.router.navigate(['/dashboard']);
       } else {
         this.authService.registerInit().then(res => {
           console.log(res)

@@ -1,4 +1,4 @@
-<app-header></app-header>
+<!--<app-header></app-header>-->
 <div class="w-100">
   <br>
   <br>
@@ -13,12 +13,12 @@
       <div style="font-size: 16px; font-weight: 700">{{'Login to your 1QMA account' | translate}}</div>
     </div>
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" autocomplete="off">
-      <mat-form-field appearance="outline" class="w-100" [hideRequiredMarker]="true">
+      <mat-form-field appearance="fill" class="custom-form-field w-100" [hideRequiredMarker]="true">
         <mat-label>{{'Email' | translate}}</mat-label>
         <input matInput placeholder="{{'Enter your email' | translate}}" type="email" name="username"
-               [formControlName]="'email'" required>
+               [formControlName]="'email'">
       </mat-form-field>
-      <mat-form-field appearance="outline" class="w-100" [hideRequiredMarker]="true">
+      <mat-form-field appearance="fill" class="custom-form-field w-100" [hideRequiredMarker]="true">
         <mat-label>{{'Password' | translate}}</mat-label>
         <div class="d-inline-flex w-100">
           <input matInput placeholder="{{'Enter your password' | translate}}" [type]="hide ? 'password' : 'text'"
@@ -53,7 +53,7 @@
       </div>
     </div>
   </div>
-  <div style="height: 52px; width: 460px; margin: 0px auto 20px" class="card border-0 text-center weight-600 pt-2">
+  <div style="height: 52px; width: 460px; margin: 0px auto 20px" class="card border-0 text-center weight-600 pt-3">
     Sponsored by: Company name
   </div>
 </div>

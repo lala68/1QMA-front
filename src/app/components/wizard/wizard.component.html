@@ -1,4 +1,4 @@
-<app-header></app-header>
+<!--<app-header></app-header>-->
 <br>
 <div class="card p-4 border-0 wizard-header">
   <img src="assets/images/handshake.png" width="92" height="66">
@@ -22,7 +22,7 @@
             </div>
           </div>
           <br><br>
-          <mat-form-field appearance="outline" class="w-50">
+          <mat-form-field appearance="fill" class="custom-form-field w-50">
             <mat-select [formControlName]="'language'">
               <mat-option *ngFor="let lang of generalService?.initData?.languages"
                           [value]="lang._id">{{lang.title}}</mat-option>
@@ -47,19 +47,22 @@
             </div>
             <br>
             <br>
-            <mat-form-field appearance="outline" class="w-100" [hideRequiredMarker]="true">
+            <mat-form-field appearance="fill" class="custom-form-field w-100" [hideRequiredMarker]="true">
               <mat-label>{{'Name' | translate}}</mat-label>
               <input matInput placeholder="{{'First name' | translate}}" type="text" [formControlName]="'firstName'">
             </mat-form-field>
-            <mat-form-field appearance="outline" class="w-100" [hideRequiredMarker]="true">
+            <mat-form-field appearance="fill" class="custom-form-field w-100" [hideRequiredMarker]="true">
               <mat-label>{{'Last Name' | translate}}</mat-label>
               <input matInput placeholder="{{'Last name' | translate}}" type="text" [formControlName]="'lastName'">
             </mat-form-field>
-            <mat-form-field appearance="outline" class="w-100" [hideRequiredMarker]="true">
+            <mat-form-field appearance="fill" class="custom-form-field w-100" [hideRequiredMarker]="true">
               <mat-label>{{'E-mail' | translate}}</mat-label>
-              <input matInput placeholder="{{'email' | translate}}" type="email" [formControlName]="'email'">
+              <div class="d-inline-flex w-100">
+                <input matInput placeholder="{{'email' | translate}}" type="email" [formControlName]="'email'">
+                <img src="assets/images/tick-circle.svg" width="25">
+              </div>
             </mat-form-field>
-            <mat-form-field appearance="outline" class="w-100">
+            <mat-form-field appearance="fill" class="custom-form-field w-100">
               <ngx-mat-intl-tel-input
                 [enablePlaceholder]="true"
                 [enableSearch]="true"
@@ -69,14 +72,14 @@
                 [formControlName]="'mobile'"></ngx-mat-intl-tel-input>
             </mat-form-field>
             <div class="d-flex">
-              <mat-form-field class="w-50" appearance="outline">
+              <mat-form-field class="custom-form-field w-50" appearance="fill">
                 <mat-label>{{'Gender' | translate}}</mat-label>
                 <mat-select [formControlName]="'gender'">
                   <mat-option *ngFor="let gen of generalService?.initData?.genders"
                               [value]="gen._id">{{gen?.title}}</mat-option>
                 </mat-select>
               </mat-form-field>&nbsp;&nbsp;
-              <mat-form-field class="w-50" appearance="outline">
+              <mat-form-field class="custom-form-field w-50" appearance="fill">
                 <mat-label>{{'Education' | translate}}</mat-label>
                 <mat-select [formControlName]="'education'">
                   <mat-option *ngFor="let edu of generalService?.initData?.educations"
@@ -85,17 +88,17 @@
               </mat-form-field>
             </div>
             <div class="d-flex">
-              <mat-form-field class="w-50" appearance="outline">
+              <mat-form-field class="custom-form-field w-50" appearance="fill">
                 <mat-label>{{'Country' | translate}}</mat-label>
-                <mat-select [formControlName]="'country'">
+                <mat-select [formControlName]="'country'" >
                   <mat-option *ngFor="let country of generalService?.countryListEng"
-                              [value]="country.code">{{country.name}}</mat-option>
+                              [value]="country.code" (onSelectionChange)="generalService.getCitiesBasedOnCountry(country.name)">{{country.name}}</mat-option>
                 </mat-select>
               </mat-form-field>&nbsp;&nbsp;
-              <mat-form-field class="w-50" appearance="outline">
+              <mat-form-field class="custom-form-field w-50" appearance="fill">
                 <mat-label>{{'City' | translate}}</mat-label>
                 <mat-select [formControlName]="'city'">
-                  <mat-option value="shiraz">Shiraz</mat-option>
+                  <mat-option *ngFor="let cty of generalService?.cities | keyvalue" [value]="cty?.key">{{cty?.value}}</mat-option>
                 </mat-select>
               </mat-form-field>
             </div>
@@ -198,7 +201,7 @@
           </mat-label>
           <br><br>
           <button mat-raised-button color="primary"
-                  class="w-50 p-4">
+                  class="w-50 p-4" [routerLink]="['/dashboard']">
             <span>{{'Lets play a game' | translate}}</span>
           </button>
         </div>
@@ -209,8 +212,8 @@
 <div class="card p-4 border-0" style="margin: 20px auto 20px; width: 746px">
   <footer>
     <div class="bullet-navigation">
-      <button mat-raised-button color="primary" [disabled]="stepper?.selectedIndex == 0"
-              (click)="gotoPrevStep()" class="prev-step">
+      <button mat-raised-button [disabled]="stepper?.selectedIndex == 0"
+              (click)="gotoPrevStep()" class="prev-step"  [class]="{'border-0': stepper?.selectedIndex == 0}">
         <i class="bi bi-arrow-left"></i>
         {{'Previous' | translate}}
       </button>
@@ -219,8 +222,9 @@
         <!--          •-->
         <!--        </div>-->
         <div *ngFor="let step of steps; let i = index" class="bullet" [class.active]="stepper.selectedIndex === i">
+          <div *ngIf="stepper.selectedIndex == i" class="stepIndex weight-600">{{stepper.selectedIndex + 1}} / 6</div>
           <mat-progress-bar style="width: 310px; border-radius: 10px"
-                            class="success-color"
+                            class="success-color" color="accent"
                             *ngIf="stepper.selectedIndex == i"
                             mode="determinate" [value]="getProgressValue(i)"></mat-progress-bar>
         </div>

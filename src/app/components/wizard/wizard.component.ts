@@ -62,6 +62,8 @@ export class WizardComponent implements OnInit {
 
   async ngOnInit(): Promise<any> {
     await this.generalService?.getUserData();
+    this.generalService.countryListEng = await this.generalService.getCountries();
+
     this.email = this.router.getCurrentNavigation()?.extras?.state?.['email'] ? this.router.getCurrentNavigation()?.extras?.state?.['email'] : this.generalService?.userObj?.email;
     this.firstFormGroup = this._formBuilder.group({
       language: [this.generalService?.userObj?.preferedLanguage ? this.generalService?.userObj?.preferedLanguage : 'en', [Validators.required]],

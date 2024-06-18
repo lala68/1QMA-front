@@ -4,27 +4,32 @@ button:hover {
 
 .bg-dark-header {
   //background-color: #333f50 !important;
-  background-image: linear-gradient(to right, #333f50 , #86328c);
+  background-image: linear-gradient(to right, #333f50, #86328c);
 }
 
 li {
   list-style-type: none;
 }
+
 .responsive-menu {
   display: block;
   text-align: left;
 }
+
 .responsive-menu ul li ul li {
   padding: 5px;
   border-bottom: solid 1px white;
   border-top: solid 1px white;
 }
+
 .responsive-menu ul li ul {
   display: none;
 }
+
 input[id^=vote_score_] {
   display: none;
 }
+
 input[id^=vote_score_]:checked + .responsive-menu ul li ul {
   display: block;
 }
@@ -73,4 +78,32 @@ mat-divider {
   border-top: 1px solid #efefef;
   width: 90%;
   margin: 0 auto;
+}
+
+.sidebar-user-detail {
+  border: none;
+  border-radius: 10px;
+}
+
+.avatar-header-image {
+  background-image: url('/assets/images/avatar-09.png');
+  background-size: cover;
+  width: 35px;
+  height: 35px;
+}
+
+mat-card-title {
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  color: #2C2523;
+}
+
+mat-list-item {
+  width: 90%;
+  margin: 0 10px;
+}
+
+mat-list-item:hover {
+  background: #F2EFEE;
+  border-radius: 10px !important;
 }
