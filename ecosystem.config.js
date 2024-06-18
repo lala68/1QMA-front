@@ -18,7 +18,7 @@ module.exports = {
       path: "/root/projects/sources/staging.1qma.front",
       "pre-deploy": "git reset --hard",
       "post-deploy":
-        "npm install; pm2 startOrRestart ~/projects/config/staging.1qma.front.json --update-env --env production; pm2 save",
+        "npm install; ng build --configuration production; cp -rf /root/projects/sources/staging.1qma.front/source/dist/ma-games/browser /var/www/html/staging.front.1qma.games/;",
     },
   },
 };
