@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {GeneralService} from "../general/general.service";
 import {ConfigService} from "../config/config.service";
@@ -10,11 +10,13 @@ import {map} from "rxjs";
 export class ClientService {
 
   constructor(private http: HttpClient, private generalService: GeneralService,
-              private config: ConfigService,) { }
+              private config: ConfigService,) {
+  }
 
   async clientInit(): Promise<any> {
     let headers = new HttpHeaders({
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Access-Token': this.generalService.token
     })
     const response = this.http.get(this.config.url('client/init'), {
       headers: headers
@@ -26,7 +28,8 @@ export class ClientService {
 
   async updateProfileClient(data: any, userId: any): Promise<any> {
     let headers = new HttpHeaders({
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Access-Token': this.generalService.token
     })
     return this.http.post<any>(this.config.url('client/profile/update'), {id: userId, ...data}, {headers: headers})
       .toPromise();
@@ -34,9 +37,54 @@ export class ClientService {
 
   async updateSettings(data: any, userId: any): Promise<any> {
     let headers = new HttpHeaders({
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Access-Token': this.generalService.token
     })
     return this.http.post<any>(this.config.url('client/settings/update'), {id: userId, ...data}, {headers: headers})
       .toPromise();
+  }
+
+  async inviteFriend(data: any, userId: any): Promise<any> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Access-Token': this.generalService.token
+    })
+    return this.http.post<any>(this.config.url('client/invite'), {id: userId, email: data.email}, {headers: headers})
+      .toPromise();
+  }
+
+  async postProfilePicture(data: any): Promise<any> {
+    let headers = new HttpHeaders({
+      'Access-Token': this.generalService.token
+    });
+
+    const formData = new FormData();
+    formData.append('id', this.generalService.userId);
+    formData.append('avatar', data);
+
+    return this.http.post<any>(this.config.url('client/profilePicture/update'), formData, { headers: headers })
+      .toPromise();
+  }
+
+  async removeProfilePicture(): Promise<any> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Access-Token': this.generalService.token
+    })
+    return this.http.post<any>(this.config.url('client/profilePicture/remove'), {id: this.generalService.userId}, {headers: headers})
+      .toPromise();
+  }
+
+  async getUserById(id: any): Promise<any> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Access-Token': this.generalService.token
+    })
+    const response = this.http.get(this.config.url('client/' + id + '/details'), {
+      headers: headers
+    }).pipe(
+      map((response: any) => response)
+    ).toPromise();
+    return response;
   }
 }

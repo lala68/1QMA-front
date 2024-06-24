@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpResponse} from "@angular/common/http";
 import {ConfigService} from "../config/config.service";
 import {map} from "rxjs";
 import {Preferences} from "@capacitor/preferences";
@@ -198,18 +198,29 @@ export class AuthService {
 
   async isAuthenticated(): Promise<boolean> {
     const user = await Preferences.get({key: 'account'});
+    console.log(user)
     if (user.value != null) {
       const userObj = JSON.parse(user.value);
       this.isLoggedIn = true;
-      this.generalService.userId = userObj._id;
-      this.generalService.hasCompletedSignup = userObj.hasCompletedSignup;
+      console.log(userObj)
+      if (userObj?._id) {
+        this.generalService.userId = userObj._id;
+      } else {
+        this.generalService.userId = '66';
+      }
+      if (userObj.hasCompletedSignup) {
+        this.generalService.hasCompletedSignup = userObj.hasCompletedSignup;
+      } else {
+        this.generalService.hasCompletedSignup = false;
+      }
     }
     return !!user.value;
   }
 
   async signout(): Promise<any> {
     let headers = new HttpHeaders({
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      // 'Access-Token': this.generalService.token
     })
     return this.http.post<any>(this.config.url('auth/signout'), {id: this.generalService.userId}, {headers: headers})
       .toPromise();

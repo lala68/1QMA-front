@@ -11,6 +11,7 @@ import {Preferences} from "@capacitor/preferences";
 import {GeneralService} from "../../services/general/general.service";
 import {MatStepper} from "@angular/material/stepper";
 import {CountdownTimerComponent} from "../countdown-timer/countdown-timer.component";
+import {ClientService} from "../../services/client/client.service";
 
 @Component({
   selector: 'app-login',
@@ -30,7 +31,7 @@ export class LoginComponent {
   error: any;
   hide = true;
 
-  constructor(private _formBuilder: FormBuilder, private loader: LoaderService,
+  constructor(private _formBuilder: FormBuilder, private loader: LoaderService, private clientService: ClientService,
               public authService: AuthService, private router: Router, private generalService: GeneralService) {
   }
 
@@ -40,21 +41,23 @@ export class LoginComponent {
     this.authService.loginWithEmail(this.loginForm.value).then(async data => {
       this.loading = false;
       if (data?.status == 1) {
-        await Preferences.set({key: 'account', value: JSON.stringify(data.data)});
+        await Preferences.set({key: 'accessToken', value: data.data.token});
+        await Preferences.set({key: 'account', value: JSON.stringify(data.data.user)});
         await this.authService.isAuthenticated();
         await this.generalService.getUserData();
         if (this.generalService.userId && !this.generalService.hasCompletedSignup) {
+          await this.router.navigate(['/wizard']);
           this.authService.registerInit().then(res => {
             if (res.status == 1) {
               this.generalService.initData = res.data;
-              this.router.navigate(['/wizard']);
             }
           })
         } else if (this.generalService.userId && this.generalService.hasCompletedSignup) {
-          this.authService.registerInit().then(res => {
+          await this.router.navigate(['/dashboard']);
+          this.clientService.clientInit().then(res => {
             if (res.status == 1) {
               this.generalService.initData = res.data;
-              this.router.navigate(['/dashboard']);
+              this.generalService.currentRout = 'dashboard';
             }
           })
         }
@@ -67,7 +70,7 @@ export class LoginComponent {
 
   async gotoDashboard() {
     // await this.router.navigate(['signup'], {state: {email: 'test@test.com'}});
-    console.log(11)
+    this.generalService.currentRout = 'dashboard';
     await this.router.navigate(['/dashboard']);
   }
 

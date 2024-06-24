@@ -6,6 +6,8 @@ import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from "@angula
 import {RouterModule} from "@angular/router";
 import {TranslateModule} from "@ngx-translate/core";
 import {ClientService} from "../../services/client/client.service";
+import {DialogContentComponent} from "../dialog-content/dialog-content.component";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-settings',
@@ -22,8 +24,9 @@ export class SettingsComponent implements OnInit {
   loading: boolean = false;
   error: any = '';
 
-  constructor(public generalService: GeneralService, private _formBuilder: FormBuilder,
+  constructor(public generalService: GeneralService, private _formBuilder: FormBuilder, public dialog: MatDialog,
               private clientService: ClientService) {
+    this.generalService.currentRout = '';
   }
 
   async ngOnInit(): Promise<any> {
@@ -39,10 +42,15 @@ export class SettingsComponent implements OnInit {
     this.clientService.updateSettings(this.settingsForm.value, this.generalService.userId).then(data => {
       if (data.status == 1) {
         this.loading = false;
+        this.openDialog(data.message, 'Success');
       } else {
         this.error = data.message;
       }
     })
+  }
+
+  openDialog(message: any, title: any) {
+    this.dialog.open(DialogContentComponent, {data: {message: message, title: title}});
   }
 
 }

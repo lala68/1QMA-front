@@ -76,9 +76,9 @@ export class WizardComponent implements OnInit {
         disabled: true
       }, [Validators.required, Validators.email]],
       mobile: [this.generalService?.userObj?.mobile ? this.generalService?.userObj?.mobile : '', [Validators.required]],
-      gender: [this.generalService?.userObj?.gender ? this.generalService?.userObj?.gender : '', []],
+      gender: [this.generalService?.userObj?.gender ? this.generalService?.userObj?.gender?._id : '', []],
       country: [this.generalService?.userObj?.country ? this.generalService?.userObj?.country : '', []],
-      education: [this.generalService?.userObj?.education ? this.generalService?.userObj?.education : '', []],
+      education: [this.generalService?.userObj?.education ? this.generalService?.userObj?.education?._id : '', []],
       city: [this.generalService?.userObj?.city ? this.generalService?.userObj?.city : '', []],
     });
     await this.setPasswordValidators();

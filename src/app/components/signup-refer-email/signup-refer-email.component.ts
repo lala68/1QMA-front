@@ -9,6 +9,7 @@ import {MaterialModule} from "../../shared/material/material.module";
 import {NgxMatIntlTelInputComponent} from "ngx-mat-intl-tel-input";
 import {TranslateModule} from "@ngx-translate/core";
 import {GeneralService} from "../../services/general/general.service";
+import {ConfigService} from "../../services/config/config.service";
 
 @Component({
   selector: 'app-signup-refer-email',
@@ -35,7 +36,7 @@ export class SignupReferEmailComponent {
   hide = true;
 
   constructor(private _formBuilder: FormBuilder, private loader: LoaderService, private router: Router,
-              public authService: AuthService, private generalService: GeneralService) {
+              public authService: AuthService, private generalService: GeneralService, public config: ConfigService) {
   }
 
   async onSubmitEmail() {
@@ -62,6 +63,11 @@ export class SignupReferEmailComponent {
       this.loading = false;
       if (data.status == 1) {
         this.router.navigate(['/wizard'], {state: {email: this.signUpEmailForm.controls.email.value}});
+        this.authService.registerInit().then(res => {
+          if (res.status == 1) {
+            this.generalService.initData = res.data;
+          }
+        })
       } else {
         this.error = data.message;
       }

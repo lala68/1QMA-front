@@ -1,5 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {GeneralService} from "../../services/general/general.service";
+import {ConfigService} from "../../services/config/config.service";
 
 
 @Component({
@@ -10,7 +11,7 @@ import {GeneralService} from "../../services/general/general.service";
 export class SidenavComponent implements OnInit {
 
 
-  constructor(public generalService: GeneralService) {
+  constructor(public generalService: GeneralService, public configService: ConfigService) {
   }
 
   ngOnInit(): void {

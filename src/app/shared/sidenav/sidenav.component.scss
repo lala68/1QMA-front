@@ -100,10 +100,15 @@ mat-card-title {
 
 mat-list-item {
   width: 90%;
-  margin: 0 10px;
+  margin: 3px 10px;
 }
 
 mat-list-item:hover {
+  background: #F2EFEE;
+  border-radius: 10px !important;
+}
+
+.mat-list-item-selected {
   background: #F2EFEE;
   border-radius: 10px !important;
 }

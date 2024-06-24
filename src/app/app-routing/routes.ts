@@ -9,6 +9,8 @@ import {SignupReferEmailComponent} from "../components/signup-refer-email/signup
 import {DashboardComponent} from "../components/dashboard/dashboard.component";
 import {SettingsComponent} from "../components/settings/settings.component";
 import {AccountInfoComponent} from "../components/account-info/account-info.component";
+import {SocialCallbackComponent} from "../components/social-callback/social-callback.component";
+import {UserDetailComponent} from "../components/user-detail/user-detail.component";
 
 export const routes: Routes = [
   {path: 'login', component: LoginComponent},
@@ -20,6 +22,7 @@ export const routes: Routes = [
   {path: 'signup-refer-email', component: SignupReferEmailComponent},
   {path: 'settings', component: SettingsComponent, canActivate: [authGuard]},
   {path: 'account-info', component: AccountInfoComponent, canActivate: [authGuard]},
-  // {path: 'wizard', component: WizardComponent},
-  {path: '', redirectTo: '', pathMatch: 'full'},
+  {path: 'user-detail', component: UserDetailComponent, canActivate: [authGuard]},
+  {path: 'social/callback', component: SocialCallbackComponent},
+  {path: '', redirectTo: '/dashboard', pathMatch: 'full'},
 ];

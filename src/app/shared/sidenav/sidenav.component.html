@@ -5,7 +5,9 @@
       <div class="dashboard-sidebar">
         <mat-card class="sidebar-user-detail" appearance="outlined">
           <mat-card-header class="pe-1 ps-1">
-            <div mat-card-avatar class="avatar-header-image"></div>
+<!--            <div mat-card-avatar class="avatar-header-image"></div>-->
+            <img mat-card-avatar [src]="generalService?.userObj?.profilePicture ? configService.url(generalService?.userObj?.profilePicture) : 'assets/images/frame.png'"
+                 width="35" height="35">
             <mat-card-title>{{generalService?.userObj?.firstName + ' ' + generalService?.userObj?.lastName }}</mat-card-title>
             <mat-card-subtitle>
               <img src="assets/images/coin-bronze.png"
@@ -19,7 +21,7 @@
         </mat-card>
         <div class="card border-0 mt-3" style="height: 248px">
           <mat-list>
-            <mat-list-item>
+            <mat-list-item [routerLink]="['/dashboard']" [class]="generalService?.currentRout == 'dashboard' ? 'mat-list-item-selected' : ''">
               <img matListItemIcon src="assets/images/home.png" width="25">
               <span class="font-size-14 weight-600" matListItemTitle>Dashboard</span>
             </mat-list-item>

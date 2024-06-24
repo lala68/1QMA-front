@@ -1,0 +1,121 @@
+<br><br>
+<div class="card border-0 p-4 font-size-16 weight-600">
+  User Detail
+</div>
+<br>
+<div style="display: ruby-text;">
+  <mat-spinner *ngIf="loading" [diameter]="30"></mat-spinner>
+</div>
+<div class="card border-0 p-4" *ngIf="!loading">
+  <div class="w-100 p-3">
+    <mat-card class="shadow-none">
+      <mat-card-header class="pe-1 ps-1">
+        <img mat-card-avatar
+             [src]="user.profilePicture ? configService.url(user.profilePicture) : 'assets/images/frame.png'"
+             width="35" height="35">
+        <mat-card-title
+          class="card-title-profile-dashboard mt-2">{{user?.firstName + ' ' + user?.lastName }}</mat-card-title>
+      </mat-card-header>
+    </mat-card>
+  </div>
+  <div class="pb-3">
+    <div class="position-relative d-inline-flex" style="width: 320px">
+      <img src="assets/images/crown.svg" width="36" height="36"/>
+      <div style="position: absolute; bottom: 30px; width: 100%; left: 40px">
+        <div class="font-size-14 weight-600 position-absolute start-0">
+          Level: {{user?.statistics?.level}}</div>
+        <div
+          class="font-size-12 weight-600 position-absolute end-0">{{user?.statistics?.xpNeededForNextLevel - user?.statistics?.totalXP}}
+          XP till next level
+        </div>
+      </div>
+      <mat-progress-bar
+        style="width: 320px; border-radius: 10px; display: inline-table; position: absolute; bottom: 0; left: 40px"
+        color="primary"
+        [value]="user?.statistics?.level" [bufferValue]="user?.statistics?.xpNeededForNextLevel"
+        mode="determinate"></mat-progress-bar>
+    </div>
+    <div>
+      <div class="card-games position-relative">
+        <img src="assets/images/flash.svg" width="24">
+        <div class="font-size-12 weight-400" style="padding: 5px">Total <b class="font-size-12 weight-600">XP</b>:
+        </div>
+        <mat-label class="position-absolute font-size-14 weight-700"
+                   style="padding: 5px;right: 5px">{{user?.statistics?.totalXP}}</mat-label>
+      </div>
+      <div class="card-games position-relative">
+        <img src="assets/images/star.svg" width="24">
+        <div class="font-size-12 weight-400" style="padding: 5px">Total <b class="font-size-12 weight-600">Score</b>:
+        </div>
+        <mat-label class="position-absolute font-size-14 weight-700"
+                   style="padding: 5px; right: 5px">{{user?.statistics?.totalScore}}</mat-label>
+      </div>
+    </div>
+
+    <div>
+      <div class="card-games-small position-relative">
+        <img src="assets/images/cup.svg" width="24">
+        <div class="font-size-14 weight-700 position-absolute top-0"
+             style="padding-left: 5px; left: 30px">{{user?.games?.won}}</div>
+        <mat-label class="position-absolute font-size-12 weight-400 bottom-0" style="padding-left: 5px;left: 30px">Win
+        </mat-label>
+      </div>
+      <div class="card-games-small position-relative">
+        <img src="assets/images/message-edit.svg" width="24">
+        <div class="font-size-14 weight-700 position-absolute top-0"
+             style="padding-left: 5px; left: 30px">{{user?.games?.created}}</div>
+        <mat-label class="position-absolute font-size-12 weight-400 bottom-0" style="padding-left: 5px;left: 30px">
+          Created
+        </mat-label>
+      </div>
+      <div class="card-games-small position-relative">
+        <img src="assets/images/game.svg" width="24">
+        <div class="font-size-14 weight-700 position-absolute top-0"
+             style="padding-left: 5px; left: 30px">{{user?.games?.played}}</div>
+        <mat-label class="position-absolute font-size-12 weight-400 bottom-0" style="padding-left: 5px;left: 30px">Play
+        </mat-label>
+      </div>
+      <div class="card-games-small position-relative">
+        <img src="assets/images/ranking.svg" width="24">
+        <div class="font-size-14 weight-700 position-absolute top-0"
+             style="padding-left: 5px; left: 30px">{{user?.games?.highScore}}</div>
+        <mat-label class="position-absolute font-size-12 weight-400 bottom-0" style="padding-left: 5px;left: 30px">High
+          Score
+        </mat-label>
+      </div>
+    </div>
+  </div>
+  <div class="border-0 p-4 font-size-14 weight-600">
+    Latest Games
+  </div>
+
+  <div class="card-container">
+    <mat-card class="bordered-card shadow-none text-center">
+      <mat-card-header style="margin: 0 auto">
+        <mat-card-title class="font-size-14 weight-700">Environment</mat-card-title>
+        <mat-card-subtitle class="font-size-10 weight-500">2 Days Ago</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content class="p-0">
+        <mat-card class="shadow-none">
+          <mat-card-header class="pe-1 ps-1">
+            <img mat-card-avatar src="assets/images/frame.png"
+                 width="35" height="35">
+            <mat-card-title class="font-size-14 weight-500">Ladan Test</mat-card-title>
+            <mat-card-subtitle>
+              <span class="font-size-14 weight-700">1 </span><span class="font-size-14 weight-500"> Rank</span>
+              <span class="font-size-14 weight-700">1 </span><span class="font-size-14 weight-500"> Score</span>
+            </mat-card-subtitle>
+          </mat-card-header>
+        </mat-card>
+      </mat-card-content>
+      <mat-divider></mat-divider>
+      <div class="font-size-14 weight-500 p-2 text-end">Servival</div>
+      <mat-card-actions>
+        <button mat-raised-button class="game-button">{{'Game Detail' | translate}}
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+</div>
+

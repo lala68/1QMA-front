@@ -1,0 +1,43 @@
+.card-games {
+  background: #F9F7F7;
+  border-radius: 6px;
+  border: 1px solid #E8E2E0;
+  display: inline-flex;
+  width: 175px;
+  padding: 5px;
+  margin: 5px;
+}
+
+
+.card-games-small {
+  background: #F9F7F7;
+  border-radius: 6px;
+  border: 1px solid #E8E2E0;
+  display: inline-flex;
+  width: 115px;
+  padding: 5px;
+  margin: 5px;
+}
+
+.card-container {
+  display: flex;
+  justify-content: space-around;
+  margin: 20px;
+}
+
+.bordered-card {
+  max-width: 250px;
+  min-width: 250px;
+  margin: 20px;
+  border: 1px solid #BFAEAA;
+  border-radius: 10px;
+  padding: 1.5rem;
+}
+
+.game-button {
+  background: #0B6FEA;
+  width: 100%;
+  color: white;
+}
+
+

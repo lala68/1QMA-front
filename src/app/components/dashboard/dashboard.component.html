@@ -1,9 +1,12 @@
 <br>
 <br>
-
-<div class="card border-0 p-4" *ngIf="generalService?.userObj">
+<div style="display: ruby-text;">
+  <mat-spinner *ngIf="loading" [diameter]="30"></mat-spinner>
+</div>
+<div class="card border-0 p-4" *ngIf="!loading">
   <div class="d-inline-flex">
-    <img src="assets/images/profile.png" width="35" height="35">
+    <img src="assets/images/profile.png"
+         width="35" height="35">
     <div class="font-size-16 weight-800 pt-2">&nbsp;{{'Account Overview' | translate}}</div>
   </div>
   <div class="w-100 d-flex">
@@ -11,7 +14,10 @@
       <mat-card class="shadow-none">
         <img src="assets/images/edit-2.svg" width="16" class="edit-img" [routerLink]="'/account-info'">
         <mat-card-header class="pe-1 ps-1 border-bottom">
-          <div mat-card-avatar class="avatar-header-image-profile-dashboard"></div>
+          <!--          <div mat-card-avatar class="avatar-header-image-profile-dashboard"></div>-->
+          <img mat-card-avatar
+               [src]="generalService?.userObj?.profilePicture ? configService.url(generalService?.userObj?.profilePicture) : 'assets/images/frame.png'"
+               width="35" height="35">
           <mat-card-title
             class="card-title-profile-dashboard mt-2">{{generalService?.userObj?.firstName + ' ' + generalService?.userObj?.lastName }}</mat-card-title>
           <mat-card-subtitle class="card-subtitle-profile-dashboard mt-3">
@@ -20,7 +26,9 @@
         </mat-card-header>
         <mat-card-header class="pe-1 ps-1 border-bottom position-relative">
           <mat-card-title class="card-title-profile-dashboard mb-3" style="width: 120px">Account:</mat-card-title>
-          <img src="assets/images/base.png" width="38" height="38">
+          <img
+            [src]="generalService?.userObj?.accountType?.icon ? generalService?.userObj?.accountType?.icon : 'assets/images/base.png'"
+            width="38" height="38">
           <mat-label class="card-subtitle-profile-dashboard font-size-13 weight-500 text-light-color">
             &nbsp;{{generalService?.userObj?.accountType?.name}} - {{generalService?.userObj?.accountType?.expireDays}}
             Days Left
@@ -31,7 +39,9 @@
         <mat-card-header class="pe-1 ps-1">
           <mat-card-title class="card-title-profile-dashboard mb-3" style="width: 120px">Referred By:</mat-card-title>
           <img src="assets/images/avatar-09.png" width="28" height="28">
-          <mat-label class="card-subtitle-profile-dashboard text-light-color mt-2 font-size-13 weight-500">
+          <mat-label
+            class="card-subtitle-profile-dashboard text-light-color mt-2 font-size-13 weight-500 cursor-pointer"
+            (click)="gotoUserDetail(generalService?.userObj?.referer?._id)">
             &nbsp;{{generalService?.userObj?.referer?.firstName + ' ' + generalService?.userObj?.referer?.lastName}}
           </mat-label>
         </mat-card-header>
@@ -52,6 +62,7 @@
           <mat-progress-bar
             style="width: 320px; border-radius: 10px; display: inline-table; position: absolute; bottom: 0; left: 40px"
             color="primary"
+            [value]="generalService?.userObj?.statistics?.level" [bufferValue]="generalService?.userObj?.statistics?.xpNeededForNextLevel"
             mode="determinate"></mat-progress-bar>
         </div>
         <div>
@@ -76,28 +87,32 @@
             <img src="assets/images/cup.svg" width="24">
             <div class="font-size-14 weight-700 position-absolute top-0"
                  style="padding-left: 5px; left: 30px">{{generalService?.userObj?.games?.won}}</div>
-            <mat-label class="position-absolute font-size-12 weight-400 bottom-0" style="padding-left: 5px;left: 30px">Win
+            <mat-label class="position-absolute font-size-12 weight-400 bottom-0" style="padding-left: 5px;left: 30px">
+              Win
             </mat-label>
           </div>
           <div class="card-games-small position-relative">
             <img src="assets/images/message-edit.svg" width="24">
             <div class="font-size-14 weight-700 position-absolute top-0"
                  style="padding-left: 5px; left: 30px">{{generalService?.userObj?.games?.created}}</div>
-            <mat-label class="position-absolute font-size-12 weight-400 bottom-0" style="padding-left: 5px;left: 30px">Created
+            <mat-label class="position-absolute font-size-12 weight-400 bottom-0" style="padding-left: 5px;left: 30px">
+              Created
             </mat-label>
           </div>
           <div class="card-games-small position-relative">
             <img src="assets/images/game.svg" width="24">
             <div class="font-size-14 weight-700 position-absolute top-0"
                  style="padding-left: 5px; left: 30px">{{generalService?.userObj?.games?.played}}</div>
-            <mat-label class="position-absolute font-size-12 weight-400 bottom-0"  style="padding-left: 5px;left: 30px">Play
+            <mat-label class="position-absolute font-size-12 weight-400 bottom-0" style="padding-left: 5px;left: 30px">
+              Play
             </mat-label>
           </div>
           <div class="card-games-small position-relative">
             <img src="assets/images/ranking.svg" width="24">
             <div class="font-size-14 weight-700 position-absolute top-0"
                  style="padding-left: 5px; left: 30px">{{generalService?.userObj?.games?.highScore}}</div>
-            <mat-label class="position-absolute font-size-12 weight-400 bottom-0"  style="padding-left: 5px;left: 30px">High Score
+            <mat-label class="position-absolute font-size-12 weight-400 bottom-0" style="padding-left: 5px;left: 30px">
+              High Score
             </mat-label>
           </div>
         </div>
@@ -116,5 +131,42 @@
       </mat-card>
     </div>
   </div>
+</div>
+<br>
+<div class="card w-50 border-0 p-4" *ngIf="!loading">
+  <div class="d-inline-flex">
+    <img src="assets/images/invite.png"
+         width="32" height="32">
+    <div class="font-size-16 weight-800 pt-2">&nbsp;{{'Invite Friends' | translate}}</div>
+  </div>
+  <br>
+  <div class="d-inline-flex w-100">
+    <form [formGroup]="inviteForm" class="w-100" (ngSubmit)="onSubmit()" autocomplete="off">
+      <input matInput class="invite-input ps-2" placeholder="{{'Enter your email' | translate}}" type="email"
+             [formControlName]="'email'">
 
+      <button mat-raised-button color="warn" type="submit" [disabled]="!inviteForm.valid || loadingInvite"
+              class="w-25 p-4s ms-2 blue-button">
+        <span>{{'Invite' | translate}}</span>
+      </button>
+    </form>
+  </div>
+  <br>
+  <div class="d-inline w-100 copy-referrer cursor-pointer" [cdkCopyToClipboard]="generalService?.userObj?.referCode">
+    <div class="d-inline text-start">Referral Code</div>
+    <div class="d-inline text-end float-end">
+      {{generalService?.userObj?.referCode}} <i class="bi bi-copy"></i></div>
+  </div>
+  <br>
+  <div class="font-size-14 weight-600 pt-2">&nbsp;{{'Invited Friends' | translate}}</div>
+
+  <mat-list>
+    <mat-list-item *ngFor="let invite of generalService?.userObj?.invitations">
+      <div matListItemIcon style="background: #D9D9D9; border-radius: 50px; width: 40px; height: 40px; margin: 20px">
+        <img src="assets/images/frame.png" width="35" style="padding-left: 5px">
+      </div>
+      <div matListItemTitle>{{invite?.email}}</div>
+      <div matListItemLine>{{invite?.status}}</div>
+    </mat-list-item>
+  </mat-list>
 </div>

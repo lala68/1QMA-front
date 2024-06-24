@@ -14,6 +14,8 @@ export class GeneralService implements OnInit {
   userObj: any;
   clientInit: any;
   cities: any;
+  token: any;
+  currentRout: any;
 
   constructor(private http: HttpClient) {
   }
@@ -30,6 +32,11 @@ export class GeneralService implements OnInit {
   }
 
   async getUserData(): Promise<any> {
+    let token = await Preferences.get({key: 'accessToken'});
+    if (token.value != null) {
+      console.log(token.value);
+      this.token = token.value;
+    }
     let b = await Preferences.get({key: 'account'});
     if (b.value != null) {
       console.log(JSON.parse(b.value));
@@ -66,17 +73,17 @@ export class GeneralService implements OnInit {
     return response;
   }
 
-  async getCities(country: any): Promise<any> {
+  async getCities(code: any): Promise<any> {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json'
     })
-    return this.http.post<any>('https://countriesnow.space/api/v0.1/countries/cities', {country: country}, {headers: headers})
+    return this.http.post<any>('https://countriesnow.space/api/v0.1/countries/cities', {iso2: code}, {headers: headers})
       .toPromise();
   }
 
-  async getCitiesBasedOnCountry(country: any) {
+  async getCitiesBasedOnCountry(code: any) {
     this.cities = [];
-    this.getCities(country).then(data => {
+    this.getCities(code).then(data => {
       this.cities = data?.data;
     })
   }

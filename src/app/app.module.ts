@@ -13,6 +13,7 @@ import {RouterModule} from "@angular/router";
 import {ClipboardModule} from "@angular/cdk/clipboard";
 import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
+import {MatDialogModule} from "@angular/material/dialog";
 
 export const httpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(http, './assets/i18n/', '.json');
 
@@ -28,6 +29,7 @@ export const httpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(h
     BrowserAnimationsModule,
     FormsModule,
     CommonModule,
+    MatDialogModule,
     ReactiveFormsModule,
     MaterialModule,
     RouterModule,

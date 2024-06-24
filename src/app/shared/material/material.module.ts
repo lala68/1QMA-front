@@ -35,6 +35,7 @@ import {MatTabsModule} from "@angular/material/tabs";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {NgxMatSelectSearchModule} from "ngx-mat-select-search";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
+import {MatDividerModule} from "@angular/material/divider";
 
 @NgModule({
   exports: [
@@ -71,7 +72,8 @@ import {MatProgressBarModule} from "@angular/material/progress-bar";
     MatSortModule,
     MatTabsModule,
     MatAutocompleteModule,
-    NgxMatSelectSearchModule
+    NgxMatSelectSearchModule,
+    MatDividerModule
   ],
 })
 export class MaterialModule {

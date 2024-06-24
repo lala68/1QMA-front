@@ -1,5 +1,5 @@
 <mat-toolbar class="header">
-  <img src="assets/images/logo.png" width="57">
+  <img src="assets/images/logo.png" class="cursor-pointer" width="57" [routerLink]="'/dashboard'">
   <span class="example-spacer"></span>
   <button mat-icon-button *ngIf="generalService?.hasCompletedSignup" [routerLink]="'/settings'">
     <img src="assets/images/setting-2.svg" class="mb-3">
