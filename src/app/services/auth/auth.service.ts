@@ -222,7 +222,7 @@ export class AuthService {
       'Content-Type': 'application/json',
       // 'Access-Token': this.generalService.token
     })
-    return this.http.post<any>(this.config.url('auth/signout'), {id: this.generalService.userId}, {headers: headers})
+    return this.http.post<any>(this.config.url('auth/logout'), {id: this.generalService.userId}, {headers: headers})
       .toPromise();
   }
 
