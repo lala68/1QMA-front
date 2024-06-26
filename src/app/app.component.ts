@@ -24,13 +24,14 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.starter().then((data) => {
+    this.starter().then(async (data) => {
       this.route.queryParams.subscribe(async params => {
         console.log(params)
+        await this.generalService.getUserData();
         const provider_id = params['provider_id'];
         const email = params['email'];
         if (provider_id) {
-          await Preferences.set({key: 'account', value: JSON.stringify({provider_id: provider_id, email: email})});
+          await Preferences.set({key: 'provider', value: JSON.stringify({provider_id: provider_id, email: email})});
           this.authService.registerInit().then(async res => {
             if (res.status == 1) {
               this.generalService.initData = res.data;

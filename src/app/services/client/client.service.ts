@@ -32,7 +32,10 @@ export class ClientService {
       'Content-Type': 'application/json',
       'Access-Token': this.generalService.token
     })
-    return this.http.post<any>(this.config.url('client/profile/update'), {id: userId, ...data}, {headers: headers})
+    return this.http.post<any>(this.config.url('client/profile/update'), {id: userId, ...data}, {
+      headers: headers,
+      withCredentials: true
+    })
       .toPromise();
   }
 
@@ -41,7 +44,10 @@ export class ClientService {
       'Content-Type': 'application/json',
       'Access-Token': this.generalService.token
     })
-    return this.http.post<any>(this.config.url('client/settings/update'), {id: userId, ...data}, {headers: headers})
+    return this.http.post<any>(this.config.url('client/settings/update'), {id: userId, ...data}, {
+      headers: headers,
+      withCredentials: true
+    })
       .toPromise();
   }
 
@@ -50,7 +56,10 @@ export class ClientService {
       'Content-Type': 'application/json',
       'Access-Token': this.generalService.token
     })
-    return this.http.post<any>(this.config.url('client/invite'), {id: userId, email: data.email}, {headers: headers})
+    return this.http.post<any>(this.config.url('client/invite'), {id: userId, email: data.email}, {
+      headers: headers,
+      withCredentials: true
+    })
       .toPromise();
   }
 
@@ -63,7 +72,10 @@ export class ClientService {
     formData.append('id', this.generalService.userId);
     formData.append('avatar', data);
 
-    return this.http.post<any>(this.config.url('client/profilePicture/update'), formData, { headers: headers })
+    return this.http.post<any>(this.config.url('client/profilePicture/update'), formData, {
+      headers: headers,
+      withCredentials: true
+    })
       .toPromise();
   }
 
@@ -72,7 +84,10 @@ export class ClientService {
       'Content-Type': 'application/json',
       'Access-Token': this.generalService.token
     })
-    return this.http.post<any>(this.config.url('client/profilePicture/remove'), {id: this.generalService.userId}, {headers: headers})
+    return this.http.post<any>(this.config.url('client/profilePicture/remove'), {id: this.generalService.userId}, {
+      headers: headers,
+      withCredentials: true
+    })
       .toPromise();
   }
 
@@ -82,7 +97,8 @@ export class ClientService {
       'Access-Token': this.generalService.token
     })
     const response = this.http.get(this.config.url('client/' + id + '/details'), {
-      headers: headers
+      headers: headers,
+      withCredentials: true
     }).pipe(
       map((response: any) => response)
     ).toPromise();

@@ -96,7 +96,7 @@ export class WizardComponent implements OnInit {
       this.loadingAccountType = false;
       if (data.status == 1) {
         await Preferences.remove({key: 'account'});
-        await Preferences.set({key: 'account', value: JSON.stringify(data.data)});
+        await Preferences.set({key: 'account', value: JSON.stringify(data.data.user)});
         await this.generalService.getUserData();
         await this.stepper.next();
       } else {
@@ -112,7 +112,7 @@ export class WizardComponent implements OnInit {
       this.loadingLanguage = false;
       if (data.status == 1) {
         await Preferences.remove({key: 'account'});
-        await Preferences.set({key: 'account', value: JSON.stringify(data.data)});
+        await Preferences.set({key: 'account', value: JSON.stringify(data.data.user)});
         await this.generalService.getUserData();
         await this.stepper.next();
       } else {
@@ -157,7 +157,7 @@ export class WizardComponent implements OnInit {
       this.loading = false;
       if (data?.status == 1) {
         await Preferences.remove({key: 'account'});
-        await Preferences.set({key: 'account', value: JSON.stringify(data.data)});
+        await Preferences.set({key: 'account', value: JSON.stringify(data.data.user)});
         await this.generalService.getUserData();
         if (!this.generalService?.userObj?.emailVerified || !this.generalService?.userObj?.mobileVerified) {
           this.openDialogVerification('0', '0');
@@ -215,7 +215,7 @@ export class WizardComponent implements OnInit {
       this.loading = false;
       if (data.status == 1) {
         await Preferences.remove({key: 'account'});
-        await Preferences.set({key: 'account', value: JSON.stringify(data.data)});
+        await Preferences.set({key: 'account', value: JSON.stringify(data.data.user)});
         await this.generalService.getUserData();
         await this.stepper.next();
       } else {

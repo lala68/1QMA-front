@@ -16,6 +16,7 @@ export class GeneralService implements OnInit {
   cities: any;
   token: any;
   currentRout: any;
+  providerId: any;
 
   constructor(private http: HttpClient) {
   }
@@ -34,14 +35,20 @@ export class GeneralService implements OnInit {
   async getUserData(): Promise<any> {
     let token = await Preferences.get({key: 'accessToken'});
     if (token.value != null) {
-      console.log(token.value);
       this.token = token.value;
     }
-    let b = await Preferences.get({key: 'account'});
-    if (b.value != null) {
-      console.log(JSON.parse(b.value));
-      this.userObj = JSON.parse(b.value);
+    let user = await Preferences.get({key: 'account'});
+    if (user.value != null) {
+      this.userObj = JSON.parse(user.value);
+      this.userId = this.userObj._id;
     }
+
+    let provider = await Preferences.get({key: 'provider'});
+    if (provider.value != null) {
+      const providerObj = JSON.parse(provider.value);
+      this.providerId = providerObj.provider_id;
+    }
+
   }
 
   getKeys(obj: any): Array<string> {

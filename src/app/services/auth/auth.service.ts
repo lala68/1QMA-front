@@ -20,15 +20,21 @@ export class AuthService {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json'
     })
-    return this.http.post<any>(this.config.url('auth/loginWithEmail'), data, {headers: headers})
+    return this.http.post<any>(this.config.url('auth/loginWithEmail'), data, {
+      headers: headers,
+      withCredentials: true
+    })
       .toPromise();
   }
 
   async signupWithReferral(data: any): Promise<any> {
     let headers = new HttpHeaders({
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     })
-    return this.http.post<any>(this.config.url('auth/registerWithReferal'), data, {headers: headers})
+    return this.http.post<any>(this.config.url('auth/registerWithReferal'), data, {
+      headers: headers,
+      withCredentials: true
+    })
       .toPromise();
   }
 
@@ -36,7 +42,10 @@ export class AuthService {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json'
     })
-    return this.http.post<any>(this.config.url('auth/joinToWaitListWithEmailAndMobile'), data, {headers: headers})
+    return this.http.post<any>(this.config.url('auth/joinToWaitListWithEmailAndMobile'), data, {
+      headers: headers,
+      withCredentials: true
+    })
       .toPromise();
   }
 
@@ -44,7 +53,10 @@ export class AuthService {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json'
     })
-    return this.http.post<any>(this.config.url('auth/joinToWaitListWithMobile'), data, {headers: headers})
+    return this.http.post<any>(this.config.url('auth/joinToWaitListWithMobile'), data, {
+      headers: headers,
+      withCredentials: true
+    })
       .toPromise();
   }
 
@@ -55,7 +67,10 @@ export class AuthService {
     return this.http.post<any>(this.config.url('auth/setEmail'), {
       id: this.generalService.userId,
       email: data
-    }, {headers: headers})
+    }, {
+      headers: headers,
+      withCredentials: true
+    })
       .toPromise();
   }
 
@@ -69,7 +84,10 @@ export class AuthService {
       verificationCode: data?.verificationCode,
       password: data?.password,
       passwordConfirmation: data?.passwordConfirmation
-    }, {headers: headers})
+    }, {
+      headers: headers,
+      withCredentials: true
+    })
       .toPromise();
   }
 
@@ -77,7 +95,10 @@ export class AuthService {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json'
     })
-    return this.http.post<any>(this.config.url('auth/verify/email'), data, {headers: headers})
+    return this.http.post<any>(this.config.url('auth/verify/email'), data, {
+      headers: headers,
+      withCredentials: true
+    })
       .toPromise();
   }
 
@@ -85,7 +106,10 @@ export class AuthService {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json'
     })
-    return this.http.post<any>(this.config.url('auth/verify/mobile'), data, {headers: headers})
+    return this.http.post<any>(this.config.url('auth/verify/mobile'), data, {
+      headers: headers,
+      withCredentials: true
+    })
       .toPromise();
   }
 
@@ -93,7 +117,10 @@ export class AuthService {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json'
     })
-    return this.http.post<any>(this.config.url('auth/forgotPassword/mobile'), {mobile: data}, {headers: headers})
+    return this.http.post<any>(this.config.url('auth/forgotPassword/mobile'), {mobile: data}, {
+      headers: headers,
+      withCredentials: true
+    })
       .toPromise();
   }
 
@@ -101,7 +128,10 @@ export class AuthService {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json'
     })
-    return this.http.post<any>(this.config.url('auth/forgotPassword/email'), {email: data}, {headers: headers})
+    return this.http.post<any>(this.config.url('auth/forgotPassword/email'), {email: data}, {
+      headers: headers,
+      withCredentials: true
+    })
       .toPromise();
   }
 
@@ -112,7 +142,10 @@ export class AuthService {
     return this.http.post<any>(this.config.url('auth/updatePassword/mobile'), {
       ...data,
       mobile: mobile
-    }, {headers: headers})
+    }, {
+      headers: headers,
+      withCredentials: true
+    })
       .toPromise();
   }
 
@@ -123,7 +156,10 @@ export class AuthService {
     return this.http.post<any>(this.config.url('auth/updatePassword/email'), {
       ...data,
       email: email
-    }, {headers: headers})
+    }, {
+      headers: headers,
+      withCredentials: true
+    })
       .toPromise();
   }
 
@@ -131,7 +167,10 @@ export class AuthService {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json'
     })
-    return this.http.post<any>(this.config.url('auth/email/resend'), data, {headers: headers})
+    return this.http.post<any>(this.config.url('auth/email/resend'), data, {
+      headers: headers,
+      withCredentials: true
+    })
       .toPromise();
   }
 
@@ -139,7 +178,10 @@ export class AuthService {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json'
     })
-    return this.http.post<any>(this.config.url('auth/mobile/resend'), data, {headers: headers})
+    return this.http.post<any>(this.config.url('auth/mobile/resend'), data, {
+      headers: headers,
+      withCredentials: true
+    })
       .toPromise();
   }
 
@@ -147,7 +189,10 @@ export class AuthService {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json'
     })
-    return this.http.post<any>(this.config.url('auth/updateProfile'), {id: userId, ...data}, {headers: headers})
+    return this.http.post<any>(this.config.url('auth/updateProfile'), {id: userId, ...data}, {
+      headers: headers,
+      withCredentials: true
+    })
       .toPromise();
   }
 
@@ -156,7 +201,8 @@ export class AuthService {
       'Content-Type': 'application/json'
     })
     const response = this.http.get(this.config.url('auth/register/init'), {
-      headers: headers
+      headers: headers,
+      withCredentials: true
     }).pipe(
       map((response: any) => response)
     ).toPromise();
@@ -170,7 +216,10 @@ export class AuthService {
     return this.http.post<any>(this.config.url('auth/updateCategoryPreferences'), {
       id: this.generalService.userId,
       categories: data
-    }, {headers: headers})
+    }, {
+      headers: headers,
+      withCredentials: true
+    })
       .toPromise();
   }
 
@@ -181,18 +230,26 @@ export class AuthService {
     return this.http.post<any>(this.config.url('auth/updateAccountType'), {
       id: this.generalService.userId,
       accountType: data
-    }, {headers: headers})
+    }, {
+      headers: headers,
+      withCredentials: true
+    })
       .toPromise();
   }
 
   async updateLanguage(data: any): Promise<any> {
     let headers = new HttpHeaders({
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Access-Token': this.generalService.token
     })
     return this.http.post<any>(this.config.url('auth/updateLanguagePreference'), {
       id: this.generalService.userId,
-      language: data
-    }, {headers: headers})
+      language: data,
+      providerId: this.generalService.providerId
+    }, {
+      headers: headers,
+      withCredentials: true
+    })
       .toPromise();
   }
 
@@ -202,17 +259,8 @@ export class AuthService {
     if (user.value != null) {
       const userObj = JSON.parse(user.value);
       this.isLoggedIn = true;
-      console.log(userObj)
-      if (userObj?._id) {
-        this.generalService.userId = userObj._id;
-      } else {
-        this.generalService.userId = '66';
-      }
-      if (userObj.hasCompletedSignup) {
-        this.generalService.hasCompletedSignup = userObj.hasCompletedSignup;
-      } else {
-        this.generalService.hasCompletedSignup = false;
-      }
+      this.generalService.userId = userObj._id;
+      this.generalService.hasCompletedSignup = userObj.hasCompletedSignup;
     }
     return !!user.value;
   }
@@ -220,9 +268,12 @@ export class AuthService {
   async signout(): Promise<any> {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      // 'Access-Token': this.generalService.token
+      'Access-Token': this.generalService.token
     })
-    return this.http.post<any>(this.config.url('auth/logout'), {id: this.generalService.userId}, {headers: headers})
+    return this.http.post<any>(this.config.url('auth/logout'), {id: this.generalService.userId}, {
+      headers: headers,
+      withCredentials: true
+    })
       .toPromise();
   }
 
