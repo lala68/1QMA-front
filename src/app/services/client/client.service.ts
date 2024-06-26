@@ -19,7 +19,8 @@ export class ClientService {
       'Access-Token': this.generalService.token
     })
     const response = this.http.get(this.config.url('client/init'), {
-      headers: headers
+      headers: headers,
+      withCredentials: true
     }).pipe(
       map((response: any) => response)
     ).toPromise();
