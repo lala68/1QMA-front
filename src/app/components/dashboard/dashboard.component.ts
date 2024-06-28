@@ -31,7 +31,7 @@ export class DashboardComponent implements OnInit {
   constructor(private clientService: ClientService, private _formBuilder: FormBuilder,
               public generalService: GeneralService, public configService: ConfigService,
               private router: Router, public dialog: MatDialog,) {
-    this.generalService.currentRout = 'dashboard';
+    this.generalService.currentRout = '/dashboard';
   }
 
   async ngOnInit(): Promise<any> {

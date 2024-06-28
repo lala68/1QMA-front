@@ -39,7 +39,10 @@
     <div class="text-end link text-decoration-none mt-3 mb-3"
          [routerLink]="['/forget-password']">{{'Forgot Password' | translate}}</div>
     <div class="mediaAccounts radius">
-      <button class="social-button-div border-0" (click)="gotoDashboard()"><img src="assets/images/google.png" width="23"/></button>
+      <a [href]="config.url('/auth/google?reason=login')" class="social-button-div border-0"><img
+        src="assets/images/google.png"
+        style="margin-top: 6px"
+        width="23"/></a>
       <button class="social-button-div border-0" (click)="gotoDashboard()"><img src="assets/images/facebook.png" width="23"/></button>
       <button class="social-button-div border-0" (click)="gotoDashboard()"><img src="assets/images/apple.png" width="23"/></button>
       <button class="social-button-div border-0" (click)="gotoDashboard()"><img src="assets/images/x-media.png" width="23"/></button>

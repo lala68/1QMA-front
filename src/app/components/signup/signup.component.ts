@@ -11,6 +11,7 @@ import {AuthService} from "../../services/auth/auth.service";
 import {Preferences} from "@capacitor/preferences";
 import {CountdownTimerComponent} from "../countdown-timer/countdown-timer.component";
 import {GeneralService} from "../../services/general/general.service";
+import {ConfigService} from "../../services/config/config.service";
 
 @Component({
   selector: 'app-signup',
@@ -51,7 +52,7 @@ export class SignupComponent {
   phoneVerified: boolean = false;
 
   constructor(private _formBuilder: FormBuilder, private loader: LoaderService, private router: Router,
-              public authService: AuthService, private generalService: GeneralService) {
+              public authService: AuthService, private generalService: GeneralService, public config: ConfigService) {
     this.email = this.router.getCurrentNavigation()?.extras?.state?.['email'] ? this.router.getCurrentNavigation()?.extras?.state?.['email'] : '';
     if (this.email) {
       this.signUpWaitListForm.controls.email.setValue(this.email);

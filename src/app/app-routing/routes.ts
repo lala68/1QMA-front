@@ -11,15 +11,16 @@ import {SettingsComponent} from "../components/settings/settings.component";
 import {AccountInfoComponent} from "../components/account-info/account-info.component";
 import {SocialCallbackComponent} from "../components/social-callback/social-callback.component";
 import {UserDetailComponent} from "../components/user-detail/user-detail.component";
+import {AuthRedirectGuard} from "../auth-redirect.guard";
 
 export const routes: Routes = [
-  {path: 'login', component: LoginComponent},
-  {path: 'signup', component: SignupComponent},
-  {path: 'forget-password', component: ForgetPasswordComponent},
+  {path: 'login', component: LoginComponent, canActivate: [AuthRedirectGuard]},
+  {path: 'signup', component: SignupComponent, canActivate: [AuthRedirectGuard]},
+  {path: 'forget-password', component: ForgetPasswordComponent, canActivate: [AuthRedirectGuard]},
   {path: 'wizard', component: WizardComponent, canActivate: [authGuard]},
-  {path: 'dashboard', component: DashboardComponent},
-  {path: 'signup-social', component: SignupSocialComponent},
-  {path: 'signup-refer-email', component: SignupReferEmailComponent},
+  {path: 'dashboard', component: DashboardComponent, canActivate: [authGuard]},
+  {path: 'signup-social', component: SignupSocialComponent, canActivate: [AuthRedirectGuard]},
+  {path: 'signup-refer-email', component: SignupReferEmailComponent, canActivate: [AuthRedirectGuard]},
   {path: 'settings', component: SettingsComponent, canActivate: [authGuard]},
   {path: 'account-info', component: AccountInfoComponent, canActivate: [authGuard]},
   {path: 'user-detail', component: UserDetailComponent, canActivate: [authGuard]},

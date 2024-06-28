@@ -12,6 +12,7 @@ import {GeneralService} from "../../services/general/general.service";
 import {MatStepper} from "@angular/material/stepper";
 import {CountdownTimerComponent} from "../countdown-timer/countdown-timer.component";
 import {ClientService} from "../../services/client/client.service";
+import {ConfigService} from "../../services/config/config.service";
 
 @Component({
   selector: 'app-login',
@@ -32,7 +33,8 @@ export class LoginComponent {
   hide = true;
 
   constructor(private _formBuilder: FormBuilder, private loader: LoaderService, private clientService: ClientService,
-              public authService: AuthService, private router: Router, private generalService: GeneralService) {
+              public authService: AuthService, private router: Router, private generalService: GeneralService,
+              public config: ConfigService) {
   }
 
   onSubmit() {
@@ -56,8 +58,8 @@ export class LoginComponent {
           await this.router.navigate(['/dashboard']);
           this.clientService.clientInit().then(res => {
             if (res.status == 1) {
-              this.generalService.initData = res.data;
-              this.generalService.currentRout = 'dashboard';
+              this.generalService.clientInit = res.data;
+              this.generalService.currentRout = '/dashboard';
             }
           })
         }
@@ -70,7 +72,7 @@ export class LoginComponent {
 
   async gotoDashboard() {
     // await this.router.navigate(['signup'], {state: {email: 'test@test.com'}});
-    this.generalService.currentRout = 'dashboard';
+    this.generalService.currentRout = '/dashboard';
     await this.router.navigate(['/dashboard']);
   }
 

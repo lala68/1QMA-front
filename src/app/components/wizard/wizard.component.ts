@@ -56,7 +56,6 @@ export class WizardComponent implements OnInit {
     if (this.generalService?.userObj?.preferedCategories) {
       this.selectedType = this.generalService?.userObj?.accountType;
       this.selectedCategory = this.generalService?.userObj?.preferedCategories;
-      console.log(this.selectedCategory)
     }
   }
 

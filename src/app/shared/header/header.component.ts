@@ -1,18 +1,26 @@
-import {Component} from '@angular/core';
+import {Component, Inject} from '@angular/core';
 import {GeneralService} from "../../services/general/general.service";
 import {AuthService} from "../../services/auth/auth.service";
 import {Preferences} from "@capacitor/preferences";
 import {Router} from "@angular/router";
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {MaterialModule} from "../material/material.module";
+import {SharedModule} from "../shared.module";
+import {FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
+import {TranslateModule} from "@ngx-translate/core";
+import {CommonModule} from "@angular/common";
+import {ClientService} from "../../services/client/client.service";
+import {DialogContentComponent} from "../../components/dialog-content/dialog-content.component";
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrl: './header.component.scss'
+  styleUrl: './header.component.scss',
 })
 export class HeaderComponent {
 
   constructor(public generalService: GeneralService, public authService: AuthService,
-              private router: Router) {
+              private router: Router, public dialog: MatDialog) {
   }
 
   async logout() {
@@ -21,10 +29,87 @@ export class HeaderComponent {
         await Preferences.clear();
         this.authService.isLoggedIn = false;
         this.generalService.userId = '';
+        this.generalService.providerId = '';
         this.generalService.userObj = '';
         this.generalService.hasCompletedSignup = false;
         await this.router.navigate(['/login']);
       }
     })
   }
+
+  async openAddQuestion() {
+    const dialogRef = this.dialog.open(AddQuestion, {
+      width: '700px'
+    });
+    dialogRef.afterClosed().subscribe(async result => {
+      if (result == 'success') {
+      }
+    });
+  }
 }
+
+
+@Component({
+  selector: 'add-question',
+  templateUrl: 'add-question.html',
+  // standalone: true,
+  // imports: [MaterialModule, CommonModule, FormsModule, ReactiveFormsModule, SharedModule, TranslateModule],
+})
+
+export class AddQuestion {
+  questionForm = this._formBuilder.group({
+    question: new FormControl('', [Validators.required]),
+    answer: new FormControl('', [Validators.required]),
+  });
+  wordCount: number = 100;
+  wordCountAnswer: number = 100;
+  selectedCategory: any = [];
+  error: any = '';
+  displayAnswer: boolean = false;
+
+  constructor(public dialogRef: MatDialogRef<AddQuestion>, private _formBuilder: FormBuilder,
+              @Inject(MAT_DIALOG_DATA) public data: any, private authService: AuthService,
+              public generalService: GeneralService, private clientService: ClientService,
+              public dialog: MatDialog,) {
+  }
+
+  updateWordCount() {
+    this.wordCount = this.questionForm.controls.question.value ? (100 - this.questionForm.controls.question.value.trim().split(/\s+/).length) : 100;
+  }
+
+  updateWordCountAnswer() {
+    this.wordCountAnswer = this.questionForm.controls.answer.value ? (100 - this.questionForm.controls.answer.value.trim().split(/\s+/).length) : 100;
+  }
+
+  isSelected(item: any): boolean {
+    return this.selectedCategory.some((category: any) => category._id === item._id);
+  }
+
+  selectCat(item: any) {
+    const index = this.selectedCategory.findIndex((data: any) => data._id === item._id);
+    console.log(index)
+    if (index !== -1) {
+      // Remove the item from the array
+      this.selectedCategory.splice(index, 1);
+    } else {
+      this.selectedCategory.push(item);
+    }
+  }
+
+  async submit() {
+    this.error = '';
+    this.clientService.addQuestion(this.questionForm.value, this.selectedCategory).then(data => {
+      if (data.status == 1) {
+        this.dialogRef.close();
+      } else {
+        this.error = data?.message;
+      }
+    })
+  }
+
+  async closeModal() {
+    this.dialogRef.close();
+  }
+}
+
+

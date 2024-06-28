@@ -6,6 +6,7 @@ import {GeneralService} from "./services/general/general.service";
 import {AuthService} from "./services/auth/auth.service";
 import {ClientService} from "./services/client/client.service";
 import {Preferences} from "@capacitor/preferences";
+import {Location} from "@angular/common";
 
 register();
 
@@ -19,7 +20,7 @@ export class AppComponent implements OnInit {
 
   constructor(private router: Router, private translateService: TranslateService,
               private generalService: GeneralService, private authService: AuthService,
-              private clientService: ClientService, private route: ActivatedRoute,) {
+              private clientService: ClientService, private route: ActivatedRoute,  private location: Location) {
     this.translateService.setDefaultLang('en');
   }
 
@@ -52,8 +53,11 @@ export class AppComponent implements OnInit {
             this.clientService.clientInit().then(data => {
               this.generalService.clientInit = data.data;
             });
-            this.generalService.currentRout = 'dashboard';
-            this.router.navigate(['/dashboard']);
+            this.router.navigate([(this.router.url === ('/login') || this.router.url === ('/signup') || this.router.url === ('/forget-password')
+              || this.router.url === ('/wizard') || this.router.url === ('/signup-social') || this.router.url === ('/signup-refer-email')
+              || this.router.url === ('/social/callback')) ? '/dashboard' : this.location.path()]);
+            this.generalService.currentRout = this.router.url;
+            // this.router.navigate(['/dashboard']);
           } else {
             this.authService.registerInit().then(res => {
               if (res.status == 1) {

@@ -1,0 +1,58 @@
+<div class="font-size-14 weight-700 p-2 border-bottom"><img src="assets/images/add.svg" (click)="closeModal()"
+                                                            width="24">&nbsp;{{'Add question and answer' | translate}}
+</div>
+<div mat-dialog-content>
+  <form #f="ngForm" [formGroup]="questionForm" autocomplete="off">
+    <div class="d-flex">
+      <img src="assets/images/message-question.svg" width="24">
+      &nbsp;<div class="font-size-14 weight-600">Question:</div>
+    </div>
+    <div class="textarea-container">
+      <textarea [formControlName]="'question'" (ngModelChange)="updateWordCount()"></textarea>
+      <div class="word-counter">{{ wordCount }} Words</div>
+    </div>
+
+    <div class="link-text text-start mb-3 d-inline-flex cursor-pointer" *ngIf="!displayAnswer" (click)="displayAnswer = !displayAnswer">
+      <i class="bi bi-plus"></i>
+      <div class="font-size-14 weight-600">Add Answer</div>
+    </div>
+
+    <div *ngIf="displayAnswer">
+      <div class="d-flex">
+        <img src="assets/images/clipboard-text.svg" width="24">
+        &nbsp;<div class="font-size-14 weight-600">Answer:</div>
+      </div>
+      <div class="textarea-container">
+        <textarea [formControlName]="'answer'" (ngModelChange)="updateWordCountAnswer()"></textarea>
+        <div class="word-counter">{{ wordCountAnswer }} Words</div>
+      </div>
+    </div>
+
+
+    <div class="d-flex">
+      &nbsp;<div class="font-size-14 weight-600">Select Category:</div>
+    </div>
+    <mat-card *ngFor="let cat of generalService?.clientInit?.categories"
+              class="m-1 d-inline-block cursor-pointer"
+              (click)="selectCat(cat)"
+              [class]="{'mat-card-pref-selected': isSelected(cat), 'mat-card-pref': !isSelected(cat)}">
+      <mat-card-content class="text-start">
+        <img [src]="'https://api.staging.1qma.games/' + cat?.icon" width="35">
+        <mat-label>{{ cat.name }}</mat-label>
+      </mat-card-content>
+    </mat-card>
+  </form>
+  <div class="mt-4 text-center">
+    <div role="alert" style="color: #ff5722; margin: 10px 0">
+      {{error}}
+    </div>
+    <button mat-raised-button color="warn" type="submit"
+            class="w-75 p-4" style="margin: 0 auto" (click)="submit()">
+      <span>{{'Add' | translate}}</span>
+    </button>
+  </div>
+</div>
+
+<!--<div mat-dialog-actions class="m-2">-->
+<!-- -->
+<!--</div>-->

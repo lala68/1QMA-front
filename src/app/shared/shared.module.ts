@@ -3,18 +3,20 @@ import { CommonModule } from '@angular/common';
 import {MaterialModule} from "./material/material.module";
 import {RouterModule} from "@angular/router";
 import {SidenavComponent} from "./sidenav/sidenav.component";
-import {HeaderComponent} from "./header/header.component";
+import {AddQuestion, HeaderComponent} from "./header/header.component";
 import {FooterComponent} from "./footer/footer.component";
+import {TranslateModule} from "@ngx-translate/core";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
-    SidenavComponent, HeaderComponent, FooterComponent
+    SidenavComponent, HeaderComponent, FooterComponent, AddQuestion
   ],
     imports: [
-        CommonModule, MaterialModule, RouterModule
+        CommonModule, MaterialModule, RouterModule,TranslateModule, FormsModule, ReactiveFormsModule
     ],
   exports: [
-    MaterialModule, SidenavComponent, HeaderComponent, FooterComponent
+    MaterialModule, SidenavComponent, HeaderComponent, FooterComponent,
   ],
   providers: []
 })

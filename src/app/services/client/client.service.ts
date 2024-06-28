@@ -91,10 +91,25 @@ export class ClientService {
       .toPromise();
   }
 
-  async getUserById(id: any): Promise<any> {
+  async addQuestion(data: any, category: any): Promise<any> {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Access-Token': this.generalService.token
+    })
+    return this.http.post<any>(this.config.url('client/questions/add'), {
+      id: this.generalService.userId,
+      ...data, category: category
+    }, {
+      headers: headers,
+      withCredentials: true
+    })
+      .toPromise();
+  }
+
+  async getUserById(id: any): Promise<any> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Access-Token': this.generalService?.token
     })
     const response = this.http.get(this.config.url('client/' + id + '/details'), {
       headers: headers,
