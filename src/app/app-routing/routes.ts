@@ -12,6 +12,7 @@ import {AccountInfoComponent} from "../components/account-info/account-info.comp
 import {SocialCallbackComponent} from "../components/social-callback/social-callback.component";
 import {UserDetailComponent} from "../components/user-detail/user-detail.component";
 import {AuthRedirectGuard} from "../auth-redirect.guard";
+import {GamesComponent} from "../components/games/games.component";
 
 export const routes: Routes = [
   {path: 'login', component: LoginComponent, canActivate: [AuthRedirectGuard]},
@@ -19,6 +20,7 @@ export const routes: Routes = [
   {path: 'forget-password', component: ForgetPasswordComponent, canActivate: [AuthRedirectGuard]},
   {path: 'wizard', component: WizardComponent, canActivate: [authGuard]},
   {path: 'dashboard', component: DashboardComponent, canActivate: [authGuard]},
+  {path: 'games', component: GamesComponent, canActivate: [authGuard]},
   {path: 'signup-social', component: SignupSocialComponent, canActivate: [AuthRedirectGuard]},
   {path: 'signup-refer-email', component: SignupReferEmailComponent, canActivate: [AuthRedirectGuard]},
   {path: 'settings', component: SettingsComponent, canActivate: [authGuard]},

@@ -240,7 +240,7 @@ export class AuthService {
   async updateLanguage(data: any): Promise<any> {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Access-Token': this.generalService.token
+      'Access-Token': this.generalService.token ? this.generalService.token : ''
     })
     return this.http.post<any>(this.config.url('auth/updateLanguagePreference'), {
       id: this.generalService.userId,

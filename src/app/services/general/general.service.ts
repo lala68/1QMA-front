@@ -40,6 +40,7 @@ export class GeneralService implements OnInit {
     let user = await Preferences.get({key: 'account'});
     if (user.value != null) {
       this.userObj = JSON.parse(user.value);
+      console.log(this.userObj)
       this.userId = this.userObj._id;
     }
 
