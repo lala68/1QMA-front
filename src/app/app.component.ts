@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
 
   constructor(private router: Router, private translateService: TranslateService,
               private generalService: GeneralService, private authService: AuthService,
-              private clientService: ClientService, private route: ActivatedRoute,  private location: Location) {
+              private clientService: ClientService, private route: ActivatedRoute, private location: Location) {
     this.translateService.setDefaultLang('en');
   }
 
@@ -31,6 +31,7 @@ export class AppComponent implements OnInit {
         await this.generalService.getUserData();
         const provider_id = params['provider_id'];
         const email = params['email'];
+        alert("provider_id: " + provider_id)
         if (provider_id) {
           await Preferences.set({key: 'provider', value: JSON.stringify({provider_id: provider_id, email: email})});
           this.authService.registerInit().then(async res => {
@@ -43,6 +44,7 @@ export class AppComponent implements OnInit {
           })
         } else {
           if (this.generalService.userId && !this.generalService.hasCompletedSignup) {
+            alert(1)
             this.authService.registerInit().then(res => {
               if (res.status == 1) {
                 this.generalService.initData = res.data;
@@ -50,6 +52,7 @@ export class AppComponent implements OnInit {
               }
             })
           } else if (this.generalService.userId && this.generalService.hasCompletedSignup) {
+            alert(2)
             this.clientService.clientInit().then(data => {
               this.generalService.clientInit = data.data;
             });
@@ -57,15 +60,22 @@ export class AppComponent implements OnInit {
               || this.router.url === ('/wizard') || this.router.url === ('/signup-social') || this.router.url === ('/signup-refer-email')
               || this.router.url === ('/social/callback')) ? '/dashboard' : this.location.path()]);
             this.generalService.currentRout = this.router.url;
-            // this.router.navigate(['/dashboard']);
-          } else {
+          } else if (!this.generalService.userId && this.generalService.providerId) {
+            alert(3)
+            this.authService.registerInit().then(res => {
+              if (res.status == 1) {
+                this.generalService.initData = res.data;
+                this.router.navigate(['/wizard']);
+              }
+            })
+          } else if (!this.generalService.userId && !this.generalService.providerId) {
+            alert(4)
             this.authService.registerInit().then(res => {
               if (res.status == 1) {
                 this.generalService.initData = res.data;
                 this.router.navigate(['login']);
               }
             })
-            // this.router.navigate(['wizard']);
           }
         }
       })
