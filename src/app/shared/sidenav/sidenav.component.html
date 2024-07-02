@@ -1,13 +1,14 @@
 <main class="bg-light">
   <app-header></app-header>
-  <mat-drawer-container style="height: 100vh">
-    <mat-drawer class="bg-transparent border-0" mode="side" opened *ngIf="generalService?.hasCompletedSignup">
+  <mat-drawer-container style="min-height: 100vh">
+    <mat-drawer class="bg-transparent border-0" mode="side" opened *ngIf="generalService?.hasCompletedSignup && !generalService?.startingGame">
+      <!--    <mat-drawer class="bg-transparent border-0" mode="side" opened s>-->
       <div class="dashboard-sidebar">
         <mat-card class="sidebar-user-detail" appearance="outlined">
           <mat-card-header class="pe-1 ps-1">
             <!--            <div mat-card-avatar class="avatar-header-image"></div>-->
             <img mat-card-avatar
-                 [src]="generalService?.userObj?.profilePicture ? configService.url(generalService?.userObj?.profilePicture) : 'assets/images/frame.png'"
+                 [src]="generalService?.userObj?.profilePicture ? generalService?.userObj?.profilePicture.startsWith('http') ? generalService?.userObj?.profilePicture : configService.url(generalService?.userObj?.profilePicture) : 'assets/images/frame.png'"
                  width="35" height="35">
             <mat-card-title>{{generalService?.userObj?.firstName + ' ' + generalService?.userObj?.lastName }}</mat-card-title>
             <mat-card-subtitle>
@@ -47,8 +48,10 @@
     <mat-drawer-content>
       <div class="border-0"
            [class]="{'dashboard-content' : generalService.hasCompletedSignup, '' : !generalService.hasCompletedSignup }">
+        <!--      <div class="border-0" [class]="{'dashboard-content' : !generalService.hasCompletedSignup, '' : !generalService.hasCompletedSignup }">-->
         <router-outlet id="top"></router-outlet>
       </div>
     </mat-drawer-content>
   </mat-drawer-container>
+  <app-footer *ngIf="!generalService?.startingGame"></app-footer>
 </main>

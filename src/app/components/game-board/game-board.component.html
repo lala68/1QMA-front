@@ -1,0 +1,36 @@
+<br>
+<br>
+<div style="display: ruby-text;">
+  <mat-spinner *ngIf="loading" [diameter]="30"></mat-spinner>
+</div>
+<div class="card border-0" *ngIf="!loading">
+  <mat-card class="shadow-none radius">
+    <mat-card-header
+      style="background: #E8E2E0; border: 1px solid #D7CDCA; border-top-left-radius: 6px; border-top-right-radius: 6px">
+      <img mat-card-avatar src="assets/images/live.png" width="63" height="63">
+      <mat-card-title class="font-size-16 weight-600">{{'Waiting Room' | translate}}</mat-card-title>
+      <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
+        {{'Possible description for title' | translate}}
+      </mat-card-subtitle>
+    </mat-card-header>
+    <div class="position-absolute top-0 bottom-0 end-10 mt-4">
+      <mat-chip mat-raised-button color="primary" class="chip-header-category">
+        <span class="font-size-12 weight-500">{{'Environment' | translate}}</span>
+      </mat-chip>
+      &nbsp; &nbsp;<mat-chip mat-raised-button color="primary" class="chip-header-type">
+      <span class="font-size-12 weight-500">{{'Survival' | translate}}</span>
+    </mat-chip>
+    </div>
+    <mat-card-content>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+    </mat-card-content>
+  </mat-card>
+</div>
+<br>
+<div style="height: 52px; margin: 0px auto 20px" class="card border-0 text-center font-size-14 weight-800 pt-3">
+  Waiting for 3 of 5 players to join the game...
+</div>

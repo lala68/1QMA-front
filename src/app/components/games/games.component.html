@@ -1,0 +1,305 @@
+<br>
+<br>
+<div style="display: ruby-text;">
+  <mat-spinner *ngIf="loading" [diameter]="30"></mat-spinner>
+</div>
+<div *ngIf="!loading">
+  <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+    <mat-tab label="Overview">
+      <div class="card border-0">
+        <div class="w-100 d-flex">
+          <mat-card class="shadow-none">
+            <mat-card-header>
+              <img mat-card-avatar src="assets/images/scoreboard.png" width="45" height="45">
+              <mat-card-title class="font-size-16 weight-600">{{'Scoreboard' | translate}}</mat-card-title>
+              <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
+                {{'See your performance in the latest games' | translate}}
+              </mat-card-subtitle>
+            </mat-card-header>
+          </mat-card>
+        </div>
+      </div>
+    </mat-tab>
+    <mat-tab label="Create New Game">
+      <div class="card border-0" *ngIf="createGameStep == 1">
+        <div class="w-100 d-flex">
+          <mat-card class="shadow-none">
+            <mat-card-header>
+              <img mat-card-avatar src="assets/images/Joystick.png" width="45" height="45">
+              <mat-card-title class="font-size-16 weight-600">{{'Create Game' | translate}}</mat-card-title>
+              <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
+                {{'Create the game based on your preferences' | translate}}
+              </mat-card-subtitle>
+            </mat-card-header>
+          </mat-card>
+        </div>
+        <mat-card class="shadow-none game-type-card">
+          <mat-card-header>
+            <img mat-card-avatar src="assets/images/full-control.png" width="45" height="45">
+            <mat-card-title class="font-size-16 weight-600">{{'I’m Ready' | translate}}</mat-card-title>
+            <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
+              {{'System choose: ' | translate}} <span class="font-size-14 weight-600">Topic + Players</span>
+            </mat-card-subtitle>
+          </mat-card-header>
+          <button mat-raised-button color="primary" class="next-step-game" (click)="gotoStepTwo(0)">
+            {{'Create Game' | translate}}
+            <i class="bi bi-arrow-right"></i>
+          </button>
+        </mat-card>
+        <mat-card class="shadow-none game-type-card">
+          <mat-card-header>
+            <img mat-card-avatar src="assets/images/Account-type.png" width="45" height="45">
+            <mat-card-title class="font-size-16 weight-600">{{'Topic By Me' | translate}}</mat-card-title>
+            <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
+              {{'I choose: ' | translate}} <span class="font-size-14 weight-600">Topic</span>
+              &nbsp;&nbsp; {{'System choose: ' | translate}} <span class="font-size-14 weight-600">Players</span>
+            </mat-card-subtitle>
+          </mat-card-header>
+          <button mat-raised-button color="primary" class="next-step-game" (click)="gotoStepTwo(1)">
+            {{'Create Game' | translate}}
+            <i class="bi bi-arrow-right"></i>
+          </button>
+        </mat-card>
+        <mat-card class="shadow-none game-type-card">
+          <mat-card-header>
+            <img mat-card-avatar src="assets/images/players.png" width="45" height="45">
+            <mat-card-title class="font-size-16 weight-600">{{'Players By Me' | translate}}</mat-card-title>
+            <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
+              {{'I choose: ' | translate}} <span class="font-size-14 weight-600">Players</span>
+              &nbsp;&nbsp; {{'System choose: ' | translate}} <span class="font-size-14 weight-600">Topic</span>
+            </mat-card-subtitle>
+          </mat-card-header>
+          <button mat-raised-button color="primary" class="next-step-game" (click)="gotoStepTwo(2)">
+            {{'Create Game' | translate}}
+            <i class="bi bi-arrow-right"></i>
+          </button>
+        </mat-card>
+        <mat-card class="shadow-none game-type-card">
+          <mat-card-header>
+            <img mat-card-avatar src="assets/images/players.png" width="36" height="36">
+            <img mat-card-avatar src="assets/images/Account-type.png" width="36" height="36">
+            <mat-card-title class="font-size-16 weight-600">{{'I’m In Full Control' | translate}}</mat-card-title>
+            <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
+              {{'I choose: ' | translate}} <span class="font-size-14 weight-600">Topic + Players</span>
+            </mat-card-subtitle>
+          </mat-card-header>
+          <button mat-raised-button color="primary" class="next-step-game" (click)="gotoStepTwo(3)">
+            {{'Create Game' | translate}}
+            <i class="bi bi-arrow-right"></i>
+          </button>
+        </mat-card>
+        <br>
+        <br>
+      </div>
+      <div class="card border-0" *ngIf="createGameStep == 2">
+        <div class="w-100 d-flex">
+          <mat-card class="shadow-none">
+            <mat-card-header *ngIf="selectedGameMode == 0">
+              <img src="assets/images/arrow-left.svg" width="24" height="24"
+                   (click)="createGameStep =1" style="position: absolute; left: 10px; top: 0; bottom: 0; margin: auto;">
+              <img mat-card-avatar src="assets/images/full-control.png" width="42" height="42" class="ms-4">
+              <mat-card-title class="font-size-16 weight-600">{{'I’m Ready' | translate}}</mat-card-title>
+              <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
+                {{'System choose: ' | translate}} <span class="font-size-14 weight-600">Topic + Players</span>
+              </mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-header *ngIf="selectedGameMode == 1">
+              <img src="assets/images/arrow-left.svg" width="24" height="24"
+                   (click)="createGameStep =1" style="position: absolute; left: 10px; top: 0; bottom: 0; margin: auto;">
+              <img mat-card-avatar src="assets/images/Account-type.png" width="42" height="42" class="ms-4">
+              <mat-card-title class="font-size-16 weight-600">{{'Topic By Me' | translate}}</mat-card-title>
+              <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
+                {{'I choose: ' | translate}} <span class="font-size-14 weight-600">Topic</span>
+                &nbsp;&nbsp; {{'System choose: ' | translate}} <span class="font-size-14 weight-600">Players</span>
+              </mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-header *ngIf="selectedGameMode == 2">
+              <img src="assets/images/arrow-left.svg" width="24" height="24"
+                   (click)="createGameStep =1" style="position: absolute; left: 10px; top: 0; bottom: 0; margin: auto;">
+              <img mat-card-avatar src="assets/images/players.png" width="42" height="42" class="ms-4">
+              <mat-card-title class="font-size-16 weight-600">{{'Players By Me' | translate}}</mat-card-title>
+              <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
+                {{'I choose: ' | translate}} <span class="font-size-14 weight-600">Players</span>
+                &nbsp;&nbsp; {{'System choose: ' | translate}} <span class="font-size-14 weight-600">Topic</span>
+              </mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-header *ngIf="selectedGameMode == 3">
+              <img src="assets/images/arrow-left.svg" width="24" height="24"
+                   (click)="createGameStep =1" style="position: absolute; left: 10px; top: 0; bottom: 0; margin: auto;">
+              <img mat-card-avatar class="ms-4" src="assets/images/players.png" width="36" height="36">
+              <img mat-card-avatar src="assets/images/Account-type.png" width="36" height="36">
+              <mat-card-title class="font-size-16 weight-600">{{'I’m In Full Control' | translate}}</mat-card-title>
+              <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
+                {{'I choose: ' | translate}} <span class="font-size-14 weight-600">Topic + Players</span>
+              </mat-card-subtitle>
+            </mat-card-header>
+          </mat-card>
+        </div>
+      </div>
+      <br>
+      <div class="card border-0" *ngIf="createGameStep == 2">
+        <div class="w-100 d-flex">
+          <mat-card class="shadow-none">
+            <mat-card-header class="m-3">
+              <mat-card-title class="font-size-16 weight-700">{{'Game Type' | translate}}</mat-card-title>
+              <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
+                {{'Choose game type' | translate}}
+              </mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <mat-card class="m-2 d-inline-block shadow-none"
+                        (click)="selectGameType('normal')"
+                        [class]="{'mat-card-game-type-selected': isSelectedGameType('normal'), 'mat-card-game-type': !isSelectedGameType('normal')}">
+                <mat-card-content class="text-start">
+                  <img src="assets/images/normal-game.png" width="35">
+                  <mat-label class="position-absolute font-size-14 weight-600" style="top: 10px; left: 60px">Normal
+                  </mat-label>
+                  <br>
+                  <mat-label class="font-size-14 weight-500 position-absolute"
+                             style="top: 30px; left: 60px; color: #585858">
+                    {{'Description about normal game' | translate}}
+                  </mat-label>
+                </mat-card-content>
+              </mat-card>
+              <mat-card class="m-2 d-inline-block shadow-none"
+                        (click)="selectGameType('survival')"
+                        [class]="{'mat-card-game-type-selected': isSelectedGameType('survival'), 'mat-card-game-type': !isSelectedGameType('survival')}">
+                <mat-card-content class="text-start">
+                  <img src="assets/images/survival-game.png" width="35">
+                  <mat-label class="font-size-14 weight-600 position-absolute" style="top: 10px; left: 60px">Survival
+                  </mat-label>
+                  <br>
+                  <mat-label class="font-size-14 weight-500 position-absolute"
+                             style="top: 30px; left: 60px;color: #585858">
+                    {{'Description about survival game' | translate}}
+                  </mat-label>
+                </mat-card-content>
+              </mat-card>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+      <br>
+      <!--      category-->
+      <div class="card border-0" *ngIf="createGameStep == 2 && (selectedGameMode == 1 || selectedGameMode ==3)">
+        <div class="w-100 d-flex">
+          <mat-card class="shadow-none">
+            <mat-card-header class="m-3">
+              <mat-card-title class="font-size-16 weight-700">{{'Game Category' | translate}}</mat-card-title>
+              <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
+                {{'Choose game category' | translate}}
+              </mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <mat-card *ngFor="let cat of generalService?.clientInit?.categories"
+                        class="m-2 d-inline-block shadow-none"
+                        (click)="selectCat(cat)"
+                        [class]="{'mat-card-pref-selected': isSelected(cat), 'mat-card-pref': !isSelected(cat)}">
+                <mat-card-content class="text-start">
+                  <img [src]="'https://api.staging.1qma.games/' + cat?.icon" width="35">
+                  <mat-label>{{ cat.name }}</mat-label>
+                </mat-card-content>
+              </mat-card>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+      <br>
+
+      <!--question and answer-->
+      <div class="card border-0" *ngIf="createGameStep == 2">
+        <div class="w-100 d-flex">
+          <mat-card class="shadow-none">
+            <mat-card-header class="m-3">
+              <mat-card-title class="font-size-16 weight-700">{{'Question and Answer' | translate}}</mat-card-title>
+              <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
+                {{'Write your question and answer for the game' | translate}}
+              </mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content style="width: 1000px; margin-top: 30px">
+              <form #f="ngForm" [formGroup]="questionForm" autocomplete="off">
+                <div class="d-flex">
+                  <img src="assets/images/message-question.svg" width="24">
+                  &nbsp;<div class="font-size-14 weight-600">My Question:</div>
+                </div>
+                <div class="textarea-container">
+                  <textarea [formControlName]="'question'" (ngModelChange)="updateWordCount()"></textarea>
+                  <div class="word-counter">{{ wordCount }} Words</div>
+                </div>
+                <div>
+                  <div class="d-flex">
+                    <img src="assets/images/clipboard-text.svg" width="24">
+                    &nbsp;<div class="font-size-14 weight-600">My Answer:</div>
+                  </div>
+                  <div class="textarea-container">
+                    <textarea [formControlName]="'answer'" (ngModelChange)="updateWordCountAnswer()"></textarea>
+                    <div class="word-counter">{{ wordCountAnswer }} Words</div>
+                  </div>
+                </div>
+              </form>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+
+      <!--      //invite-->
+      <div class="card border-0" *ngIf="createGameStep == 2 && (selectedGameMode == 2 || selectedGameMode ==3)">
+        <mat-card class="shadow-none">
+          <mat-card-header class="m-3">
+            <mat-card-title class="font-size-16 weight-700">{{'Players' | translate}}</mat-card-title>
+            <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
+              {{'Invite friends to the game' | translate}}
+            </mat-card-subtitle>
+          </mat-card-header>
+        </mat-card>
+        <div class="d-inline-flex w-50 m-4">
+          <form [formGroup]="inviteForm" class="w-100" (ngSubmit)="onSubmitInvite()" autocomplete="off">
+            <input matInput class="invite-input ps-2" placeholder="{{'Email address' | translate}}" type="email"
+                   [formControlName]="'email'">
+
+            <button mat-raised-button type="submit" [disabled]="!inviteForm.valid"
+                    class="w-25 p-4 ms-2 invite-button">
+              <span>{{'Invite' | translate}}</span>
+            </button>
+          </form>
+        </div>
+        <div *ngFor="let ivt of invitedArray" class="invite-card m-3">
+          <img src="assets/images/avatar-09.png" width="32" height="32"/>
+          <mat-label class="font-size-14 weight-500 m-auto">{{ivt}}</mat-label>
+          &nbsp;&nbsp;<img src="assets/images/add.svg" (click)="removeInvite(ivt)"/>
+        </div>
+      </div>
+      <br>
+      <div class="card border-0" *ngIf="createGameStep == 2">
+        <mat-card class="shadow-none">
+          <mat-card-header class="m-3 pt-0">
+            <mat-card-title class="font-size-16 weight-700">{{'Game Creation Price: ' | translate}}
+              <img src="assets/images/coin-bronze.png" width="24"/>
+              &nbsp; {{data?.gamePrice?.count}} {{data?.gamePrice?.coin}}
+            </mat-card-title>
+          </mat-card-header>
+        </mat-card>
+      </div>
+      <br>
+      <div class="card border-0" *ngIf="createGameStep == 2">
+        <mat-card class="shadow-none">
+          <mat-card-header>
+            <img mat-card-avatar src="assets/images/wallet-minus.svg" width="24" height="24">
+            <mat-card-title class="font-size-12 weight-600"
+                            style="color: #585858">{{'My Balance' | translate}}</mat-card-title>
+            <mat-card-subtitle class="font-size-14 weight-600 mt-2">
+              {{'430 Bronze' | translate}}
+            </mat-card-subtitle>
+          </mat-card-header>
+          <button mat-raised-button color="primary" class="next-step-game" (click)="startingGame()">
+            {{'Create Game' | translate}}
+            <i class="bi bi-arrow-right"></i>
+          </button>
+        </mat-card>
+      </div>
+    </mat-tab>
+    <mat-tab label="Find Game">Find Game</mat-tab>
+  </mat-tab-group>
+</div>
+<br>
+

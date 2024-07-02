@@ -3,14 +3,14 @@ import { CommonModule } from '@angular/common';
 import {MaterialModule} from "./material/material.module";
 import {RouterModule} from "@angular/router";
 import {SidenavComponent} from "./sidenav/sidenav.component";
-import {AddQuestion, HeaderComponent} from "./header/header.component";
+import {AddQuestion, ExitGame, HeaderComponent} from "./header/header.component";
 import {FooterComponent} from "./footer/footer.component";
 import {TranslateModule} from "@ngx-translate/core";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
-    SidenavComponent, HeaderComponent, FooterComponent, AddQuestion
+    SidenavComponent, HeaderComponent, FooterComponent, AddQuestion, ExitGame
   ],
     imports: [
         CommonModule, MaterialModule, RouterModule,TranslateModule, FormsModule, ReactiveFormsModule

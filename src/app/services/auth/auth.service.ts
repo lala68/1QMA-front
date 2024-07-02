@@ -93,7 +93,8 @@ export class AuthService {
 
   async verifyEmail(data: any): Promise<any> {
     let headers = new HttpHeaders({
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+
     })
     return this.http.post<any>(this.config.url('auth/verify/email'), data, {
       headers: headers,
@@ -104,7 +105,8 @@ export class AuthService {
 
   async verifyMobile(data: any): Promise<any> {
     let headers = new HttpHeaders({
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+
     })
     return this.http.post<any>(this.config.url('auth/verify/mobile'), data, {
       headers: headers,
@@ -187,7 +189,8 @@ export class AuthService {
 
   async updateProfile(data: any, userId: any): Promise<any> {
     let headers = new HttpHeaders({
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+
     })
     return this.http.post<any>(this.config.url('auth/updateProfile'), {id: userId, ...data}, {
       headers: headers,
@@ -211,7 +214,8 @@ export class AuthService {
 
   async updateCategoryPreferences(data: any): Promise<any> {
     let headers = new HttpHeaders({
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+
     })
     return this.http.post<any>(this.config.url('auth/updateCategoryPreferences'), {
       id: this.generalService.userId,
@@ -225,7 +229,8 @@ export class AuthService {
 
   async updateAccountType(data: any): Promise<any> {
     let headers = new HttpHeaders({
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+
     })
     return this.http.post<any>(this.config.url('auth/updateAccountType'), {
       id: this.generalService.userId,
@@ -240,12 +245,10 @@ export class AuthService {
   async updateLanguage(data: any): Promise<any> {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Access-Token': this.generalService.token ? this.generalService.token : ''
     })
     return this.http.post<any>(this.config.url('auth/updateLanguagePreference'), {
       id: this.generalService.userId,
       language: data,
-      providerId: this.generalService.providerId
     }, {
       headers: headers,
       withCredentials: true
@@ -257,10 +260,29 @@ export class AuthService {
     const user = await Preferences.get({key: 'account'});
     console.log(user)
     if (user.value != null) {
-      const userObj = JSON.parse(user.value);
-      this.isLoggedIn = true;
-      this.generalService.userId = userObj._id;
-      this.generalService.hasCompletedSignup = userObj.hasCompletedSignup;
+      try {
+        var testIfJson = JSON.parse(user.value);
+        console.log(testIfJson)
+        if (typeof testIfJson == "object") {
+          //Json
+          this.generalService.userObj = JSON.parse(user.value);
+          this.generalService.userId = this.generalService.userObj._id;
+          this.isLoggedIn = true;
+          this.generalService.hasCompletedSignup = this.generalService.userObj?.hasCompletedSignup;
+          console.log(this.generalService.userObj)
+        } else {
+          //Not Json
+          this.generalService.userObj = (user.value);
+          this.generalService.userId = this.generalService.userObj._id;
+          this.isLoggedIn = true;
+          this.generalService.hasCompletedSignup = this.generalService.userObj?.hasCompletedSignup;
+          console.log(this.generalService.userObj)
+        }
+      } catch {
+        this.generalService.userObj = (user.value);
+        this.generalService.userId = this.generalService.userObj._id;
+        console.log(this.generalService.userObj)
+      }
     }
     return !!user.value;
   }
@@ -268,13 +290,27 @@ export class AuthService {
   async signout(): Promise<any> {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Access-Token': this.generalService.token
+
     })
     return this.http.post<any>(this.config.url('auth/logout'), {id: this.generalService.userId}, {
       headers: headers,
       withCredentials: true
     })
       .toPromise();
+  }
+
+  async getUserDetails(id: any): Promise<any> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+
+    })
+    const response = this.http.get(this.config.url('auth/' + id + '/details'), {
+      headers: headers,
+      withCredentials: true
+    }).pipe(
+      map((response: any) => response)
+    ).toPromise();
+    return response;
   }
 
 }

@@ -16,7 +16,7 @@ export class ClientService {
   async clientInit(): Promise<any> {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Access-Token': this.generalService.token
+
     })
     const response = this.http.get(this.config.url('client/init'), {
       headers: headers,
@@ -30,7 +30,7 @@ export class ClientService {
   async updateProfileClient(data: any, userId: any): Promise<any> {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Access-Token': this.generalService.token
+
     })
     return this.http.post<any>(this.config.url('client/profile/update'), {id: userId, ...data}, {
       headers: headers,
@@ -42,7 +42,7 @@ export class ClientService {
   async updateSettings(data: any, userId: any): Promise<any> {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Access-Token': this.generalService.token
+
     })
     return this.http.post<any>(this.config.url('client/settings/update'), {id: userId, ...data}, {
       headers: headers,
@@ -54,7 +54,7 @@ export class ClientService {
   async inviteFriend(data: any, userId: any): Promise<any> {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Access-Token': this.generalService.token
+
     })
     return this.http.post<any>(this.config.url('client/invite'), {id: userId, email: data.email}, {
       headers: headers,
@@ -65,7 +65,7 @@ export class ClientService {
 
   async postProfilePicture(data: any): Promise<any> {
     let headers = new HttpHeaders({
-      'Access-Token': this.generalService.token
+
     });
 
     const formData = new FormData();
@@ -82,7 +82,7 @@ export class ClientService {
   async removeProfilePicture(): Promise<any> {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Access-Token': this.generalService.token
+
     })
     return this.http.post<any>(this.config.url('client/profilePicture/remove'), {id: this.generalService.userId}, {
       headers: headers,
@@ -94,7 +94,7 @@ export class ClientService {
   async addQuestion(data: any, category: any): Promise<any> {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Access-Token': this.generalService.token
+
     })
     return this.http.post<any>(this.config.url('client/questions/add'), {
       id: this.generalService.userId,
@@ -109,7 +109,7 @@ export class ClientService {
   async getUserById(id: any): Promise<any> {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Access-Token': this.generalService?.token
+
     })
     const response = this.http.get(this.config.url('client/' + id + '/details'), {
       headers: headers,

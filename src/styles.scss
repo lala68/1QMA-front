@@ -263,7 +263,8 @@ button {
 
 .dashboard-content {
   width: 1040px;
-  margin: 40px 0;
+  //margin: 40px 0;
+  margin: 40px auto;
 }
 
 .custom-form-field .mat-mdc-text-field-wrapper {
@@ -334,5 +335,34 @@ input[type="tel"] {
 
 .link-text {
   color: #0B6FEA;
+}
+
+.mat-mdc-tab-list {
+  background: white;
+  max-width: 555px;
+  margin-bottom: 16px;
+  padding: 10px;
+}
+
+.mat-mdc-tab.mdc-tab{
+  min-width: 170px;
+}
+
+.mat-mdc-tab.mdc-tab--active {
+  background-color: var(--bs-primary) !important;
+  min-width: 170px;
+  border-radius: 6px;
+  --mat-tab-header-active-label-text-color: white !important;
+  --mat-tab-header-active-focus-label-text-color: white !important;
+  --mat-tab-header-active-hover-label-text-color: white !important;
+  --mdc-tab-indicator-active-indicator-color: white !important;
+  --mdc-tab-indicator-active-focus-indicator-color: white !important;
+  --mdc-tab-indicator-active-hover-indicator-color: white !important;
+}
+
+.mat-mdc-tab-group, .mat-mdc-tab-nav-bar {
+  --mat-tab-header-active-hover-indicator-color:white !important;
+  --mat-tab-header-active-focus-indicator-color:white !important;
+
 }
 

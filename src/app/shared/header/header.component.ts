@@ -4,13 +4,8 @@ import {AuthService} from "../../services/auth/auth.service";
 import {Preferences} from "@capacitor/preferences";
 import {Router} from "@angular/router";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {MaterialModule} from "../material/material.module";
-import {SharedModule} from "../shared.module";
-import {FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
-import {TranslateModule} from "@ngx-translate/core";
-import {CommonModule} from "@angular/common";
+import {FormBuilder, FormControl, Validators} from "@angular/forms";
 import {ClientService} from "../../services/client/client.service";
-import {DialogContentComponent} from "../../components/dialog-content/dialog-content.component";
 
 @Component({
   selector: 'app-header',
@@ -29,7 +24,6 @@ export class HeaderComponent {
         await Preferences.clear();
         this.authService.isLoggedIn = false;
         this.generalService.userId = '';
-        this.generalService.providerId = '';
         this.generalService.userObj = '';
         this.generalService.hasCompletedSignup = false;
         await this.router.navigate(['/login']);
@@ -40,6 +34,16 @@ export class HeaderComponent {
   async openAddQuestion() {
     const dialogRef = this.dialog.open(AddQuestion, {
       width: '700px'
+    });
+    dialogRef.afterClosed().subscribe(async result => {
+      if (result == 'success') {
+      }
+    });
+  }
+
+  async displayExitGameModal() {
+    const dialogRef = this.dialog.open(ExitGame, {
+      width: '500px'
     });
     dialogRef.afterClosed().subscribe(async result => {
       if (result == 'success') {
@@ -70,7 +74,7 @@ export class AddQuestion {
   constructor(public dialogRef: MatDialogRef<AddQuestion>, private _formBuilder: FormBuilder,
               @Inject(MAT_DIALOG_DATA) public data: any, private authService: AuthService,
               public generalService: GeneralService, private clientService: ClientService,
-              public dialog: MatDialog,) {
+              public dialog: MatDialog) {
   }
 
   updateWordCount() {
@@ -111,5 +115,29 @@ export class AddQuestion {
     this.dialogRef.close();
   }
 }
+
+@Component({
+  selector: 'exit-game',
+  templateUrl: 'exit-game.html',
+})
+
+export class ExitGame {
+
+  constructor(public dialogRef: MatDialogRef<ExitGame>, private generalService: GeneralService,
+              private router: Router) {
+  }
+
+  async cancel() {
+    this.dialogRef.close();
+  }
+
+  async exit() {
+    this.generalService.startingGame = false;
+    this.dialogRef.close();
+    await this.router.navigate(['/dashboard']);
+  }
+}
+
+
 
 

@@ -68,7 +68,6 @@ export class SignupComponent {
       this.loading = false;
       if (data?.status == 1) {
         await Preferences.set({key: 'account', value: JSON.stringify(data.data.user)});
-        await Preferences.set({key: 'accessToken', value: data.data.token});
         this.generalService.userId = data.data?._id;
         this.generalService.token = data.data?.token;
         await this.router.navigate(['signup-refer-email']);

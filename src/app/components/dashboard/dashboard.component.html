@@ -16,7 +16,7 @@
         <mat-card-header class="pe-1 ps-1 border-bottom">
           <!--          <div mat-card-avatar class="avatar-header-image-profile-dashboard"></div>-->
           <img mat-card-avatar
-               [src]="generalService?.userObj?.profilePicture ? configService.url(generalService?.userObj?.profilePicture) : 'assets/images/frame.png'"
+               [src]="generalService?.userObj?.profilePicture ? generalService?.userObj?.profilePicture.startsWith('http') ? generalService?.userObj?.profilePicture : configService.url(generalService?.userObj?.profilePicture) : 'assets/images/frame.png'"
                width="35" height="35">
           <mat-card-title
             class="card-title-profile-dashboard mt-2">{{generalService?.userObj?.firstName + ' ' + generalService?.userObj?.lastName }}</mat-card-title>
@@ -27,7 +27,7 @@
         <mat-card-header class="pe-1 ps-1 border-bottom position-relative">
           <mat-card-title class="card-title-profile-dashboard mb-3" style="width: 120px">Account:</mat-card-title>
           <img
-            [src]="generalService?.userObj?.accountType?.icon ? generalService?.userObj?.accountType?.icon : 'assets/images/base.png'"
+            [src]="generalService?.userObj?.accountType?.icon ? configService.url(generalService?.userObj?.accountType?.icon) : 'assets/images/base.png'"
             width="38" height="38">
           <mat-label class="card-subtitle-profile-dashboard font-size-13 weight-500 text-light-color">
             &nbsp;{{generalService?.userObj?.accountType?.name}} - {{generalService?.userObj?.accountType?.expireDays}}
@@ -36,7 +36,7 @@
           <small style="position: absolute; bottom: 5px; left: 165px" class="text-light-color">Renew
             Automatically</small>
         </mat-card-header>
-        <mat-card-header class="pe-1 ps-1">
+        <mat-card-header class="pe-1 ps-1" *ngIf="generalService?.userObj?.referer">
           <mat-card-title class="card-title-profile-dashboard mb-3" style="width: 120px">Referred By:</mat-card-title>
           <img src="assets/images/avatar-09.png" width="28" height="28">
           <mat-label
@@ -61,7 +61,7 @@
           </div>
           <mat-progress-bar
             style="width: 320px; border-radius: 10px; display: inline-table; position: absolute; bottom: 0; left: 40px"
-            color="warn"
+            color="primary"
             [value]="generalService?.userObj?.statistics?.level" [bufferValue]="generalService?.userObj?.statistics?.xpNeededForNextLevel"
             mode="determinate"></mat-progress-bar>
         </div>
@@ -145,7 +145,7 @@
       <input matInput class="invite-input ps-2" placeholder="{{'Enter your email' | translate}}" type="email"
              [formControlName]="'email'">
 
-      <button mat-raised-button color="warn" type="submit" [disabled]="!inviteForm.valid || loadingInvite"
+      <button mat-raised-button color="primary" type="submit" [disabled]="!inviteForm.valid || loadingInvite"
               class="w-25 p-4s ms-2 blue-button">
         <span>{{'Invite' | translate}}</span>
       </button>
@@ -170,3 +170,4 @@
     </mat-list-item>
   </mat-list>
 </div>
+

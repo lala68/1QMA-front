@@ -1,0 +1,58 @@
+.game-type-card {
+  border: 1px solid #BFAEAA !important;
+  margin: 20px 20px 0px !important;
+  border-radius: 6px !important;
+}
+
+.next-step-game {
+  width: 196px;
+  position: absolute !important;
+  right: 16px;
+  bottom: 0;
+  top: 0;
+  margin: auto;
+}
+
+.mat-card-game-type {
+  width: 300px;
+  background: #F9F7F7 !important;
+  border: 1px solid #E8E2E0 !important;
+  border-radius: 6px !important;
+  box-shadow: none;
+}
+
+.mat-card-game-type-selected {
+  width: 300px;
+  background: #EDF9FF !important;
+  border: 1px solid #0B6FEA !important;
+  border-radius: 6px !important;
+  color: #0B6FEA;
+  box-shadow: none;
+}
+
+.invite-input {
+  width: 73%;
+  border-radius: 6px;
+  border: 1px solid #B29F9A;
+  height: 47px;
+}
+
+.invite-button {
+  border: 1px solid #0B6FEA !important;
+  border-radius: 6px !important;
+  height: 45px !important;
+}
+
+.invite-card {
+  //display: inline-flex;
+  border: 1px solid #E8E2E0;
+  background: #F9F7F7;
+  padding: 5px;
+  border-radius: 500px;
+  margin: 10px;
+  width: fit-content;
+
+  i {
+    
+  }
+}

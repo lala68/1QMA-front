@@ -95,7 +95,7 @@ export class WizardComponent implements OnInit {
       this.loadingAccountType = false;
       if (data.status == 1) {
         await Preferences.remove({key: 'account'});
-        await Preferences.set({key: 'account', value: JSON.stringify(data.data.user)});
+        await Preferences.set({key: 'account', value: JSON.stringify(data.data)});
         await this.generalService.getUserData();
         await this.stepper.next();
       } else {
@@ -111,9 +111,24 @@ export class WizardComponent implements OnInit {
       this.loadingLanguage = false;
       if (data.status == 1) {
         await Preferences.remove({key: 'account'});
-        await Preferences.set({key: 'account', value: JSON.stringify(data.data.user)});
+        await Preferences.set({key: 'account', value: JSON.stringify(data.data)});
         await this.generalService.getUserData();
-        await this.stepper.next();
+        setTimeout(async () => {
+          this.form = this._formBuilder.group({
+            firstName: [this.generalService?.userObj?.firstName ? this.generalService?.userObj?.firstName : '', [Validators.required]],
+            lastName: [this.generalService?.userObj?.lastName ? this.generalService?.userObj?.lastName : '', [Validators.required]],
+            email: [{
+              value: this.email ? this.email : this.generalService?.userObj?.email,
+              disabled: true
+            }, [Validators.required, Validators.email]],
+            mobile: [this.generalService?.userObj?.mobile ? this.generalService?.userObj?.mobile : '', [Validators.required]],
+            gender: [this.generalService?.userObj?.gender ? this.generalService?.userObj?.gender?._id : '', []],
+            country: [this.generalService?.userObj?.country ? this.generalService?.userObj?.country : '', []],
+            education: [this.generalService?.userObj?.education ? this.generalService?.userObj?.education?._id : '', []],
+            city: [this.generalService?.userObj?.city ? this.generalService?.userObj?.city : '', []],
+          });
+          await this.stepper.next();
+        }, 1000)
       } else {
         this.error = data.message;
       }
@@ -156,7 +171,7 @@ export class WizardComponent implements OnInit {
       this.loading = false;
       if (data?.status == 1) {
         await Preferences.remove({key: 'account'});
-        await Preferences.set({key: 'account', value: JSON.stringify(data.data.user)});
+        await Preferences.set({key: 'account', value: JSON.stringify(data.data)});
         await this.generalService.getUserData();
         if (!this.generalService?.userObj?.emailVerified || !this.generalService?.userObj?.mobileVerified) {
           this.openDialogVerification('0', '0');
@@ -214,7 +229,7 @@ export class WizardComponent implements OnInit {
       this.loading = false;
       if (data.status == 1) {
         await Preferences.remove({key: 'account'});
-        await Preferences.set({key: 'account', value: JSON.stringify(data.data.user)});
+        await Preferences.set({key: 'account', value: JSON.stringify(data.data)});
         await this.generalService.getUserData();
         await this.stepper.next();
       } else {

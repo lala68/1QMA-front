@@ -16,7 +16,7 @@ export class GeneralService implements OnInit {
   cities: any;
   token: any;
   currentRout: any;
-  providerId: any;
+  startingGame: any = false;
 
   constructor(private http: HttpClient) {
   }
@@ -33,23 +33,28 @@ export class GeneralService implements OnInit {
   }
 
   async getUserData(): Promise<any> {
-    let token = await Preferences.get({key: 'accessToken'});
-    if (token.value != null) {
-      this.token = token.value;
-    }
     let user = await Preferences.get({key: 'account'});
     if (user.value != null) {
-      this.userObj = JSON.parse(user.value);
-      console.log(this.userObj)
-      this.userId = this.userObj._id;
+      try {
+        var testIfJson = JSON.parse(user.value);
+        console.log(testIfJson)
+        if (typeof testIfJson == "object") {
+          //Json
+          this.userObj = JSON.parse(user.value);
+          this.userId = this.userObj._id;
+          console.log(this.userObj)
+        } else {
+          //Not Json
+          this.userObj = (user.value);
+          this.userId = this.userObj._id;
+          console.log(this.userObj)
+        }
+      } catch {
+        this.userObj = (user.value);
+        this.userId = this.userObj._id;
+        console.log(this.userObj)
+      }
     }
-
-    let provider = await Preferences.get({key: 'provider'});
-    if (provider.value != null) {
-      const providerObj = JSON.parse(provider.value);
-      this.providerId = providerObj.provider_id;
-    }
-
   }
 
   getKeys(obj: any): Array<string> {
