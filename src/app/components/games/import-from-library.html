@@ -1,0 +1,54 @@
+<div class="font-size-14 weight-700 p-2 border-bottom"><img src="assets/images/add.svg" (click)="closeModal()"
+                                                            width="24">&nbsp;{{'Joining Game' | translate}}
+</div>
+<div mat-dialog-content>
+  <div class="gray-card">
+    <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" class="tab-group-library">
+      <mat-tab label="Private Library">
+      </mat-tab>
+      <mat-tab label="Public Library">
+      </mat-tab>
+      <mat-tab label="Bookmarked">
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+  <br>
+  <div class="d-flex position-relative">
+    <input matInput class="invite-input ps-5" placeholder="{{'Search' | translate}}" type="text">
+    <svg class="position-absolute top-0 bottom-0 start-0" style="margin: auto 5px" width="25" height="25"
+         viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M12.2246 21.2402C17.4713 21.2402 21.7246 16.9869 21.7246 11.7402C21.7246 6.49353 17.4713 2.24023 12.2246 2.24023C6.9779 2.24023 2.72461 6.49353 2.72461 11.7402C2.72461 16.9869 6.9779 21.2402 12.2246 21.2402Z"
+        stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M22.7246 22.2402L20.7246 20.2402" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
+            stroke-linejoin="round"/>
+    </svg>
+  </div>
+  <br>
+  <div *ngFor="let item of [].constructor(5)" class="gray-card p-4 mb-2">
+    <div class="d-flex white-card position-relative">
+      <img src="assets/images/frame.png" width="42">
+      <mat-label class="font-size-13 weight-500" style="margin: auto 10px">Sam Smith</mat-label>
+      <mat-label class="font-size-12 weight-500 position-absolute" style="right: 10px; margin: 10px auto">2hrs agos
+      </mat-label>
+    </div>
+    <br>
+    <div class="font-size-14 weight-700">
+      How has street art evolved from graffiti to a recognized form of contemporary art?
+    </div>
+    <br>
+    <div class="font-size-13 weight-400">
+      Street art has evolved from being considered vandalism to gaining acceptance and recognition as a legitimate and
+      influential art form. This shift has been driven by the increasing involvement of established artists, galleries,
+      and public spaces showcasing street art.
+    </div>
+    <br>
+    <button mat-stroked-button color="primary" class="me-2 radius" style="border: 1px solid #0B6FEA">
+      Import Question
+    </button>
+    <button mat-stroked-button color="primary" class="me-2 radius" style="border: 1px solid #0B6FEA">
+      Import Question + Answer
+    </button>
+  </div>
+  <br>
+</div>

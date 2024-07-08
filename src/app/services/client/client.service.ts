@@ -64,9 +64,7 @@ export class ClientService {
   }
 
   async postProfilePicture(data: any): Promise<any> {
-    let headers = new HttpHeaders({
-
-    });
+    let headers = new HttpHeaders({});
 
     const formData = new FormData();
     formData.append('id', this.generalService.userId);
@@ -104,6 +102,20 @@ export class ClientService {
       withCredentials: true
     })
       .toPromise();
+  }
+
+  async getUserQuestions(category: any = '', type: any = '', search: any = ''): Promise<any> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    })
+    const response = this.http.get(this.config.url('client/questions'), {
+      params: {category: category, type: type, search: search},
+      headers: headers,
+      withCredentials: true
+    }).pipe(
+      map((response: any) => response)
+    ).toPromise();
+    return response;
   }
 
   async getUserById(id: any): Promise<any> {

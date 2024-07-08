@@ -43,7 +43,7 @@ export class LoginComponent {
     this.authService.loginWithEmail(this.loginForm.value).then(async data => {
       this.loading = false;
       if (data?.status == 1) {
-        await Preferences.set({key: 'account', value: JSON.stringify(data.data.user)});
+        await Preferences.set({key: 'account', value: JSON.stringify(data.data)});
         await this.authService.isAuthenticated();
         await this.generalService.getUserData();
         if (this.generalService.userId && !this.generalService.hasCompletedSignup) {

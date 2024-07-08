@@ -87,7 +87,7 @@
 
     Add question
   </button>
-  <button mat-flat-button color="primary" *ngIf="generalService?.hasCompletedSignup && !generalService?.startingGame">
+  <button mat-flat-button color="primary" [routerLink]="['/games/2']" *ngIf="generalService?.hasCompletedSignup && !generalService?.startingGame">
     <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
         d="M12.2246 21.2402C17.4713 21.2402 21.7246 16.9869 21.7246 11.7402C21.7246 6.49353 17.4713 2.24023 12.2246 2.24023C6.9779 2.24023 2.72461 6.49353 2.72461 11.7402C2.72461 16.9869 6.9779 21.2402 12.2246 21.2402Z"
@@ -97,7 +97,7 @@
     </svg>
     Find game
   </button>
-  <button mat-flat-button class="ms-2" color="primary"
+  <button mat-flat-button class="ms-2" color="primary" [routerLink]="['/games/1']"
           *ngIf="generalService?.hasCompletedSignup && !generalService?.startingGame">
     <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path

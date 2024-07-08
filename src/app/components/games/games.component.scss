@@ -9,7 +9,16 @@
   position: absolute !important;
   right: 16px;
   bottom: 0;
-  top: 0;
+  top: 0px;
+  margin: auto;
+}
+
+.find-game-div {
+  width: 196px;
+  position: absolute !important;
+  right: 16px;
+  bottom: 0;
+  top: 35px;
   margin: auto;
 }
 
@@ -29,6 +38,13 @@
   color: #0B6FEA;
   box-shadow: none;
 }
+
+.blue-button {
+  border-radius: 6px;
+  height: 47px !important;
+  margin-bottom: 5px;
+}
+
 
 .invite-input {
   width: 73%;
@@ -51,8 +67,66 @@
   border-radius: 500px;
   margin: 10px;
   width: fit-content;
-
-  i {
-    
-  }
 }
+
+.radius-gary-card {
+  border-radius: 53px;
+  border: 1px solid #E8E2E0;
+  background: #F9F7F7;
+  padding: 5px;
+  display: inline-flex;
+  margin: 20px;
+  width: 260px;
+}
+
+.card-container {
+  display: flex;
+  justify-content: space-around;
+  margin: 20px;
+}
+
+.bordered-card {
+  max-width: 250px;
+  min-width: 250px;
+  margin: 20px;
+  border: 1px solid #BFAEAA !important;
+  border-radius: 10px;
+  padding: 1.5rem;
+}
+
+.custom-position-0 {
+  top: 15px;
+  left: 0;
+  z-index: 1;
+}
+
+.custom-position-1 {
+  top: 15px;
+  left: 10px;
+  z-index: 10;
+}
+
+.custom-position-2 {
+  top: 15px;
+  left: 20px;
+  z-index: 100;
+}
+
+.custom-position-3 {
+  top: 15px;
+  left: 30px;
+  z-index: 1000;
+}
+
+.custom-position-4 {
+  top: 15px;
+  left: 40px;
+  z-index: 10000;
+}
+
+.game-button {
+  background: #0B6FEA !important;
+  width: 100% !important;
+  color: white !important;
+}
+

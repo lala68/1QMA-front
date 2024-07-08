@@ -22,11 +22,174 @@
     </mat-chip>
     </div>
     <mat-card-content>
+      <mat-card class="shadow-none">
+        <mat-card-header>
+          <mat-card-title class="font-size-16 weight-600">{{'Participants:' | translate}}</mat-card-title>
+        </mat-card-header>
+      </mat-card>
+      <div *ngFor="let user of [].constructor(5)" class="user-card position-relative">
+        <img src="assets/images/avatar-09.png" width="32" height="32"/>
+        <mat-label class="font-size-14 weight-500 m-auto">user1</mat-label>
+        <div class="d-inline-flex position-absolute end-10">
+          <mat-spinner class="waiting-spinner" [diameter]="20"></mat-spinner>
+          <mat-label>waiting</mat-label>
+        </div>
+        <div class="d-inline-flex position-absolute end-10">
+          <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M12.7246 22.5869C18.2246 22.5869 22.7246 18.0869 22.7246 12.5869C22.7246 7.08691 18.2246 2.58691 12.7246 2.58691C7.22461 2.58691 2.72461 7.08691 2.72461 12.5869C2.72461 18.0869 7.22461 22.5869 12.7246 22.5869Z"
+              stroke="#43a047" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M8.47461 12.5868L11.3046 15.4168L16.9746 9.75684" stroke="#43a047" stroke-width="1.5"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <mat-label color="success">Joined</mat-label>
+        </div>
+      </div>
       <br>
       <br>
-      <br>
-      <br>
-      <br>
+      <div class="d-inline-flex">
+        <div>
+          <mat-card class="shadow-none">
+            <mat-card-header>
+              <mat-card-title class="font-size-16 weight-600">{{'Game link:' | translate}}</mat-card-title>
+            </mat-card-header>
+            <mat-card-content class="d-inline-flex">
+              <div class="copy-referrer cursor-pointer">
+                <div class="d-inline text-start">https:/...</div>
+              </div>
+              &nbsp;
+              <div class="copy-referrer cursor-pointer">
+                <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M17.8408 14.3219V17.3219C17.8408 21.3219 16.2408 22.9219 12.2408 22.9219H8.44082C4.44082 22.9219 2.84082 21.3219 2.84082 17.3219V13.5219C2.84082 9.52188 4.44082 7.92188 8.44082 7.92188H11.4408"
+                    stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path
+                    d="M17.8409 14.3219H14.6409C12.2409 14.3219 11.4409 13.5219 11.4409 11.1219V7.92188L17.8409 14.3219Z"
+                    stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M12.4409 2.92188H16.4409" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
+                        stroke-linejoin="round"/>
+                  <path d="M7.84082 5.92188C7.84082 4.26188 9.18082 2.92188 10.8408 2.92188H13.4608" stroke="#292D32"
+                        stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M22.8408 8.92188V15.1119C22.8408 16.6619 21.5808 17.9219 20.0308 17.9219" stroke="#292D32"
+                        stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path
+                    d="M22.8408 8.92188H19.8408C17.5908 8.92188 16.8408 8.17188 16.8408 5.92188V2.92188L22.8408 8.92188Z"
+                    stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              &nbsp;<div class="copy-referrer cursor-pointer">
+              <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M7.4783 6.63558L15.9683 3.80558C19.7783 2.53558 21.8483 4.61558 20.5883 8.42558L17.7583 16.9156C15.8583 22.6256 12.7383 22.6256 10.8383 16.9156L9.9983 14.3956L7.4783 13.5556C1.7683 11.6556 1.7683 8.54558 7.4783 6.63558Z"
+                  stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M10.188 13.965L13.768 10.375" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
+                      stroke-linejoin="round"/>
+              </svg>
+            </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+        <div>
+          <mat-card class="shadow-none">
+            <mat-card-header>
+              <mat-card-title class="font-size-16 weight-600">{{'Game code:' | translate}}</mat-card-title>
+            </mat-card-header>
+            <mat-card-content class="d-inline-flex">
+              <div class="copy-referrer cursor-pointer">
+                <div class="d-inline text-start">36459398</div>
+              </div>
+              &nbsp;
+              <div class="copy-referrer cursor-pointer">
+                <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M17.8408 14.3219V17.3219C17.8408 21.3219 16.2408 22.9219 12.2408 22.9219H8.44082C4.44082 22.9219 2.84082 21.3219 2.84082 17.3219V13.5219C2.84082 9.52188 4.44082 7.92188 8.44082 7.92188H11.4408"
+                    stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path
+                    d="M17.8409 14.3219H14.6409C12.2409 14.3219 11.4409 13.5219 11.4409 11.1219V7.92188L17.8409 14.3219Z"
+                    stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M12.4409 2.92188H16.4409" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
+                        stroke-linejoin="round"/>
+                  <path d="M7.84082 5.92188C7.84082 4.26188 9.18082 2.92188 10.8408 2.92188H13.4608" stroke="#292D32"
+                        stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M22.8408 8.92188V15.1119C22.8408 16.6619 21.5808 17.9219 20.0308 17.9219" stroke="#292D32"
+                        stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path
+                    d="M22.8408 8.92188H19.8408C17.5908 8.92188 16.8408 8.17188 16.8408 5.92188V2.92188L22.8408 8.92188Z"
+                    stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              &nbsp;<div class="copy-referrer cursor-pointer">
+              <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M7.4783 6.63558L15.9683 3.80558C19.7783 2.53558 21.8483 4.61558 20.5883 8.42558L17.7583 16.9156C15.8583 22.6256 12.7383 22.6256 10.8383 16.9156L9.9983 14.3956L7.4783 13.5556C1.7683 11.6556 1.7683 8.54558 7.4783 6.63558Z"
+                  stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M10.188 13.965L13.768 10.375" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
+                      stroke-linejoin="round"/>
+              </svg>
+            </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+        <div>
+          <mat-card class="shadow-none">
+            <mat-card-header>
+              <mat-card-title class="font-size-16 weight-600">{{'QR-Code:' | translate}}</mat-card-title>
+            </mat-card-header>
+            <mat-card-content class="d-inline-flex">
+              <div class="copy-referrer cursor-pointer">
+                <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M17.8408 14.3219V17.3219C17.8408 21.3219 16.2408 22.9219 12.2408 22.9219H8.44082C4.44082 22.9219 2.84082 21.3219 2.84082 17.3219V13.5219C2.84082 9.52188 4.44082 7.92188 8.44082 7.92188H11.4408"
+                    stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path
+                    d="M17.8409 14.3219H14.6409C12.2409 14.3219 11.4409 13.5219 11.4409 11.1219V7.92188L17.8409 14.3219Z"
+                    stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M12.4409 2.92188H16.4409" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
+                        stroke-linejoin="round"/>
+                  <path d="M7.84082 5.92188C7.84082 4.26188 9.18082 2.92188 10.8408 2.92188H13.4608" stroke="#292D32"
+                        stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M22.8408 8.92188V15.1119C22.8408 16.6619 21.5808 17.9219 20.0308 17.9219" stroke="#292D32"
+                        stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path
+                    d="M22.8408 8.92188H19.8408C17.5908 8.92188 16.8408 8.17188 16.8408 5.92188V2.92188L22.8408 8.92188Z"
+                    stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              &nbsp;
+              <div class="copy-referrer cursor-pointer">
+                <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M9.84082 11.3164V17.3164L11.8408 15.3164" stroke="#292D32" stroke-width="1.5"
+                        stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M9.84082 17.3164L7.84082 15.3164" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
+                        stroke-linejoin="round"/>
+                  <path
+                    d="M22.8408 10.3164V15.3164C22.8408 20.3164 20.8408 22.3164 15.8408 22.3164H9.84082C4.84082 22.3164 2.84082 20.3164 2.84082 15.3164V9.31641C2.84082 4.31641 4.84082 2.31641 9.84082 2.31641H14.8408"
+                    stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path
+                    d="M22.8408 10.3164H18.8408C15.8408 10.3164 14.8408 9.31641 14.8408 6.31641V2.31641L22.8408 10.3164Z"
+                    stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              &nbsp;<div class="copy-referrer cursor-pointer">
+              <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M7.4783 6.63558L15.9683 3.80558C19.7783 2.53558 21.8483 4.61558 20.5883 8.42558L17.7583 16.9156C15.8583 22.6256 12.7383 22.6256 10.8383 16.9156L9.9983 14.3956L7.4783 13.5556C1.7683 11.6556 1.7683 8.54558 7.4783 6.63558Z"
+                  stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M10.188 13.965L13.768 10.375" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
+                      stroke-linejoin="round"/>
+              </svg>
+            </div>
+            </mat-card-content>
+          </mat-card>
+          <br>
+          <br>
+          <div style="height: 52px; margin: 0px auto 20px"
+               class="card border-0 text-center weight-600 pt-3">
+            Sponsored by: Company name
+          </div>
+        </div>
+      </div>
+
     </mat-card-content>
   </mat-card>
 </div>

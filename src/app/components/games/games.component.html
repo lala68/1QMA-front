@@ -4,7 +4,7 @@
   <mat-spinner *ngIf="loading" [diameter]="30"></mat-spinner>
 </div>
 <div *ngIf="!loading">
-  <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+  <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" [(selectedIndex)]="selectedTabIndex">
     <mat-tab label="Overview">
       <div class="card border-0">
         <div class="w-100 d-flex">
@@ -147,30 +147,22 @@
               </mat-card-subtitle>
             </mat-card-header>
             <mat-card-content>
-              <mat-card class="m-2 d-inline-block shadow-none"
-                        (click)="selectGameType('normal')"
-                        [class]="{'mat-card-game-type-selected': isSelectedGameType('normal'), 'mat-card-game-type': !isSelectedGameType('normal')}">
+              <mat-card class="m-2 d-inline-block shadow-none cursor-pointer" *ngFor="let gType of data?.gameTypes"
+                        (click)="selectGameType(gType.id)"
+                        [class]="{'mat-card-game-type-selected': isSelectedGameType(gType.id), 'mat-card-game-type': !isSelectedGameType(gType.id)}">
                 <mat-card-content class="text-start">
-                  <img src="assets/images/normal-game.png" width="35">
-                  <mat-label class="position-absolute font-size-14 weight-600" style="top: 10px; left: 60px">Normal
+                  <img src="assets/images/normal-game.png" *ngIf="gType.id == 'normal'" width="35">
+                  <img src="assets/images/survival-game.png" *ngIf="gType.id == 'survival'" width="35">
+                  <mat-label class="position-absolute font-size-14 weight-600"
+                             style="top: 10px; left: 60px">{{gType?.text}}
                   </mat-label>
                   <br>
-                  <mat-label class="font-size-14 weight-500 position-absolute"
+                  <mat-label *ngIf="gType.id == 'normal'" class="font-size-14 weight-500 position-absolute"
                              style="top: 30px; left: 60px; color: #585858">
                     {{'Description about normal game' | translate}}
                   </mat-label>
-                </mat-card-content>
-              </mat-card>
-              <mat-card class="m-2 d-inline-block shadow-none"
-                        (click)="selectGameType('survival')"
-                        [class]="{'mat-card-game-type-selected': isSelectedGameType('survival'), 'mat-card-game-type': !isSelectedGameType('survival')}">
-                <mat-card-content class="text-start">
-                  <img src="assets/images/survival-game.png" width="35">
-                  <mat-label class="font-size-14 weight-600 position-absolute" style="top: 10px; left: 60px">Survival
-                  </mat-label>
-                  <br>
-                  <mat-label class="font-size-14 weight-500 position-absolute"
-                             style="top: 30px; left: 60px;color: #585858">
+                  <mat-label *ngIf="gType.id == 'survival'" class="font-size-14 weight-500 position-absolute"
+                             style="top: 30px; left: 60px; color: #585858">
                     {{'Description about survival game' | translate}}
                   </mat-label>
                 </mat-card-content>
@@ -191,8 +183,8 @@
               </mat-card-subtitle>
             </mat-card-header>
             <mat-card-content>
-              <mat-card *ngFor="let cat of generalService?.clientInit?.categories"
-                        class="m-2 d-inline-block shadow-none"
+              <mat-card *ngFor="let cat of data?.categories"
+                        class="m-2 d-inline-block shadow-none cursor-pointer"
                         (click)="selectCat(cat)"
                         [class]="{'mat-card-pref-selected': isSelected(cat), 'mat-card-pref': !isSelected(cat)}">
                 <mat-card-content class="text-start">
@@ -221,6 +213,11 @@
                 <div class="d-flex">
                   <img src="assets/images/message-question.svg" width="24">
                   &nbsp;<div class="font-size-14 weight-600">My Question:</div>
+                  <div class="font-size-14 weight-600 cursor-pointer" (click)="openImportFromLib()"
+                       style="text-align: right; flex: 1; color: #0B6FEA"><i class="bi bi-plus"></i>
+                    Import from
+                    library
+                  </div>
                 </div>
                 <div class="textarea-container">
                   <textarea [formControlName]="'question'" (ngModelChange)="updateWordCount()"></textarea>
@@ -253,20 +250,29 @@
           </mat-card-header>
         </mat-card>
         <div class="d-inline-flex w-50 m-4">
-          <form [formGroup]="inviteForm" class="w-100" (ngSubmit)="onSubmitInvite()" autocomplete="off">
-            <input matInput class="invite-input ps-2" placeholder="{{'Email address' | translate}}" type="email"
-                   [formControlName]="'email'">
-
-            <button mat-raised-button type="submit" [disabled]="!inviteForm.valid"
+          <form [formGroup]="inviteForm" class="w-100" (ngSubmit)="onSubmitInvite()">
+            <mat-form-field appearance="outline" style="width: 73%; height: 47px">
+              <input matInput class="invite-input ps-2" placeholder="{{'Email address' | translate}}" type="email"
+                     [formControlName]="'email'" [matAutocomplete]="auto" (input)="getResultOfSearch()">
+              <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let suggestion of filteredEmails" [value]="suggestion.email">
+                  {{ suggestion?.email }}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+            <button mat-raised-button type="submit"
                     class="w-25 p-4 ms-2 invite-button">
               <span>{{'Invite' | translate}}</span>
             </button>
           </form>
         </div>
-        <div *ngFor="let ivt of invitedArray" class="invite-card m-3">
-          <img src="assets/images/avatar-09.png" width="32" height="32"/>
-          <mat-label class="font-size-14 weight-500 m-auto">{{ivt}}</mat-label>
-          &nbsp;&nbsp;<img src="assets/images/add.svg" (click)="removeInvite(ivt)"/>
+        <div class="d-inline-flex">
+          <div *ngFor="let ivt of invitedArray" class="invite-card m-3">
+            <img src="assets/images/avatar-09.png" width="32" height="32"/>
+            <mat-label class="font-size-14 weight-500 m-auto">{{ivt}}</mat-label>
+            &nbsp;&nbsp;<img src="assets/images/add.svg" *ngIf="ivt !== generalService?.userObj?.email"
+                             (click)="removeInvite(ivt)"/>
+          </div>
         </div>
       </div>
       <br>
@@ -291,14 +297,213 @@
               {{'430 Bronze' | translate}}
             </mat-card-subtitle>
           </mat-card-header>
-          <button mat-raised-button color="primary" class="next-step-game" (click)="startingGame()">
+          <button mat-raised-button color="primary" class="next-step-game"
+                  [disabled]="!questionForm.valid || !selectedGameMode.toString() || !selectedGameType[0] ||
+                   ((selectedGameMode == 1 || selectedGameMode ==3) && !selectedCategory[0]) ||
+                    ((selectedGameMode == 2 || selectedGameMode ==3) && invitedArray.length !== 4)"
+                  (click)="startingGame()">
             {{'Create Game' | translate}}
             <i class="bi bi-arrow-right"></i>
           </button>
         </mat-card>
       </div>
     </mat-tab>
-    <mat-tab label="Find Game">Find Game</mat-tab>
+    <mat-tab label="Find Game">
+      <div class="card border-0" *ngIf="findFriendStep == 1">
+        <div class="w-100 d-flex">
+          <mat-card class="shadow-none">
+            <mat-card-header>
+              <img mat-card-avatar src="assets/images/scoreboard.png" width="45" height="45">
+              <mat-card-title class="font-size-16 weight-600">{{'Find Game' | translate}}</mat-card-title>
+              <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
+                {{'Find and join games created by others' | translate}}
+              </mat-card-subtitle>
+            </mat-card-header>
+          </mat-card>
+        </div>
+        <mat-card class="shadow-none game-type-card p-4">
+          <mat-card-header>
+            <img mat-card-avatar src="assets/images/join-game.png" width="45" height="45">
+            <mat-card-title class="font-size-16 weight-600">{{'Join with Code' | translate}}</mat-card-title>
+            <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
+              {{'Enter with code and join: ' | translate}}
+            </mat-card-subtitle>
+          </mat-card-header>
+          <div class="d-inline-flex w-50 find-game-div">
+            <input matInput class="invite-input ps-2" [(ngModel)]="gameCode"
+                   placeholder="{{'Enter a code' | translate}}" type="email">
+            <button mat-raised-button color="primary" type="submit" [disabled]="!gameCode || loadingJoinWithCode"
+                    class="w-25 p-4s ms-2 blue-button" (click)="joinToGame()">
+              <span>{{'Invite' | translate}}</span>
+            </button>
+          </div>
+        </mat-card>
+        <mat-card class="shadow-none game-type-card p-4">
+          <mat-card-header>
+            <img mat-card-avatar src="assets/images/find-user-game.png" width="45" height="45">
+            <mat-card-title class="font-size-16 weight-600">{{'Find friend\'s games' | translate}}</mat-card-title>
+            <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
+              {{'Enter email or username and join games: ' | translate}}
+            </mat-card-subtitle>
+          </mat-card-header>
+          <div class="d-inline-flex w-50 find-game-div">
+            <input matInput class="invite-input ps-2" [(ngModel)]="userEmail"
+                   placeholder="{{'Enter user email' | translate}}" type="email">
+            <button mat-raised-button color="primary" type="submit"
+                    class="w-25 p-4s ms-2 blue-button" (click)="findFriendGame()"
+                    [disabled]="!userEmail || loadingFindFriend">
+              <span>{{'Invite' | translate}}</span>
+            </button>
+          </div>
+        </mat-card>
+        <br>
+        <br>
+      </div>
+      <div class="card border-0" *ngIf="findFriendStep == 2">
+        <div class="w-100 d-flex">
+          <mat-card class="shadow-none">
+            <mat-card-header>
+              <img src="assets/images/arrow-left.svg" width="24" height="24"
+                   (click)="findFriendStep =1" style="position: absolute; left: 10px; top: 0; bottom: 0; margin: auto;">
+              <img mat-card-avatar src="assets/images/find-user-game.png" width="46" height="46" class="ms-4">
+              <mat-card-title class="font-size-16 weight-700">{{'User Games' | translate}}</mat-card-title>
+              <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
+                {{'List of user games: ' | translate}}
+              </mat-card-subtitle>
+            </mat-card-header>
+          </mat-card>
+        </div>
+      </div>
+      <br>
+      <div class="card border-0" *ngIf="findFriendStep == 2">
+        <div class="w-100 d-flex">
+          <mat-card class="shadow-none">
+            <div class="radius-gary-card">
+              <span class="font-size-16 weight-600 m-auto">Games by: </span>
+              <div class="d-inline-flex m-auto ms-2">
+                <img
+                  [src]="findFriendGameData?.friend?.profilePicture ? findFriendGameData?.friend?.profilePicture.startsWith('http') ? findFriendGameData?.friend?.profilePicture : configService.url(findFriendGameData?.friend?.profilePicture) : 'assets/images/frame.png'"
+                  width="40" height="40">
+                <span
+                  class="font-size-14 weight-500 text-light-color m-auto">
+                  &nbsp;{{findFriendGameData?.friend?.firstName}} {{findFriendGameData?.friend?.lastName}}
+                </span>
+              </div>
+            </div>
+          </mat-card>
+        </div>
+        <div class="border-0 p-4 font-size-14 weight-600" *ngIf="findFriendGameData?.liveGames.length">
+          Ongoing Games
+        </div>
+        <div class="card-container" *ngFor="let liveGame of findFriendGameData?.liveGames">
+          <mat-card class="bordered-card shadow-none text-center">
+            <img src="assets/images/survival-game.png" width="50" height="50" style="margin: 0 auto">
+            <mat-card-header style="margin: 0 auto">
+              <mat-card-title class="font-size-14 weight-700">Environment</mat-card-title>
+              <mat-card-subtitle class="font-size-12 weight-500">
+                <mat-chip [ngStyle]="{'background-color': '#F0FEEF'}">
+                  <svg width="10" height="10" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12.8809" cy="12.3311" r="12" fill="#43a047"/>
+                  </svg>
+                  <mat-label color="green" class="font-size-12 weight-500">Live</mat-label>
+                </mat-chip>
+              </mat-card-subtitle>
+            </mat-card-header>
+            <br>
+            <mat-card-content class="d-inline-flex position-relative p-0">
+              <img mat-card-avatar src="assets/images/frame.png"
+                   width="33" height="33" class="mb-0">
+              <mat-card-title class="font-size-10 weight-500 ms-1">Created By:</mat-card-title>
+              <mat-card-subtitle class="position-absolute bottom-0" style="left: 45px">
+                <span
+                  class="font-size-14 weight-500">{{liveGame?.creator?.firstName}} {{liveGame?.creator?.lastName}}</span>
+              </mat-card-subtitle>
+            </mat-card-content>
+            <mat-divider></mat-divider>
+            <div class="position-relative">
+              <div class="font-size-14 weight-500 p-2 text-start">
+                <div *ngFor="let ply of liveGame?.players; let i=index" class="d-inline-block">
+                  <img mat-card-avatar
+                       [src]="ply?.profilePicture ? ply?.profilePicture.startsWith('http') ? ply?.profilePicture : configService.url(ply?.profilePicture) : 'assets/images/frame.png'"
+                       width="26" height="26" class="mb-0 position-absolute custom-position-{{i}}">
+                </div>
+              </div>
+              <div class="font-size-14 weight-500 p-2 text-end">
+                 <span class="font-size-14 weight-500 position-absolute bottom-0"
+                       style="right: 5px">{{liveGame?.gameType?.text}}</span>
+                <img src="assets/images/normal-game.png" *ngIf="liveGame?.gameType?.id == 'normal'" width="22"
+                     height="22"
+                     class="mb-0 position-absolute" style="top: 25px; right: 55px">
+                <img src="assets/images/survival-game.png" *ngIf="liveGame?.gameType?.id == 'survival'"
+                     width="22" height="22"
+                     class="mb-0 position-absolute" style="top: 25px; right: 55px">
+              </div>
+            </div>
+            <br>
+            <span class="font-size-11 weight-500 text-start">Waiting for 1/5 player</span>
+            <br>
+            <mat-card-actions>
+              <button mat-raised-button class="game-button" (click)="joinToGame(liveGame.code)">{{'Join Game' | translate}}
+              </button>
+            </mat-card-actions>
+          </mat-card>
+        </div>
+
+        <!--        finished games-->
+        <div class="border-0 p-4 font-size-14 weight-600" *ngIf="findFriendGameData?.endedGames.length">
+          Finished Games
+        </div>
+        <div class="card-container" *ngFor="let endedGame of findFriendGameData?.endedGames">
+          <mat-card class="bordered-card shadow-none text-center">
+            <img src="assets/images/survival-game.png" width="50" height="50" style="margin: 0 auto">
+            <mat-card-header style="margin: 0 auto">
+              <mat-card-title class="font-size-14 weight-700">Environment</mat-card-title>
+              <mat-card-subtitle class="font-size-12 weight-500">
+                2 days ago
+              </mat-card-subtitle>
+            </mat-card-header>
+            <br>
+            <mat-card-content class="d-inline-flex position-relative p-0">
+              <mat-card class="shadow-none">
+                <mat-card-header class="pe-1 ps-1">
+                  <img mat-card-avatar src="assets/images/frame.png"
+                       width="33" height="33" class="mb-0">
+                  <mat-card-title class="font-size-14 weight-500 text-start">Susan</mat-card-title>
+                  <mat-card-subtitle>
+                    <img src="assets/images/rank.png" width="16"><span class="font-size-14 weight-700">1 </span><span
+                    class="font-size-14 weight-500"> Rank</span>
+                    <img src="assets/images/score.png" width="16"><span class="font-size-14 weight-700">1 </span><span
+                    class="font-size-14 weight-500"> Score</span>
+                  </mat-card-subtitle>
+                </mat-card-header>
+              </mat-card>
+            </mat-card-content>
+            <mat-divider></mat-divider>
+            <div class="position-relative">
+              <div class="font-size-14 weight-500 p-2 text-start">
+                <div *ngFor="let img of findFriendGameData?.endedGames?.players; let i=index" class="d-inline-block">
+                  <img mat-card-avatar src="assets/images/frame.png"
+                       width="26" height="26" class="mb-0 position-absolute custom-position-{{i}}">
+                </div>
+              </div>
+              <div class="font-size-14 weight-500 p-2 text-end">
+                <img src="assets/images/survival-game.png" width="22" height="22"
+                     class="mb-0 position-absolute end-0" style="top: 25px">
+                <span class="font-size-14 weight-500 position-absolute bottom-0"
+                      style="right: 20px">Servival</span>
+              </div>
+            </div>
+            <br>
+            <span class="font-size-11 weight-500 text-start">5 player</span>
+            <br>
+            <mat-card-actions>
+              <button mat-raised-button class="game-button">{{'Game Detail' | translate}}
+              </button>
+            </mat-card-actions>
+          </mat-card>
+        </div>
+      </div>
+    </mat-tab>
   </mat-tab-group>
 </div>
 <br>

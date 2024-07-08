@@ -10,6 +10,7 @@ import {NgxMatIntlTelInputComponent} from "ngx-mat-intl-tel-input";
 import {TranslateModule} from "@ngx-translate/core";
 import {GeneralService} from "../../services/general/general.service";
 import {ConfigService} from "../../services/config/config.service";
+import {Preferences} from "@capacitor/preferences";
 
 @Component({
   selector: 'app-signup-refer-email',
@@ -59,10 +60,12 @@ export class SignupReferEmailComponent {
   async onSubmitPassword() {
     this.loading = true;
     this.error = '';
-    this.authService.setReferPassword(this.signUpEmailForm.controls.email.value, this.setPasswordForm.value).then(data => {
+    this.authService.setReferPassword(this.signUpEmailForm.controls.email.value, this.setPasswordForm.value).then(async data => {
       this.loading = false;
       if (data.status == 1) {
-        this.router.navigate(['/wizard'], {state: {email: this.signUpEmailForm.controls.email.value}});
+        await Preferences.set({key: 'account', value: JSON.stringify(data.data)});
+        await this.generalService.getUserData();
+        await this.router.navigate(['/wizard'], {state: {email: this.signUpEmailForm.controls.email.value}});
         this.authService.registerInit().then(res => {
           if (res.status == 1) {
             this.generalService.initData = res.data;
