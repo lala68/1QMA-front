@@ -96,7 +96,7 @@
           <mat-card class="shadow-none">
             <mat-card-header *ngIf="selectedGameMode == 0">
               <img src="assets/images/arrow-left.svg" width="24" height="24"
-                   (click)="createGameStep =1" style="position: absolute; left: 10px; top: 0; bottom: 0; margin: auto;">
+                   (click)="resetData(); createGameStep =1" style="position: absolute; left: 10px; top: 0; bottom: 0; margin: auto;">
               <img mat-card-avatar src="assets/images/full-control.png" width="42" height="42" class="ms-4">
               <mat-card-title class="font-size-16 weight-600">{{'I’m Ready' | translate}}</mat-card-title>
               <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
@@ -105,7 +105,7 @@
             </mat-card-header>
             <mat-card-header *ngIf="selectedGameMode == 1">
               <img src="assets/images/arrow-left.svg" width="24" height="24"
-                   (click)="createGameStep =1" style="position: absolute; left: 10px; top: 0; bottom: 0; margin: auto;">
+                   (click)="resetData(); createGameStep =1" style="position: absolute; left: 10px; top: 0; bottom: 0; margin: auto;">
               <img mat-card-avatar src="assets/images/Account-type.png" width="42" height="42" class="ms-4">
               <mat-card-title class="font-size-16 weight-600">{{'Topic By Me' | translate}}</mat-card-title>
               <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
@@ -115,7 +115,7 @@
             </mat-card-header>
             <mat-card-header *ngIf="selectedGameMode == 2">
               <img src="assets/images/arrow-left.svg" width="24" height="24"
-                   (click)="createGameStep =1" style="position: absolute; left: 10px; top: 0; bottom: 0; margin: auto;">
+                   (click)="resetData(); createGameStep =1" style="position: absolute; left: 10px; top: 0; bottom: 0; margin: auto;">
               <img mat-card-avatar src="assets/images/players.png" width="42" height="42" class="ms-4">
               <mat-card-title class="font-size-16 weight-600">{{'Players By Me' | translate}}</mat-card-title>
               <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
@@ -125,7 +125,7 @@
             </mat-card-header>
             <mat-card-header *ngIf="selectedGameMode == 3">
               <img src="assets/images/arrow-left.svg" width="24" height="24"
-                   (click)="createGameStep =1" style="position: absolute; left: 10px; top: 0; bottom: 0; margin: auto;">
+                   (click)="resetData(); createGameStep =1" style="position: absolute; left: 10px; top: 0; bottom: 0; margin: auto;">
               <img mat-card-avatar class="ms-4" src="assets/images/players.png" width="36" height="36">
               <img mat-card-avatar src="assets/images/Account-type.png" width="36" height="36">
               <mat-card-title class="font-size-16 weight-600">{{'I’m In Full Control' | translate}}</mat-card-title>
@@ -173,6 +173,28 @@
       </div>
       <br>
       <!--      category-->
+      <div class="card border-0" *ngIf="createGameStep == 2 && (selectedGameMode == 0 || selectedGameMode ==2)">
+        <div class="w-100 d-flex">
+          <mat-card class="shadow-none">
+            <mat-card-header class="m-3">
+              <mat-card-title class="font-size-16 weight-700">{{'Game Category' | translate}}</mat-card-title>
+              <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
+                {{'Game category' | translate}}
+              </mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <mat-card class="m-2 d-inline-block shadow-none mat-card-pref">
+                <mat-card-content class="text-start">
+                  <img [src]="'https://api.staging.1qma.games/' + selectedCategory[0]?.icon" width="35">
+                  <mat-label>{{ selectedCategory[0].name }}</mat-label>
+                </mat-card-content>
+              </mat-card>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+
+
       <div class="card border-0" *ngIf="createGameStep == 2 && (selectedGameMode == 1 || selectedGameMode ==3)">
         <div class="w-100 d-flex">
           <mat-card class="shadow-none">
@@ -290,7 +312,7 @@
       <div class="card border-0" *ngIf="createGameStep == 2">
         <mat-card class="shadow-none">
           <mat-card-header>
-            <img mat-card-avatar src="assets/images/wallet-minus.svg" width="24" height="24">
+            <img mat-card-avatar src="assets/images/wallet-minus.svg" style="width: 24px; height: 24px">
             <mat-card-title class="font-size-12 weight-600"
                             style="color: #585858">{{'My Balance' | translate}}</mat-card-title>
             <mat-card-subtitle class="font-size-14 weight-600 mt-2">
@@ -382,7 +404,7 @@
               <span class="font-size-16 weight-600 m-auto">Games by: </span>
               <div class="d-inline-flex m-auto ms-2">
                 <img
-                  [src]="findFriendGameData?.friend?.profilePicture ? findFriendGameData?.friend?.profilePicture.startsWith('http') ? findFriendGameData?.friend?.profilePicture : configService.url(findFriendGameData?.friend?.profilePicture) : 'assets/images/frame.png'"
+                  [src]="findFriendGameData?.friend?.profilePicture ? findFriendGameData?.friend?.profilePicture?.startsWith('http') ? findFriendGameData?.friend?.profilePicture : configService.url(findFriendGameData?.friend?.profilePicture) : 'assets/images/frame.png'"
                   width="40" height="40">
                 <span
                   class="font-size-14 weight-500 text-light-color m-auto">
@@ -424,7 +446,7 @@
               <div class="font-size-14 weight-500 p-2 text-start">
                 <div *ngFor="let ply of liveGame?.players; let i=index" class="d-inline-block">
                   <img mat-card-avatar
-                       [src]="ply?.profilePicture ? ply?.profilePicture.startsWith('http') ? ply?.profilePicture : configService.url(ply?.profilePicture) : 'assets/images/frame.png'"
+                       [src]="ply?.profilePicture ? ply?.profilePicture?.startsWith('http') ? ply?.profilePicture : configService.url(ply?.profilePicture) : 'assets/images/frame.png'"
                        width="26" height="26" class="mb-0 position-absolute custom-position-{{i}}">
                 </div>
               </div>

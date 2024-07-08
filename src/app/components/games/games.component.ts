@@ -20,6 +20,7 @@ import {map, Observable, startWith} from "rxjs";
 import {MaterialModule} from "../../shared/material/material.module";
 import {AddQuestion} from "../../shared/header/header.component";
 import {ConfigService} from "../../services/config/config.service";
+import {ClientService} from "../../services/client/client.service";
 
 @Component({
   selector: 'app-games',
@@ -77,7 +78,24 @@ export class GamesComponent implements OnInit {
 
   async gotoStepTwo(index: any) {
     this.selectedGameMode = index;
+    if (this.selectedGameMode == 0 || this.selectedGameMode == 2) {
+      await this.chooseRandomCategory();
+    }
     this.createGameStep = 2;
+  }
+
+  resetData() {
+    this.selectedCategory = [];
+    this.selectedGameMode = '';
+    this.selectedGameType = [];
+    this.createGameStep = 1;
+    this.findFriendStep = 1;
+  }
+
+  async chooseRandomCategory() {
+    const randomIndex = Math.floor(Math.random() * this.generalService.clientInit.categories.length);
+    const randomItem = this.generalService.clientInit.categories[randomIndex];
+    this.selectedCategory.push(randomItem);
   }
 
   async startingGame() {
@@ -86,7 +104,7 @@ export class GamesComponent implements OnInit {
       .then(data => {
         if (data.status == 1) {
           this.generalService.startingGame = true;
-          this.router.navigate(['/game-board']);
+          this.router.navigate(['/game-board'], {state: {data: data.data, users: this.invitedArray}});
         } else {
           this.openDialog(JSON.stringify(data.message), 'Error');
         }
@@ -113,9 +131,7 @@ export class GamesComponent implements OnInit {
   }
 
   selectCat(item: any) {
-    console.log(this.selectedCategory)
     const index = this.selectedCategory.findIndex((data: any) => data._id === item._id);
-    console.log(index)
     if (index !== -1) {
       // Remove the item from the array
       this.selectedCategory.splice(index, 1);
@@ -152,6 +168,8 @@ export class GamesComponent implements OnInit {
   }
 
   joinToGame(code: any = this.gameCode) {
+    // this.generalService.startingGame = true;
+    // this.router.navigate(['/game-board']);
     this.loadingJoinWithCode = true;
     this.gameService.joinToGame(code).then(data => {
       this.loadingJoinWithCode = false;
@@ -197,6 +215,7 @@ export class GamesComponent implements OnInit {
 
   openImportFromLib() {
     const dialogRef = this.dialog.open(ImportFromLibrary, {
+      data: {category: this.selectedCategory, type: this.selectedGameType},
       width: '620px'
     });
     dialogRef.afterClosed().subscribe(async result => {
@@ -223,9 +242,8 @@ export class JoiningGame {
   loading: boolean = false;
 
   constructor(private _formBuilder: FormBuilder, public dialogRef: MatDialogRef<JoiningGame>, public configService: ConfigService,
-              public dialog: MatDialog, private gameService: GamesService,
+              public dialog: MatDialog, private gameService: GamesService, private generalService: GeneralService,
               @Inject(MAT_DIALOG_DATA) public data: any, private router: Router) {
-    console.log(this.data);
   }
 
   async closeModal() {
@@ -234,6 +252,7 @@ export class JoiningGame {
 
   openImportFromLib() {
     const dialogRef = this.dialog.open(ImportFromLibrary, {
+      data: {category: this.data.data.game.category, type: this.data.game.gameType._id},
       width: '620px'
     });
     dialogRef.afterClosed().subscribe(async result => {
@@ -244,14 +263,17 @@ export class JoiningGame {
 
   async joinGame() {
     this.loading = true;
-    this.gameService.joinGameWithMyQuestion(this.data?.gameCode, this.questionForm.controls.question.value, this.questionForm.controls.answer.value).then(data => {
+    this.gameService.joinGameWithMyQuestion(this.data?.data?.game?._id, this.questionForm.controls.question.value, this.questionForm.controls.answer.value).then(data => {
+      this.loading = false;
       if (data.status == 1) {
         this.dialogRef.close();
+        this.generalService.startingGame = true;
         this.router.navigate(['/game-board']);
       } else {
         this.openDialog(JSON.stringify(data.message), 'Error');
       }
     }, error => {
+      this.loading = false;
       this.openDialog(JSON.stringify(error.error), 'Error');
     })
   }
@@ -268,10 +290,19 @@ export class JoiningGame {
   imports: [MaterialModule, CommonModule, FormsModule, ReactiveFormsModule, SharedModule, TranslateModule],
 })
 
-export class ImportFromLibrary {
+export class ImportFromLibrary implements OnInit {
+  search: any = '';
 
-  constructor(private _formBuilder: FormBuilder, public dialogRef: MatDialogRef<ImportFromLibrary>,) {
+  constructor(private _formBuilder: FormBuilder, public dialogRef: MatDialogRef<ImportFromLibrary>,
+              private clientService: ClientService, @Inject(MAT_DIALOG_DATA) public data: any) {
   }
+
+  async ngOnInit(): Promise<any> {
+    this.clientService.getUserQuestions(this.data.category[0]._id, this.data.type, this.search).then(data => {
+
+    })
+  }
+
 
   async closeModal() {
     this.dialogRef.close();

@@ -14,6 +14,7 @@ import {UserDetailComponent} from "../components/user-detail/user-detail.compone
 import {AuthRedirectGuard} from "../auth-redirect.guard";
 import {GamesComponent} from "../components/games/games.component";
 import {GameBoardComponent} from "../components/game-board/game-board.component";
+import {GameGuard} from "../game.guard";
 
 export const routes: Routes = [
   {path: 'login', component: LoginComponent, canActivate: [AuthRedirectGuard]},
@@ -22,7 +23,7 @@ export const routes: Routes = [
   {path: 'wizard', component: WizardComponent, canActivate: [authGuard]},
   {path: 'dashboard', component: DashboardComponent, canActivate: [authGuard]},
   {path: 'games/:id', component: GamesComponent, canActivate: [authGuard]},
-  {path: 'game-board', component: GameBoardComponent, canActivate: [authGuard]},
+  {path: 'game-board', component: GameBoardComponent, canActivate: [authGuard, GameGuard]},
   {path: 'signup-social', component: SignupSocialComponent, canActivate: [AuthRedirectGuard]},
   {path: 'signup-refer-email', component: SignupReferEmailComponent, canActivate: [AuthRedirectGuard]},
   {path: 'settings', component: SettingsComponent, canActivate: [authGuard]},

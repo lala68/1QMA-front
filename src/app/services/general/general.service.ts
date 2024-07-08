@@ -17,6 +17,7 @@ export class GeneralService implements OnInit {
   token: any;
   currentRout: any;
   startingGame: any = false;
+  socket: any;
 
   constructor(private http: HttpClient) {
   }
@@ -37,22 +38,18 @@ export class GeneralService implements OnInit {
     if (user.value != null) {
       try {
         var testIfJson = JSON.parse(user.value);
-        console.log(testIfJson)
         if (typeof testIfJson == "object") {
           //Json
           this.userObj = JSON.parse(user.value);
           this.userId = this.userObj._id;
-          console.log(this.userObj)
         } else {
           //Not Json
           this.userObj = (user.value);
           this.userId = this.userObj._id;
-          console.log(this.userObj)
         }
       } catch {
         this.userObj = (user.value);
         this.userId = this.userObj._id;
-        console.log(this.userObj)
       }
     }
   }
@@ -70,7 +67,6 @@ export class GeneralService implements OnInit {
     for (let i = 0; i < 10; i++) {
       username += chars[Math.floor(Math.random() * chars.length)];
     }
-    console.log(`${username}@${randomDomain}`)
     return `${username}@${randomDomain}`;
   }
 

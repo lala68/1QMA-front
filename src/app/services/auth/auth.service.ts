@@ -262,26 +262,22 @@ export class AuthService {
     if (user.value != null) {
       try {
         var testIfJson = JSON.parse(user.value);
-        console.log(testIfJson)
         if (typeof testIfJson == "object") {
           //Json
           this.generalService.userObj = JSON.parse(user.value);
           this.generalService.userId = this.generalService.userObj._id;
           this.isLoggedIn = true;
           this.generalService.hasCompletedSignup = this.generalService.userObj?.hasCompletedSignup;
-          console.log(this.generalService.userObj)
         } else {
           //Not Json
           this.generalService.userObj = (user.value);
           this.generalService.userId = this.generalService.userObj._id;
           this.isLoggedIn = true;
           this.generalService.hasCompletedSignup = this.generalService.userObj?.hasCompletedSignup;
-          console.log(this.generalService.userObj)
         }
       } catch {
         this.generalService.userObj = (user.value);
         this.generalService.userId = this.generalService.userObj._id;
-        console.log(this.generalService.userObj)
       }
     }
     return !!user.value;

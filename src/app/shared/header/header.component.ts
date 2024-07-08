@@ -134,6 +134,13 @@ export class ExitGame {
   async exit() {
     this.generalService.startingGame = false;
     this.dialogRef.close();
+    if (this.generalService.socket) {
+      this.generalService.socket.disconnect();
+      console.log('disconnected')
+      this.generalService.socket.on("disconnected", function () {
+        console.log('disconnected')
+      });
+    }
     await this.router.navigate(['/dashboard']);
   }
 }

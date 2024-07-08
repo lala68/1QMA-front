@@ -18,7 +18,9 @@
         <span class="font-size-12 weight-500">{{'Environment' | translate}}</span>
       </mat-chip>
       &nbsp; &nbsp;<mat-chip mat-raised-button color="primary" class="chip-header-type">
-      <span class="font-size-12 weight-500">{{'Survival' | translate}}</span>
+      <img src="assets/images/normal-game.png" *ngIf="data?.gameType?.id == 'normal'" width="25">
+      <img src="assets/images/survival-game.png" *ngIf="data?.gameType?.id == 'survival'" width="25">
+      <span class="font-size-12 weight-500">{{data?.gameType?.text}}</span>
     </mat-chip>
     </div>
     <mat-card-content>
@@ -27,9 +29,9 @@
           <mat-card-title class="font-size-16 weight-600">{{'Participants:' | translate}}</mat-card-title>
         </mat-card-header>
       </mat-card>
-      <div *ngFor="let user of [].constructor(5)" class="user-card position-relative">
+      <div *ngFor="let user of users" class="user-card position-relative">
         <img src="assets/images/avatar-09.png" width="32" height="32"/>
-        <mat-label class="font-size-14 weight-500 m-auto">user1</mat-label>
+        <mat-label class="font-size-14 weight-500 m-auto">{{user}}</mat-label>
         <div class="d-inline-flex position-absolute end-10">
           <mat-spinner class="waiting-spinner" [diameter]="20"></mat-spinner>
           <mat-label>waiting</mat-label>
@@ -55,10 +57,10 @@
             </mat-card-header>
             <mat-card-content class="d-inline-flex">
               <div class="copy-referrer cursor-pointer">
-                <div class="d-inline text-start">https:/...</div>
+                <div class="d-inline text-start">{{data?.gameLink}}</div>
               </div>
               &nbsp;
-              <div class="copy-referrer cursor-pointer">
+              <div class="copy-referrer cursor-pointer" [cdkCopyToClipboard]="data?.gameLink">
                 <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M17.8408 14.3219V17.3219C17.8408 21.3219 16.2408 22.9219 12.2408 22.9219H8.44082C4.44082 22.9219 2.84082 21.3219 2.84082 17.3219V13.5219C2.84082 9.52188 4.44082 7.92188 8.44082 7.92188H11.4408"
@@ -96,10 +98,10 @@
             </mat-card-header>
             <mat-card-content class="d-inline-flex">
               <div class="copy-referrer cursor-pointer">
-                <div class="d-inline text-start">36459398</div>
+                <div class="d-inline text-start">{{data?.gameCode}}</div>
               </div>
               &nbsp;
-              <div class="copy-referrer cursor-pointer">
+              <div class="copy-referrer cursor-pointer" [cdkCopyToClipboard]="data?.gameCode">
                 <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M17.8408 14.3219V17.3219C17.8408 21.3219 16.2408 22.9219 12.2408 22.9219H8.44082C4.44082 22.9219 2.84082 21.3219 2.84082 17.3219V13.5219C2.84082 9.52188 4.44082 7.92188 8.44082 7.92188H11.4408"

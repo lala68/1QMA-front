@@ -9,7 +9,7 @@
           <mat-card-header class="pe-1 ps-1">
             <!--            <div mat-card-avatar class="avatar-header-image"></div>-->
             <img mat-card-avatar
-                 [src]="generalService?.userObj?.profilePicture ? generalService?.userObj?.profilePicture.startsWith('http') ? generalService?.userObj?.profilePicture : configService.url(generalService?.userObj?.profilePicture) : 'assets/images/frame.png'"
+                 [src]="generalService?.userObj?.profilePicture ? generalService?.userObj?.profilePicture?.startsWith('http') ? generalService?.userObj?.profilePicture : configService.url(generalService?.userObj?.profilePicture) : 'assets/images/frame.png'"
                  width="35" height="35">
             <mat-card-title>{{generalService?.userObj?.firstName + ' ' + generalService?.userObj?.lastName }}</mat-card-title>
             <mat-card-subtitle>

@@ -12,7 +12,7 @@
     <mat-card class="shadow-none">
       <mat-card-header>
         <img mat-card-avatar
-             [src]="data?.data?.game?.creator?.profilePicture ? data?.data?.game?.creator?.profilePicture.startsWith('http') ? data?.data?.game?.creator?.profilePicture : configService.url(data?.data?.game?.creator?.profilePicture) : 'assets/images/frame.png'"
+             [src]="data?.data?.game?.creator?.profilePicture ? data?.data?.game?.creator?.profilePicture?.startsWith('http') ? data?.data?.game?.creator?.profilePicture : configService.url(data?.data?.game?.creator?.profilePicture) : 'assets/images/frame.png'"
              width="35" height="35">
         <mat-card-title
           class="font-size-10 weight-500 mt-2 text-gray">Created by ...

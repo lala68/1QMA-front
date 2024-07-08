@@ -15,7 +15,7 @@
     <div *ngIf="!loadingUpload">
       <div style="background: #D9D9D9; border-radius: 50px; width: 75px; height: 75px; margin: 0 auto">
         <img
-          [src]="generalService?.userObj?.profilePicture ? generalService?.userObj?.profilePicture.startsWith('http') ? generalService?.userObj?.profilePicture : configService.url(generalService?.userObj?.profilePicture) : 'assets/images/frame.png'"
+          [src]="generalService?.userObj?.profilePicture ? generalService?.userObj?.profilePicture?.startsWith('http') ? generalService?.userObj?.profilePicture : configService.url(generalService?.userObj?.profilePicture) : 'assets/images/frame.png'"
           width="56" height="56" style="margin-top: 9px">
       </div>
       <br><br>
@@ -107,7 +107,7 @@
       <mat-label class="font-size-14 weight-700">Account Type</mat-label>
       <br>
       <br>
-      <div [class]="generalService?.userObj?.profilePicture.startsWith('http') ? 'accountType-div-no-bg' : 'accountType-div'">
+      <div [class]="generalService?.userObj?.profilePicture?.startsWith('http') ? 'accountType-div-no-bg' : 'accountType-div'">
         <div class="d-inline-block">
           <img style="margin: 16px;"
                [src]="generalService?.userObj?.accountType?.icon ? configService.url(generalService?.userObj?.accountType?.icon)  : 'assets/images/base.png'"
