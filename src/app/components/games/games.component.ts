@@ -169,7 +169,6 @@ export class GamesComponent implements OnInit {
 
   private async handleGameStep() {
     console.log('gameStep: ' + this.generalService.gameStep)
-    console.log('this.generalService?.nextButtonDisable: ' + this.generalService?.nextButtonDisable)
     // this.generalService.finishedTimer = false;
     await this.waitForConditions().then(async () => {
       if (this.generalService.gameStep == 2) {
@@ -185,6 +184,7 @@ export class GamesComponent implements OnInit {
               this.generalService.finishedTimer = false;
               this.generalService.nextButtonDisable = false;
               this.countdownTimerComponent.startCountdown();
+              this.gameBoardComponent.updateRates();
               // await this.handleGameStep(); // Recursive call
             }
           });
@@ -199,11 +199,14 @@ export class GamesComponent implements OnInit {
               this.generalService.finishedTimer = false;
               this.generalService.nextButtonDisable = false;
               this.countdownTimerComponent.startCountdown();
+              this.gameBoardComponent.updateRates();
               // await this.handleGameStep(); // Recursive call
             }
           });
         }
       } else if (this.generalService.gameStep == 3) {
+        console.log(333)
+        console.log(this.generalService.gameQuestion)
         if (!this.generalService?.nextButtonDisable) {
           await this.gameBoardComponent.sendRateAnswer();
           await this.gameService.getGameQuestionBasedOnStep(
@@ -259,6 +262,7 @@ export class GamesComponent implements OnInit {
                   this.generalService.allQuestions = resQue?.data;
                   this.generalService.finishedTimer = true;
                   this.generalService.nextButtonDisable = false;
+                  this.gameBoardComponent.updateRatesQuestions();
                 });
             }
           });

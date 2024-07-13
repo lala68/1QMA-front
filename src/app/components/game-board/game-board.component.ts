@@ -27,8 +27,6 @@ export class GameBoardComponent implements OnInit {
   users: any;
   invitedUser: any;
   wordCountAnswer: number = 100;
-  rates: { answer_id: string, rate: string }[] = [];
-  rateQuestions: { question_id: string, rate: string }[] = [];
 
   constructor(public generalService: GeneralService, private router: Router, private gameService: GamesService) {
     this.data = this.router.getCurrentNavigation()?.extras?.state?.['data'];
@@ -66,9 +64,42 @@ export class GameBoardComponent implements OnInit {
   drop(event: CdkDragDrop<any[]>) {
     // Update the order of answers array
     moveItemInArray(this.generalService.specificQuestionAnswers.answers, event.previousIndex, event.currentIndex);
+    // moveItemInArray(this.questions, event.previousIndex, event.currentIndex);
 
     // Update the rates array based on the new order of answers
     this.updateRates();
+  }
+
+  moveUpAnswers(index: number) {
+    if (index > 0) {
+      const temp = this.generalService.specificQuestionAnswers.answers[index];
+      this.generalService.specificQuestionAnswers.answers[index] = this.generalService.specificQuestionAnswers.answers[index - 1];
+      this.generalService.specificQuestionAnswers.answers[index - 1] = temp;
+    }
+  }
+
+  moveDownAnswers(index: number) {
+    if (index < this.generalService.specificQuestionAnswers.answers.length - 1) {
+      const temp = this.generalService.specificQuestionAnswers.answers[index];
+      this.generalService.specificQuestionAnswers.answers[index] = this.generalService.specificQuestionAnswers.answers[index + 1];
+      this.generalService.specificQuestionAnswers.answers[index + 1] = temp;
+    }
+  }
+
+  moveUpQuestions(index: number) {
+    if (index > 0) {
+      const temp = this.generalService.allQuestions[index];
+      this.generalService.allQuestions[index] = this.generalService.allQuestions[index - 1];
+      this.generalService.allQuestions[index - 1] = temp;
+    }
+  }
+
+  moveDownQuestions(index: number) {
+    if (index < this.generalService.allQuestions.length - 1) {
+      const temp = this.generalService.allQuestions[index];
+      this.generalService.allQuestions[index] = this.generalService.allQuestions[index + 1];
+      this.generalService.allQuestions[index + 1] = temp;
+    }
   }
 
   dropQuestions(event: CdkDragDrop<any[]>) {
@@ -80,14 +111,14 @@ export class GameBoardComponent implements OnInit {
   }
 
   updateRates() {
-    this.rates = this.generalService.specificQuestionAnswers.answers.map((answer: any, index: any) => ({
+    this.generalService.rateAnswers = this.generalService.specificQuestionAnswers.answers.map((answer: any, index: any) => ({
       answer_id: answer._id,
       rate: (index + 1).toString() // Assuming the rate is the new index + 1 as a string
     }));
   }
 
   updateRatesQuestions() {
-    this.rateQuestions = this.generalService.allQuestions.map((question: any, index: any) => ({
+    this.generalService.rateQuestions = this.generalService.allQuestions.map((question: any, index: any) => ({
       question_id: question._id,
       rate: (index + 1).toString() // Assuming the rate is the new index + 1 as a string
     }));
@@ -95,7 +126,7 @@ export class GameBoardComponent implements OnInit {
 
   async sendRateAnswer(): Promise<any> {
     this.generalService.nextButtonDisable = true;
-    this.gameService.sendRates(this.generalService.createdGameData.game.gameId, this.generalService.gameQuestion._id, this.rates).then(data => {
+    this.gameService.sendRates(this.generalService.createdGameData.game.gameId, this.generalService.gameQuestion._id, this.generalService.rateAnswers).then(data => {
       if (data.status == 1) {
         this.loading = false;
       } else {
@@ -106,7 +137,7 @@ export class GameBoardComponent implements OnInit {
 
   async sendRateQuestions(): Promise<any> {
     this.generalService.nextButtonDisable = true;
-    this.gameService.sendRateQuestions(this.generalService.createdGameData.game.gameId, this.rateQuestions).then(data => {
+    this.gameService.sendRateQuestions(this.generalService.createdGameData.game.gameId, this.generalService.rateQuestions).then(data => {
       if (data.status == 1) {
         this.loading = false;
       } else {

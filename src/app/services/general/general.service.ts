@@ -31,6 +31,9 @@ export class GeneralService implements OnInit {
   nextButtonDisable: boolean = false;
   allQuestions: any = [];
   gameResult: any;
+  rateAnswers: { answer_id: string, rate: string }[] = [];
+  rateQuestions: { question_id: string, rate: string }[] = [];
+
 
   constructor(private http: HttpClient, private _snackBar: MatSnackBar) {
   }
