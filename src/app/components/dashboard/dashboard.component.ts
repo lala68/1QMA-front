@@ -59,4 +59,7 @@ export class DashboardComponent implements OnInit {
     this.dialog.open(DialogContentComponent, {data: {message: message, title: title}});
   }
 
+  copyText() {
+    this.openDialog('copied.', 'Success');
+  }
 }

@@ -2,10 +2,8 @@ import {Component, Inject, OnInit, ViewEncapsulation} from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {SharedModule} from "../../shared/shared.module";
 import {
-  FormArray,
   FormBuilder,
   FormControl,
-  FormGroup,
   FormsModule,
   ReactiveFormsModule,
   Validators
@@ -16,11 +14,12 @@ import {GeneralService} from "../../services/general/general.service";
 import {GamesService} from "../../services/games/games.service";
 import {DialogContentComponent} from "../dialog-content/dialog-content.component";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {map, Observable, startWith} from "rxjs";
 import {MaterialModule} from "../../shared/material/material.module";
-import {AddQuestion} from "../../shared/header/header.component";
 import {ConfigService} from "../../services/config/config.service";
 import {ClientService} from "../../services/client/client.service";
+import {io} from "socket.io-client";
+import {GameBoardComponent} from "../game-board/game-board.component";
+import {CountdownTimerComponent} from "../countdown-timer/countdown-timer.component";
 
 @Component({
   selector: 'app-games',
@@ -29,12 +28,12 @@ import {ClientService} from "../../services/client/client.service";
     TranslateModule],
   templateUrl: './games.component.html',
   styleUrl: './games.component.scss',
+  providers: [GameBoardComponent, CountdownTimerComponent],
   encapsulation: ViewEncapsulation.None
 })
 export class GamesComponent implements OnInit {
   loading: boolean = true;
   createGameStep: any = 1;
-  data: any;
   selectedGameMode: any;
   selectedGameType: any = [];
   selectedCategory: any = [];
@@ -57,17 +56,18 @@ export class GamesComponent implements OnInit {
   selectedTabIndex: any = 0;
   loadingJoinWithCode: boolean = false;
   loadingFindFriend: boolean = false;
+  loadingCreateGame: boolean = false;
 
   constructor(public generalService: GeneralService, private gameService: GamesService, public configService: ConfigService,
               private _formBuilder: FormBuilder, private router: Router, public dialog: MatDialog,
-              private route: ActivatedRoute) {
-    this.generalService.currentRout = '/games';
+              private route: ActivatedRoute, private gameBoardComponent: GameBoardComponent, private countdownTimerComponent: CountdownTimerComponent) {
+    this.generalService.currentRout = '/games/0';
   }
 
   async ngOnInit(): Promise<any> {
     this.gameService.gameInit().then(data => {
       if (data.status == 1) {
-        this.data = data.data;
+        this.generalService.gameInit = data.data;
         this.loading = false;
       }
     });
@@ -99,18 +99,194 @@ export class GamesComponent implements OnInit {
   }
 
   async startingGame() {
-    this.gameService.createGame(this.selectedGameType[0], this.selectedGameMode.toString(), this.selectedCategory,
-      this.invitedArray, this.questionForm.controls.question.value, this.questionForm.controls.answer.value)
-      .then(data => {
-        if (data.status == 1) {
-          this.generalService.startingGame = true;
-          this.router.navigate(['/game-board'], {state: {data: data.data, users: this.invitedArray}});
+    this.loadingCreateGame = true;
+    this.generalService.players = [];
+    this.generalService.socket = io('https://api.staging.1qma.games', {withCredentials: true});
+    this.generalService.socket.on("connect", () => {
+      console.log("connect");
+    });
+    this.generalService.socket.on("player added", (arg: any) => {
+      console.log("emit", arg);
+      this.generalService.players.push(arg);
+    });
+
+    this.generalService.socket.on("start game", (arg: any) => {
+      console.log("emit game started", arg);
+      this.gameService.getGameQuestionBasedOnStep(this.generalService?.createdGameData?.game?.gameId, 1).then(resQue => {
+        this.generalService.gameQuestion = resQue?.data;
+        this.generalService.gameStep = 2;
+        this.generalService.finishedTimer = false;
+        if (resQue?.data?.myAnswer) {
+          console.log(111111)
+          this.generalService.gameAnswerGeneral = resQue?.data?.myAnswer;
+          this.generalService.editingAnswer = true;
         } else {
-          this.openDialog(JSON.stringify(data.message), 'Error');
+          this.generalService.editingAnswer = false;
         }
-      }, error => {
-        this.openDialog(JSON.stringify(error.error), 'Error');
       })
+    });
+
+    this.generalService.socket.on("next step", (arg: any) => {
+      console.log("emit next step", arg);
+      this.handleGameStep();
+    });
+
+    this.generalService.socket.on("end game", (arg: any) => {
+      console.log("end game", arg);
+      this.generalService.gameStep = 5;
+    });
+
+    this.generalService.socket.on("disconnected", function () {
+      console.log('disconnected')
+    });
+    setTimeout(() => {
+      this.gameService.createGame(this.selectedGameType[0], this.selectedGameMode.toString(), this.selectedCategory,
+        this.invitedArray, this.questionForm.controls.question.value, this.questionForm.controls.answer.value)
+        .then(async data => {
+          if (data.status == 1) {
+            this.generalService.startingGame = true;
+            let account = await this.generalService.getItem('account');
+            if (account) {
+              // Update the "assets" property
+              account.assets = data?.data?.newBalance;
+              // Save the updated "account" object back to storage
+              this.generalService.saveToStorage('account', JSON.stringify(account));
+            }
+            this.generalService.createdGameData = data.data;
+            await this.router.navigate(['/game-board'], {state: {data: data.data, users: this.invitedArray}});
+            // await this.router.navigate(['/game-board'], {state: {data: '', users: this.invitedArray}});
+          } else {
+            this.loadingCreateGame = false;
+            this.openDialog(JSON.stringify(data.message), 'Error');
+          }
+        }, error => {
+          this.loadingCreateGame = false;
+          this.openDialog(JSON.stringify(error.error), 'Error');
+        })
+    }, 3000)
+  }
+
+
+  private async handleGameStep() {
+    console.log('gameStep: ' + this.generalService.gameStep)
+    console.log('this.generalService?.nextButtonDisable: ' + this.generalService?.nextButtonDisable)
+    // this.generalService.finishedTimer = false;
+    await this.waitForConditions().then(async () => {
+      if (this.generalService.gameStep == 2) {
+        if (!this.generalService?.nextButtonDisable) {
+          await this.gameBoardComponent.sendAnswer();
+          await this.gameService.getAllAnswersOfSpecificQuestion(
+            this.generalService.createdGameData.game.gameId,
+            this.generalService.gameQuestion._id
+          ).then(async data => {
+            if (data.status === 1) {
+              this.generalService.specificQuestionAnswers = data.data;
+              this.generalService.gameStep = 3;
+              this.generalService.finishedTimer = false;
+              this.generalService.nextButtonDisable = false;
+              this.countdownTimerComponent.startCountdown();
+              // await this.handleGameStep(); // Recursive call
+            }
+          });
+        } else {
+          await this.gameService.getAllAnswersOfSpecificQuestion(
+            this.generalService.createdGameData.game.gameId,
+            this.generalService.gameQuestion._id
+          ).then(async data => {
+            if (data.status === 1) {
+              this.generalService.specificQuestionAnswers = data.data;
+              this.generalService.gameStep = 3;
+              this.generalService.finishedTimer = false;
+              this.generalService.nextButtonDisable = false;
+              this.countdownTimerComponent.startCountdown();
+              // await this.handleGameStep(); // Recursive call
+            }
+          });
+        }
+      } else if (this.generalService.gameStep == 3) {
+        if (!this.generalService?.nextButtonDisable) {
+          await this.gameBoardComponent.sendRateAnswer();
+          await this.gameService.getGameQuestionBasedOnStep(
+            this.generalService?.createdGameData?.game?.gameId,
+            parseInt(this.generalService.gameQuestion.step) + 1
+          ).then(async resQue => {
+            if (resQue.status == 1) {
+              this.generalService.gameQuestion = resQue?.data;
+              if (resQue?.data?.myAnswer) {
+                this.generalService.gameAnswerGeneral = resQue?.data?.myAnswer;
+                this.generalService.editingAnswer = true;
+              } else {
+                this.generalService.editingAnswer = false;
+              }
+              this.generalService.gameStep = 2;
+              this.generalService.finishedTimer = false;
+              this.generalService.nextButtonDisable = false;
+              this.countdownTimerComponent.startCountdown();
+              // await this.handleGameStep(); // Recursive call
+            } else {
+              this.generalService.gameStep = 4;
+              this.generalService.nextButtonDisable = false;
+              this.countdownTimerComponent.startCountdown();
+              // await this.handleGameStep(); // Recursive call
+            }
+          });
+        } else {
+          this.generalService.nextButtonDisable = false;
+          await this.gameService.getGameQuestionBasedOnStep(
+            this.generalService?.createdGameData?.game?.gameId,
+            parseInt(this.generalService.gameQuestion.step) + 1
+          ).then(async resQue => {
+            if (resQue.status == 1) {
+              this.generalService.gameQuestion = resQue?.data;
+              if (resQue?.data?.myAnswer) {
+                this.generalService.gameAnswerGeneral = resQue?.data?.myAnswer;
+                this.generalService.editingAnswer = true;
+              } else {
+                this.generalService.editingAnswer = false;
+              }
+              this.generalService.finishedTimer = false;
+              this.generalService.gameStep = 2;
+              this.generalService.nextButtonDisable = false;
+              this.countdownTimerComponent.startCountdown();
+              // await this.handleGameStep(); // Recursive call
+            } else {
+              this.generalService.gameStep = 4;
+              this.generalService.nextButtonDisable = false;
+              this.countdownTimerComponent.startCountdown();
+              await this.gameService.getQuestionsOfGame(
+                this.generalService?.createdGameData?.game?.gameId)
+                .then(async resQue => {
+                  this.generalService.allQuestions = resQue?.data;
+                  this.generalService.finishedTimer = true;
+                  this.generalService.nextButtonDisable = false;
+                });
+            }
+          });
+        }
+      } else if (this.generalService.gameStep == 4) {
+        if (!this.generalService?.nextButtonDisable) {
+          await this.gameBoardComponent.sendRateQuestions();
+        } else {
+          this.generalService.nextButtonDisable = false;
+        }
+      }
+    });
+  }
+
+  // Method to wait for the conditions to be true
+  private waitForConditions(): Promise<void> {
+    return new Promise<void>((resolve) => {
+      const interval = setInterval(() => {
+        if (this.conditionsMet()) {
+          clearInterval(interval);
+          resolve();
+        }
+      }, 100); // Check every 100ms
+    });
+  }
+
+  private conditionsMet(): boolean {
+    return this.generalService.finishedTimer;
   }
 
   openDialog(message: any, title: any) {
@@ -170,6 +346,45 @@ export class GamesComponent implements OnInit {
   joinToGame(code: any = this.gameCode) {
     // this.generalService.startingGame = true;
     // this.router.navigate(['/game-board']);
+    this.generalService.socket = io('https://api.staging.1qma.games', {withCredentials: true});
+    this.generalService.socket.on("connect", () => {
+      console.log("connect");
+    });
+    this.generalService.socket.on("player added", (arg: any) => {
+      console.log("emit", arg);
+      this.generalService.players.push(arg);
+    });
+    this.generalService.socket.on("start game", (arg: any) => {
+      console.log("emit game started", arg);
+      this.timer = setTimeout(() => {
+        this.gameService.getGameQuestionBasedOnStep(this.generalService?.createdGameData?.game?.gameId, 1).then(resQue => {
+          this.generalService.gameQuestion = resQue?.data;
+          this.generalService.gameStep = 2;
+          this.generalService.finishedTimer = false;
+          if (resQue?.data?.myAnswer) {
+            this.generalService.gameAnswerGeneral = resQue?.data?.myAnswer;
+            this.generalService.editingAnswer = true;
+          } else {
+            this.generalService.editingAnswer = false;
+          }
+        });
+      }, 100);
+    });
+
+    this.generalService.socket.on("next step", (arg: any) => {
+      console.log("emit next step", arg);
+      this.handleGameStep();
+    });
+
+    this.generalService.socket.on("end game", (arg: any) => {
+      console.log("end game", arg);
+      this.generalService.gameStep = 5;
+      this.getGameResult();
+    });
+
+    this.generalService.socket.on("disconnected", function () {
+      console.log('disconnected')
+    });
     this.loadingJoinWithCode = true;
     this.gameService.joinToGame(code).then(data => {
       this.loadingJoinWithCode = false;
@@ -199,6 +414,13 @@ export class GamesComponent implements OnInit {
         this.openDialog(JSON.stringify(data.message), 'Error');
       }
     })
+  }
+
+  async getGameResult() {
+    this.gameService.getGameResult(this.generalService.createdGameData.game.gameId).then(data => {
+        this.generalService.gameResult = data.data;
+      }
+    )
   }
 
   async getResultOfSearch() {
@@ -263,12 +485,20 @@ export class JoiningGame {
 
   async joinGame() {
     this.loading = true;
-    this.gameService.joinGameWithMyQuestion(this.data?.data?.game?._id, this.questionForm.controls.question.value, this.questionForm.controls.answer.value).then(data => {
+    this.gameService.joinGameWithMyQuestion(this.data?.data?.game?._id, this.questionForm.controls.question.value, this.questionForm.controls.answer.value).then(async data => {
       this.loading = false;
       if (data.status == 1) {
         this.dialogRef.close();
+        let account = await this.generalService.getItem('account');
+        if (account) {
+          // Update the "assets" property
+          account.assets = data?.data?.newBalance;
+          // Save the updated "account" object back to storage
+          this.generalService.saveToStorage('account', JSON.stringify(account));
+        }
         this.generalService.startingGame = true;
-        this.router.navigate(['/game-board']);
+        this.generalService.createdGameData = data.data;
+        this.router.navigate(['/game-board'], {state: {data: data.data, users: []}});
       } else {
         this.openDialog(JSON.stringify(data.message), 'Error');
       }
@@ -292,6 +522,7 @@ export class JoiningGame {
 
 export class ImportFromLibrary implements OnInit {
   search: any = '';
+  selectedTabIndex: any = 0;
 
   constructor(private _formBuilder: FormBuilder, public dialogRef: MatDialogRef<ImportFromLibrary>,
               private clientService: ClientService, @Inject(MAT_DIALOG_DATA) public data: any) {

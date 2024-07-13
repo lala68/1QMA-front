@@ -38,12 +38,24 @@
           src="assets/images/google.png"
           style="margin-top: 6px"
           width="23"/></a>
-        <button class="social-button-div border-0" (click)="gotoWizard()"><img src="assets/images/facebook.png"
-                                                                               width="23"/></button>
-        <button class="social-button-div border-0" (click)="gotoWizard()"><img src="assets/images/apple.png"
-                                                                               width="23"/></button>
-        <button class="social-button-div border-0" (click)="gotoWizard()"><img src="assets/images/x-media.png"
-                                                                               width="23"/></button>
+        <a [href]="config.url('/auth/facebook?reason=register')" class="social-button-div border-0"><img
+          src="assets/images/facebook.png"
+          style="margin-top: 6px"
+          width="23"/></a>
+        <a [href]="config.url('/auth/apple?reason=register')" class="social-button-div border-0"><img
+          src="assets/images/apple.png"
+          style="margin-top: 6px"
+          width="23"/></a>
+        <a [href]="config.url('/auth/x?reason=register')" class="social-button-div border-0"><img
+          src="assets/images/x-media.png"
+          style="margin-top: 6px"
+          width="23"/></a>
+<!--        <button class="social-button-div border-0" (click)="gotoWizard()"><img src="assets/images/facebook.png"-->
+<!--                                                                               width="23"/></button>-->
+<!--        <button class="social-button-div border-0" (click)="gotoWizard()"><img src="assets/images/apple.png"-->
+<!--                                                                               width="23"/></button>-->
+<!--        <button class="social-button-div border-0" (click)="gotoWizard()"><img src="assets/images/x-media.png"-->
+<!--                                                                               width="23"/></button>-->
       </div>
       <br>
       <br>

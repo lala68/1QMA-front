@@ -41,7 +41,8 @@
               {{'System choose: ' | translate}} <span class="font-size-14 weight-600">Topic + Players</span>
             </mat-card-subtitle>
           </mat-card-header>
-          <button mat-raised-button color="primary" class="next-step-game" (click)="gotoStepTwo(0)">
+          <button mat-raised-button color="primary" class="next-step-game"
+                  (click)="gotoStepTwo(0)">
             {{'Create Game' | translate}}
             <i class="bi bi-arrow-right"></i>
           </button>
@@ -96,7 +97,8 @@
           <mat-card class="shadow-none">
             <mat-card-header *ngIf="selectedGameMode == 0">
               <img src="assets/images/arrow-left.svg" width="24" height="24"
-                   (click)="resetData(); createGameStep =1" style="position: absolute; left: 10px; top: 0; bottom: 0; margin: auto;">
+                   (click)="resetData(); createGameStep =1"
+                   style="position: absolute; left: 10px; top: 0; bottom: 0; margin: auto;">
               <img mat-card-avatar src="assets/images/full-control.png" width="42" height="42" class="ms-4">
               <mat-card-title class="font-size-16 weight-600">{{'I’m Ready' | translate}}</mat-card-title>
               <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
@@ -105,7 +107,8 @@
             </mat-card-header>
             <mat-card-header *ngIf="selectedGameMode == 1">
               <img src="assets/images/arrow-left.svg" width="24" height="24"
-                   (click)="resetData(); createGameStep =1" style="position: absolute; left: 10px; top: 0; bottom: 0; margin: auto;">
+                   (click)="resetData(); createGameStep =1"
+                   style="position: absolute; left: 10px; top: 0; bottom: 0; margin: auto;">
               <img mat-card-avatar src="assets/images/Account-type.png" width="42" height="42" class="ms-4">
               <mat-card-title class="font-size-16 weight-600">{{'Topic By Me' | translate}}</mat-card-title>
               <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
@@ -115,7 +118,8 @@
             </mat-card-header>
             <mat-card-header *ngIf="selectedGameMode == 2">
               <img src="assets/images/arrow-left.svg" width="24" height="24"
-                   (click)="resetData(); createGameStep =1" style="position: absolute; left: 10px; top: 0; bottom: 0; margin: auto;">
+                   (click)="resetData(); createGameStep =1"
+                   style="position: absolute; left: 10px; top: 0; bottom: 0; margin: auto;">
               <img mat-card-avatar src="assets/images/players.png" width="42" height="42" class="ms-4">
               <mat-card-title class="font-size-16 weight-600">{{'Players By Me' | translate}}</mat-card-title>
               <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
@@ -125,7 +129,8 @@
             </mat-card-header>
             <mat-card-header *ngIf="selectedGameMode == 3">
               <img src="assets/images/arrow-left.svg" width="24" height="24"
-                   (click)="resetData(); createGameStep =1" style="position: absolute; left: 10px; top: 0; bottom: 0; margin: auto;">
+                   (click)="resetData(); createGameStep =1"
+                   style="position: absolute; left: 10px; top: 0; bottom: 0; margin: auto;">
               <img mat-card-avatar class="ms-4" src="assets/images/players.png" width="36" height="36">
               <img mat-card-avatar src="assets/images/Account-type.png" width="36" height="36">
               <mat-card-title class="font-size-16 weight-600">{{'I’m In Full Control' | translate}}</mat-card-title>
@@ -147,7 +152,8 @@
               </mat-card-subtitle>
             </mat-card-header>
             <mat-card-content>
-              <mat-card class="m-2 d-inline-block shadow-none cursor-pointer" *ngFor="let gType of data?.gameTypes"
+              <mat-card class="m-2 d-inline-block shadow-none cursor-pointer"
+                        *ngFor="let gType of generalService?.gameInit?.gameTypes"
                         (click)="selectGameType(gType.id)"
                         [class]="{'mat-card-game-type-selected': isSelectedGameType(gType.id), 'mat-card-game-type': !isSelectedGameType(gType.id)}">
                 <mat-card-content class="text-start">
@@ -205,7 +211,7 @@
               </mat-card-subtitle>
             </mat-card-header>
             <mat-card-content>
-              <mat-card *ngFor="let cat of data?.categories"
+              <mat-card *ngFor="let cat of generalService?.gameInit?.categories"
                         class="m-2 d-inline-block shadow-none cursor-pointer"
                         (click)="selectCat(cat)"
                         [class]="{'mat-card-pref-selected': isSelected(cat), 'mat-card-pref': !isSelected(cat)}">
@@ -233,7 +239,19 @@
             <mat-card-content style="width: 1000px; margin-top: 30px">
               <form #f="ngForm" [formGroup]="questionForm" autocomplete="off">
                 <div class="d-flex">
-                  <img src="assets/images/message-question.svg" width="24">
+                  <!--                  <img src="assets/images/message-question.svg" width="24">-->
+                  <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M17.8408 18.5899H13.8408L9.39081 21.5499C8.73081 21.9899 7.84082 21.5199 7.84082 20.7199V18.5899C4.84082 18.5899 2.84082 16.5899 2.84082 13.5899V7.58984C2.84082 4.58984 4.84082 2.58984 7.84082 2.58984H17.8408C20.8408 2.58984 22.8408 4.58984 22.8408 7.58984V13.5899C22.8408 16.5899 20.8408 18.5899 17.8408 18.5899Z"
+                      stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                      stroke-linejoin="round"/>
+                    <path
+                      d="M12.8406 11.5205V11.3105C12.8406 10.6305 13.2607 10.2705 13.6807 9.98053C14.0907 9.70053 14.5006 9.34054 14.5006 8.68054C14.5006 7.76054 13.7606 7.02051 12.8406 7.02051C11.9206 7.02051 11.1807 7.76054 11.1807 8.68054"
+                      stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M12.8363 13.9102H12.8453" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
+                          stroke-linejoin="round"/>
+                  </svg>
+
                   &nbsp;<div class="font-size-14 weight-600">My Question:</div>
                   <div class="font-size-14 weight-600 cursor-pointer" (click)="openImportFromLib()"
                        style="text-align: right; flex: 1; color: #0B6FEA"><i class="bi bi-plus"></i>
@@ -247,7 +265,22 @@
                 </div>
                 <div>
                   <div class="d-flex">
-                    <img src="assets/images/clipboard-text.svg" width="24">
+                    <!--                    <img src="assets/images/clipboard-text.svg" width="24">-->
+                    <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M7.9917 12.3604H14.9917" stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10"
+                            stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M7.9917 16.3604H12.3717" stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10"
+                            stroke-linecap="round" stroke-linejoin="round"/>
+                      <path
+                        d="M9.9917 6.16016H13.9917C15.9917 6.16016 15.9917 5.16016 15.9917 4.16016C15.9917 2.16016 14.9917 2.16016 13.9917 2.16016H9.9917C8.9917 2.16016 7.9917 2.16016 7.9917 4.16016C7.9917 6.16016 8.9917 6.16016 9.9917 6.16016Z"
+                        stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                        stroke-linejoin="round"/>
+                      <path
+                        d="M15.9917 4.17969C19.3217 4.35969 20.9917 5.58969 20.9917 10.1597V16.1597C20.9917 20.1597 19.9917 22.1597 14.9917 22.1597H8.9917C3.9917 22.1597 2.9917 20.1597 2.9917 16.1597V10.1597C2.9917 5.59969 4.6617 4.35969 7.9917 4.17969"
+                        stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                        stroke-linejoin="round"/>
+                    </svg>
+
                     &nbsp;<div class="font-size-14 weight-600">My Answer:</div>
                   </div>
                   <div class="textarea-container">
@@ -292,8 +325,16 @@
           <div *ngFor="let ivt of invitedArray" class="invite-card m-3">
             <img src="assets/images/avatar-09.png" width="32" height="32"/>
             <mat-label class="font-size-14 weight-500 m-auto">{{ivt}}</mat-label>
-            &nbsp;&nbsp;<img src="assets/images/add.svg" *ngIf="ivt !== generalService?.userObj?.email"
-                             (click)="removeInvite(ivt)"/>
+            &nbsp;&nbsp;
+            <!--            <img src="assets/images/add.svg" *ngIf="ivt !== generalService?.userObj?.email"-->
+            <!--                             (click)="removeInvite(ivt)"/>-->
+            <svg width="24" height="24" *ngIf="ivt !== generalService?.userObj?.email" (click)="removeInvite(ivt)"
+                 viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M13.4819 21.4023L21.9672 12.9171" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
+                    stroke-linejoin="round"/>
+              <path d="M21.9672 21.4032L13.4819 12.918" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
+                    stroke-linejoin="round"/>
+            </svg>
           </div>
         </div>
       </div>
@@ -303,7 +344,7 @@
           <mat-card-header class="m-3 pt-0">
             <mat-card-title class="font-size-16 weight-700">{{'Game Creation Price: ' | translate}}
               <img src="assets/images/coin-bronze.png" width="24"/>
-              &nbsp; {{data?.gamePrice?.count}} {{data?.gamePrice?.coin}}
+              &nbsp; {{generalService?.gameInit?.gamePrice?.count}} {{generalService?.gameInit?.gamePrice?.coin}}
             </mat-card-title>
           </mat-card-header>
         </mat-card>
@@ -312,7 +353,28 @@
       <div class="card border-0" *ngIf="createGameStep == 2">
         <mat-card class="shadow-none">
           <mat-card-header>
-            <img mat-card-avatar src="assets/images/wallet-minus.svg" style="width: 24px; height: 24px">
+            <!--            <img mat-card-avatar src="assets/images/wallet-minus.svg" style="width: 24px; height: 24px">-->
+            <svg style="width: 24px; height: 24px" mat-card-avatar width="25" height="25" viewBox="0 0 25 25"
+                 fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M15.1626 16.3145H10.1626" stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+              <path
+                d="M13.5608 2.83454L13.5308 2.90454L10.6308 9.63454H7.78084C7.10084 9.63454 6.45084 9.77454 5.86084 10.0245L7.61084 5.84454L7.65084 5.74454L7.72084 5.58454C7.74084 5.52454 7.76084 5.46454 7.79084 5.41454C9.10084 2.38454 10.5808 1.69454 13.5608 2.83454Z"
+                stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path
+                d="M18.9509 9.83496C18.5009 9.69496 18.0209 9.63496 17.5409 9.63496H10.6309L13.5309 2.90496L13.5609 2.83496C13.7109 2.88496 13.8509 2.95496 14.0009 3.01496L16.2109 3.94496C17.4409 4.45496 18.3009 4.98496 18.8209 5.62496C18.9209 5.74496 19.0009 5.85496 19.0709 5.98496C19.1609 6.12496 19.2309 6.26496 19.2709 6.41496C19.3109 6.50496 19.3409 6.59496 19.3609 6.67496C19.6309 7.51496 19.4709 8.54496 18.9509 9.83496Z"
+                stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path
+                d="M22.4226 14.5148V16.4648C22.4226 16.6648 22.4126 16.8648 22.4026 17.0648C22.2126 20.5548 20.2626 22.3148 16.5626 22.3148H8.7626C8.5226 22.3148 8.2826 22.2948 8.0526 22.2648C4.8726 22.0548 3.1726 20.3548 2.9626 17.1748C2.9326 16.9448 2.9126 16.7048 2.9126 16.4648V14.5148C2.9126 12.5048 4.1326 10.7748 5.8726 10.0248C6.4726 9.77477 7.1126 9.63477 7.7926 9.63477H17.5526C18.0426 9.63477 18.5226 9.70477 18.9626 9.83477C20.9526 10.4448 22.4226 12.3048 22.4226 14.5148Z"
+                stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path
+                d="M7.61088 5.84473L5.86088 10.0247C4.12088 10.7747 2.90088 12.5047 2.90088 14.5147V11.5847C2.90088 8.74473 4.92088 6.37473 7.61088 5.84473Z"
+                stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path
+                d="M22.4195 11.5841V14.5141C22.4195 12.3141 20.9595 10.4441 18.9595 9.84406C19.4795 8.54406 19.6295 7.52406 19.3795 6.67406C19.3595 6.58406 19.3295 6.49406 19.2895 6.41406C21.1495 7.37406 22.4195 9.34406 22.4195 11.5841Z"
+                stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+
             <mat-card-title class="font-size-12 weight-600"
                             style="color: #585858">{{'My Balance' | translate}}</mat-card-title>
             <mat-card-subtitle class="font-size-14 weight-600 mt-2">
@@ -320,7 +382,7 @@
             </mat-card-subtitle>
           </mat-card-header>
           <button mat-raised-button color="primary" class="next-step-game"
-                  [disabled]="!questionForm.valid || !selectedGameMode.toString() || !selectedGameType[0] ||
+                  [disabled]="loadingCreateGame || !questionForm.valid || !selectedGameMode.toString() || !selectedGameType[0] ||
                    ((selectedGameMode == 1 || selectedGameMode ==3) && !selectedCategory[0]) ||
                     ((selectedGameMode == 2 || selectedGameMode ==3) && invitedArray.length !== 4)"
                   (click)="startingGame()">
@@ -417,8 +479,9 @@
         <div class="border-0 p-4 font-size-14 weight-600" *ngIf="findFriendGameData?.liveGames.length">
           Ongoing Games
         </div>
-        <div class="card-container" *ngFor="let liveGame of findFriendGameData?.liveGames">
-          <mat-card class="bordered-card shadow-none text-center">
+        <div class="card-container">
+          <mat-card *ngFor="let liveGame of findFriendGameData?.liveGames"
+                    class="bordered-card shadow-none text-center">
             <img src="assets/images/survival-game.png" width="50" height="50" style="margin: 0 auto">
             <mat-card-header style="margin: 0 auto">
               <mat-card-title class="font-size-14 weight-700">Environment</mat-card-title>
@@ -465,7 +528,8 @@
             <span class="font-size-11 weight-500 text-start">Waiting for 1/5 player</span>
             <br>
             <mat-card-actions>
-              <button mat-raised-button class="game-button" (click)="joinToGame(liveGame.code)">{{'Join Game' | translate}}
+              <button mat-raised-button class="game-button"
+                      (click)="joinToGame(liveGame.code)">{{'Join Game' | translate}}
               </button>
             </mat-card-actions>
           </mat-card>
@@ -475,8 +539,9 @@
         <div class="border-0 p-4 font-size-14 weight-600" *ngIf="findFriendGameData?.endedGames.length">
           Finished Games
         </div>
-        <div class="card-container" *ngFor="let endedGame of findFriendGameData?.endedGames">
-          <mat-card class="bordered-card shadow-none text-center">
+        <div class="card-container">
+          <mat-card *ngFor="let endedGame of findFriendGameData?.endedGames"
+                    class="bordered-card shadow-none text-center">
             <img src="assets/images/survival-game.png" width="50" height="50" style="margin: 0 auto">
             <mat-card-header style="margin: 0 auto">
               <mat-card-title class="font-size-14 weight-700">Environment</mat-card-title>

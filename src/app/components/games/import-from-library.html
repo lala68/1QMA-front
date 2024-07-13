@@ -1,9 +1,17 @@
-<div class="font-size-14 weight-700 p-2 border-bottom"><img src="assets/images/add.svg" (click)="closeModal()"
-                                                            width="24">&nbsp;{{'Joining Game' | translate}}
+<div class="font-size-14 weight-700 p-2 border-bottom">
+  <!--  <img src="assets/images/add.svg" (click)="closeModal()" width="24">-->
+  <svg (click)="closeModal()" width="24" height="24" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M13.4819 21.4023L21.9672 12.9171" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
+          stroke-linejoin="round"/>
+    <path d="M21.9672 21.4032L13.4819 12.918" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
+          stroke-linejoin="round"/>
+  </svg>
+  &nbsp;{{'Joining Game' | translate}}
 </div>
 <div mat-dialog-content>
   <div class="gray-card">
-    <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" class="tab-group-library">
+    <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" class="tab-group-library"
+                   [(selectedIndex)]="selectedTabIndex">
       <mat-tab label="Private Library">
       </mat-tab>
       <mat-tab label="Public Library">
@@ -25,30 +33,88 @@
     </svg>
   </div>
   <br>
-  <div *ngFor="let item of [].constructor(5)" class="gray-card p-4 mb-2">
-    <div class="d-flex white-card position-relative">
-      <img src="assets/images/frame.png" width="42">
-      <mat-label class="font-size-13 weight-500" style="margin: auto 10px">Sam Smith</mat-label>
-      <mat-label class="font-size-12 weight-500 position-absolute" style="right: 10px; margin: 10px auto">2hrs agos
-      </mat-label>
+  <!--  private-->
+  <div *ngIf="selectedTabIndex == 0">
+    <div *ngFor="let item of [].constructor(5)" class="gray-card p-4 mb-2">
+      <div class="d-flex white-card position-relative">
+        <img src="assets/images/frame.png" width="42">
+        <mat-label class="font-size-13 weight-500" style="margin: auto 10px">Sam Smith</mat-label>
+        <mat-label class="font-size-12 weight-500 position-absolute" style="right: 10px; margin: 10px auto">2hrs agos
+        </mat-label>
+      </div>
+      <br>
+      <div class="font-size-14 weight-700">
+        How has street art evolved from graffiti to a recognized form of contemporary art?
+      </div>
+      <br>
+      <div class="font-size-13 weight-400">
+        Street art has evolved from being considered vandalism to gaining acceptance and recognition as a legitimate and
+        influential art form. This shift has been driven by the increasing involvement of established artists,
+        galleries,
+        and public spaces showcasing street art.
+      </div>
+      <br>
+      <div class="d-block">
+        <mat-chip mat-raised-button color="primary" class="chip-header-type">
+          <img src="assets/images/normal-game.png" width="25">
+          <span class="font-size-12 weight-500">Normal</span>
+        </mat-chip>
+        <div class="float-end">
+          <button mat-stroked-button color="primary" class="me-2 radius" style="border: 1px solid #0B6FEA">
+            Import Question
+          </button>
+          <button mat-stroked-button color="primary" class="me-2 radius" style="border: 1px solid #0B6FEA">
+            Import Question + Answer
+          </button>
+        </div>
+      </div>
+
     </div>
-    <br>
-    <div class="font-size-14 weight-700">
-      How has street art evolved from graffiti to a recognized form of contemporary art?
+  </div>
+
+  <!--  public-->
+  <div *ngIf="selectedTabIndex == 1">
+    <div *ngFor="let item of [].constructor(5)" class="gray-card p-4 mb-2">
+      <div class="d-flex white-card position-relative">
+        <img src="assets/images/frame.png" width="42">
+        <mat-label class="font-size-13 weight-500" style="margin: auto 10px">Sam Smith</mat-label>
+        <mat-label class="font-size-12 weight-500 position-absolute" style="right: 10px; margin: 10px auto">2hrs agos
+        </mat-label>
+      </div>
+      <br>
+      <div class="font-size-14 weight-700">
+        How has street art evolved from graffiti to a recognized form of contemporary art?
+      </div>
+      <br>
+      <div class="d-inline-flex">
+        <div class="white-card p-1" style="width: fit-content">
+          <img src="assets/images/normal-game.png" width="24">
+          <mat-label class="font-size-12 weight-600" style="margin: auto 10px">Art</mat-label>
+        </div>
+        &nbsp;&nbsp;
+        <div class="white-card p-1" style="width: fit-content">
+          <img src="assets/images/score.png" width="24">
+          <mat-label class="font-size-12 weight-600" style="margin: auto 10px">176 <span class="text-gray">Score</span>
+          </mat-label>
+        </div>
+      </div>
+      <br>
+      <br>
+      <div class="border-bottom"></div>
+      <br>
+      <div class="d-block">
+        <div class="d-inline-block">
+          <img src="assets/images/coin-bronze.png" width="25">
+          &nbsp;&nbsp;<span class="font-size-14 weight-600">5 Bronze</span>
+        </div>
+        <div class="float-end">
+          <button mat-stroked-button color="primary" class="me-2 radius" style="border: 1px solid #0B6FEA">
+            Import Question
+          </button>
+        </div>
+      </div>
+
     </div>
-    <br>
-    <div class="font-size-13 weight-400">
-      Street art has evolved from being considered vandalism to gaining acceptance and recognition as a legitimate and
-      influential art form. This shift has been driven by the increasing involvement of established artists, galleries,
-      and public spaces showcasing street art.
-    </div>
-    <br>
-    <button mat-stroked-button color="primary" class="me-2 radius" style="border: 1px solid #0B6FEA">
-      Import Question
-    </button>
-    <button mat-stroked-button color="primary" class="me-2 radius" style="border: 1px solid #0B6FEA">
-      Import Question + Answer
-    </button>
   </div>
   <br>
 </div>

@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy, Output, EventEmitter} from '@angular/core';
+import {Component, OnInit, OnDestroy, Output, EventEmitter, Input} from '@angular/core';
 import {interval, Subscription} from 'rxjs';
 import {map, take} from 'rxjs/operators';
 import {GeneralService} from "../../services/general/general.service";
@@ -12,15 +12,21 @@ import {GeneralService} from "../../services/general/general.service";
 })
 
 export class CountdownTimerComponent implements OnInit, OnDestroy {
-  private countdownDuration = this.generalService?.initData?.nextVerificationMinutes * 60; // 5 minutes in seconds
+  @Output() countdownFinished: EventEmitter<void> = new EventEmitter();
+  @Input() duration: any;
+  private countdownDuration: any; // 5 minutes in seconds
   public timeLeft: any;
   private subscription: any;
-  @Output() countdownFinished: EventEmitter<void> = new EventEmitter();
 
   constructor(private generalService: GeneralService) {
   }
 
   ngOnInit(): void {
+    if (!this.duration) {
+      this.countdownDuration = this.countdownDuration * 60;
+    } else {
+      this.countdownDuration = parseInt(this.duration);
+    }
     this.startCountdown();
   }
 

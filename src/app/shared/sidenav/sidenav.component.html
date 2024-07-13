@@ -29,8 +29,8 @@
               <img matListItemIcon src="assets/images/home.png" width="25">
               <span class="font-size-14 weight-600" matListItemTitle>Dashboard</span>
             </mat-list-item>
-            <mat-list-item [routerLink]="['/games/0']"
-                           [class]="generalService?.currentRout == '/games' ? 'mat-list-item-selected' : ''">
+            <mat-list-item [routerLink]="['/games/0']" [class]="generalService?.currentRout == '/games/0' ? 'mat-list-item-selected' : ''">
+<!--            <mat-list-item [routerLink]="['/game-board']" [class]="generalService?.currentRout == '/games/0' ? 'mat-list-item-selected' : ''">-->
               <img matListItemIcon src="assets/images/game.png" width="25">
               <span class="font-size-14 weight-600" matListItemTitle>Games</span>
             </mat-list-item>

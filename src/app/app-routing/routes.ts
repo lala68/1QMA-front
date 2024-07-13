@@ -24,6 +24,7 @@ export const routes: Routes = [
   {path: 'dashboard', component: DashboardComponent, canActivate: [authGuard]},
   {path: 'games/:id', component: GamesComponent, canActivate: [authGuard]},
   {path: 'game-board', component: GameBoardComponent, canActivate: [authGuard, GameGuard]},
+  // {path: 'game-board', component: GameBoardComponent, canActivate: [authGuard]},
   {path: 'signup-social', component: SignupSocialComponent, canActivate: [AuthRedirectGuard]},
   {path: 'signup-refer-email', component: SignupReferEmailComponent, canActivate: [AuthRedirectGuard]},
   {path: 'settings', component: SettingsComponent, canActivate: [authGuard]},

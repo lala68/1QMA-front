@@ -2,6 +2,7 @@ import {Injectable, OnInit} from '@angular/core';
 import {Preferences} from "@capacitor/preferences";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {map, pipe} from "rxjs";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Injectable({
   providedIn: 'root'
@@ -18,8 +19,20 @@ export class GeneralService implements OnInit {
   currentRout: any;
   startingGame: any = false;
   socket: any;
+  players: any = [];
+  gameInit: any;
+  gameStep: any = 1;
+  createdGameData: any;
+  gameQuestion: any = '';
+  specificQuestionAnswers: any;
+  finishedTimer: boolean = false;
+  gameAnswerGeneral: any;
+  editingAnswer: boolean = true;
+  nextButtonDisable: boolean = false;
+  allQuestions: any = [];
+  gameResult: any;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private _snackBar: MatSnackBar) {
   }
 
   async ngOnInit(): Promise<void> {
@@ -51,6 +64,13 @@ export class GeneralService implements OnInit {
         this.userObj = (user.value);
         this.userId = this.userObj._id;
       }
+    }
+  }
+
+  async getItem(key: string): Promise<any> {
+    const item = await Preferences.get({key: key});
+    if (item.value != null) {
+      return JSON.parse(item.value);
     }
   }
 
@@ -95,5 +115,9 @@ export class GeneralService implements OnInit {
     this.getCities(code).then(data => {
       this.cities = data?.data;
     })
+  }
+
+  openSnackBar(message: string) {
+    this._snackBar.open(message, '', {duration: 3000});
   }
 }

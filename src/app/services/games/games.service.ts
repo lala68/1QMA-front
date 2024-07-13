@@ -103,4 +103,104 @@ export class GamesService {
     })
       .toPromise();
   }
+
+  async getQuestionsOfGame(gameId: any): Promise<any> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    })
+    const response = this.http.get(this.config.url('game/' + gameId + '/questions'), {
+      headers: headers,
+      withCredentials: true
+    }).pipe(
+      map((response: any) => response)
+    ).toPromise();
+    return response;
+  }
+
+  async getGameQuestionBasedOnStep(gameId: any, step: any): Promise<any> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    })
+    const response = this.http.get(this.config.url('game/' + gameId + '/question/' + step), {
+      headers: headers,
+      withCredentials: true
+    }).pipe(
+      map((response: any) => response)
+    ).toPromise();
+    return response;
+  }
+
+  async sendAnswer(gameId: any, questionId: any, answer: any): Promise<any> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    })
+    return this.http.post<any>(this.config.url('game/submitAnswer'), {
+      id: this.generalService.userId,
+      gameId: gameId,
+      questionId: questionId,
+      answer: answer
+    }, {
+      headers: headers,
+      withCredentials: true
+    })
+      .toPromise();
+  }
+
+  async sendRates(gameId: any, questionId: any, rates: any): Promise<any> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    })
+    return this.http.post<any>(this.config.url('game/rateAnswers'), {
+      id: this.generalService.userId,
+      gameId: gameId,
+      questionId: questionId,
+      rates: rates
+    }, {
+      headers: headers,
+      withCredentials: true
+    })
+      .toPromise();
+  }
+
+  async sendRateQuestions(gameId: any, rates: any): Promise<any> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    })
+    return this.http.post<any>(this.config.url('game/rateQuestions'), {
+      id: this.generalService.userId,
+      gameId: gameId,
+      rates: rates
+    }, {
+      headers: headers,
+      withCredentials: true
+    })
+      .toPromise();
+  }
+
+  async getAllAnswersOfSpecificQuestion(gameId: any, questionId: any): Promise<any> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    })
+    const response = this.http.get(this.config.url('game/' + gameId + '/' + questionId + '/answers'), {
+      headers: headers,
+      withCredentials: true
+    }).pipe(
+      map((response: any) => response)
+    ).toPromise();
+    return response;
+  }
+
+  async getGameResult(gameId: any): Promise<any> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    })
+    const response = this.http.get(this.config.url('game/' + gameId + '/result'), {
+      headers: headers,
+      withCredentials: true
+    }).pipe(
+      map((response: any) => response)
+    ).toPromise();
+    return response;
+  }
+
 }

@@ -1,201 +1,578 @@
 <br>
 <br>
-<div style="display: ruby-text;">
-  <mat-spinner *ngIf="loading" [diameter]="30"></mat-spinner>
-</div>
-<div class="card border-0" *ngIf="!loading">
-  <mat-card class="shadow-none radius">
-    <mat-card-header
-      style="background: #E8E2E0; border: 1px solid #D7CDCA; border-top-left-radius: 6px; border-top-right-radius: 6px">
-      <img mat-card-avatar src="assets/images/live.png" width="63" height="63">
-      <mat-card-title class="font-size-16 weight-600">{{'Waiting Room' | translate}}</mat-card-title>
-      <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
-        {{'Possible description for title' | translate}}
-      </mat-card-subtitle>
-    </mat-card-header>
-    <div class="position-absolute top-0 bottom-0 end-10 mt-4">
-      <mat-chip mat-raised-button color="primary" class="chip-header-category">
-        <span class="font-size-12 weight-500">{{'Environment' | translate}}</span>
+<div *ngIf="generalService.gameStep == 1">
+  <div class="card border-0" *ngIf="!loading">
+    <mat-card class="shadow-none radius">
+      <mat-card-header
+        style="background: #E8E2E0; border: 1px solid #D7CDCA; border-top-left-radius: 6px; border-top-right-radius: 6px">
+        <img mat-card-avatar src="assets/images/live.png" width="63" height="63">
+        <mat-card-title class="font-size-16 weight-600">{{'Waiting Room' | translate}}</mat-card-title>
+        <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
+          {{'Possible description for title' | translate}}
+        </mat-card-subtitle>
+      </mat-card-header>
+      <div class="position-absolute top-0 bottom-0 end-10 mt-4">
+        <mat-chip mat-raised-button color="primary" class="chip-header-category">
+          <img [src]="'https://api.staging.1qma.games/' + data?.game?.gameCategory?.icon" width="25">
+          <span class="font-size-12 weight-500">{{data?.game?.gameCategory?.name}}</span>
+        </mat-chip>
+        &nbsp; &nbsp;<mat-chip mat-raised-button color="primary" class="chip-header-type">
+        <img src="assets/images/normal-game.png" *ngIf="data?.game?.gameType?.id == 'normal'" width="25">
+        <img src="assets/images/survival-game.png" *ngIf="data?.game?.gameType?.id == 'survival'" width="25">
+        <span class="font-size-12 weight-500">{{data?.game?.gameType?.text}}</span>
       </mat-chip>
-      &nbsp; &nbsp;<mat-chip mat-raised-button color="primary" class="chip-header-type">
-      <img src="assets/images/normal-game.png" *ngIf="data?.gameType?.id == 'normal'" width="25">
-      <img src="assets/images/survival-game.png" *ngIf="data?.gameType?.id == 'survival'" width="25">
-      <span class="font-size-12 weight-500">{{data?.gameType?.text}}</span>
-    </mat-chip>
-    </div>
-    <mat-card-content>
-      <mat-card class="shadow-none">
-        <mat-card-header>
-          <mat-card-title class="font-size-16 weight-600">{{'Participants:' | translate}}</mat-card-title>
-        </mat-card-header>
-      </mat-card>
-      <div *ngFor="let user of users" class="user-card position-relative">
-        <img src="assets/images/avatar-09.png" width="32" height="32"/>
-        <mat-label class="font-size-14 weight-500 m-auto">{{user}}</mat-label>
-        <div class="d-inline-flex position-absolute end-10">
-          <mat-spinner class="waiting-spinner" [diameter]="20"></mat-spinner>
-          <mat-label>waiting</mat-label>
-        </div>
-        <div class="d-inline-flex position-absolute end-10">
-          <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M12.7246 22.5869C18.2246 22.5869 22.7246 18.0869 22.7246 12.5869C22.7246 7.08691 18.2246 2.58691 12.7246 2.58691C7.22461 2.58691 2.72461 7.08691 2.72461 12.5869C2.72461 18.0869 7.22461 22.5869 12.7246 22.5869Z"
-              stroke="#43a047" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M8.47461 12.5868L11.3046 15.4168L16.9746 9.75684" stroke="#43a047" stroke-width="1.5"
-                  stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          <mat-label color="success">Joined</mat-label>
-        </div>
       </div>
-      <br>
-      <br>
-      <div class="d-inline-flex">
-        <div>
-          <mat-card class="shadow-none">
-            <mat-card-header>
-              <mat-card-title class="font-size-16 weight-600">{{'Game link:' | translate}}</mat-card-title>
-            </mat-card-header>
-            <mat-card-content class="d-inline-flex">
-              <div class="copy-referrer cursor-pointer">
-                <div class="d-inline text-start">{{data?.gameLink}}</div>
-              </div>
-              &nbsp;
-              <div class="copy-referrer cursor-pointer" [cdkCopyToClipboard]="data?.gameLink">
-                <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    d="M17.8408 14.3219V17.3219C17.8408 21.3219 16.2408 22.9219 12.2408 22.9219H8.44082C4.44082 22.9219 2.84082 21.3219 2.84082 17.3219V13.5219C2.84082 9.52188 4.44082 7.92188 8.44082 7.92188H11.4408"
-                    stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path
-                    d="M17.8409 14.3219H14.6409C12.2409 14.3219 11.4409 13.5219 11.4409 11.1219V7.92188L17.8409 14.3219Z"
-                    stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M12.4409 2.92188H16.4409" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
-                        stroke-linejoin="round"/>
-                  <path d="M7.84082 5.92188C7.84082 4.26188 9.18082 2.92188 10.8408 2.92188H13.4608" stroke="#292D32"
-                        stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M22.8408 8.92188V15.1119C22.8408 16.6619 21.5808 17.9219 20.0308 17.9219" stroke="#292D32"
-                        stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path
-                    d="M22.8408 8.92188H19.8408C17.5908 8.92188 16.8408 8.17188 16.8408 5.92188V2.92188L22.8408 8.92188Z"
-                    stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </div>
-              &nbsp;<div class="copy-referrer cursor-pointer">
-              <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M7.4783 6.63558L15.9683 3.80558C19.7783 2.53558 21.8483 4.61558 20.5883 8.42558L17.7583 16.9156C15.8583 22.6256 12.7383 22.6256 10.8383 16.9156L9.9983 14.3956L7.4783 13.5556C1.7683 11.6556 1.7683 8.54558 7.4783 6.63558Z"
-                  stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M10.188 13.965L13.768 10.375" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
-                      stroke-linejoin="round"/>
-              </svg>
-            </div>
-            </mat-card-content>
-          </mat-card>
-        </div>
-        <div>
-          <mat-card class="shadow-none">
-            <mat-card-header>
-              <mat-card-title class="font-size-16 weight-600">{{'Game code:' | translate}}</mat-card-title>
-            </mat-card-header>
-            <mat-card-content class="d-inline-flex">
-              <div class="copy-referrer cursor-pointer">
-                <div class="d-inline text-start">{{data?.gameCode}}</div>
-              </div>
-              &nbsp;
-              <div class="copy-referrer cursor-pointer" [cdkCopyToClipboard]="data?.gameCode">
-                <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    d="M17.8408 14.3219V17.3219C17.8408 21.3219 16.2408 22.9219 12.2408 22.9219H8.44082C4.44082 22.9219 2.84082 21.3219 2.84082 17.3219V13.5219C2.84082 9.52188 4.44082 7.92188 8.44082 7.92188H11.4408"
-                    stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path
-                    d="M17.8409 14.3219H14.6409C12.2409 14.3219 11.4409 13.5219 11.4409 11.1219V7.92188L17.8409 14.3219Z"
-                    stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M12.4409 2.92188H16.4409" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
-                        stroke-linejoin="round"/>
-                  <path d="M7.84082 5.92188C7.84082 4.26188 9.18082 2.92188 10.8408 2.92188H13.4608" stroke="#292D32"
-                        stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M22.8408 8.92188V15.1119C22.8408 16.6619 21.5808 17.9219 20.0308 17.9219" stroke="#292D32"
-                        stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path
-                    d="M22.8408 8.92188H19.8408C17.5908 8.92188 16.8408 8.17188 16.8408 5.92188V2.92188L22.8408 8.92188Z"
-                    stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </div>
-              &nbsp;<div class="copy-referrer cursor-pointer">
-              <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M7.4783 6.63558L15.9683 3.80558C19.7783 2.53558 21.8483 4.61558 20.5883 8.42558L17.7583 16.9156C15.8583 22.6256 12.7383 22.6256 10.8383 16.9156L9.9983 14.3956L7.4783 13.5556C1.7683 11.6556 1.7683 8.54558 7.4783 6.63558Z"
-                  stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M10.188 13.965L13.768 10.375" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
-                      stroke-linejoin="round"/>
-              </svg>
-            </div>
-            </mat-card-content>
-          </mat-card>
-        </div>
-        <div>
-          <mat-card class="shadow-none">
-            <mat-card-header>
-              <mat-card-title class="font-size-16 weight-600">{{'QR-Code:' | translate}}</mat-card-title>
-            </mat-card-header>
-            <mat-card-content class="d-inline-flex">
-              <div class="copy-referrer cursor-pointer">
-                <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    d="M17.8408 14.3219V17.3219C17.8408 21.3219 16.2408 22.9219 12.2408 22.9219H8.44082C4.44082 22.9219 2.84082 21.3219 2.84082 17.3219V13.5219C2.84082 9.52188 4.44082 7.92188 8.44082 7.92188H11.4408"
-                    stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path
-                    d="M17.8409 14.3219H14.6409C12.2409 14.3219 11.4409 13.5219 11.4409 11.1219V7.92188L17.8409 14.3219Z"
-                    stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M12.4409 2.92188H16.4409" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
-                        stroke-linejoin="round"/>
-                  <path d="M7.84082 5.92188C7.84082 4.26188 9.18082 2.92188 10.8408 2.92188H13.4608" stroke="#292D32"
-                        stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M22.8408 8.92188V15.1119C22.8408 16.6619 21.5808 17.9219 20.0308 17.9219" stroke="#292D32"
-                        stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path
-                    d="M22.8408 8.92188H19.8408C17.5908 8.92188 16.8408 8.17188 16.8408 5.92188V2.92188L22.8408 8.92188Z"
-                    stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </div>
-              &nbsp;
-              <div class="copy-referrer cursor-pointer">
-                <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M9.84082 11.3164V17.3164L11.8408 15.3164" stroke="#292D32" stroke-width="1.5"
-                        stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M9.84082 17.3164L7.84082 15.3164" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
-                        stroke-linejoin="round"/>
-                  <path
-                    d="M22.8408 10.3164V15.3164C22.8408 20.3164 20.8408 22.3164 15.8408 22.3164H9.84082C4.84082 22.3164 2.84082 20.3164 2.84082 15.3164V9.31641C2.84082 4.31641 4.84082 2.31641 9.84082 2.31641H14.8408"
-                    stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path
-                    d="M22.8408 10.3164H18.8408C15.8408 10.3164 14.8408 9.31641 14.8408 6.31641V2.31641L22.8408 10.3164Z"
-                    stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </div>
-              &nbsp;<div class="copy-referrer cursor-pointer">
-              <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M7.4783 6.63558L15.9683 3.80558C19.7783 2.53558 21.8483 4.61558 20.5883 8.42558L17.7583 16.9156C15.8583 22.6256 12.7383 22.6256 10.8383 16.9156L9.9983 14.3956L7.4783 13.5556C1.7683 11.6556 1.7683 8.54558 7.4783 6.63558Z"
-                  stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M10.188 13.965L13.768 10.375" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
-                      stroke-linejoin="round"/>
-              </svg>
-            </div>
-            </mat-card-content>
-          </mat-card>
-          <br>
-          <br>
-          <div style="height: 52px; margin: 0px auto 20px"
-               class="card border-0 text-center weight-600 pt-3">
-            Sponsored by: Company name
+      <mat-card-content>
+        <mat-card class="shadow-none">
+          <mat-card-header>
+            <mat-card-title class="font-size-16 weight-600">{{'Participants:' | translate}}</mat-card-title>
+          </mat-card-header>
+        </mat-card>
+        <div *ngFor="let player of generalService?.players" class="user-card position-relative">
+          <img src="assets/images/avatar-09.png" width="32" height="32"/>
+          <mat-label class="font-size-14 weight-500 m-auto">{{player?.email}}</mat-label>
+          <div class="d-inline-flex position-absolute end-10" style="top: 10px">
+            <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M12.7246 22.5869C18.2246 22.5869 22.7246 18.0869 22.7246 12.5869C22.7246 7.08691 18.2246 2.58691 12.7246 2.58691C7.22461 2.58691 2.72461 7.08691 2.72461 12.5869C2.72461 18.0869 7.22461 22.5869 12.7246 22.5869Z"
+                stroke="#43a047" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M8.47461 12.5868L11.3046 15.4168L16.9746 9.75684" stroke="#43a047" stroke-width="1.5"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <mat-label color="success">Joined</mat-label>
           </div>
         </div>
+        <div
+          *ngFor="let playerNotJoined of [].constructor(generalService?.gameInit?.numberOfPlayers - generalService?.players?.length)"
+          class="user-card position-relative">
+          <img src="assets/images/avatar-09.png" width="32" height="32"/>
+          <mat-label class="font-size-14 weight-500 m-auto">...</mat-label>
+          <div class="d-inline-flex position-absolute end-10" style="top: 10px">
+            &nbsp;<mat-spinner [diameter]="20"></mat-spinner>&nbsp;
+            <mat-label>waiting</mat-label>
+          </div>
+          <svg style="position: absolute; right: -30px; top: 10px" width="24" height="24" viewBox="0 0 35 35"
+               fill="none"
+               xmlns="http://www.w3.org/2000/svg">
+            <path d="M13.4819 21.4023L21.9672 12.9171" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
+                  stroke-linejoin="round"/>
+            <path d="M21.9672 21.4032L13.4819 12.918" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
+                  stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="user-card-dashed position-relative">
+          <input class="border-0 w-100" placeholder="Empty seat - Type and invite" (keyup.Enter)="inviteUser()"
+                 [(ngModel)]="invitedUser">
+        </div>
+        <br>
+        <br>
+        <div class="d-inline-flex">
+          <div>
+            <mat-card class="shadow-none">
+              <mat-card-header>
+                <mat-card-title class="font-size-16 weight-600">{{'Game link:' | translate}}</mat-card-title>
+              </mat-card-header>
+              <mat-card-content class="d-inline-flex">
+                <div class="copy-referrer cursor-pointer">
+                  <div class="d-inline text-start">{{data?.game?.gameLink}}</div>
+                </div>
+                &nbsp;
+                <div class="copy-referrer cursor-pointer" (click)="generalService.openSnackBar('Copied!')"  [cdkCopyToClipboard]="data?.game?.gameLink">
+                  <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M17.8408 14.3219V17.3219C17.8408 21.3219 16.2408 22.9219 12.2408 22.9219H8.44082C4.44082 22.9219 2.84082 21.3219 2.84082 17.3219V13.5219C2.84082 9.52188 4.44082 7.92188 8.44082 7.92188H11.4408"
+                      stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path
+                      d="M17.8409 14.3219H14.6409C12.2409 14.3219 11.4409 13.5219 11.4409 11.1219V7.92188L17.8409 14.3219Z"
+                      stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M12.4409 2.92188H16.4409" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
+                          stroke-linejoin="round"/>
+                    <path d="M7.84082 5.92188C7.84082 4.26188 9.18082 2.92188 10.8408 2.92188H13.4608" stroke="#292D32"
+                          stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M22.8408 8.92188V15.1119C22.8408 16.6619 21.5808 17.9219 20.0308 17.9219" stroke="#292D32"
+                          stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path
+                      d="M22.8408 8.92188H19.8408C17.5908 8.92188 16.8408 8.17188 16.8408 5.92188V2.92188L22.8408 8.92188Z"
+                      stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+                &nbsp;<div class="copy-referrer cursor-pointer">
+                <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M7.4783 6.63558L15.9683 3.80558C19.7783 2.53558 21.8483 4.61558 20.5883 8.42558L17.7583 16.9156C15.8583 22.6256 12.7383 22.6256 10.8383 16.9156L9.9983 14.3956L7.4783 13.5556C1.7683 11.6556 1.7683 8.54558 7.4783 6.63558Z"
+                    stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M10.188 13.965L13.768 10.375" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
+                        stroke-linejoin="round"/>
+                </svg>
+              </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+          <div>
+            <mat-card class="shadow-none">
+              <mat-card-header>
+                <mat-card-title class="font-size-16 weight-600">{{'Game code:' | translate}}</mat-card-title>
+              </mat-card-header>
+              <mat-card-content class="d-inline-flex">
+                <div class="copy-referrer cursor-pointer">
+                  <div class="d-inline text-start">{{data?.game?.gameCode}}</div>
+                </div>
+                &nbsp;
+                <div class="copy-referrer cursor-pointer" (click)="generalService.openSnackBar('Copied!')" [cdkCopyToClipboard]="data?.game?.gameCode">
+                  <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M17.8408 14.3219V17.3219C17.8408 21.3219 16.2408 22.9219 12.2408 22.9219H8.44082C4.44082 22.9219 2.84082 21.3219 2.84082 17.3219V13.5219C2.84082 9.52188 4.44082 7.92188 8.44082 7.92188H11.4408"
+                      stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path
+                      d="M17.8409 14.3219H14.6409C12.2409 14.3219 11.4409 13.5219 11.4409 11.1219V7.92188L17.8409 14.3219Z"
+                      stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M12.4409 2.92188H16.4409" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
+                          stroke-linejoin="round"/>
+                    <path d="M7.84082 5.92188C7.84082 4.26188 9.18082 2.92188 10.8408 2.92188H13.4608" stroke="#292D32"
+                          stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M22.8408 8.92188V15.1119C22.8408 16.6619 21.5808 17.9219 20.0308 17.9219" stroke="#292D32"
+                          stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path
+                      d="M22.8408 8.92188H19.8408C17.5908 8.92188 16.8408 8.17188 16.8408 5.92188V2.92188L22.8408 8.92188Z"
+                      stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+                &nbsp;<div class="copy-referrer cursor-pointer">
+                <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M7.4783 6.63558L15.9683 3.80558C19.7783 2.53558 21.8483 4.61558 20.5883 8.42558L17.7583 16.9156C15.8583 22.6256 12.7383 22.6256 10.8383 16.9156L9.9983 14.3956L7.4783 13.5556C1.7683 11.6556 1.7683 8.54558 7.4783 6.63558Z"
+                    stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M10.188 13.965L13.768 10.375" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
+                        stroke-linejoin="round"/>
+                </svg>
+              </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+          <div>
+            <mat-card class="shadow-none">
+              <mat-card-header>
+                <mat-card-title class="font-size-16 weight-600">{{'QR-Code:' | translate}}</mat-card-title>
+              </mat-card-header>
+              <mat-card-content class="d-inline-flex">
+                <div class="copy-referrer cursor-pointer">
+                  <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M17.8408 14.3219V17.3219C17.8408 21.3219 16.2408 22.9219 12.2408 22.9219H8.44082C4.44082 22.9219 2.84082 21.3219 2.84082 17.3219V13.5219C2.84082 9.52188 4.44082 7.92188 8.44082 7.92188H11.4408"
+                      stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path
+                      d="M17.8409 14.3219H14.6409C12.2409 14.3219 11.4409 13.5219 11.4409 11.1219V7.92188L17.8409 14.3219Z"
+                      stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M12.4409 2.92188H16.4409" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
+                          stroke-linejoin="round"/>
+                    <path d="M7.84082 5.92188C7.84082 4.26188 9.18082 2.92188 10.8408 2.92188H13.4608" stroke="#292D32"
+                          stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M22.8408 8.92188V15.1119C22.8408 16.6619 21.5808 17.9219 20.0308 17.9219" stroke="#292D32"
+                          stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path
+                      d="M22.8408 8.92188H19.8408C17.5908 8.92188 16.8408 8.17188 16.8408 5.92188V2.92188L22.8408 8.92188Z"
+                      stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+                &nbsp;
+                <div class="copy-referrer cursor-pointer">
+                  <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9.84082 11.3164V17.3164L11.8408 15.3164" stroke="#292D32" stroke-width="1.5"
+                          stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M9.84082 17.3164L7.84082 15.3164" stroke="#292D32" stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"/>
+                    <path
+                      d="M22.8408 10.3164V15.3164C22.8408 20.3164 20.8408 22.3164 15.8408 22.3164H9.84082C4.84082 22.3164 2.84082 20.3164 2.84082 15.3164V9.31641C2.84082 4.31641 4.84082 2.31641 9.84082 2.31641H14.8408"
+                      stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path
+                      d="M22.8408 10.3164H18.8408C15.8408 10.3164 14.8408 9.31641 14.8408 6.31641V2.31641L22.8408 10.3164Z"
+                      stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+                &nbsp;<div class="copy-referrer cursor-pointer">
+                <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M7.4783 6.63558L15.9683 3.80558C19.7783 2.53558 21.8483 4.61558 20.5883 8.42558L17.7583 16.9156C15.8583 22.6256 12.7383 22.6256 10.8383 16.9156L9.9983 14.3956L7.4783 13.5556C1.7683 11.6556 1.7683 8.54558 7.4783 6.63558Z"
+                    stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M10.188 13.965L13.768 10.375" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
+                        stroke-linejoin="round"/>
+                </svg>
+              </div>
+              </mat-card-content>
+            </mat-card>
+            <br>
+            <br>
+          </div>
+        </div>
+        <div style="height: 52px; margin: 0px auto 20px"
+             class="card border-0 text-center weight-600 pt-3">
+          Sponsored by: Company name
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <br>
+  <div style="height: 52px;"
+       class="d-inline-block card border-0 text-center font-size-14 weight-800 pt-3 w-100">
+    <mat-spinner class="d-inline-block" [diameter]="20"></mat-spinner> &nbsp;
+    <mat-label class="d-inline-block">Waiting
+      for {{generalService?.gameInit?.numberOfPlayers - generalService?.players.length}}
+      of {{generalService?.gameInit?.numberOfPlayers }} players to join the game...
+    </mat-label>
+  </div>
+</div>
+
+<div *ngIf="generalService.gameStep == 2">
+  <div class="card border-0">
+    <mat-card class="shadow-none radius">
+      <mat-card-header
+        style="background: #E8E2E0; border: 1px solid #D7CDCA; border-top-left-radius: 6px; border-top-right-radius: 6px">
+        <img mat-card-avatar src="assets/images/answer-questions.png" width="63" height="63">
+        <mat-card-title class="font-size-16 weight-600">{{'Answer Questions' | translate}}</mat-card-title>
+        <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
+          {{'Possible description for title' | translate}}
+        </mat-card-subtitle>
+      </mat-card-header>
+      <div class="position-absolute top-0 bottom-0 end-10 mt-4">
+        <mat-chip mat-raised-button color="primary" class="chip-header-category">
+          <img [src]="'https://api.staging.1qma.games/' + data?.game?.gameCategory?.icon" width="25">
+          <span class="font-size-12 weight-500">{{data?.game?.gameCategory?.name}}</span>
+        </mat-chip>
+        &nbsp; &nbsp;<mat-chip mat-raised-button color="primary" class="chip-header-type">
+        <img src="assets/images/normal-game.png" *ngIf="data?.game?.gameType?.id == 'normal'" width="25">
+        <img src="assets/images/survival-game.png" *ngIf="data?.game?.gameType?.id == 'survival'" width="25">
+        <span class="font-size-12 weight-500">{{data?.game?.gameType?.text}}</span>
+      </mat-chip>
       </div>
 
-    </mat-card-content>
-  </mat-card>
+      <mat-card-content class="p-5" style="min-height: 480px">
+        <div style="display: ruby-text;">
+          <mat-spinner *ngIf="loading || !generalService?.gameQuestion" [diameter]="30"></mat-spinner>
+        </div>
+        <div *ngIf="!loading && generalService?.gameQuestion">
+          <div class="d-inline-flex w-100">
+            <div class="gray-card p-2" style="width: 100px; height: 40px; margin: 0 auto">
+              <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M17.8408 18.5899H13.8408L9.39081 21.5499C8.73081 21.9899 7.84082 21.5199 7.84082 20.7199V18.5899C4.84082 18.5899 2.84082 16.5899 2.84082 13.5899V7.58984C2.84082 4.58984 4.84082 2.58984 7.84082 2.58984H17.8408C20.8408 2.58984 22.8408 4.58984 22.8408 7.58984V13.5899C22.8408 16.5899 20.8408 18.5899 17.8408 18.5899Z"
+                  stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                  stroke-linejoin="round"/>
+                <path
+                  d="M12.8406 11.5205V11.3105C12.8406 10.6305 13.2607 10.2705 13.6807 9.98053C14.0907 9.70053 14.5006 9.34054 14.5006 8.68054C14.5006 7.76054 13.7606 7.02051 12.8406 7.02051C11.9206 7.02051 11.1807 7.76054 11.1807 8.68054"
+                  stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12.8363 13.9102H12.8453" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
+                      stroke-linejoin="round"/>
+              </svg>
+              <mat-label class="ps-3">{{generalService?.gameQuestion ? generalService?.gameQuestion?.step : 1}}
+                / {{generalService?.gameInit?.numberOfPlayers}}</mat-label>
+            </div>
+            <div class="gray-card p-3" style="margin: 0 0 0 20px; width: 88%">
+              <div class="d-inline-flex">
+                <img src="assets/images/frame.png" width="24"/>
+                <mat-label class="font-size-13  weight-500">
+                  Player {{generalService?.gameQuestion ? generalService?.gameQuestion?.step : 1}}</mat-label>
+              </div>
+              <br>
+              <br>
+              <mat-label class="font-size-14 weight-500">
+                {{generalService?.gameQuestion?.question}}
+              </mat-label>
+            </div>
+          </div>
+          <br>
+          <br>
+          <br>
+          <div>
+            <div class="d-flex">
+              <!--        <img src="assets/images/clipboard-text.svg" width="24">-->
+              <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M7.9917 12.3604H14.9917" stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10"
+                      stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M7.9917 16.3604H12.3717" stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10"
+                      stroke-linecap="round" stroke-linejoin="round"/>
+                <path
+                  d="M9.9917 6.16016H13.9917C15.9917 6.16016 15.9917 5.16016 15.9917 4.16016C15.9917 2.16016 14.9917 2.16016 13.9917 2.16016H9.9917C8.9917 2.16016 7.9917 2.16016 7.9917 4.16016C7.9917 6.16016 8.9917 6.16016 9.9917 6.16016Z"
+                  stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                  stroke-linejoin="round"/>
+                <path
+                  d="M15.9917 4.17969C19.3217 4.35969 20.9917 5.58969 20.9917 10.1597V16.1597C20.9917 20.1597 19.9917 22.1597 14.9917 22.1597H8.9917C3.9917 22.1597 2.9917 20.1597 2.9917 16.1597V10.1597C2.9917 5.59969 4.6617 4.35969 7.9917 4.17969"
+                  stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                  stroke-linejoin="round"/>
+              </svg>
+
+              &nbsp;<div class="font-size-14 weight-600">My Answer:</div>
+            </div>
+            <div class="textarea-container">
+              <textarea #answerTextArea [disabled]="generalService.editingAnswer"
+                        [(ngModel)]="generalService.gameAnswerGeneral"
+                        (ngModelChange)="updateWordCountAnswer()"></textarea>
+              <div class="word-counter">{{ wordCountAnswer }} Words</div>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div class="card p-4 border-0" style="margin: 20px auto 20px; width: 100%">
+    <footer>
+      <div style=" display: flex; justify-content: space-between; align-items: center;">
+        <div class="d-flex justify-content-start">
+          <div class="position-relative">
+            <div *ngFor="let ply of generalService?.players; let i=index" class="d-inline-block">
+              <img mat-card-avatar
+                   src="assets/images/frame.png"
+                   width="26" height="26" class="mb-0 position-absolute custom-position-{{i}}">
+            </div>
+          </div>
+          <mat-label class="d-inline-block" style="margin-left: 90px;">Waiting
+            for {{generalService?.gameInit?.numberOfPlayers - generalService?.players.length}}
+            of {{generalService?.gameInit?.numberOfPlayers }} players...
+          </mat-label>
+        </div>
+        <div class="next-button">
+          <app-countdown-timer [duration]="generalService?.gameInit?.eachStepDurationSeconds"
+                               (countdownFinished)="handleCountdownFinished()"></app-countdown-timer>
+          <button *ngIf="generalService.gameAnswerGeneral && generalService.editingAnswer" mat-raised-button
+                  color="primary" class="ms-3"
+                  (click)="editAnswer()"
+                  [disabled]="!generalService?.editingAnswer">
+            {{'Edit' | translate}}
+          </button>
+          <button mat-raised-button color="primary" class="next-step ms-3" (click)="sendAnswer()"
+                  [disabled]="generalService?.nextButtonDisable">
+            {{'Next Step' | translate}}
+            <i class="bi bi-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+    </footer>
+  </div>
 </div>
-<br>
-<div style="height: 52px; margin: 0px auto 20px" class="card border-0 text-center font-size-14 weight-800 pt-3">
-  Waiting for 3 of 5 players to join the game...
+
+<div *ngIf="generalService.gameStep == 3">
+  <div class="card border-0">
+    <mat-card class="shadow-none radius">
+      <mat-card-header
+        style="background: #E8E2E0; border: 1px solid #D7CDCA; border-top-left-radius: 6px; border-top-right-radius: 6px">
+        <img mat-card-avatar src="assets/images/answer-questions.png" width="63" height="63">
+        <mat-card-title class="font-size-16 weight-600">{{'Rate Answers' | translate}}</mat-card-title>
+        <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
+          {{'Possible description for title' | translate}}
+        </mat-card-subtitle>
+      </mat-card-header>
+      <div class="position-absolute top-0 bottom-0 end-10 mt-4">
+        <mat-chip mat-raised-button color="primary" class="chip-header-category">
+          <img [src]="'https://api.staging.1qma.games/' + data?.game?.gameCategory?.icon" width="25">
+          <span class="font-size-12 weight-500">{{data?.game?.gameCategory?.name}}</span>
+        </mat-chip>
+        &nbsp; &nbsp;<mat-chip mat-raised-button color="primary" class="chip-header-type">
+        <img src="assets/images/normal-game.png" *ngIf="data?.game?.gameType?.id == 'normal'" width="25">
+        <img src="assets/images/survival-game.png" *ngIf="data?.game?.gameType?.id == 'survival'" width="25">
+        <span class="font-size-12 weight-500">{{data?.game?.gameType?.text}}</span>
+      </mat-chip>
+      </div>
+
+      <mat-card-content class="p-5" style="min-height: 480px">
+        <div style="display: ruby-text;">
+          <mat-spinner *ngIf="loading" [diameter]="30"></mat-spinner>
+        </div>
+        <div *ngIf="!loading">
+          <div class="d-inline-flex w-100">
+            <div class="gray-card p-2" style="width: 100px; height: 40px; margin: 0 auto">
+              <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M17.8408 18.5899H13.8408L9.39081 21.5499C8.73081 21.9899 7.84082 21.5199 7.84082 20.7199V18.5899C4.84082 18.5899 2.84082 16.5899 2.84082 13.5899V7.58984C2.84082 4.58984 4.84082 2.58984 7.84082 2.58984H17.8408C20.8408 2.58984 22.8408 4.58984 22.8408 7.58984V13.5899C22.8408 16.5899 20.8408 18.5899 17.8408 18.5899Z"
+                  stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                  stroke-linejoin="round"/>
+                <path
+                  d="M12.8406 11.5205V11.3105C12.8406 10.6305 13.2607 10.2705 13.6807 9.98053C14.0907 9.70053 14.5006 9.34054 14.5006 8.68054C14.5006 7.76054 13.7606 7.02051 12.8406 7.02051C11.9206 7.02051 11.1807 7.76054 11.1807 8.68054"
+                  stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12.8363 13.9102H12.8453" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
+                      stroke-linejoin="round"/>
+              </svg>
+              <mat-label class="ps-3">{{generalService?.gameQuestion ? generalService?.gameQuestion?.step : 1}}
+                / {{generalService?.gameInit?.numberOfPlayers}}</mat-label>
+            </div>
+            <div class="gray-card p-3" style="margin: 0 0 0 20px; width: 88%">
+              <div class="d-inline-flex">
+                <img src="assets/images/frame.png" width="24"/>
+                <mat-label class="font-size-13  weight-500">
+                  Player {{generalService?.gameQuestion ? generalService?.gameQuestion?.step : 1}}</mat-label>
+              </div>
+              <br>
+              <br>
+              <mat-label class="font-size-14 weight-500">
+                {{generalService?.gameQuestion?.question}}
+              </mat-label>
+            </div>
+          </div>
+          <br>
+          <br>
+          <br>
+          <!--         rating-->
+          <div class="font-size-14 weight-600">{{'Rate Answers' | translate}}</div>
+
+          <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
+            <div *ngFor="let answer of generalService?.specificQuestionAnswers?.answers; let i = index" cdkDrag
+                 class="example-box">
+              {{answer?.answer}}
+            </div>
+          </div>
+
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div class="card p-4 border-0" style="margin: 20px auto 20px; width: 100%">
+    <footer>
+      <div style=" display: flex; justify-content: space-between; align-items: center;">
+        <div class="d-flex justify-content-start">
+          <div class="position-relative">
+            <div *ngFor="let ply of generalService?.players; let i=index" class="d-inline-block">
+              <img mat-card-avatar
+                   src="assets/images/frame.png"
+                   width="26" height="26" class="mb-0 position-absolute custom-position-{{i}}">
+            </div>
+          </div>
+          <mat-label class="d-inline-block" style="margin-left: 90px;">Waiting
+            for {{generalService?.gameInit?.numberOfPlayers - generalService?.players.length}}
+            of {{generalService?.gameInit?.numberOfPlayers }} players...
+          </mat-label>
+        </div>
+        <div class="next-button">
+          <app-countdown-timer [duration]="generalService?.gameInit?.eachStepDurationSeconds"
+                               (countdownFinished)="handleCountdownFinished()"></app-countdown-timer>
+
+          <!--          <button *ngIf="generalService?.gameStep == 2" mat-raised-button color="primary" class="next-step ms-3"-->
+          <!--                  (click)="sendAnswer()"-->
+          <!--                  [disabled]="!generalService?.gameAnswerGeneral">-->
+          <!--            {{'Next Step' | translate}}-->
+          <!--            <i class="bi bi-arrow-right"></i>-->
+          <!--          </button>-->
+          <button mat-raised-button color="primary" class="next-step ms-3"
+                  [disabled]="generalService?.nextButtonDisable"
+                  (click)="sendRateAnswer()">
+            {{'Next' | translate}}
+            <i class="bi bi-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<div *ngIf="generalService.gameStep == 4">
+  <div class="card border-0">
+    <mat-card class="shadow-none radius">
+      <mat-card-header
+        style="background: #E8E2E0; border: 1px solid #D7CDCA; border-top-left-radius: 6px; border-top-right-radius: 6px">
+        <img mat-card-avatar src="assets/images/answer-questions.png" width="63" height="63">
+        <mat-card-title class="font-size-16 weight-600">{{'Rate Questions' | translate}}</mat-card-title>
+        <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
+          {{'Possible description for title' | translate}}
+        </mat-card-subtitle>
+      </mat-card-header>
+      <div class="position-absolute top-0 bottom-0 end-10 mt-4">
+        <mat-chip mat-raised-button color="primary" class="chip-header-category">
+          <img [src]="'https://api.staging.1qma.games/' + data?.game?.gameCategory?.icon" width="25">
+          <span class="font-size-12 weight-500">{{data?.game?.gameCategory?.name}}</span>
+        </mat-chip>
+        &nbsp; &nbsp;<mat-chip mat-raised-button color="primary" class="chip-header-type">
+        <img src="assets/images/normal-game.png" *ngIf="data?.game?.gameType?.id == 'normal'" width="25">
+        <img src="assets/images/survival-game.png" *ngIf="data?.game?.gameType?.id == 'survival'" width="25">
+        <span class="font-size-12 weight-500">{{data?.game?.gameType?.text}}</span>
+      </mat-chip>
+      </div>
+
+      <mat-card-content class="p-5" style="min-height: 480px">
+        <div style="display: ruby-text;">
+          <mat-spinner *ngIf="loading" [diameter]="30"></mat-spinner>
+        </div>
+        <div *ngIf="!loading">
+          <div cdkDropList class="example-list" (cdkDropListDropped)="dropQuestions($event)">
+            <div *ngFor="let question of generalService?.allQuestions; let i = index" cdkDrag
+                 class="example-box">
+              {{question?.question}}
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div class="card p-4 border-0" style="margin: 20px auto 20px; width: 100%">
+    <footer>
+      <div style=" display: flex; justify-content: space-between; align-items: center;">
+        <div class="d-flex justify-content-start">
+          <div class="position-relative">
+            <div *ngFor="let ply of generalService?.players; let i=index" class="d-inline-block">
+              <img mat-card-avatar
+                   src="assets/images/frame.png"
+                   width="26" height="26" class="mb-0 position-absolute custom-position-{{i}}">
+            </div>
+          </div>
+          <mat-label class="d-inline-block" style="margin-left: 90px;">Waiting
+            for {{generalService?.gameInit?.numberOfPlayers - generalService?.players.length}}
+            of {{generalService?.gameInit?.numberOfPlayers }} players...
+          </mat-label>
+        </div>
+        <div class="next-button">
+          <app-countdown-timer [duration]="generalService?.gameInit?.eachStepDurationSeconds"
+                               (countdownFinished)="handleCountdownFinished()"></app-countdown-timer>
+
+          <!--          <button *ngIf="generalService?.gameStep == 2" mat-raised-button color="primary" class="next-step ms-3"-->
+          <!--                  (click)="sendAnswer()"-->
+          <!--                  [disabled]="!generalService?.gameAnswerGeneral">-->
+          <!--            {{'Next Step' | translate}}-->
+          <!--            <i class="bi bi-arrow-right"></i>-->
+          <!--          </button>-->
+          <button mat-raised-button color="primary" class="next-step ms-3"
+                  [disabled]="generalService?.nextButtonDisable"
+                  (click)="sendRateQuestions()">
+            {{'Next' | translate}}
+            <i class="bi bi-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+    </footer>
+  </div>
+</div>
+
+<!--result-->
+<div *ngIf="generalService.gameStep == 5">
+  <div class="card border-0">
+    <mat-card class="shadow-none radius">
+      <mat-card-header
+        style="background: #E8E2E0; border: 1px solid #D7CDCA; border-top-left-radius: 6px; border-top-right-radius: 6px">
+        <img mat-card-avatar src="assets/images/answer-questions.png" width="63" height="63">
+        <mat-card-title class="font-size-16 weight-600">{{'Rate Answers' | translate}}</mat-card-title>
+        <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
+          {{'Possible description for title' | translate}}
+        </mat-card-subtitle>
+      </mat-card-header>
+      <div class="position-absolute top-0 bottom-0 end-10 mt-4">
+        <mat-chip mat-raised-button color="primary" class="chip-header-category">
+          <img [src]="'https://api.staging.1qma.games/' + data?.game?.gameCategory?.icon" width="25">
+          <span class="font-size-12 weight-500">{{data?.game?.gameCategory?.name}}</span>
+        </mat-chip>
+        &nbsp; &nbsp;<mat-chip mat-raised-button color="primary" class="chip-header-type">
+        <img src="assets/images/normal-game.png" *ngIf="data?.game?.gameType?.id == 'normal'" width="25">
+        <img src="assets/images/survival-game.png" *ngIf="data?.game?.gameType?.id == 'survival'" width="25">
+        <span class="font-size-12 weight-500">{{data?.game?.gameType?.text}}</span>
+      </mat-chip>
+      </div>
+
+      <mat-card-content class="p-5" style="min-height: 480px">
+        <div style="display: ruby-text;">
+          <mat-spinner *ngIf="loading" [diameter]="30"></mat-spinner>
+        </div>
+        <div *ngIf="!loading">
+          Result
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
 </div>

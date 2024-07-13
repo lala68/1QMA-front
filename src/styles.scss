@@ -373,9 +373,8 @@ input[type="tel"] {
   --mat-tab-header-active-focus-indicator-color: white !important;
 }
 
-.waiting-spinner .mat-progress-spinner circle,
-.waiting-spinner .mat-spinner circle {
-  stroke: red !important; /* Change to your desired color */
+.uploader-status ::ng-deep .mat-progress-spinner circle, .mat-spinner circle {
+  stroke: #000000;
 }
 
 .text-gray {

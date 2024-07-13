@@ -133,6 +133,18 @@ export class ExitGame {
 
   async exit() {
     this.generalService.startingGame = false;
+    this.generalService.players = [];
+    this.generalService.gameInit = '';
+    this.generalService.gameStep = 1;
+    this.generalService.createdGameData = '';
+    this.generalService.gameQuestion = '';
+    this.generalService.specificQuestionAnswers = '';
+    this.generalService.finishedTimer = false;
+    this.generalService.gameAnswerGeneral = '';
+    this.generalService.editingAnswer = true;
+    this.generalService.nextButtonDisable = false;
+    this.generalService.allQuestions = [];
+    this.generalService.gameResult = '';
     this.dialogRef.close();
     if (this.generalService.socket) {
       this.generalService.socket.disconnect();
