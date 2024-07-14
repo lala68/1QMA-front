@@ -57,6 +57,7 @@ export class GamesComponent implements OnInit {
   loadingJoinWithCode: boolean = false;
   loadingFindFriend: boolean = false;
   loadingCreateGame: boolean = false;
+  nextStepTriggered: boolean = false;
 
   constructor(public generalService: GeneralService, private gameService: GamesService, public configService: ConfigService,
               private _formBuilder: FormBuilder, private router: Router, public dialog: MatDialog,
@@ -116,8 +117,8 @@ export class GamesComponent implements OnInit {
         this.generalService.gameQuestion = resQue?.data;
         this.generalService.gameStep = 2;
         this.generalService.finishedTimer = false;
+        this.handleGameStep();
         if (resQue?.data?.myAnswer) {
-          console.log(111111)
           this.generalService.gameAnswerGeneral = resQue?.data?.myAnswer;
           this.generalService.editingAnswer = true;
         } else {
@@ -128,12 +129,16 @@ export class GamesComponent implements OnInit {
 
     this.generalService.socket.on("next step", (arg: any) => {
       console.log("emit next step", arg);
-      this.handleGameStep();
+      this.nextStepTriggered = true;
+      // this.handleGameStep();
     });
 
     this.generalService.socket.on("end game", (arg: any) => {
       console.log("end game", arg);
+      // this.waitForConditions().then(async () => {
       this.generalService.gameStep = 5;
+      this.getGameResult();
+      // });
     });
 
     this.generalService.socket.on("disconnected", function () {
@@ -166,112 +171,142 @@ export class GamesComponent implements OnInit {
     }, 3000)
   }
 
-
   private async handleGameStep() {
-    console.log('gameStep: ' + this.generalService.gameStep)
+    // console.log('gameStep: ' + this.generalService.gameStep)
+    // console.log('waitForConditions: ' + this.generalService.finishedTimer)
+    // console.log('waitForNextStepTrigger: ' + this.nextStepTriggered)
+    // console.log('nextButtonDisable: ' + this.generalService?.nextButtonDisable)
     // this.generalService.finishedTimer = false;
     await this.waitForConditions().then(async () => {
       if (this.generalService.gameStep == 2) {
         if (!this.generalService?.nextButtonDisable) {
           await this.gameBoardComponent.sendAnswer();
-          await this.gameService.getAllAnswersOfSpecificQuestion(
-            this.generalService.createdGameData.game.gameId,
-            this.generalService.gameQuestion._id
-          ).then(async data => {
-            if (data.status === 1) {
-              this.generalService.specificQuestionAnswers = data.data;
-              this.generalService.gameStep = 3;
-              this.generalService.finishedTimer = false;
-              this.generalService.nextButtonDisable = false;
-              this.countdownTimerComponent.startCountdown();
-              this.gameBoardComponent.updateRates();
-              // await this.handleGameStep(); // Recursive call
-            }
+          await this.waitForNextStepTrigger().then(async () => {
+            this.generalService.nextButtonDisable = true;
+            this.nextStepTriggered = false;
+            await this.gameService.getAllAnswersOfSpecificQuestion(
+              this.generalService.createdGameData.game.gameId,
+              this.generalService.gameQuestion._id
+            ).then(async data => {
+              if (data.status === 1) {
+                this.generalService.specificQuestionAnswers = data.data;
+                this.generalService.gameStep = 3;
+                this.generalService.finishedTimer = false;
+                this.generalService.nextButtonDisable = false;
+                this.countdownTimerComponent.startCountdown();
+                this.gameBoardComponent.updateRates(this.generalService.rateAnswers.length != 0);
+              }
+            });
+            this.handleGameStep();
           });
         } else {
-          await this.gameService.getAllAnswersOfSpecificQuestion(
-            this.generalService.createdGameData.game.gameId,
-            this.generalService.gameQuestion._id
-          ).then(async data => {
-            if (data.status === 1) {
-              this.generalService.specificQuestionAnswers = data.data;
-              this.generalService.gameStep = 3;
-              this.generalService.finishedTimer = false;
-              this.generalService.nextButtonDisable = false;
-              this.countdownTimerComponent.startCountdown();
-              this.gameBoardComponent.updateRates();
-              // await this.handleGameStep(); // Recursive call
-            }
+          await this.waitForNextStepTrigger().then(async () => {
+            this.nextStepTriggered = false;
+            await this.gameService.getAllAnswersOfSpecificQuestion(
+              this.generalService.createdGameData.game.gameId,
+              this.generalService.gameQuestion._id
+            ).then(async data => {
+              if (data.status === 1) {
+                this.generalService.specificQuestionAnswers = data.data;
+                this.generalService.gameStep = 3;
+                this.generalService.finishedTimer = false;
+                this.generalService.nextButtonDisable = false;
+                this.countdownTimerComponent.startCountdown();
+                this.gameBoardComponent.updateRates(this.generalService.rateAnswers.length != 0);
+              }
+            });
+            this.handleGameStep();
           });
         }
       } else if (this.generalService.gameStep == 3) {
-        console.log(333)
-        console.log(this.generalService.gameQuestion)
+        // console.log(333)
         if (!this.generalService?.nextButtonDisable) {
           await this.gameBoardComponent.sendRateAnswer();
-          await this.gameService.getGameQuestionBasedOnStep(
-            this.generalService?.createdGameData?.game?.gameId,
-            parseInt(this.generalService.gameQuestion.step) + 1
-          ).then(async resQue => {
-            if (resQue.status == 1) {
-              this.generalService.gameQuestion = resQue?.data;
-              if (resQue?.data?.myAnswer) {
-                this.generalService.gameAnswerGeneral = resQue?.data?.myAnswer;
-                this.generalService.editingAnswer = true;
+          await this.waitForNextStepTrigger().then(async () => {
+            this.generalService.nextButtonDisable = true;
+            this.nextStepTriggered = false;
+            await this.gameService.getGameQuestionBasedOnStep(
+              this.generalService?.createdGameData?.game?.gameId,
+              parseInt(this.generalService.gameQuestion.step) + 1
+            ).then(async resQue => {
+              if (resQue.status == 1) {
+                this.generalService.gameQuestion = resQue?.data;
+                if (resQue?.data?.myAnswer) {
+                  this.generalService.gameAnswerGeneral = resQue?.data?.myAnswer;
+                  this.generalService.editingAnswer = true;
+                } else {
+                  this.generalService.editingAnswer = false;
+                }
+                this.generalService.gameStep = 2;
+                this.generalService.finishedTimer = false;
+                this.generalService.nextButtonDisable = false;
+                this.countdownTimerComponent.startCountdown();
               } else {
-                this.generalService.editingAnswer = false;
+                this.generalService.gameStep = 4;
+                this.generalService.nextButtonDisable = false;
+                this.countdownTimerComponent.startCountdown();
+                await this.gameService.getQuestionsOfGame(
+                  this.generalService?.createdGameData?.game?.gameId)
+                  .then(async resQue => {
+                    this.generalService.allQuestions = resQue?.data;
+                    this.generalService.finishedTimer = false;
+                    this.generalService.nextButtonDisable = false;
+                    this.gameBoardComponent.updateRatesQuestions(this.generalService.rateQuestions.length != 0);
+                  });
               }
-              this.generalService.gameStep = 2;
-              this.generalService.finishedTimer = false;
-              this.generalService.nextButtonDisable = false;
-              this.countdownTimerComponent.startCountdown();
-              // await this.handleGameStep(); // Recursive call
-            } else {
-              this.generalService.gameStep = 4;
-              this.generalService.nextButtonDisable = false;
-              this.countdownTimerComponent.startCountdown();
-              // await this.handleGameStep(); // Recursive call
-            }
+            });
+            this.handleGameStep();
           });
         } else {
-          this.generalService.nextButtonDisable = false;
-          await this.gameService.getGameQuestionBasedOnStep(
-            this.generalService?.createdGameData?.game?.gameId,
-            parseInt(this.generalService.gameQuestion.step) + 1
-          ).then(async resQue => {
-            if (resQue.status == 1) {
-              this.generalService.gameQuestion = resQue?.data;
-              if (resQue?.data?.myAnswer) {
-                this.generalService.gameAnswerGeneral = resQue?.data?.myAnswer;
-                this.generalService.editingAnswer = true;
+          await this.waitForNextStepTrigger().then(async () => {
+            this.nextStepTriggered = false;
+            await this.gameService.getGameQuestionBasedOnStep(
+              this.generalService?.createdGameData?.game?.gameId,
+              parseInt(this.generalService.gameQuestion.step) + 1
+            ).then(async resQue => {
+              if (resQue.status == 1) {
+                this.generalService.gameQuestion = resQue?.data;
+                if (resQue?.data?.myAnswer) {
+                  this.generalService.gameAnswerGeneral = resQue?.data?.myAnswer;
+                  this.generalService.editingAnswer = true;
+                } else {
+                  this.generalService.editingAnswer = false;
+                }
+                this.generalService.finishedTimer = false;
+                this.generalService.gameStep = 2;
+                this.generalService.nextButtonDisable = false;
+                this.countdownTimerComponent.startCountdown();
               } else {
-                this.generalService.editingAnswer = false;
+                this.generalService.gameStep = 4;
+                this.generalService.nextButtonDisable = false;
+                this.countdownTimerComponent.startCountdown();
+                await this.gameService.getQuestionsOfGame(
+                  this.generalService?.createdGameData?.game?.gameId)
+                  .then(async resQue => {
+                    this.generalService.allQuestions = resQue?.data;
+                    this.generalService.finishedTimer = true;
+                    this.generalService.nextButtonDisable = false;
+                    this.gameBoardComponent.updateRatesQuestions(this.generalService.rateQuestions.length != 0);
+                  });
               }
-              this.generalService.finishedTimer = false;
-              this.generalService.gameStep = 2;
-              this.generalService.nextButtonDisable = false;
-              this.countdownTimerComponent.startCountdown();
-              // await this.handleGameStep(); // Recursive call
-            } else {
-              this.generalService.gameStep = 4;
-              this.generalService.nextButtonDisable = false;
-              this.countdownTimerComponent.startCountdown();
-              await this.gameService.getQuestionsOfGame(
-                this.generalService?.createdGameData?.game?.gameId)
-                .then(async resQue => {
-                  this.generalService.allQuestions = resQue?.data;
-                  this.generalService.finishedTimer = true;
-                  this.generalService.nextButtonDisable = false;
-                  this.gameBoardComponent.updateRatesQuestions();
-                });
-            }
+            });
+            this.handleGameStep();
           });
         }
       } else if (this.generalService.gameStep == 4) {
+        // console.log(444)
         if (!this.generalService?.nextButtonDisable) {
           await this.gameBoardComponent.sendRateQuestions();
+          await this.waitForNextStepTrigger().then(async () => {
+            this.nextStepTriggered = false;
+            this.generalService.nextButtonDisable = true;
+            this.handleGameStep();
+          });
         } else {
           this.generalService.nextButtonDisable = false;
+          // await this.waitForNextStepTrigger().then(async () => {
+          //   this.handleGameStep();
+          // });
         }
       }
     });
@@ -289,8 +324,23 @@ export class GamesComponent implements OnInit {
     });
   }
 
+  private waitForNextStepTrigger(): Promise<void> {
+    return new Promise<void>((resolve) => {
+      const interval = setInterval(() => {
+        if (this.conditionsTriggerMet()) {
+          clearInterval(interval);
+          resolve();
+        }
+      }, 100); // Check every 100ms
+    });
+  }
+
   private conditionsMet(): boolean {
     return this.generalService.finishedTimer;
+  }
+
+  private conditionsTriggerMet(): boolean {
+    return this.nextStepTriggered;
   }
 
   openDialog(message: any, title: any) {
@@ -365,6 +415,7 @@ export class GamesComponent implements OnInit {
           this.generalService.gameQuestion = resQue?.data;
           this.generalService.gameStep = 2;
           this.generalService.finishedTimer = false;
+          this.handleGameStep();
           if (resQue?.data?.myAnswer) {
             this.generalService.gameAnswerGeneral = resQue?.data?.myAnswer;
             this.generalService.editingAnswer = true;
@@ -377,13 +428,16 @@ export class GamesComponent implements OnInit {
 
     this.generalService.socket.on("next step", (arg: any) => {
       console.log("emit next step", arg);
-      this.handleGameStep();
+      this.nextStepTriggered = true;
+      // this.handleGameStep();
     });
 
     this.generalService.socket.on("end game", (arg: any) => {
       console.log("end game", arg);
+      // this.waitForConditions().then(async () => {
       this.generalService.gameStep = 5;
       this.getGameResult();
+      // });
     });
 
     this.generalService.socket.on("disconnected", function () {

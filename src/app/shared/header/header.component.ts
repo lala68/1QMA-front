@@ -145,6 +145,8 @@ export class ExitGame {
     this.generalService.nextButtonDisable = false;
     this.generalService.allQuestions = [];
     this.generalService.gameResult = '';
+    this.generalService.rateAnswers = [];
+    this.generalService.rateQuestions = [];
     this.dialogRef.close();
     if (this.generalService.socket) {
       this.generalService.socket.disconnect();

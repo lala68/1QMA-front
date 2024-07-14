@@ -9,12 +9,13 @@ import {ClipboardModule} from "@angular/cdk/clipboard";
 import {CountdownTimerComponent} from "../countdown-timer/countdown-timer.component";
 import {GamesService} from "../../services/games/games.service";
 import {CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray} from "@angular/cdk/drag-drop";
+import {MatExpansionModule} from "@angular/material/expansion";
 
 @Component({
   selector: 'app-game-board',
   standalone: true,
   imports: [CommonModule, SharedModule, FormsModule, RouterModule, ReactiveFormsModule, TranslateModule,
-    ClipboardModule, CountdownTimerComponent, CdkDropList, CdkDrag],
+    ClipboardModule, CountdownTimerComponent, CdkDropList, CdkDrag, MatExpansionModule],
   templateUrl: './game-board.component.html',
   styleUrl: './game-board.component.scss',
   providers: [CountdownTimerComponent]
@@ -67,7 +68,7 @@ export class GameBoardComponent implements OnInit {
     // moveItemInArray(this.questions, event.previousIndex, event.currentIndex);
 
     // Update the rates array based on the new order of answers
-    this.updateRates();
+    this.updateRates(true);
   }
 
   moveUpAnswers(index: number) {
@@ -107,21 +108,35 @@ export class GameBoardComponent implements OnInit {
     moveItemInArray(this.generalService.allQuestions, event.previousIndex, event.currentIndex);
 
     // Update the rates array based on the new order of answers
-    this.updateRatesQuestions();
+    this.updateRatesQuestions(true);
   }
 
-  updateRates() {
-    this.generalService.rateAnswers = this.generalService.specificQuestionAnswers.answers.map((answer: any, index: any) => ({
-      answer_id: answer._id,
-      rate: (index + 1).toString() // Assuming the rate is the new index + 1 as a string
-    }));
+  updateRates(dropped: boolean = false) {
+    if (!dropped) {
+      this.generalService.rateAnswers = this.generalService.specificQuestionAnswers.answers.map((answer: any, index: any) => ({
+        answer_id: answer._id,
+        rate: '1.1' // Assuming the rate is the new index + 1 as a string
+      }));
+    } else {
+      this.generalService.rateAnswers = this.generalService.specificQuestionAnswers.answers.map((answer: any, index: any) => ({
+        answer_id: answer._id,
+        rate: (index + 1).toString() // Assuming the rate is the new index + 1 as a string
+      }));
+    }
   }
 
-  updateRatesQuestions() {
-    this.generalService.rateQuestions = this.generalService.allQuestions.map((question: any, index: any) => ({
-      question_id: question._id,
-      rate: (index + 1).toString() // Assuming the rate is the new index + 1 as a string
-    }));
+  updateRatesQuestions(dropped: boolean = false) {
+    if (!dropped) {
+      this.generalService.rateQuestions = this.generalService.allQuestions.map((question: any, index: any) => ({
+        question_id: question._id,
+        rate: '1.1' // Assuming the rate is the new index + 1 as a string
+      }));
+    } else {
+      this.generalService.rateQuestions = this.generalService.allQuestions.map((question: any, index: any) => ({
+        question_id: question._id,
+        rate: (index + 1).toString() // Assuming the rate is the new index + 1 as a string
+      }));
+    }
   }
 
   async sendRateAnswer(): Promise<any> {
@@ -152,5 +167,13 @@ export class GameBoardComponent implements OnInit {
 
   editAnswer() {
     this.generalService.editingAnswer = false;
+  }
+
+  removeFromInvited() {
+
+  }
+
+  newGame() {
+
   }
 }

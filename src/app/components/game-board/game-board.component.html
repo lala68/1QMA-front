@@ -468,13 +468,6 @@
         <div class="next-button">
           <app-countdown-timer [duration]="generalService?.gameInit?.eachStepDurationSeconds"
                                (countdownFinished)="handleCountdownFinished()"></app-countdown-timer>
-
-          <!--          <button *ngIf="generalService?.gameStep == 2" mat-raised-button color="primary" class="next-step ms-3"-->
-          <!--                  (click)="sendAnswer()"-->
-          <!--                  [disabled]="!generalService?.gameAnswerGeneral">-->
-          <!--            {{'Next Step' | translate}}-->
-          <!--            <i class="bi bi-arrow-right"></i>-->
-          <!--          </button>-->
           <button mat-raised-button color="primary" class="next-step ms-3"
                   [disabled]="generalService?.nextButtonDisable"
                   (click)="sendRateAnswer()">
@@ -615,7 +608,28 @@
           <mat-spinner *ngIf="loading" [diameter]="30"></mat-spinner>
         </div>
         <div *ngIf="!loading">
-          Result
+          <div class="d-inline-flex">
+            <div class="gray-card creator">
+              <img src="assets/images/frame.png" width="40" height="40">
+              <span class="font-size-14 weight-700 pe-2">John</span>
+            </div>
+
+            <div class="d-inline-flex position-absolute end-10">
+              <div class="copy-referrer cursor-pointer" style="width: 40px; height: 40px; padding: 7px">
+                <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M7.4783 6.63558L15.9683 3.80558C19.7783 2.53558 21.8483 4.61558 20.5883 8.42558L17.7583 16.9156C15.8583 22.6256 12.7383 22.6256 10.8383 16.9156L9.9983 14.3956L7.4783 13.5556C1.7683 11.6556 1.7683 8.54558 7.4783 6.63558Z"
+                    stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M10.188 13.965L13.768 10.375" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
+                        stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <button style="height: 40px" mat-raised-button color="primary" class="next-step ms-3" (click)="newGame()">
+                {{'New Game' | translate}}
+              </button>
+
+            </div>
+          </div>
         </div>
       </mat-card-content>
     </mat-card>
