@@ -29,7 +29,9 @@
           </mat-card-header>
         </mat-card>
         <div *ngFor="let player of generalService?.players" class="user-card position-relative">
-          <img src="assets/images/avatar-09.png" width="32" height="32"/>
+          <img width="32" height="32"
+               [src]="player?.profilePicture ? player?.profilePicture?.startsWith('http') ? player?.profilePicture : configService.url(player?.profilePicture) : 'assets/images/frame.png'"
+          />
           <mat-label class="font-size-14 weight-500 m-auto">{{player?.email}}</mat-label>
           <div class="d-inline-flex position-absolute end-10" style="top: 10px">
             <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -42,27 +44,43 @@
             <mat-label color="success">Joined</mat-label>
           </div>
         </div>
-        <div
-          *ngFor="let playerNotJoined of [].constructor(generalService?.gameInit?.numberOfPlayers - generalService?.players?.length)"
-          class="user-card position-relative">
-          <img src="assets/images/avatar-09.png" width="32" height="32"/>
-          <mat-label class="font-size-14 weight-500 m-auto">...</mat-label>
-          <div class="d-inline-flex position-absolute end-10" style="top: 10px">
-            &nbsp;<mat-spinner [diameter]="20"></mat-spinner>&nbsp;
-            <mat-label>waiting</mat-label>
+        <div *ngIf="generalService?.invitedPlayersArray.length > 0">
+          <div
+            *ngFor="let playerNotJoined of generalService?.invitedPlayersArray"
+            class="user-card position-relative">
+            <img src="assets/images/frame.png" width="32" height="32"/>
+            <mat-label class="font-size-14 weight-500 m-auto">{{playerNotJoined}}</mat-label>
+            <div class="d-inline-flex position-absolute end-10" style="top: 10px">
+              &nbsp;<mat-spinner [diameter]="20"></mat-spinner>&nbsp;
+              <mat-label>waiting</mat-label>
+            </div>
+            <svg (click)="removeFromInvited(playerNotJoined)" style="position: absolute; right: -30px; top: 10px"
+                 width="24" height="24" viewBox="0 0 35 35"
+                 fill="none"
+                 xmlns="http://www.w3.org/2000/svg">
+              <path d="M13.4819 21.4023L21.9672 12.9171" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
+                    stroke-linejoin="round"/>
+              <path d="M21.9672 21.4032L13.4819 12.918" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
+                    stroke-linejoin="round"/>
+            </svg>
           </div>
-          <svg style="position: absolute; right: -30px; top: 10px" width="24" height="24" viewBox="0 0 35 35"
-               fill="none"
-               xmlns="http://www.w3.org/2000/svg">
-            <path d="M13.4819 21.4023L21.9672 12.9171" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
-                  stroke-linejoin="round"/>
-            <path d="M21.9672 21.4032L13.4819 12.918" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
-                  stroke-linejoin="round"/>
-          </svg>
         </div>
-        <div class="user-card-dashed position-relative">
-          <input class="border-0 w-100" placeholder="Empty seat - Type and invite" (keyup.Enter)="inviteUser()"
-                 [(ngModel)]="invitedUser">
+        <div>
+          <div style="min-height: 42px; padding: 0; overflow: hidden"
+               [class]=" filteredEmails?.length > 0 ? 'user-card-dashed position-relative cardWithSuggested':  'user-card-dashed position-relative'">
+            <input matInput class="border-0 w-100" placeholder="{{'Empty seat - Type and invite' | translate}}"
+                   type="email" style="margin-top: 5px; padding: 10px"
+                   [(ngModel)]="invitedUser" (input)="inviteUser()" (keydown.enter)="addUserToPlayers()">
+            <mat-divider *ngIf="filteredEmails?.length > 0"></mat-divider>
+            <div *ngFor="let suggestion of filteredEmails" class="p-3">
+              <img style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px"
+                   [src]="suggestion?.profilePicture ? suggestion?.profilePicture?.startsWith('http') ? suggestion?.profilePicture : configService.url(suggestion?.profilePicture) : 'assets/images/frame.png'"
+                   width="24" height="24">
+              &nbsp;&nbsp;<span
+              class="font-size-14 weight-400"
+              (click)="selectUserToInvite(suggestion.email)">{{suggestion?.email}}</span>
+            </div>
+          </div>
         </div>
         <br>
         <br>
@@ -77,7 +95,8 @@
                   <div class="d-inline text-start">{{data?.game?.gameLink}}</div>
                 </div>
                 &nbsp;
-                <div class="copy-referrer cursor-pointer" (click)="generalService.openSnackBar('Copied!')"
+                <div class="copy-referrer cursor-pointer"
+                     (click)="generalService.openSnackBar('Copied to clipboard', 'Copied')"
                      [cdkCopyToClipboard]="data?.game?.gameLink">
                   <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -119,7 +138,8 @@
                   <div class="d-inline text-start">{{data?.game?.gameCode}}</div>
                 </div>
                 &nbsp;
-                <div class="copy-referrer cursor-pointer" (click)="generalService.openSnackBar('Copied!')"
+                <div class="copy-referrer cursor-pointer"
+                     (click)="generalService.openSnackBar('Copied to clipboard', 'Copied' )"
                      [cdkCopyToClipboard]="data?.game?.gameCode">
                   <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -336,7 +356,8 @@
         <div class="next-button">
           <app-countdown-timer [duration]="generalService?.gameInit?.eachStepDurationSeconds"
                                (countdownFinished)="handleCountdownFinished()"></app-countdown-timer>
-          <button *ngIf="generalService.gameAnswerGeneral && generalService.editingAnswer" mat-raised-button
+          <button *ngIf="(generalService.gameAnswerGeneral && generalService.editingAnswer)"
+                  mat-raised-button
                   color="primary" class="ms-3"
                   (click)="editAnswer()"
                   [disabled]="!generalService?.editingAnswer">

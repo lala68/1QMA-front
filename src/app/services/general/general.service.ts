@@ -3,6 +3,7 @@ import {Preferences} from "@capacitor/preferences";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {map, pipe} from "rxjs";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {SnackbarContentComponent} from "../../components/snackbar-content/snackbar-content.component";
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +31,7 @@ export class GeneralService implements OnInit {
   editingAnswer: boolean = true;
   nextButtonDisable: boolean = false;
   allQuestions: any = [];
+  invitedPlayersArray: any = [];
   gameResult: any;
   rateAnswers: { answer_id: string, rate: string }[] = [];
   rateQuestions: { question_id: string, rate: string }[] = [];
@@ -116,11 +118,34 @@ export class GeneralService implements OnInit {
   async getCitiesBasedOnCountry(code: any) {
     this.cities = [];
     this.getCities(code).then(data => {
-      this.cities = data?.data;
-    })
+      if (data.data) {
+        this.cities = data.data.sort((a: any, b: any) => a.localeCompare(b));
+      }
+    });
   }
 
-  openSnackBar(message: string) {
-    this._snackBar.open(message, '', {duration: 3000});
+  openSnackBar(message: string, title: any) {
+    this._snackBar.openFromComponent(SnackbarContentComponent, {
+      data: {
+        title: title,
+        message: message
+      },
+      duration: 3000,
+      verticalPosition: 'top',
+      horizontalPosition: 'end',
+      panelClass: title === 'Success' ? 'app-notification-success' : (title === 'Error' ? 'app-notification-error' : 'app-notification-default')
+    });
+  }
+
+  getImageAsBinary(imagePath: string): Promise<ArrayBuffer> {
+    return this.http.get(imagePath, { responseType: 'blob' }).toPromise()
+      .then(blob => {
+        return new Promise<ArrayBuffer>((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onloadend = () => resolve(reader.result as ArrayBuffer);
+          reader.onerror = reject;
+          reader.readAsArrayBuffer(<Blob>blob);
+        });
+      });
   }
 }

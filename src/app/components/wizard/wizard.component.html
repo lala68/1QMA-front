@@ -96,11 +96,18 @@
                               (onSelectionChange)="generalService.getCitiesBasedOnCountry(country.code)">{{country.name}}</mat-option>
                 </mat-select>
               </mat-form-field>&nbsp;&nbsp;
+<!--              <mat-form-field class="custom-form-field w-50" appearance="fill">-->
+<!--                <mat-label>{{'City' | translate}}</mat-label>-->
+<!--                <mat-select [formControlName]="'city'">-->
+<!--                  <mat-option *ngFor="let cty of generalService?.cities | keyvalue"-->
+<!--                              [value]="cty?.key">{{cty?.value}}</mat-option>-->
+<!--                </mat-select>-->
+<!--              </mat-form-field>-->
+
               <mat-form-field class="custom-form-field w-50" appearance="fill">
                 <mat-label>{{'City' | translate}}</mat-label>
                 <mat-select [formControlName]="'city'">
-                  <mat-option *ngFor="let cty of generalService?.cities | keyvalue"
-                              [value]="cty?.key">{{cty?.value}}</mat-option>
+                  <mat-option *ngFor="let cty of generalService?.cities" [value]="cty">{{cty}}</mat-option>
                 </mat-select>
               </mat-form-field>
             </div>

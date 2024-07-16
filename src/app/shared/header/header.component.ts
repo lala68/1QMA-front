@@ -6,6 +6,7 @@ import {Router} from "@angular/router";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {FormBuilder, FormControl, Validators} from "@angular/forms";
 import {ClientService} from "../../services/client/client.service";
+import {GamesComponent} from "../../components/games/games.component";
 
 @Component({
   selector: 'app-header',
@@ -147,6 +148,7 @@ export class ExitGame {
     this.generalService.gameResult = '';
     this.generalService.rateAnswers = [];
     this.generalService.rateQuestions = [];
+    this.generalService.invitedPlayersArray = [];
     this.dialogRef.close();
     if (this.generalService.socket) {
       this.generalService.socket.disconnect();

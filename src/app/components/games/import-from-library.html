@@ -6,12 +6,12 @@
     <path d="M21.9672 21.4032L13.4819 12.918" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
           stroke-linejoin="round"/>
   </svg>
-  &nbsp;{{'Joining Game' | translate}}
+  &nbsp;{{'Import from library' | translate}}
 </div>
 <div mat-dialog-content>
   <div class="gray-card">
     <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" class="tab-group-library"
-                   [(selectedIndex)]="selectedTabIndex">
+                   [(selectedIndex)]="selectedTabIndex" (selectedTabChange)="ngOnInit()">
       <mat-tab label="Private Library">
       </mat-tab>
       <mat-tab label="Public Library">
@@ -22,7 +22,8 @@
   </div>
   <br>
   <div class="d-flex position-relative">
-    <input matInput class="invite-input ps-5" placeholder="{{'Search' | translate}}" type="text">
+    <input matInput class="invite-input ps-5" [(ngModel)]="search" (input)="ngOnInit()"
+           placeholder="{{'Search' | translate}}" type="text">
     <svg class="position-absolute top-0 bottom-0 start-0" style="margin: auto 5px" width="25" height="25"
          viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
@@ -33,37 +34,42 @@
     </svg>
   </div>
   <br>
+  <div style="display: ruby-text;">
+    <mat-spinner *ngIf="loading" [diameter]="30"></mat-spinner>
+  </div>
   <!--  private-->
   <div *ngIf="selectedTabIndex == 0">
-    <div *ngFor="let item of [].constructor(5)" class="gray-card p-4 mb-2">
+    <div *ngFor="let item of library" class="gray-card p-4 mb-2">
       <div class="d-flex white-card position-relative">
-        <img src="assets/images/frame.png" width="42">
-        <mat-label class="font-size-13 weight-500" style="margin: auto 10px">Sam Smith</mat-label>
+        <img style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px"
+             [src]="generalService?.userObj?.profilePicture ? generalService?.userObj?.profilePicture?.startsWith('http') ? generalService?.userObj?.profilePicture : configService.url(generalService?.userObj?.profilePicture) : 'assets/images/frame.png'"
+             width="42" height="42">
+        <mat-label class="font-size-13 weight-500"
+                   style="margin: auto 10px">{{generalService?.userObj?.firstName}} {{generalService?.userObj?.lastName}}</mat-label>
         <mat-label class="font-size-12 weight-500 position-absolute" style="right: 10px; margin: 10px auto">2hrs agos
         </mat-label>
       </div>
       <br>
       <div class="font-size-14 weight-700">
-        How has street art evolved from graffiti to a recognized form of contemporary art?
+        {{item?.question}}
       </div>
       <br>
       <div class="font-size-13 weight-400">
-        Street art has evolved from being considered vandalism to gaining acceptance and recognition as a legitimate and
-        influential art form. This shift has been driven by the increasing involvement of established artists,
-        galleries,
-        and public spaces showcasing street art.
+        {{item?.answer}}
       </div>
       <br>
       <div class="d-block">
-        <mat-chip mat-raised-button color="primary" class="chip-header-type">
-          <img src="assets/images/normal-game.png" width="25">
-          <span class="font-size-12 weight-500">Normal</span>
-        </mat-chip>
+        <div class="white-card p-1" style="width: fit-content">
+          <img
+            [src]="configService.url(item.category?.icon)"
+            width="24">
+          <mat-label class="font-size-12 weight-600" style="margin: auto 5px">{{item?.category?.name}}</mat-label>
+        </div>
         <div class="float-end">
-          <button mat-stroked-button color="primary" class="me-2 radius" style="border: 1px solid #0B6FEA">
+          <button (click)="importQuestion(item.question)" mat-stroked-button color="primary" class="me-2 radius" style="border: 1px solid #0B6FEA">
             Import Question
           </button>
-          <button mat-stroked-button color="primary" class="me-2 radius" style="border: 1px solid #0B6FEA">
+          <button (click)="importQuestionAnswer(item.question, item.answer)" mat-stroked-button color="primary" class="me-2 radius" style="border: 1px solid #0B6FEA">
             Import Question + Answer
           </button>
         </div>
@@ -74,7 +80,7 @@
 
   <!--  public-->
   <div *ngIf="selectedTabIndex == 1">
-    <div *ngFor="let item of [].constructor(5)" class="gray-card p-4 mb-2">
+    <div *ngFor="let item of library" class="gray-card p-4 mb-2">
       <div class="d-flex white-card position-relative">
         <img src="assets/images/frame.png" width="42">
         <mat-label class="font-size-13 weight-500" style="margin: auto 10px">Sam Smith</mat-label>
@@ -83,13 +89,15 @@
       </div>
       <br>
       <div class="font-size-14 weight-700">
-        How has street art evolved from graffiti to a recognized form of contemporary art?
+        {{item?.question}}
       </div>
       <br>
       <div class="d-inline-flex">
         <div class="white-card p-1" style="width: fit-content">
-          <img src="assets/images/normal-game.png" width="24">
-          <mat-label class="font-size-12 weight-600" style="margin: auto 10px">Art</mat-label>
+          <img
+            [src]="configService.url(item.category?.icon)"
+            width="24">
+          <mat-label class="font-size-12 weight-600" style="margin: auto 5px">{{item?.category?.name}}</mat-label>
         </div>
         &nbsp;&nbsp;
         <div class="white-card p-1" style="width: fit-content">
@@ -108,8 +116,49 @@
           &nbsp;&nbsp;<span class="font-size-14 weight-600">5 Bronze</span>
         </div>
         <div class="float-end">
-          <button mat-stroked-button color="primary" class="me-2 radius" style="border: 1px solid #0B6FEA">
+          <button (click)="importQuestion(item.question)" mat-stroked-button color="primary" class="me-2 radius" style="border: 1px solid #0B6FEA">
             Import Question
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!--  bookmark-->
+  <div *ngIf="selectedTabIndex == 2">
+    <div *ngFor="let item of library" class="gray-card p-3 mb-2">
+      <div class="d-flex white-card position-relative">
+        <img style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px"
+             [src]="generalService?.userObj?.profilePicture ? generalService?.userObj?.profilePicture?.startsWith('http') ? generalService?.userObj?.profilePicture : configService.url(generalService?.userObj?.profilePicture) : 'assets/images/frame.png'"
+             width="42" height="42">
+        <mat-label class="font-size-13 weight-500"
+                   style="margin: auto 10px">{{generalService?.userObj?.firstName}} {{generalService?.userObj?.lastName}}</mat-label>
+        <mat-label class="font-size-12 weight-500 position-absolute" style="right: 10px; margin: 10px auto">2hrs agos
+        </mat-label>
+      </div>
+      <br>
+      <div class="font-size-14 weight-700">
+        {{item?.question}}
+      </div>
+      <br>
+      <div class="font-size-13 weight-400">
+        {{item?.answer}}
+      </div>
+      <br>
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="white-card p-1" style="width: fit-content">
+          <img
+            [src]="configService.url(item.category?.icon)"
+            width="24">
+          <mat-label class="font-size-12 weight-600" style="margin: auto 5px">{{item?.category?.name}}</mat-label>
+        </div>
+        <div>
+          <button mat-stroked-button (click)="importQuestion(item.question)" color="primary" class="me-2 radius" style="border: 1px solid #0B6FEA">
+            Import Question
+          </button>
+          <button mat-stroked-button (click)="importQuestionAnswer(item.question, item.answer)" color="primary" class="radius" style="border: 1px solid #0B6FEA">
+            Import Question + Answer
           </button>
         </div>
       </div>

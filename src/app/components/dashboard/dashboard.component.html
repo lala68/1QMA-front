@@ -255,7 +255,7 @@
     </form>
   </div>
   <br>
-  <div class="d-inline w-100 copy-referrer cursor-pointer" (click)="generalService.openSnackBar('Copied!')"
+  <div class="d-inline w-100 copy-referrer cursor-pointer" (click)="generalService.openSnackBar('Copied to clipboard', 'Copied')"
        [cdkCopyToClipboard]="generalService?.userObj?.referCode">
     <div class="d-inline text-start">Referral Code</div>
     <div class="d-inline text-end float-end">

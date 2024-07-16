@@ -1,0 +1,46 @@
+<div class="font-size-14 weight-700 p-2 border-bottom">
+  <svg (click)="closeModal()" width="24" height="24" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M13.4819 21.4023L21.9672 12.9171" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
+          stroke-linejoin="round"/>
+    <path d="M21.9672 21.4032L13.4819 12.918" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
+          stroke-linejoin="round"/>
+  </svg>
+  &nbsp;{{'Profile picture' | translate}}
+</div>
+<div mat-dialog-content>
+  <div class="d-inline-flex border-bottom w-100 pb-3 position-relative">
+    <div>
+      <img style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px"
+           [src]="generalService?.userObj?.profilePicture ? generalService?.userObj?.profilePicture?.startsWith('http') ? generalService?.userObj?.profilePicture : configService.url(generalService?.userObj?.profilePicture) : 'assets/images/frame.png'"
+           width="60" height="60">
+      &nbsp;&nbsp;<span
+      class="font-size-14 weight-700">{{generalService?.userObj?.firstName}} {{generalService?.userObj?.lastName}}</span>
+    </div>
+    <div class="d-inline-flex position-absolute" style="right: 20px; top: 10px">
+      <button mat-stroked-button color="primary" class="radius" (click)="openAddFilesDialog()"
+              style="border: 1px solid #0B6FEA; width: 148px; height: 47px">
+        Upload Image
+      </button>
+      <input #FileSelectInputDialog type="file" (change)="imageProfileInput($event)" hidden/>
+
+    </div>
+  </div>
+  <br>
+  <div>
+    <br>
+    <div class="font-size-14 weight-500">
+      Choose From Gallery
+    </div>
+    <div *ngFor="let pic of [].constructor(12); let i = index" (click)="selectAvatar(i+1)"
+         [class]="{'avatar-selected': isSelectedAvatar(i+1), 'avatar': !isSelectedAvatar(i+1)}">
+      <img src="assets/images/avatar-{{i+1}}.png" width="60" height="60"/>
+    </div>
+  </div>
+  <br>
+
+  <button mat-raised-button color="primary" [disabled]="loadingUpload"
+          (click)="uploadImageFromAssets()" style="width: 386px; height: 58px; display: block; margin: 0 auto">
+    {{'Save' | translate}}
+  </button>
+  <br>
+</div>

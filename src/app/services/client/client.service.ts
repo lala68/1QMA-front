@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {GeneralService} from "../general/general.service";
 import {ConfigService} from "../config/config.service";
-import {map} from "rxjs";
+import {map, Observable, switchMap} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -131,4 +131,20 @@ export class ClientService {
     ).toPromise();
     return response;
   }
+
+  uploadImage(imagePath: string): Observable<any> {
+    return this.http.get(imagePath, {responseType: 'blob'}).pipe(
+      switchMap((blob: Blob) => {
+        const formData = new FormData();
+        formData.append('id', this.generalService.userId);
+        formData.append('avatar', blob, 'image.png');
+
+        return this.http.post<any>(this.config.url('client/profilePicture/update'), formData, {
+          withCredentials: true
+        })
+          .toPromise();
+      })
+    );
+  }
+
 }

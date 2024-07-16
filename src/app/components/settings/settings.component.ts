@@ -6,8 +6,9 @@ import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from "@angula
 import {RouterModule} from "@angular/router";
 import {TranslateModule} from "@ngx-translate/core";
 import {ClientService} from "../../services/client/client.service";
-import {DialogContentComponent} from "../dialog-content/dialog-content.component";
 import {MatDialog} from "@angular/material/dialog";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {SnackbarContentComponent} from "../snackbar-content/snackbar-content.component";
 
 @Component({
   selector: 'app-settings',
@@ -25,13 +26,14 @@ export class SettingsComponent implements OnInit {
   error: any = '';
 
   constructor(public generalService: GeneralService, private _formBuilder: FormBuilder, public dialog: MatDialog,
-              private clientService: ClientService) {
+              private clientService: ClientService, private _snackBar: MatSnackBar) {
     this.generalService.currentRout = '';
+    console.log(this.generalService?.userObj)
   }
 
   async ngOnInit(): Promise<any> {
     this.settingsForm = this._formBuilder.group({
-      language: [this.generalService?.userObj?.preferedLanguage ? this.generalService?.userObj?.preferedLanguage : 'en'],
+      language: [this.generalService?.userObj?.preferedLanguage ? this.generalService?.userObj?.preferedLanguage?._id : 'en'],
       defaultHomePage: [this.generalService?.userObj?.preferedHomePage ? this.generalService?.userObj?.preferedHomePage : '/dashboard'],
     });
   }
@@ -50,7 +52,15 @@ export class SettingsComponent implements OnInit {
   }
 
   openDialog(message: any, title: any) {
-    this.dialog.open(DialogContentComponent, {data: {message: message, title: title}});
+    this._snackBar.openFromComponent(SnackbarContentComponent, {
+      data: {
+        title: title,
+        message: message
+      },
+      duration: 3000,
+      verticalPosition: 'top',
+      horizontalPosition: 'end',
+      panelClass: title == 'Success' ? 'app-notification-success' : 'app-notification-error'
+    });
   }
-
 }

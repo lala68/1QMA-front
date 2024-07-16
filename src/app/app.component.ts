@@ -7,8 +7,9 @@ import {AuthService} from "./services/auth/auth.service";
 import {ClientService} from "./services/client/client.service";
 import {Preferences} from "@capacitor/preferences";
 import {Location} from "@angular/common";
-import {DialogContentComponent} from "./components/dialog-content/dialog-content.component";
 import {MatDialog} from "@angular/material/dialog";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {SnackbarContentComponent} from "./components/snackbar-content/snackbar-content.component";
 
 register();
 
@@ -20,7 +21,7 @@ register();
 export class AppComponent implements OnInit {
   title = '1QMA';
 
-  constructor(private router: Router, private translateService: TranslateService,
+  constructor(private router: Router, private translateService: TranslateService, private _snackBar: MatSnackBar,
               private generalService: GeneralService, private authService: AuthService, public dialog: MatDialog,
               private clientService: ClientService, private route: ActivatedRoute, private location: Location) {
     this.translateService.setDefaultLang('en');
@@ -87,7 +88,16 @@ export class AppComponent implements OnInit {
   }
 
   openDialog(message: any, title: any) {
-    this.dialog.open(DialogContentComponent, {data: {message: message, title: title}});
+    this._snackBar.openFromComponent(SnackbarContentComponent, {
+      data: {
+        title: title,
+        message: message
+      },
+      duration: 3000,
+      verticalPosition: 'top',
+      horizontalPosition: 'end',
+      panelClass: title == 'Success' ? 'app-notification-success' : 'app-notification-error'
+    });
   }
 
   async starter() {

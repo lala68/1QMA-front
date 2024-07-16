@@ -144,3 +144,17 @@ mat-chip {
   border-radius: 50px !important;
 }
 
+.cardWithSuggested {
+  input {
+    background: #F9F7F7;
+  }
+
+  background: #F9F7F7;
+  border-radius: 20px;
+  padding: 20px;
+}
+
+input:focus {
+  outline: none;
+  border: none;
+}

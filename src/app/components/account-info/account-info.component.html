@@ -21,7 +21,7 @@
       <br><br>
       <mat-label class="font-size-14 weight-500 cursor-pointer" (click)="OpenAddFilesDialog()">Add Profile Image
       </mat-label>
-      <input #FileSelectInputDialog type="file" (change)="imageProfileInput($event)" hidden/>
+      <br>
       <mat-label class="font-size-14 weight-500 cursor-pointer" (click)="removeProfilePicture()">Remove Image
       </mat-label>
     </div>
@@ -75,11 +75,17 @@
                         (onSelectionChange)="generalService.getCitiesBasedOnCountry(country.code)">{{country.name}}</mat-option>
           </mat-select>
         </mat-form-field>&nbsp;&nbsp;
+        <!--        <mat-form-field class="custom-form-field w-50" appearance="fill">-->
+        <!--          <mat-label>{{'City' | translate}}</mat-label>-->
+        <!--          <mat-select [formControlName]="'city'">-->
+        <!--            <mat-option *ngFor="let cty of generalService?.cities | keyvalue"-->
+        <!--                        [value]="cty?.value">{{cty?.value}}</mat-option>-->
+        <!--          </mat-select>-->
+        <!--        </mat-form-field>-->
         <mat-form-field class="custom-form-field w-50" appearance="fill">
           <mat-label>{{'City' | translate}}</mat-label>
           <mat-select [formControlName]="'city'">
-            <mat-option *ngFor="let cty of generalService?.cities | keyvalue"
-                        [value]="cty?.value">{{cty?.value}}</mat-option>
+            <mat-option *ngFor="let cty of generalService?.cities" [value]="cty">{{cty}}</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
@@ -90,16 +96,16 @@
       <br>
       <mat-form-field class="custom-form-field w-100" appearance="fill">
         <mat-label>{{'Current Password' | translate}}</mat-label>
-        <input matInput placeholder="{{'Current Password' | translate}}" type="text"
+        <input matInput placeholder="{{'Current Password' | translate}}" type="password"
                [formControlName]="'currentPassword'">
       </mat-form-field>
       <mat-form-field class="custom-form-field w-100" appearance="fill">
         <mat-label>{{'password' | translate}}</mat-label>
-        <input matInput placeholder="{{'password' | translate}}" type="text" [formControlName]="'password'">
+        <input matInput placeholder="{{'password' | translate}}" type="password" [formControlName]="'password'">
       </mat-form-field>
       <mat-form-field class="custom-form-field w-100" appearance="fill">
         <mat-label>{{'password Confirmation' | translate}}</mat-label>
-        <input matInput placeholder="{{'password Confirmation' | translate}}" type="text"
+        <input matInput placeholder="{{'password Confirmation' | translate}}" type="password"
                [formControlName]="'passwordConfirmation'">
       </mat-form-field>
       <br>
@@ -107,7 +113,8 @@
       <mat-label class="font-size-14 weight-700">Account Type</mat-label>
       <br>
       <br>
-      <div [class]="generalService?.userObj?.profilePicture?.startsWith('http') ? 'accountType-div-no-bg' : 'accountType-div'">
+      <div
+        [class]="generalService?.userObj?.profilePicture?.startsWith('http') ? 'accountType-div-no-bg' : 'accountType-div'">
         <div class="d-inline-block">
           <img style="margin: 16px;"
                [src]="generalService?.userObj?.accountType?.icon ? configService.url(generalService?.userObj?.accountType?.icon)  : 'assets/images/base.png'"

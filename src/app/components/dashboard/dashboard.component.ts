@@ -9,8 +9,9 @@ import {NgxMatIntlTelInputComponent} from "ngx-mat-intl-tel-input";
 import {TranslateModule} from "@ngx-translate/core";
 import {ConfigService} from "../../services/config/config.service";
 import {ClipboardModule} from "@angular/cdk/clipboard";
-import {DialogContentComponent} from "../dialog-content/dialog-content.component";
 import {MatDialog} from "@angular/material/dialog";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {SnackbarContentComponent} from "../snackbar-content/snackbar-content.component";
 
 @Component({
   selector: 'app-dashboard',
@@ -30,7 +31,7 @@ export class DashboardComponent implements OnInit {
 
   constructor(private clientService: ClientService, private _formBuilder: FormBuilder,
               public generalService: GeneralService, public configService: ConfigService,
-              private router: Router, public dialog: MatDialog,) {
+              private router: Router, public dialog: MatDialog, private _snackBar: MatSnackBar) {
     this.generalService.currentRout = '/dashboard';
   }
 
@@ -56,10 +57,15 @@ export class DashboardComponent implements OnInit {
   }
 
   openDialog(message: any, title: any) {
-    this.dialog.open(DialogContentComponent, {data: {message: message, title: title}});
-  }
-
-  copyText() {
-    this.openDialog('copied.', 'Success');
+    this._snackBar.openFromComponent(SnackbarContentComponent, {
+      data: {
+        title: title,
+        message: message
+      },
+      duration: 3000,
+      verticalPosition: 'top',
+      horizontalPosition: 'end',
+      panelClass: title == 'Success' ? 'app-notification-success' : 'app-notification-error'
+    });
   }
 }

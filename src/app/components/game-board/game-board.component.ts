@@ -10,6 +10,7 @@ import {CountdownTimerComponent} from "../countdown-timer/countdown-timer.compon
 import {GamesService} from "../../services/games/games.service";
 import {CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray} from "@angular/cdk/drag-drop";
 import {MatExpansionModule} from "@angular/material/expansion";
+import {ConfigService} from "../../services/config/config.service";
 
 @Component({
   selector: 'app-game-board',
@@ -28,8 +29,10 @@ export class GameBoardComponent implements OnInit {
   users: any;
   invitedUser: any;
   wordCountAnswer: number = 100;
+  filteredEmails: any = [];
 
-  constructor(public generalService: GeneralService, private router: Router, private gameService: GamesService) {
+  constructor(public generalService: GeneralService, private router: Router, private gameService: GamesService,
+              public configService: ConfigService) {
     this.data = this.router.getCurrentNavigation()?.extras?.state?.['data'];
     this.users = this.router.getCurrentNavigation()?.extras?.state?.['users'];
   }
@@ -39,7 +42,11 @@ export class GameBoardComponent implements OnInit {
   }
 
   inviteUser() {
-
+    if (this.invitedUser && this.invitedUser?.length > 2) {
+      this.gameService.searchUserToInvite(this.invitedUser).then(data => {
+        this.filteredEmails = (data.data);
+      })
+    }
   }
 
   handleCountdownFinished() {
@@ -54,8 +61,8 @@ export class GameBoardComponent implements OnInit {
     this.generalService.nextButtonDisable = true;
     this.gameService.sendAnswer(this.generalService.createdGameData.game.gameId, this.generalService.gameQuestion._id, this.generalService.gameAnswerGeneral).then(data => {
       if (data.status == 1) {
-        this.generalService.gameAnswerGeneral = '';
         this.loading = false;
+        this.generalService.editingAnswer = true;
       } else {
         this.loading = false;
       }
@@ -169,11 +176,25 @@ export class GameBoardComponent implements OnInit {
     this.generalService.editingAnswer = false;
   }
 
-  removeFromInvited() {
-
+  removeFromInvited(email: any) {
+    const index = this.generalService.invitedPlayersArray.findIndex((data: any) => data === email);
+    if (index !== -1) {
+      // Remove the item from the array
+      this.generalService.invitedPlayersArray.splice(index, 1);
+    }
   }
 
   newGame() {
 
+  }
+
+  selectUserToInvite(user: any) {
+    this.invitedUser = user;
+    this.filteredEmails = [];
+  }
+
+  addUserToPlayers() {
+    this.generalService.invitedPlayersArray.push(this.invitedUser);
+    this.invitedUser = '';
   }
 }

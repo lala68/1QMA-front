@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DialogContentComponent } from './dialog-content.component';
+import { SnackbarContentComponent } from './snackbar-content.component';
 
-describe('DialogContentComponent', () => {
-  let component: DialogContentComponent;
-  let fixture: ComponentFixture<DialogContentComponent>;
+describe('SnackbarContentComponent', () => {
+  let component: SnackbarContentComponent;
+  let fixture: ComponentFixture<SnackbarContentComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DialogContentComponent]
+      imports: [SnackbarContentComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(DialogContentComponent);
+    fixture = TestBed.createComponent(SnackbarContentComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
