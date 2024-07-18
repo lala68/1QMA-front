@@ -26,10 +26,8 @@ export class GeneralService implements OnInit {
   createdGameData: any;
   gameQuestion: any = '';
   specificQuestionAnswers: any;
-  finishedTimer: boolean = false;
   gameAnswerGeneral: any;
   editingAnswer: boolean = true;
-  nextButtonDisable: boolean = false;
   allQuestions: any = [];
   invitedPlayersArray: any = [];
   gameResult: any;
@@ -138,7 +136,7 @@ export class GeneralService implements OnInit {
   }
 
   getImageAsBinary(imagePath: string): Promise<ArrayBuffer> {
-    return this.http.get(imagePath, { responseType: 'blob' }).toPromise()
+    return this.http.get(imagePath, {responseType: 'blob'}).toPromise()
       .then(blob => {
         return new Promise<ArrayBuffer>((resolve, reject) => {
           const reader = new FileReader();

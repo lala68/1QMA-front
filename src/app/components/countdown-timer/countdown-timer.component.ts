@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy, Output, EventEmitter, Input} from '@angular/core';
+import {Component, OnInit, OnDestroy, Output, EventEmitter, Input, NgZone} from '@angular/core';
 import {interval, Subscription} from 'rxjs';
 import {map, take} from 'rxjs/operators';
 import {GeneralService} from "../../services/general/general.service";
@@ -18,7 +18,7 @@ export class CountdownTimerComponent implements OnInit, OnDestroy {
   public timeLeft: any;
   private subscription: any;
 
-  constructor(private generalService: GeneralService) {
+  constructor(private generalService: GeneralService, private ngZone: NgZone) {
   }
 
   ngOnInit(): void {
@@ -36,18 +36,40 @@ export class CountdownTimerComponent implements OnInit, OnDestroy {
     }
   }
 
+  // startCountdown(): void {
+  //   const countdown$ = interval(1000).pipe(
+  //     take(this.countdownDuration + 1),
+  //     map(secondsElapsed => this.countdownDuration - secondsElapsed)
+  //   );
+  //
+  //   this.subscription = countdown$.subscribe(secondsLeft => {
+  //     this.timeLeft = this.formatTime(secondsLeft);
+  //     if (secondsLeft === 0) {
+  //       this.countdownFinished.emit();
+  //     }
+  //   });
+  // }
   startCountdown(): void {
-    const countdown$ = interval(1000).pipe(
-      take(this.countdownDuration + 1),
-      map(secondsElapsed => this.countdownDuration - secondsElapsed)
-    );
+    let startTime: number;
+    const countdown = () => {
+      const elapsedTime = Date.now() - startTime;
+      const secondsLeft = Math.max(0, this.countdownDuration - Math.floor(elapsedTime / 1000));
 
-    this.subscription = countdown$.subscribe(secondsLeft => {
-      this.timeLeft = this.formatTime(secondsLeft);
+      this.ngZone.run(() => {
+        this.timeLeft = this.formatTime(secondsLeft);
+      });
+
       if (secondsLeft === 0) {
-        this.countdownFinished.emit();
+        this.ngZone.run(() => {
+          this.countdownFinished.emit();
+        });
+      } else {
+        requestAnimationFrame(countdown);
       }
-    });
+    };
+
+    startTime = Date.now();
+    requestAnimationFrame(countdown);
   }
 
   private formatTime(seconds: number): string {

@@ -140,10 +140,8 @@ export class ExitGame {
     this.generalService.createdGameData = '';
     this.generalService.gameQuestion = '';
     this.generalService.specificQuestionAnswers = '';
-    this.generalService.finishedTimer = false;
     this.generalService.gameAnswerGeneral = '';
     this.generalService.editingAnswer = true;
-    this.generalService.nextButtonDisable = false;
     this.generalService.allQuestions = [];
     this.generalService.gameResult = '';
     this.generalService.rateAnswers = [];

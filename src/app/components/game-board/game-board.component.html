@@ -355,19 +355,20 @@
         </div>
         <div class="next-button">
           <app-countdown-timer [duration]="generalService?.gameInit?.eachStepDurationSeconds"
-                               (countdownFinished)="handleCountdownFinished()"></app-countdown-timer>
-          <button *ngIf="(generalService.gameAnswerGeneral && generalService.editingAnswer)"
-                  mat-raised-button
-                  color="primary" class="ms-3"
-                  (click)="editAnswer()"
-                  [disabled]="!generalService?.editingAnswer">
+                               (countdownFinished)="handleCountdownSendAnswerFinished()"></app-countdown-timer>
+          <button
+            mat-raised-button
+            color="primary" class="ms-3"
+            (click)="editAnswer()"
+            [disabled]="!generalService?.editingAnswer">
             {{'Edit' | translate}}
           </button>
           <button mat-raised-button color="primary" class="next-step ms-3" (click)="sendAnswer()"
-                  [disabled]="generalService?.nextButtonDisable">
+                  [disabled]="sendAnswerDisable">
             {{'Next Step' | translate}}
             <i class="bi bi-arrow-right"></i>
           </button>
+
         </div>
       </div>
     </footer>
@@ -488,9 +489,9 @@
         </div>
         <div class="next-button">
           <app-countdown-timer [duration]="generalService?.gameInit?.eachStepDurationSeconds"
-                               (countdownFinished)="handleCountdownFinished()"></app-countdown-timer>
+                               (countdownFinished)="handleCountdownRatingAnswerFinished()"></app-countdown-timer>
           <button mat-raised-button color="primary" class="next-step ms-3"
-                  [disabled]="generalService?.nextButtonDisable"
+                  [disabled]="sendRateAnswerDisable"
                   (click)="sendRateAnswer()">
             {{'Next' | translate}}
             <i class="bi bi-arrow-right"></i>
@@ -580,16 +581,9 @@
         </div>
         <div class="next-button">
           <app-countdown-timer [duration]="generalService?.gameInit?.eachStepDurationSeconds"
-                               (countdownFinished)="handleCountdownFinished()"></app-countdown-timer>
-
-          <!--          <button *ngIf="generalService?.gameStep == 2" mat-raised-button color="primary" class="next-step ms-3"-->
-          <!--                  (click)="sendAnswer()"-->
-          <!--                  [disabled]="!generalService?.gameAnswerGeneral">-->
-          <!--            {{'Next Step' | translate}}-->
-          <!--            <i class="bi bi-arrow-right"></i>-->
-          <!--          </button>-->
+                               (countdownFinished)="handleCountdownRatingQuestionsFinished()"></app-countdown-timer>
           <button mat-raised-button color="primary" class="next-step ms-3"
-                  [disabled]="generalService?.nextButtonDisable"
+                  [disabled]="sendRateQuestionsDisable"
                   (click)="sendRateQuestions()">
             {{'Next' | translate}}
             <i class="bi bi-arrow-right"></i>
