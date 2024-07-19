@@ -389,6 +389,7 @@ input[type="tel"] {
 
 .tab-group-library {
   margin: 0 auto;
+
   .mat-mdc-tab-list {
     background: transparent !important;
     margin: 0 auto;
@@ -478,6 +479,13 @@ input[type="tel"] {
   overflow: hidden;
   border: 1px solid var(--bs-primary);
   border-radius: 50px
+}
+
+.result-grid {
+  .mat-grid-tile-content {
+    justify-content: flex-start !important;
+    left: 10px
+  }
 }
 
 

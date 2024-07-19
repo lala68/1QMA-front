@@ -600,8 +600,8 @@
     <mat-card class="shadow-none radius">
       <mat-card-header
         style="background: #E8E2E0; border: 1px solid #D7CDCA; border-top-left-radius: 6px; border-top-right-radius: 6px">
-        <img mat-card-avatar src="assets/images/answer-questions.png" width="63" height="63">
-        <mat-card-title class="font-size-16 weight-600">{{'Rate Answers' | translate}}</mat-card-title>
+        <img mat-card-avatar src="assets/images/result.png" width="63" height="63">
+        <mat-card-title class="font-size-16 weight-600">{{'Result' | translate}}</mat-card-title>
         <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
           {{'Possible description for title' | translate}}
         </mat-card-subtitle>
@@ -625,8 +625,11 @@
         <div *ngIf="!loading">
           <div class="d-inline-flex">
             <div class="gray-card creator">
-              <img src="assets/images/frame.png" width="40" height="40">
-              <span class="font-size-14 weight-700 pe-2">John</span>
+              <img
+                [src]="generalService?.gameResult?.creator?.profilePicture ? generalService?.gameResult?.creator?.profilePicture?.startsWith('http') ? generalService?.gameResult?.creator?.profilePicture : configService.url(generalService?.gameResult?.creator?.profilePicture) : 'assets/images/frame.png'"
+                width="40" height="40">
+              <span
+                class="font-size-14 weight-700 pe-2">{{generalService?.gameResult?.creator?.firstName}} {{generalService?.gameResult?.creator?.lastName}}</span>
             </div>
 
             <div class="d-inline-flex position-absolute end-10">
@@ -645,6 +648,122 @@
 
             </div>
           </div>
+          <br>
+          <mat-divider class="mt-3"></mat-divider>
+          <br>
+          <div class="w-100 d-inline-flex text-center">
+            <div class="w-40">
+              <img src="assets/images/Leaderboards.png" width="190" height="120"/>
+            </div>
+            <div class="w-60">
+              <mat-card class="position-relative d-inline-flex text-start shadow-none">
+                <mat-card-header>
+                  <div class="position-relative" style="width: 100px">
+                    <img src="assets/images/score.png"
+                         width="28" height="28">&nbsp;
+                    <div class="font-size-14 weight-800 position-absolute"
+                         style="padding-left: 5px; left: 30px; top: -5px; color: #0CA609">{{generalService?.userObj?.games?.won}}</div>
+                    <mat-label class="position-absolute font-size-14 weight-500"
+                               style="padding-left: 5px;left: 30px; bottom: -5px;  color: #828282">
+                      Score
+                    </mat-label>
+                  </div>
+                  <div class="position-relative" style="width: 100px">
+                    <img src="assets/images/XP.png"
+                         width="28" height="28">&nbsp;
+                    <div class="font-size-14 weight-800 position-absolute"
+                         style="padding-left: 5px; left: 30px; top: -5px; color: #0CA609">{{generalService?.userObj?.games?.won}}</div>
+                    <mat-label class="position-absolute font-size-14 weight-500"
+                               style="padding-left: 5px;left: 30px; bottom: -5px;  color: #828282">
+                      XP
+                    </mat-label>&nbsp;&nbsp;&nbsp;&nbsp;
+                  </div>
+                  <div class="position-relative" style="width: 100px">
+                    <img src="assets/images/coin-bronze.png"
+                         width="28" height="28">&nbsp;
+                    <div class="font-size-14 weight-800 position-absolute"
+                         style="padding-left: 5px; left: 30px; top: -5px; color: #0CA609">{{generalService?.userObj?.games?.won}}</div>
+                    <mat-label class="position-absolute font-size-14 weight-500"
+                               style="padding-left: 5px;left: 30px; bottom: -5px; color: #828282">
+                      Bronze
+                    </mat-label>
+                  </div>
+                </mat-card-header>
+              </mat-card>
+              <br>
+              <div class="position-relative d-inline-flex m-3 radius"
+                   style="width: 350px; height: 80px; background-color: #EDF9FF">
+                <div style="position: absolute; top: 10px;left: 10px; width: 100%;">
+                  <div class="font-size-14 weight-600 position-absolute start-0">
+                    Level: {{generalService?.userObj?.statistics?.level}}</div>
+                  <div
+                    class="font-size-12 weight-600 position-absolute"
+                    style="right: 20px">{{generalService?.userObj?.statistics?.xpNeededForNextLevel - generalService?.userObj?.statistics?.totalXP}}
+                    XP till next level
+                  </div>
+                </div>
+                <mat-progress-bar
+                  style="width: 320px; border-radius: 10px; left: 15px; display: inline-table; position: absolute; top: 40px;"
+                  color="primary"
+                  [value]="generalService?.userObj?.statistics?.level"
+                  [bufferValue]="generalService?.userObj?.statistics?.xpNeededForNextLevel"
+                  mode="determinate"></mat-progress-bar>
+                <div
+                  class="font-size-14 weight-600 position-absolute bottom-10" style="left: 10px">
+                  Total XP: 4750
+                </div>
+              </div>
+            </div>
+          </div>
+          <mat-grid-list cols="12" rowHeight="30px">
+            <mat-grid-tile class="result-grid" [colspan]="3">
+              <mat-label class="font-size-14 weight-700">Scoreboard</mat-label>
+            </mat-grid-tile>
+            <mat-grid-tile class="result-grid"
+                           [colspan]="12 - (5 + (generalService?.gameResult?.result?.scoreboard?.length))">
+              <mat-label></mat-label>
+            </mat-grid-tile>
+            <mat-grid-tile class="result-grid"
+                           *ngFor="let col of generalService?.gameResult?.result?.scoreboard; let i=index"
+                           [colspan]="1">
+              <mat-label class="font-size-12 weight-700">A{{i + 1}}</mat-label>
+            </mat-grid-tile>
+            <mat-grid-tile class="result-grid" [colspan]="1">
+              <mat-label class="font-size-12 weight-700">Q</mat-label>
+            </mat-grid-tile>
+            <mat-grid-tile class="result-grid" [colspan]="1">
+              <mat-label class="font-size-12 weight-700">Total</mat-label>
+            </mat-grid-tile>
+          </mat-grid-list>
+
+          <mat-grid-list *ngFor="let res of generalService?.gameResult?.result?.scoreboard;let i=index"
+                         cols="12" rowHeight="50px" class="gray-card mb-2">
+            <mat-grid-tile class="result-grid" [colspan]="1">
+              <mat-label>{{i + 1}}</mat-label>
+            </mat-grid-tile>
+            <mat-grid-tile class="result-grid" [colspan]="1">
+              <img
+                [src]="res?.profilePicture ? res?.profilePicture?.startsWith('http') ? res?.profilePicture : configService.url(res?.profilePicture) : 'assets/images/frame.png'"
+                width="40">
+            </mat-grid-tile>
+            <mat-grid-tile class="result-grid" [colspan]="3">
+              <mat-label>{{res?.firstName}} {{res?.lastName}}</mat-label>
+            </mat-grid-tile>
+            <mat-grid-tile [colspan]="12 - (7 + +generalService?.gameInit?.numberOfPlayers)">
+              <mat-label></mat-label>
+            </mat-grid-tile>
+            <mat-grid-tile class="result-grid"
+                           *ngFor="let score of res?.answersRates; let i=index"
+                           [colspan]="1">
+              <mat-label>{{score}}</mat-label>
+            </mat-grid-tile>
+            <mat-grid-tile class="result-grid" [colspan]="1">
+              <mat-label>{{res?.questionRate}}</mat-label>
+            </mat-grid-tile>
+            <mat-grid-tile class="result-grid" [colspan]="1">
+              <mat-label>{{res?.totalScore}}</mat-label>
+            </mat-grid-tile>
+          </mat-grid-list>
         </div>
       </mat-card-content>
     </mat-card>

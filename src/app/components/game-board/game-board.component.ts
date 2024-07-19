@@ -287,6 +287,7 @@ export class GameBoardComponent implements OnInit {
   async getGameResult() {
     this.gameService.getGameResult(this.generalService.createdGameData.game.gameId).then(data => {
         this.generalService.gameResult = data.data;
+        console.log(this.generalService.gameResult)
       }
     )
   }
