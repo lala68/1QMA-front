@@ -49,10 +49,38 @@ export class CountdownTimerComponent implements OnInit, OnDestroy {
   //     }
   //   });
   // }
+  // startCountdown(): void {
+  //   let startTime: number;
+  //   const countdown = () => {
+  //     const elapsedTime = Date.now() - startTime;
+  //     const secondsLeft = Math.max(0, this.countdownDuration - Math.floor(elapsedTime / 1000));
+  //
+  //     this.ngZone.run(() => {
+  //       this.timeLeft = this.formatTime(secondsLeft);
+  //     });
+  //
+  //     if (secondsLeft === 0) {
+  //       this.ngZone.run(() => {
+  //         this.countdownFinished.emit();
+  //       });
+  //     } else {
+  //       requestAnimationFrame(countdown);
+  //     }
+  //   };
+  //
+  //   startTime = Date.now();
+  //   requestAnimationFrame(countdown);
+  // }
+
   startCountdown(): void {
     let startTime: number;
+    let pausedTime = 0;
+    let lastTimestamp: number;
+    const interval = 1000; // Check every second
+
     const countdown = () => {
-      const elapsedTime = Date.now() - startTime;
+      const now = Date.now();
+      const elapsedTime = now - startTime - pausedTime;
       const secondsLeft = Math.max(0, this.countdownDuration - Math.floor(elapsedTime / 1000));
 
       this.ngZone.run(() => {
@@ -64,13 +92,26 @@ export class CountdownTimerComponent implements OnInit, OnDestroy {
           this.countdownFinished.emit();
         });
       } else {
-        requestAnimationFrame(countdown);
+        lastTimestamp = now;
+        setTimeout(countdown, interval);
       }
     };
 
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        startTime += Date.now() - lastTimestamp;
+      } else {
+        lastTimestamp = Date.now();
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
     startTime = Date.now();
-    requestAnimationFrame(countdown);
+    lastTimestamp = startTime;
+    countdown();
   }
+
 
   private formatTime(seconds: number): string {
     const minutes: number = Math.floor(seconds / 60);

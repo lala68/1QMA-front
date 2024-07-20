@@ -22,8 +22,6 @@ import {ConfigService} from "../../services/config/config.service";
   providers: [CountdownTimerComponent]
 })
 export class GameBoardComponent implements OnInit {
-  @ViewChild('myButton') myButton: any;
-
   @ViewChild('answerTextArea') answerTextArea: any;
   @ViewChild(CountdownTimerComponent) countdownTimer: any;
   loading: boolean = false;
@@ -90,6 +88,18 @@ export class GameBoardComponent implements OnInit {
       this.handleGameStep();
     });
 
+    this.generalService.socket.on("player left", (arg: any) => {
+      const now = new Date();
+      const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
+      console.log("player left" + ' ' + `[${timeString}]  `);
+    });
+
+    this.generalService.socket.on("cancel game", (arg: any) => {
+      const now = new Date();
+      const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
+      console.log("cancel game" + ' ' + `[${timeString}]  `);
+    });
+
     this.generalService.socket.on("end game", (arg: any) => {
       const now = new Date();
       const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
@@ -104,10 +114,10 @@ export class GameBoardComponent implements OnInit {
   }
 
   async handleGameStep(): Promise<void> {
-    // console.log("finishedTimerAnswer" + this.finishedTimerAnswer);
-    // console.log("finishedTimerRatingAnswer" + this.finishedTimerRatingAnswer);
-    // console.log("finishedTimerRatingQuestions" + this.finishedTimerRatingQuestions);
-    // console.log("gameStep" + this.generalService.gameStep);
+    console.log("finishedTimerAnswer" + this.finishedTimerAnswer);
+    console.log("finishedTimerRatingAnswer" + this.finishedTimerRatingAnswer);
+    console.log("finishedTimerRatingQuestions" + this.finishedTimerRatingQuestions);
+    console.log("gameStep" + this.generalService.gameStep);
     if (this.generalService.gameStep == 2) {
       this.finishedTimerRatingQuestions = false;
       this.finishedTimerRatingAnswer = false;
@@ -151,6 +161,7 @@ export class GameBoardComponent implements OnInit {
       // }
       // console.log(this.finishedTimerAnswer)
       await this.waitForConditionNextStepAnswer();
+      console.log('waitForConditionNextStepAnswer');
       this.generalService.gameAnswerGeneral = '';
       this.generalService.gameStep = 3;
       this.finishedTimerAnswer = false;
@@ -210,44 +221,68 @@ export class GameBoardComponent implements OnInit {
   }
 
   private async waitForConditionsAnswer(): Promise<void> {
+    // return new Promise<void>((resolve) => {
+    //   const checkConditions = () => {
+    //     if (this.finishedTimerAnswer) {
+    //       resolve();
+    //     } else {
+    //       requestAnimationFrame(checkConditions);
+    //     }
+    //   };
+    //
+    //   requestAnimationFrame(checkConditions);
+    // });
     return new Promise<void>((resolve) => {
-      const checkConditions = () => {
+      const interval = setInterval(async () => {
         if (this.finishedTimerAnswer) {
+          clearInterval(interval);
           resolve();
-        } else {
-          requestAnimationFrame(checkConditions);
         }
-      };
-
-      requestAnimationFrame(checkConditions);
+      }, 1000); // Check every 100ms
     });
   }
 
   private async waitForConditionsRatingAnswer(): Promise<void> {
+    // return new Promise<void>((resolve) => {
+    //   const checkConditions = () => {
+    //     if (this.finishedTimerRatingAnswer) {
+    //       resolve();
+    //     } else {
+    //       requestAnimationFrame(checkConditions);
+    //     }
+    //   };
+    //
+    //   requestAnimationFrame(checkConditions);
+    // });
     return new Promise<void>((resolve) => {
-      const checkConditions = () => {
+      const interval = setInterval(async () => {
         if (this.finishedTimerRatingAnswer) {
+          clearInterval(interval);
           resolve();
-        } else {
-          requestAnimationFrame(checkConditions);
         }
-      };
-
-      requestAnimationFrame(checkConditions);
+      }, 1000); // Check every 100ms
     });
   }
 
   private async waitForConditionsRatingQuestions(): Promise<void> {
+    // return new Promise<void>((resolve) => {
+    //   const checkConditions = () => {
+    //     if (this.finishedTimerRatingQuestions) {
+    //       resolve();
+    //     } else {
+    //       requestAnimationFrame(checkConditions);
+    //     }
+    //   };
+    //
+    //   requestAnimationFrame(checkConditions);
+    // });
     return new Promise<void>((resolve) => {
-      const checkConditions = () => {
+      const interval = setInterval(async () => {
         if (this.finishedTimerRatingQuestions) {
+          clearInterval(interval);
           resolve();
-        } else {
-          requestAnimationFrame(checkConditions);
         }
-      };
-
-      requestAnimationFrame(checkConditions);
+      }, 1000); // Check every 100ms
     });
   }
 
@@ -308,6 +343,8 @@ export class GameBoardComponent implements OnInit {
     if (!this.sendAnswerDisable) {
       await this.sendAnswer();
       this.sendAnswerDisable = true;
+    } else {
+      console.log("elseeeeee")
     }
   }
 
@@ -319,6 +356,8 @@ export class GameBoardComponent implements OnInit {
     if (!this.sendRateAnswerDisable) {
       await this.sendRateAnswer();
       this.sendRateAnswerDisable = false;
+    } else {
+      console.log("elseeeeee")
     }
   }
 
@@ -330,6 +369,8 @@ export class GameBoardComponent implements OnInit {
     if (!this.sendRateQuestionsDisable) {
       await this.sendRateQuestions();
       this.sendRateQuestionsDisable = true;
+    } else {
+      console.log("elseeeeee")
     }
   }
 

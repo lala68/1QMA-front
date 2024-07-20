@@ -7,6 +7,7 @@ import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog
 import {FormBuilder, FormControl, Validators} from "@angular/forms";
 import {ClientService} from "../../services/client/client.service";
 import {GamesComponent} from "../../components/games/games.component";
+import {GamesService} from "../../services/games/games.service";
 
 @Component({
   selector: 'app-header',
@@ -119,37 +120,41 @@ export class AddQuestion {
 export class ExitGame {
 
   constructor(public dialogRef: MatDialogRef<ExitGame>, private generalService: GeneralService,
-              private router: Router) {
+              private router: Router, private gameService: GamesService) {
   }
 
   async cancel() {
     this.dialogRef.close();
   }
 
-  async exit() {
-    this.generalService.startingGame = false;
-    this.generalService.players = [];
-    this.generalService.gameInit = '';
-    this.generalService.gameStep = 1;
-    this.generalService.createdGameData = '';
-    this.generalService.gameQuestion = '';
-    this.generalService.specificQuestionAnswers = '';
-    this.generalService.gameAnswerGeneral = '';
-    this.generalService.editingAnswer = true;
-    this.generalService.allQuestions = [];
-    this.generalService.gameResult = '';
-    this.generalService.rateAnswers = [];
-    this.generalService.rateQuestions = [];
-    this.generalService.invitedPlayersArray = [];
-    this.dialogRef.close();
-    if (this.generalService.socket) {
-      this.generalService.socket.disconnect();
-      console.log('disconnected')
-      this.generalService.socket.on("disconnected", function () {
-        console.log('disconnected')
-      });
-    }
-    await this.router.navigate(['/dashboard']);
+  async exitGame() {
+    this.gameService.exitGame(this.generalService?.createdGameData?.game?.gameId).then(async data => {
+      if (data.status == 1) {
+        this.generalService.startingGame = false;
+        this.generalService.players = [];
+        this.generalService.gameInit = '';
+        this.generalService.gameStep = 1;
+        this.generalService.createdGameData = '';
+        this.generalService.gameQuestion = '';
+        this.generalService.specificQuestionAnswers = '';
+        this.generalService.gameAnswerGeneral = '';
+        this.generalService.editingAnswer = true;
+        this.generalService.allQuestions = [];
+        this.generalService.gameResult = '';
+        this.generalService.rateAnswers = [];
+        this.generalService.rateQuestions = [];
+        this.generalService.invitedPlayersArray = [];
+        this.dialogRef.close();
+        // if (this.generalService.socket) {
+        //   this.generalService.socket.disconnect();
+        //   console.log('disconnected')
+        //   this.generalService.socket.on("disconnected", function () {
+        //     console.log('disconnected')
+        //   });
+        // }
+        await this.router.navigate(['/dashboard']);
+      }
+    })
   }
 }
 

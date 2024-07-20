@@ -204,4 +204,20 @@ export class GamesService {
     return response;
   }
 
+
+  async exitGame(gameId: any): Promise<any> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+
+    })
+    return this.http.post<any>(this.config.url('game/leave'), {
+      id: this.generalService.userId,
+      gameId: gameId
+    }, {
+      headers: headers,
+      withCredentials: true
+    })
+      .toPromise();
+  }
+
 }
