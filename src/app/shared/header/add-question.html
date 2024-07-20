@@ -54,7 +54,7 @@
       &nbsp;<div class="font-size-14 weight-600">Select Category:</div>
     </div>
     <mat-card *ngFor="let cat of generalService?.clientInit?.categories"
-              class="m-1 d-inline-block cursor-pointer"
+              class="m-1 d-inline-block cursor-pointer shadow-none"
               (click)="selectCat(cat)"
               [class]="{'mat-card-pref-selected': isSelected(cat), 'mat-card-pref': !isSelected(cat)}">
       <mat-card-content class="text-start">

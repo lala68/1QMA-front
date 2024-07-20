@@ -60,12 +60,13 @@ export class GamesService {
     return response;
   }
 
-  async findFriendGame(email: any): Promise<any> {
+  async findFriendGame(email: any, limit: any, page: any): Promise<any> {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
     })
     const response = this.http.get(this.config.url('game/find/' + email + '/games'), {
       headers: headers,
+      params: {limit, page},
       withCredentials: true
     }).pipe(
       map((response: any) => response)

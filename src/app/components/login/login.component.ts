@@ -13,6 +13,7 @@ import {MatStepper} from "@angular/material/stepper";
 import {CountdownTimerComponent} from "../countdown-timer/countdown-timer.component";
 import {ClientService} from "../../services/client/client.service";
 import {ConfigService} from "../../services/config/config.service";
+import {io} from "socket.io-client";
 
 @Component({
   selector: 'app-login',

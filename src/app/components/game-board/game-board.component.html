@@ -29,7 +29,7 @@
           </mat-card-header>
         </mat-card>
         <div *ngFor="let player of generalService?.players" class="user-card position-relative">
-          <img width="32" height="32"
+          <img width="32" height="32" style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px"
                [src]="player?.profilePicture ? player?.profilePicture?.startsWith('http') ? player?.profilePicture : configService.url(player?.profilePicture) : 'assets/images/frame.png'"
           />
           <mat-label class="font-size-14 weight-500 m-auto">{{player?.email}}</mat-label>
@@ -65,7 +65,7 @@
             </svg>
           </div>
         </div>
-        <div>
+        <div *ngIf="generalService?.userId == data?.game?.gameCreator?._id">
           <div style="min-height: 42px; padding: 0; overflow: hidden"
                [class]=" filteredEmails?.length > 0 ? 'user-card-dashed position-relative cardWithSuggested':  'user-card-dashed position-relative'">
             <input matInput class="border-0 w-100" placeholder="{{'Empty seat - Type and invite' | translate}}"
@@ -625,7 +625,7 @@
         <div *ngIf="!loading">
           <div class="d-inline-flex">
             <div class="gray-card creator">
-              <img
+              <img style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px"
                 [src]="generalService?.gameResult?.creator?.profilePicture ? generalService?.gameResult?.creator?.profilePicture?.startsWith('http') ? generalService?.gameResult?.creator?.profilePicture : configService.url(generalService?.gameResult?.creator?.profilePicture) : 'assets/images/frame.png'"
                 width="40" height="40">
               <span
@@ -742,7 +742,7 @@
               <mat-label>{{i + 1}}</mat-label>
             </mat-grid-tile>
             <mat-grid-tile class="result-grid" [colspan]="1">
-              <img
+              <img style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px"
                 [src]="res?.profilePicture ? res?.profilePicture?.startsWith('http') ? res?.profilePicture : configService.url(res?.profilePicture) : 'assets/images/frame.png'"
                 width="40">
             </mat-grid-tile>
@@ -781,24 +781,24 @@
               <mat-label class="font-size-14 weight-600">{{generalService?.gameResult?.endedAt | date}}</mat-label>
             </div>
           </div>
-<!--          <mat-accordion>-->
-<!--            <mat-expansion-panel hideToggle>-->
-<!--              <mat-expansion-panel-header>-->
-<!--                <mat-panel-title> This is the expansion title</mat-panel-title>-->
-<!--                <mat-panel-description> This is a summary of the content</mat-panel-description>-->
-<!--              </mat-expansion-panel-header>-->
-<!--              <p>This is the primary content of the panel.</p>-->
-<!--            </mat-expansion-panel>-->
-<!--            <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">-->
-<!--              <mat-expansion-panel-header>-->
-<!--                <mat-panel-title> Self aware panel</mat-panel-title>-->
-<!--                <mat-panel-description>-->
-<!--                  Currently I am {{panelOpenState() ? 'open' : 'closed'}}-->
-<!--                </mat-panel-description>-->
-<!--              </mat-expansion-panel-header>-->
-<!--              <p>I'm visible because I am open</p>-->
-<!--            </mat-expansion-panel>-->
-<!--          </mat-accordion>-->
+          <!--          <mat-accordion>-->
+          <!--            <mat-expansion-panel hideToggle>-->
+          <!--              <mat-expansion-panel-header>-->
+          <!--                <mat-panel-title> This is the expansion title</mat-panel-title>-->
+          <!--                <mat-panel-description> This is a summary of the content</mat-panel-description>-->
+          <!--              </mat-expansion-panel-header>-->
+          <!--              <p>This is the primary content of the panel.</p>-->
+          <!--            </mat-expansion-panel>-->
+          <!--            <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">-->
+          <!--              <mat-expansion-panel-header>-->
+          <!--                <mat-panel-title> Self aware panel</mat-panel-title>-->
+          <!--                <mat-panel-description>-->
+          <!--                  Currently I am {{panelOpenState() ? 'open' : 'closed'}}-->
+          <!--                </mat-panel-description>-->
+          <!--              </mat-expansion-panel-header>-->
+          <!--              <p>I'm visible because I am open</p>-->
+          <!--            </mat-expansion-panel>-->
+          <!--          </mat-accordion>-->
         </div>
       </mat-card-content>
     </mat-card>

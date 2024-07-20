@@ -91,14 +91,8 @@ export class AddQuestion {
   }
 
   selectCat(item: any) {
-    const index = this.selectedCategory.findIndex((data: any) => data._id === item._id);
-    console.log(index)
-    if (index !== -1) {
-      // Remove the item from the array
-      this.selectedCategory.splice(index, 1);
-    } else {
-      this.selectedCategory.push(item);
-    }
+    this.selectedCategory = [];
+    this.selectedCategory.push(item);
   }
 
   async submit() {

@@ -324,9 +324,9 @@
         </div>
         <div class="d-inline-flex">
           <div *ngFor="let ivt of generalService?.invitedPlayersArray" class="invite-card m-3">
-            <img
-              [src]="ivt?.profilePicture ? ivt?.profilePicture?.startsWith('http') ? ivt?.profilePicture : configService.url(ivt?.profilePicture) : 'assets/images/frame.png'"
-              width="32" height="32"/>
+            <img style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px"
+                 [src]="ivt?.profilePicture ? ivt?.profilePicture?.startsWith('http') ? ivt?.profilePicture : configService.url(ivt?.profilePicture) : 'assets/images/frame.png'"
+                 width="32" height="32"/>
             <mat-label class="font-size-14 weight-500 m-auto">{{ivt}}</mat-label>
             &nbsp;&nbsp;
             <!--            <img src="assets/images/add.svg" *ngIf="ivt !== generalService?.userObj?.email"-->
@@ -468,9 +468,9 @@
             <div class="radius-gary-card">
               <span class="font-size-16 weight-600 m-auto">Games by: </span>
               <div class="d-inline-flex m-auto ms-2">
-                <img
-                  [src]="findFriendGameData?.friend?.profilePicture ? findFriendGameData?.friend?.profilePicture?.startsWith('http') ? findFriendGameData?.friend?.profilePicture : configService.url(findFriendGameData?.friend?.profilePicture) : 'assets/images/frame.png'"
-                  width="40" height="40">
+                <img style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px"
+                     [src]="findFriendGameData?.friend?.profilePicture ? findFriendGameData?.friend?.profilePicture?.startsWith('http') ? findFriendGameData?.friend?.profilePicture : configService.url(findFriendGameData?.friend?.profilePicture) : 'assets/images/frame.png'"
+                     width="40" height="40">
                 <span
                   class="font-size-14 weight-500 text-light-color m-auto">
                   &nbsp;{{findFriendGameData?.friend?.firstName}} {{findFriendGameData?.friend?.lastName}}
@@ -512,7 +512,7 @@
             <div class="position-relative">
               <div class="font-size-14 weight-500 p-2 text-start">
                 <div *ngFor="let ply of liveGame?.players; let i=index" class="d-inline-block">
-                  <img mat-card-avatar
+                  <img mat-card-avatar style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px"
                        [src]="ply?.profilePicture ? ply?.profilePicture?.startsWith('http') ? ply?.profilePicture : configService.url(ply?.profilePicture) : 'assets/images/frame.png'"
                        width="26" height="26" class="mb-0 position-absolute custom-position-{{i}}">
                 </div>
@@ -553,21 +553,24 @@
             <mat-card-header style="margin: 0 auto; display: block">
               <mat-card-title class="font-size-14 weight-700">{{ endedGame?.category?.name }}</mat-card-title>
               <mat-card-subtitle class="font-size-12 weight-500">
-                2 days ago
+                {{endedGame?.endedAt | daysAgo}}
               </mat-card-subtitle>
             </mat-card-header>
             <br>
             <mat-card-content class="d-inline-flex position-relative p-0">
               <mat-card class="shadow-none">
                 <mat-card-header class="pe-1 ps-1">
-                  <img mat-card-avatar src="assets/images/frame.png"
+                  <img mat-card-avatar style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px"
+                       [src]="findFriendGameData?.friend?.profilePicture ? findFriendGameData?.friend?.profilePicture?.startsWith('http') ? findFriendGameData?.friend?.profilePicture : configService.url(findFriendGameData?.friend?.profilePicture) : 'assets/images/frame.png'"
                        width="33" height="33" class="mb-0">
                   <mat-card-title
-                    class="font-size-14 weight-500 text-start">{{endedGame?.creator?.firstName}} {{endedGame?.creator?.lastName}}</mat-card-title>
-                  <mat-card-subtitle>
-                    <img src="assets/images/rank.png" width="16"><span class="font-size-14 weight-700">1 </span><span
+                    class="font-size-14 weight-500 text-start">{{findFriendGameData?.friend?.firstName}} {{findFriendGameData?.friend?.lastName}}</mat-card-title>
+                  <mat-card-subtitle class="text-start ps-0">
+                    <img src="assets/images/rank.png" width="16"><span
+                    class="font-size-14 weight-700">{{endedGame?.rank}} </span><span
                     class="font-size-14 weight-500"> Rank</span>
-                    <img src="assets/images/score.png" width="16"><span class="font-size-14 weight-700">1 </span><span
+                    <img src="assets/images/score.png" width="16"><span
+                    class="font-size-14 weight-700">{{endedGame?.score | number}} </span><span
                     class="font-size-14 weight-500"> Score</span>
                   </mat-card-subtitle>
                 </mat-card-header>
@@ -577,7 +580,7 @@
             <div class="position-relative">
               <div class="font-size-14 weight-500 p-2 text-start">
                 <div *ngFor="let ply of endedGame?.players; let i=index" class="d-inline-block">
-                  <img mat-card-avatar
+                  <img mat-card-avatar style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px"
                        [src]="ply?.profilePicture ? ply?.profilePicture?.startsWith('http') ? ply?.profilePicture : configService.url(ply?.profilePicture) : 'assets/images/frame.png'"
                        width="26" height="26" class="mb-0 position-absolute custom-position-{{i}}">
                 </div>
@@ -602,6 +605,15 @@
             </mat-card-actions>
           </mat-card>
         </div>
+        <div style="margin: 0 auto">
+          <button mat-raised-button color="primary" type="submit" *ngIf="!loadingMore && !noMoreItems"
+                  class="p-4s ms-2 blue-button" (click)="showMoreGames()" style="min-width: 150px">
+            <span>{{'Show More' | translate}}</span>
+          </button>
+          <mat-spinner *ngIf="loadingMore" [diameter]="20"></mat-spinner>
+        </div>
+        <br>
+        <br>
       </div>
     </mat-tab>
   </mat-tab-group>

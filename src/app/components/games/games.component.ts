@@ -1,4 +1,4 @@
-import {Component, Inject, NgZone, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, Inject, OnInit, ViewEncapsulation} from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {SharedModule} from "../../shared/shared.module";
 import {
@@ -18,16 +18,16 @@ import {ConfigService} from "../../services/config/config.service";
 import {ClientService} from "../../services/client/client.service";
 import {io} from "socket.io-client";
 import {GameBoardComponent} from "../game-board/game-board.component";
-import {CountdownTimerComponent} from "../countdown-timer/countdown-timer.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {SnackbarContentComponent} from "../snackbar-content/snackbar-content.component";
-import {error} from "@angular/compiler-cli/src/transformers/util";
+import {CountdownTimerComponent} from "../countdown-timer/countdown-timer.component";
+import {DaysAgoPipe} from "../../days-ago.pipe";
 
 @Component({
   selector: 'app-games',
   standalone: true,
   imports: [CommonModule, SharedModule, FormsModule, RouterModule, ReactiveFormsModule,
-    TranslateModule],
+    TranslateModule, DaysAgoPipe],
   templateUrl: './games.component.html',
   styleUrl: './games.component.scss',
   providers: [GameBoardComponent, CountdownTimerComponent],
@@ -51,7 +51,6 @@ export class GamesComponent implements OnInit {
   gameCode: any;
   userEmail: any;
   filteredEmails: any = [];
-  private timer: any;
   findFriendStep: any = 1;
   findFriendGameData: any;
   selectedTabIndex: any = 0;
@@ -59,11 +58,13 @@ export class GamesComponent implements OnInit {
   loadingFindFriend: boolean = false;
   loadingCreateGame: boolean = false;
   nextStepTriggered: boolean = false;
+  loadingMore: boolean = false;
+  page: any = 1;
+  noMoreItems: any;
 
   constructor(public generalService: GeneralService, private gameService: GamesService, public configService: ConfigService,
               private _formBuilder: FormBuilder, private router: Router, public dialog: MatDialog, private _snackBar: MatSnackBar,
-              private route: ActivatedRoute, private gameBoardComponent: GameBoardComponent,
-              private countdownTimerComponent: CountdownTimerComponent, private ngZone: NgZone) {
+              private route: ActivatedRoute, private gameBoardComponent: GameBoardComponent) {
     this.generalService.currentRout = '/games/0';
   }
 
@@ -104,12 +105,7 @@ export class GamesComponent implements OnInit {
   async startingGame() {
     this.loadingCreateGame = true;
     this.generalService.players = [];
-    this.generalService.socket = io('https://api.staging.1qma.games', {withCredentials: true});
-    this.generalService.socket.on("connect", () => {
-      const now = new Date();
-      const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
-      console.log("connect" + ' ' + `[${timeString}]`);
-    });
+
     this.generalService.socket.on("start game", (arg: any) => {
       const now = new Date();
       const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
@@ -186,13 +182,8 @@ export class GamesComponent implements OnInit {
   }
 
   selectCat(item: any) {
-    const index = this.selectedCategory.findIndex((data: any) => data._id === item._id);
-    if (index !== -1) {
-      // Remove the item from the array
-      this.selectedCategory.splice(index, 1);
-    } else {
-      this.selectedCategory.push(item);
-    }
+    this.selectedCategory = [];
+    this.selectedCategory.push(item);
   }
 
   onSubmitInvite() {
@@ -225,11 +216,6 @@ export class GamesComponent implements OnInit {
 
   joinToGame(code: any = this.gameCode) {
     this.generalService.socket = io('https://api.staging.1qma.games', {withCredentials: true});
-    this.generalService.socket.on("connect", () => {
-      const now = new Date();
-      const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
-      console.log("connect" + ' ' + `[${timeString}]  `);
-    });
     this.generalService.socket.on("player added", (arg: any) => {
       const now = new Date();
       const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
@@ -277,11 +263,28 @@ export class GamesComponent implements OnInit {
 
   findFriendGame() {
     this.loadingFindFriend = true;
-    this.gameService.findFriendGame(this.userEmail).then(data => {
+    this.gameService.findFriendGame(this.userEmail, 10, this.page).then(data => {
       this.loadingFindFriend = false;
       if (data.status == 1) {
         this.findFriendGameData = data.data;
         this.findFriendStep = 2;
+      } else {
+        this.openDialog(JSON.stringify(data.message), 'Error');
+      }
+    })
+  }
+
+  showMoreGames() {
+    this.loadingMore = true;
+    this.gameService.findFriendGame(this.userEmail, 10, this.page + 1).then(data => {
+      this.loadingMore = false;
+      this.page++;
+      if (data.status == 1) {
+        // this.findFriendGameData?.endedGames.concat(data.data?.endedGames);
+        this.findFriendGameData.endedGames = [...this.findFriendGameData.endedGames, ...data.data.endedGames];
+        this.noMoreItems = data.data.endedGames?.length < 10;
+
+        console.log(this.findFriendGameData?.endedGames)
       } else {
         this.openDialog(JSON.stringify(data.message), 'Error');
       }

@@ -29,7 +29,7 @@ export class UserDetailComponent implements OnInit {
     this.clientService.getUserById(this.id).then(data => {
       this.loading = false;
       if (data.status == 1) {
-        this.user = data.data;
+        this.user = data.data.user;
       }
     })
   }

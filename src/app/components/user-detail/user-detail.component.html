@@ -11,7 +11,7 @@
     <mat-card class="shadow-none">
       <mat-card-header class="pe-1 ps-1">
         <img mat-card-avatar
-             [src]="user.profilePicture ? configService.url(user.profilePicture) : 'assets/images/frame.png'"
+             [src]="user?.profilePicture ? configService.url(user.profilePicture) : 'assets/images/frame.png'"
              width="35" height="35">
         <mat-card-title
           class="card-title-profile-dashboard mt-2">{{user?.firstName + ' ' + user?.lastName }}</mat-card-title>

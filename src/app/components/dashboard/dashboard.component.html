@@ -26,7 +26,7 @@
 
         <mat-card-header class="pe-1 ps-1 border-bottom">
           <!--          <div mat-card-avatar class="avatar-header-image-profile-dashboard"></div>-->
-          <img mat-card-avatar
+          <img mat-card-avatar style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px"
                [src]="generalService?.userObj?.profilePicture ? generalService?.userObj?.profilePicture?.startsWith('http') ? generalService?.userObj?.profilePicture : configService.url(generalService?.userObj?.profilePicture) : 'assets/images/frame.png'"
                width="35" height="35">
           <mat-card-title
@@ -49,7 +49,9 @@
         </mat-card-header>
         <mat-card-header class="pe-1 ps-1" *ngIf="generalService?.userObj?.referer">
           <mat-card-title class="card-title-profile-dashboard mb-3" style="width: 120px">Referred By:</mat-card-title>
-          <img src="assets/images/avatar-9.png" width="28" height="28">
+          <img style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px"
+            [src]="generalService?.userObj?.referer?.profilePicture ? generalService?.userObj?.referer?.profilePicture?.startsWith('http') ? generalService?.userObj?.referer?.profilePicture : configService.url(generalService?.userObj?.referer?.profilePicture) : 'assets/images/frame.png'"
+            width="28" height="28">
           <mat-label
             class="card-subtitle-profile-dashboard text-light-color mt-2 font-size-13 weight-500 cursor-pointer"
             (click)="gotoUserDetail(generalService?.userObj?.referer?._id)">
@@ -112,7 +114,7 @@
             <div class="font-size-12 weight-400" style="padding: 5px">Total <b class="font-size-12 weight-600">Score</b>:
             </div>
             <mat-label class="position-absolute font-size-14 weight-700"
-                       style="padding: 5px; right: 5px">{{generalService?.userObj?.statistics?.totalScore}}</mat-label>
+                       style="padding: 5px; right: 5px">{{generalService?.userObj?.statistics?.totalScore | number}}</mat-label>
           </div>
         </div>
 

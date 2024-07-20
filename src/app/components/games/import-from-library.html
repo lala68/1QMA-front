@@ -58,18 +58,20 @@
         {{item?.answer}}
       </div>
       <br>
-      <div class="d-block">
+      <div class="d-flex justify-content-between align-items-center">
         <div class="white-card p-1" style="width: fit-content">
           <img
-            [src]="configService.url(item.category?.icon)"
+            [src]="configService.url(item.category[0]?.icon)"
             width="24">
-          <mat-label class="font-size-12 weight-600" style="margin: auto 5px">{{item?.category?.name}}</mat-label>
+          <mat-label class="font-size-12 weight-600" style="margin: auto 5px">{{item?.category[0]?.name}}</mat-label>
         </div>
-        <div class="float-end">
-          <button (click)="importQuestion(item.question)" mat-stroked-button color="primary" class="me-2 radius" style="border: 1px solid #0B6FEA">
+        <div>
+          <button mat-stroked-button (click)="importQuestion(item.question)" color="primary" class="me-2 radius"
+                  style="border: 1px solid #0B6FEA">
             Import Question
           </button>
-          <button (click)="importQuestionAnswer(item.question, item.answer)" mat-stroked-button color="primary" class="me-2 radius" style="border: 1px solid #0B6FEA">
+          <button mat-stroked-button (click)="importQuestionAnswer(item.question, item.answer)" color="primary"
+                  class="radius" style="border: 1px solid #0B6FEA">
             Import Question + Answer
           </button>
         </div>
@@ -95,9 +97,9 @@
       <div class="d-inline-flex">
         <div class="white-card p-1" style="width: fit-content">
           <img
-            [src]="configService.url(item.category?.icon)"
+            [src]="configService.url(item.category[0]?.icon)"
             width="24">
-          <mat-label class="font-size-12 weight-600" style="margin: auto 5px">{{item?.category?.name}}</mat-label>
+          <mat-label class="font-size-12 weight-600" style="margin: auto 5px">{{item?.category[0]?.name}}</mat-label>
         </div>
         &nbsp;&nbsp;
         <div class="white-card p-1" style="width: fit-content">
@@ -116,7 +118,8 @@
           &nbsp;&nbsp;<span class="font-size-14 weight-600">5 Bronze</span>
         </div>
         <div class="float-end">
-          <button (click)="importQuestion(item.question)" mat-stroked-button color="primary" class="me-2 radius" style="border: 1px solid #0B6FEA">
+          <button (click)="importQuestion(item.question)" mat-stroked-button color="primary" class="me-2 radius"
+                  style="border: 1px solid #0B6FEA">
             Import Question
           </button>
         </div>
@@ -149,15 +152,17 @@
       <div class="d-flex justify-content-between align-items-center">
         <div class="white-card p-1" style="width: fit-content">
           <img
-            [src]="configService.url(item.category?.icon)"
+            [src]="configService.url(item.category[0]?.icon)"
             width="24">
-          <mat-label class="font-size-12 weight-600" style="margin: auto 5px">{{item?.category?.name}}</mat-label>
+          <mat-label class="font-size-12 weight-600" style="margin: auto 5px">{{item?.category[0]?.name}}</mat-label>
         </div>
         <div>
-          <button mat-stroked-button (click)="importQuestion(item.question)" color="primary" class="me-2 radius" style="border: 1px solid #0B6FEA">
+          <button mat-stroked-button (click)="importQuestion(item.question)" color="primary" class="me-2 radius"
+                  style="border: 1px solid #0B6FEA">
             Import Question
           </button>
-          <button mat-stroked-button (click)="importQuestionAnswer(item.question, item.answer)" color="primary" class="radius" style="border: 1px solid #0B6FEA">
+          <button mat-stroked-button (click)="importQuestionAnswer(item.question, item.answer)" color="primary"
+                  class="radius" style="border: 1px solid #0B6FEA">
             Import Question + Answer
           </button>
         </div>

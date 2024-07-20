@@ -10,6 +10,7 @@ import {Location} from "@angular/common";
 import {MatDialog} from "@angular/material/dialog";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {SnackbarContentComponent} from "./components/snackbar-content/snackbar-content.component";
+import {io} from "socket.io-client";
 
 register();
 
@@ -29,6 +30,12 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.starter().then(async (data) => {
+      this.generalService.socket = io('https://api.staging.1qma.games', {withCredentials: true});
+      this.generalService.socket.on("connect", () => {
+        const now = new Date();
+        const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
+        console.log("connect" + ' ' + `[${timeString}]`);
+      });
       this.route.queryParams.subscribe(async params => {
         console.log(params)
         await this.generalService.getUserData();
