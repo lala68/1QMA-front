@@ -764,6 +764,41 @@
               <mat-label>{{res?.totalScore}}</mat-label>
             </mat-grid-tile>
           </mat-grid-list>
+          <br>
+          <br>
+          <div class="w-100 d-inline-flex position-relative">
+            <div class="font-size-14 weight-700">Score detail</div>
+            <div class="position-absolute end-10">
+              <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M21.4746 14.1719C21.4746 19.0019 17.5546 22.9219 12.7246 22.9219C7.89461 22.9219 3.97461 19.0019 3.97461 14.1719C3.97461 9.34188 7.89461 5.42188 12.7246 5.42188C17.5546 5.42188 21.4746 9.34188 21.4746 14.1719Z"
+                  stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12.7246 8.92188V13.9219" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
+                      stroke-linejoin="round"/>
+                <path d="M9.72461 2.92188H15.7246" stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10"
+                      stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <mat-label class="font-size-14 weight-600">{{generalService?.gameResult?.endedAt | date}}</mat-label>
+            </div>
+          </div>
+<!--          <mat-accordion>-->
+<!--            <mat-expansion-panel hideToggle>-->
+<!--              <mat-expansion-panel-header>-->
+<!--                <mat-panel-title> This is the expansion title</mat-panel-title>-->
+<!--                <mat-panel-description> This is a summary of the content</mat-panel-description>-->
+<!--              </mat-expansion-panel-header>-->
+<!--              <p>This is the primary content of the panel.</p>-->
+<!--            </mat-expansion-panel>-->
+<!--            <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">-->
+<!--              <mat-expansion-panel-header>-->
+<!--                <mat-panel-title> Self aware panel</mat-panel-title>-->
+<!--                <mat-panel-description>-->
+<!--                  Currently I am {{panelOpenState() ? 'open' : 'closed'}}-->
+<!--                </mat-panel-description>-->
+<!--              </mat-expansion-panel-header>-->
+<!--              <p>I'm visible because I am open</p>-->
+<!--            </mat-expansion-panel>-->
+<!--          </mat-accordion>-->
         </div>
       </mat-card-content>
     </mat-card>
