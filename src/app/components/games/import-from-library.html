@@ -42,10 +42,10 @@
     <div *ngFor="let item of library" class="gray-card p-4 mb-2">
       <div class="d-flex white-card position-relative">
         <img style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px"
-             [src]="generalService?.userObj?.profilePicture ? generalService?.userObj?.profilePicture?.startsWith('http') ? generalService?.userObj?.profilePicture : configService.url(generalService?.userObj?.profilePicture) : 'assets/images/frame.png'"
+             [src]="generalService.userObj?.profilePicture ? generalService.userObj?.profilePicture?.startsWith('http') ? generalService.userObj?.profilePicture : configService.url(generalService.userObj?.profilePicture) : 'assets/images/frame.png'"
              width="42" height="42">
         <mat-label class="font-size-13 weight-500"
-                   style="margin: auto 10px">{{generalService?.userObj?.firstName}} {{generalService?.userObj?.lastName}}</mat-label>
+                   style="margin: auto 10px">{{generalService.userObj?.firstName}} {{generalService.userObj?.lastName}}</mat-label>
         <mat-label class="font-size-12 weight-500 position-absolute" style="right: 10px; margin: 10px auto">2hrs agos
         </mat-label>
       </div>
@@ -133,10 +133,10 @@
     <div *ngFor="let item of library" class="gray-card p-3 mb-2">
       <div class="d-flex white-card position-relative">
         <img style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px"
-             [src]="generalService?.userObj?.profilePicture ? generalService?.userObj?.profilePicture?.startsWith('http') ? generalService?.userObj?.profilePicture : configService.url(generalService?.userObj?.profilePicture) : 'assets/images/frame.png'"
+             [src]="generalService.userObj?.profilePicture ? generalService.userObj?.profilePicture?.startsWith('http') ? generalService.userObj?.profilePicture : configService.url(generalService.userObj?.profilePicture) : 'assets/images/frame.png'"
              width="42" height="42">
         <mat-label class="font-size-13 weight-500"
-                   style="margin: auto 10px">{{generalService?.userObj?.firstName}} {{generalService?.userObj?.lastName}}</mat-label>
+                   style="margin: auto 10px">{{generalService.userObj?.firstName}} {{generalService.userObj?.lastName}}</mat-label>
         <mat-label class="font-size-12 weight-500 position-absolute" style="right: 10px; margin: 10px auto">2hrs agos
         </mat-label>
       </div>

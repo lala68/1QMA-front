@@ -53,9 +53,9 @@ export class WizardComponent implements OnInit {
 
   constructor(private _formBuilder: FormBuilder, private router: Router,
               public generalService: GeneralService, public authService: AuthService, public dialog: MatDialog,) {
-    if (this.generalService?.userObj?.preferedCategories) {
-      this.selectedType = this.generalService?.userObj?.accountType;
-      this.selectedCategory = this.generalService?.userObj?.preferedCategories;
+    if (this.generalService.userObj?.preferedCategories) {
+      this.selectedType = this.generalService.userObj?.accountType;
+      this.selectedCategory = this.generalService.userObj?.preferedCategories;
     }
   }
 
@@ -63,22 +63,22 @@ export class WizardComponent implements OnInit {
     await this.generalService?.getUserData();
     this.generalService.countryListEng = await this.generalService.getCountries();
 
-    this.email = this.router.getCurrentNavigation()?.extras?.state?.['email'] ? this.router.getCurrentNavigation()?.extras?.state?.['email'] : this.generalService?.userObj?.email;
+    this.email = this.router.getCurrentNavigation()?.extras?.state?.['email'] ? this.router.getCurrentNavigation()?.extras?.state?.['email'] : this.generalService.userObj?.email;
     this.firstFormGroup = this._formBuilder.group({
-      language: [this.generalService?.userObj?.preferedLanguage ? this.generalService?.userObj?.preferedLanguage : 'en', [Validators.required]],
+      language: [this.generalService.userObj?.preferedLanguage ? this.generalService.userObj?.preferedLanguage : 'en', [Validators.required]],
     });
     this.form = this._formBuilder.group({
-      firstName: [this.generalService?.userObj?.firstName ? this.generalService?.userObj?.firstName : '', [Validators.required]],
-      lastName: [this.generalService?.userObj?.lastName ? this.generalService?.userObj?.lastName : '', [Validators.required]],
+      firstName: [this.generalService.userObj?.firstName ? this.generalService.userObj?.firstName : '', [Validators.required]],
+      lastName: [this.generalService.userObj?.lastName ? this.generalService.userObj?.lastName : '', [Validators.required]],
       email: [{
-        value: this.email ? this.email : this.generalService?.userObj?.email,
+        value: this.email ? this.email : this.generalService.userObj?.email,
         disabled: true
       }, [Validators.required, Validators.email]],
-      mobile: [this.generalService?.userObj?.mobile ? this.generalService?.userObj?.mobile : '', [Validators.required]],
-      gender: [this.generalService?.userObj?.gender ? this.generalService?.userObj?.gender?._id : '', []],
-      country: [this.generalService?.userObj?.country ? this.generalService?.userObj?.country : '', []],
-      education: [this.generalService?.userObj?.education ? this.generalService?.userObj?.education?._id : '', []],
-      city: [this.generalService?.userObj?.city ? this.generalService?.userObj?.city : '', []],
+      mobile: [this.generalService.userObj?.mobile ? this.generalService.userObj?.mobile : '', [Validators.required]],
+      gender: [this.generalService.userObj?.gender ? this.generalService.userObj?.gender?._id : '', []],
+      country: [this.generalService.userObj?.country ? this.generalService.userObj?.country : '', []],
+      education: [this.generalService.userObj?.education ? this.generalService.userObj?.education?._id : '', []],
+      city: [this.generalService.userObj?.city ? this.generalService.userObj?.city : '', []],
     });
     await this.setPasswordValidators();
   }
@@ -115,17 +115,17 @@ export class WizardComponent implements OnInit {
         await this.generalService.getUserData();
         setTimeout(async () => {
           this.form = this._formBuilder.group({
-            firstName: [this.generalService?.userObj?.firstName ? this.generalService?.userObj?.firstName : '', [Validators.required]],
-            lastName: [this.generalService?.userObj?.lastName ? this.generalService?.userObj?.lastName : '', [Validators.required]],
+            firstName: [this.generalService.userObj?.firstName ? this.generalService.userObj?.firstName : '', [Validators.required]],
+            lastName: [this.generalService.userObj?.lastName ? this.generalService.userObj?.lastName : '', [Validators.required]],
             email: [{
-              value: this.email ? this.email : this.generalService?.userObj?.email,
+              value: this.email ? this.email : this.generalService.userObj?.email,
               disabled: true
             }, [Validators.required, Validators.email]],
-            mobile: [this.generalService?.userObj?.mobile ? this.generalService?.userObj?.mobile : '', [Validators.required]],
-            gender: [this.generalService?.userObj?.gender ? this.generalService?.userObj?.gender?._id : '', []],
-            country: [this.generalService?.userObj?.country ? this.generalService?.userObj?.country : '', []],
-            education: [this.generalService?.userObj?.education ? this.generalService?.userObj?.education?._id : '', []],
-            city: [this.generalService?.userObj?.city ? this.generalService?.userObj?.city : '', []],
+            mobile: [this.generalService.userObj?.mobile ? this.generalService.userObj?.mobile : '', [Validators.required]],
+            gender: [this.generalService.userObj?.gender ? this.generalService.userObj?.gender?._id : '', []],
+            country: [this.generalService.userObj?.country ? this.generalService.userObj?.country : '', []],
+            education: [this.generalService.userObj?.education ? this.generalService.userObj?.education?._id : '', []],
+            city: [this.generalService.userObj?.city ? this.generalService.userObj?.city : '', []],
           });
           await this.stepper.next();
         }, 1000)
@@ -145,7 +145,7 @@ export class WizardComponent implements OnInit {
 
   async setPasswordValidators(): Promise<void> {
     // Your condition to check if the password should be required
-    const isPasswordRequired = !this.generalService?.userObj?.password;
+    const isPasswordRequired = !this.generalService.userObj?.password;
 
     if (isPasswordRequired) {
       this.form.get('password')?.setValidators([Validators.required]);
@@ -156,7 +156,7 @@ export class WizardComponent implements OnInit {
     // Update the validity of the password field
     await this.form.get('password')?.updateValueAndValidity();
     this.loadingUserData = false;
-    console.log(this.generalService?.userObj)
+    console.log(this.generalService.userObj)
   }
 
   countryChangedEvent(event: any) {
@@ -173,7 +173,7 @@ export class WizardComponent implements OnInit {
         await Preferences.remove({key: 'account'});
         await Preferences.set({key: 'account', value: JSON.stringify(data.data)});
         await this.generalService.getUserData();
-        if (!this.generalService?.userObj?.emailVerified || !this.generalService?.userObj?.mobileVerified) {
+        if (!this.generalService.userObj?.emailVerified || !this.generalService.userObj?.mobileVerified) {
           this.openDialogVerification('0', '0');
         } else {
           this.stepper.next();
@@ -308,7 +308,7 @@ export class VerificationDialog {
     this.loading = true;
     this.errorEmail = '';
     this.errorMobile = '';
-    if (!this.generalService?.userObj?.emailVerified) {
+    if (!this.generalService.userObj?.emailVerified) {
       await this.authService.verifyEmail(this.verifyFormEmail.getRawValue()).then(async data => {
         if (data?.status == 1) {
           // await Preferences.remove({key: 'account'});
@@ -322,7 +322,7 @@ export class VerificationDialog {
     } else {
       this.emailSuccess = true;
     }
-    if (!this.generalService?.userObj?.mobileVerified) {
+    if (!this.generalService.userObj?.mobileVerified) {
       await this.authService.verifyMobile(this.verifyFormMobile.getRawValue()).then(async data => {
         this.loading = false;
         if (data?.status == 1) {

@@ -344,12 +344,20 @@ export class JoiningGame {
   }
 
   openImportFromLib() {
+    console.log(this.data)
     const dialogRef = this.dialog.open(ImportFromLibrary, {
-      data: {category: this.data.data.game.category, type: this.data.game.gameType._id},
+      data: {category: [this.data?.data?.game?.category], type: this.data.data.game.gameType.id},
       width: '620px'
     });
     dialogRef.afterClosed().subscribe(async result => {
-      if (result == 'success') {
+      console.log(result)
+      if (result) {
+        if (result.data?.question) {
+          this.questionForm.controls.question.setValue(result.data?.question);
+        }
+        if (result.data?.answer) {
+          this.questionForm.controls.answer.setValue(result.data?.answer);
+        }
       }
     });
   }
@@ -412,6 +420,7 @@ export class ImportFromLibrary implements OnInit {
   }
 
   async ngOnInit(): Promise<any> {
+    console.log(this.data)
     if (!this.search || this.search.length > 2) {
       this.library = [];
       this.loading = true;

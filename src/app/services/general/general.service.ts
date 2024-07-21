@@ -13,11 +13,11 @@ export class GeneralService implements OnInit {
   userId: any;
   hasCompletedSignup: any;
   initData: any;
-  userObj: any;
+  userObj: any = {};
   clientInit: any;
   cities: any;
   token: any;
-  currentRout: any;
+  currentRout: any = '';
   startingGame: any = false;
   socket: any;
   players: any = [];
@@ -68,6 +68,7 @@ export class GeneralService implements OnInit {
         this.userId = this.userObj._id;
       }
     }
+    console.log(this.userObj)
   }
 
   async getItem(key: string): Promise<any> {

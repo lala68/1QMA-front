@@ -24,7 +24,7 @@
           <br><br>
           <mat-form-field appearance="fill" class="custom-form-field w-50">
             <mat-select [formControlName]="'language'">
-              <mat-option *ngFor="let lang of generalService?.initData?.languages"
+              <mat-option *ngFor="let lang of generalService.initData?.languages"
                           [value]="lang._id">{{lang.title}}</mat-option>
             </mat-select>
           </mat-form-field>
@@ -33,7 +33,7 @@
           </div>
         </form>
       </mat-step>
-      <mat-step *ngIf="generalService?.userObj">
+      <mat-step *ngIf="generalService.userObj">
         <mat-spinner *ngIf="loadingUserData"></mat-spinner>
         <div *ngIf="!loadingUserData">
           <form class="mb-3" [formGroup]="form">
@@ -75,14 +75,14 @@
               <mat-form-field class="custom-form-field w-50" appearance="fill">
                 <mat-label>{{'Gender' | translate}}</mat-label>
                 <mat-select [formControlName]="'gender'">
-                  <mat-option *ngFor="let gen of generalService?.initData?.genders"
+                  <mat-option *ngFor="let gen of generalService.initData?.genders"
                               [value]="gen._id">{{gen?.title}}</mat-option>
                 </mat-select>
               </mat-form-field>&nbsp;&nbsp;
               <mat-form-field class="custom-form-field w-50" appearance="fill">
                 <mat-label>{{'Education' | translate}}</mat-label>
                 <mat-select [formControlName]="'education'">
-                  <mat-option *ngFor="let edu of generalService?.initData?.educations"
+                  <mat-option *ngFor="let edu of generalService.initData?.educations"
                               [value]="edu._id">{{edu?.title}}</mat-option>
                 </mat-select>
               </mat-form-field>
@@ -131,7 +131,7 @@
         <br>
         <br>
         <br>
-        <mat-card *ngFor="let cat of generalService?.initData?.categories"
+        <mat-card *ngFor="let cat of generalService.initData?.categories"
                   class="m-2 d-inline-block"
                   (click)="selectCat(cat)"
                   [class]="{'mat-card-pref-selected': isSelected(cat), 'mat-card-pref': !isSelected(cat)}">
@@ -159,7 +159,7 @@
             </div>
           </div>
           <br><br><br><br>
-          <mat-card *ngFor="let acc of generalService?.initData?.accountTypes" class="m-2 d-inline-block"
+          <mat-card *ngFor="let acc of generalService.initData?.accountTypes" class="m-2 d-inline-block"
                     (click)="acc?.name == 'Basic' && selectType(acc._id)"
                     [class]="{'mat-card-account-selected': selectedType == acc._id, 'mat-card-account': selectedType != acc._id}">
             <mat-card-content class="text-center">
@@ -239,13 +239,13 @@
       </div>
       <div class="next-button">
         <button mat-raised-button color="primary" *ngIf="stepper?.selectedIndex == 0"
-                [disabled]="!generalService?.initData?.languages || loadingLanguage"
+                [disabled]="!generalService.initData?.languages || loadingLanguage"
                 (click)="saveLanguage()" class="next-step">
           {{'Next Step' | translate}}
           <i class="bi bi-arrow-right"></i>
         </button>
         <button mat-raised-button color="primary" *ngIf="stepper?.selectedIndex == 1" (click)="openVerificationModal()"
-                [disabled]="form?.invalid || loading" class="next-step">{{'Next Step' | translate}}
+                [disabled]="form.invalid || loading" class="next-step">{{'Next Step' | translate}}
           <i class="bi bi-arrow-right"></i>
         </button>
         <button mat-raised-button color="primary" *ngIf="stepper?.selectedIndex == 2"

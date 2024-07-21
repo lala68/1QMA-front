@@ -323,15 +323,15 @@
           </form>
         </div>
         <div class="d-inline-flex">
-          <div *ngFor="let ivt of generalService?.invitedPlayersArray" class="invite-card m-3">
+          <div *ngFor="let ivt of generalService.invitedPlayersArray" class="invite-card m-3">
             <img style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px"
                  [src]="ivt?.profilePicture ? ivt?.profilePicture?.startsWith('http') ? ivt?.profilePicture : configService.url(ivt?.profilePicture) : 'assets/images/frame.png'"
                  width="32" height="32"/>
             <mat-label class="font-size-14 weight-500 m-auto">{{ivt}}</mat-label>
             &nbsp;&nbsp;
-            <!--            <img src="assets/images/add.svg" *ngIf="ivt !== generalService?.userObj?.email"-->
+            <!--            <img src="assets/images/add.svg" *ngIf="ivt !== generalService.userObj?.email"-->
             <!--                             (click)="removeInvite(ivt)"/>-->
-            <svg width="24" height="24" *ngIf="ivt !== generalService?.userObj?.email" (click)="removeInvite(ivt)"
+            <svg width="24" height="24" *ngIf="ivt !== generalService.userObj?.email" (click)="removeInvite(ivt)"
                  viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M13.4819 21.4023L21.9672 12.9171" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
                     stroke-linejoin="round"/>
@@ -347,7 +347,7 @@
           <mat-card-header class="m-3 pt-0">
             <mat-card-title class="font-size-16 weight-700">{{'Game Creation Price: ' | translate}}
               <img src="assets/images/coin-bronze.png" width="24"/>
-              &nbsp; {{generalService?.gameInit?.gamePrice?.count}} {{generalService?.gameInit?.gamePrice?.coin}}
+              &nbsp; {{generalService.gameInit?.gamePrice?.count}} {{generalService.gameInit?.gamePrice?.coin}}
             </mat-card-title>
           </mat-card-header>
         </mat-card>
@@ -381,13 +381,13 @@
             <mat-card-title class="font-size-12 weight-600"
                             style="color: #585858">{{'My Balance' | translate}}</mat-card-title>
             <mat-card-subtitle class="font-size-14 weight-600 mt-2">
-              {{generalService?.userObj?.assets?.coins?.bronze}} {{'Bronze' | translate}}
+              {{generalService.userObj?.assets?.coins?.bronze}} {{'Bronze' | translate}}
             </mat-card-subtitle>
           </mat-card-header>
           <button mat-raised-button color="primary" class="next-step-game"
                   [disabled]="loadingCreateGame || !questionForm.valid || !selectedGameMode.toString() || !selectedGameType[0] ||
                    ((selectedGameMode == 1 || selectedGameMode ==3) && !selectedCategory[0]) ||
-                    ((selectedGameMode == 2 || selectedGameMode ==3) && generalService?.invitedPlayersArray?.length !== (generalService?.gameInit?.numberOfPlayers -1))"
+                    ((selectedGameMode == 2 || selectedGameMode ==3) && generalService.invitedPlayersArray?.length !== (generalService.gameInit?.numberOfPlayers -1))"
                   (click)="startingGame()">
             {{'Create Game' | translate}}
             <i class="bi bi-arrow-right"></i>
@@ -421,7 +421,7 @@
                    placeholder="{{'Enter a code' | translate}}" type="email">
             <button mat-raised-button color="primary" type="submit" [disabled]="!gameCode || loadingJoinWithCode"
                     class="w-25 p-4s ms-2 blue-button" (click)="joinToGame()">
-              <span>{{'Invite' | translate}}</span>
+              <span>{{'Join' | translate}}</span>
             </button>
           </div>
         </mat-card>
@@ -439,7 +439,7 @@
             <button mat-raised-button color="primary" type="submit"
                     class="w-25 p-4s ms-2 blue-button" (click)="findFriendGame()"
                     [disabled]="!userEmail || loadingFindFriend">
-              <span>{{'Invite' | translate}}</span>
+              <span>{{'See Games' | translate}}</span>
             </button>
           </div>
         </mat-card>
@@ -530,7 +530,7 @@
             </div>
             <br>
             <span class="font-size-11 weight-500 text-start"
-                  *ngIf="liveGame?.players.length < generalService?.gameInit?.numberOfPlayers">Waiting for 1/{{generalService?.gameInit?.numberOfPlayers}}
+                  *ngIf="liveGame?.players.length < generalService.gameInit?.numberOfPlayers">Waiting for 1/{{generalService.gameInit?.numberOfPlayers}}
               player</span>
             <br>
             <mat-card-actions>

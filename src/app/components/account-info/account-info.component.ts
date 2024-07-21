@@ -39,17 +39,17 @@ export class AccountInfoComponent {
     this.generalService.countryListEng = await this.generalService.getCountries();
 
     this.form = this._formBuilder.group({
-      firstName: [this.generalService?.userObj?.firstName ? this.generalService?.userObj?.firstName : '', [Validators.required]],
-      lastName: [this.generalService?.userObj?.lastName ? this.generalService?.userObj?.lastName : '', [Validators.required]],
+      firstName: [this.generalService.userObj?.firstName ? this.generalService.userObj?.firstName : '', [Validators.required]],
+      lastName: [this.generalService.userObj?.lastName ? this.generalService.userObj?.lastName : '', [Validators.required]],
       email: [{
-        value: this.generalService?.userObj?.email,
+        value: this.generalService.userObj?.email,
         disabled: true
       }, [Validators.required, Validators.email]],
-      mobile: [this.generalService?.userObj?.mobile ? this.generalService?.userObj?.mobile : '', [Validators.required]],
-      gender: [this.generalService?.userObj?.gender ? this.generalService?.userObj?.gender?._id : '', []],
-      country: [this.generalService?.userObj?.country ? this.generalService?.userObj?.country : '', []],
-      education: [this.generalService?.userObj?.education ? this.generalService?.userObj?.education?._id : '', []],
-      city: [this.generalService?.userObj?.city ? this.generalService?.userObj?.city : '', []],
+      mobile: [this.generalService.userObj?.mobile ? this.generalService.userObj?.mobile : '', [Validators.required]],
+      gender: [this.generalService.userObj?.gender ? this.generalService.userObj?.gender?._id : '', []],
+      country: [this.generalService.userObj?.country ? this.generalService.userObj?.country : '', []],
+      education: [this.generalService.userObj?.education ? this.generalService.userObj?.education?._id : '', []],
+      city: [this.generalService.userObj?.city ? this.generalService.userObj?.city : '', []],
       currentPassword: ['', []],
       password: ['', []],
       passwordConfirmation: ['', []],

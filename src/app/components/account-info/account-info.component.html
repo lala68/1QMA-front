@@ -1,6 +1,6 @@
 <!--<app-header></app-header>-->
 <br><br>
-<div class="card border-0 p-4 font-size-16 weight-600" *ngIf="generalService?.userObj">
+<div class="card border-0 p-4 font-size-16 weight-600" *ngIf="generalService.userObj">
   Account Info
 </div>
 <br>
@@ -8,14 +8,14 @@
   <mat-spinner *ngIf="loading" [diameter]="30"></mat-spinner>
 </div>
 <div class="d-inline-flex" *ngIf="!loading">
-  <div class="card w-20 border-0 p-4 text-center me-3" style="height: 200px" *ngIf="generalService?.userObj">
+  <div class="card w-20 border-0 p-4 text-center me-3" style="height: 200px" *ngIf="generalService.userObj">
     <div style="margin: 0 auto">
       <mat-spinner *ngIf="loadingUpload" [diameter]="30"></mat-spinner>
     </div>
     <div *ngIf="!loadingUpload">
       <div style="background: #D9D9D9; border-radius: 50px; width: 75px; height: 75px; margin: 0 auto">
         <img
-          [src]="generalService?.userObj?.profilePicture ? generalService?.userObj?.profilePicture?.startsWith('http') ? generalService?.userObj?.profilePicture : configService.url(generalService?.userObj?.profilePicture) : 'assets/images/frame.png'"
+          [src]="generalService.userObj?.profilePicture ? generalService.userObj?.profilePicture?.startsWith('http') ? generalService.userObj?.profilePicture : configService.url(generalService.userObj?.profilePicture) : 'assets/images/frame.png'"
           width="56" height="56" style="margin-top: 9px">
       </div>
       <br><br>
@@ -26,7 +26,7 @@
       </mat-label>
     </div>
   </div>
-  <div class="card border-0 p-5" style="width: 870px" *ngIf="generalService?.userObj">
+  <div class="card border-0 p-5" style="width: 870px" *ngIf="generalService.userObj">
     <mat-label class="font-size-14 weight-700">Personal information</mat-label>
     <form class="mb-3" [formGroup]="form" (ngSubmit)="updateProfile()">
       <br>
@@ -114,13 +114,13 @@
       <br>
       <br>
       <div
-        [class]="generalService?.userObj?.profilePicture?.startsWith('http') ? 'accountType-div-no-bg' : 'accountType-div'">
+        [class]="generalService.userObj?.profilePicture?.startsWith('http') ? 'accountType-div-no-bg' : 'accountType-div'">
         <div class="d-inline-block">
           <img style="margin: 16px;"
-               [src]="generalService?.userObj?.accountType?.icon ? configService.url(generalService?.userObj?.accountType?.icon)  : 'assets/images/base.png'"
+               [src]="generalService.userObj?.accountType?.icon ? configService.url(generalService.userObj?.accountType?.icon)  : 'assets/images/base.png'"
                width="80" height="80">
           <div class="position-absolute" style="left: 100px; top: 30px">
-            <div class="font-size-18 weight-700">{{generalService?.userObj?.accountType?.name}}</div>
+            <div class="font-size-18 weight-700">{{generalService.userObj?.accountType?.name}}</div>
             <mat-label
               class="font-size-16 weight-400">{{'Description' | translate}}</mat-label>
           </div>
@@ -130,7 +130,7 @@
       <br>
       <br>
       <button mat-raised-button color="primary" type="submit"
-              [disabled]="form?.invalid" class="save-button">{{'Save' | translate}}
+              [disabled]="form.invalid" class="save-button">{{'Save' | translate}}
       </button>
       <!--  <div role="alert" style="color: #ff5722; margin: 10px 0">-->
       <!--    {{error}}-->

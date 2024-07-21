@@ -28,13 +28,13 @@ export class SettingsComponent implements OnInit {
   constructor(public generalService: GeneralService, private _formBuilder: FormBuilder, public dialog: MatDialog,
               private clientService: ClientService, private _snackBar: MatSnackBar) {
     this.generalService.currentRout = '';
-    console.log(this.generalService?.userObj)
+    console.log(this.generalService.userObj)
   }
 
   async ngOnInit(): Promise<any> {
     this.settingsForm = this._formBuilder.group({
-      language: [this.generalService?.userObj?.preferedLanguage ? this.generalService?.userObj?.preferedLanguage?._id : 'en'],
-      defaultHomePage: [this.generalService?.userObj?.preferedHomePage ? this.generalService?.userObj?.preferedHomePage : '/dashboard'],
+      language: [this.generalService.userObj?.preferedLanguage ? this.generalService.userObj?.preferedLanguage?._id : 'en'],
+      defaultHomePage: [this.generalService.userObj?.preferedHomePage ? this.generalService.userObj?.preferedHomePage : '/dashboard'],
     });
   }
 

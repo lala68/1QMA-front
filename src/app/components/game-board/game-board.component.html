@@ -28,7 +28,7 @@
             <mat-card-title class="font-size-16 weight-600">{{'Participants:' | translate}}</mat-card-title>
           </mat-card-header>
         </mat-card>
-        <div *ngFor="let player of generalService?.players" class="user-card position-relative">
+        <div *ngFor="let player of generalService.players" class="user-card position-relative">
           <img width="32" height="32" style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px"
                [src]="player?.profilePicture ? player?.profilePicture?.startsWith('http') ? player?.profilePicture : configService.url(player?.profilePicture) : 'assets/images/frame.png'"
           />
@@ -96,8 +96,11 @@
                 </div>
                 &nbsp;
                 <div class="copy-referrer cursor-pointer"
-                     (click)="generalService.openSnackBar('Copied to clipboard', 'Copied')"
-                     [cdkCopyToClipboard]="data?.game?.gameLink">
+                     [cdkCopyToClipboard]="data?.game?.gameLink"
+                     matTooltip="Click to copy in clipboard!"
+                     [matTooltipPosition]="'above'"
+                     [matTooltipHideDelay]="1000"
+                     #tooltip="matTooltip">
                   <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
                       d="M17.8408 14.3219V17.3219C17.8408 21.3219 16.2408 22.9219 12.2408 22.9219H8.44082C4.44082 22.9219 2.84082 21.3219 2.84082 17.3219V13.5219C2.84082 9.52188 4.44082 7.92188 8.44082 7.92188H11.4408"
@@ -139,8 +142,11 @@
                 </div>
                 &nbsp;
                 <div class="copy-referrer cursor-pointer"
-                     (click)="generalService.openSnackBar('Copied to clipboard', 'Copied' )"
-                     [cdkCopyToClipboard]="data?.game?.gameCode">
+                     [cdkCopyToClipboard]="data?.game?.gameCode"
+                     matTooltip="Click to copy in clipboard!"
+                     [matTooltipPosition]="'above'"
+                     [matTooltipHideDelay]="1000"
+                     #tooltip="matTooltip">
                   <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
                       d="M17.8408 14.3219V17.3219C17.8408 21.3219 16.2408 22.9219 12.2408 22.9219H8.44082C4.44082 22.9219 2.84082 21.3219 2.84082 17.3219V13.5219C2.84082 9.52188 4.44082 7.92188 8.44082 7.92188H11.4408"
@@ -239,8 +245,8 @@
        class="d-inline-block card border-0 text-center font-size-14 weight-800 pt-3 w-100">
     <mat-spinner class="d-inline-block" [diameter]="20"></mat-spinner> &nbsp;
     <mat-label class="d-inline-block">Waiting
-      for {{generalService?.gameInit?.numberOfPlayers - generalService?.players.length}}
-      of {{generalService?.gameInit?.numberOfPlayers }} players to join the game...
+      for {{generalService.gameInit?.numberOfPlayers - generalService.players.length}}
+      of {{generalService.gameInit?.numberOfPlayers }} players to join the game...
     </mat-label>
   </div>
 </div>
@@ -270,9 +276,9 @@
 
       <mat-card-content class="p-5" style="min-height: 480px">
         <div style="display: ruby-text;">
-          <mat-spinner *ngIf="loading || !generalService?.gameQuestion" [diameter]="30"></mat-spinner>
+          <mat-spinner *ngIf="loading || !generalService.gameQuestion" [diameter]="30"></mat-spinner>
         </div>
-        <div *ngIf="!loading && generalService?.gameQuestion">
+        <div *ngIf="!loading && generalService.gameQuestion">
           <div class="d-inline-flex w-100">
             <div class="gray-card p-2" style="width: 100px; height: 40px; margin: 0 auto">
               <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -286,19 +292,19 @@
                 <path d="M12.8363 13.9102H12.8453" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
                       stroke-linejoin="round"/>
               </svg>
-              <mat-label class="ps-3">{{generalService?.gameQuestion ? generalService?.gameQuestion?.step : 1}}
-                / {{generalService?.gameInit?.numberOfPlayers}}</mat-label>
+              <mat-label class="ps-3">{{generalService.gameQuestion ? generalService.gameQuestion?.step : 1}}
+                / {{generalService.gameInit?.numberOfPlayers}}</mat-label>
             </div>
             <div class="gray-card p-3" style="margin: 0 0 0 20px; width: 88%">
               <div class="d-inline-flex">
                 <img src="assets/images/frame.png" width="24"/>
                 <mat-label class="font-size-13  weight-500">
-                  Player {{generalService?.gameQuestion ? generalService?.gameQuestion?.step : 1}}</mat-label>
+                  Player {{generalService.gameQuestion ? generalService.gameQuestion?.step : 1}}</mat-label>
               </div>
               <br>
               <br>
               <mat-label class="font-size-14 weight-500">
-                {{generalService?.gameQuestion?.question}}
+                {{generalService.gameQuestion?.question}}
               </mat-label>
             </div>
           </div>
@@ -307,7 +313,6 @@
           <br>
           <div>
             <div class="d-flex">
-              <!--        <img src="assets/images/clipboard-text.svg" width="24">-->
               <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M7.9917 12.3604H14.9917" stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10"
                       stroke-linecap="round" stroke-linejoin="round"/>
@@ -342,25 +347,25 @@
       <div style=" display: flex; justify-content: space-between; align-items: center;">
         <div class="d-flex justify-content-start">
           <div class="position-relative">
-            <div *ngFor="let ply of generalService?.players; let i=index" class="d-inline-block">
+            <div *ngFor="let ply of generalService.players; let i=index" class="d-inline-block">
               <img mat-card-avatar
                    src="assets/images/frame.png"
                    width="26" height="26" class="mb-0 position-absolute custom-position-{{i}}">
             </div>
           </div>
           <mat-label class="d-inline-block" style="margin-left: 90px;">Waiting
-            for {{generalService?.gameInit?.numberOfPlayers - generalService?.players.length}}
-            of {{generalService?.gameInit?.numberOfPlayers }} players...
+            for {{generalService.gameInit?.numberOfPlayers - generalService.players.length}}
+            of {{generalService.gameInit?.numberOfPlayers }} players...
           </mat-label>
         </div>
         <div class="next-button">
-          <app-countdown-timer [duration]="generalService?.gameInit?.eachStepDurationSeconds"
+          <app-countdown-timer [duration]="generalService.gameInit?.eachStepDurationSeconds"
                                (countdownFinished)="handleCountdownSendAnswerFinished()"></app-countdown-timer>
           <button
             mat-raised-button
             color="primary" class="ms-3"
             (click)="editAnswer()"
-            [disabled]="!generalService?.editingAnswer">
+            [disabled]="!generalService.editingAnswer">
             {{'Edit' | translate}}
           </button>
           <button mat-raised-button color="primary" class="next-step ms-3" (click)="sendAnswer()"
@@ -416,19 +421,19 @@
                 <path d="M12.8363 13.9102H12.8453" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
                       stroke-linejoin="round"/>
               </svg>
-              <mat-label class="ps-3">{{generalService?.gameQuestion ? generalService?.gameQuestion?.step : 1}}
-                / {{generalService?.gameInit?.numberOfPlayers}}</mat-label>
+              <mat-label class="ps-3">{{generalService.gameQuestion ? generalService.gameQuestion?.step : 1}}
+                / {{generalService.gameInit?.numberOfPlayers}}</mat-label>
             </div>
             <div class="gray-card p-3" style="margin: 0 0 0 20px; width: 88%">
               <div class="d-inline-flex">
                 <img src="assets/images/frame.png" width="24"/>
                 <mat-label class="font-size-13  weight-500">
-                  Player {{generalService?.gameQuestion ? generalService?.gameQuestion?.step : 1}}</mat-label>
+                  Player {{generalService.gameQuestion ? generalService.gameQuestion?.step : 1}}</mat-label>
               </div>
               <br>
               <br>
               <mat-label class="font-size-14 weight-500">
-                {{generalService?.gameQuestion?.question}}
+                {{generalService.gameQuestion?.question}}
               </mat-label>
             </div>
           </div>
@@ -454,7 +459,7 @@
                     </svg>
                   </button>
                   <button mat-fab color="primary" (click)="moveDownAnswers(i)"
-                          [disabled]="i - 1 == (generalService?.gameInit?.numberOfPlayers)">
+                          [disabled]="i - 1 == (generalService.gameInit?.numberOfPlayers)">
                     <svg width="18" height="18" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path
                         d="M20.821 9.53711L14.301 16.0571C13.531 16.8271 12.271 16.8271 11.501 16.0571L4.98096 9.53711"
@@ -476,19 +481,19 @@
       <div style=" display: flex; justify-content: space-between; align-items: center;">
         <div class="d-flex justify-content-start">
           <div class="position-relative">
-            <div *ngFor="let ply of generalService?.players; let i=index" class="d-inline-block">
+            <div *ngFor="let ply of generalService.players; let i=index" class="d-inline-block">
               <img mat-card-avatar
                    src="assets/images/frame.png"
                    width="26" height="26" class="mb-0 position-absolute custom-position-{{i}}">
             </div>
           </div>
           <mat-label class="d-inline-block" style="margin-left: 90px;">Waiting
-            for {{generalService?.gameInit?.numberOfPlayers - generalService?.players.length}}
-            of {{generalService?.gameInit?.numberOfPlayers }} players...
+            for {{generalService.gameInit?.numberOfPlayers - generalService.players.length}}
+            of {{generalService.gameInit?.numberOfPlayers }} players...
           </mat-label>
         </div>
         <div class="next-button">
-          <app-countdown-timer [duration]="generalService?.gameInit?.eachStepDurationSeconds"
+          <app-countdown-timer [duration]="generalService.gameInit?.eachStepDurationSeconds"
                                (countdownFinished)="handleCountdownRatingAnswerFinished()"></app-countdown-timer>
           <button mat-raised-button color="primary" class="next-step ms-3"
                   [disabled]="sendRateAnswerDisable"
@@ -546,7 +551,7 @@
                     </svg>
                   </button>
                   <button mat-fab color="primary" (click)="moveDownQuestions(i)"
-                          [disabled]="i - 1 == (generalService?.gameInit?.numberOfPlayers)">
+                          [disabled]="i - 1 == (generalService.gameInit?.numberOfPlayers)">
                     <svg width="18" height="18" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path
                         d="M20.821 9.53711L14.301 16.0571C13.531 16.8271 12.271 16.8271 11.501 16.0571L4.98096 9.53711"
@@ -568,19 +573,19 @@
       <div style=" display: flex; justify-content: space-between; align-items: center;">
         <div class="d-flex justify-content-start">
           <div class="position-relative">
-            <div *ngFor="let ply of generalService?.players; let i=index" class="d-inline-block">
+            <div *ngFor="let ply of generalService.players; let i=index" class="d-inline-block">
               <img mat-card-avatar
                    src="assets/images/frame.png"
                    width="26" height="26" class="mb-0 position-absolute custom-position-{{i}}">
             </div>
           </div>
           <mat-label class="d-inline-block" style="margin-left: 90px;">Waiting
-            for {{generalService?.gameInit?.numberOfPlayers - generalService?.players.length}}
-            of {{generalService?.gameInit?.numberOfPlayers }} players...
+            for {{generalService.gameInit?.numberOfPlayers - generalService.players.length}}
+            of {{generalService.gameInit?.numberOfPlayers }} players...
           </mat-label>
         </div>
         <div class="next-button">
-          <app-countdown-timer [duration]="generalService?.gameInit?.eachStepDurationSeconds"
+          <app-countdown-timer [duration]="generalService.gameInit?.eachStepDurationSeconds"
                                (countdownFinished)="handleCountdownRatingQuestionsFinished()"></app-countdown-timer>
           <button mat-raised-button color="primary" class="next-step ms-3"
                   [disabled]="sendRateQuestionsDisable"
@@ -626,10 +631,10 @@
           <div class="d-inline-flex">
             <div class="gray-card creator">
               <img style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px"
-                [src]="generalService?.gameResult?.creator?.profilePicture ? generalService?.gameResult?.creator?.profilePicture?.startsWith('http') ? generalService?.gameResult?.creator?.profilePicture : configService.url(generalService?.gameResult?.creator?.profilePicture) : 'assets/images/frame.png'"
-                width="40" height="40">
+                   [src]="generalService.gameResult?.creator?.profilePicture ? generalService.gameResult?.creator?.profilePicture?.startsWith('http') ? generalService.gameResult?.creator?.profilePicture : configService.url(generalService.gameResult?.creator?.profilePicture) : 'assets/images/frame.png'"
+                   width="40" height="40">
               <span
-                class="font-size-14 weight-700 pe-2">{{generalService?.gameResult?.creator?.firstName}} {{generalService?.gameResult?.creator?.lastName}}</span>
+                class="font-size-14 weight-700 pe-2">{{generalService.gameResult?.creator?.firstName}} {{generalService.gameResult?.creator?.lastName}}</span>
             </div>
 
             <div class="d-inline-flex position-absolute end-10">
@@ -662,7 +667,7 @@
                     <img src="assets/images/score.png"
                          width="28" height="28">&nbsp;
                     <div class="font-size-14 weight-800 position-absolute"
-                         style="padding-left: 5px; left: 30px; top: -5px; color: #0CA609">{{generalService?.userObj?.games?.won}}</div>
+                         style="padding-left: 5px; left: 30px; top: -5px; color: #0CA609">{{generalService.userObj?.games?.won}}</div>
                     <mat-label class="position-absolute font-size-14 weight-500"
                                style="padding-left: 5px;left: 30px; bottom: -5px;  color: #828282">
                       Score
@@ -672,7 +677,7 @@
                     <img src="assets/images/XP.png"
                          width="28" height="28">&nbsp;
                     <div class="font-size-14 weight-800 position-absolute"
-                         style="padding-left: 5px; left: 30px; top: -5px; color: #0CA609">{{generalService?.userObj?.games?.won}}</div>
+                         style="padding-left: 5px; left: 30px; top: -5px; color: #0CA609">{{generalService.userObj?.games?.won}}</div>
                     <mat-label class="position-absolute font-size-14 weight-500"
                                style="padding-left: 5px;left: 30px; bottom: -5px;  color: #828282">
                       XP
@@ -682,7 +687,7 @@
                     <img src="assets/images/coin-bronze.png"
                          width="28" height="28">&nbsp;
                     <div class="font-size-14 weight-800 position-absolute"
-                         style="padding-left: 5px; left: 30px; top: -5px; color: #0CA609">{{generalService?.userObj?.games?.won}}</div>
+                         style="padding-left: 5px; left: 30px; top: -5px; color: #0CA609">{{generalService.userObj?.games?.won}}</div>
                     <mat-label class="position-absolute font-size-14 weight-500"
                                style="padding-left: 5px;left: 30px; bottom: -5px; color: #828282">
                       Bronze
@@ -695,18 +700,18 @@
                    style="width: 350px; height: 80px; background-color: #EDF9FF">
                 <div style="position: absolute; top: 10px;left: 10px; width: 100%;">
                   <div class="font-size-14 weight-600 position-absolute start-0">
-                    Level: {{generalService?.userObj?.statistics?.level}}</div>
+                    Level: {{generalService.userObj?.statistics?.level}}</div>
                   <div
                     class="font-size-12 weight-600 position-absolute"
-                    style="right: 20px">{{generalService?.userObj?.statistics?.xpNeededForNextLevel - generalService?.userObj?.statistics?.totalXP}}
+                    style="right: 20px">{{generalService.userObj?.statistics?.xpNeededForNextLevel - generalService.userObj?.statistics?.totalXP}}
                     XP till next level
                   </div>
                 </div>
                 <mat-progress-bar
                   style="width: 320px; border-radius: 10px; left: 15px; display: inline-table; position: absolute; top: 40px;"
                   color="primary"
-                  [value]="generalService?.userObj?.statistics?.level"
-                  [bufferValue]="generalService?.userObj?.statistics?.xpNeededForNextLevel"
+                  [value]="generalService.userObj?.statistics?.level"
+                  [bufferValue]="generalService.userObj?.statistics?.xpNeededForNextLevel"
                   mode="determinate"></mat-progress-bar>
                 <div
                   class="font-size-14 weight-600 position-absolute bottom-10" style="left: 10px">
@@ -720,11 +725,11 @@
               <mat-label class="font-size-14 weight-700">Scoreboard</mat-label>
             </mat-grid-tile>
             <mat-grid-tile class="result-grid"
-                           [colspan]="12 - (5 + (generalService?.gameResult?.result?.scoreboard?.length))">
+                           [colspan]="12 - (5 + (generalService.gameResult?.result?.scoreboard?.length))">
               <mat-label></mat-label>
             </mat-grid-tile>
             <mat-grid-tile class="result-grid"
-                           *ngFor="let col of generalService?.gameResult?.result?.scoreboard; let i=index"
+                           *ngFor="let col of generalService.gameResult?.result?.scoreboard; let i=index"
                            [colspan]="1">
               <mat-label class="font-size-12 weight-700">A{{i + 1}}</mat-label>
             </mat-grid-tile>
@@ -736,20 +741,20 @@
             </mat-grid-tile>
           </mat-grid-list>
 
-          <mat-grid-list *ngFor="let res of generalService?.gameResult?.result?.scoreboard;let i=index"
+          <mat-grid-list *ngFor="let res of generalService.gameResult?.result?.scoreboard;let i=index"
                          cols="12" rowHeight="50px" class="gray-card mb-2">
             <mat-grid-tile class="result-grid" [colspan]="1">
               <mat-label>{{i + 1}}</mat-label>
             </mat-grid-tile>
             <mat-grid-tile class="result-grid" [colspan]="1">
               <img style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px"
-                [src]="res?.profilePicture ? res?.profilePicture?.startsWith('http') ? res?.profilePicture : configService.url(res?.profilePicture) : 'assets/images/frame.png'"
-                width="40">
+                   [src]="res?.profilePicture ? res?.profilePicture?.startsWith('http') ? res?.profilePicture : configService.url(res?.profilePicture) : 'assets/images/frame.png'"
+                   width="40">
             </mat-grid-tile>
             <mat-grid-tile class="result-grid" [colspan]="3">
               <mat-label>{{res?.firstName}} {{res?.lastName}}</mat-label>
             </mat-grid-tile>
-            <mat-grid-tile [colspan]="12 - (7 + +generalService?.gameInit?.numberOfPlayers)">
+            <mat-grid-tile [colspan]="12 - (7 + +generalService.gameInit?.numberOfPlayers)">
               <mat-label></mat-label>
             </mat-grid-tile>
             <mat-grid-tile class="result-grid"
@@ -778,7 +783,7 @@
                 <path d="M9.72461 2.92188H15.7246" stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10"
                       stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
-              <mat-label class="font-size-14 weight-600">{{generalService?.gameResult?.endedAt | date}}</mat-label>
+              <mat-label class="font-size-14 weight-600">{{generalService.gameResult?.endedAt | date}}</mat-label>
             </div>
           </div>
           <!--          <mat-accordion>-->

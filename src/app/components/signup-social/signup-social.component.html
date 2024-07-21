@@ -80,7 +80,7 @@
         </mat-label>
       </form>
       <button mat-raised-button color="primary" type="submit"
-              [disabled]="!signUpVerifyFormMobile?.controls?.verificationCode ||  loading"
+              [disabled]="!signUpVerifyFormMobile.controls.verificationCode ||  loading"
               class="w-100 p-4" (click)="onSubmitSignUpVerify()">
         <span>{{'Verify' | translate}}</span>
       </button>

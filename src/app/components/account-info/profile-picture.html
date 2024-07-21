@@ -11,10 +11,10 @@
   <div class="d-inline-flex border-bottom w-100 pb-3 position-relative">
     <div>
       <img style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px"
-           [src]="generalService?.userObj?.profilePicture ? generalService?.userObj?.profilePicture?.startsWith('http') ? generalService?.userObj?.profilePicture : configService.url(generalService?.userObj?.profilePicture) : 'assets/images/frame.png'"
+           [src]="generalService.userObj?.profilePicture ? generalService.userObj?.profilePicture?.startsWith('http') ? generalService.userObj?.profilePicture : configService.url(generalService.userObj?.profilePicture) : 'assets/images/frame.png'"
            width="60" height="60">
       &nbsp;&nbsp;<span
-      class="font-size-14 weight-700">{{generalService?.userObj?.firstName}} {{generalService?.userObj?.lastName}}</span>
+      class="font-size-14 weight-700">{{generalService.userObj?.firstName}} {{generalService.userObj?.lastName}}</span>
     </div>
     <div class="d-inline-flex position-absolute" style="right: 20px; top: 10px">
       <button mat-stroked-button color="primary" class="radius" (click)="openAddFilesDialog()"

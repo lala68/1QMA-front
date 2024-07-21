@@ -1,9 +1,9 @@
 <br><br>
-<div class="card border-0 p-4 font-size-16 weight-600" *ngIf="generalService?.userObj">
+<div class="card border-0 p-4 font-size-16 weight-600" *ngIf="generalService.userObj">
   Setting
 </div>
 <br>
-<div class="card border-0 p-4" *ngIf="generalService?.userObj">
+<div class="card border-0 p-4" *ngIf="generalService.userObj">
   <form [formGroup]="settingsForm" (ngSubmit)="updateSettings()">
     <mat-form-field appearance="fill" class="custom-form-field w-50">
       <mat-label>{{'Language' | translate}}</mat-label>
