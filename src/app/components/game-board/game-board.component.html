@@ -786,24 +786,51 @@
               <mat-label class="font-size-14 weight-600">{{generalService.gameResult?.endedAt | date}}</mat-label>
             </div>
           </div>
-          <!--          <mat-accordion>-->
-          <!--            <mat-expansion-panel hideToggle>-->
-          <!--              <mat-expansion-panel-header>-->
-          <!--                <mat-panel-title> This is the expansion title</mat-panel-title>-->
-          <!--                <mat-panel-description> This is a summary of the content</mat-panel-description>-->
-          <!--              </mat-expansion-panel-header>-->
-          <!--              <p>This is the primary content of the panel.</p>-->
-          <!--            </mat-expansion-panel>-->
-          <!--            <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">-->
-          <!--              <mat-expansion-panel-header>-->
-          <!--                <mat-panel-title> Self aware panel</mat-panel-title>-->
-          <!--                <mat-panel-description>-->
-          <!--                  Currently I am {{panelOpenState() ? 'open' : 'closed'}}-->
-          <!--                </mat-panel-description>-->
-          <!--              </mat-expansion-panel-header>-->
-          <!--              <p>I'm visible because I am open</p>-->
-          <!--            </mat-expansion-panel>-->
-          <!--          </mat-accordion>-->
+          <br>
+          <br>
+          <!--          generalService.gameResult?.result?.details-->
+          <mat-accordion class="example-headers-align shadow-none position-relative"
+                         *ngFor="let question of generalService.gameResult?.result?.details; let i=index">
+            <div class="accordion-num">{{i + 1}}</div>
+            <mat-expansion-panel class="gray-card shadow-none">
+              <mat-expansion-panel-header style="height: 120px; padding-left: 0">
+                <mat-panel-title>
+                  <mat-card class="shadow-none border-0 bg-transparent">
+                    <mat-card-header>
+                      <img mat-card-avatar
+                           [src]="question?.questioner?.profilePicture ? question?.questioner?.profilePicture?.startsWith('http') ? question?.questioner?.profilePicture : configService.url(question?.questioner?.profilePicture) : 'assets/images/frame.png'"
+                           width="40"/>
+                      <mat-card-title
+                        class="font-size-14 weight-600 pb-2">{{question?.questioner?.firstName}} {{question?.questioner?.lastName}}</mat-card-title>
+                      <mat-card-subtitle class="font-size-14 weight-600 pb-2">{{question?.question}}
+                      </mat-card-subtitle>
+                      <mat-card-subtitle>
+                        <img src="assets/images/score.png" width="16"/> &nbsp; {{question?.rate}} Score
+                      </mat-card-subtitle>
+                    </mat-card-header>
+                  </mat-card>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <div class="container-accordion">
+                <div class="container-accordion-item" *ngFor="let answer of question?.answers">
+                  <div>
+                    <img style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px"
+                         [src]="answer?.answerer?.profilePicture ? answer?.answerer?.profilePicture?.startsWith('http') ? answer?.answerer?.profilePicture : configService.url(answer?.answerer?.profilePicture) : 'assets/images/frame.png'"
+                         width="40" height="40">
+                    &nbsp;<span
+                    class="font-size-14 weight-700 pe-2">{{answer?.answerer?.firstName}} {{answer?.answerer?.lastName}}</span>
+                    <br>
+                    <br>
+                    <mat-label class="font-size-14 weight-400">{{answer?.answer}}</mat-label>
+                    <br>
+                    <br>
+                    <img src="assets/images/score.png" width="16"/> &nbsp; {{answer?.rate}} Score
+                  </div>
+                </div>
+              </div>
+            </mat-expansion-panel>
+            <br>
+          </mat-accordion>
         </div>
       </mat-card-content>
     </mat-card>
