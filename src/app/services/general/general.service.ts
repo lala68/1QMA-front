@@ -28,6 +28,7 @@ export class GeneralService implements OnInit {
   specificQuestionAnswers: any;
   gameAnswerGeneral: any;
   editingAnswer: boolean = true;
+  isGameCancel: boolean = false;
   allQuestions: any = [];
   invitedPlayersArray: any = [];
   gameResult: any;

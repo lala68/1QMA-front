@@ -11,6 +11,8 @@ import {GamesService} from "../../services/games/games.service";
 import {CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray} from "@angular/cdk/drag-drop";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {ConfigService} from "../../services/config/config.service";
+import {MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {MaterialModule} from "../../shared/material/material.module";
 
 @Component({
   selector: 'app-game-board',
@@ -41,7 +43,8 @@ export class GameBoardComponent implements OnInit {
   finishedTimerRatingQuestions: boolean = false;
 
   constructor(public generalService: GeneralService, private router: Router, private gameService: GamesService,
-              public configService: ConfigService, private ngZone: NgZone, private countdownTimerComponent: CountdownTimerComponent,) {
+              public configService: ConfigService, private ngZone: NgZone,
+              private countdownTimerComponent: CountdownTimerComponent, public dialog: MatDialog) {
     this.data = this.router.getCurrentNavigation()?.extras?.state?.['data'];
     this.users = this.router.getCurrentNavigation()?.extras?.state?.['users'];
   }
@@ -98,6 +101,14 @@ export class GameBoardComponent implements OnInit {
       const now = new Date();
       const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
       console.log("cancel game" + ' ' + `[${timeString}]  `);
+      if (!this.generalService.isGameCancel) {
+        this.generalService.isGameCancel = true;
+        const dialogRef = this.dialog.open(CancelGame, {
+          width: '500px',
+          disableClose: true
+        });
+      }
+
     });
 
     this.generalService.socket.on("end game", (arg: any) => {
@@ -108,8 +119,8 @@ export class GameBoardComponent implements OnInit {
       this.getGameResult();
     });
 
-    this.generalService.socket.on("disconnected", function () {
-      console.log('disconnected')
+    this.generalService.socket.on("disconnect", function () {
+      console.log('disconnect')
     });
   }
 
@@ -524,5 +535,39 @@ export class GameBoardComponent implements OnInit {
   addUserToPlayers() {
     this.generalService.invitedPlayersArray.push(this.invitedUser);
     this.invitedUser = '';
+  }
+}
+
+@Component({
+  selector: 'cancel-game',
+  templateUrl: 'cancel-game.html',
+  standalone: true,
+  imports: [MaterialModule, CommonModule]
+})
+
+export class CancelGame {
+
+  constructor(public dialogRef: MatDialogRef<CancelGame>, private generalService: GeneralService,
+              private router: Router) {
+  }
+
+  async gotoHome() {
+    this.generalService.startingGame = false;
+    this.generalService.players = [];
+    this.generalService.gameInit = '';
+    this.generalService.gameStep = 1;
+    this.generalService.createdGameData = '';
+    this.generalService.gameQuestion = '';
+    this.generalService.specificQuestionAnswers = '';
+    this.generalService.gameAnswerGeneral = '';
+    this.generalService.editingAnswer = true;
+    this.generalService.isGameCancel = false;
+    this.generalService.allQuestions = [];
+    this.generalService.gameResult = '';
+    this.generalService.rateAnswers = [];
+    this.generalService.rateQuestions = [];
+    this.generalService.invitedPlayersArray = [];
+    this.dialogRef.close();
+    await this.router.navigate(['/dashboard']);
   }
 }

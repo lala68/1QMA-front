@@ -139,19 +139,13 @@ export class ExitGame {
         this.generalService.specificQuestionAnswers = '';
         this.generalService.gameAnswerGeneral = '';
         this.generalService.editingAnswer = true;
+        this.generalService.isGameCancel = false;
         this.generalService.allQuestions = [];
         this.generalService.gameResult = '';
         this.generalService.rateAnswers = [];
         this.generalService.rateQuestions = [];
         this.generalService.invitedPlayersArray = [];
         this.dialogRef.close();
-        // if (this.generalService.socket) {
-        //   this.generalService.socket.disconnect();
-        //   console.log('disconnected')
-        //   this.generalService.socket.on("disconnected", function () {
-        //     console.log('disconnected')
-        //   });
-        // }
         await this.router.navigate(['/dashboard']);
       }
     })
