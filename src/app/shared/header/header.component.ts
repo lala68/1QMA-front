@@ -116,39 +116,40 @@ export class AddQuestion {
   selector: 'exit-game',
   templateUrl: 'exit-game.html',
 })
-
 export class ExitGame {
 
-  constructor(public dialogRef: MatDialogRef<ExitGame>, private generalService: GeneralService,
-              private router: Router, private gameService: GamesService) {
+  constructor(
+    public dialogRef: MatDialogRef<ExitGame>,
+    private generalService: GeneralService,
+    private router: Router,
+    private gameService: GamesService
+  ) {}
+
+  cancel(): void {
+    this.dialogRef.close(false);
   }
 
-  async cancel() {
-    this.dialogRef.close();
-  }
-
-  async exitGame() {
-    this.gameService.exitGame(this.generalService?.createdGameData?.game?.gameId).then(async data => {
-      if (data.status == 1) {
-        this.generalService.startingGame = false;
-        this.generalService.players = [];
-        this.generalService.gameInit = '';
-        this.generalService.gameStep = 1;
-        this.generalService.createdGameData = '';
-        this.generalService.gameQuestion = '';
-        this.generalService.specificQuestionAnswers = '';
-        this.generalService.gameAnswerGeneral = '';
-        this.generalService.editingAnswer = true;
-        this.generalService.isGameCancel = false;
-        this.generalService.allQuestions = [];
-        this.generalService.gameResult = '';
-        this.generalService.rateAnswers = [];
-        this.generalService.rateQuestions = [];
-        this.generalService.invitedPlayersArray = [];
-        this.dialogRef.close();
-        await this.router.navigate(['/dashboard']);
-      }
-    })
+  async exitGame(): Promise<void> {
+    const data = await this.gameService.exitGame(this.generalService?.createdGameData?.game?.gameId);
+    if (data.status === 1) {
+      this.generalService.startingGame = false;
+      this.generalService.players = [];
+      this.generalService.gameInit = '';
+      this.generalService.gameStep = 1;
+      this.generalService.createdGameData = '';
+      this.generalService.gameQuestion = '';
+      this.generalService.specificQuestionAnswers = '';
+      this.generalService.gameAnswerGeneral = '';
+      this.generalService.editingAnswer = true;
+      this.generalService.isGameCancel = false;
+      this.generalService.allQuestions = [];
+      this.generalService.gameResult = '';
+      this.generalService.rateAnswers = [];
+      this.generalService.rateQuestions = [];
+      this.generalService.invitedPlayersArray = [];
+      this.dialogRef.close(true);
+      await this.router.navigate(['/dashboard']);
+    }
   }
 }
 

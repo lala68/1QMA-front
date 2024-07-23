@@ -1,7 +1,7 @@
-import {Component, NgZone, OnInit, ViewChild} from '@angular/core';
+import {Component, HostListener, NgZone, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {Router, RouterModule} from "@angular/router";
+import {NavigationEnd, Router, RouterModule, Event as NavigationEvent} from "@angular/router";
 import {SharedModule} from "../../shared/shared.module";
 import {TranslateModule} from "@ngx-translate/core";
 import {GeneralService} from "../../services/general/general.service";
@@ -13,6 +13,8 @@ import {MatExpansionModule} from "@angular/material/expansion";
 import {ConfigService} from "../../services/config/config.service";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {MaterialModule} from "../../shared/material/material.module";
+import {Subscription} from 'rxjs';
+import {filter} from 'rxjs/operators';
 
 @Component({
   selector: 'app-game-board',
@@ -23,7 +25,7 @@ import {MaterialModule} from "../../shared/material/material.module";
   styleUrl: './game-board.component.scss',
   providers: [CountdownTimerComponent]
 })
-export class GameBoardComponent implements OnInit {
+export class GameBoardComponent implements OnInit, OnDestroy {
   @ViewChild('answerTextArea') answerTextArea: any;
   @ViewChild(CountdownTimerComponent) countdownTimer: any;
   loading: boolean = false;
@@ -41,6 +43,8 @@ export class GameBoardComponent implements OnInit {
   finishedTimerAnswer: boolean = false;
   finishedTimerRatingAnswer: boolean = false;
   finishedTimerRatingQuestions: boolean = false;
+  submittedAnswer: any;
+  private routerSubscription: Subscription | null = null; // Initialize with null
 
   constructor(public generalService: GeneralService, private router: Router, private gameService: GamesService,
               public configService: ConfigService, private ngZone: NgZone,
@@ -50,7 +54,9 @@ export class GameBoardComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.generalService?.players.push(this.data?.game?.gameCreator);
+    // this.generalService?.players.push(this.data?.game?.gameCreator);
+    this.generalService.players = (this.data?.game?.gamePlayers);
+    console.log(this.generalService?.players)
     this.generalService.socket.on("player added", (arg: any) => {
       const now = new Date();
       const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
@@ -62,7 +68,6 @@ export class GameBoardComponent implements OnInit {
       const now = new Date();
       const timeString = now.toLocaleTimeString();
       console.log("next step" + ' ' + `[${timeString}]  `);
-      console.log("gameStep" + ' ' + this.generalService.gameStep);
       if (this.generalService.gameStep == 2) {
         this.nextStepTriggeredAnswer = true;
         this.nextStepTriggeredRatingAnswer = false;
@@ -89,6 +94,14 @@ export class GameBoardComponent implements OnInit {
       }
       this.countdownTimerComponent.startCountdown();
       this.handleGameStep();
+    });
+
+    this.generalService.socket.on("submit answer", (arg: any) => {
+      const now = new Date();
+      const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
+      console.log("submit answer" + ' ' + `[${timeString}]  `);
+      console.log(arg);
+      this.submittedAnswer = arg;
     });
 
     this.generalService.socket.on("player left", (arg: any) => {
@@ -122,13 +135,27 @@ export class GameBoardComponent implements OnInit {
     this.generalService.socket.on("disconnect", function () {
       console.log('disconnect')
     });
+    // window.addEventListener('beforeunload', this.beforeUnloadHandler);
+
+  }
+
+  // @HostListener('window:beforeunload', ['$event'])
+  // beforeUnloadHandler(event: BeforeUnloadEvent): void {
+  //   // Custom logic before the page unloads
+  //   const confirmationMessage = 'Are you sure you want to leave?';
+  //   event.returnValue = confirmationMessage; // This will trigger the confirmation dialog in some browsers
+  // }
+
+
+  ngOnDestroy(): void {
+    // this.beforeUnloadHandler
   }
 
   async handleGameStep(): Promise<void> {
-    console.log("finishedTimerAnswer" + this.finishedTimerAnswer);
-    console.log("finishedTimerRatingAnswer" + this.finishedTimerRatingAnswer);
-    console.log("finishedTimerRatingQuestions" + this.finishedTimerRatingQuestions);
-    console.log("gameStep" + this.generalService.gameStep);
+    // console.log("finishedTimerAnswer" + this.finishedTimerAnswer);
+    // console.log("finishedTimerRatingAnswer" + this.finishedTimerRatingAnswer);
+    // console.log("finishedTimerRatingQuestions" + this.finishedTimerRatingQuestions);
+    // console.log("gameStep" + this.generalService.gameStep);
     if (this.generalService.gameStep == 2) {
       this.finishedTimerRatingQuestions = false;
       this.finishedTimerRatingAnswer = false;
@@ -161,6 +188,8 @@ export class GameBoardComponent implements OnInit {
         default:
           console.warn(`Unknown game step: ${this.generalService.gameStep}`);
       }
+      if (this.submittedAnswer)
+        this.submittedAnswer.numberOfSubmitted = 0;
     });
   }
 
@@ -172,7 +201,7 @@ export class GameBoardComponent implements OnInit {
       // }
       // console.log(this.finishedTimerAnswer)
       await this.waitForConditionNextStepAnswer();
-      console.log('waitForConditionNextStepAnswer');
+      // console.log('waitForConditionNextStepAnswer');
       this.generalService.gameAnswerGeneral = '';
       this.generalService.gameStep = 3;
       this.finishedTimerAnswer = false;
@@ -207,7 +236,7 @@ export class GameBoardComponent implements OnInit {
         await this.waitForConditionNextStepRatingAnswer();
         this.generalService.gameStep = 2;
         this.finishedTimerRatingAnswer = false;
-      } else {
+      } else if (resQue.status === -2) {
         const resQue = await this.gameService.getQuestionsOfGame(
           this.generalService.createdGameData.game.gameId
         );
@@ -523,18 +552,54 @@ export class GameBoardComponent implements OnInit {
     }
   }
 
-  newGame() {
+  async newGame() {
+    this.generalService.startingGame = false;
+    this.generalService.players = [];
+    this.generalService.gameInit = '';
+    this.generalService.gameStep = 1;
+    this.generalService.createdGameData = '';
+    this.generalService.gameQuestion = '';
+    this.generalService.specificQuestionAnswers = '';
+    this.generalService.gameAnswerGeneral = '';
+    this.generalService.editingAnswer = true;
+    this.generalService.isGameCancel = false;
+    this.generalService.allQuestions = [];
+    this.generalService.gameResult = '';
+    this.generalService.rateAnswers = [];
+    this.generalService.rateQuestions = [];
+    this.generalService.invitedPlayersArray = [];
+    await this.router.navigate(['/games/1']);
+  }
 
+  isEmailFormat(input: string): boolean {
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailPattern.test(input);
+  }
+
+  addEmailToInvited(email: any) {
+    if (this.isEmailFormat(email)) {
+      this.generalService.invitedPlayersArray.push({email: email});
+      this.gameService.invitePlayer(this.generalService.createdGameData.game.gameId, email).then(data => {
+        if (data.status == 1) {
+          this.invitedUser = '';
+        }
+      })
+    }
   }
 
   selectUserToInvite(user: any) {
     this.invitedUser = user;
     this.filteredEmails = [];
+    this.addUserToPlayers();
   }
 
   addUserToPlayers() {
     this.generalService.invitedPlayersArray.push(this.invitedUser);
-    this.invitedUser = '';
+    this.gameService.invitePlayer(this.generalService.createdGameData.game.gameId, this.invitedUser.email).then(data => {
+      if (data.status == 1) {
+        this.invitedUser = '';
+      }
+    })
   }
 }
 

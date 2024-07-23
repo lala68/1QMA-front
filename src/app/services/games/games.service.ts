@@ -220,4 +220,20 @@ export class GamesService {
       .toPromise();
   }
 
+  async invitePlayer(gameId: any, email: any): Promise<any> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+
+    })
+    return this.http.post<any>(this.config.url('game/invitePlayer'), {
+      id: this.generalService.userId,
+      gameId: gameId,
+      email: email
+    }, {
+      headers: headers,
+      withCredentials: true
+    })
+      .toPromise();
+  }
+
 }
