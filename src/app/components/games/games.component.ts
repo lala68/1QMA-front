@@ -387,6 +387,14 @@ export class JoiningGame {
     })
   }
 
+  updateWordCount() {
+    this.wordCount = this.questionForm.controls.question.value ? (100 - this.questionForm.controls.question.value.trim().split(/\s+/).length) : 100;
+  }
+
+  updateWordCountAnswer() {
+    this.wordCountAnswer = this.questionForm.controls.answer.value ? (100 - this.questionForm.controls.answer.value.trim().split(/\s+/).length) : 100;
+  }
+
   openDialog(message: any, title: any) {
     this._snackBar.openFromComponent(SnackbarContentComponent, {
       data: {

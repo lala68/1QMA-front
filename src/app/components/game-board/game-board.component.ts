@@ -1,7 +1,7 @@
-import {Component, HostListener, NgZone, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, NgZone, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {NavigationEnd, Router, RouterModule, Event as NavigationEvent} from "@angular/router";
+import {Router, RouterModule} from "@angular/router";
 import {SharedModule} from "../../shared/shared.module";
 import {TranslateModule} from "@ngx-translate/core";
 import {GeneralService} from "../../services/general/general.service";
@@ -13,14 +13,13 @@ import {MatExpansionModule} from "@angular/material/expansion";
 import {ConfigService} from "../../services/config/config.service";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {MaterialModule} from "../../shared/material/material.module";
-import {Subscription} from 'rxjs';
-import {filter} from 'rxjs/operators';
+import {TimeDifferencePipe} from "../../time-difference.pipe";
 
 @Component({
   selector: 'app-game-board',
   standalone: true,
   imports: [CommonModule, SharedModule, FormsModule, RouterModule, ReactiveFormsModule, TranslateModule,
-    ClipboardModule, CountdownTimerComponent, CdkDropList, CdkDrag, MatExpansionModule],
+    ClipboardModule, CountdownTimerComponent, CdkDropList, CdkDrag, MatExpansionModule, TimeDifferencePipe],
   templateUrl: './game-board.component.html',
   styleUrl: './game-board.component.scss',
   providers: [CountdownTimerComponent]
@@ -44,7 +43,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
   finishedTimerRatingAnswer: boolean = false;
   finishedTimerRatingQuestions: boolean = false;
   submittedAnswer: any;
-  private routerSubscription: Subscription | null = null; // Initialize with null
+  panelOpenState: boolean[] = [];
 
   constructor(public generalService: GeneralService, private router: Router, private gameService: GamesService,
               public configService: ConfigService, private ngZone: NgZone,
@@ -384,7 +383,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
       await this.sendAnswer();
       this.sendAnswerDisable = true;
     } else {
-      console.log("elseeeeee")
+      // console.log("elseeeeee")
     }
   }
 
@@ -397,7 +396,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
       await this.sendRateAnswer();
       this.sendRateAnswerDisable = false;
     } else {
-      console.log("elseeeeee")
+      // console.log("elseeeeee")
     }
   }
 
@@ -410,7 +409,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
       await this.sendRateQuestions();
       this.sendRateQuestionsDisable = true;
     } else {
-      console.log("elseeeeee")
+      // console.log("elseeeeee")
     }
   }
 
@@ -486,7 +485,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     if (!dropped) {
       this.generalService.rateAnswers = this.generalService.specificQuestionAnswers.answers.map((answer: any, index: any) => ({
         answer_id: answer._id,
-        rate: '1.1' // Assuming the rate is the new index + 1 as a string
+        rate: '1.01' // Assuming the rate is the new index + 1 as a string
       }));
     } else {
       this.generalService.rateAnswers = this.generalService.specificQuestionAnswers.answers.map((answer: any, index: any) => ({
@@ -500,7 +499,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     if (!dropped) {
       this.generalService.rateQuestions = this.generalService.allQuestions.map((question: any, index: any) => ({
         question_id: question._id,
-        rate: '1.1' // Assuming the rate is the new index + 1 as a string
+        rate: '1.01' // Assuming the rate is the new index + 1 as a string
       }));
     } else {
       this.generalService.rateQuestions = this.generalService.allQuestions.map((question: any, index: any) => ({
@@ -568,6 +567,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     this.generalService.rateAnswers = [];
     this.generalService.rateQuestions = [];
     this.generalService.invitedPlayersArray = [];
+    this.submittedAnswer = null;
     await this.router.navigate(['/games/1']);
   }
 

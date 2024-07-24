@@ -678,7 +678,7 @@
               <img style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px"
                    [src]="generalService.gameResult?.creator?.profilePicture ? generalService.gameResult?.creator?.profilePicture?.startsWith('http') ? generalService.gameResult?.creator?.profilePicture : configService.url(generalService.gameResult?.creator?.profilePicture) : 'assets/images/frame.png'"
                    width="40" height="40">
-              <span
+              &nbsp;<span
                 class="font-size-14 weight-700 pe-2">{{generalService.gameResult?.creator?.firstName}} {{generalService.gameResult?.creator?.lastName}}</span>
             </div>
 
@@ -702,8 +702,25 @@
           <mat-divider class="mt-3"></mat-divider>
           <br>
           <div class="w-100 d-inline-flex text-center">
-            <div class="w-40">
-              <img src="assets/images/Leaderboards.png" width="190" height="120"/>
+            <div class="w-40 position-relative">
+              <!--              2-->
+              <img
+                style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px; position: absolute; left: 100px; bottom: 80px;"
+                [src]="generalService.gameResult?.result?.scoreboard[1]?.profilePicture ? generalService.gameResult?.result?.scoreboard[1]?.profilePicture?.startsWith('http') ? generalService.gameResult?.result?.scoreboard[1]?.profilePicture : configService.url(generalService.gameResult?.result?.scoreboard[1]?.profilePicture) : 'assets/images/frame.png'"
+                width="48">
+              <!--              1-->
+              <img
+                style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px; position: absolute; left: 170px; bottom: 90px;"
+                [src]="generalService.gameResult?.result?.scoreboard[0]?.profilePicture ? generalService.gameResult?.result?.scoreboard[0]?.profilePicture?.startsWith('http') ? generalService.gameResult?.result?.scoreboard[0]?.profilePicture : configService.url(generalService.gameResult?.result?.scoreboard[0]?.profilePicture) : 'assets/images/frame.png'"
+                width="48">
+              <!--              3-->
+              <img *ngIf="generalService.gameResult?.result?.scoreboard?.length > 2"
+                   style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px; position: absolute; right: 100px; bottom: 70px"
+                   [src]="generalService.gameResult?.result?.scoreboard[2]?.profilePicture ? generalService.gameResult?.result?.scoreboard[2]?.profilePicture?.startsWith('http') ? generalService.gameResult?.result?.scoreboard[2]?.profilePicture : configService.url(generalService.gameResult?.result?.scoreboard[2]?.profilePicture) : 'assets/images/frame.png'"
+                   width="48">
+
+              <img src="assets/images/Leaderboards.png" width="190" height="65"
+                   style="position: absolute; left: 50px; right: 50px; bottom: 20px; margin: 0 auto;"/>
             </div>
             <div class="w-60">
               <mat-card class="position-relative d-inline-flex text-start shadow-none">
@@ -712,7 +729,7 @@
                     <img src="assets/images/score.png"
                          width="28" height="28">&nbsp;
                     <div class="font-size-14 weight-800 position-absolute"
-                         style="padding-left: 5px; left: 30px; top: -5px; color: #0CA609">{{generalService.userObj?.games?.won}}</div>
+                         style="padding-left: 5px; left: 30px; top: -5px; color: #0CA609">+{{generalService.gameResult?.statistics?.score | number}}</div>
                     <mat-label class="position-absolute font-size-14 weight-500"
                                style="padding-left: 5px;left: 30px; bottom: -5px;  color: #828282">
                       Score
@@ -722,7 +739,7 @@
                     <img src="assets/images/XP.png"
                          width="28" height="28">&nbsp;
                     <div class="font-size-14 weight-800 position-absolute"
-                         style="padding-left: 5px; left: 30px; top: -5px; color: #0CA609">{{generalService.userObj?.games?.won}}</div>
+                         style="padding-left: 5px; left: 30px; top: -5px; color: #0CA609">+{{generalService.gameResult?.statistics?.xp | number}}</div>
                     <mat-label class="position-absolute font-size-14 weight-500"
                                style="padding-left: 5px;left: 30px; bottom: -5px;  color: #828282">
                       XP
@@ -732,7 +749,7 @@
                     <img src="assets/images/coin-bronze.png"
                          width="28" height="28">&nbsp;
                     <div class="font-size-14 weight-800 position-absolute"
-                         style="padding-left: 5px; left: 30px; top: -5px; color: #0CA609">{{generalService.userObj?.games?.won}}</div>
+                         style="padding-left: 5px; left: 30px; top: -5px; color: #0CA609">+{{generalService.gameResult?.statistics?.reward?.bronze}}</div>
                     <mat-label class="position-absolute font-size-14 weight-500"
                                style="padding-left: 5px;left: 30px; bottom: -5px; color: #828282">
                       Bronze
@@ -745,22 +762,22 @@
                    style="width: 350px; height: 80px; background-color: #EDF9FF">
                 <div style="position: absolute; top: 10px;left: 10px; width: 100%;">
                   <div class="font-size-14 weight-600 position-absolute start-0">
-                    Level: {{generalService.userObj?.statistics?.level}}</div>
+                    Level: {{generalService.gameResult?.statistics?.level}}</div>
                   <div
                     class="font-size-12 weight-600 position-absolute"
-                    style="right: 20px">{{generalService.userObj?.statistics?.xpNeededForNextLevel - generalService.userObj?.statistics?.totalXP}}
+                    style="right: 20px">{{generalService.gameResult?.statistics?.xpNeededForNextLevel - generalService.gameResult?.statistics?.totalXP}}
                     XP till next level
                   </div>
                 </div>
                 <mat-progress-bar
                   style="width: 320px; border-radius: 10px; left: 15px; display: inline-table; position: absolute; top: 40px;"
                   color="primary"
-                  [value]="generalService.userObj?.statistics?.level"
-                  [bufferValue]="generalService.userObj?.statistics?.xpNeededForNextLevel"
+                  [value]="generalService.gameResult?.statistics?.level"
+                  [bufferValue]="generalService.gameResult?.statistics?.xpNeededForNextLevel"
                   mode="determinate"></mat-progress-bar>
                 <div
                   class="font-size-14 weight-600 position-absolute bottom-10" style="left: 10px">
-                  Total XP: 4750
+                  Total XP: {{generalService.gameResult?.statistics?.totalXp | number}}
                 </div>
               </div>
             </div>
@@ -785,9 +802,23 @@
               <mat-label class="font-size-12 weight-700">Total</mat-label>
             </mat-grid-tile>
           </mat-grid-list>
-
+          <!--generalService.gameResult?.result?.scoreboard-->
           <mat-grid-list *ngFor="let res of generalService.gameResult?.result?.scoreboard;let i=index"
                          cols="12" rowHeight="50px" class="gray-card mb-2">
+            <img *ngIf="i == 0"
+                 style="position: absolute; left: -40px; top: 5px"
+                 src="assets/images/rank-1.png"
+                 width="36">
+            <!--              1-->
+            <img *ngIf="i == 1"
+                 style="position: absolute; left: -40px; top: 5px"
+                 src="assets/images/rank-2.png"
+                 width="36">
+            <!--              3-->
+            <img *ngIf="i == 2"
+                 style="position: absolute; left: -40px; top: 5px"
+                 src="assets/images/rank-3.png"
+                 width="36">
             <mat-grid-tile class="result-grid" [colspan]="1">
               <mat-label>{{i + 1}}</mat-label>
             </mat-grid-tile>
@@ -811,7 +842,7 @@
               <mat-label>{{res?.questionRate}}</mat-label>
             </mat-grid-tile>
             <mat-grid-tile class="result-grid" [colspan]="1">
-              <mat-label>{{res?.totalScore}}</mat-label>
+              <mat-label>{{res?.totalScore | number}}</mat-label>
             </mat-grid-tile>
           </mat-grid-list>
           <br>
@@ -828,16 +859,19 @@
                 <path d="M9.72461 2.92188H15.7246" stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10"
                       stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
-              <mat-label class="font-size-14 weight-600">{{generalService.gameResult?.endedAt | date}}</mat-label>
+              <mat-label
+                class="font-size-14 weight-600">{{generalService.gameResult?.startedAt | timeDifference:generalService.gameResult?.endedAt }}</mat-label>
             </div>
           </div>
           <br>
           <br>
           <!--          generalService.gameResult?.result?.details-->
           <mat-accordion class="example-headers-align shadow-none position-relative"
-                         *ngFor="let question of generalService.gameResult?.result?.details; let i=index">
+                         *ngFor="let question of generalService.gameResult?.result?.details; let i=index" hideToggle>
             <div class="accordion-num">{{i + 1}}</div>
-            <mat-expansion-panel class="gray-card shadow-none">
+            <mat-expansion-panel class="gray-card shadow-none"
+                                 (opened)="panelOpenState[i] = true"
+                                 (closed)="panelOpenState[i] = false">
               <mat-expansion-panel-header style="height: 120px; padding-left: 0">
                 <mat-panel-title>
                   <mat-card class="shadow-none border-0 bg-transparent">
@@ -855,6 +889,12 @@
                     </mat-card-header>
                   </mat-card>
                 </mat-panel-title>
+                <mat-panel-description>
+                  <mat-icon class="position-absolute end-10 color-black" *ngIf="!panelOpenState[i]">add_circle
+                  </mat-icon>
+                  <mat-icon class="position-absolute end-10 color-black" *ngIf="panelOpenState[i]">remove_circle
+                  </mat-icon>
+                </mat-panel-description>
               </mat-expansion-panel-header>
               <div class="container-accordion">
                 <div class="container-accordion-item" *ngFor="let answer of question?.answers">
