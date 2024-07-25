@@ -35,6 +35,10 @@ export class AppComponent implements OnInit {
         const now = new Date();
         const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
         console.log("connect" + ' ' + `[${timeString}]`);
+        if (this.generalService.disconnectedModal) {
+          this.generalService.disconnectedModal.close();
+          this.generalService.disconnectedModal = '';
+        }
       });
       this.route.queryParams.subscribe(async params => {
         console.log(params)

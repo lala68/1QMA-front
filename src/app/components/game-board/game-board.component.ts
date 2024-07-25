@@ -67,6 +67,8 @@ export class GameBoardComponent implements OnInit, OnDestroy {
       const now = new Date();
       const timeString = now.toLocaleTimeString();
       console.log("next step" + ' ' + `[${timeString}]  `);
+      console.log(arg);
+      console.log(this.generalService.gameStep)
       if (this.generalService.gameStep == 2) {
         this.nextStepTriggeredAnswer = true;
         this.nextStepTriggeredRatingAnswer = false;
@@ -131,8 +133,12 @@ export class GameBoardComponent implements OnInit, OnDestroy {
       this.getGameResult();
     });
 
-    this.generalService.socket.on("disconnect", function () {
-      console.log('disconnect')
+    this.generalService.socket.on("disconnect", () => {
+      console.log('disconnect');
+      this.generalService.disconnectedModal = this.dialog.open(Disconnected, {
+        width: '500px',
+        disableClose: true
+      });
     });
     // window.addEventListener('beforeunload', this.beforeUnloadHandler);
 
@@ -194,11 +200,8 @@ export class GameBoardComponent implements OnInit, OnDestroy {
 
   private async stepTwoLogic(): Promise<void> {
     await this.ngZone.run(async () => {
-      // if (!this.sendAnswerDisable) {
-      //   await this.sendAnswer();
-      //   this.sendAnswerDisable = true;
-      // }
       // console.log(this.finishedTimerAnswer)
+      //new method  comment waitForConditionNextStepAnswer
       await this.waitForConditionNextStepAnswer();
       // console.log('waitForConditionNextStepAnswer');
       this.generalService.gameAnswerGeneral = '';
@@ -218,10 +221,6 @@ export class GameBoardComponent implements OnInit, OnDestroy {
 
   private async stepThreeLogic(): Promise<void> {
     await this.ngZone.run(async () => {
-      // if (!this.sendRateAnswerDisable) {
-      //   await this.sendRateAnswer();
-      //   this.sendRateAnswerDisable = false;
-      // }
       const resQue = await this.gameService.getGameQuestionBasedOnStep(
         this.generalService.createdGameData.game.gameId,
         parseInt(this.generalService.gameQuestion.step) + 1
@@ -250,27 +249,11 @@ export class GameBoardComponent implements OnInit, OnDestroy {
 
   private async stepFourLogic(): Promise<void> {
     await this.ngZone.run(async () => {
-      // console.log(this.finishedTimerRatingQuestions)
-      // if (!this.sendRateQuestionsDisable) {
-      //   await this.sendRateQuestions();
-      //   this.sendRateQuestionsDisable = true;
-      // }
       await this.waitForConditionNextStepQuestions()
     });
   }
 
   private async waitForConditionsAnswer(): Promise<void> {
-    // return new Promise<void>((resolve) => {
-    //   const checkConditions = () => {
-    //     if (this.finishedTimerAnswer) {
-    //       resolve();
-    //     } else {
-    //       requestAnimationFrame(checkConditions);
-    //     }
-    //   };
-    //
-    //   requestAnimationFrame(checkConditions);
-    // });
     return new Promise<void>((resolve) => {
       const interval = setInterval(async () => {
         if (this.finishedTimerAnswer) {
@@ -282,17 +265,6 @@ export class GameBoardComponent implements OnInit, OnDestroy {
   }
 
   private async waitForConditionsRatingAnswer(): Promise<void> {
-    // return new Promise<void>((resolve) => {
-    //   const checkConditions = () => {
-    //     if (this.finishedTimerRatingAnswer) {
-    //       resolve();
-    //     } else {
-    //       requestAnimationFrame(checkConditions);
-    //     }
-    //   };
-    //
-    //   requestAnimationFrame(checkConditions);
-    // });
     return new Promise<void>((resolve) => {
       const interval = setInterval(async () => {
         if (this.finishedTimerRatingAnswer) {
@@ -304,17 +276,6 @@ export class GameBoardComponent implements OnInit, OnDestroy {
   }
 
   private async waitForConditionsRatingQuestions(): Promise<void> {
-    // return new Promise<void>((resolve) => {
-    //   const checkConditions = () => {
-    //     if (this.finishedTimerRatingQuestions) {
-    //       resolve();
-    //     } else {
-    //       requestAnimationFrame(checkConditions);
-    //     }
-    //   };
-    //
-    //   requestAnimationFrame(checkConditions);
-    // });
     return new Promise<void>((resolve) => {
       const interval = setInterval(async () => {
         if (this.finishedTimerRatingQuestions) {
@@ -378,13 +339,36 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     const now = new Date();
     const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
     console.log("finishedTimer" + ' ' + `[${timeString}]  `);
+    console.log("this.generalService.disconnectedModal" + this.generalService.disconnectedModal);
     this.finishedTimerAnswer = true;
-    if (!this.sendAnswerDisable) {
-      await this.sendAnswer();
-      this.sendAnswerDisable = true;
+    if (this.generalService.disconnectedModal == '') {
+      if (!this.sendAnswerDisable) {
+        await this.sendAnswer();
+        this.sendAnswerDisable = true;
+      } else {
+        // console.log("elseeeeee")
+      }
     } else {
-      // console.log("elseeeeee")
+      this.generalService.gameAnswerGeneral = '';
+      this.generalService.gameStep = 3;
+      this.nextStepTriggeredAnswer = false;
+      this.nextStepTriggeredRatingAnswer = true;
+      this.nextStepTriggeredRatingQuestions = false;
+      this.finishedTimerAnswer = false;
+      this.finishedTimerRatingAnswer = true;
+      this.finishedTimerRatingQuestions = false;
+      this.sendAnswerDisable = false;
+      const data = await this.gameService.getAllAnswersOfSpecificQuestion(
+        this.generalService.createdGameData.game.gameId,
+        this.generalService.gameQuestion._id
+      );
+
+      if (data.status === 1) {
+        this.generalService.specificQuestionAnswers = data.data;
+        this.updateRates(this.generalService.rateAnswers.length !== 0);
+      }
     }
+
   }
 
   async handleCountdownRatingAnswerFinished() {
@@ -392,11 +376,40 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
     console.log("finishedTimer" + ' ' + `[${timeString}]  `);
     this.finishedTimerRatingAnswer = true;
-    if (!this.sendRateAnswerDisable) {
-      await this.sendRateAnswer();
-      this.sendRateAnswerDisable = false;
+    if (this.generalService.disconnectedModal == '') {
+      if (!this.sendRateAnswerDisable) {
+        await this.sendRateAnswer();
+        this.sendRateAnswerDisable = true;
+      } else {
+        // console.log("elseeeeee")
+      }
     } else {
-      // console.log("elseeeeee")
+      if (this.generalService.gameQuestion?.step == this.generalService.gameInit?.numberOfPlayers) {
+        this.generalService.gameStep = 4;
+        const resQue = await this.gameService.getQuestionsOfGame(
+          this.generalService.createdGameData.game.gameId
+        );
+        this.generalService.allQuestions = resQue.data;
+        this.updateRatesQuestions(this.generalService.rateQuestions.length !== 0);
+      } else {
+        this.generalService.gameStep = 2;
+        this.nextStepTriggeredAnswer = true;
+        this.nextStepTriggeredRatingAnswer = false;
+        this.nextStepTriggeredRatingQuestions = false;
+        this.finishedTimerAnswer = true;
+        this.finishedTimerRatingAnswer = false;
+        this.finishedTimerRatingQuestions = false;
+        this.sendRateAnswerDisable = false;
+        const resQue = await this.gameService.getGameQuestionBasedOnStep(
+          this.generalService.createdGameData.game.gameId,
+          parseInt(this.generalService.gameQuestion.step) + 1
+        );
+        if (resQue.status === 1) {
+          this.generalService.gameQuestion = resQue.data;
+          this.generalService.gameAnswerGeneral = resQue.data.myAnswer || '';
+          this.generalService.editingAnswer = !!resQue.data.myAnswer;
+        }
+      }
     }
   }
 
@@ -613,6 +626,41 @@ export class GameBoardComponent implements OnInit, OnDestroy {
 export class CancelGame {
 
   constructor(public dialogRef: MatDialogRef<CancelGame>, private generalService: GeneralService,
+              private router: Router) {
+  }
+
+  async gotoHome() {
+    this.generalService.startingGame = false;
+    this.generalService.players = [];
+    this.generalService.gameInit = '';
+    this.generalService.gameStep = 1;
+    this.generalService.createdGameData = '';
+    this.generalService.gameQuestion = '';
+    this.generalService.specificQuestionAnswers = '';
+    this.generalService.gameAnswerGeneral = '';
+    this.generalService.editingAnswer = true;
+    this.generalService.isGameCancel = false;
+    this.generalService.allQuestions = [];
+    this.generalService.gameResult = '';
+    this.generalService.rateAnswers = [];
+    this.generalService.rateQuestions = [];
+    this.generalService.invitedPlayersArray = [];
+    this.dialogRef.close();
+    await this.router.navigate(['/dashboard']);
+  }
+}
+
+
+@Component({
+  selector: 'disconnected',
+  templateUrl: 'disconnected.html',
+  standalone: true,
+  imports: [MaterialModule, CommonModule]
+})
+
+export class Disconnected {
+
+  constructor(public dialogRef: MatDialogRef<Disconnected>, private generalService: GeneralService,
               private router: Router) {
   }
 

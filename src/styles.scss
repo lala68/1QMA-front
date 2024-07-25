@@ -97,13 +97,13 @@ input:not(.country-search) {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  background-color: #fff;
-  height: 65px;
+  width: 100% !important;
+  background-color: #fff !important;
+  height: 65px !important;
   z-index: 9;
-  display: flex;
-  align-items: center;
-  padding-left: 10px;
+  display: flex !important;
+  align-items: center !important;
+  padding-left: 10px !important;
 }
 
 .example-spacer {
@@ -494,6 +494,12 @@ input[type="tel"] {
 
 .color-black {
   color: black !important;
+}
+
+.connected-chip {
+  span.mdc-evolution-chip__action.mat-mdc-chip-action.mdc-evolution-chip__action--primary.mdc-evolution-chip__action--presentational {
+    padding-left: 5px !important;
+  }
 }
 
 

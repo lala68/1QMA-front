@@ -2,7 +2,8 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {GeneralService} from "../general/general.service";
 import {ConfigService} from "../config/config.service";
-import {map} from "rxjs";
+import {delay, map, retryWhen, throwError} from "rxjs";
+import {take} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -119,15 +120,40 @@ export class GamesService {
   }
 
   async getGameQuestionBasedOnStep(gameId: any, step: any): Promise<any> {
+    // let headers = new HttpHeaders({
+    //   'Content-Type': 'application/json',
+    // })
+    // const response = this.http.get(this.config.url('game/' + gameId + '/question/' + step), {
+    //   headers: headers,
+    //   withCredentials: true
+    // }).pipe(
+    //   map((response: any) => response)
+    // ).toPromise();
+    // return response;
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
-    })
+    });
+
+    const maxRetries = 10; // Maximum number of retries
+    const delayMs = 2000; // Delay between retries in milliseconds
+
     const response = this.http.get(this.config.url('game/' + gameId + '/question/' + step), {
       headers: headers,
       withCredentials: true
     }).pipe(
-      map((response: any) => response)
-    ).toPromise();
+      map((response: any) => response),
+      retryWhen(errors =>
+        errors.pipe(
+          delay(delayMs),
+          take(maxRetries)
+        )
+      )
+    ).toPromise().catch(error => {
+      // Handle the error after retries are exhausted
+      console.error('Failed to fetch answers after retries', error);
+      return throwError(error);
+    });
+
     return response;
   }
 
@@ -178,16 +204,43 @@ export class GamesService {
       .toPromise();
   }
 
+  // async getAllAnswersOfSpecificQuestion(gameId: any, questionId: any): Promise<any> {
+  //   let headers = new HttpHeaders({
+  //     'Content-Type': 'application/json',
+  //   })
+  //   const response = this.http.get(this.config.url('game/' + gameId + '/' + questionId + '/answers'), {
+  //     headers: headers,
+  //     withCredentials: true
+  //   }).pipe(
+  //     map((response: any) => response)
+  //   ).toPromise();
+  //   return response;
+  // }
   async getAllAnswersOfSpecificQuestion(gameId: any, questionId: any): Promise<any> {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
-    })
+    });
+
+    const maxRetries = 10; // Maximum number of retries
+    const delayMs = 2000; // Delay between retries in milliseconds
+
     const response = this.http.get(this.config.url('game/' + gameId + '/' + questionId + '/answers'), {
       headers: headers,
-      withCredentials: true
+      withCredentials: true,
     }).pipe(
-      map((response: any) => response)
-    ).toPromise();
+      map((response: any) => response),
+      retryWhen(errors =>
+        errors.pipe(
+          delay(delayMs),
+          take(maxRetries)
+        )
+      )
+    ).toPromise().catch(error => {
+      // Handle the error after retries are exhausted
+      console.error('Failed to fetch answers after retries', error);
+      return throwError(error);
+    });
+
     return response;
   }
 
