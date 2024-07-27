@@ -61,6 +61,12 @@ export class GamesComponent implements OnInit {
   loadingMore: boolean = false;
   page: any = 1;
   noMoreItems: any;
+  myScoreboard: any;
+  liveGames: any;
+  friendsGames: any;
+  scoreboardSurvival: any;
+  friendsRecentSurvival: any;
+  liveSurvival: any;
 
   constructor(public generalService: GeneralService, private gameService: GamesService, public configService: ConfigService,
               private _formBuilder: FormBuilder, private router: Router, public dialog: MatDialog, private _snackBar: MatSnackBar,
@@ -78,6 +84,35 @@ export class GamesComponent implements OnInit {
     this.route.paramMap.subscribe(params => {
       this.selectedTabIndex = params.get('id');
     });
+
+    this.gameService.getMyScoreboard().then(data => {
+      this.myScoreboard = data;
+    })
+
+    this.gameService.getLiveGames().then(data => {
+      if (data.status == 1)
+        this.liveGames = data.data;
+    })
+
+    this.gameService.getFriendsRecentGames().then(data => {
+      if (data.status == 1)
+        this.friendsGames = data.data;
+    })
+
+    this.gameService.getScoreboardSurvival().then(data => {
+      if (data.status == 1)
+        this.scoreboardSurvival = data.data;
+    })
+
+    this.gameService.getLiveSurvival().then(data => {
+      if (data.status == 1)
+        this.liveSurvival = data.data;
+    })
+
+    this.gameService.getFriendsRecentSurvival().then(data => {
+      if (data.status == 1)
+        this.friendsRecentSurvival = data.data;
+    })
   }
 
   async gotoStepTwo(index: any) {
@@ -315,6 +350,10 @@ export class GamesComponent implements OnInit {
         }
       }
     });
+  }
+
+  async gotoResult(id: any) {
+    await this.router.navigate(['game-result'], {state: {id: id}});
   }
 }
 

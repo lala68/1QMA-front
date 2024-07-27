@@ -29,7 +29,7 @@
           </mat-card-header>
         </mat-card>
         <div *ngFor="let player of generalService.players" class="user-card position-relative">
-          <img width="32" height="32" style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px"
+          <img width="32" height="32" style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px; background: white;"
                [src]="player?.profilePicture ? player?.profilePicture?.startsWith('http') ? player?.profilePicture : configService.url(player?.profilePicture) : 'assets/images/frame.png'"
           />
           <mat-label class="font-size-14 weight-500 m-auto">{{player?.email}}</mat-label>
@@ -75,7 +75,7 @@
                    [(ngModel)]="invitedUser" (input)="inviteUser()" (keydown.enter)="addEmailToInvited(invitedUser)">
             <mat-divider *ngIf="filteredEmails?.length > 0"></mat-divider>
             <div *ngFor="let suggestion of filteredEmails" class="p-3">
-              <img style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px"
+              <img style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px; background: white;"
                    [src]="suggestion?.profilePicture ? suggestion?.profilePicture?.startsWith('http') ? suggestion?.profilePicture : configService.url(suggestion?.profilePicture) : 'assets/images/frame.png'"
                    width="24" height="24">
               &nbsp;&nbsp;<span
@@ -350,7 +350,7 @@
         <div class="d-flex justify-content-start">
           <div class="position-relative">
             <div *ngFor="let ply of generalService.players; let i=index" class="d-inline-block">
-              <img mat-card-avatar style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px"
+              <img mat-card-avatar style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px; background: white;"
                    [src]="ply?.profilePicture ? ply?.profilePicture?.startsWith('http') ? ply?.profilePicture : configService.url(ply?.profilePicture) : 'assets/images/frame.png'"
                    width="26" height="26" class="mb-0 position-absolute custom-position-{{i}}">
             </div>
@@ -502,7 +502,7 @@
         <div class="d-flex justify-content-start">
           <div class="position-relative">
             <div *ngFor="let ply of generalService.players; let i=index" class="d-inline-block">
-              <img mat-card-avatar style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px"
+              <img mat-card-avatar style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px; background: white;"
                    [src]="ply?.profilePicture ? ply?.profilePicture?.startsWith('http') ? ply?.profilePicture : configService.url(ply?.profilePicture) : 'assets/images/frame.png'"
                    width="26" height="26" class="mb-0 position-absolute custom-position-{{i}}">
             </div>
@@ -618,7 +618,7 @@
         <div class="d-flex justify-content-start">
           <div class="position-relative">
             <div *ngFor="let ply of generalService.players; let i=index" class="d-inline-block">
-              <img mat-card-avatar style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px"
+              <img mat-card-avatar style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px; background: white;"
                    [src]="ply?.profilePicture ? ply?.profilePicture?.startsWith('http') ? ply?.profilePicture : configService.url(ply?.profilePicture) : 'assets/images/frame.png'"
                    width="26" height="26" class="mb-0 position-absolute custom-position-{{i}}">
             </div>
@@ -675,7 +675,7 @@
         <div *ngIf="!loading">
           <div class="d-inline-flex">
             <div class="gray-card creator">
-              <img style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px"
+              <img style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px; background: white;"
                    [src]="generalService.gameResult?.creator?.profilePicture ? generalService.gameResult?.creator?.profilePicture?.startsWith('http') ? generalService.gameResult?.creator?.profilePicture : configService.url(generalService.gameResult?.creator?.profilePicture) : 'assets/images/frame.png'"
                    width="40" height="40">
               &nbsp;<span
@@ -705,17 +705,17 @@
             <div class="w-40 position-relative">
               <!--              2-->
               <img
-                style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px; position: absolute; left: 100px; bottom: 80px;"
+                style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px; background: white; position: absolute; left: 100px; bottom: 80px;"
                 [src]="generalService.gameResult?.result?.scoreboard[1]?.profilePicture ? generalService.gameResult?.result?.scoreboard[1]?.profilePicture?.startsWith('http') ? generalService.gameResult?.result?.scoreboard[1]?.profilePicture : configService.url(generalService.gameResult?.result?.scoreboard[1]?.profilePicture) : 'assets/images/frame.png'"
                 width="48">
               <!--              1-->
               <img
-                style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px; position: absolute; left: 170px; bottom: 90px;"
+                style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px; background: white; position: absolute; left: 170px; bottom: 90px;"
                 [src]="generalService.gameResult?.result?.scoreboard[0]?.profilePicture ? generalService.gameResult?.result?.scoreboard[0]?.profilePicture?.startsWith('http') ? generalService.gameResult?.result?.scoreboard[0]?.profilePicture : configService.url(generalService.gameResult?.result?.scoreboard[0]?.profilePicture) : 'assets/images/frame.png'"
                 width="48">
               <!--              3-->
               <img *ngIf="generalService.gameResult?.result?.scoreboard?.length > 2"
-                   style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px; position: absolute; right: 100px; bottom: 70px"
+                   style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px;background: white; position: absolute; right: 100px; bottom: 70px"
                    [src]="generalService.gameResult?.result?.scoreboard[2]?.profilePicture ? generalService.gameResult?.result?.scoreboard[2]?.profilePicture?.startsWith('http') ? generalService.gameResult?.result?.scoreboard[2]?.profilePicture : configService.url(generalService.gameResult?.result?.scoreboard[2]?.profilePicture) : 'assets/images/frame.png'"
                    width="48">
 
@@ -823,7 +823,7 @@
               <mat-label>{{i + 1}}</mat-label>
             </mat-grid-tile>
             <mat-grid-tile class="result-grid" [colspan]="1">
-              <img style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px"
+              <img style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px; background: white;"
                    [src]="res?.profilePicture ? res?.profilePicture?.startsWith('http') ? res?.profilePicture : configService.url(res?.profilePicture) : 'assets/images/frame.png'"
                    width="40">
             </mat-grid-tile>
@@ -899,7 +899,7 @@
               <div class="container-accordion">
                 <div class="container-accordion-item" *ngFor="let answer of question?.answers">
                   <div>
-                    <img style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px"
+                    <img style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px; background: white;"
                          [src]="answer?.answerer?.profilePicture ? answer?.answerer?.profilePicture?.startsWith('http') ? answer?.answerer?.profilePicture : configService.url(answer?.answerer?.profilePicture) : 'assets/images/frame.png'"
                          width="40" height="40">
                     &nbsp;<span

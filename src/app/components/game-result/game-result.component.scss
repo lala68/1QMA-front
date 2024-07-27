@@ -1,0 +1,40 @@
+.example-headers-align .mat-expansion-panel-header-description {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.example-headers-align .mat-mdc-form-field + .mat-mdc-form-field {
+  margin-left: 8px;
+}
+
+.container-accordion {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.container-accordion-item {
+  flex: 1 1 50%; /* Flex-grow: 1, Flex-shrink: 1, Flex-basis: 50% */
+  padding: 20px;
+  box-sizing: border-box; /* Ensures padding and border are included in the width calculation */
+}
+
+.accordion-num {
+  position: absolute;
+  top: 40px;
+  left: -35px;
+  width: 32px;
+  height: 32px;
+  text-align: center;
+  border-radius: 50px;
+  background: #F9F7F7 !important;
+  border: 1px solid #E8E2E0 !important;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.category {
+  padding: 5px;
+  width: 150px;
+  border-radius: 50px !important;
+  text-align: center;
+}

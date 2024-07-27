@@ -1,1 +1,209 @@
-<p>game-result works!</p>
+<br>
+<br>
+<div class="card border-0">
+  <div class="w-100 d-flex">
+    <mat-card class="shadow-none">
+      <mat-card-header>
+        <img src="assets/images/arrow-left.svg" width="24" height="24" (click)="goBack()"
+             style="position: absolute; left: 10px; top: 0; bottom: 0; margin: auto;">
+        <div class="ms-2" style="height: 46px"></div>
+        <mat-label class="font-size-16 weight-600 ms-4">{{'Game Detail' | translate}}</mat-label>
+      </mat-card-header>
+    </mat-card>
+  </div>
+</div>
+<br>
+<div class="card border-0">
+  <mat-card class="shadow-none radius">
+    <mat-card-content class="p-5" style="min-height: 480px">
+      <div style="display: ruby-text;">
+        <mat-spinner *ngIf="loading" [diameter]="30"></mat-spinner>
+      </div>
+      <div *ngIf="!loading">
+        <div class="w-100 d-inline-flex">
+          <div class="w-30">
+            <mat-label class="font-size-14 weight-500" style="color: #585858">Created By:</mat-label>
+            &nbsp;&nbsp;<img style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px; background: white;"
+                             [src]="gameResult?.creator?.profilePicture ? gameResult?.creator?.profilePicture?.startsWith('http') ? gameResult?.creator?.profilePicture : configService.url(gameResult?.creator?.profilePicture) : 'assets/images/frame.png'"
+                             width="40" height="40">
+            &nbsp;<span
+            class="font-size-14 weight-700 pe-2">{{gameResult?.creator?.firstName}} {{gameResult?.creator?.lastName}}</span>
+            <br>
+            <br>
+            <mat-label class="font-size-14 weight-500" style="color: #585858">Played On:</mat-label>
+            &nbsp;&nbsp;<mat-label class="font-size-14 weight-500">{{gameResult?.startedAt | date}}</mat-label>
+          </div>
+          <div class="w-30">
+            <div color="primary" class="gray-card category">
+              <img [src]="'https://api.staging.1qma.games/' + gameResult?.category?.icon" width="25">
+              <span class="font-size-12 weight-500">{{gameResult?.category?.name}}</span>
+            </div>
+            &nbsp; &nbsp;
+            <div color="primary" class="gray-card category" color="primary">
+              <img src="assets/images/normal-game.png" *ngIf="gameResult?.gameType?.id == 'normal'" width="25">
+              <img src="assets/images/survival-game.png" *ngIf="gameResult?.gameType?.id == 'survival'" width="25">
+              <span class="font-size-12 weight-500">{{gameResult?.gameType?.text}}</span>
+            </div>
+          </div>
+          <div class="w-40 position-relative">
+            <!--              2-->
+            <img
+              style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px; background: white; position: absolute; left: 100px; bottom: 80px;"
+              [src]="gameResult?.result?.scoreboard[1]?.profilePicture ? gameResult?.result?.scoreboard[1]?.profilePicture?.startsWith('http') ? gameResult?.result?.scoreboard[1]?.profilePicture : configService.url(gameResult?.result?.scoreboard[1]?.profilePicture) : 'assets/images/frame.png'"
+              width="48">
+            <!--              1-->
+            <img
+              style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px; background: white; position: absolute; left: 170px; bottom: 90px;"
+              [src]="gameResult?.result?.scoreboard[0]?.profilePicture ? gameResult?.result?.scoreboard[0]?.profilePicture?.startsWith('http') ? gameResult?.result?.scoreboard[0]?.profilePicture : configService.url(gameResult?.result?.scoreboard[0]?.profilePicture) : 'assets/images/frame.png'"
+              width="48">
+            <!--              3-->
+            <img *ngIf="gameResult?.result?.scoreboard?.length > 2"
+                 style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px;background: white; position: absolute; right: 100px; bottom: 70px"
+                 [src]="gameResult?.result?.scoreboard[2]?.profilePicture ? gameResult?.result?.scoreboard[2]?.profilePicture?.startsWith('http') ? gameResult?.result?.scoreboard[2]?.profilePicture : configService.url(gameResult?.result?.scoreboard[2]?.profilePicture) : 'assets/images/frame.png'"
+                 width="48">
+
+            <img src="assets/images/Leaderboards.png" width="190" height="65"
+                 style="position: absolute; left: 50px; right: 50px; bottom: 20px; margin: 0 auto;"/>
+          </div>
+        </div>
+        <br>
+        <mat-divider class="mt-3"></mat-divider>
+        <br>
+        <mat-grid-list cols="12" rowHeight="30px">
+          <mat-grid-tile class="result-grid" [colspan]="3">
+            <mat-label class="font-size-14 weight-700">Scoreboard</mat-label>
+          </mat-grid-tile>
+          <mat-grid-tile class="result-grid"
+                         [colspan]="12 - (5 + (gameResult?.result?.scoreboard?.length))">
+            <mat-label></mat-label>
+          </mat-grid-tile>
+          <mat-grid-tile class="result-grid"
+                         *ngFor="let col of gameResult?.result?.scoreboard; let i=index"
+                         [colspan]="1">
+            <mat-label class="font-size-12 weight-700">A{{i + 1}}</mat-label>
+          </mat-grid-tile>
+          <mat-grid-tile class="result-grid" [colspan]="1">
+            <mat-label class="font-size-12 weight-700">Q</mat-label>
+          </mat-grid-tile>
+          <mat-grid-tile class="result-grid" [colspan]="1">
+            <mat-label class="font-size-12 weight-700">Total</mat-label>
+          </mat-grid-tile>
+        </mat-grid-list>
+        <!--generalService.gameResult?.result?.scoreboard-->
+        <mat-grid-list *ngFor="let res of gameResult?.result?.scoreboard;let i=index"
+                       cols="12" rowHeight="50px" class="gray-card mb-2">
+          <img *ngIf="i == 0"
+               style="position: absolute; left: -40px; top: 5px"
+               src="assets/images/rank-1.png"
+               width="36">
+          <!--              1-->
+          <img *ngIf="i == 1"
+               style="position: absolute; left: -40px; top: 5px"
+               src="assets/images/rank-2.png"
+               width="36">
+          <!--              3-->
+          <img *ngIf="i == 2"
+               style="position: absolute; left: -40px; top: 5px"
+               src="assets/images/rank-3.png"
+               width="36">
+          <mat-grid-tile class="result-grid" [colspan]="1">
+            <mat-label>{{i + 1}}</mat-label>
+          </mat-grid-tile>
+          <mat-grid-tile class="result-grid" [colspan]="1">
+            <img style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px; background: white;"
+                 [src]="res?.profilePicture ? res?.profilePicture?.startsWith('http') ? res?.profilePicture : configService.url(res?.profilePicture) : 'assets/images/frame.png'"
+                 width="40">
+          </mat-grid-tile>
+          <mat-grid-tile class="result-grid" [colspan]="3">
+            <mat-label>{{res?.firstName}} {{res?.lastName}}</mat-label>
+          </mat-grid-tile>
+          <mat-grid-tile [colspan]="12 - (7 + +gameResult?.result?.scoreboard?.length)">
+            <mat-label></mat-label>
+          </mat-grid-tile>
+          <mat-grid-tile class="result-grid"
+                         *ngFor="let score of res?.answersRates; let i=index"
+                         [colspan]="1">
+            <mat-label>{{score}}</mat-label>
+          </mat-grid-tile>
+          <mat-grid-tile class="result-grid" [colspan]="1">
+            <mat-label>{{res?.questionRate}}</mat-label>
+          </mat-grid-tile>
+          <mat-grid-tile class="result-grid" [colspan]="1">
+            <mat-label>{{res?.totalScore | number}}</mat-label>
+          </mat-grid-tile>
+        </mat-grid-list>
+        <br>
+        <br>
+        <div class="w-100 d-inline-flex position-relative">
+          <div class="font-size-14 weight-700">Score detail</div>
+          <div class="position-absolute end-10">
+            <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M21.4746 14.1719C21.4746 19.0019 17.5546 22.9219 12.7246 22.9219C7.89461 22.9219 3.97461 19.0019 3.97461 14.1719C3.97461 9.34188 7.89461 5.42188 12.7246 5.42188C17.5546 5.42188 21.4746 9.34188 21.4746 14.1719Z"
+                stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M12.7246 8.92188V13.9219" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
+                    stroke-linejoin="round"/>
+              <path d="M9.72461 2.92188H15.7246" stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <mat-label
+              class="font-size-14 weight-600">{{gameResult?.startedAt | timeDifference:gameResult?.endedAt }}</mat-label>
+          </div>
+        </div>
+        <br>
+        <br>
+        <!--          generalService.gameResult?.result?.details-->
+        <mat-accordion class="example-headers-align shadow-none position-relative"
+                       *ngFor="let question of gameResult?.result?.details; let i=index" hideToggle>
+          <div class="accordion-num">{{i + 1}}</div>
+          <mat-expansion-panel class="gray-card shadow-none"
+                               (opened)="panelOpenState[i] = true"
+                               (closed)="panelOpenState[i] = false">
+            <mat-expansion-panel-header style="height: 120px; padding-left: 0">
+              <mat-panel-title>
+                <mat-card class="shadow-none border-0 bg-transparent">
+                  <mat-card-header>
+                    <img mat-card-avatar
+                         [src]="question?.questioner?.profilePicture ? question?.questioner?.profilePicture?.startsWith('http') ? question?.questioner?.profilePicture : configService.url(question?.questioner?.profilePicture) : 'assets/images/frame.png'"
+                         width="40"/>
+                    <mat-card-title
+                      class="font-size-14 weight-600 pb-2">{{question?.questioner?.firstName}} {{question?.questioner?.lastName}}</mat-card-title>
+                    <mat-card-subtitle class="font-size-14 weight-600 pb-2">{{question?.question}}
+                    </mat-card-subtitle>
+                    <mat-card-subtitle>
+                      <img src="assets/images/score.png" width="16"/> &nbsp; {{question?.rate}} Score
+                    </mat-card-subtitle>
+                  </mat-card-header>
+                </mat-card>
+              </mat-panel-title>
+              <mat-panel-description>
+                <mat-icon class="position-absolute end-10 color-black" *ngIf="!panelOpenState[i]">add_circle
+                </mat-icon>
+                <mat-icon class="position-absolute end-10 color-black" *ngIf="panelOpenState[i]">remove_circle
+                </mat-icon>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <div class="container-accordion">
+              <div class="container-accordion-item" *ngFor="let answer of question?.answers">
+                <div>
+                  <img style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px; background: white;"
+                       [src]="answer?.answerer?.profilePicture ? answer?.answerer?.profilePicture?.startsWith('http') ? answer?.answerer?.profilePicture : configService.url(answer?.answerer?.profilePicture) : 'assets/images/frame.png'"
+                       width="40" height="40">
+                  &nbsp;<span
+                  class="font-size-14 weight-700 pe-2">{{answer?.answerer?.firstName}} {{answer?.answerer?.lastName}}</span>
+                  <br>
+                  <br>
+                  <mat-label class="font-size-14 weight-400">{{answer?.answer}}</mat-label>
+                  <br>
+                  <br>
+                  <img src="assets/images/score.png" width="16"/> &nbsp; {{answer?.rate}} Score
+                </div>
+              </div>
+            </div>
+          </mat-expansion-panel>
+          <br>
+        </mat-accordion>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

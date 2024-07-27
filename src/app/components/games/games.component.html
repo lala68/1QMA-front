@@ -16,6 +16,215 @@
                 {{'See your performance in the latest games' | translate}}
               </mat-card-subtitle>
             </mat-card-header>
+            <mat-card-content>
+              <div class="gray-card creator">
+                <img style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px; background: white;"
+                     [src]="generalService.userObj?.profilePicture ? generalService.userObj?.profilePicture?.startsWith('http') ? generalService.userObj?.profilePicture : configService.url(generalService.userObj?.profilePicture) : 'assets/images/frame.png'"
+                     width="40" height="40">
+                &nbsp;<span
+                class="font-size-14 weight-700 pe-2">{{generalService.userObj?.firstName + ' ' + generalService.userObj?.lastName}}</span>
+              </div>
+              <!--              <mat-grid-list cols="12" rowHeight="30px">-->
+              <!--                <mat-grid-tile class="result-grid" [colspan]="3">-->
+              <!--                  <mat-label class="font-size-14 weight-700">Played</mat-label>-->
+              <!--                </mat-grid-tile>-->
+              <!--                <mat-grid-tile class="result-grid" [colspan]="3">-->
+              <!--                  <mat-label class="font-size-14 weight-700">Game Type</mat-label>-->
+              <!--                </mat-grid-tile>-->
+              <!--                <mat-grid-tile class="result-grid" [colspan]="3">-->
+              <!--                  <mat-label class="font-size-14 weight-700">Category</mat-label>-->
+              <!--                </mat-grid-tile>-->
+              <!--                <mat-grid-tile class="result-grid"-->
+              <!--                               [colspan]="12 - (5 + (generalService.gameResult?.result?.scoreboard?.length))">-->
+              <!--                  <mat-label></mat-label>-->
+              <!--                </mat-grid-tile>-->
+              <!--                <mat-grid-tile class="result-grid"-->
+              <!--                               *ngFor="let col of generalService.gameResult?.result?.scoreboard; let i=index"-->
+              <!--                               [colspan]="1">-->
+              <!--                  <mat-label class="font-size-12 weight-700">A{{i + 1}}</mat-label>-->
+              <!--                </mat-grid-tile>-->
+              <!--                <mat-grid-tile class="result-grid" [colspan]="1">-->
+              <!--                  <mat-label class="font-size-12 weight-700">Q</mat-label>-->
+              <!--                </mat-grid-tile>-->
+              <!--                <mat-grid-tile class="result-grid" [colspan]="1">-->
+              <!--                  <mat-label class="font-size-12 weight-700">Total</mat-label>-->
+              <!--                </mat-grid-tile>-->
+              <!--              </mat-grid-list>-->
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+      <br>
+      <div class="card border-0" *ngIf="liveGames?.length">
+        <div class="w-100 d-flex">
+          <mat-card class="shadow-none">
+            <mat-card-header>
+              <img mat-card-avatar src="assets/images/live.png" width="45" height="45">
+              <mat-card-title class="font-size-16 weight-600">{{'Live' | translate}}</mat-card-title>
+              <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
+                {{'Join Live Games Now' | translate}}
+              </mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <mat-card *ngFor="let liveGame of liveGames"
+                        class="bordered-card shadow-none text-center d-inline-block">
+                <img [src]="'https://api.staging.1qma.games/' + liveGame?.category?.icon" width="50" height="50"
+                     style="margin: 0 auto">
+                <mat-card-header style="margin: 0 auto; display: block">
+                  <mat-card-title class="font-size-14 weight-700">{{ liveGame?.category?.name }}</mat-card-title>
+                  <mat-card-subtitle class="font-size-12 weight-500">
+                    <mat-chip [ngStyle]="{'background-color': '#F0FEEF'}">
+                      <svg width="10" height="10" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12.8809" cy="12.3311" r="12" fill="#43a047"/>
+                      </svg>
+                      <mat-label color="green" class="font-size-12 weight-500">&nbsp;Live</mat-label>
+                    </mat-chip>
+                  </mat-card-subtitle>
+                </mat-card-header>
+                <br>
+                <mat-card-content class="d-inline-flex position-relative p-0 w-100 text-start">
+                  <img mat-card-avatar src="assets/images/frame.png"
+                       width="33" height="33" class="mb-0">
+                  <mat-card-title class="font-size-10 weight-500 ms-1">Created By:</mat-card-title>
+                  <mat-card-subtitle class="position-absolute bottom-0" style="left: 45px">
+                <span
+                  class="font-size-14 weight-500">{{liveGame?.creator?.firstName}} {{liveGame?.creator?.lastName}}</span>
+                  </mat-card-subtitle>
+                </mat-card-content>
+                <mat-divider></mat-divider>
+                <div class="position-relative">
+                  <div class="font-size-14 weight-500 p-2 text-start">
+                    <div *ngFor="let ply of liveGame?.players; let i=index" class="d-inline-block">
+                      <img mat-card-avatar style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px"
+                           [src]="ply?.profilePicture ? ply?.profilePicture?.startsWith('http') ? ply?.profilePicture : configService.url(ply?.profilePicture) : 'assets/images/frame.png'"
+                           width="26" height="26" class="mb-0 position-absolute custom-position-{{i}}">
+                    </div>
+                  </div>
+                  <div class="font-size-14 weight-500 p-2 text-end">
+                 <span class="font-size-14 weight-500 position-absolute bottom-0"
+                       style="right: 5px">{{liveGame?.gameType?.text}}</span>
+                    <img src="assets/images/normal-game.png" *ngIf="liveGame?.gameType?.id == 'normal'" width="22"
+                         height="22"
+                         class="mb-0 position-absolute" style="top: 25px; right: 55px">
+                    <img src="assets/images/survival-game.png" *ngIf="liveGame?.gameType?.id == 'survival'"
+                         width="22" height="22"
+                         class="mb-0 position-absolute" style="top: 25px; right: 55px">
+                  </div>
+                </div>
+                <br>
+                <span class="font-size-11 weight-500 text-start"
+                      *ngIf="liveGame?.players.length < generalService.gameInit?.numberOfPlayers">Waiting for 1/{{generalService.gameInit?.numberOfPlayers}}
+                  player</span>
+                <br>
+                <mat-card-actions>
+                  <button mat-raised-button class="game-button"
+                          (click)="joinToGame(liveGame.code)">{{'Join Game' | translate}}
+                  </button>
+                </mat-card-actions>
+              </mat-card>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+      <br>
+      <div class="card border-0" *ngIf="friendsGames?.length">
+        <div class="w-100 d-flex">
+          <mat-card class="shadow-none">
+            <mat-card-header>
+              <img mat-card-avatar src="assets/images/friends-games.png" width="45" height="45">
+              <mat-card-title class="font-size-16 weight-600">{{'Friends Recent Games' | translate}}</mat-card-title>
+              <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
+                {{'Games your friends played recently' | translate}}
+              </mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <mat-card *ngFor="let endedGame of friendsGames"
+                        class="bordered-card shadow-none text-center d-inline-block">
+                <img [src]="'https://api.staging.1qma.games/' + endedGame?.category?.icon" width="50" height="50"
+                     style="margin: 0 auto">
+                <mat-card-header style="margin: 0 auto; display: block">
+                  <mat-card-title class="font-size-14 weight-700">{{ endedGame?.category?.name }}</mat-card-title>
+                  <mat-card-subtitle class="font-size-12 weight-500">
+                    {{endedGame?.endedAt | daysAgo}}
+                  </mat-card-subtitle>
+                </mat-card-header>
+                <br>
+                <mat-card-content class="d-inline-flex position-relative p-0">
+                  <mat-card class="shadow-none">
+                    <mat-card-header class="pe-1 ps-1">
+                      <img mat-card-avatar style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px"
+                           [src]="findFriendGameData?.friend?.profilePicture ? findFriendGameData?.friend?.profilePicture?.startsWith('http') ? findFriendGameData?.friend?.profilePicture : configService.url(findFriendGameData?.friend?.profilePicture) : 'assets/images/frame.png'"
+                           width="33" height="33" class="mb-0">
+                      <mat-card-title
+                        class="font-size-14 weight-500 text-start">{{findFriendGameData?.friend?.firstName}} {{findFriendGameData?.friend?.lastName}}</mat-card-title>
+                      <mat-card-subtitle class="text-start ps-0">
+                        <img src="assets/images/rank.png" width="16"><span
+                        class="font-size-14 weight-700">{{endedGame?.rank}} </span><span
+                        class="font-size-14 weight-500"> Rank</span>
+                        <img src="assets/images/score.png" width="16"><span
+                        class="font-size-14 weight-700">{{endedGame?.score | number}} </span><span
+                        class="font-size-14 weight-500"> Score</span>
+                      </mat-card-subtitle>
+                    </mat-card-header>
+                  </mat-card>
+                </mat-card-content>
+                <mat-divider></mat-divider>
+                <div class="position-relative">
+                  <div class="font-size-14 weight-500 p-2 text-start">
+                    <div *ngFor="let ply of endedGame?.players; let i=index" class="d-inline-block">
+                      <img mat-card-avatar style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px"
+                           [src]="ply?.profilePicture ? ply?.profilePicture?.startsWith('http') ? ply?.profilePicture : configService.url(ply?.profilePicture) : 'assets/images/frame.png'"
+                           width="26" height="26" class="mb-0 position-absolute custom-position-{{i}}">
+                    </div>
+                  </div>
+                  <div class="font-size-14 weight-500 p-2 text-end">
+                 <span class="font-size-14 weight-500 position-absolute bottom-0"
+                       style="right: 5px">{{endedGame?.gameType?.text}}</span>
+                    <img src="assets/images/normal-game.png" *ngIf="endedGame?.gameType?.id == 'normal'" width="22"
+                         height="22"
+                         class="mb-0 position-absolute" style="top: 25px; right: 55px">
+                    <img src="assets/images/survival-game.png" *ngIf="endedGame?.gameType?.id == 'survival'"
+                         width="22" height="22"
+                         class="mb-0 position-absolute" style="top: 25px; right: 55px">
+                  </div>
+                </div>
+                <br>
+                <span class="font-size-11 weight-500 text-start">{{endedGame?.players?.length}} player</span>
+                <br>
+                <mat-card-actions>
+                  <button mat-raised-button class="game-button" (click)="gotoResult(endedGame._id)">{{'Game Detail' | translate}}
+                  </button>
+                </mat-card-actions>
+              </mat-card>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+      <br>
+      <div class="card border-0" *ngIf="scoreboardSurvival?.length || friendsGames?.length || liveGames?.length">
+        <div class="w-100 d-flex">
+          <mat-card class="shadow-none">
+            <mat-card-header>
+              <img mat-card-avatar src="assets/images/friends-games.png" width="45" height="45">
+              <mat-card-title class="font-size-16 weight-600">{{'Survival' | translate}}</mat-card-title>
+              <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
+                {{'See and join survival games' | translate}}
+              </mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <div *ngIf="scoreboardSurvival?.length">
+
+              </div>
+
+              <div *ngIf="friendsGames?.length">
+
+              </div>
+
+              <div *ngIf="liveGames?.length">
+
+              </div>
+
+            </mat-card-content>
           </mat-card>
         </div>
       </div>
@@ -324,7 +533,7 @@
         </div>
         <div class="d-inline-flex">
           <div *ngFor="let ivt of generalService.invitedPlayersArray" class="invite-card m-3">
-            <img style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px"
+            <img style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px; background: white"
                  [src]="ivt?.profilePicture ? ivt?.profilePicture?.startsWith('http') ? ivt?.profilePicture : configService.url(ivt?.profilePicture) : 'assets/images/frame.png'"
                  width="32" height="32"/>
             <mat-label class="font-size-14 weight-500 m-auto">{{ivt}}</mat-label>
@@ -468,7 +677,7 @@
             <div class="radius-gary-card">
               <span class="font-size-16 weight-600 m-auto">Games by: </span>
               <div class="d-inline-flex m-auto ms-2">
-                <img style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px"
+                <img style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px; background: white"
                      [src]="findFriendGameData?.friend?.profilePicture ? findFriendGameData?.friend?.profilePicture?.startsWith('http') ? findFriendGameData?.friend?.profilePicture : configService.url(findFriendGameData?.friend?.profilePicture) : 'assets/images/frame.png'"
                      width="40" height="40">
                 <span
@@ -512,7 +721,7 @@
             <div class="position-relative">
               <div class="font-size-14 weight-500 p-2 text-start">
                 <div *ngFor="let ply of liveGame?.players; let i=index" class="d-inline-block">
-                  <img mat-card-avatar style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px"
+                  <img mat-card-avatar style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px; background: white"
                        [src]="ply?.profilePicture ? ply?.profilePicture?.startsWith('http') ? ply?.profilePicture : configService.url(ply?.profilePicture) : 'assets/images/frame.png'"
                        width="26" height="26" class="mb-0 position-absolute custom-position-{{i}}">
                 </div>
@@ -560,7 +769,7 @@
             <mat-card-content class="d-inline-flex position-relative p-0">
               <mat-card class="shadow-none">
                 <mat-card-header class="pe-1 ps-1">
-                  <img mat-card-avatar style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px"
+                  <img mat-card-avatar style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px; background: white"
                        [src]="findFriendGameData?.friend?.profilePicture ? findFriendGameData?.friend?.profilePicture?.startsWith('http') ? findFriendGameData?.friend?.profilePicture : configService.url(findFriendGameData?.friend?.profilePicture) : 'assets/images/frame.png'"
                        width="33" height="33" class="mb-0">
                   <mat-card-title
@@ -580,7 +789,7 @@
             <div class="position-relative">
               <div class="font-size-14 weight-500 p-2 text-start">
                 <div *ngFor="let ply of endedGame?.players; let i=index" class="d-inline-block">
-                  <img mat-card-avatar style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px"
+                  <img mat-card-avatar style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px; background: white"
                        [src]="ply?.profilePicture ? ply?.profilePicture?.startsWith('http') ? ply?.profilePicture : configService.url(ply?.profilePicture) : 'assets/images/frame.png'"
                        width="26" height="26" class="mb-0 position-absolute custom-position-{{i}}">
                 </div>
@@ -600,7 +809,7 @@
             <span class="font-size-11 weight-500 text-start">{{endedGame?.players?.length}} player</span>
             <br>
             <mat-card-actions>
-              <button mat-raised-button class="game-button">{{'Game Detail' | translate}}
+              <button mat-raised-button class="game-button" (click)="gotoResult(endedGame._id)">{{'Game Detail' | translate}}
               </button>
             </mat-card-actions>
           </mat-card>

@@ -67,8 +67,6 @@ export class GameBoardComponent implements OnInit, OnDestroy {
       const now = new Date();
       const timeString = now.toLocaleTimeString();
       console.log("next step" + ' ' + `[${timeString}]  `);
-      console.log(arg);
-      console.log(this.generalService.gameStep)
       if (this.generalService.gameStep == 2) {
         this.nextStepTriggeredAnswer = true;
         this.nextStepTriggeredRatingAnswer = false;
@@ -352,10 +350,10 @@ export class GameBoardComponent implements OnInit, OnDestroy {
       this.generalService.gameAnswerGeneral = '';
       this.generalService.gameStep = 3;
       this.nextStepTriggeredAnswer = false;
-      this.nextStepTriggeredRatingAnswer = true;
+      this.nextStepTriggeredRatingAnswer = false;
       this.nextStepTriggeredRatingQuestions = false;
       this.finishedTimerAnswer = false;
-      this.finishedTimerRatingAnswer = true;
+      this.finishedTimerRatingAnswer = false;
       this.finishedTimerRatingQuestions = false;
       this.sendAnswerDisable = false;
       const data = await this.gameService.getAllAnswersOfSpecificQuestion(
@@ -393,10 +391,10 @@ export class GameBoardComponent implements OnInit, OnDestroy {
         this.updateRatesQuestions(this.generalService.rateQuestions.length !== 0);
       } else {
         this.generalService.gameStep = 2;
-        this.nextStepTriggeredAnswer = true;
+        this.nextStepTriggeredAnswer = false;
         this.nextStepTriggeredRatingAnswer = false;
         this.nextStepTriggeredRatingQuestions = false;
-        this.finishedTimerAnswer = true;
+        this.finishedTimerAnswer = false;
         this.finishedTimerRatingAnswer = false;
         this.finishedTimerRatingQuestions = false;
         this.sendRateAnswerDisable = false;

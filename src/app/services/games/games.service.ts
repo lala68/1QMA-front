@@ -107,15 +107,40 @@ export class GamesService {
   }
 
   async getQuestionsOfGame(gameId: any): Promise<any> {
+    // let headers = new HttpHeaders({
+    //   'Content-Type': 'application/json',
+    // })
+    // const response = this.http.get(this.config.url('game/' + gameId + '/questions'), {
+    //   headers: headers,
+    //   withCredentials: true
+    // }).pipe(
+    //   map((response: any) => response)
+    // ).toPromise();
+    // return response;
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
-    })
+    });
+
+    const maxRetries = 10; // Maximum number of retries
+    const delayMs = 2000; // Delay between retries in milliseconds
+
     const response = this.http.get(this.config.url('game/' + gameId + '/questions'), {
       headers: headers,
       withCredentials: true
     }).pipe(
-      map((response: any) => response)
-    ).toPromise();
+      map((response: any) => response),
+      retryWhen(errors =>
+        errors.pipe(
+          delay(delayMs),
+          take(maxRetries)
+        )
+      )
+    ).toPromise().catch(error => {
+      // Handle the error after retries are exhausted
+      console.error('Failed to fetch answers after retries', error);
+      return throwError(error);
+    });
+
     return response;
   }
 
@@ -287,6 +312,85 @@ export class GamesService {
       withCredentials: true
     })
       .toPromise();
+  }
+
+  async getMyScoreboard(): Promise<any> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    })
+    const response = this.http.get(this.config.url('games/scoreboard'), {
+      headers: headers,
+      withCredentials: true
+    }).pipe(
+      map((response: any) => response)
+    ).toPromise();
+    return response;
+  }
+
+  async getLiveGames(): Promise<any> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    })
+    const response = this.http.get(this.config.url('games/live'), {
+      params: {type: 'all'},
+      headers: headers,
+      withCredentials: true
+    }).pipe(
+      map((response: any) => response)
+    ).toPromise();
+    return response;
+  }
+
+  async getFriendsRecentGames(): Promise<any> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    })
+    const response = this.http.get(this.config.url('games/friendsRecent'), {
+      headers: headers,
+      withCredentials: true
+    }).pipe(
+      map((response: any) => response)
+    ).toPromise();
+    return response;
+  }
+
+  async getScoreboardSurvival(): Promise<any> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    })
+    const response = this.http.get(this.config.url('games/scoreboard/survival'), {
+      headers: headers,
+      withCredentials: true
+    }).pipe(
+      map((response: any) => response)
+    ).toPromise();
+    return response;
+  }
+
+  async getLiveSurvival(): Promise<any> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    })
+    const response = this.http.get(this.config.url('games/live/survival'), {
+      headers: headers,
+      withCredentials: true
+    }).pipe(
+      map((response: any) => response)
+    ).toPromise();
+    return response;
+  }
+
+  async getFriendsRecentSurvival(): Promise<any> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    })
+    const response = this.http.get(this.config.url('games/friendsRecent/survival'), {
+      headers: headers,
+      withCredentials: true
+    }).pipe(
+      map((response: any) => response)
+    ).toPromise();
+    return response;
   }
 
 }
