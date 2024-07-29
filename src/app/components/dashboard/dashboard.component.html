@@ -41,7 +41,7 @@
             [src]="generalService.userObj?.accountType?.icon ? configService.url(generalService.userObj?.accountType?.icon) : 'assets/images/base.png'"
             width="38" height="38">
           <mat-label class="card-subtitle-profile-dashboard font-size-13 weight-500 text-light-color">
-            &nbsp;{{generalService.userObj?.accountType?.name}} - {{generalService.userObj?.accountType?.expireDays}}
+            &nbsp;{{remainingDays}}
             Days Left
           </mat-label>
           <small style="position: absolute; bottom: 5px; left: 165px" class="text-light-color">Renew
@@ -50,8 +50,8 @@
         <mat-card-header class="pe-1 ps-1" *ngIf="generalService.userObj?.referer">
           <mat-card-title class="card-title-profile-dashboard mb-3" style="width: 120px">Referred By:</mat-card-title>
           <img style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px"
-            [src]="generalService.userObj?.referer?.profilePicture ? generalService.userObj?.referer?.profilePicture?.startsWith('http') ? generalService.userObj?.referer?.profilePicture : configService.url(generalService.userObj?.referer?.profilePicture) : 'assets/images/frame.png'"
-            width="28" height="28">
+               [src]="generalService.userObj?.referer?.profilePicture ? generalService.userObj?.referer?.profilePicture?.startsWith('http') ? generalService.userObj?.referer?.profilePicture : configService.url(generalService.userObj?.referer?.profilePicture) : 'assets/images/frame.png'"
+               width="28" height="28">
           <mat-label
             class="card-subtitle-profile-dashboard text-light-color mt-2 font-size-13 weight-500 cursor-pointer"
             (click)="gotoUserDetail(generalService.userObj?.referer?._id)">

@@ -14,6 +14,8 @@ import {ConfigService} from "../../services/config/config.service";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {MaterialModule} from "../../shared/material/material.module";
 import {TimeDifferencePipe} from "../../time-difference.pipe";
+import {SnackbarContentComponent} from "../snackbar-content/snackbar-content.component";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-game-board',
@@ -44,23 +46,25 @@ export class GameBoardComponent implements OnInit, OnDestroy {
   finishedTimerRatingQuestions: boolean = false;
   submittedAnswer: any;
   panelOpenState: boolean[] = [];
+  numberOfDisconnectingInGameSteps: any = 0;
 
   constructor(public generalService: GeneralService, private router: Router, private gameService: GamesService,
-              public configService: ConfigService, private ngZone: NgZone,
+              public configService: ConfigService, private ngZone: NgZone, private _snackBar: MatSnackBar,
               private countdownTimerComponent: CountdownTimerComponent, public dialog: MatDialog) {
     this.data = this.router.getCurrentNavigation()?.extras?.state?.['data'];
     this.users = this.router.getCurrentNavigation()?.extras?.state?.['users'];
   }
 
   async ngOnInit() {
-    // this.generalService?.players.push(this.data?.game?.gameCreator);
     this.generalService.players = (this.data?.game?.gamePlayers);
-    console.log(this.generalService?.players)
+    this.generalService.invitedPlayersArray = (this.data?.game?.gameInviteList);
+    this.removeFromInvited(this.generalService.userObj?.email);
     this.generalService.socket.on("player added", (arg: any) => {
       const now = new Date();
       const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
       console.log("player added" + ' ' + `[${timeString}]  `);
       this.generalService.players.push(arg);
+      this.removeFromInvited(arg.email);
     });
 
     this.generalService.socket.on("next step", (arg: any) => {
@@ -347,6 +351,14 @@ export class GameBoardComponent implements OnInit, OnDestroy {
         // console.log("elseeeeee")
       }
     } else {
+      this.numberOfDisconnectingInGameSteps++;
+      if (this.numberOfDisconnectingInGameSteps > 2) {
+        this.generalService.isGameCancel = true;
+        const dialogRef = this.dialog.open(ForceExitGame, {
+          width: '500px',
+          disableClose: true
+        });
+      }
       this.generalService.gameAnswerGeneral = '';
       this.generalService.gameStep = 3;
       this.nextStepTriggeredAnswer = false;
@@ -383,6 +395,14 @@ export class GameBoardComponent implements OnInit, OnDestroy {
       }
     } else {
       if (this.generalService.gameQuestion?.step == this.generalService.gameInit?.numberOfPlayers) {
+        this.numberOfDisconnectingInGameSteps++;
+        if (this.numberOfDisconnectingInGameSteps > 2) {
+          this.generalService.isGameCancel = true;
+          const dialogRef = this.dialog.open(ForceExitGame, {
+            width: '500px',
+            disableClose: true
+          });
+        }
         this.generalService.gameStep = 4;
         const resQue = await this.gameService.getQuestionsOfGame(
           this.generalService.createdGameData.game.gameId
@@ -390,6 +410,14 @@ export class GameBoardComponent implements OnInit, OnDestroy {
         this.generalService.allQuestions = resQue.data;
         this.updateRatesQuestions(this.generalService.rateQuestions.length !== 0);
       } else {
+        this.numberOfDisconnectingInGameSteps++;
+        if (this.numberOfDisconnectingInGameSteps > 2) {
+          this.generalService.isGameCancel = true;
+          const dialogRef = this.dialog.open(ForceExitGame, {
+            width: '500px',
+            disableClose: true
+          });
+        }
         this.generalService.gameStep = 2;
         this.nextStepTriggeredAnswer = false;
         this.nextStepTriggeredRatingAnswer = false;
@@ -420,6 +448,16 @@ export class GameBoardComponent implements OnInit, OnDestroy {
       await this.sendRateQuestions();
       this.sendRateQuestionsDisable = true;
     } else {
+      this.numberOfDisconnectingInGameSteps++;
+      if (this.numberOfDisconnectingInGameSteps > 2) {
+        this.generalService.isGameCancel = true;
+        const dialogRef = this.dialog.open(ForceExitGame, {
+          width: '500px',
+          disableClose: true
+        });
+      }
+      this.generalService.gameStep = 5;
+      await this.getGameResult();
       // console.log("elseeeeee")
     }
   }
@@ -432,6 +470,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     await this.ngZone.run(async () => {
       this.sendAnswerDisable = true;
       this.sendRateAnswerDisable = false;
+      this.numberOfDisconnectingInGameSteps = 0;
       this.gameService.sendAnswer(this.generalService.createdGameData.game.gameId, this.generalService.gameQuestion._id, this.generalService.gameAnswerGeneral).then(data => {
         if (data.status == 1) {
           this.loading = false;
@@ -501,7 +540,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     } else {
       this.generalService.rateAnswers = this.generalService.specificQuestionAnswers.answers.map((answer: any, index: any) => ({
         answer_id: answer._id,
-        rate: (index + 1).toString() // Assuming the rate is the new index + 1 as a string
+        rate: (this.generalService.specificQuestionAnswers.answers.length - index).toString() // Assuming the rate is the new index + 1 as a string
       }));
     }
   }
@@ -515,7 +554,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     } else {
       this.generalService.rateQuestions = this.generalService.allQuestions.map((question: any, index: any) => ({
         question_id: question._id,
-        rate: (index + 1).toString() // Assuming the rate is the new index + 1 as a string
+        rate: (this.generalService.allQuestions.length - index).toString() // Assuming the rate is the new index + 1 as a string
       }));
     }
   }
@@ -524,6 +563,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     await this.ngZone.run(async () => {
       this.sendRateAnswerDisable = true;
       this.sendAnswerDisable = false;
+      this.numberOfDisconnectingInGameSteps = 0;
       this.gameService.sendRates(this.generalService.createdGameData.game.gameId, this.generalService.gameQuestion._id, this.generalService.rateAnswers).then(data => {
         if (data.status == 1) {
           this.loading = false;
@@ -537,6 +577,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
   async sendRateQuestions(): Promise<any> {
     this.sendRateQuestionsDisable = true;
     this.sendRateAnswerDisable = false;
+    this.numberOfDisconnectingInGameSteps = 0;
     this.gameService.sendRateQuestions(this.generalService.createdGameData.game.gameId, this.generalService.rateQuestions).then(data => {
       if (data.status == 1) {
         this.loading = false;
@@ -589,9 +630,11 @@ export class GameBoardComponent implements OnInit, OnDestroy {
 
   addEmailToInvited(email: any) {
     if (this.isEmailFormat(email)) {
-      this.generalService.invitedPlayersArray.push({email: email});
+      this.generalService.invitedPlayersArray.push(email);
       this.gameService.invitePlayer(this.generalService.createdGameData.game.gameId, email).then(data => {
         if (data.status == 1) {
+          this.invitedUser = '';
+        } else {
           this.invitedUser = '';
         }
       })
@@ -605,12 +648,29 @@ export class GameBoardComponent implements OnInit, OnDestroy {
   }
 
   addUserToPlayers() {
-    this.generalService.invitedPlayersArray.push(this.invitedUser);
-    this.gameService.invitePlayer(this.generalService.createdGameData.game.gameId, this.invitedUser.email).then(data => {
+    console.log(this.invitedUser)
+    this.generalService.invitedPlayersArray.push(this.invitedUser?.email);
+    this.gameService.invitePlayer(this.generalService.createdGameData.game.gameId, this.invitedUser?.email).then(data => {
       if (data.status == 1) {
         this.invitedUser = '';
+      } else {
+        this.invitedUser = '';
+        this.openDialog(JSON.stringify(data.message), 'Error');
       }
     })
+  }
+
+  openDialog(message: any, title: any) {
+    this._snackBar.openFromComponent(SnackbarContentComponent, {
+      data: {
+        title: title,
+        message: message
+      },
+      duration: 3000,
+      verticalPosition: 'top',
+      horizontalPosition: 'end',
+      panelClass: title == 'Success' ? 'app-notification-success' : 'app-notification-error'
+    });
   }
 }
 
@@ -659,6 +719,41 @@ export class CancelGame {
 export class Disconnected {
 
   constructor(public dialogRef: MatDialogRef<Disconnected>, private generalService: GeneralService,
+              private router: Router) {
+  }
+
+  async gotoHome() {
+    this.generalService.startingGame = false;
+    this.generalService.players = [];
+    this.generalService.gameInit = '';
+    this.generalService.gameStep = 1;
+    this.generalService.createdGameData = '';
+    this.generalService.gameQuestion = '';
+    this.generalService.specificQuestionAnswers = '';
+    this.generalService.gameAnswerGeneral = '';
+    this.generalService.editingAnswer = true;
+    this.generalService.isGameCancel = false;
+    this.generalService.allQuestions = [];
+    this.generalService.gameResult = '';
+    this.generalService.rateAnswers = [];
+    this.generalService.rateQuestions = [];
+    this.generalService.invitedPlayersArray = [];
+    this.dialogRef.close();
+    await this.router.navigate(['/dashboard']);
+  }
+}
+
+
+@Component({
+  selector: 'force-exit-game',
+  templateUrl: 'force-exit-game.html',
+  standalone: true,
+  imports: [MaterialModule, CommonModule]
+})
+
+export class ForceExitGame {
+
+  constructor(public dialogRef: MatDialogRef<ForceExitGame>, private generalService: GeneralService,
               private router: Router) {
   }
 

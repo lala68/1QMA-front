@@ -28,7 +28,8 @@ export class GamesService {
     return response;
   }
 
-  async createGame(gameType: any, createMode: any, category: any, players: any, question: any, answer: any): Promise<any> {
+  async createGame(gameType: any, createMode: any, category: any, players: any, question: any, answer: any,
+                   questionId: any): Promise<any> {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
 
@@ -40,7 +41,8 @@ export class GamesService {
       category: category,
       players: players,
       question: question,
-      answer: answer
+      answer: answer,
+      questionId: questionId
     }, {
       headers: headers,
       withCredentials: true
@@ -89,7 +91,7 @@ export class GamesService {
     return response;
   }
 
-  async joinGameWithMyQuestion(gameId: any, question: any, answer: any): Promise<any> {
+  async joinGameWithMyQuestion(gameId: any, question: any, answer: any, questionId: any): Promise<any> {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
 
@@ -98,7 +100,8 @@ export class GamesService {
       id: this.generalService.userId,
       gameId: gameId,
       question: question,
-      answer: answer
+      answer: answer,
+      questionId: questionId
     }, {
       headers: headers,
       withCredentials: true
@@ -273,12 +276,27 @@ export class GamesService {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
     })
+
+    const maxRetries = 10; // Maximum number of retries
+    const delayMs = 2000; // Delay between retries in milliseconds
+
     const response = this.http.get(this.config.url('game/' + gameId + '/result'), {
       headers: headers,
-      withCredentials: true
+      withCredentials: true,
     }).pipe(
-      map((response: any) => response)
-    ).toPromise();
+      map((response: any) => response),
+      retryWhen(errors =>
+        errors.pipe(
+          delay(delayMs),
+          take(maxRetries)
+        )
+      )
+    ).toPromise().catch(error => {
+      // Handle the error after retries are exhausted
+      console.error('Failed to fetch answers after retries', error);
+      return throwError(error);
+    });
+
     return response;
   }
 

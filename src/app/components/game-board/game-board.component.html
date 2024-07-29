@@ -29,7 +29,8 @@
           </mat-card-header>
         </mat-card>
         <div *ngFor="let player of generalService.players" class="user-card position-relative">
-          <img width="32" height="32" style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px; background: white;"
+          <img width="32" height="32"
+               style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px; background: white;"
                [src]="player?.profilePicture ? player?.profilePicture?.startsWith('http') ? player?.profilePicture : configService.url(player?.profilePicture) : 'assets/images/frame.png'"
           />
           <mat-label class="font-size-14 weight-500 m-auto">{{player?.email}}</mat-label>
@@ -51,12 +52,13 @@
             <img
               [src]="playerNotJoined?.profilePicture ? playerNotJoined?.profilePicture?.startsWith('http') ? playerNotJoined?.profilePicture : configService.url(playerNotJoined?.profilePicture) : 'assets/images/frame.png'"
               width="32" height="32"/>
-            <mat-label class="font-size-14 weight-500 m-auto">{{playerNotJoined?.email}}</mat-label>
+            <mat-label class="font-size-14 weight-500 m-auto">{{playerNotJoined}}</mat-label>
             <div class="d-inline-flex position-absolute end-10" style="top: 10px">
               &nbsp;<mat-spinner [diameter]="20"></mat-spinner>&nbsp;
               <mat-label>waiting</mat-label>
             </div>
-            <svg (click)="removeFromInvited(playerNotJoined)" style="position: absolute; right: -30px; top: 10px"
+            <svg *ngIf="generalService?.userId == data?.game?.gameCreator?._id"
+                 (click)="removeFromInvited(playerNotJoined)" style="position: absolute; right: -30px; top: 10px"
                  width="24" height="24" viewBox="0 0 35 35"
                  fill="none"
                  xmlns="http://www.w3.org/2000/svg">
@@ -67,7 +69,8 @@
             </svg>
           </div>
         </div>
-        <div *ngIf="generalService?.userId == data?.game?.gameCreator?._id">
+        <div
+          *ngIf="generalService?.userId == data?.game?.gameCreator?._id && (generalService?.invitedPlayersArray.length + generalService?.players?.length) < generalService.gameInit?.numberOfPlayers">
           <div style="min-height: 42px; padding: 0; overflow: hidden"
                [class]=" filteredEmails?.length > 0 ? 'user-card-dashed position-relative cardWithSuggested':  'user-card-dashed position-relative'">
             <input matInput class="border-0 w-100" placeholder="{{'Empty seat - Type and invite' | translate}}"
@@ -350,7 +353,8 @@
         <div class="d-flex justify-content-start">
           <div class="position-relative">
             <div *ngFor="let ply of generalService.players; let i=index" class="d-inline-block">
-              <img mat-card-avatar style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px; background: white;"
+              <img mat-card-avatar
+                   style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px; background: white;"
                    [src]="ply?.profilePicture ? ply?.profilePicture?.startsWith('http') ? ply?.profilePicture : configService.url(ply?.profilePicture) : 'assets/images/frame.png'"
                    width="26" height="26" class="mb-0 position-absolute custom-position-{{i}}">
             </div>
@@ -450,7 +454,7 @@
           <br>
           <div class="w-100 position-relative">
             <mat-label style="position: absolute; left: 20px; top: -20px; color: #0B6FEA"
-                       class="font-size-14 weight-600">Poor
+                       class="font-size-14 weight-600">Excellent
             </mat-label>
             <div
               style="position: absolute; left: 30px; top: 0; bottom: 0; width: 2px; background-color: #EDF9FF;"></div>
@@ -463,7 +467,7 @@
                   style="white-space: pre-line; border: 1px dashed #2C2523; width: 500px; margin: 0 auto;padding: 20px;color: #2C2523;border-radius: 10px;">
                   {{answer?.answer}}
                 </div>
-                <div class="rate-index">{{i + 1}}</div>
+                <div class="rate-index">{{generalService.specificQuestionAnswers?.answers?.length - i}}</div>
                 <div class="dropListButtons">
                   <button mat-fab color="primary" [disabled]="i==0"
                           (click)="moveUpAnswers(i)">
@@ -488,7 +492,7 @@
               </div>
             </div>
             <mat-label style="position: absolute; left: 10px; bottom: -10px; color: #0B6FEA;"
-                       class="font-size-14 weight-600">Excellent
+                       class="font-size-14 weight-600">Poor
             </mat-label>
           </div>
         </div>
@@ -502,7 +506,8 @@
         <div class="d-flex justify-content-start">
           <div class="position-relative">
             <div *ngFor="let ply of generalService.players; let i=index" class="d-inline-block">
-              <img mat-card-avatar style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px; background: white;"
+              <img mat-card-avatar
+                   style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px; background: white;"
                    [src]="ply?.profilePicture ? ply?.profilePicture?.startsWith('http') ? ply?.profilePicture : configService.url(ply?.profilePicture) : 'assets/images/frame.png'"
                    width="26" height="26" class="mb-0 position-absolute custom-position-{{i}}">
             </div>
@@ -558,7 +563,7 @@
         <div *ngIf="!loading">
           <div class="w-100 position-relative">
             <mat-label style="position: absolute; left: 20px; top: -20px; color: #0B6FEA"
-                       class="font-size-14 weight-600">Poor
+                       class="font-size-14 weight-600">Excellent
             </mat-label>
             <div
               style="position: absolute; left: 30px; top: 0; bottom: 0; width: 2px; background-color: #EDF9FF;"></div>
@@ -581,7 +586,7 @@
                   </svg>
                   {{question?.question}}
                 </div>
-                <div class="rate-index">{{i + 1}}</div>
+                <div class="rate-index">{{generalService.allQuestions?.length - i}}</div>
                 <div class="dropListButtons">
                   <button mat-fab color="primary" [disabled]="i==0" (click)="moveUpQuestions(i)">
                     <svg width="18" height="18" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -604,7 +609,7 @@
               </div>
             </div>
             <mat-label style="position: absolute; left: 10px; bottom: -10px; color: #0B6FEA;"
-                       class="font-size-14 weight-600">Excellent
+                       class="font-size-14 weight-600">Poor
             </mat-label>
           </div>
         </div>
@@ -618,7 +623,8 @@
         <div class="d-flex justify-content-start">
           <div class="position-relative">
             <div *ngFor="let ply of generalService.players; let i=index" class="d-inline-block">
-              <img mat-card-avatar style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px; background: white;"
+              <img mat-card-avatar
+                   style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px; background: white;"
                    [src]="ply?.profilePicture ? ply?.profilePicture?.startsWith('http') ? ply?.profilePicture : configService.url(ply?.profilePicture) : 'assets/images/frame.png'"
                    width="26" height="26" class="mb-0 position-absolute custom-position-{{i}}">
             </div>
@@ -679,7 +685,7 @@
                    [src]="generalService.gameResult?.creator?.profilePicture ? generalService.gameResult?.creator?.profilePicture?.startsWith('http') ? generalService.gameResult?.creator?.profilePicture : configService.url(generalService.gameResult?.creator?.profilePicture) : 'assets/images/frame.png'"
                    width="40" height="40">
               &nbsp;<span
-                class="font-size-14 weight-700 pe-2">{{generalService.gameResult?.creator?.firstName}} {{generalService.gameResult?.creator?.lastName}}</span>
+              class="font-size-14 weight-700 pe-2">{{generalService.gameResult?.creator?.firstName}} {{generalService.gameResult?.creator?.lastName}}</span>
             </div>
 
             <div class="d-inline-flex position-absolute end-10">
@@ -729,7 +735,8 @@
                     <img src="assets/images/score.png"
                          width="28" height="28">&nbsp;
                     <div class="font-size-14 weight-800 position-absolute"
-                         style="padding-left: 5px; left: 30px; top: -5px; color: #0CA609">+{{generalService.gameResult?.statistics?.score | number}}</div>
+                         style="padding-left: 5px; left: 30px; top: -5px; color: #0CA609">
+                      +{{generalService.gameResult?.statistics?.score | number}}</div>
                     <mat-label class="position-absolute font-size-14 weight-500"
                                style="padding-left: 5px;left: 30px; bottom: -5px;  color: #828282">
                       Score
@@ -739,7 +746,8 @@
                     <img src="assets/images/XP.png"
                          width="28" height="28">&nbsp;
                     <div class="font-size-14 weight-800 position-absolute"
-                         style="padding-left: 5px; left: 30px; top: -5px; color: #0CA609">+{{generalService.gameResult?.statistics?.xp | number}}</div>
+                         style="padding-left: 5px; left: 30px; top: -5px; color: #0CA609">
+                      +{{generalService.gameResult?.statistics?.xp | number}}</div>
                     <mat-label class="position-absolute font-size-14 weight-500"
                                style="padding-left: 5px;left: 30px; bottom: -5px;  color: #828282">
                       XP
@@ -749,7 +757,8 @@
                     <img src="assets/images/coin-bronze.png"
                          width="28" height="28">&nbsp;
                     <div class="font-size-14 weight-800 position-absolute"
-                         style="padding-left: 5px; left: 30px; top: -5px; color: #0CA609">+{{generalService.gameResult?.statistics?.reward?.bronze}}</div>
+                         style="padding-left: 5px; left: 30px; top: -5px; color: #0CA609">
+                      +{{generalService.gameResult?.statistics?.reward?.bronze}}</div>
                     <mat-label class="position-absolute font-size-14 weight-500"
                                style="padding-left: 5px;left: 30px; bottom: -5px; color: #828282">
                       Bronze

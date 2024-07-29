@@ -11,20 +11,25 @@ import {MatDialog} from "@angular/material/dialog";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {SnackbarContentComponent} from "./components/snackbar-content/snackbar-content.component";
 import {io} from "socket.io-client";
+import {GamesComponent} from "./components/games/games.component";
+import {GameBoardComponent} from "./components/game-board/game-board.component";
+import {CountdownTimerComponent} from "./components/countdown-timer/countdown-timer.component";
 
 register();
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrl: './app.component.scss',
+  providers: [GamesComponent, GameBoardComponent, CountdownTimerComponent]
 })
 export class AppComponent implements OnInit {
   title = '1QMA';
 
   constructor(private router: Router, private translateService: TranslateService, private _snackBar: MatSnackBar,
               private generalService: GeneralService, private authService: AuthService, public dialog: MatDialog,
-              private clientService: ClientService, private route: ActivatedRoute, private location: Location) {
+              private clientService: ClientService, private route: ActivatedRoute, private location: Location,
+              private gameComponent: GamesComponent) {
     this.translateService.setDefaultLang('en');
   }
 
@@ -41,11 +46,13 @@ export class AppComponent implements OnInit {
         }
       });
       this.route.queryParams.subscribe(async params => {
-        console.log(params)
         await this.generalService.getUserData();
+        console.log(params)
         const status = params['status'];
         const user_id = params['user_id'];
         const message = params['message'];
+        const game_code = params['code'];
+        console.log(game_code)
         if (status == 1) {
           if (user_id) {
             await Preferences.set({key: 'account', value: JSON.stringify({_id: user_id})});
@@ -93,6 +100,10 @@ export class AppComponent implements OnInit {
               || this.router.url === ('/social/callback')) ? '/dashboard' : this.location.path()]);
             this.generalService.currentRout = this.router.url;
           }
+        }
+
+        if (game_code) {
+          this.gameComponent.joinToGame(game_code);
         }
       })
     })

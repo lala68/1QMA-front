@@ -67,6 +67,7 @@ export class GamesComponent implements OnInit {
   scoreboardSurvival: any;
   friendsRecentSurvival: any;
   liveSurvival: any;
+  questionId: any;
 
   constructor(public generalService: GeneralService, private gameService: GamesService, public configService: ConfigService,
               private _formBuilder: FormBuilder, private router: Router, public dialog: MatDialog, private _snackBar: MatSnackBar,
@@ -85,34 +86,34 @@ export class GamesComponent implements OnInit {
       this.selectedTabIndex = params.get('id');
     });
 
-    this.gameService.getMyScoreboard().then(data => {
-      this.myScoreboard = data;
-    })
-
-    this.gameService.getLiveGames().then(data => {
-      if (data.status == 1)
-        this.liveGames = data.data;
-    })
-
-    this.gameService.getFriendsRecentGames().then(data => {
-      if (data.status == 1)
-        this.friendsGames = data.data;
-    })
-
-    this.gameService.getScoreboardSurvival().then(data => {
-      if (data.status == 1)
-        this.scoreboardSurvival = data.data;
-    })
-
-    this.gameService.getLiveSurvival().then(data => {
-      if (data.status == 1)
-        this.liveSurvival = data.data;
-    })
-
-    this.gameService.getFriendsRecentSurvival().then(data => {
-      if (data.status == 1)
-        this.friendsRecentSurvival = data.data;
-    })
+    // this.gameService.getMyScoreboard().then(data => {
+    //   this.myScoreboard = data;
+    // })
+    //
+    // this.gameService.getLiveGames().then(data => {
+    //   if (data.status == 1)
+    //     this.liveGames = data.data;
+    // })
+    //
+    // this.gameService.getFriendsRecentGames().then(data => {
+    //   if (data.status == 1)
+    //     this.friendsGames = data.data;
+    // })
+    //
+    // this.gameService.getScoreboardSurvival().then(data => {
+    //   if (data.status == 1)
+    //     this.scoreboardSurvival = data.data;
+    // })
+    //
+    // this.gameService.getLiveSurvival().then(data => {
+    //   if (data.status == 1)
+    //     this.liveSurvival = data.data;
+    // })
+    //
+    // this.gameService.getFriendsRecentSurvival().then(data => {
+    //   if (data.status == 1)
+    //     this.friendsRecentSurvival = data.data;
+    // })
   }
 
   async gotoStepTwo(index: any) {
@@ -147,7 +148,6 @@ export class GamesComponent implements OnInit {
       console.log("start game" + ' ' + `[${timeString}]  `);
       this.generalService.gameStep = 2;
       this.gameBoardComponent.handleGameStep();
-      console.log(this.generalService?.createdGameData);
       this.gameService.getGameQuestionBasedOnStep(this.generalService?.createdGameData?.game?.gameId, 1).then(resQue => {
         this.generalService.gameQuestion = resQue?.data;
         if (resQue?.data?.myAnswer) {
@@ -161,7 +161,7 @@ export class GamesComponent implements OnInit {
 
     setTimeout(() => {
       this.gameService.createGame(this.selectedGameType[0], this.selectedGameMode.toString(), this.selectedCategory,
-        this.generalService.invitedPlayersArray, this.questionForm.controls.question.value, this.questionForm.controls.answer.value)
+        this.generalService.invitedPlayersArray, this.questionForm.controls.question.value, this.questionForm.controls.answer.value, this.questionId)
         .then(async data => {
           if (data.status == 1) {
             this.generalService.startingGame = true;
@@ -176,7 +176,7 @@ export class GamesComponent implements OnInit {
             await this.router.navigate(['/game-board'], {
               state: {
                 data: data.data,
-                users: this.generalService.invitedPlayersArray
+                users: this.generalService.players
               }
             });
           } else {
@@ -342,6 +342,9 @@ export class GamesComponent implements OnInit {
     dialogRef.afterClosed().subscribe(async result => {
       console.log(result)
       if (result) {
+        if (result.data?.id) {
+          this.questionId = result.data?.id;
+        }
         if (result.data?.question) {
           this.questionForm.controls.question.setValue(result.data?.question);
         }
@@ -372,6 +375,7 @@ export class JoiningGame {
   wordCount: number = 100;
   wordCountAnswer: number = 100;
   loading: boolean = false;
+  questionId: any;
 
   constructor(private _formBuilder: FormBuilder, public dialogRef: MatDialogRef<JoiningGame>, public configService: ConfigService,
               public dialog: MatDialog, private gameService: GamesService, private generalService: GeneralService,
@@ -391,6 +395,9 @@ export class JoiningGame {
     dialogRef.afterClosed().subscribe(async result => {
       console.log(result)
       if (result) {
+        if (result.data?.id) {
+          this.questionId = result.data?.id;
+        }
         if (result.data?.question) {
           this.questionForm.controls.question.setValue(result.data?.question);
         }
@@ -403,7 +410,7 @@ export class JoiningGame {
 
   async joinGame() {
     this.loading = true;
-    this.gameService.joinGameWithMyQuestion(this.data?.data?.game?._id, this.questionForm.controls.question.value, this.questionForm.controls.answer.value).then(async data => {
+    this.gameService.joinGameWithMyQuestion(this.data?.data?.game?._id, this.questionForm.controls.question.value, this.questionForm.controls.answer.value, this.questionId).then(async data => {
       this.loading = false;
       if (data.status == 1) {
         this.dialogRef.close();
@@ -487,11 +494,11 @@ export class ImportFromLibrary implements OnInit {
     this.dialogRef.close();
   }
 
-  async importQuestionAnswer(question: any, answer: any) {
-    this.dialogRef.close({data: {question: question, answer: answer}})
+  async importQuestionAnswer(question: any, answer: any, id: any) {
+    this.dialogRef.close({data: {question: question, answer: answer, id: id}})
   }
 
-  async importQuestion(question: any) {
-    this.dialogRef.close({data: {question: question}})
+  async importQuestion(question: any, id: any) {
+    this.dialogRef.close({data: {question: question, id: id}})
   }
 }

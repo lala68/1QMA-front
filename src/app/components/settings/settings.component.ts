@@ -9,6 +9,7 @@ import {ClientService} from "../../services/client/client.service";
 import {MatDialog} from "@angular/material/dialog";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {SnackbarContentComponent} from "../snackbar-content/snackbar-content.component";
+import {Preferences} from "@capacitor/preferences";
 
 @Component({
   selector: 'app-settings',
@@ -33,16 +34,19 @@ export class SettingsComponent implements OnInit {
 
   async ngOnInit(): Promise<any> {
     this.settingsForm = this._formBuilder.group({
-      language: [this.generalService.userObj?.preferedLanguage ? this.generalService.userObj?.preferedLanguage?._id : 'en'],
-      defaultHomePage: [this.generalService.userObj?.preferedHomePage ? this.generalService.userObj?.preferedHomePage : '/dashboard'],
+      language: [this.generalService.userObj?.preferedLanguage ? this.generalService.userObj?.preferedLanguage : '0'],
+      defaultHomePage: [this.generalService.userObj?.defaultHomePage ? this.generalService.userObj?.defaultHomePage : '/dashboard'],
     });
   }
 
   async updateSettings() {
     this.loading = true;
     this.error = '';
-    this.clientService.updateSettings(this.settingsForm.value, this.generalService.userId).then(data => {
+    this.clientService.updateSettings(this.settingsForm.value, this.generalService.userId).then(async data => {
       if (data.status == 1) {
+        await Preferences.remove({key: 'account'});
+        await Preferences.set({key: 'account', value: JSON.stringify(data.data)});
+        await this.generalService.getUserData();
         this.loading = false;
         this.openDialog(data.message, 'Success');
       } else {

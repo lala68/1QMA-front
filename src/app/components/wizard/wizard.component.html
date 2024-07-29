@@ -92,17 +92,17 @@
                 <mat-label>{{'Country' | translate}}</mat-label>
                 <mat-select [formControlName]="'country'">
                   <mat-option *ngFor="let country of generalService?.countryListEng"
-                              [value]="country.code"
+                              [value]="country.name"
                               (onSelectionChange)="generalService.getCitiesBasedOnCountry(country.code)">{{country.name}}</mat-option>
                 </mat-select>
               </mat-form-field>&nbsp;&nbsp;
-<!--              <mat-form-field class="custom-form-field w-50" appearance="fill">-->
-<!--                <mat-label>{{'City' | translate}}</mat-label>-->
-<!--                <mat-select [formControlName]="'city'">-->
-<!--                  <mat-option *ngFor="let cty of generalService?.cities | keyvalue"-->
-<!--                              [value]="cty?.key">{{cty?.value}}</mat-option>-->
-<!--                </mat-select>-->
-<!--              </mat-form-field>-->
+              <!--              <mat-form-field class="custom-form-field w-50" appearance="fill">-->
+              <!--                <mat-label>{{'City' | translate}}</mat-label>-->
+              <!--                <mat-select [formControlName]="'city'">-->
+              <!--                  <mat-option *ngFor="let cty of generalService?.cities | keyvalue"-->
+              <!--                              [value]="cty?.key">{{cty?.value}}</mat-option>-->
+              <!--                </mat-select>-->
+              <!--              </mat-form-field>-->
 
               <mat-form-field class="custom-form-field w-50" appearance="fill">
                 <mat-label>{{'City' | translate}}</mat-label>
@@ -161,7 +161,8 @@
           <br><br><br><br>
           <mat-card *ngFor="let acc of generalService.initData?.accountTypes" class="m-2 d-inline-block"
                     (click)="acc?.name == 'Basic' && selectType(acc._id)"
-                    [class]="{'mat-card-account-selected': selectedType == acc._id, 'mat-card-account': selectedType != acc._id}">
+                    [class]="{'mat-card-account-selected': selectedType == acc._id, 'mat-card-account': (selectedType != acc._id),
+                    'mat-card-account-disable': acc?.name != 'Basic'}">
             <mat-card-content class="text-center">
               <img [src]="'https://api.staging.1qma.games/' + acc?.icon" width="106" height="106">
               <br>

@@ -28,6 +28,9 @@ export class DashboardComponent implements OnInit {
   inviteForm = this._formBuilder.group({
     email: new FormControl('', [Validators.required, Validators.email]),
   });
+  startDate: any; // in milliseconds
+  expireDays: any;
+  remainingDays: any;
 
   constructor(private clientService: ClientService, private _formBuilder: FormBuilder,
               public generalService: GeneralService, public configService: ConfigService,
@@ -37,7 +40,24 @@ export class DashboardComponent implements OnInit {
 
   async ngOnInit(): Promise<any> {
     await this.generalService.getUserData();
+    this.calculateRemainingDays();
     this.loading = false;
+  }
+
+  calculateRemainingDays(): void {
+    // Convert startDate from milliseconds to a Date object
+    const startDate = new Date(this.generalService.userObj.accountType.startDate);
+
+    // Calculate the expiration date
+    const expirationDate = new Date(startDate);
+    expirationDate.setDate(expirationDate.getDate() + this.generalService.userObj.accountType.expireDays);
+
+    // Get the current date
+    const currentDate = new Date();
+
+    // Calculate the difference between the expiration date and the current date
+    const timeDiff = expirationDate.getTime() - currentDate.getTime();
+    this.remainingDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
   }
 
   async gotoUserDetail(id: any) {
