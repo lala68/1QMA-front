@@ -127,8 +127,14 @@
       Connected
     </mat-chip>
     <button mat-stroked-button style="border: 1px solid #0B6FEA" class="ms-2" color="primary"
+            *ngIf="generalService.gameStep != 5"
             (click)="displayExitGameModal()">
       Exit Game
+    </button>
+    <button mat-stroked-button style="border: 1px solid #0B6FEA" class="ms-2" color="primary"
+            *ngIf="generalService.gameStep == 5"
+            (click)="gotoHome()">
+      Go to home
     </button>
   </div>
 

@@ -1,0 +1,75 @@
+<div class="font-size-14 weight-700 p-2 border-bottom">
+  <svg (click)="closeModal()" width="24" height="24" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M13.4819 21.4023L21.9672 12.9171" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
+          stroke-linejoin="round"/>
+    <path d="M21.9672 21.4032L13.4819 12.918" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
+          stroke-linejoin="round"/>
+  </svg>
+  &nbsp;{{'Share' | translate}}
+</div>
+<div mat-dialog-content class="m-2">
+  <mat-label *ngIf="type == 'link'"
+             style="font-size: 14px; font-weight: 600; color: #2C2523">{{'Copy Url:'}}
+  </mat-label>
+  <mat-label *ngIf="type == 'gameCode'"
+             style="font-size: 14px; font-weight: 600; color: #2C2523">{{'Copy Game Code:'}}
+  </mat-label>
+  <mat-label *ngIf="type == 'qrCode'"
+             style="font-size: 14px; font-weight: 600; color: #2C2523">{{'Copy Game QR-code:'}}
+  </mat-label>
+  <br>
+  <mat-label style="font-size: 14px; font-weight: 500">
+    <div class="d-inline-flex">
+      <div class="copy-referrer cursor-pointer" style="max-width: 300px; white-space: nowrap; overflow: hidden;">
+        <div class="d-inline text-start"
+             *ngIf="type != 'qrCode'">{{result}}</div>
+        <img *ngIf="type == 'qrCode'" [src]="result" width="26"/>
+      </div>
+      &nbsp;
+      <div class="copy-referrer cursor-pointer"
+           [cdkCopyToClipboard]="result"
+           matTooltip="Click to copy in clipboard!"
+           [matTooltipPosition]="'above'"
+           [matTooltipHideDelay]="1000"
+           #tooltip="matTooltip">
+        <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M17.8408 14.3219V17.3219C17.8408 21.3219 16.2408 22.9219 12.2408 22.9219H8.44082C4.44082 22.9219 2.84082 21.3219 2.84082 17.3219V13.5219C2.84082 9.52188 4.44082 7.92188 8.44082 7.92188H11.4408"
+            stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path
+            d="M17.8409 14.3219H14.6409C12.2409 14.3219 11.4409 13.5219 11.4409 11.1219V7.92188L17.8409 14.3219Z"
+            stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M12.4409 2.92188H16.4409" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
+                stroke-linejoin="round"/>
+          <path d="M7.84082 5.92188C7.84082 4.26188 9.18082 2.92188 10.8408 2.92188H13.4608" stroke="#292D32"
+                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M22.8408 8.92188V15.1119C22.8408 16.6619 21.5808 17.9219 20.0308 17.9219" stroke="#292D32"
+                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path
+            d="M22.8408 8.92188H19.8408C17.5908 8.92188 16.8408 8.17188 16.8408 5.92188V2.92188L22.8408 8.92188Z"
+            stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </div>
+  </mat-label>
+  <br>
+  <br>
+  <mat-label
+    style="font-size: 14px; font-weight: 600; color: #2C2523">{{'Share directly:'}}
+  </mat-label>
+  <br>
+  <mat-label>
+    <div class="mediaShare radius">
+      <button class="social-button border-0" (click)="shareTelegram(result)">
+        <img src="assets/images/Telegram.png" width="23"/></button>
+      <button class="social-button border-0" (click)="shareWhatsapp(result)">
+        <img src="assets/images/WhatsApp.png" width="30"/>
+      </button>
+      <button class="social-button border-0" (click)="shareFacebook(result, result)">
+        <img src="assets/images/facebook.png" width="23"/>
+      </button>
+      <button class="social-button border-0" (click)="shareXMedia(result)">
+        <img src="assets/images/x-media.png" width="20"/></button>
+    </div>
+  </mat-label>
+</div>

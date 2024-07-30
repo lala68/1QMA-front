@@ -1,4 +1,4 @@
-import {Component, NgZone, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, Inject, NgZone, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {Router, RouterModule} from "@angular/router";
@@ -11,11 +11,12 @@ import {GamesService} from "../../services/games/games.service";
 import {CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray} from "@angular/cdk/drag-drop";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {ConfigService} from "../../services/config/config.service";
-import {MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {MaterialModule} from "../../shared/material/material.module";
 import {TimeDifferencePipe} from "../../time-difference.pipe";
 import {SnackbarContentComponent} from "../snackbar-content/snackbar-content.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {HttpClient} from "@angular/common/http";
 
 @Component({
   selector: 'app-game-board',
@@ -47,10 +48,12 @@ export class GameBoardComponent implements OnInit, OnDestroy {
   submittedAnswer: any;
   panelOpenState: boolean[] = [];
   numberOfDisconnectingInGameSteps: any = 0;
+  isModalOpen = false;
 
   constructor(public generalService: GeneralService, private router: Router, private gameService: GamesService,
               public configService: ConfigService, private ngZone: NgZone, private _snackBar: MatSnackBar,
-              private countdownTimerComponent: CountdownTimerComponent, public dialog: MatDialog) {
+              private countdownTimerComponent: CountdownTimerComponent, public dialog: MatDialog,
+              private http: HttpClient) {
     this.data = this.router.getCurrentNavigation()?.extras?.state?.['data'];
     this.users = this.router.getCurrentNavigation()?.extras?.state?.['users'];
   }
@@ -156,6 +159,29 @@ export class GameBoardComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     // this.beforeUnloadHandler
+  }
+
+  openModal() {
+    this.isModalOpen = true;
+  }
+
+  closeModal(event: Event) {
+    // Only close the modal if the click event originated from the modal background, not the content
+    // if (event.target === event.currentTarget) {
+    this.isModalOpen = false;
+    // }
+  }
+
+  preventClose(event: Event) {
+    event.stopPropagation();
+  }
+
+  openShareModal(type: any, data: any) {
+    const dialogRef = this.dialog.open(ShareGame, {
+      data: {type: type, result: data},
+      width: '500px',
+      disableClose: true
+    });
   }
 
   async handleGameStep(): Promise<void> {
@@ -630,10 +656,11 @@ export class GameBoardComponent implements OnInit, OnDestroy {
 
   addEmailToInvited(email: any) {
     if (this.isEmailFormat(email)) {
-      this.generalService.invitedPlayersArray.push(email);
+      this.filteredEmails = [];
       this.gameService.invitePlayer(this.generalService.createdGameData.game.gameId, email).then(data => {
         if (data.status == 1) {
           this.invitedUser = '';
+          this.generalService.invitedPlayersArray.push(email);
         } else {
           this.invitedUser = '';
         }
@@ -642,16 +669,16 @@ export class GameBoardComponent implements OnInit, OnDestroy {
   }
 
   selectUserToInvite(user: any) {
-    this.invitedUser = user;
+    this.invitedUser = user?.email;
     this.filteredEmails = [];
     this.addUserToPlayers();
   }
 
   addUserToPlayers() {
-    console.log(this.invitedUser)
-    this.generalService.invitedPlayersArray.push(this.invitedUser?.email);
-    this.gameService.invitePlayer(this.generalService.createdGameData.game.gameId, this.invitedUser?.email).then(data => {
+    console.log(this.invitedUser);
+    this.gameService.invitePlayer(this.generalService.createdGameData.game.gameId, this.invitedUser).then(data => {
       if (data.status == 1) {
+        this.generalService.invitedPlayersArray.push(this.invitedUser);
         this.invitedUser = '';
       } else {
         this.invitedUser = '';
@@ -670,6 +697,17 @@ export class GameBoardComponent implements OnInit, OnDestroy {
       verticalPosition: 'top',
       horizontalPosition: 'end',
       panelClass: title == 'Success' ? 'app-notification-success' : 'app-notification-error'
+    });
+  }
+
+  downloadImage(url: any) {
+    this.http.get(url, {responseType: 'blob'}).subscribe(blob => {
+      const a = document.createElement('a');
+      const objectUrl = URL.createObjectURL(blob);
+      a.href = objectUrl;
+      a.download = 'image.png';
+      a.click();
+      URL.revokeObjectURL(objectUrl);
     });
   }
 }
@@ -755,6 +793,7 @@ export class ForceExitGame {
 
   constructor(public dialogRef: MatDialogRef<ForceExitGame>, private generalService: GeneralService,
               private router: Router) {
+    this.gotoHome();
   }
 
   async gotoHome() {
@@ -773,7 +812,67 @@ export class ForceExitGame {
     this.generalService.rateAnswers = [];
     this.generalService.rateQuestions = [];
     this.generalService.invitedPlayersArray = [];
-    this.dialogRef.close();
+    // this.dialogRef.close();
     await this.router.navigate(['/dashboard']);
   }
+}
+
+@Component({
+  selector: 'share',
+  templateUrl: 'share.html',
+  standalone: true,
+  imports: [MaterialModule, CommonModule, TranslateModule, ClipboardModule]
+})
+
+export class ShareGame {
+  type: any;
+  result: any;
+
+  constructor(public dialogRef: MatDialogRef<ShareGame>,
+              private router: Router, @Inject(MAT_DIALOG_DATA) public data: any,) {
+    this.type = this.data.type;
+    this.result = this.data.result;
+  }
+
+  async closeModal() {
+    this.dialogRef.close();
+  }
+
+  async shareTelegram(text: any) {
+    if (this.type == '') {
+      const base64url = this.result
+      const blob = await (await fetch(base64url)).blob();
+      const file = new File([blob], '1qma.png', {type: blob.type});
+      navigator.share({
+        title: 'Hello',
+        text: 'Welcome to 1QMA Games!',
+        files: [file],
+      })
+      this.dialogRef.close();
+    } else {
+      const telegramUrl = `https://t.me/share/url?url=${encodeURIComponent('')}&text=${encodeURIComponent(text)}`;
+      window.open(telegramUrl, '_blank');
+      this.dialogRef.close();
+    }
+
+  }
+
+  shareWhatsapp(text: any) {
+    const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
+    window.open(whatsappUrl, '_blank');
+    this.dialogRef.close();
+  }
+
+  shareFacebook(url: any, text: any) {
+    const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${encodeURIComponent(text)}`;
+    window.open(facebookUrl, '_blank');
+    this.dialogRef.close();
+  }
+
+  shareXMedia(text: any) {
+    const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
+    window.open(twitterUrl, '_blank');
+    this.dialogRef.close();
+  }
+
 }

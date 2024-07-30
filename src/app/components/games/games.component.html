@@ -8,7 +8,7 @@
     <mat-tab label="Overview">
       <div class="card border-0">
         <div class="w-100 d-flex">
-          <mat-card class="shadow-none">
+          <mat-card class="shadow-none w-100">
             <mat-card-header>
               <img mat-card-avatar src="assets/images/scoreboard.png" width="45" height="45">
               <mat-card-title class="font-size-16 weight-600">{{'Scoreboard' | translate}}</mat-card-title>
@@ -16,7 +16,7 @@
                 {{'See your performance in the latest games' | translate}}
               </mat-card-subtitle>
             </mat-card-header>
-            <mat-card-content>
+            <mat-card-content *ngIf="myScoreboard">
               <div class="gray-card creator">
                 <img style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px; background: white;"
                      [src]="generalService.userObj?.profilePicture ? generalService.userObj?.profilePicture?.startsWith('http') ? generalService.userObj?.profilePicture : configService.url(generalService.userObj?.profilePicture) : 'assets/images/frame.png'"
@@ -24,32 +24,98 @@
                 &nbsp;<span
                 class="font-size-14 weight-700 pe-2">{{generalService.userObj?.firstName + ' ' + generalService.userObj?.lastName}}</span>
               </div>
-              <!--              <mat-grid-list cols="12" rowHeight="30px">-->
-              <!--                <mat-grid-tile class="result-grid" [colspan]="3">-->
-              <!--                  <mat-label class="font-size-14 weight-700">Played</mat-label>-->
-              <!--                </mat-grid-tile>-->
-              <!--                <mat-grid-tile class="result-grid" [colspan]="3">-->
-              <!--                  <mat-label class="font-size-14 weight-700">Game Type</mat-label>-->
-              <!--                </mat-grid-tile>-->
-              <!--                <mat-grid-tile class="result-grid" [colspan]="3">-->
-              <!--                  <mat-label class="font-size-14 weight-700">Category</mat-label>-->
-              <!--                </mat-grid-tile>-->
-              <!--                <mat-grid-tile class="result-grid"-->
-              <!--                               [colspan]="12 - (5 + (generalService.gameResult?.result?.scoreboard?.length))">-->
-              <!--                  <mat-label></mat-label>-->
-              <!--                </mat-grid-tile>-->
-              <!--                <mat-grid-tile class="result-grid"-->
-              <!--                               *ngFor="let col of generalService.gameResult?.result?.scoreboard; let i=index"-->
-              <!--                               [colspan]="1">-->
-              <!--                  <mat-label class="font-size-12 weight-700">A{{i + 1}}</mat-label>-->
-              <!--                </mat-grid-tile>-->
-              <!--                <mat-grid-tile class="result-grid" [colspan]="1">-->
-              <!--                  <mat-label class="font-size-12 weight-700">Q</mat-label>-->
-              <!--                </mat-grid-tile>-->
-              <!--                <mat-grid-tile class="result-grid" [colspan]="1">-->
-              <!--                  <mat-label class="font-size-12 weight-700">Total</mat-label>-->
-              <!--                </mat-grid-tile>-->
-              <!--              </mat-grid-list>-->
+              <br>
+              <mat-grid-list cols="12" rowHeight="30px">
+                <mat-grid-tile class="result-grid" [colspan]="2">
+                  <mat-label class="font-size-14 weight-700">Played</mat-label>
+                </mat-grid-tile>
+                <mat-grid-tile class="result-grid" [colspan]="2">
+                  <mat-label class="font-size-14 weight-700">Game Type</mat-label>
+                </mat-grid-tile>
+                <mat-grid-tile class="result-grid" [colspan]="2">
+                  <mat-label class="font-size-14 weight-700">Category</mat-label>
+                </mat-grid-tile>
+                <mat-grid-tile class="result-grid"
+                               [colspan]="12 - (10 + (myScoreboard[0]?.result?.answersRates?.length))">
+                  <mat-label></mat-label>
+                </mat-grid-tile>
+                <mat-grid-tile
+                  *ngFor="let col of myScoreboard[0]?.result?.answersRates; let i=index"
+                  [colspan]="1">
+                  <mat-label class="font-size-12 weight-700">A{{i + 1}}</mat-label>
+                </mat-grid-tile>
+                <mat-grid-tile [colspan]="1">
+                  <mat-label class="font-size-12 weight-700">Q</mat-label>
+                </mat-grid-tile>
+                <mat-grid-tile [colspan]="1">
+                  <mat-label class="font-size-12 weight-700">Score</mat-label>
+                </mat-grid-tile>
+                <mat-grid-tile [colspan]="1">
+                  <mat-label class="font-size-12 weight-700">Rank</mat-label>
+                </mat-grid-tile>
+                <mat-grid-tile [colspan]="1">
+                  <mat-label class="font-size-12 weight-700"></mat-label>
+                </mat-grid-tile>
+              </mat-grid-list>
+
+              <mat-grid-list *ngFor="let res of myScoreboard;let i=index"
+                             cols="12" rowHeight="50px" class="gray-card mb-2">
+                <mat-grid-tile class="result-grid" [colspan]="2">
+                  <mat-label>{{res?.endedAt | daysAgo}}</mat-label>
+                </mat-grid-tile>
+                <mat-grid-tile class="result-grid" [colspan]="2">
+                  <div color="primary">
+                    <img src="assets/images/normal-game.png" *ngIf="res?.gameType?.id == 'normal'" width="25">
+                    <img src="assets/images/survival-game.png" *ngIf="res?.gameType?.id == 'survival'" width="25">
+                    <span class="font-size-12 weight-500">{{res?.gameType?.text}}</span>
+                  </div>
+                </mat-grid-tile>
+                <mat-grid-tile class="result-grid" [colspan]="2">
+                  <div color="primary">
+                    <img [src]="'https://api.staging.1qma.games/' + res?.category?.icon" width="25">
+                    <span class="font-size-12 weight-500">{{res?.category?.name}}</span>
+                  </div>
+                </mat-grid-tile>
+                <mat-grid-tile [colspan]="12 - (10 + res?.result?.answersRates?.length)">
+                  <mat-label></mat-label>
+                </mat-grid-tile>
+                <mat-grid-tile
+                  *ngFor="let score of res?.result?.answersRates; let i=index"
+                  [colspan]="1">
+                  <mat-label>{{score}}</mat-label>
+                </mat-grid-tile>
+                <mat-grid-tile [colspan]="1">
+                  <mat-label>{{res?.result?.questionRate}}</mat-label>
+                </mat-grid-tile>
+                <mat-grid-tile [colspan]="1">
+                  <mat-label class="font-size-14 weight-700">{{res?.result?.totalScore | number}}</mat-label>
+                </mat-grid-tile>
+                <mat-grid-tile [colspan]="1">
+                  <mat-label class="font-size-14 weight-700">
+                    <img *ngIf="res?.rank == 1"
+                         src="assets/images/rank-1.png"
+                         width="36">
+                    <img *ngIf="res?.rank == 2"
+                         src="assets/images/rank-2.png"
+                         width="36">
+                    <img *ngIf="res?.rank == 3"
+                         src="assets/images/rank-3.png"
+                         width="36">
+                    <mat-label *ngIf="res?.rank > 3">
+                      {{res?.rank}}
+                    </mat-label>
+                  </mat-label>
+                </mat-grid-tile>
+                <mat-grid-tile [colspan]="1">
+                  <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M9.53223 20.4084L16.0522 13.8884C16.8222 13.1184 16.8222 11.8584 16.0522 11.0884L9.53223 4.56836"
+                      stroke="#0B6FEA" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                      stroke-linejoin="round"/>
+                  </svg>
+                </mat-grid-tile>
+              </mat-grid-list>
+
             </mat-card-content>
           </mat-card>
         </div>

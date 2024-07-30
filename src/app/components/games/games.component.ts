@@ -86,14 +86,16 @@ export class GamesComponent implements OnInit {
       this.selectedTabIndex = params.get('id');
     });
 
-    // this.gameService.getMyScoreboard().then(data => {
-    //   this.myScoreboard = data;
-    // })
+    this.gameService.getMyScoreboard().then(data => {
+      if (data.status == 1) {
+        this.myScoreboard = data.data;
+      }
+    })
     //
-    // this.gameService.getLiveGames().then(data => {
-    //   if (data.status == 1)
-    //     this.liveGames = data.data;
-    // })
+    this.gameService.getLiveGames().then(data => {
+      if (data.status == 1)
+        this.liveGames = data.data;
+    })
     //
     // this.gameService.getFriendsRecentGames().then(data => {
     //   if (data.status == 1)

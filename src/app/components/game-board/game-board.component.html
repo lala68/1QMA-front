@@ -45,7 +45,7 @@
             <mat-label color="success">Joined</mat-label>
           </div>
         </div>
-        <div *ngIf="generalService?.invitedPlayersArray.length > 0">
+        <div *ngIf="generalService?.invitedPlayersArray?.length > 0">
           <div
             *ngFor="let playerNotJoined of generalService?.invitedPlayersArray"
             class="user-card position-relative">
@@ -70,7 +70,7 @@
           </div>
         </div>
         <div
-          *ngIf="generalService?.userId == data?.game?.gameCreator?._id && (generalService?.invitedPlayersArray.length + generalService?.players?.length) < generalService.gameInit?.numberOfPlayers">
+          *ngIf="generalService?.userId == data?.game?.gameCreator?._id && (generalService?.invitedPlayersArray?.length + generalService?.players?.length) < generalService.gameInit?.numberOfPlayers">
           <div style="min-height: 42px; padding: 0; overflow: hidden"
                [class]=" filteredEmails?.length > 0 ? 'user-card-dashed position-relative cardWithSuggested':  'user-card-dashed position-relative'">
             <input matInput class="border-0 w-100" placeholder="{{'Empty seat - Type and invite' | translate}}"
@@ -124,7 +124,7 @@
                       stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
                 </div>
-                &nbsp;<div class="copy-referrer cursor-pointer">
+                &nbsp;<div class="copy-referrer cursor-pointer" (click)="openShareModal('link', data?.game?.gameLink)">
                 <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M7.4783 6.63558L15.9683 3.80558C19.7783 2.53558 21.8483 4.61558 20.5883 8.42558L17.7583 16.9156C15.8583 22.6256 12.7383 22.6256 10.8383 16.9156L9.9983 14.3956L7.4783 13.5556C1.7683 11.6556 1.7683 8.54558 7.4783 6.63558Z"
@@ -170,7 +170,8 @@
                       stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
                 </div>
-                &nbsp;<div class="copy-referrer cursor-pointer">
+                &nbsp;<div class="copy-referrer cursor-pointer"
+                           (click)="openShareModal('gameCode', data?.game?.gameCode)">
                 <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M7.4783 6.63558L15.9683 3.80558C19.7783 2.53558 21.8483 4.61558 20.5883 8.42558L17.7583 16.9156C15.8583 22.6256 12.7383 22.6256 10.8383 16.9156L9.9983 14.3956L7.4783 13.5556C1.7683 11.6556 1.7683 8.54558 7.4783 6.63558Z"
@@ -189,26 +190,15 @@
               </mat-card-header>
               <mat-card-content class="d-inline-flex">
                 <div class="copy-referrer cursor-pointer">
-                  <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      d="M17.8408 14.3219V17.3219C17.8408 21.3219 16.2408 22.9219 12.2408 22.9219H8.44082C4.44082 22.9219 2.84082 21.3219 2.84082 17.3219V13.5219C2.84082 9.52188 4.44082 7.92188 8.44082 7.92188H11.4408"
-                      stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path
-                      d="M17.8409 14.3219H14.6409C12.2409 14.3219 11.4409 13.5219 11.4409 11.1219V7.92188L17.8409 14.3219Z"
-                      stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M12.4409 2.92188H16.4409" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
-                          stroke-linejoin="round"/>
-                    <path d="M7.84082 5.92188C7.84082 4.26188 9.18082 2.92188 10.8408 2.92188H13.4608" stroke="#292D32"
-                          stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M22.8408 8.92188V15.1119C22.8408 16.6619 21.5808 17.9219 20.0308 17.9219" stroke="#292D32"
-                          stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path
-                      d="M22.8408 8.92188H19.8408C17.5908 8.92188 16.8408 8.17188 16.8408 5.92188V2.92188L22.8408 8.92188Z"
-                      stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
+                  <img [src]="data?.game?.gameQRCode" (click)="openModal()" width="26"/>
+                  <div id="myModal" class="modal" [class]="{'show': isModalOpen, 'not-show': !isModalOpen}"
+                       (click)="closeModal($event)">
+                    <!-- Modal content -->
+                    <img class="modal-content" id="img01" [src]="data?.game?.gameQRCode">
+                  </div>
                 </div>
                 &nbsp;
-                <div class="copy-referrer cursor-pointer">
+                <div class="copy-referrer cursor-pointer" (click)="downloadImage(data?.game?.gameQRCode)">
                   <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M9.84082 11.3164V17.3164L11.8408 15.3164" stroke="#292D32" stroke-width="1.5"
                           stroke-linecap="round" stroke-linejoin="round"/>
@@ -223,7 +213,8 @@
                       stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
                 </div>
-                &nbsp;<div class="copy-referrer cursor-pointer">
+                &nbsp;<div class="copy-referrer cursor-pointer"
+                           (click)="openShareModal('qrCode', data?.game?.gameQRCode)">
                 <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M7.4783 6.63558L15.9683 3.80558C19.7783 2.53558 21.8483 4.61558 20.5883 8.42558L17.7583 16.9156C15.8583 22.6256 12.7383 22.6256 10.8383 16.9156L9.9983 14.3956L7.4783 13.5556C1.7683 11.6556 1.7683 8.54558 7.4783 6.63558Z"
@@ -250,7 +241,7 @@
        class="d-inline-block card border-0 text-center font-size-14 weight-800 pt-3 w-100">
     <mat-spinner class="d-inline-block" [diameter]="20"></mat-spinner> &nbsp;
     <mat-label class="d-inline-block">Waiting
-      for {{generalService.gameInit?.numberOfPlayers - generalService.players.length}}
+      for {{generalService.gameInit?.numberOfPlayers - generalService.players?.length}}
       of {{generalService.gameInit?.numberOfPlayers }} players to join the game...
     </mat-label>
   </div>
@@ -369,7 +360,7 @@
           <app-countdown-timer [duration]="generalService.gameInit?.eachStepDurationSeconds"
                                (countdownFinished)="handleCountdownSendAnswerFinished()"></app-countdown-timer>
           <button
-            mat-raised-button
+            mat-button
             color="primary" class="ms-3"
             (click)="editAnswer()"
             [disabled]="!generalService.editingAnswer">
@@ -459,12 +450,12 @@
             <div
               style="position: absolute; left: 30px; top: 0; bottom: 0; width: 2px; background-color: #EDF9FF;"></div>
             <!-- Vertical line -->
-            <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
+            <div cdkDropList (cdkDropListDropped)="drop($event)" class="example-list">
               <!--              generalService?.specificQuestionAnswers?.answers-->
-              <div *ngFor="let answer of generalService.specificQuestionAnswers?.answers; let i = index" cdkDrag
-                   class="example-box">
-                <div
-                  style="white-space: pre-line; border: 1px dashed #2C2523; width: 500px; margin: 0 auto;padding: 20px;color: #2C2523;border-radius: 10px;">
+              <div *ngFor="let answer of generalService?.specificQuestionAnswers?.answers; let i = index"
+                   class="example-box" >
+                <div cdkDrag
+                     style="white-space: pre-line; border: 1px dashed #2C2523; width: 500px; margin: 0 auto;padding: 20px;color: #2C2523;border-radius: 10px;">
                   {{answer?.answer}}
                 </div>
                 <div class="rate-index">{{generalService.specificQuestionAnswers?.answers?.length - i}}</div>
@@ -569,9 +560,9 @@
               style="position: absolute; left: 30px; top: 0; bottom: 0; width: 2px; background-color: #EDF9FF;"></div>
             <!-- Vertical line -->
             <div cdkDropList class="example-list" (cdkDropListDropped)="dropQuestions($event)">
-              <div *ngFor="let question of generalService.allQuestions; let i = index" cdkDrag
+              <div *ngFor="let question of generalService.allQuestions; let i = index"
                    class="example-box">
-                <div
+                <div cdkDrag
                   style="white-space: pre-line; border: 1px dashed #2C2523; width: 500px; margin: 0 auto;padding: 20px;color: #2C2523;border-radius: 10px;">
                   <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -689,7 +680,8 @@
             </div>
 
             <div class="d-inline-flex position-absolute end-10">
-              <div class="copy-referrer cursor-pointer" style="width: 40px; height: 40px; padding: 7px">
+              <div class="copy-referrer cursor-pointer" style="width: 40px; height: 40px; padding: 7px"
+                   (click)="openShareModal('result', data?.game?.gameLink)">
                 <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M7.4783 6.63558L15.9683 3.80558C19.7783 2.53558 21.8483 4.61558 20.5883 8.42558L17.7583 16.9156C15.8583 22.6256 12.7383 22.6256 10.8383 16.9156L9.9983 14.3956L7.4783 13.5556C1.7683 11.6556 1.7683 8.54558 7.4783 6.63558Z"

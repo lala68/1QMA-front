@@ -350,7 +350,7 @@ export class GamesService {
       'Content-Type': 'application/json',
     })
     const response = this.http.get(this.config.url('games/live'), {
-      params: {type: 'all'},
+      // params: {type: 'all'},
       headers: headers,
       withCredentials: true
     }).pipe(

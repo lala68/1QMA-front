@@ -269,7 +269,6 @@
     </div>
   </div>
 
-
   <br>
   <div class="font-size-14 weight-600 pt-2">&nbsp;{{'Invited Friends' | translate}}</div>
 
@@ -279,7 +278,7 @@
         <img src="assets/images/frame.png" width="35" style="padding-left: 5px">
       </div>
       <div matListItemTitle>{{invite?.email}}</div>
-      <div matListItemLine>{{invite?.status}}</div>
+      <div matListItemLine>{{invite?.createdAt | date}}</div>
     </mat-list-item>
   </mat-list>
 </div>

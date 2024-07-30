@@ -52,6 +52,25 @@ export class HeaderComponent {
       }
     });
   }
+
+  async gotoHome() {
+    this.generalService.startingGame = false;
+    this.generalService.players = [];
+    this.generalService.gameInit = '';
+    this.generalService.gameStep = 1;
+    this.generalService.createdGameData = '';
+    this.generalService.gameQuestion = '';
+    this.generalService.specificQuestionAnswers = '';
+    this.generalService.gameAnswerGeneral = '';
+    this.generalService.editingAnswer = true;
+    this.generalService.isGameCancel = false;
+    this.generalService.allQuestions = [];
+    this.generalService.gameResult = '';
+    this.generalService.rateAnswers = [];
+    this.generalService.rateQuestions = [];
+    this.generalService.invitedPlayersArray = [];
+    await this.router.navigate(['/dashboard']);
+  }
 }
 
 
@@ -123,7 +142,8 @@ export class ExitGame {
     private generalService: GeneralService,
     private router: Router,
     private gameService: GamesService
-  ) {}
+  ) {
+  }
 
   cancel(): void {
     this.dialogRef.close(false);
