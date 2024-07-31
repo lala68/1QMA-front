@@ -10,7 +10,135 @@
         <div class="w-100 d-flex">
           <mat-card class="shadow-none">
             <mat-card-header>
+              <div>
+                <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" class="tab-group-library"
+                               [(selectedIndex)]="selectedTabIndex" (selectedTabChange)="ngOnInit()">
+                  <mat-tab label="Private Library">
+                  </mat-tab>
+                  <mat-tab label="Public Library">
+                  </mat-tab>
+                  <mat-tab label="Bookmarked">
+                  </mat-tab>
+                </mat-tab-group>
+              </div>
+              <br>
+              <div style="display: ruby-text;">
+                <mat-spinner *ngIf="loadingContent" [diameter]="30"></mat-spinner>
+              </div>
+              <!--  private-->
+              <div *ngIf="selectedTabIndex == 0">
+                <div *ngFor="let item of library" class="gray-card p-4 mb-2">
+                  <div class="d-flex white-card position-relative">
+                    <img style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px"
+                         [src]="generalService.userObj?.profilePicture ? generalService.userObj?.profilePicture?.startsWith('http') ? generalService.userObj?.profilePicture : configService.url(generalService.userObj?.profilePicture) : 'assets/images/frame.png'"
+                         width="42" height="42">
+                    <mat-label class="font-size-13 weight-500"
+                               style="margin: auto 10px">{{generalService.userObj?.firstName}} {{generalService.userObj?.lastName}}</mat-label>
+                    <mat-label class="font-size-12 weight-500 position-absolute" style="right: 10px; margin: 10px auto">
+                      2hrs agos
+                    </mat-label>
+                  </div>
+                  <br>
+                  <div class="font-size-14 weight-700">
+                    {{item?.question}}
+                  </div>
+                  <br>
+                  <div class="font-size-13 weight-400">
+                    {{item?.answer}}
+                  </div>
+                  <br>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="white-card p-1" style="width: fit-content">
+                      <img
+                        [src]="configService.url(item.category[0]?.icon)"
+                        width="24">
+                      <mat-label class="font-size-12 weight-600"
+                                 style="margin: auto 5px">{{item?.category[0]?.name}}</mat-label>
+                    </div>
+                  </div>
 
+                </div>
+              </div>
+
+              <!--  public-->
+              <div *ngIf="selectedTabIndex == 1">
+                <div *ngFor="let item of library" class="gray-card p-4 mb-2">
+                  <div class="d-flex white-card position-relative">
+                    <img src="assets/images/frame.png" width="42">
+                    <mat-label class="font-size-13 weight-500" style="margin: auto 10px">Sam Smith</mat-label>
+                    <mat-label class="font-size-12 weight-500 position-absolute" style="right: 10px; margin: 10px auto">
+                      2hrs agos
+                    </mat-label>
+                  </div>
+                  <br>
+                  <div class="font-size-14 weight-700">
+                    {{item?.question}}
+                  </div>
+                  <br>
+                  <div class="d-inline-flex">
+                    <div class="white-card p-1" style="width: fit-content">
+                      <img
+                        [src]="configService.url(item.category[0]?.icon)"
+                        width="24">
+                      <mat-label class="font-size-12 weight-600"
+                                 style="margin: auto 5px">{{item?.category[0]?.name}}</mat-label>
+                    </div>
+                    &nbsp;&nbsp;
+                    <div class="white-card p-1" style="width: fit-content">
+                      <img src="assets/images/score.png" width="24">
+                      <mat-label class="font-size-12 weight-600" style="margin: auto 10px">176 <span class="text-gray">Score</span>
+                      </mat-label>
+                    </div>
+                  </div>
+                  <br>
+                  <br>
+                  <div class="border-bottom"></div>
+                  <br>
+                  <div class="d-block">
+                    <div class="d-inline-block">
+                      <img src="assets/images/coin-bronze.png" width="25">
+                      &nbsp;&nbsp;<span class="font-size-14 weight-600">5 Bronze</span>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+              <!--  bookmark-->
+              <div *ngIf="selectedTabIndex == 2">
+                <div *ngFor="let item of library" class="gray-card p-3 mb-2">
+                  <div class="d-flex white-card position-relative">
+                    <img style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px"
+                         [src]="generalService.userObj?.profilePicture ? generalService.userObj?.profilePicture?.startsWith('http') ? generalService.userObj?.profilePicture : configService.url(generalService.userObj?.profilePicture) : 'assets/images/frame.png'"
+                         width="42" height="42">
+                    <mat-label class="font-size-13 weight-500"
+                               style="margin: auto 10px">{{generalService.userObj?.firstName}} {{generalService.userObj?.lastName}}</mat-label>
+                    <mat-label class="font-size-12 weight-500 position-absolute" style="right: 10px; margin: 10px auto">
+                      2hrs agos
+                    </mat-label>
+                  </div>
+                  <br>
+                  <div class="font-size-14 weight-700">
+                    {{item?.question}}
+                  </div>
+                  <br>
+                  <div class="font-size-13 weight-400">
+                    {{item?.answer}}
+                  </div>
+                  <br>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="white-card p-1" style="width: fit-content">
+                      <img
+                        [src]="configService.url(item.category[0]?.icon)"
+                        width="24">
+                      <mat-label class="font-size-12 weight-600"
+                                 style="margin: auto 5px">{{item?.category[0]?.name}}</mat-label>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+              <br>
             </mat-card-header>
           </mat-card>
         </div>

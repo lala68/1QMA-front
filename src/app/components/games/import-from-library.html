@@ -39,7 +39,7 @@
   </div>
   <!--  private-->
   <div *ngIf="selectedTabIndex == 0">
-    <div *ngFor="let item of library" class="gray-card p-4 mb-2">
+    <div *ngFor="let item of library?.questions" class="gray-card p-4 mb-2">
       <div class="d-flex white-card position-relative">
         <img style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px"
              [src]="generalService.userObj?.profilePicture ? generalService.userObj?.profilePicture?.startsWith('http') ? generalService.userObj?.profilePicture : configService.url(generalService.userObj?.profilePicture) : 'assets/images/frame.png'"
@@ -66,7 +66,8 @@
           <mat-label class="font-size-12 weight-600" style="margin: auto 5px">{{item?.category[0]?.name}}</mat-label>
         </div>
         <div>
-          <button mat-stroked-button (click)="importQuestion(item.question, item._id)" color="primary" class="me-2 radius"
+          <button mat-stroked-button (click)="importQuestion(item.question, item._id)" color="primary"
+                  class="me-2 radius"
                   style="border: 1px solid #0B6FEA">
             Import Question
           </button>
@@ -119,7 +120,8 @@
           &nbsp;&nbsp;<span class="font-size-14 weight-600">5 Bronze</span>
         </div>
         <div class="float-end">
-          <button (click)="importQuestion(item.question, item._id)" mat-stroked-button color="primary" class="me-2 radius"
+          <button (click)="importQuestion(item.question, item._id)" mat-stroked-button color="primary"
+                  class="me-2 radius"
                   style="border: 1px solid #0B6FEA">
             Import Question
           </button>
@@ -158,7 +160,8 @@
           <mat-label class="font-size-12 weight-600" style="margin: auto 5px">{{item?.category[0]?.name}}</mat-label>
         </div>
         <div>
-          <button mat-stroked-button (click)="importQuestion(item.question, item._id)" color="primary" class="me-2 radius"
+          <button mat-stroked-button (click)="importQuestion(item.question, item._id)" color="primary"
+                  class="me-2 radius"
                   style="border: 1px solid #0B6FEA">
             Import Question
           </button>
