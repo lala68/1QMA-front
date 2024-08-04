@@ -45,15 +45,40 @@
               <span class="font-size-12 weight-500">{{gameResult?.gameType?.text}}</span>
             </div>
           </div>
-          <div class="w-40 position-relative">
+          <div class="w-20">
+            <div class="position-relative" style="width: 100px">
+              <img src="assets/images/score.png"
+                   width="28" height="28">&nbsp;
+              <div class="font-size-14 weight-800 position-absolute"
+                   style="padding-left: 5px; left: 30px; top: -5px; color: #0CA609">
+                +{{gameResult?.statistics?.score | parsInt}}</div>
+              <mat-label class="position-absolute font-size-14 weight-500"
+                         style="padding-left: 5px;left: 30px; bottom: -5px;  color: #828282">
+                Score
+              </mat-label>
+            </div>
+            &nbsp; &nbsp;
+            <div class="position-relative" style="width: 100px">
+              <img src="assets/images/XP.png"
+                   width="28" height="28">&nbsp;
+              <div class="font-size-14 weight-800 position-absolute"
+                   style="padding-left: 5px; left: 30px; top: -5px; color: #0CA609">
+                +{{gameResult?.statistics?.xp | parsInt}}</div>
+              <mat-label class="position-absolute font-size-14 weight-500"
+                         style="padding-left: 5px;left: 30px; bottom: -5px;  color: #828282">
+                XP
+              </mat-label>&nbsp;&nbsp;&nbsp;&nbsp;
+            </div>
+          </div>
+          <div class="w-30 position-relative">
             <!--              2-->
             <img
-              style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px; background: white; position: absolute; left: 100px; bottom: 80px;"
+              style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px; background: white; position: absolute; left: 20px; bottom: 80px;"
               [src]="gameResult?.result?.scoreboard[1]?.profilePicture ? gameResult?.result?.scoreboard[1]?.profilePicture?.startsWith('http') ? gameResult?.result?.scoreboard[1]?.profilePicture : configService.url(gameResult?.result?.scoreboard[1]?.profilePicture) : 'assets/images/frame.png'"
               width="48">
             <!--              1-->
             <img
-              style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px; background: white; position: absolute; left: 170px; bottom: 90px;"
+              style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px; background: white; position: absolute; left: 85px; bottom: 90px;"
               [src]="gameResult?.result?.scoreboard[0]?.profilePicture ? gameResult?.result?.scoreboard[0]?.profilePicture?.startsWith('http') ? gameResult?.result?.scoreboard[0]?.profilePicture : configService.url(gameResult?.result?.scoreboard[0]?.profilePicture) : 'assets/images/frame.png'"
               width="48">
             <!--              3-->
@@ -63,7 +88,7 @@
                  width="48">
 
             <img src="assets/images/Leaderboards.png" width="190" height="65"
-                 style="position: absolute; left: 50px; right: 50px; bottom: 20px; margin: 0 auto;"/>
+                 style="position: absolute; left: 10px; right: 50px; bottom: 20px; margin: 0 auto;"/>
           </div>
         </div>
         <br>
@@ -123,10 +148,10 @@
           <mat-grid-tile class="result-grid"
                          *ngFor="let score of res?.answersRates; let i=index"
                          [colspan]="1">
-            <mat-label>{{score}}</mat-label>
+            <mat-label>{{score | parsInt}}</mat-label>
           </mat-grid-tile>
           <mat-grid-tile class="result-grid" [colspan]="1">
-            <mat-label>{{res?.questionRate}}</mat-label>
+            <mat-label>{{res?.questionRate| parsInt}}</mat-label>
           </mat-grid-tile>
           <mat-grid-tile class="result-grid" [colspan]="1">
             <mat-label>{{res?.totalScore | parsInt}}</mat-label>
@@ -171,7 +196,7 @@
                     <mat-card-subtitle class="font-size-14 weight-600 pb-2">{{question?.question}}
                     </mat-card-subtitle>
                     <mat-card-subtitle>
-                      <img src="assets/images/score.png" width="16"/> &nbsp; {{question?.rate}} Score
+                      <img src="assets/images/score.png" width="16"/> &nbsp; {{question?.rate | parsInt}} Score
                     </mat-card-subtitle>
                   </mat-card-header>
                 </mat-card>
@@ -196,7 +221,7 @@
                   <mat-label class="font-size-14 weight-400">{{answer?.answer}}</mat-label>
                   <br>
                   <br>
-                  <img src="assets/images/score.png" width="16"/> &nbsp; {{answer?.rate}} Score
+                  <img src="assets/images/score.png" width="16"/> &nbsp; {{answer?.rate | parsInt}} Score
                 </div>
               </div>
             </div>

@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {SharedModule} from "../../shared/shared.module";
 import {FormsModule} from "@angular/forms";
-import {RouterModule} from "@angular/router";
+import {Router, RouterModule} from "@angular/router";
 import {GamesService} from "../../services/games/games.service";
 import {ClientService} from "../../services/client/client.service";
 import {TranslateModule} from "@ngx-translate/core";
@@ -32,7 +32,8 @@ export class TriviaHubComponent implements OnInit {
   questionDetail: any;
 
   constructor(private gameService: GamesService, private clientService: ClientService,
-              public generalService: GeneralService, public configService: ConfigService) {
+              public generalService: GeneralService, public configService: ConfigService,
+              private router: Router) {
     this.generalService.currentRout = '/trivia-hub';
   }
 
@@ -87,6 +88,10 @@ export class TriviaHubComponent implements OnInit {
   async gotoAnswer(item: any) {
     this.questionStep = 2;
     this.questionDetail = item;
+  }
+
+  async gotoResult(id: any) {
+    await this.router.navigate(['game-result'], {state: {id: id}});
   }
 
 }

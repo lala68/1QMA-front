@@ -35,7 +35,7 @@ import {ParsIntPipe} from "../../pars-int.pipe";
   encapsulation: ViewEncapsulation.None
 })
 export class GamesComponent implements OnInit {
-  loading: boolean = false;
+  loading: boolean = true;
   createGameStep: any = 1;
   selectedGameMode: any;
   selectedGameType: any = [];
@@ -84,6 +84,7 @@ export class GamesComponent implements OnInit {
     this.gameService.getMyScoreboard().then(data => {
       if (data.status == 1) {
         this.myScoreboard = data.data;
+        this.loading = false;
       }
     })
     //
@@ -92,25 +93,25 @@ export class GamesComponent implements OnInit {
         this.liveGames = data.data;
     })
     //
-    // this.gameService.getFriendsRecentGames().then(data => {
-    //   if (data.status == 1)
-    //     this.friendsGames = data.data;
-    // })
+    this.gameService.getFriendsRecentGames().then(data => {
+      if (data.status == 1)
+        this.friendsGames = data.data;
+    })
     //
     this.gameService.getScoreboardSurvival().then(data => {
       if (data.status == 1)
         this.scoreboardSurvival = data.data;
     })
     //
-    // this.gameService.getLiveSurvival().then(data => {
-    //   if (data.status == 1)
-    //     this.liveSurvival = data.data;
-    // })
+    this.gameService.getLiveSurvival().then(data => {
+      if (data.status == 1)
+        this.liveSurvival = data.data;
+    })
     //
-    // this.gameService.getFriendsRecentSurvival().then(data => {
-    //   if (data.status == 1)
-    //     this.friendsRecentSurvival = data.data;
-    // })
+    this.gameService.getFriendsRecentSurvival().then(data => {
+      if (data.status == 1)
+        this.friendsRecentSurvival = data.data;
+    })
   }
 
   async gotoStepTwo(index: any) {

@@ -106,7 +106,7 @@
                     </mat-label>
                   </mat-label>
                 </mat-grid-tile>
-                <mat-grid-tile [colspan]="1">
+                <mat-grid-tile [colspan]="1" (click)="gotoResult(res?.gameId)">
                   <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
                       d="M9.53223 20.4084L16.0522 13.8884C16.8222 13.1184 16.8222 11.8584 16.0522 11.0884L9.53223 4.56836"
@@ -270,25 +270,166 @@
       <br>
       <div class="card border-0" *ngIf="scoreboardSurvival?.length || friendsGames?.length || liveGames?.length">
         <div class="w-100 d-flex">
-          <mat-card class="shadow-none">
+          <mat-card class="shadow-none w-100">
             <mat-card-header>
-              <img mat-card-avatar src="assets/images/friends-games.png" width="45" height="45">
+              <img mat-card-avatar src="assets/images/survival-game.png" width="45" height="45">
               <mat-card-title class="font-size-16 weight-600">{{'Survival' | translate}}</mat-card-title>
               <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
                 {{'See and join survival games' | translate}}
               </mat-card-subtitle>
             </mat-card-header>
-            <mat-card-content>
+            <mat-card-content class="w-100">
               <div *ngIf="scoreboardSurvival?.length">
+                <br>
+                <mat-label
+                  class="font-size-14 weight-600">{{'Survival games global scoreboard' | translate}}</mat-label>
+                <br>
+                <br>
+                <mat-grid-list cols="12" rowHeight="30px">
+                  <mat-grid-tile class="result-grid" [colspan]="1">
+                    <mat-label class="font-size-14 weight-700">Rank</mat-label>
+                  </mat-grid-tile>
+                  <mat-grid-tile class="result-grid" [colspan]="4">
+                    <mat-label class="font-size-14 weight-700">User</mat-label>
+                  </mat-grid-tile>
+                  <mat-grid-tile class="result-grid" [colspan]="3">
+                    <mat-label></mat-label>
+                  </mat-grid-tile>
+                  <mat-grid-tile class="result-grid" [colspan]="1">
+                    <mat-label class="font-size-14 weight-700">Avg.Rank</mat-label>
+                  </mat-grid-tile>
+                  <mat-grid-tile [colspan]="1">
+                    <mat-label class="font-size-14 weight-700">Avg Q.Rank</mat-label>
+                  </mat-grid-tile>
+                  <mat-grid-tile [colspan]="1">
+                    <mat-label class="font-size-14 weight-700">Avg.Score</mat-label>
+                  </mat-grid-tile>
+                  <mat-grid-tile [colspan]="1">
+                    <mat-label class="font-size-14 weight-700">Total Score</mat-label>
+                  </mat-grid-tile>
+                </mat-grid-list>
+
+                <mat-grid-list *ngFor="let res of scoreboardSurvival;let i=index"
+                               cols="12" rowHeight="50px" class="gray-card mb-2">
+                  <mat-grid-tile class="result-grid" [colspan]="1">
+                    <mat-label class="font-size-14 weight-700">{{i + 1}}</mat-label>
+                  </mat-grid-tile>
+                  <mat-grid-tile class="result-grid" [colspan]="4">
+                    <img style="border: 1px solid #E8E2E0;border-radius: 50px; background: white;"
+                         [src]="res?.profilePicture ? res?.profilePicture?.startsWith('http') ? res?.profilePicture : configService.url(res?.profilePicture) : 'assets/images/frame.png'"
+                         width="40">&nbsp;&nbsp;
+                    <mat-label>{{res?.firstName}} {{res?.lastName}}</mat-label>
+                  </mat-grid-tile>
+                  <mat-grid-tile [colspan]="3">
+                    <mat-label></mat-label>
+                  </mat-grid-tile>
+                  <mat-grid-tile [colspan]="1">
+                    <mat-label
+                      class="font-size-14 weight-500">{{res?.statistics?.survival?.avgRank | parsInt}}</mat-label>
+                  </mat-grid-tile>
+                  <mat-grid-tile [colspan]="1">
+                    <mat-label
+                      class="font-size-14 weight-500">{{res?.statistics?.survival?.avgQuestionScore | parsInt}}</mat-label>
+                  </mat-grid-tile>
+                  <mat-grid-tile [colspan]="1">
+                    <mat-label
+                      class="font-size-14 weight-500">{{res?.statistics?.survival?.totalScore | parsInt}}</mat-label>
+                  </mat-grid-tile>
+                  <mat-grid-tile [colspan]="1">
+                    <mat-label
+                      class="font-size-14 weight-800">{{res?.statistics?.survival?.totalScore | parsInt}}</mat-label>
+                  </mat-grid-tile>
+                </mat-grid-list>
 
               </div>
+              <br>
+              <div *ngIf="friendsRecentSurvival?.length || liveSurvival?.length" class="w-100">
+                <div *ngIf="liveSurvival?.length" class="w-50">
+                  <mat-label
+                    class="font-size-14 weight-600">{{'Live Survival Games' | translate}}</mat-label>
+                  <br>
+                  <br>
+                  <mat-grid-list *ngFor="let res of liveSurvival;let i=index"
+                                 cols="12" rowHeight="50px" class="gray-card mb-2">
+                    <mat-grid-tile class="result-grid" [colspan]="4">
+                      <div color="primary">
+                        <img [src]="'https://api.staging.1qma.games/' + res?.category?.icon" width="25">
+                        <span class="font-size-12 weight-500">{{res?.category?.name}}</span>
+                      </div>
+                    </mat-grid-tile>
+                    <mat-grid-tile class="result-grid" [colspan]="3">
+                      <div color="primary">
+                        <img src="assets/images/normal-game.png" *ngIf="res?.gameType?.id == 'normal'" width="25">
+                        <img src="assets/images/survival-game.png" *ngIf="res?.gameType?.id == 'survival'" width="25">
+                        <span class="font-size-12 weight-500">{{res?.gameType?.text}}</span>
+                      </div>
+                    </mat-grid-tile>
+                    <mat-grid-tile class="result-grid" [colspan]="4">
+                      <mat-chip [ngStyle]="{'background-color': '#F0FEEF'}">
+                        <svg width="10" height="10" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <circle cx="12.8809" cy="12.3311" r="12" fill="#43a047"/>
+                        </svg>
+                      </mat-chip>
+                      <div class="position-relative">
+                        <div class="position-absolute" style="top: -20px; width: max-content">{{res?.players?.length}}
+                          /{{generalService.gameInit?.numberOfPlayers}}</div>
+                        <div class="position-absolute font-size-12 weight-500"
+                             style="color: #585858; bottom: -15px; width: max-content">
+                          Players
+                          Joined
+                        </div>
+                      </div>
+                    </mat-grid-tile>
+                    <mat-grid-tile [colspan]="1" (click)="joinToGame(res?.code)">
+                      <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          d="M9.53223 20.4084L16.0522 13.8884C16.8222 13.1184 16.8222 11.8584 16.0522 11.0884L9.53223 4.56836"
+                          stroke="#0B6FEA" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                          stroke-linejoin="round"/>
+                      </svg>
+                    </mat-grid-tile>
+                  </mat-grid-list>
+                </div>
 
-              <div *ngIf="friendsGames?.length">
-
-              </div>
-
-              <div *ngIf="liveGames?.length">
-
+                <div *ngIf="friendsRecentSurvival?.length" class="w-50">
+                  <mat-label
+                    class="font-size-14 weight-600">{{'Survival Games From Friends' | translate}}</mat-label>
+                  <br>
+                  <br>
+                  <mat-grid-list *ngFor="let res of friendsRecentSurvival;let i=index"
+                                 cols="12" rowHeight="50px" class="gray-card mb-2">
+                    <mat-grid-tile class="result-grid" [colspan]="4">
+                      <img style="border: 1px solid #E8E2E0;border-radius: 50px; background: white;"
+                           [src]="res?.profilePicture ? res?.profilePicture?.startsWith('http') ? res?.profilePicture : configService.url(res?.profilePicture) : 'assets/images/frame.png'"
+                           width="40">&nbsp;&nbsp;
+                      <mat-label>{{res?.firstName}} {{res?.lastName}}</mat-label>
+                    </mat-grid-tile>
+                    <mat-grid-tile class="result-grid" [colspan]="3">
+                      <div color="primary">
+                        <img [src]="'https://api.staging.1qma.games/' + res?.category?.icon" width="25">
+                        <span class="font-size-12 weight-500">{{res?.category?.name}}</span>
+                      </div>
+                    </mat-grid-tile>
+                    <mat-grid-tile class="result-grid" [colspan]="4">
+                      <div class="position-relative">
+                        <div class="position-absolute"
+                             style="top: -20px; width: max-content">{{res?.endedAt | daysAgo}}</div>
+                        <div class="position-absolute font-size-12 weight-500"
+                             style="color: #585858; bottom: -15px; width: max-content">
+                          Invited you
+                        </div>
+                      </div>
+                    </mat-grid-tile>
+                    <mat-grid-tile [colspan]="1" (click)="joinToGame(res?.code)">
+                      <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          d="M9.53223 20.4084L16.0522 13.8884C16.8222 13.1184 16.8222 11.8584 16.0522 11.0884L9.53223 4.56836"
+                          stroke="#0B6FEA" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                          stroke-linejoin="round"/>
+                      </svg>
+                    </mat-grid-tile>
+                  </mat-grid-list>
+                </div>
               </div>
 
             </mat-card-content>

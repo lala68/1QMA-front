@@ -58,7 +58,7 @@
                   <mat-label class="font-size-13 weight-500"
                              style="margin: auto 10px">{{item?.user?.firstName}} {{item?.user?.lastName}}</mat-label>
                   <mat-label class="font-size-12 weight-500 position-absolute" style="right: 10px; margin: 10px auto">
-                    2hrs agos
+                    {{item?.createdAt | daysAgo}}
                   </mat-label>
                 </div>
                 <br>
@@ -66,7 +66,37 @@
                   {{item?.question}}
                 </div>
                 <br>
-                <div class="d-flex justify-content-between align-items-center">
+                <div class="d-inline-flex justify-content-between align-items-center m-1">
+                  <div class="white-card p-1" style="width: fit-content">
+                    <img src="assets/images/score.png"
+                         width="24">
+                    <mat-label class="font-size-12 weight-600"
+                               style="margin: auto 5px">{{item?.score | parsInt}}
+                      <mat-label class="font-size-12 weight-600" style="color: #828282">Score</mat-label>
+                    </mat-label>
+                  </div>
+                </div>
+                <div class="d-inline-flex justify-content-between align-items-center m-1">
+                  <div class="white-card p-1" style="width: fit-content">
+                    <img src="assets/images/plays.png"
+                         width="24">
+                    <mat-label class="font-size-12 weight-600"
+                               style="margin: auto 5px">{{item?.plays | parsInt}}
+                      <mat-label class="font-size-12 weight-600" style="color: #828282">Plays</mat-label>
+                    </mat-label>
+                  </div>
+                </div>
+                <div class="d-inline-flex justify-content-between align-items-center m-1">
+                  <div class="white-card p-1" style="width: fit-content">
+                    <img src="assets/images/answer-questions.png"
+                         width="24">
+                    <mat-label class="font-size-12 weight-600"
+                               style="margin: auto 5px">{{item?.answers | parsInt}}
+                      <mat-label class="font-size-12 weight-600" style="color: #828282">Answers</mat-label>
+                    </mat-label>
+                  </div>
+                </div>
+                <div class="d-inline-flex justify-content-between align-items-center m-1">
                   <div class="white-card p-1" style="width: fit-content">
                     <img
                       [src]="configService.url(item?.category?.icon)"
@@ -75,6 +105,7 @@
                                style="margin: auto 5px">{{item?.category?.name}}</mat-label>
                   </div>
                 </div>
+
                 <br>
                 <mat-card-actions class="position-relative">
                   <button mat-raised-button (click)="gotoAnswer(item)"
@@ -88,7 +119,7 @@
                       <path
                         d="M3.00195 18.5105V8.71055C3.00195 7.31055 3.60195 6.81055 5.00195 6.81055H6.00195C7.40195 6.81055 8.00195 7.31055 8.00195 8.71055V18.5105C8.00195 19.9105 7.40195 20.4105 6.00195 20.4105H5.00195C3.60195 20.4105 3.00195 19.9105 3.00195 18.5105Z"
                         stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>&nbsp;{{item?.likes?.length}}
+                    </svg>&nbsp;{{item?.likes}}
                     &nbsp;&nbsp;&nbsp;<svg width="17" height="17" viewBox="0 0 25 25" fill="none"
                                            xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -98,7 +129,7 @@
                       d="M22.521 5.81016V15.6102C22.521 17.0102 21.921 17.5102 20.521 17.5102H19.521C18.121 17.5102 17.521 17.0102 17.521 15.6102V5.81016C17.521 4.41016 18.121 3.91016 19.521 3.91016H20.521C21.921 3.91016 22.521 4.41016 22.521 5.81016Z"
                       stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
-                    &nbsp;{{item?.dislikes?.length}}
+                    &nbsp;{{item?.dislikes}}
                     &nbsp;&nbsp;&nbsp;<svg width="17" height="17" viewBox="0 0 17 17" fill="none"
                                            xmlns="http://www.w3.org/2000/svg">
                     <path d="M10.0384 7.65576H6.83008" stroke="#828282" stroke-width="1.2" stroke-miterlimit="10"
@@ -131,7 +162,7 @@
                   <mat-label class="font-size-13 weight-500"
                              style="margin: auto 10px">{{item?.user?.firstName}} {{item?.user?.lastName}}</mat-label>
                   <mat-label class="font-size-12 weight-500 position-absolute" style="right: 10px; margin: 10px auto">
-                    2hrs agos
+                    {{item?.createdAt | daysAgo}}
                   </mat-label>
                 </div>
                 <br>
@@ -168,7 +199,7 @@
                       <path
                         d="M3.00195 18.5105V8.71055C3.00195 7.31055 3.60195 6.81055 5.00195 6.81055H6.00195C7.40195 6.81055 8.00195 7.31055 8.00195 8.71055V18.5105C8.00195 19.9105 7.40195 20.4105 6.00195 20.4105H5.00195C3.60195 20.4105 3.00195 19.9105 3.00195 18.5105Z"
                         stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>&nbsp;{{item?.likes?.length}}
+                    </svg>&nbsp;{{item?.likes}}
                     &nbsp;&nbsp;&nbsp;<svg width="17" height="17" viewBox="0 0 25 25" fill="none"
                                            xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -178,7 +209,7 @@
                       d="M22.521 5.81016V15.6102C22.521 17.0102 21.921 17.5102 20.521 17.5102H19.521C18.121 17.5102 17.521 17.0102 17.521 15.6102V5.81016C17.521 4.41016 18.121 3.91016 19.521 3.91016H20.521C21.921 3.91016 22.521 4.41016 22.521 5.81016Z"
                       stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
-                    &nbsp;{{item?.dislikes?.length}}
+                    &nbsp;{{item?.dislikes}}
                     &nbsp;&nbsp;&nbsp;<svg width="17" height="17" viewBox="0 0 17 17" fill="none"
                                            xmlns="http://www.w3.org/2000/svg">
                     <path d="M10.0384 7.65576H6.83008" stroke="#828282" stroke-width="1.2" stroke-miterlimit="10"
@@ -211,7 +242,7 @@
                   <mat-label class="font-size-13 weight-500"
                              style="margin: auto 10px">{{item?.user?.firstName}} {{item?.user?.lastName}}</mat-label>
                   <mat-label class="font-size-12 weight-500 position-absolute" style="right: 10px; margin: 10px auto">
-                    2hrs agos
+                    {{item?.createdAt | daysAgo}}
                   </mat-label>
                 </div>
                 <br>
@@ -241,7 +272,7 @@
                       <path
                         d="M3.00195 18.5105V8.71055C3.00195 7.31055 3.60195 6.81055 5.00195 6.81055H6.00195C7.40195 6.81055 8.00195 7.31055 8.00195 8.71055V18.5105C8.00195 19.9105 7.40195 20.4105 6.00195 20.4105H5.00195C3.60195 20.4105 3.00195 19.9105 3.00195 18.5105Z"
                         stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>&nbsp;{{item?.likes?.length}}
+                    </svg>&nbsp;{{item?.likes}}
                     &nbsp;&nbsp;&nbsp;<svg width="17" height="17" viewBox="0 0 25 25" fill="none"
                                            xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -251,7 +282,7 @@
                       d="M22.521 5.81016V15.6102C22.521 17.0102 21.921 17.5102 20.521 17.5102H19.521C18.121 17.5102 17.521 17.0102 17.521 15.6102V5.81016C17.521 4.41016 18.121 3.91016 19.521 3.91016H20.521C21.921 3.91016 22.521 4.41016 22.521 5.81016Z"
                       stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
-                    &nbsp;{{item?.dislikes?.length}}
+                    &nbsp;{{item?.dislikes}}
                     &nbsp;&nbsp;&nbsp;<svg width="17" height="17" viewBox="0 0 17 17" fill="none"
                                            xmlns="http://www.w3.org/2000/svg">
                     <path d="M10.0384 7.65576H6.83008" stroke="#828282" stroke-width="1.2" stroke-miterlimit="10"
@@ -365,7 +396,8 @@
                   <span class="font-size-11 weight-500 text-start">{{endedGame?.players?.length}} player</span>
                   <br>
                   <mat-card-actions>
-                    <button mat-raised-button class="game-button">{{'Game Detail' | translate}}
+                    <button mat-raised-button class="game-button"
+                            (click)="gotoResult(endedGame._id)">{{'Game Detail' | translate}}
                     </button>
                   </mat-card-actions>
                 </mat-card>
@@ -433,7 +465,8 @@
                   <span class="font-size-11 weight-500 text-start">{{endedGame?.players?.length}} player</span>
                   <br>
                   <mat-card-actions>
-                    <button mat-raised-button class="game-button">{{'Game Detail' | translate}}
+                    <button mat-raised-button class="game-button"
+                            (click)="gotoResult(endedGame._id)">{{'Game Detail' | translate}}
                     </button>
                   </mat-card-actions>
                 </mat-card>
@@ -471,7 +504,7 @@
             <mat-label class="font-size-13 weight-500"
                        style="margin: auto 10px">{{questionDetail?.user?.firstName}} {{questionDetail?.user?.lastName}}</mat-label>
             <mat-label class="font-size-12 weight-500 position-absolute" style="right: 10px; margin: 10px auto">
-              2hrs agos
+              {{questionDetail?.createdAt | daysAgo}}
             </mat-label>
           </div>
           <div class="position-absolute" style="top: 50px; right: 50px">
