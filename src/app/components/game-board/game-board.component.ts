@@ -17,12 +17,14 @@ import {TimeDifferencePipe} from "../../time-difference.pipe";
 import {SnackbarContentComponent} from "../snackbar-content/snackbar-content.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {HttpClient} from "@angular/common/http";
+import {ParsIntPipe} from "../../pars-int.pipe";
 
 @Component({
   selector: 'app-game-board',
   standalone: true,
   imports: [CommonModule, SharedModule, FormsModule, RouterModule, ReactiveFormsModule, TranslateModule,
-    ClipboardModule, CountdownTimerComponent, CdkDropList, CdkDrag, MatExpansionModule, TimeDifferencePipe],
+    ClipboardModule, CountdownTimerComponent, CdkDropList, CdkDrag, MatExpansionModule, TimeDifferencePipe,
+    ParsIntPipe],
   templateUrl: './game-board.component.html',
   styleUrl: './game-board.component.scss',
   providers: [CountdownTimerComponent]
@@ -49,6 +51,9 @@ export class GameBoardComponent implements OnInit, OnDestroy {
   panelOpenState: boolean[] = [];
   numberOfDisconnectingInGameSteps: any = 0;
   isModalOpen = false;
+  backToCheckpoint: boolean = false;
+  congratulation: boolean = false;
+  myRank: any;
 
   constructor(public generalService: GeneralService, private router: Router, private gameService: GamesService,
               public configService: ConfigService, private ngZone: NgZone, private _snackBar: MatSnackBar,
@@ -140,10 +145,12 @@ export class GameBoardComponent implements OnInit, OnDestroy {
 
     this.generalService.socket.on("disconnect", () => {
       console.log('disconnect');
-      this.generalService.disconnectedModal = this.dialog.open(Disconnected, {
-        width: '500px',
-        disableClose: true
-      });
+      if (this.generalService?.startingGame) {
+        this.generalService.disconnectedModal = this.dialog.open(Disconnected, {
+          width: '500px',
+          disableClose: true
+        });
+      }
     });
     // window.addEventListener('beforeunload', this.beforeUnloadHandler);
 
@@ -350,7 +357,13 @@ export class GameBoardComponent implements OnInit, OnDestroy {
   async getGameResult() {
     this.gameService.getGameResult(this.generalService.createdGameData.game.gameId).then(data => {
         this.generalService.gameResult = data.data;
-        console.log(this.generalService.gameResult)
+        this.generalService.gameResult.result.scoreboard.filter((item: any, index: any) => {
+          if (item._id == this.generalService.userId) {
+            this.myRank = index + 1;
+            console.log(this.myRank)
+            console.log(index)
+          }
+        });
       }
     )
   }
@@ -710,6 +723,31 @@ export class GameBoardComponent implements OnInit, OnDestroy {
       URL.revokeObjectURL(objectUrl);
     });
   }
+
+  openScoreModal(score: any, totalScore: any) {
+    const dialogRef = this.dialog.open(Score, {
+      data: {score, totalScore},
+      width: '600px',
+      disableClose: true
+    });
+    dialogRef.afterClosed().subscribe(async result => {
+      if (result == 'close') {
+        // this.backToCheckpoint = true;
+      } else if (result == 'keep') {
+        this.congratulation = true;
+      }
+    });
+  }
+
+  backToCheckpointMethod() {
+    this.gameService.backToCheckpoint(this.generalService.createdGameData.game.gameId).then(data => {
+      if (data.status == 1) {
+        this.backToCheckpoint = true;
+      } else {
+        this.openDialog(JSON.stringify(data.message), 'Error');
+      }
+    })
+  }
 }
 
 @Component({
@@ -875,4 +913,47 @@ export class ShareGame {
     this.dialogRef.close();
   }
 
+}
+
+@Component({
+  selector: 'score',
+  templateUrl: 'score.html',
+  standalone: true,
+  imports: [MaterialModule, CommonModule, TranslateModule, ClipboardModule]
+})
+
+export class Score {
+
+  constructor(public dialogRef: MatDialogRef<Score>, private gameService: GamesService,
+              private router: Router, @Inject(MAT_DIALOG_DATA) public data: any,
+              private _snackBar: MatSnackBar, public generalService: GeneralService) {
+
+  }
+
+  async closeModal(text: any) {
+    if (text == 'keep') {
+      await this.gameService.keepMyScore(this.generalService.createdGameData.game.gameId).then(data => {
+        if (data.status == 1) {
+          this.dialogRef.close(text);
+        } else {
+          this.openDialog(JSON.stringify(data.message), 'Error');
+        }
+      });
+    } else {
+      this.dialogRef.close(text);
+    }
+  }
+
+  openDialog(message: any, title: any) {
+    this._snackBar.openFromComponent(SnackbarContentComponent, {
+      data: {
+        title: title,
+        message: message
+      },
+      duration: 3000,
+      verticalPosition: 'top',
+      horizontalPosition: 'end',
+      panelClass: title == 'Success' ? 'app-notification-success' : 'app-notification-error'
+    });
+  }
 }

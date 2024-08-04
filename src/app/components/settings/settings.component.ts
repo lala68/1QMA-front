@@ -34,7 +34,7 @@ export class SettingsComponent implements OnInit {
 
   async ngOnInit(): Promise<any> {
     this.settingsForm = this._formBuilder.group({
-      language: [this.generalService.userObj?.preferedLanguage ? this.generalService.userObj?.preferedLanguage : '0'],
+      language: [this.generalService.userObj?.preferedLanguage ? this.generalService.userObj?.preferedLanguage?._id : '0'],
       defaultHomePage: [this.generalService.userObj?.defaultHomePage ? this.generalService.userObj?.defaultHomePage : '/dashboard'],
     });
   }

@@ -12,12 +12,13 @@ import {ClipboardModule} from "@angular/cdk/clipboard";
 import {MatDialog} from "@angular/material/dialog";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {SnackbarContentComponent} from "../snackbar-content/snackbar-content.component";
+import {ParsIntPipe} from "../../pars-int.pipe";
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
   imports: [CommonModule, SharedModule, FormsModule, RouterModule, ReactiveFormsModule, NgxMatIntlTelInputComponent,
-    TranslateModule, ClipboardModule],
+    TranslateModule, ClipboardModule, ParsIntPipe],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
@@ -40,6 +41,9 @@ export class DashboardComponent implements OnInit {
 
   async ngOnInit(): Promise<any> {
     await this.generalService.getUserData();
+    this.clientService.clientInit().then(data => {
+      this.generalService.clientInit = data.data;
+    });
     this.calculateRemainingDays();
     this.loading = false;
   }

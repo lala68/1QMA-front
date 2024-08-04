@@ -129,7 +129,7 @@
             <mat-label>{{res?.questionRate}}</mat-label>
           </mat-grid-tile>
           <mat-grid-tile class="result-grid" [colspan]="1">
-            <mat-label>{{res?.totalScore | number}}</mat-label>
+            <mat-label>{{res?.totalScore | parsInt}}</mat-label>
           </mat-grid-tile>
         </mat-grid-list>
         <br>

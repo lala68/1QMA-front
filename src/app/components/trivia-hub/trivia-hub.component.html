@@ -3,143 +3,272 @@
 <div style="display: ruby-text;">
   <mat-spinner *ngIf="loading" [diameter]="30"></mat-spinner>
 </div>
-<div *ngIf="!loading">
-  <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+<div *ngIf="!loading && questionStep == 1">
+  <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" class="tab-group-trivia"
+                 [(selectedIndex)]="selectedTabIndexParent" (selectedTabChange)="questionOrGame()">
     <mat-tab label="Questions">
       <div class="card border-0">
         <div class="w-100 d-flex">
-          <mat-card class="shadow-none">
+          <mat-card class="shadow-none p-2" style="width: 1042px">
             <mat-card-header>
               <div>
                 <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" class="tab-group-library"
                                [(selectedIndex)]="selectedTabIndex" (selectedTabChange)="ngOnInit()">
-                  <mat-tab label="Private Library">
+                  <mat-tab label="All Quesstions">
                   </mat-tab>
-                  <mat-tab label="Public Library">
+                  <mat-tab label="My Questions">
                   </mat-tab>
                   <mat-tab label="Bookmarked">
                   </mat-tab>
                 </mat-tab-group>
               </div>
-              <br>
+            </mat-card-header>
+            <br>
+            <!--  private-->
+            <div class="d-flex overflow-scroll">
+              <div class="m-2 d-inline-flex shadow-none cursor-pointer p-3"
+                   (click)="selectCat('')"
+                   [class]="{'mat-card-pref-selected': isSelected(''), 'mat-card-pref': !isSelected('')}">
+                <div class="text-center w-100" style="padding-top: 8px">
+                  <mat-label class="font-size-14 weight-600">{{ 'all categories' }}</mat-label>
+                </div>
+              </div>
+              <div *ngFor="let cat of generalService?.gameInit?.categories"
+                   class="m-2 d-inline-flex shadow-none cursor-pointer p-3"
+                   (click)="selectCat(cat)"
+                   [class]="{'mat-card-pref-selected': isSelected(cat), 'mat-card-pref': !isSelected(cat)}">
+                <div class="text-start">
+                  <img [src]="'https://api.staging.1qma.games/' + cat?.icon" width="35">
+                  <mat-label>{{ cat?.name }}</mat-label>
+                </div>
+              </div>
+            </div>
+            <mat-card-content *ngIf="selectedTabIndex == 0">
               <div style="display: ruby-text;">
                 <mat-spinner *ngIf="loadingContent" [diameter]="30"></mat-spinner>
               </div>
-              <!--  private-->
-              <div *ngIf="selectedTabIndex == 0">
-                <div *ngFor="let item of library" class="gray-card p-4 mb-2">
-                  <div class="d-flex white-card position-relative">
-                    <img style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px"
-                         [src]="generalService.userObj?.profilePicture ? generalService.userObj?.profilePicture?.startsWith('http') ? generalService.userObj?.profilePicture : configService.url(generalService.userObj?.profilePicture) : 'assets/images/frame.png'"
-                         width="42" height="42">
-                    <mat-label class="font-size-13 weight-500"
-                               style="margin: auto 10px">{{generalService.userObj?.firstName}} {{generalService.userObj?.lastName}}</mat-label>
-                    <mat-label class="font-size-12 weight-500 position-absolute" style="right: 10px; margin: 10px auto">
-                      2hrs agos
+              <div class="border-0 pt-4 ps-4 font-size-14 weight-600" *ngIf="library?.total">
+                {{library?.total}} Questions
+              </div>
+              <div *ngFor="let item of library?.questions" class="gray-card p-4 m-2 d-inline-block" style="width: 48%">
+                <div class="d-flex white-card position-relative m-2">
+                  <img style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px"
+                       [src]="item?.user?.profilePicture ? item?.user?.profilePicture?.startsWith('http') ? item?.user?.profilePicture : configService.url(item?.user?.profilePicture) : 'assets/images/frame.png'"
+                       width="42" height="42">
+                  <mat-label class="font-size-13 weight-500"
+                             style="margin: auto 10px">{{item?.user?.firstName}} {{item?.user?.lastName}}</mat-label>
+                  <mat-label class="font-size-12 weight-500 position-absolute" style="right: 10px; margin: 10px auto">
+                    2hrs agos
+                  </mat-label>
+                </div>
+                <br>
+                <div class="font-size-14 weight-700">
+                  {{item?.question}}
+                </div>
+                <br>
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="white-card p-1" style="width: fit-content">
+                    <img
+                      [src]="configService.url(item?.category?.icon)"
+                      width="24">
+                    <mat-label class="font-size-12 weight-600"
+                               style="margin: auto 5px">{{item?.category?.name}}</mat-label>
+                  </div>
+                </div>
+                <br>
+                <mat-card-actions class="position-relative">
+                  <button mat-raised-button (click)="gotoAnswer(item)"
+                          class="answer-button position-absolute end-10 bottom-0">{{'Answer' | translate}}
+                  </button>
+                  <div class="position-absolute bottom-0">
+                    <svg width="17" height="17" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M8.10205 18.5106L11.2021 20.9106C11.6021 21.3106 12.5021 21.5106 13.1021 21.5106H16.9021C18.1021 21.5106 19.4021 20.6106 19.7021 19.4106L22.1021 12.1106C22.6021 10.7106 21.7021 9.51061 20.2021 9.51061H16.2021C15.6021 9.51061 15.1021 9.01061 15.2021 8.31061L15.7021 5.11061C15.9021 4.21061 15.3021 3.21061 14.4021 2.91061C13.6021 2.61061 12.6021 3.01061 12.2021 3.61061L8.10205 9.71061"
+                        stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10"/>
+                      <path
+                        d="M3.00195 18.5105V8.71055C3.00195 7.31055 3.60195 6.81055 5.00195 6.81055H6.00195C7.40195 6.81055 8.00195 7.31055 8.00195 8.71055V18.5105C8.00195 19.9105 7.40195 20.4105 6.00195 20.4105H5.00195C3.60195 20.4105 3.00195 19.9105 3.00195 18.5105Z"
+                        stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>&nbsp;{{item?.likes?.length}}
+                    &nbsp;&nbsp;&nbsp;<svg width="17" height="17" viewBox="0 0 25 25" fill="none"
+                                           xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M17.4211 5.81055L14.3211 3.41055C13.9211 3.01055 13.0211 2.81055 12.4211 2.81055H8.6211C7.4211 2.81055 6.1211 3.71055 5.8211 4.91055L3.4211 12.2105C2.9211 13.6105 3.8211 14.8105 5.3211 14.8105H9.3211C9.9211 14.8105 10.4211 15.3105 10.3211 16.0105L9.8211 19.2105C9.6211 20.1105 10.2211 21.1105 11.1211 21.4105C11.9211 21.7105 12.9211 21.3105 13.3211 20.7105L17.4211 14.6105"
+                      stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10"/>
+                    <path
+                      d="M22.521 5.81016V15.6102C22.521 17.0102 21.921 17.5102 20.521 17.5102H19.521C18.121 17.5102 17.521 17.0102 17.521 15.6102V5.81016C17.521 4.41016 18.121 3.91016 19.521 3.91016H20.521C21.921 3.91016 22.521 4.41016 22.521 5.81016Z"
+                      stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                    &nbsp;{{item?.dislikes?.length}}
+                    &nbsp;&nbsp;&nbsp;<svg width="17" height="17" viewBox="0 0 17 17" fill="none"
+                                           xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10.0384 7.65576H6.83008" stroke="#828282" stroke-width="1.2" stroke-miterlimit="10"
+                          stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M8.4342 6.07275V9.317" stroke="#828282" stroke-width="1.2" stroke-miterlimit="10"
+                          stroke-linecap="round" stroke-linejoin="round"/>
+                    <path
+                      d="M11.5271 2.04346H5.34146C3.97471 2.04346 2.86462 3.17246 2.86462 4.54802V13.6903C2.86462 14.8582 3.69237 15.3514 4.70621 14.7869L7.83754 13.0285C8.17121 12.8403 8.7102 12.8403 9.03745 13.0285L12.1688 14.7869C13.1826 15.3579 14.0104 14.8647 14.0104 13.6903V4.54802C14.004 3.17246 12.8939 2.04346 11.5271 2.04346Z"
+                      stroke="#828282" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                    &nbsp;{{item?.bookmarks?.length}}
+                  </div>
+                </mat-card-actions>
+              </div>
+            </mat-card-content>
+
+            <!--  public-->
+            <mat-card-content *ngIf="selectedTabIndex == 1">
+              <div style="display: ruby-text;">
+                <mat-spinner *ngIf="loadingContent" [diameter]="30"></mat-spinner>
+              </div>
+              <div class="border-0 pt-4 ps-4 font-size-14 weight-600" *ngIf="library?.total">
+                {{library?.total}} Questions
+              </div>
+              <div *ngFor="let item of library?.questions" class="gray-card p-4 m-2 d-inline-block" style="width: 48%">
+                <div class="d-flex white-card position-relative m-2">
+                  <img style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px"
+                       [src]="item?.user?.profilePicture ? item?.user?.profilePicture?.startsWith('http') ? item?.user?.profilePicture : configService.url(item?.user?.profilePicture) : 'assets/images/frame.png'"
+                       width="42" height="42">
+                  <mat-label class="font-size-13 weight-500"
+                             style="margin: auto 10px">{{item?.user?.firstName}} {{item?.user?.lastName}}</mat-label>
+                  <mat-label class="font-size-12 weight-500 position-absolute" style="right: 10px; margin: 10px auto">
+                    2hrs agos
+                  </mat-label>
+                </div>
+                <br>
+                <div class="font-size-14 weight-700">
+                  {{item?.question}}
+                </div>
+                <br>
+                <div class="d-inline-flex">
+                  <div class="white-card p-1" style="width: fit-content">
+                    <img
+                      [src]="configService.url(item.category?.icon)"
+                      width="24">
+                    <mat-label class="font-size-12 weight-600"
+                               style="margin: auto 5px">{{item?.category?.name}}</mat-label>
+                  </div>
+                  &nbsp;&nbsp;
+                  <div class="white-card p-1" style="width: fit-content">
+                    <img src="assets/images/score.png" width="24">
+                    <mat-label class="font-size-12 weight-600" style="margin: auto 10px">176 <span class="text-gray">Score</span>
                     </mat-label>
                   </div>
-                  <br>
-                  <div class="font-size-14 weight-700">
-                    {{item?.question}}
-                  </div>
-                  <br>
-                  <div class="font-size-13 weight-400">
-                    {{item?.answer}}
-                  </div>
-                  <br>
-                  <div class="d-flex justify-content-between align-items-center">
-                    <div class="white-card p-1" style="width: fit-content">
-                      <img
-                        [src]="configService.url(item.category[0]?.icon)"
-                        width="24">
-                      <mat-label class="font-size-12 weight-600"
-                                 style="margin: auto 5px">{{item?.category[0]?.name}}</mat-label>
-                    </div>
-                  </div>
-
                 </div>
+                <br>
+                <br>
+                <mat-card-actions class="position-relative">
+                  <button mat-raised-button (click)="gotoAnswer(item)"
+                          class="answer-button position-absolute end-10 bottom-0">{{'Answer' | translate}}
+                  </button>
+                  <div class="position-absolute bottom-0">
+                    <svg width="17" height="17" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M8.10205 18.5106L11.2021 20.9106C11.6021 21.3106 12.5021 21.5106 13.1021 21.5106H16.9021C18.1021 21.5106 19.4021 20.6106 19.7021 19.4106L22.1021 12.1106C22.6021 10.7106 21.7021 9.51061 20.2021 9.51061H16.2021C15.6021 9.51061 15.1021 9.01061 15.2021 8.31061L15.7021 5.11061C15.9021 4.21061 15.3021 3.21061 14.4021 2.91061C13.6021 2.61061 12.6021 3.01061 12.2021 3.61061L8.10205 9.71061"
+                        stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10"/>
+                      <path
+                        d="M3.00195 18.5105V8.71055C3.00195 7.31055 3.60195 6.81055 5.00195 6.81055H6.00195C7.40195 6.81055 8.00195 7.31055 8.00195 8.71055V18.5105C8.00195 19.9105 7.40195 20.4105 6.00195 20.4105H5.00195C3.60195 20.4105 3.00195 19.9105 3.00195 18.5105Z"
+                        stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>&nbsp;{{item?.likes?.length}}
+                    &nbsp;&nbsp;&nbsp;<svg width="17" height="17" viewBox="0 0 25 25" fill="none"
+                                           xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M17.4211 5.81055L14.3211 3.41055C13.9211 3.01055 13.0211 2.81055 12.4211 2.81055H8.6211C7.4211 2.81055 6.1211 3.71055 5.8211 4.91055L3.4211 12.2105C2.9211 13.6105 3.8211 14.8105 5.3211 14.8105H9.3211C9.9211 14.8105 10.4211 15.3105 10.3211 16.0105L9.8211 19.2105C9.6211 20.1105 10.2211 21.1105 11.1211 21.4105C11.9211 21.7105 12.9211 21.3105 13.3211 20.7105L17.4211 14.6105"
+                      stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10"/>
+                    <path
+                      d="M22.521 5.81016V15.6102C22.521 17.0102 21.921 17.5102 20.521 17.5102H19.521C18.121 17.5102 17.521 17.0102 17.521 15.6102V5.81016C17.521 4.41016 18.121 3.91016 19.521 3.91016H20.521C21.921 3.91016 22.521 4.41016 22.521 5.81016Z"
+                      stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                    &nbsp;{{item?.dislikes?.length}}
+                    &nbsp;&nbsp;&nbsp;<svg width="17" height="17" viewBox="0 0 17 17" fill="none"
+                                           xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10.0384 7.65576H6.83008" stroke="#828282" stroke-width="1.2" stroke-miterlimit="10"
+                          stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M8.4342 6.07275V9.317" stroke="#828282" stroke-width="1.2" stroke-miterlimit="10"
+                          stroke-linecap="round" stroke-linejoin="round"/>
+                    <path
+                      d="M11.5271 2.04346H5.34146C3.97471 2.04346 2.86462 3.17246 2.86462 4.54802V13.6903C2.86462 14.8582 3.69237 15.3514 4.70621 14.7869L7.83754 13.0285C8.17121 12.8403 8.7102 12.8403 9.03745 13.0285L12.1688 14.7869C13.1826 15.3579 14.0104 14.8647 14.0104 13.6903V4.54802C14.004 3.17246 12.8939 2.04346 11.5271 2.04346Z"
+                      stroke="#828282" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                    &nbsp;{{item?.bookmarks?.length}}
+                  </div>
+                </mat-card-actions>
               </div>
+            </mat-card-content>
 
-              <!--  public-->
-              <div *ngIf="selectedTabIndex == 1">
-                <div *ngFor="let item of library" class="gray-card p-4 mb-2">
-                  <div class="d-flex white-card position-relative">
-                    <img src="assets/images/frame.png" width="42">
-                    <mat-label class="font-size-13 weight-500" style="margin: auto 10px">Sam Smith</mat-label>
-                    <mat-label class="font-size-12 weight-500 position-absolute" style="right: 10px; margin: 10px auto">
-                      2hrs agos
-                    </mat-label>
-                  </div>
-                  <br>
-                  <div class="font-size-14 weight-700">
-                    {{item?.question}}
-                  </div>
-                  <br>
-                  <div class="d-inline-flex">
-                    <div class="white-card p-1" style="width: fit-content">
-                      <img
-                        [src]="configService.url(item.category[0]?.icon)"
-                        width="24">
-                      <mat-label class="font-size-12 weight-600"
-                                 style="margin: auto 5px">{{item?.category[0]?.name}}</mat-label>
-                    </div>
-                    &nbsp;&nbsp;
-                    <div class="white-card p-1" style="width: fit-content">
-                      <img src="assets/images/score.png" width="24">
-                      <mat-label class="font-size-12 weight-600" style="margin: auto 10px">176 <span class="text-gray">Score</span>
-                      </mat-label>
-                    </div>
-                  </div>
-                  <br>
-                  <br>
-                  <div class="border-bottom"></div>
-                  <br>
-                  <div class="d-block">
-                    <div class="d-inline-block">
-                      <img src="assets/images/coin-bronze.png" width="25">
-                      &nbsp;&nbsp;<span class="font-size-14 weight-600">5 Bronze</span>
-                    </div>
-                  </div>
-
+            <!--  bookmark-->
+            <mat-card-content *ngIf="selectedTabIndex == 2">
+              <div style="display: ruby-text;">
+                <mat-spinner *ngIf="loadingContent" [diameter]="30"></mat-spinner>
+              </div>
+              <div class="border-0 pt-4 ps-4 font-size-14 weight-600" *ngIf="library?.total">
+                {{library?.total}} Questions
+              </div>
+              <div *ngFor="let item of library?.questions" class="gray-card p-4 m-2 d-inline-block" style="width: 48%">
+                <div class="d-flex white-card position-relative m-2">
+                  <img style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px"
+                       [src]="item?.user?.profilePicture ? item?.user?.profilePicture?.startsWith('http') ? item?.user?.profilePicture : configService.url(item?.user?.profilePicture) : 'assets/images/frame.png'"
+                       width="42" height="42">
+                  <mat-label class="font-size-13 weight-500"
+                             style="margin: auto 10px">{{item?.user?.firstName}} {{item?.user?.lastName}}</mat-label>
+                  <mat-label class="font-size-12 weight-500 position-absolute" style="right: 10px; margin: 10px auto">
+                    2hrs agos
+                  </mat-label>
                 </div>
-              </div>
-
-              <!--  bookmark-->
-              <div *ngIf="selectedTabIndex == 2">
-                <div *ngFor="let item of library" class="gray-card p-3 mb-2">
-                  <div class="d-flex white-card position-relative">
-                    <img style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px"
-                         [src]="generalService.userObj?.profilePicture ? generalService.userObj?.profilePicture?.startsWith('http') ? generalService.userObj?.profilePicture : configService.url(generalService.userObj?.profilePicture) : 'assets/images/frame.png'"
-                         width="42" height="42">
-                    <mat-label class="font-size-13 weight-500"
-                               style="margin: auto 10px">{{generalService.userObj?.firstName}} {{generalService.userObj?.lastName}}</mat-label>
-                    <mat-label class="font-size-12 weight-500 position-absolute" style="right: 10px; margin: 10px auto">
-                      2hrs agos
-                    </mat-label>
-                  </div>
-                  <br>
-                  <div class="font-size-14 weight-700">
-                    {{item?.question}}
-                  </div>
-                  <br>
-                  <div class="font-size-13 weight-400">
-                    {{item?.answer}}
-                  </div>
-                  <br>
-                  <div class="d-flex justify-content-between align-items-center">
-                    <div class="white-card p-1" style="width: fit-content">
-                      <img
-                        [src]="configService.url(item.category[0]?.icon)"
-                        width="24">
-                      <mat-label class="font-size-12 weight-600"
-                                 style="margin: auto 5px">{{item?.category[0]?.name}}</mat-label>
-                    </div>
-                  </div>
-
+                <br>
+                <div class="font-size-14 weight-700">
+                  {{item?.question}}
                 </div>
+                <br>
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="white-card p-1" style="width: fit-content">
+                    <img
+                      [src]="configService.url(item.category?.icon)"
+                      width="24">
+                    <mat-label class="font-size-12 weight-600"
+                               style="margin: auto 5px">{{item?.category?.name}}</mat-label>
+                  </div>
+                </div>
+                <br>
+                <mat-card-actions class="position-relative">
+                  <button mat-raised-button (click)="gotoAnswer(item)"
+                          class="answer-button position-absolute end-10 bottom-0">{{'Answer' | translate}}
+                  </button>
+                  <div class="position-absolute bottom-0">
+                    <svg width="17" height="17" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M8.10205 18.5106L11.2021 20.9106C11.6021 21.3106 12.5021 21.5106 13.1021 21.5106H16.9021C18.1021 21.5106 19.4021 20.6106 19.7021 19.4106L22.1021 12.1106C22.6021 10.7106 21.7021 9.51061 20.2021 9.51061H16.2021C15.6021 9.51061 15.1021 9.01061 15.2021 8.31061L15.7021 5.11061C15.9021 4.21061 15.3021 3.21061 14.4021 2.91061C13.6021 2.61061 12.6021 3.01061 12.2021 3.61061L8.10205 9.71061"
+                        stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10"/>
+                      <path
+                        d="M3.00195 18.5105V8.71055C3.00195 7.31055 3.60195 6.81055 5.00195 6.81055H6.00195C7.40195 6.81055 8.00195 7.31055 8.00195 8.71055V18.5105C8.00195 19.9105 7.40195 20.4105 6.00195 20.4105H5.00195C3.60195 20.4105 3.00195 19.9105 3.00195 18.5105Z"
+                        stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>&nbsp;{{item?.likes?.length}}
+                    &nbsp;&nbsp;&nbsp;<svg width="17" height="17" viewBox="0 0 25 25" fill="none"
+                                           xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M17.4211 5.81055L14.3211 3.41055C13.9211 3.01055 13.0211 2.81055 12.4211 2.81055H8.6211C7.4211 2.81055 6.1211 3.71055 5.8211 4.91055L3.4211 12.2105C2.9211 13.6105 3.8211 14.8105 5.3211 14.8105H9.3211C9.9211 14.8105 10.4211 15.3105 10.3211 16.0105L9.8211 19.2105C9.6211 20.1105 10.2211 21.1105 11.1211 21.4105C11.9211 21.7105 12.9211 21.3105 13.3211 20.7105L17.4211 14.6105"
+                      stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10"/>
+                    <path
+                      d="M22.521 5.81016V15.6102C22.521 17.0102 21.921 17.5102 20.521 17.5102H19.521C18.121 17.5102 17.521 17.0102 17.521 15.6102V5.81016C17.521 4.41016 18.121 3.91016 19.521 3.91016H20.521C21.921 3.91016 22.521 4.41016 22.521 5.81016Z"
+                      stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                    &nbsp;{{item?.dislikes?.length}}
+                    &nbsp;&nbsp;&nbsp;<svg width="17" height="17" viewBox="0 0 17 17" fill="none"
+                                           xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10.0384 7.65576H6.83008" stroke="#828282" stroke-width="1.2" stroke-miterlimit="10"
+                          stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M8.4342 6.07275V9.317" stroke="#828282" stroke-width="1.2" stroke-miterlimit="10"
+                          stroke-linecap="round" stroke-linejoin="round"/>
+                    <path
+                      d="M11.5271 2.04346H5.34146C3.97471 2.04346 2.86462 3.17246 2.86462 4.54802V13.6903C2.86462 14.8582 3.69237 15.3514 4.70621 14.7869L7.83754 13.0285C8.17121 12.8403 8.7102 12.8403 9.03745 13.0285L12.1688 14.7869C13.1826 15.3579 14.0104 14.8647 14.0104 13.6903V4.54802C14.004 3.17246 12.8939 2.04346 11.5271 2.04346Z"
+                      stroke="#828282" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                    &nbsp;{{item?.bookmarks?.length}}
+                  </div>
+                </mat-card-actions>
+
               </div>
-              <br>
-            </mat-card-header>
+            </mat-card-content>
+            <br>
           </mat-card>
         </div>
       </div>
@@ -148,13 +277,267 @@
     <mat-tab label="Games">
       <div class="card border-0">
         <div class="w-100 d-flex">
-          <mat-card class="shadow-none">
+          <mat-card class="shadow-none p-2" style="width: 1042px">
             <mat-card-header>
-
+              <div>
+                <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" class="tab-group-library"
+                               [(selectedIndex)]="selectedTabGameIndex" (selectedTabChange)="changeGames()">
+                  <mat-tab label="All Games">
+                  </mat-tab>
+                  <mat-tab label="My Games">
+                  </mat-tab>
+                </mat-tab-group>
+              </div>
             </mat-card-header>
+            <br>
+            <div class="d-flex overflow-scroll">
+              <div class="m-2 d-inline-flex shadow-none cursor-pointer p-3"
+                   (click)="selectCatGame('')"
+                   [class]="{'mat-card-pref-selected': isSelected(''), 'mat-card-pref': !isSelected('')}">
+                <div class="text-center w-100" style="padding-top: 8px">
+                  <mat-label class="font-size-14 weight-600">{{ 'all categories' }}</mat-label>
+                </div>
+              </div>
+              <div *ngFor="let cat of generalService?.gameInit?.categories"
+                   class="m-2 d-inline-flex shadow-none cursor-pointer p-3"
+                   (click)="selectCatGame(cat)"
+                   [class]="{'mat-card-pref-selected': isSelected(cat), 'mat-card-pref': !isSelected(cat)}">
+                <div class="text-start">
+                  <img [src]="'https://api.staging.1qma.games/' + cat?.icon" width="35">
+                  <mat-label>{{ cat?.name }}</mat-label>
+                </div>
+              </div>
+            </div>
+            <mat-card-content *ngIf="selectedTabGameIndex == 0">
+              <div style="display: ruby-text;">
+                <mat-spinner *ngIf="loadingContent" [diameter]="30"></mat-spinner>
+              </div>
+              <div class="">
+                <mat-card *ngFor="let endedGame of gameData"
+                          class="bordered-card shadow-none text-center d-inline-block">
+                  <img [src]="'https://api.staging.1qma.games/' + endedGame?.category?.icon" width="50" height="50"
+                       style="margin: 0 auto">
+                  <mat-card-header style="margin: 0 auto; display: block">
+                    <mat-card-title class="font-size-14 weight-700">{{ endedGame?.category?.name }}</mat-card-title>
+                    <mat-card-subtitle class="font-size-12 weight-500">
+                      {{endedGame?.endedAt | daysAgo}}
+                    </mat-card-subtitle>
+                  </mat-card-header>
+                  <br>
+                  <mat-card-content class="d-inline-flex position-relative p-0 w-100">
+                    <mat-card class="shadow-none">
+                      <mat-card-header class="pe-1 ps-1">
+                        <img mat-card-avatar
+                             style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px; background: white"
+                             [src]="endedGame?.creator?.profilePicture ? endedGame?.creator?.profilePicture?.startsWith('http') ? endedGame?.creator?.profilePicture : configService.url(endedGame?.creator?.profilePicture) : 'assets/images/frame.png'"
+                             width="33" height="33" class="mb-0">
+                        <mat-card-title
+                          class="font-size-10 weight-500 text-start p-1" style="color: #828282">Created by:
+                        </mat-card-title>
+                        <mat-card-subtitle class="font-size-14 weight-500 text-start p-1" style="color: #2C2523">
+                          {{endedGame?.creator?.firstName}} {{endedGame?.creator?.lastName}}
+                        </mat-card-subtitle>
+                      </mat-card-header>
+                    </mat-card>
+                  </mat-card-content>
+                  <mat-divider></mat-divider>
+                  <div class="position-relative">
+                    <div class="font-size-14 weight-500 p-2 text-start">
+                      <div *ngFor="let ply of endedGame?.players; let i=index" class="d-inline-block">
+                        <img mat-card-avatar
+                             style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px; background: white"
+                             [src]="ply?.profilePicture ? ply?.profilePicture?.startsWith('http') ? ply?.profilePicture : configService.url(ply?.profilePicture) : 'assets/images/frame.png'"
+                             width="26" height="26" class="mb-0 position-absolute custom-position-{{i}}">
+                      </div>
+                    </div>
+                    <div class="font-size-14 weight-500 p-2 text-end">
+                 <span class="font-size-14 weight-500 position-absolute bottom-0"
+                       style="right: 5px">{{endedGame?.gameType?.text}}</span>
+                      <img src="assets/images/normal-game.png" *ngIf="endedGame?.gameType?.id == 'normal'" width="22"
+                           height="22"
+                           class="mb-0 position-absolute" style="top: 25px; right: 55px">
+                      <img src="assets/images/survival-game.png" *ngIf="endedGame?.gameType?.id == 'survival'"
+                           width="22" height="22"
+                           class="mb-0 position-absolute" style="top: 25px; right: 55px">
+                    </div>
+                  </div>
+                  <br>
+                  <span class="font-size-11 weight-500 text-start">{{endedGame?.players?.length}} player</span>
+                  <br>
+                  <mat-card-actions>
+                    <button mat-raised-button class="game-button">{{'Game Detail' | translate}}
+                    </button>
+                  </mat-card-actions>
+                </mat-card>
+              </div>
+            </mat-card-content>
+
+            <mat-card-content *ngIf="selectedTabGameIndex == 1">
+              <div style="display: ruby-text;">
+                <mat-spinner *ngIf="loadingContent" [diameter]="30"></mat-spinner>
+              </div>
+              <div class="">
+                <mat-card *ngFor="let endedGame of gameData"
+                          class="bordered-card shadow-none text-center d-inline-block">
+                  <img [src]="'https://api.staging.1qma.games/' + endedGame?.category?.icon" width="50" height="50"
+                       style="margin: 0 auto">
+                  <mat-card-header style="margin: 0 auto; display: block">
+                    <mat-card-title class="font-size-14 weight-700">{{ endedGame?.category?.name }}</mat-card-title>
+                    <mat-card-subtitle class="font-size-12 weight-500">
+                      {{endedGame?.endedAt | daysAgo}}
+                    </mat-card-subtitle>
+                  </mat-card-header>
+                  <br>
+                  <mat-card-content class="d-inline-flex position-relative p-0">
+                    <mat-card class="shadow-none">
+                      <mat-card-header class="pe-1 ps-1">
+                        <img mat-card-avatar
+                             style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px; background: white"
+                             [src]="gameData?.friend?.profilePicture ? gameData?.friend?.profilePicture?.startsWith('http') ? gameData?.friend?.profilePicture : configService.url(gameData?.friend?.profilePicture) : 'assets/images/frame.png'"
+                             width="33" height="33" class="mb-0">
+                        <mat-card-title
+                          class="font-size-14 weight-500 text-start">{{gameData?.friend?.firstName}} {{gameData?.friend?.lastName}}</mat-card-title>
+                        <mat-card-subtitle class="text-start ps-0">
+                          <img src="assets/images/rank.png" width="16"><span
+                          class="font-size-14 weight-700">{{endedGame?.rank}} </span><span
+                          class="font-size-14 weight-500"> Rank</span>
+                          <img src="assets/images/score.png" width="16"><span
+                          class="font-size-14 weight-700">{{endedGame?.score | parsInt}} </span><span
+                          class="font-size-14 weight-500"> Score</span>
+                        </mat-card-subtitle>
+                      </mat-card-header>
+                    </mat-card>
+                  </mat-card-content>
+                  <mat-divider></mat-divider>
+                  <div class="position-relative">
+                    <div class="font-size-14 weight-500 p-2 text-start">
+                      <div *ngFor="let ply of endedGame?.players; let i=index" class="d-inline-block">
+                        <img mat-card-avatar
+                             style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px; background: white"
+                             [src]="ply?.profilePicture ? ply?.profilePicture?.startsWith('http') ? ply?.profilePicture : configService.url(ply?.profilePicture) : 'assets/images/frame.png'"
+                             width="26" height="26" class="mb-0 position-absolute custom-position-{{i}}">
+                      </div>
+                    </div>
+                    <div class="font-size-14 weight-500 p-2 text-end">
+                 <span class="font-size-14 weight-500 position-absolute bottom-0"
+                       style="right: 5px">{{endedGame?.gameType?.text}}</span>
+                      <img src="assets/images/normal-game.png" *ngIf="endedGame?.gameType?.id == 'normal'" width="22"
+                           height="22"
+                           class="mb-0 position-absolute" style="top: 25px; right: 55px">
+                      <img src="assets/images/survival-game.png" *ngIf="endedGame?.gameType?.id == 'survival'"
+                           width="22" height="22"
+                           class="mb-0 position-absolute" style="top: 25px; right: 55px">
+                    </div>
+                  </div>
+                  <br>
+                  <span class="font-size-11 weight-500 text-start">{{endedGame?.players?.length}} player</span>
+                  <br>
+                  <mat-card-actions>
+                    <button mat-raised-button class="game-button">{{'Game Detail' | translate}}
+                    </button>
+                  </mat-card-actions>
+                </mat-card>
+              </div>
+            </mat-card-content>
           </mat-card>
         </div>
       </div>
     </mat-tab>
   </mat-tab-group>
+</div>
+
+<div *ngIf="!loading && questionStep == 2">
+  <div class="card border-0">
+    <div class="w-100 d-flex">
+      <mat-card class="shadow-none">
+        <mat-card-header>
+          <img src="assets/images/arrow-left.svg" width="24" height="24" (click)="questionStep = 1"
+               style="position: absolute; left: 10px; top: 0; bottom: 0; margin: auto;">
+          <div class="ms-2" style="height: 46px"></div>
+          <mat-label class="font-size-16 weight-600 ms-4">{{'Question Detail' | translate}}</mat-label>
+        </mat-card-header>
+      </mat-card>
+    </div>
+  </div>
+  <br>
+  <div class="card border-0">
+    <mat-card class="shadow-none radius">
+      <mat-card-content>
+        <div class="p-4 m-2 d-inline-block" style="width: 98%">
+          <div class="d-flex white-card position-relative w-25" style="background: #F9F7F7">
+            <img style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px"
+                 [src]="questionDetail?.user?.profilePicture ? questionDetail?.user?.profilePicture?.startsWith('http') ? questionDetail?.user?.profilePicture : configService.url(questionDetail?.user?.profilePicture) : 'assets/images/frame.png'"
+                 width="42" height="42">
+            <mat-label class="font-size-13 weight-500"
+                       style="margin: auto 10px">{{questionDetail?.user?.firstName}} {{questionDetail?.user?.lastName}}</mat-label>
+            <mat-label class="font-size-12 weight-500 position-absolute" style="right: 10px; margin: 10px auto">
+              2hrs agos
+            </mat-label>
+          </div>
+          <div class="position-absolute" style="top: 50px; right: 50px">
+            <div class="p-1" style="width: fit-content">
+              <img
+                [src]="configService.url(questionDetail?.category?.icon)"
+                width="24">
+              <mat-label class="font-size-12 weight-600"
+                         style="margin: auto 5px">{{questionDetail?.category?.name}}</mat-label>
+            </div>
+          </div>
+          <br>
+          <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M17.8408 18.5899H13.8408L9.39081 21.5499C8.73081 21.9899 7.84082 21.5199 7.84082 20.7199V18.5899C4.84082 18.5899 2.84082 16.5899 2.84082 13.5899V7.58984C2.84082 4.58984 4.84082 2.58984 7.84082 2.58984H17.8408C20.8408 2.58984 22.8408 4.58984 22.8408 7.58984V13.5899C22.8408 16.5899 20.8408 18.5899 17.8408 18.5899Z"
+              stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+              stroke-linejoin="round"/>
+            <path
+              d="M12.8406 11.5205V11.3105C12.8406 10.6305 13.2607 10.2705 13.6807 9.98053C14.0907 9.70053 14.5006 9.34054 14.5006 8.68054C14.5006 7.76054 13.7606 7.02051 12.8406 7.02051C11.9206 7.02051 11.1807 7.76054 11.1807 8.68054"
+              stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M12.8363 13.9102H12.8453" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
+                  stroke-linejoin="round"/>
+          </svg>
+          Question:
+          <br>
+          <br>
+          <div class="font-size-14 weight-700">
+            {{questionDetail?.question}}
+          </div>
+          <br>
+          <mat-card-actions class="position-relative">
+            <div class="position-absolute bottom-0">
+              <svg width="17" height="17" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M8.10205 18.5106L11.2021 20.9106C11.6021 21.3106 12.5021 21.5106 13.1021 21.5106H16.9021C18.1021 21.5106 19.4021 20.6106 19.7021 19.4106L22.1021 12.1106C22.6021 10.7106 21.7021 9.51061 20.2021 9.51061H16.2021C15.6021 9.51061 15.1021 9.01061 15.2021 8.31061L15.7021 5.11061C15.9021 4.21061 15.3021 3.21061 14.4021 2.91061C13.6021 2.61061 12.6021 3.01061 12.2021 3.61061L8.10205 9.71061"
+                  stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10"/>
+                <path
+                  d="M3.00195 18.5105V8.71055C3.00195 7.31055 3.60195 6.81055 5.00195 6.81055H6.00195C7.40195 6.81055 8.00195 7.31055 8.00195 8.71055V18.5105C8.00195 19.9105 7.40195 20.4105 6.00195 20.4105H5.00195C3.60195 20.4105 3.00195 19.9105 3.00195 18.5105Z"
+                  stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>&nbsp;{{questionDetail?.likes?.length}}
+              &nbsp;&nbsp;&nbsp;<svg width="17" height="17" viewBox="0 0 25 25" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M17.4211 5.81055L14.3211 3.41055C13.9211 3.01055 13.0211 2.81055 12.4211 2.81055H8.6211C7.4211 2.81055 6.1211 3.71055 5.8211 4.91055L3.4211 12.2105C2.9211 13.6105 3.8211 14.8105 5.3211 14.8105H9.3211C9.9211 14.8105 10.4211 15.3105 10.3211 16.0105L9.8211 19.2105C9.6211 20.1105 10.2211 21.1105 11.1211 21.4105C11.9211 21.7105 12.9211 21.3105 13.3211 20.7105L17.4211 14.6105"
+                stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10"/>
+              <path
+                d="M22.521 5.81016V15.6102C22.521 17.0102 21.921 17.5102 20.521 17.5102H19.521C18.121 17.5102 17.521 17.0102 17.521 15.6102V5.81016C17.521 4.41016 18.121 3.91016 19.521 3.91016H20.521C21.921 3.91016 22.521 4.41016 22.521 5.81016Z"
+                stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+              &nbsp;{{questionDetail?.dislikes?.length}}
+              &nbsp;&nbsp;&nbsp;<svg width="17" height="17" viewBox="0 0 17 17" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+              <path d="M10.0384 7.65576H6.83008" stroke="#828282" stroke-width="1.2" stroke-miterlimit="10"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M8.4342 6.07275V9.317" stroke="#828282" stroke-width="1.2" stroke-miterlimit="10"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+              <path
+                d="M11.5271 2.04346H5.34146C3.97471 2.04346 2.86462 3.17246 2.86462 4.54802V13.6903C2.86462 14.8582 3.69237 15.3514 4.70621 14.7869L7.83754 13.0285C8.17121 12.8403 8.7102 12.8403 9.03745 13.0285L12.1688 14.7869C13.1826 15.3579 14.0104 14.8647 14.0104 13.6903V4.54802C14.004 3.17246 12.8939 2.04346 11.5271 2.04346Z"
+                stroke="#828282" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+              &nbsp;{{questionDetail?.bookmarks?.length}}
+            </div>
+          </mat-card-actions>
+        </div>
+
+      </mat-card-content>
+    </mat-card>
+  </div>
 </div>

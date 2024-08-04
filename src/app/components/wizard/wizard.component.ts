@@ -25,7 +25,7 @@ import {NgxMatIntlTelInputComponent} from "ngx-mat-intl-tel-input";
 })
 export class WizardComponent implements OnInit {
   @ViewChild('stepper') stepper: any = {selectedIndex: 0};
-  selectedType: any = [];
+  selectedType: any = '664f56e20b34ac027d3f8260';
   loadingAccountType: boolean = false;
 
   firstFormGroup = this._formBuilder.group({
@@ -54,7 +54,7 @@ export class WizardComponent implements OnInit {
   constructor(private _formBuilder: FormBuilder, private router: Router,
               public generalService: GeneralService, public authService: AuthService, public dialog: MatDialog,) {
     if (this.generalService.userObj?.preferedCategories) {
-      this.selectedType = this.generalService.userObj?.accountType;
+      // this.selectedType = this.generalService.userObj?.accountType;
       this.selectedCategory = this.generalService.userObj?.preferedCategories;
     }
   }
@@ -65,7 +65,7 @@ export class WizardComponent implements OnInit {
 
     this.email = this.router.getCurrentNavigation()?.extras?.state?.['email'] ? this.router.getCurrentNavigation()?.extras?.state?.['email'] : this.generalService.userObj?.email;
     this.firstFormGroup = this._formBuilder.group({
-      language: [this.generalService.userObj?.preferedLanguage ? this.generalService.userObj?.preferedLanguage : 'en', [Validators.required]],
+      language: [this.generalService.userObj?.preferedLanguage ? this.generalService.userObj?.preferedLanguage?._id : '0', [Validators.required]],
     });
     this.form = this._formBuilder.group({
       firstName: [this.generalService.userObj?.firstName ? this.generalService.userObj?.firstName : '', [Validators.required]],

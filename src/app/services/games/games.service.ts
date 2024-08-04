@@ -77,6 +77,20 @@ export class GamesService {
     return response;
   }
 
+  async getAllOrMyGames(type: any, category: any, limit: any, page: any): Promise<any> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    })
+    const response = this.http.get(this.config.url('games'), {
+      headers: headers,
+      params: {type: type, category: category, limit, page},
+      withCredentials: true
+    }).pipe(
+      map((response: any) => response)
+    ).toPromise();
+    return response;
+  }
+
   async searchUserToInvite(text: any): Promise<any> {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -409,6 +423,36 @@ export class GamesService {
       map((response: any) => response)
     ).toPromise();
     return response;
+  }
+
+  async keepMyScore(gameId: any): Promise<any> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+
+    })
+    return this.http.post<any>(this.config.url('game/keepMyScore'), {
+      id: this.generalService.userId,
+      gameId: gameId,
+    }, {
+      headers: headers,
+      withCredentials: true
+    })
+      .toPromise();
+  }
+
+  async backToCheckpoint(gameId: any): Promise<any> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+
+    })
+    return this.http.post<any>(this.config.url('game/backToCheckpoint'), {
+      id: this.generalService.userId,
+      gameId: gameId,
+    }, {
+      headers: headers,
+      withCredentials: true
+    })
+      .toPromise();
   }
 
 }

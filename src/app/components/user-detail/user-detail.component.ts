@@ -6,11 +6,12 @@ import {CommonModule} from "@angular/common";
 import {ClientService} from "../../services/client/client.service";
 import {ConfigService} from "../../services/config/config.service";
 import {GeneralService} from "../../services/general/general.service";
+import {ParsIntPipe} from "../../pars-int.pipe";
 
 @Component({
   selector: 'app-user-detail',
   standalone: true,
-  imports: [CommonModule, SharedModule, RouterModule, TranslateModule],
+  imports: [CommonModule, SharedModule, RouterModule, TranslateModule, ParsIntPipe],
   templateUrl: './user-detail.component.html',
   styleUrl: './user-detail.component.scss'
 })

@@ -14,6 +14,7 @@ import {io} from "socket.io-client";
 import {GamesComponent} from "./components/games/games.component";
 import {GameBoardComponent} from "./components/game-board/game-board.component";
 import {CountdownTimerComponent} from "./components/countdown-timer/countdown-timer.component";
+import {GamesService} from "./services/games/games.service";
 
 register();
 
@@ -29,7 +30,7 @@ export class AppComponent implements OnInit {
   constructor(private router: Router, private translateService: TranslateService, private _snackBar: MatSnackBar,
               private generalService: GeneralService, private authService: AuthService, public dialog: MatDialog,
               private clientService: ClientService, private route: ActivatedRoute, private location: Location,
-              private gameComponent: GamesComponent) {
+              private gameComponent: GamesComponent, private gameService: GamesService) {
     this.translateService.setDefaultLang('en');
   }
 
@@ -63,6 +64,11 @@ export class AppComponent implements OnInit {
           this.authService.getUserDetails(this.generalService.userId).then(async user => {
             await Preferences.set({key: 'account', value: JSON.stringify(user.data)});
             if (user.data.hasCompletedSignup) {
+              this.gameService.gameInit().then(data => {
+                if (data.status == 1) {
+                  this.generalService.gameInit = data.data;
+                }
+              });
               this.router.navigate(['/dashboard']);
             } else {
               this.authService.registerInit().then(res => {
@@ -81,6 +87,11 @@ export class AppComponent implements OnInit {
             this.authService.getUserDetails(this.generalService.userId).then(async user => {
               await Preferences.set({key: 'account', value: JSON.stringify(user.data)});
               if (user.data.hasCompletedSignup) {
+                this.gameService.gameInit().then(data => {
+                  if (data.status == 1) {
+                    this.generalService.gameInit = data.data;
+                  }
+                });
                 this.router.navigate(['/dashboard']);
               } else {
                 this.authService.registerInit().then(res => {
@@ -94,6 +105,11 @@ export class AppComponent implements OnInit {
           } else if (this.generalService.userId && this.generalService.hasCompletedSignup) {
             this.clientService.clientInit().then(data => {
               this.generalService.clientInit = data.data;
+            });
+            this.gameService.gameInit().then(data => {
+              if (data.status == 1) {
+                this.generalService.gameInit = data.data;
+              }
             });
             this.router.navigate([(this.router.url === ('/login') || this.router.url === ('/signup') || this.router.url === ('/forget-password')
               || this.router.url === ('/wizard') || this.router.url === ('/signup-social') || this.router.url === ('/signup-refer-email')

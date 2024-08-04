@@ -22,19 +22,20 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {SnackbarContentComponent} from "../snackbar-content/snackbar-content.component";
 import {CountdownTimerComponent} from "../countdown-timer/countdown-timer.component";
 import {DaysAgoPipe} from "../../days-ago.pipe";
+import {ParsIntPipe} from "../../pars-int.pipe";
 
 @Component({
   selector: 'app-games',
   standalone: true,
   imports: [CommonModule, SharedModule, FormsModule, RouterModule, ReactiveFormsModule,
-    TranslateModule, DaysAgoPipe],
+    TranslateModule, DaysAgoPipe, ParsIntPipe],
   templateUrl: './games.component.html',
   styleUrl: './games.component.scss',
   providers: [GameBoardComponent, CountdownTimerComponent],
   encapsulation: ViewEncapsulation.None
 })
 export class GamesComponent implements OnInit {
-  loading: boolean = true;
+  loading: boolean = false;
   createGameStep: any = 1;
   selectedGameMode: any;
   selectedGameType: any = [];
@@ -76,12 +77,6 @@ export class GamesComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<any> {
-    this.gameService.gameInit().then(data => {
-      if (data.status == 1) {
-        this.generalService.gameInit = data.data;
-        this.loading = false;
-      }
-    });
     this.route.paramMap.subscribe(params => {
       this.selectedTabIndex = params.get('id');
     });
@@ -102,10 +97,10 @@ export class GamesComponent implements OnInit {
     //     this.friendsGames = data.data;
     // })
     //
-    // this.gameService.getScoreboardSurvival().then(data => {
-    //   if (data.status == 1)
-    //     this.scoreboardSurvival = data.data;
-    // })
+    this.gameService.getScoreboardSurvival().then(data => {
+      if (data.status == 1)
+        this.scoreboardSurvival = data.data;
+    })
     //
     // this.gameService.getLiveSurvival().then(data => {
     //   if (data.status == 1)
@@ -476,7 +471,6 @@ export class ImportFromLibrary implements OnInit {
   }
 
   async ngOnInit(): Promise<any> {
-    console.log(this.data)
     if (!this.search || this.search.length > 2) {
       this.library = [];
       this.loading = true;
@@ -484,7 +478,7 @@ export class ImportFromLibrary implements OnInit {
         ? 'private'
         : this.selectedTabIndex == 1
           ? 'public'
-          : 'bookmarked', this.search).then(data => {
+          : 'bookmark', this.search).then(data => {
         this.loading = false;
         this.library = data.data;
       });

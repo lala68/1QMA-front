@@ -82,13 +82,13 @@
                 <mat-grid-tile
                   *ngFor="let score of res?.result?.answersRates; let i=index"
                   [colspan]="1">
-                  <mat-label>{{score}}</mat-label>
+                  <mat-label>{{score | parsInt}}</mat-label>
                 </mat-grid-tile>
                 <mat-grid-tile [colspan]="1">
-                  <mat-label>{{res?.result?.questionRate}}</mat-label>
+                  <mat-label>{{res?.result?.questionRate | parsInt}}</mat-label>
                 </mat-grid-tile>
                 <mat-grid-tile [colspan]="1">
-                  <mat-label class="font-size-14 weight-700">{{res?.result?.totalScore | number}}</mat-label>
+                  <mat-label class="font-size-14 weight-700">{{res?.result?.totalScore | parsInt}}</mat-label>
                 </mat-grid-tile>
                 <mat-grid-tile [colspan]="1">
                   <mat-label class="font-size-14 weight-700">
@@ -228,7 +228,7 @@
                         class="font-size-14 weight-700">{{endedGame?.rank}} </span><span
                         class="font-size-14 weight-500"> Rank</span>
                         <img src="assets/images/score.png" width="16"><span
-                        class="font-size-14 weight-700">{{endedGame?.score | number}} </span><span
+                        class="font-size-14 weight-700">{{endedGame?.score | parsInt}} </span><span
                         class="font-size-14 weight-500"> Score</span>
                       </mat-card-subtitle>
                     </mat-card-header>
@@ -848,7 +848,7 @@
                     class="font-size-14 weight-700">{{endedGame?.rank}} </span><span
                     class="font-size-14 weight-500"> Rank</span>
                     <img src="assets/images/score.png" width="16"><span
-                    class="font-size-14 weight-700">{{endedGame?.score | number}} </span><span
+                    class="font-size-14 weight-700">{{endedGame?.score | parsInt}} </span><span
                     class="font-size-14 weight-500"> Score</span>
                   </mat-card-subtitle>
                 </mat-card-header>

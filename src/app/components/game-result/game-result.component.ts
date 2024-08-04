@@ -9,12 +9,13 @@ import {GamesService} from "../../services/games/games.service";
 import {ConfigService} from "../../services/config/config.service";
 import {TimeDifferencePipe} from "../../time-difference.pipe";
 import { Location } from '@angular/common';
+import {ParsIntPipe} from "../../pars-int.pipe";
 
 @Component({
   selector: 'app-game-result',
   standalone: true,
   imports: [CommonModule, SharedModule, FormsModule, RouterModule, ReactiveFormsModule,
-    TranslateModule, DaysAgoPipe, TimeDifferencePipe],
+    TranslateModule, DaysAgoPipe, TimeDifferencePipe, ParsIntPipe],
   templateUrl: './game-result.component.html',
   styleUrl: './game-result.component.scss'
 })

@@ -453,7 +453,7 @@
             <div cdkDropList (cdkDropListDropped)="drop($event)" class="example-list">
               <!--              generalService?.specificQuestionAnswers?.answers-->
               <div *ngFor="let answer of generalService?.specificQuestionAnswers?.answers; let i = index"
-                   class="example-box" >
+                   class="example-box">
                 <div cdkDrag
                      style="white-space: pre-line; border: 1px dashed #2C2523; width: 500px; margin: 0 auto;padding: 20px;color: #2C2523;border-radius: 10px;">
                   {{answer?.answer}}
@@ -563,7 +563,7 @@
               <div *ngFor="let question of generalService.allQuestions; let i = index"
                    class="example-box">
                 <div cdkDrag
-                  style="white-space: pre-line; border: 1px dashed #2C2523; width: 500px; margin: 0 auto;padding: 20px;color: #2C2523;border-radius: 10px;">
+                     style="white-space: pre-line; border: 1px dashed #2C2523; width: 500px; margin: 0 auto;padding: 20px;color: #2C2523;border-radius: 10px;">
                   <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
                       d="M17.8408 18.5899H13.8408L9.39081 21.5499C8.73081 21.9899 7.84082 21.5199 7.84082 20.7199V18.5899C4.84082 18.5899 2.84082 16.5899 2.84082 13.5899V7.58984C2.84082 4.58984 4.84082 2.58984 7.84082 2.58984H17.8408C20.8408 2.58984 22.8408 4.58984 22.8408 7.58984V13.5899C22.8408 16.5899 20.8408 18.5899 17.8408 18.5899Z"
@@ -728,7 +728,7 @@
                          width="28" height="28">&nbsp;
                     <div class="font-size-14 weight-800 position-absolute"
                          style="padding-left: 5px; left: 30px; top: -5px; color: #0CA609">
-                      +{{generalService.gameResult?.statistics?.score | number}}</div>
+                      +{{generalService.gameResult?.statistics?.score | parsInt}}</div>
                     <mat-label class="position-absolute font-size-14 weight-500"
                                style="padding-left: 5px;left: 30px; bottom: -5px;  color: #828282">
                       Score
@@ -739,7 +739,7 @@
                          width="28" height="28">&nbsp;
                     <div class="font-size-14 weight-800 position-absolute"
                          style="padding-left: 5px; left: 30px; top: -5px; color: #0CA609">
-                      +{{generalService.gameResult?.statistics?.xp | number}}</div>
+                      +{{generalService.gameResult?.statistics?.xp | parsInt}}</div>
                     <mat-label class="position-absolute font-size-14 weight-500"
                                style="padding-left: 5px;left: 30px; bottom: -5px;  color: #828282">
                       XP
@@ -766,7 +766,7 @@
                     Level: {{generalService.gameResult?.statistics?.level}}</div>
                   <div
                     class="font-size-12 weight-600 position-absolute"
-                    style="right: 20px">{{generalService.gameResult?.statistics?.xpNeededForNextLevel - generalService.gameResult?.statistics?.totalXP}}
+                    style="right: 20px">{{generalService.gameResult?.statistics?.xpNeededForNextLevel - generalService.gameResult?.statistics?.totalXP | parsInt}}
                     XP till next level
                   </div>
                 </div>
@@ -778,11 +778,207 @@
                   mode="determinate"></mat-progress-bar>
                 <div
                   class="font-size-14 weight-600 position-absolute bottom-10" style="left: 10px">
-                  Total XP: {{generalService.gameResult?.statistics?.totalXp | number}}
+                  Total XP: {{generalService.gameResult?.statistics?.totalXP | parsInt}}
                 </div>
               </div>
             </div>
           </div>
+          <br>
+          <!--          start survival less than 50 -->
+          <mat-card class="survival-card" appearance="outlined"
+                    *ngIf="data?.game?.gameType?.id == 'survival' && generalService.gameResult?.statistics?.survival?.checkpoint == 0">
+            <mat-card-header class="p-3">
+              <img src="assets/images/survival-game.png" width="25">
+              <span class="font-size-16 weight-600 text-white">Survival Result</span>
+              <div class="position-absolute end-10">
+                <span
+                  class="font-size-12 weight-400 text-white">Next Checkpoint: <b>{{generalService.gameResult?.nextCheckpoint}}
+                  Score</b></span>
+              </div>
+            </mat-card-header>
+            <mat-card-content class="d-inline-flex p-5">
+              <div class="w-50 m-3">
+                <div class="gray-card w-75 d-inline-flex">
+                  <div
+                    style="width: 33%; border-top-left-radius: 6px; border-bottom-left-radius: 6px;border-right: 1px solid #E8E2E0"
+                    class="text-center bg-white p-2">
+                    <img src="assets/images/score.png"
+                         width="28" height="28">&nbsp;
+                    <br>
+                    <mat-label class="font-size-12 weight-600">Score</mat-label>
+                  </div>
+                  <div style="width: 33%" class="text-center p-2">
+                    <div class="font-size-14 weight-800"
+                         style="padding-bottom: 7px; color: #0CA609">
+                      +{{generalService.gameResult?.statistics?.score | parsInt}}
+                    </div>
+                    <mat-label class="font-size-12 weight-500">This Game</mat-label>
+                  </div>
+                  <div style="width: 33%" class="text-center p-2">
+                    <div class="font-size-14 weight-800"
+                         style="padding-bottom: 7px; color: #0CA609">
+                      +{{generalService.gameResult?.statistics?.survival?.totalScore | parsInt}}
+                    </div>
+                    <mat-label class="font-size-12 weight-500">Total Score</mat-label>
+                  </div>
+                </div>
+              </div>
+              <div class="w-50 m-3">
+                <mat-label class="font-size-16 weight-800">PERFECT!</mat-label>
+                <br>
+                <mat-label class="font-size-12 weight-500">Continue playing survival games
+                  to reach your first checkpoint at 50 score.
+                </mat-label>
+              </div>
+            </mat-card-content>
+          </mat-card>
+          <!--          end survival less than 50 -->
+
+          <!--          start survival more than 50 -->
+          <mat-card class="survival-card" appearance="outlined"
+                    *ngIf="data?.game?.gameType?.id == 'survival' && generalService.gameResult?.statistics?.survival?.checkpoint > 0">
+            <mat-card-header class="p-3">
+              <img src="assets/images/survival-game.png" width="25">
+              <span class="font-size-16 weight-600 text-white">Survival Result</span>
+              <div class="position-absolute end-10">
+                <span
+                  class="font-size-12 weight-400 text-white">Next Checkpoint: <b>{{generalService.gameResult?.nextCheckpoint}}
+                  Score</b></span>
+              </div>
+            </mat-card-header>
+            <mat-card-content class="d-inline-flex p-5">
+              <div class="w-50 m-auto">
+                <div class="gray-card w-75 d-inline-flex mb-1">
+                  <div style="width: 33%; margin: auto;" class="text-center">
+                    <img src="assets/images/rank-star.png"
+                         width="17" height="17">&nbsp;
+                    <mat-label class="font-size-12 weight-600">Rank</mat-label>
+                  </div>
+                  <div
+                    style="width: 67%; border-top-right-radius: 6px; border-bottom-right-radius: 6px; border-left: 1px solid #E8E2E0"
+                    class="text-center bg-white">
+                    <div class="d-flex" style="border-bottom: 1px solid #E8E2E0">
+                      <div class="font-size-12 weight-500 w-50">
+                        Average:
+                      </div>
+                      <div class="font-size-14 weight-700 w-50">
+                        {{generalService.gameResult?.statistics?.survival?.avgRank | parsInt}}
+                      </div>
+                    </div>
+
+                    <div class="d-flex">
+                      <div class="font-size-12 weight-500 w-50">
+                        This game:
+                      </div>
+                      <div class="font-size-14 weight-700 w-50">
+                        {{myRank | parsInt}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="gray-card w-75 d-inline-flex">
+                  <div style="width: 33%; margin: auto;" class="text-center">
+                    <img src="assets/images/score.png"
+                         width="17" height="17">&nbsp;
+                    <mat-label class="font-size-12 weight-600">Score</mat-label>
+                  </div>
+                  <div style="width: 33%; border-left: 1px solid #E8E2E0" class="text-center bg-white">
+                    <div class="font-size-14 weight-800"
+                         style="color: #0CA609">
+                      +{{generalService.gameResult?.statistics?.score | parsInt}}
+                    </div>
+                    <mat-label class="font-size-12 weight-500">This Game</mat-label>
+                  </div>
+                  <div style="width: 33%; border-top-right-radius: 6px; border-bottom-right-radius: 6px; "
+                       class="text-center bg-white">
+                    <div class="font-size-14 weight-800"
+                         style="color: #0CA609">
+                      {{generalService.gameResult?.statistics?.survival?.totalScore | parsInt}}
+                    </div>
+                    <mat-label class="font-size-12 weight-500">Total Score</mat-label>
+                  </div>
+                </div>
+              </div>
+              <div class="w-50 m-3 p-5 bg-white" style="border-radius: 6px; border: 1px solid #E8E2E0"
+                   *ngIf="!backToCheckpoint && myRank > generalService.gameResult?.statistics?.survival?.avgRank">
+                <mat-label class="font-size-16 weight-800">OH SORRY!</mat-label>
+                <br>
+                <mat-label class="font-size-12 weight-500">Your rank in this game is below your average rank:
+                </mat-label>
+                <br>
+                <br>
+                <div style="border-radius: 6px; border: 1px solid #E8E2E0" class="p-2 position-relative"
+                     (click)="openScoreModal(generalService.gameResult.statistics.score, generalService.gameResult.statistics.survival.totalScore)">
+                  <div class="font-size-14 weight-500">{{'Keep my score' | translate}}</div>
+                  <img src="assets/images/coin-bronze.png"
+                       *ngIf="generalService.gameInit?.keepScorePrice?.coin == 'Bronze'"
+                       width="15">
+                  <img src="assets/images/coin-silver.png"
+                       *ngIf="generalService.gameInit?.keepScorePrice?.coin == 'Silver'"
+                       width="15">
+                  <img src="assets/images/coin-gold.png"
+                       *ngIf="generalService.gameInit?.keepScorePrice?.coin == 'Gold'"
+                       width="15">
+
+                  <mat-label style="color: #828282">
+                    {{generalService.gameInit?.keepScorePrice?.count}} {{generalService.gameInit?.keepScorePrice?.coin}}
+                  </mat-label>
+                  <div class="position-absolute end-10" style="top: 15px;">
+                    <img src="assets/images/arrow-right-1.svg">
+                  </div>
+                </div>
+                <br>
+                <div style="border-radius: 6px; border: 1px solid #E8E2E0" class="p-2 position-relative"
+                     (click)="backToCheckpointMethod()">
+                  <div class="font-size-14 weight-500">{{'Back to checkpoint' | translate}}</div>
+                  <mat-label style="color: #828282">
+                    {{generalService.gameResult?.statistics?.score | parsInt}} Score
+                  </mat-label>
+                  <div class="position-absolute end-10" style="top: 15px;">
+                    <img src="assets/images/arrow-right-1.svg">
+                  </div>
+                </div>
+              </div>
+
+              <div class="w-50 m-3 p-5"
+                   *ngIf="myRank <= generalService.gameResult?.statistics?.survival?.avgRank">
+                <mat-label class="font-size-16 weight-800" style="color: #0CA609">GREAT!</mat-label>
+                <br>
+                <mat-label class="font-size-12 weight-500">Your score has been added to your total survival score.
+                </mat-label>
+              </div>
+
+              <div class="w-50 m-3 p-5" *ngIf="backToCheckpoint">
+                <mat-label class="font-size-16 weight-800" style="color: #FF0000">OH NO!</mat-label>
+                <br>
+                <mat-label class="font-size-12 weight-500">You have lost the game and will start from previous
+                  checkpoint.
+                </mat-label>
+                <br>
+                <mat-label style="color: #828282">
+                  Back to checkpoint:
+                  <b style="color: black">{{generalService.gameResult?.statistics?.score | parsInt}} Score</b>
+                </mat-label>
+              </div>
+
+              <div class="w-50 m-3 p-5" *ngIf="congratulation">
+                <mat-label class="font-size-16 weight-800">Congratulation!</mat-label>
+                <br>
+                <mat-label class="font-size-14 weight-500">Your rank in this game is above your average rank.
+                </mat-label>
+                <br>
+                <br>
+                <mat-label class="font-size-14 weight-500">
+                  Your rank in this game is above your average rank.
+                  Score has been added to your total survival score.
+                </mat-label>
+              </div>
+            </mat-card-content>
+          </mat-card>
+          <!--          end survival more than 50 -->
+          <br>
+
+
           <mat-grid-list cols="12" rowHeight="30px">
             <mat-grid-tile class="result-grid" [colspan]="3">
               <mat-label class="font-size-14 weight-700">Scoreboard</mat-label>
@@ -803,6 +999,8 @@
               <mat-label class="font-size-12 weight-700">Total</mat-label>
             </mat-grid-tile>
           </mat-grid-list>
+
+
           <!--generalService.gameResult?.result?.scoreboard-->
           <mat-grid-list *ngFor="let res of generalService.gameResult?.result?.scoreboard;let i=index"
                          cols="12" rowHeight="50px" class="gray-card mb-2">
@@ -837,13 +1035,13 @@
             <mat-grid-tile class="result-grid"
                            *ngFor="let score of res?.answersRates; let i=index"
                            [colspan]="1">
-              <mat-label>{{score}}</mat-label>
+              <mat-label>{{score | parsInt}}</mat-label>
             </mat-grid-tile>
             <mat-grid-tile class="result-grid" [colspan]="1">
-              <mat-label>{{res?.questionRate}}</mat-label>
+              <mat-label>{{res?.questionRate | parsInt}}</mat-label>
             </mat-grid-tile>
             <mat-grid-tile class="result-grid" [colspan]="1">
-              <mat-label>{{res?.totalScore | number}}</mat-label>
+              <mat-label>{{res?.totalScore | parsInt}}</mat-label>
             </mat-grid-tile>
           </mat-grid-list>
           <br>
@@ -885,7 +1083,7 @@
                       <mat-card-subtitle class="font-size-14 weight-600 pb-2">{{question?.question}}
                       </mat-card-subtitle>
                       <mat-card-subtitle>
-                        <img src="assets/images/score.png" width="16"/> &nbsp; {{question?.rate}} Score
+                        <img src="assets/images/score.png" width="16"/> &nbsp; {{question?.rate | parsInt}} Score
                       </mat-card-subtitle>
                     </mat-card-header>
                   </mat-card>
@@ -910,7 +1108,7 @@
                     <mat-label class="font-size-14 weight-400">{{answer?.answer}}</mat-label>
                     <br>
                     <br>
-                    <img src="assets/images/score.png" width="16"/> &nbsp; {{answer?.rate}} Score
+                    <img src="assets/images/score.png" width="16"/> &nbsp; {{answer?.rate | parsInt}} Score
                   </div>
                 </div>
               </div>

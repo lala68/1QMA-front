@@ -78,15 +78,15 @@
             <div class="font-size-14 weight-600 position-absolute start-0">
               Level: {{generalService.userObj?.statistics?.level}}</div>
             <div
-              class="font-size-12 weight-600 position-absolute end-0">{{generalService.userObj?.statistics?.xpNeededForNextLevel - generalService.userObj?.statistics?.totalXP}}
+              class="font-size-12 weight-600 position-absolute end-0">{{generalService.userObj?.statistics?.xpNeededForNextLevel - generalService.userObj?.statistics?.totalXP | parsInt}}
               XP till next level
             </div>
           </div>
           <mat-progress-bar
             style="width: 320px; border-radius: 10px; display: inline-table; position: absolute; bottom: 0; left: 40px"
             color="primary"
-            [value]="generalService.userObj?.statistics?.level"
-            [bufferValue]="generalService.userObj?.statistics?.xpNeededForNextLevel"
+            [value]="generalService.userObj?.statistics?.totalXP/10"
+            [bufferValue]="100"
             mode="determinate"></mat-progress-bar>
         </div>
         <div>
@@ -102,7 +102,7 @@
             <div class="font-size-12 weight-400" style="padding: 5px">Total <b class="font-size-12 weight-600">XP</b>:
             </div>
             <mat-label class="position-absolute font-size-14 weight-700"
-                       style="padding: 5px;right: 5px">{{generalService.userObj?.statistics?.totalXP}}</mat-label>
+                       style="padding: 5px;right: 5px">{{generalService.userObj?.statistics?.totalXP | parsInt}}</mat-label>
           </div>
           <div class="card-games position-relative">
             <!--            <img src="assets/images/star.svg" width="24">-->
@@ -114,7 +114,7 @@
             <div class="font-size-12 weight-400" style="padding: 5px">Total <b class="font-size-12 weight-600">Score</b>:
             </div>
             <mat-label class="position-absolute font-size-14 weight-700"
-                       style="padding: 5px; right: 5px">{{generalService.userObj?.statistics?.totalScore | number}}</mat-label>
+                       style="padding: 5px; right: 5px">{{generalService.userObj?.statistics?.normal?.totalScore | parsInt}}</mat-label>
           </div>
         </div>
 
@@ -215,7 +215,7 @@
             </svg>
 
             <div class="font-size-14 weight-700 position-absolute top-0"
-                 style="padding-left: 5px; left: 30px">{{generalService.userObj?.games?.highScore}}</div>
+                 style="padding-left: 5px; left: 30px">{{generalService.userObj?.games?.highScore | parsInt}}</div>
             <mat-label class="position-absolute font-size-12 weight-400 bottom-0" style="padding-left: 5px;left: 30px">
               High Score
             </mat-label>

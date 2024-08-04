@@ -254,3 +254,17 @@ input:focus {
 .modal.not-show {
   display: none;
 }
+
+.survival-card {
+  border-radius: 10px;
+
+  mat-card-header {
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    background: var(--bs-primary) !important;;
+  }
+
+  mat-card-content {
+    background: #F9F7F7
+  }
+}
