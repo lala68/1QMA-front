@@ -13,18 +13,21 @@ import {MatDialog} from "@angular/material/dialog";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {SnackbarContentComponent} from "../snackbar-content/snackbar-content.component";
 import {ParsIntPipe} from "../../pars-int.pipe";
+import {DaysAgoPipe} from "../../days-ago.pipe";
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
   imports: [CommonModule, SharedModule, FormsModule, RouterModule, ReactiveFormsModule, NgxMatIntlTelInputComponent,
-    TranslateModule, ClipboardModule, ParsIntPipe],
+    TranslateModule, ClipboardModule, ParsIntPipe, DaysAgoPipe],
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.scss'
+  styleUrl: './dashboard.component.scss',
 })
 export class DashboardComponent implements OnInit {
   loading: boolean = true;
   loadingInvite: boolean = false;
+  loadingContent: boolean = true;
+  loadingQuestionsFromFriendsLatestGames: boolean = true;
   invitedEmail: any;
   inviteForm = this._formBuilder.group({
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -32,6 +35,13 @@ export class DashboardComponent implements OnInit {
   startDate: any; // in milliseconds
   expireDays: any;
   remainingDays: any;
+  selectedTabTopQuestionsIndex: any = 0;
+  topQuestions: any;
+  selectedCategory: any = [''];
+  questionsFromFriendsLatestGames: any = [];
+  loadingMore: boolean = false;
+  page: any = 1;
+  noMoreItems: any;
 
   constructor(private clientService: ClientService, private _formBuilder: FormBuilder,
               public generalService: GeneralService, public configService: ConfigService,
@@ -45,6 +55,8 @@ export class DashboardComponent implements OnInit {
       this.generalService.clientInit = data.data;
     });
     this.calculateRemainingDays();
+    this.changeTopQuestions();
+    await this.getQuestionsFromFriendsLatestGames();
     this.loading = false;
   }
 
@@ -91,5 +103,53 @@ export class DashboardComponent implements OnInit {
       horizontalPosition: 'end',
       panelClass: title == 'Success' ? 'app-notification-success' : 'app-notification-error'
     });
+  }
+
+  changeTopQuestions() {
+    this.loadingContent = true;
+    this.clientService.getMyOrAllQuestions(this.selectedTabTopQuestionsIndex == 0 ? 'private' : 'public',
+      this.selectedCategory[0] ? this.selectedCategory[0]._id : '', 10, 1).then(data => {
+      this.loadingContent = false;
+      this.topQuestions = data.data;
+    })
+  }
+
+  isSelected(item: any): boolean {
+    return this.selectedCategory.some((category: any) => category._id === item._id);
+  }
+
+  async selectCatTopQuestion(item: any) {
+    this.selectedCategory = [];
+    this.selectedCategory.push(item);
+    await this.changeTopQuestions();
+  }
+
+  async gotoQuestionDetail(item: any) {
+    await this.router.navigate(['trivia-hub'], {state: {question: item}});
+  }
+
+  async getQuestionsFromFriendsLatestGames() {
+    this.clientService.getQuestionsFromFriendsLatestGames(2, this.page).then(data => {
+      this.questionsFromFriendsLatestGames = data.data;
+      this.loadingQuestionsFromFriendsLatestGames = false;
+    })
+  }
+
+  async gotoResult(id: any) {
+    await this.router.navigate(['game-result'], {state: {id: id}});
+  }
+
+  showMoreFriendsQuestions() {
+    this.loadingMore = true;
+    this.clientService.getQuestionsFromFriendsLatestGames(2, this.page + 1).then(data => {
+      this.loadingMore = false;
+      this.page++;
+      if (data.status == 1) {
+        this.questionsFromFriendsLatestGames = this.questionsFromFriendsLatestGames.concat(data.data);
+        this.noMoreItems = data.data.endedGames?.length < 10;
+      } else {
+        this.openDialog(JSON.stringify(data.message), 'Error');
+      }
+    })
   }
 }

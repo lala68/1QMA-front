@@ -104,12 +104,12 @@ export class ClientService {
       .toPromise();
   }
 
-  async getUserQuestions(category: any = '', type: any = '', search: any = ''): Promise<any> {
+  async getUserQuestions(category: any = '', type: any = '', search: any = '', page: any = 1, limit: any = 10): Promise<any> {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
     })
     const response = this.http.get(this.config.url('client/questions'), {
-      params: {category: category, type: type, search: search},
+      params: {category: category, type: type, search: search, page, limit},
       headers: headers,
       withCredentials: true
     }).pipe(
@@ -145,6 +145,48 @@ export class ClientService {
           .toPromise();
       })
     );
+  }
+
+  async getMyOrAllQuestions(type: any, category: any, limit: any, page: any): Promise<any> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    })
+    const response = this.http.get(this.config.url('client/topQuestions'), {
+      headers: headers,
+      params: {type: type, category: category, limit, page},
+      withCredentials: true
+    }).pipe(
+      map((response: any) => response)
+    ).toPromise();
+    return response;
+  }
+
+  async getQuestionsFromFriendsLatestGames(limit: any, page: any): Promise<any> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    })
+    const response = this.http.get(this.config.url('client/questionsFromFriendsLatestGames'), {
+      headers: headers,
+      params: {limit, page},
+      withCredentials: true
+    }).pipe(
+      map((response: any) => response)
+    ).toPromise();
+    return response;
+  }
+
+  async getQuestionPerformance(id: any): Promise<any> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    })
+    const response = this.http.get(this.config.url('client/questions/' + id + '/performance'), {
+      headers: headers,
+      params: {id: id},
+      withCredentials: true
+    }).pipe(
+      map((response: any) => response)
+    ).toPromise();
+    return response;
   }
 
 }

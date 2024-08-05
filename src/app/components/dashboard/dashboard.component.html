@@ -238,6 +238,111 @@
   </div>
 </div>
 <br>
+
+<div class="card border-0 p-4" *ngIf="!loading">
+  <div class="d-inline-flex">
+    <img src="assets/images/top-question.png"
+         width="35" height="35">
+    <div class="font-size-16 weight-800 pt-2">&nbsp;{{'Top Questions' | translate}}</div>
+  </div>
+  <div class="w-100 d-flex">
+    <mat-card class="shadow-none p-2" style="width: 100%">
+      <mat-card-header>
+        <div>
+          <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" class="tab-top-questions"
+                         [(selectedIndex)]="selectedTabTopQuestionsIndex" (selectedTabChange)="changeTopQuestions()">
+            <mat-tab label="My Top Questions">
+            </mat-tab>
+            <mat-tab label="All Top Questions">
+            </mat-tab>
+          </mat-tab-group>
+        </div>
+      </mat-card-header>
+      <br>
+      <div class="d-flex overflow-scroll">
+        <div class="m-2 d-inline-flex shadow-none cursor-pointer p-3"
+             (click)="selectCatTopQuestion('')"
+             [class]="{'mat-card-pref-selected': isSelected(''), 'mat-card-pref': !isSelected('')}">
+          <div class="text-center w-100" style="padding-top: 8px">
+            <mat-label class="font-size-14 weight-600">{{ 'all categories' }}</mat-label>
+          </div>
+        </div>
+        <div *ngFor="let cat of generalService?.gameInit?.categories"
+             class="m-2 d-inline-flex shadow-none cursor-pointer p-3"
+             (click)="selectCatTopQuestion(cat)"
+             [class]="{'mat-card-pref-selected': isSelected(cat), 'mat-card-pref': !isSelected(cat)}">
+          <div class="text-start">
+            <img [src]="'https://api.staging.1qma.games/' + cat?.icon" width="35">
+            <mat-label>{{ cat?.name }}</mat-label>
+          </div>
+        </div>
+      </div>
+      <br>
+      <mat-grid-list cols="12" rowHeight="50px" class="gray-card">
+        <mat-grid-tile class="result-grid" [colspan]="1">
+          <mat-label class="font-size-14 weight-700">#</mat-label>
+        </mat-grid-tile>
+        <mat-grid-tile class="result-grid" [colspan]="4">
+          <mat-label class="font-size-14 weight-700">Question</mat-label>
+        </mat-grid-tile>
+        <mat-grid-tile class="result-grid" [colspan]="2">
+          <mat-label class="font-size-14 weight-700">Category</mat-label>
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]="2">
+          <mat-label class="font-size-12 weight-700">Player</mat-label>
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]="1">
+          <mat-label class="font-size-12 weight-700">Total Plays</mat-label>
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]="1">
+          <mat-label class="font-size-12 weight-700">Score</mat-label>
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]="1">
+          <mat-label class="font-size-12 weight-700"></mat-label>
+        </mat-grid-tile>
+      </mat-grid-list>
+      <mat-grid-list *ngFor="let res of topQuestions;let i=index"
+                     [class]="{'border-bottom-gray': i < topQuestions?.length - 1}"
+                     cols="12" rowHeight="70px" class="mb-2">
+        <mat-grid-tile class="result-grid" [colspan]="1">
+          <mat-label>{{i + 1}}</mat-label>
+        </mat-grid-tile>
+        <mat-grid-tile class="result-grid" [colspan]="4">
+          {{res?.question}}
+        </mat-grid-tile>
+        <mat-grid-tile class="result-grid" [colspan]="2">
+          <div color="primary">
+            <img [src]="'https://api.staging.1qma.games/' + res?.category?.icon" width="25">
+            <span class="font-size-12 weight-500">{{res?.category?.name}}</span>
+          </div>
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]="2">
+          <img style="border: 1px solid #E8E2E0;border-radius: 50px; background: white;"
+               [src]="res?.user?.profilePicture ? res?.user?.profilePicture?.startsWith('http') ? res?.user?.profilePicture : configService.url(res?.user?.profilePicture) : 'assets/images/frame.png'"
+               width="40">&nbsp;&nbsp;
+          <mat-label>{{res?.user?.firstName}} {{res?.user?.lastName}}</mat-label>
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]="1">
+          <mat-label class="font-size-14 weight-700 gray-card text-center"
+                     style="min-width: 75px;border-radius: 20px">{{res?.plays | parsInt}}</mat-label>
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]="1">
+          <mat-label class="font-size-14 weight-700 gray-card text-center"
+                     style="min-width: 75px; border-radius: 20px">{{res?.score | parsInt}}</mat-label>
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]="1" (click)="gotoQuestionDetail(res)">
+          <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M9.53223 20.4084L16.0522 13.8884C16.8222 13.1184 16.8222 11.8584 16.0522 11.0884L9.53223 4.56836"
+              stroke="#0B6FEA" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+              stroke-linejoin="round"/>
+          </svg>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </mat-card>
+  </div>
+</div>
+<br>
 <div class="card w-50 border-0 p-4" *ngIf="!loading">
   <div class="d-inline-flex">
     <img src="assets/images/invite.png"
@@ -281,5 +386,66 @@
       <div matListItemLine>{{invite?.createdAt | date}}</div>
     </mat-list-item>
   </mat-list>
+</div>
+
+<br>
+<div class="card w-100 border-0 p-4" *ngIf="!loadingQuestionsFromFriendsLatestGames">
+  <div class="d-inline-flex">
+    <img src="assets/images/Magic%20Book%201.png"
+         width="32" height="32">
+    <div class="font-size-16 weight-800 pt-2">&nbsp;{{'Questions From Friends Latest  Games' | translate}}</div>
+  </div>
+  <br>
+  <div class="d-block w-100">
+    <div *ngFor="let item of questionsFromFriendsLatestGames" class="gray-card p-4 m-2 d-inline-block"
+         style="width: 48%">
+      <div class="d-flex white-card position-relative p-1">
+        <img style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px"
+             [src]="item?.user?.profilePicture ? item?.user?.profilePicture?.startsWith('http') ? item?.user?.profilePicture : configService.url(item?.user?.profilePicture) : 'assets/images/frame.png'"
+             width="42" height="42">
+        <mat-label class="font-size-13 weight-500"
+                   style="margin: auto 10px">{{item?.user?.firstName}} {{item?.user?.lastName}}</mat-label>
+        <mat-label class="font-size-12 weight-500 position-absolute" style="right: 10px; margin: 10px auto">
+          {{item?.createdAt | daysAgo}}
+        </mat-label>
+      </div>
+      <br>
+      <div class="font-size-14 weight-700">
+        {{item?.question}}
+      </div>
+      <br>
+      <div class="font-size-13 weight-400">
+        {{item?.answer}}
+      </div>
+      <br>
+      <mat-card-actions class="position-relative">
+        <button mat-raised-button (click)="gotoResult(item.gameId)"
+                class="answer-button position-absolute end-10 bottom-0">{{'See Game' | translate}}
+        </button>
+        <div class="position-absolute bottom-0">
+          <div class="d-inline-flex justify-content-between align-items-center m-1">
+            <div class="white-card p-1" style="width: fit-content">
+              <mat-label class="font-size-12 weight-600"
+                         style="margin: auto 5px">{{item?.category}}</mat-label>
+            </div>
+          </div>
+          <div class="d-inline-flex justify-content-between align-items-center m-1">
+            <div class="white-card p-1" style="width: fit-content">
+              <mat-label class="font-size-12 weight-600"
+                         style="margin: auto 5px">{{item?.gameType}}</mat-label>
+            </div>
+          </div>
+        </div>
+      </mat-card-actions>
+    </div>
+  </div>
+  <div style="margin: 20px auto">
+    <button mat-stroked-button color="primary" type="submit" *ngIf="!loadingMore && !noMoreItems"
+            class="p-4s ms-2 blue-button" (click)="showMoreFriendsQuestions()"
+            style="min-width: 150px; border: 1px solid #0B6FEA">
+      <span>{{'More' | translate}}</span>
+    </button>
+    <mat-spinner *ngIf="loadingMore" [diameter]="20"></mat-spinner>
+  </div>
 </div>
 

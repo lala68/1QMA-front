@@ -25,29 +25,63 @@ export class TriviaHubComponent implements OnInit {
   selectedTabGameIndex: any = 0;
   selectedTabIndexParent: any = 0;
   library: any = [];
+  libraryQuestions: any = [];
   gameData: any = [];
   search: any = '';
   selectedCategory: any = [''];
   questionStep: any = 1;
   questionDetail: any;
+  question: any;
+  performance: any;
+  loadingMore: boolean = false;
+  page: any = 1;
+  noMoreItems: any;
 
   constructor(private gameService: GamesService, private clientService: ClientService,
               public generalService: GeneralService, public configService: ConfigService,
               private router: Router) {
     this.generalService.currentRout = '/trivia-hub';
+    this.question = this.router.getCurrentNavigation()?.extras?.state?.['question'];
+    if (this.question) {
+      this.questionStep = 2;
+      this.questionDetail = this.question;
+      this.getPerformance(this.question._id);
+    }
   }
 
   async ngOnInit(): Promise<any> {
     if (!this.search || this.search.length > 2) {
       this.library = [];
+      this.libraryQuestions = [];
       this.loadingContent = true;
       this.clientService.getUserQuestions(this.selectedCategory[0] ? this.selectedCategory[0]._id : '', this.selectedTabIndex == 0
         ? 'private'
         : this.selectedTabIndex == 1
           ? 'public'
-          : 'bookmark', this.search).then(data => {
+          : 'bookmark', this.search, this.page, 4).then(data => {
         this.loadingContent = false;
-        this.library = data.data;
+        this.library = (data.data);
+        this.libraryQuestions = this.libraryQuestions.concat(data.data.questions);
+        this.noMoreItems = data.data.questions?.length < 4;
+      });
+    }
+  }
+
+  async changeQuestions() {
+    if (!this.search || this.search.length > 2) {
+      this.library = [];
+      this.page = 1;
+      this.libraryQuestions = [];
+      this.loadingContent = true;
+      this.clientService.getUserQuestions(this.selectedCategory[0] ? this.selectedCategory[0]._id : '', this.selectedTabIndex == 0
+        ? 'public'
+        : this.selectedTabIndex == 1
+          ? 'private'
+          : 'bookmark', this.search, this.page, 4).then(data => {
+        this.loadingContent = false;
+        this.library = (data.data);
+        this.libraryQuestions = this.libraryQuestions.concat(data.data.questions);
+        this.noMoreItems = data.data.questions?.length < 4;
       });
     }
   }
@@ -65,6 +99,7 @@ export class TriviaHubComponent implements OnInit {
   }
 
   async selectCat(item: any) {
+    this.page = 1;
     this.selectedCategory = [];
     this.selectedCategory.push(item);
     await this.ngOnInit();
@@ -88,10 +123,33 @@ export class TriviaHubComponent implements OnInit {
   async gotoAnswer(item: any) {
     this.questionStep = 2;
     this.questionDetail = item;
+    await this.getPerformance(item._id)
   }
 
   async gotoResult(id: any) {
     await this.router.navigate(['game-result'], {state: {id: id}});
+  }
+
+  async getPerformance(id: any) {
+    this.clientService.getQuestionPerformance(id).then(data => {
+      this.performance = data.data;
+    })
+  }
+
+  async showMore() {
+    this.page++;
+    this.loadingMore = true;
+    this.clientService.getUserQuestions(this.selectedCategory[0] ? this.selectedCategory[0]._id : '', this.selectedTabIndex == 0
+      ? 'private'
+      : this.selectedTabIndex == 1
+        ? 'public'
+        : 'bookmark', this.search, this.page, 4).then(data => {
+      this.loadingContent = false;
+      this.loadingMore = false;
+      this.library = (data.data);
+      this.libraryQuestions = this.libraryQuestions.concat(data.data.questions);
+      this.noMoreItems = data.data.questions?.length < 4;
+    });
   }
 
 }

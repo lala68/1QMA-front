@@ -185,7 +185,7 @@
                                (opened)="panelOpenState[i] = true"
                                (closed)="panelOpenState[i] = false">
             <mat-expansion-panel-header style="height: 120px; padding-left: 0">
-              <mat-panel-title>
+              <mat-panel-title style="min-width: 80%">
                 <mat-card class="shadow-none border-0 bg-transparent">
                   <mat-card-header>
                     <img mat-card-avatar
@@ -201,7 +201,7 @@
                   </mat-card-header>
                 </mat-card>
               </mat-panel-title>
-              <mat-panel-description>
+              <mat-panel-description style="min-width: 20%">
                 <mat-icon class="position-absolute end-10 color-black" *ngIf="!panelOpenState[i]">add_circle
                 </mat-icon>
                 <mat-icon class="position-absolute end-10 color-black" *ngIf="panelOpenState[i]">remove_circle

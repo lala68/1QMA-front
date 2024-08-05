@@ -123,7 +123,7 @@
       <br>
       <div class="card border-0" *ngIf="liveGames?.length">
         <div class="w-100 d-flex">
-          <mat-card class="shadow-none">
+          <mat-card class="shadow-none" style="width: 1042px">
             <mat-card-header>
               <img mat-card-avatar src="assets/images/live.png" width="45" height="45">
               <mat-card-title class="font-size-16 weight-600">{{'Live' | translate}}</mat-card-title>
@@ -131,9 +131,9 @@
                 {{'Join Live Games Now' | translate}}
               </mat-card-subtitle>
             </mat-card-header>
-            <mat-card-content>
+            <mat-card-content class="d-flex overflow-scroll">
               <mat-card *ngFor="let liveGame of liveGames"
-                        class="bordered-card shadow-none text-center d-inline-block">
+                        class="bordered-card shadow-none text-center d-inline-flex">
                 <img [src]="'https://api.staging.1qma.games/' + liveGame?.category?.icon" width="50" height="50"
                      style="margin: 0 auto">
                 <mat-card-header style="margin: 0 auto; display: block">
@@ -195,7 +195,7 @@
       <br>
       <div class="card border-0" *ngIf="friendsGames?.length">
         <div class="w-100 d-flex">
-          <mat-card class="shadow-none">
+          <mat-card class="shadow-none" style="width: 1042px">
             <mat-card-header>
               <img mat-card-avatar src="assets/images/friends-games.png" width="45" height="45">
               <mat-card-title class="font-size-16 weight-600">{{'Friends Recent Games' | translate}}</mat-card-title>
@@ -203,15 +203,15 @@
                 {{'Games your friends played recently' | translate}}
               </mat-card-subtitle>
             </mat-card-header>
-            <mat-card-content>
-              <mat-card *ngFor="let endedGame of friendsGames"
-                        class="bordered-card shadow-none text-center d-inline-block">
-                <img [src]="'https://api.staging.1qma.games/' + endedGame?.category?.icon" width="50" height="50"
+            <mat-card-content class="d-flex overflow-scroll">
+              <mat-card *ngFor="let fg of friendsGames"
+                        class="bordered-card shadow-none text-center d-inline-flex">
+                <img [src]="'https://api.staging.1qma.games/' + fg?.category?.icon" width="50" height="50"
                      style="margin: 0 auto">
                 <mat-card-header style="margin: 0 auto; display: block">
-                  <mat-card-title class="font-size-14 weight-700">{{ endedGame?.category?.name }}</mat-card-title>
+                  <mat-card-title class="font-size-14 weight-700">{{ fg?.category?.name }}</mat-card-title>
                   <mat-card-subtitle class="font-size-12 weight-500">
-                    {{endedGame?.endedAt | daysAgo}}
+                    {{fg?.endedAt | daysAgo}}
                   </mat-card-subtitle>
                 </mat-card-header>
                 <br>
@@ -219,16 +219,16 @@
                   <mat-card class="shadow-none">
                     <mat-card-header class="pe-1 ps-1">
                       <img mat-card-avatar style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px"
-                           [src]="findFriendGameData?.friend?.profilePicture ? findFriendGameData?.friend?.profilePicture?.startsWith('http') ? findFriendGameData?.friend?.profilePicture : configService.url(findFriendGameData?.friend?.profilePicture) : 'assets/images/frame.png'"
+                           [src]="fg?.creator?.profilePicture ? fg?.creator?.profilePicture?.startsWith('http') ? fg?.creator?.profilePicture : configService.url(fg?.creator?.profilePicture) : 'assets/images/frame.png'"
                            width="33" height="33" class="mb-0">
                       <mat-card-title
-                        class="font-size-14 weight-500 text-start">{{findFriendGameData?.friend?.firstName}} {{findFriendGameData?.friend?.lastName}}</mat-card-title>
+                        class="font-size-14 weight-500 text-start">{{fg?.creator?.firstName}} {{fg?.creator?.lastName}}</mat-card-title>
                       <mat-card-subtitle class="text-start ps-0">
                         <img src="assets/images/rank.png" width="16"><span
-                        class="font-size-14 weight-700">{{endedGame?.rank}} </span><span
+                        class="font-size-14 weight-700">{{fg?.rank}} </span><span
                         class="font-size-14 weight-500"> Rank</span>
                         <img src="assets/images/score.png" width="16"><span
-                        class="font-size-14 weight-700">{{endedGame?.score | parsInt}} </span><span
+                        class="font-size-14 weight-700">{{fg?.score | parsInt}} </span><span
                         class="font-size-14 weight-500"> Score</span>
                       </mat-card-subtitle>
                     </mat-card-header>
@@ -237,29 +237,30 @@
                 <mat-divider></mat-divider>
                 <div class="position-relative">
                   <div class="font-size-14 weight-500 p-2 text-start">
-                    <div *ngFor="let ply of endedGame?.players; let i=index" class="d-inline-block">
-                      <img mat-card-avatar style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px"
+                    <div *ngFor="let ply of fg?.players; let i=index" class="d-inline-block">
+                      <img mat-card-avatar
+                           style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px; background: white"
                            [src]="ply?.profilePicture ? ply?.profilePicture?.startsWith('http') ? ply?.profilePicture : configService.url(ply?.profilePicture) : 'assets/images/frame.png'"
                            width="26" height="26" class="mb-0 position-absolute custom-position-{{i}}">
                     </div>
                   </div>
                   <div class="font-size-14 weight-500 p-2 text-end">
                  <span class="font-size-14 weight-500 position-absolute bottom-0"
-                       style="right: 5px">{{endedGame?.gameType?.text}}</span>
-                    <img src="assets/images/normal-game.png" *ngIf="endedGame?.gameType?.id == 'normal'" width="22"
+                       style="right: 5px">{{fg?.gameType?.text}}</span>
+                    <img src="assets/images/normal-game.png" *ngIf="fg?.gameType?.id == 'normal'" width="22"
                          height="22"
                          class="mb-0 position-absolute" style="top: 25px; right: 55px">
-                    <img src="assets/images/survival-game.png" *ngIf="endedGame?.gameType?.id == 'survival'"
+                    <img src="assets/images/survival-game.png" *ngIf="fg?.gameType?.id == 'survival'"
                          width="22" height="22"
                          class="mb-0 position-absolute" style="top: 25px; right: 55px">
                   </div>
                 </div>
                 <br>
-                <span class="font-size-11 weight-500 text-start">{{endedGame?.players?.length}} player</span>
+                <span class="font-size-11 weight-500 text-start">{{fg?.players?.length}} player</span>
                 <br>
                 <mat-card-actions>
                   <button mat-raised-button class="game-button"
-                          (click)="gotoResult(endedGame._id)">{{'Game Detail' | translate}}
+                          (click)="gotoResult(fg._id)">{{'Game Detail' | translate}}
                   </button>
                 </mat-card-actions>
               </mat-card>
@@ -343,8 +344,9 @@
 
               </div>
               <br>
-              <div *ngIf="friendsRecentSurvival?.length || liveSurvival?.length" class="w-100">
-                <div *ngIf="liveSurvival?.length" class="w-50">
+              <br>
+              <div *ngIf="friendsRecentSurvival?.length || liveSurvival?.length" class="w-100 d-flex">
+                <div *ngIf="liveSurvival?.length" class="w-50 m-2">
                   <mat-label
                     class="font-size-14 weight-600">{{'Live Survival Games' | translate}}</mat-label>
                   <br>
@@ -391,7 +393,7 @@
                   </mat-grid-list>
                 </div>
 
-                <div *ngIf="friendsRecentSurvival?.length" class="w-50">
+                <div *ngIf="friendsRecentSurvival?.length" class="w-50 m-2">
                   <mat-label
                     class="font-size-14 weight-600">{{'Survival Games From Friends' | translate}}</mat-label>
                   <br>
@@ -400,9 +402,9 @@
                                  cols="12" rowHeight="50px" class="gray-card mb-2">
                     <mat-grid-tile class="result-grid" [colspan]="4">
                       <img style="border: 1px solid #E8E2E0;border-radius: 50px; background: white;"
-                           [src]="res?.profilePicture ? res?.profilePicture?.startsWith('http') ? res?.profilePicture : configService.url(res?.profilePicture) : 'assets/images/frame.png'"
+                           [src]="res?.creator?.profilePicture ? res?.creator?.profilePicture?.startsWith('http') ? res?.creator?.profilePicture : configService.url(res?.creator?.profilePicture) : 'assets/images/frame.png'"
                            width="40">&nbsp;&nbsp;
-                      <mat-label>{{res?.firstName}} {{res?.lastName}}</mat-label>
+                      <mat-label>{{res?.creator?.firstName}} {{res?.creator?.lastName}}</mat-label>
                     </mat-grid-tile>
                     <mat-grid-tile class="result-grid" [colspan]="3">
                       <div color="primary">
@@ -420,7 +422,7 @@
                         </div>
                       </div>
                     </mat-grid-tile>
-                    <mat-grid-tile [colspan]="1" (click)="joinToGame(res?.code)">
+                    <mat-grid-tile [colspan]="1" (click)="gotoResult(res?._id)">
                       <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
                           d="M9.53223 20.4084L16.0522 13.8884C16.8222 13.1184 16.8222 11.8584 16.0522 11.0884L9.53223 4.56836"
