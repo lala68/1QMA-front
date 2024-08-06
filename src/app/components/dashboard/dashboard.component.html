@@ -324,11 +324,11 @@
         </mat-grid-tile>
         <mat-grid-tile [colspan]="1">
           <mat-label class="font-size-14 weight-700 gray-card text-center"
-                     style="min-width: 75px;border-radius: 20px">{{res?.plays | parsInt}}</mat-label>
+                     style="min-width: 75px;border-radius: 50px !important;">{{res?.plays | parsInt}}</mat-label>
         </mat-grid-tile>
         <mat-grid-tile [colspan]="1">
           <mat-label class="font-size-14 weight-700 gray-card text-center"
-                     style="min-width: 75px; border-radius: 20px">{{res?.score | parsInt}}</mat-label>
+                     style="min-width: 75px; border-radius: 50px !important;">{{res?.score | parsInt}}</mat-label>
         </mat-grid-tile>
         <mat-grid-tile [colspan]="1" (click)="gotoQuestionDetail(res)">
           <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">

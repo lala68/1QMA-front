@@ -108,7 +108,7 @@ export class DashboardComponent implements OnInit {
   changeTopQuestions() {
     this.loadingContent = true;
     this.clientService.getMyOrAllQuestions(this.selectedTabTopQuestionsIndex == 0 ? 'private' : 'public',
-      this.selectedCategory[0] ? this.selectedCategory[0]._id : '', 10, 1).then(data => {
+      this.selectedCategory[0] ? this.selectedCategory[0]._id : '', 5, 1).then(data => {
       this.loadingContent = false;
       this.topQuestions = data.data;
     })
