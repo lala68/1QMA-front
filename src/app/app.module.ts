@@ -14,6 +14,7 @@ import {ClipboardModule} from "@angular/cdk/clipboard";
 import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 import {MatDialogModule} from "@angular/material/dialog";
+import {StarRatingModule} from "angular-star-rating";
 
 export const httpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(http, './assets/i18n/', '.json');
 
@@ -34,6 +35,7 @@ export const httpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(h
     MaterialModule,
     RouterModule,
     ClipboardModule,
+    StarRatingModule.forRoot(),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

@@ -189,4 +189,63 @@ export class ClientService {
     return response;
   }
 
+  async likeQuestion(questionId: any): Promise<any> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+
+    })
+    return this.http.post<any>(this.config.url('client/questions/like'), {
+      id: this.generalService.userId,
+      questionId: questionId
+    }, {
+      headers: headers,
+      withCredentials: true
+    })
+      .toPromise();
+  }
+
+  async disLikeQuestion(questionId: any): Promise<any> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+
+    })
+    return this.http.post<any>(this.config.url('client/questions/dislike'), {
+      id: this.generalService.userId,
+      questionId: questionId
+    }, {
+      headers: headers,
+      withCredentials: true
+    })
+      .toPromise();
+  }
+
+  async bookmarkQuestion(questionId: any): Promise<any> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+
+    })
+    return this.http.post<any>(this.config.url('client/questions/bookmark'), {
+      id: this.generalService.userId,
+      questionId: questionId
+    }, {
+      headers: headers,
+      withCredentials: true
+    })
+      .toPromise();
+  }
+
+  async removeBookmarkQuestion(questionId: any): Promise<any> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+
+    })
+    return this.http.post<any>(this.config.url('client/questions/removeBookmark'), {
+      id: this.generalService.userId,
+      questionId: questionId
+    }, {
+      headers: headers,
+      withCredentials: true
+    })
+      .toPromise();
+  }
 }

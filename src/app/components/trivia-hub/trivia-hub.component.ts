@@ -10,11 +10,13 @@ import {GeneralService} from "../../services/general/general.service";
 import {ConfigService} from "../../services/config/config.service";
 import {DaysAgoPipe} from "../../days-ago.pipe";
 import {ParsIntPipe} from "../../pars-int.pipe";
+import {StarRatingModule} from "angular-star-rating";
 
 @Component({
   selector: 'app-trivia-hub',
   standalone: true,
-  imports: [CommonModule, SharedModule, FormsModule, RouterModule, TranslateModule, DaysAgoPipe, ParsIntPipe],
+  imports: [CommonModule, SharedModule, FormsModule, RouterModule, TranslateModule, DaysAgoPipe, ParsIntPipe,
+    StarRatingModule],
   templateUrl: './trivia-hub.component.html',
   styleUrl: './trivia-hub.component.scss'
 })
@@ -55,9 +57,9 @@ export class TriviaHubComponent implements OnInit {
       this.libraryQuestions = [];
       this.loadingContent = true;
       this.clientService.getUserQuestions(this.selectedCategory[0] ? this.selectedCategory[0]._id : '', this.selectedTabIndex == 0
-        ? 'private'
+        ? 'public'
         : this.selectedTabIndex == 1
-          ? 'public'
+          ? 'private'
           : 'bookmark', this.search, this.page, 4).then(data => {
         this.loadingContent = false;
         this.library = (data.data);
@@ -113,7 +115,7 @@ export class TriviaHubComponent implements OnInit {
 
   async changeGames() {
     this.loadingContent = true;
-    this.gameService.getAllOrMyGames(this.selectedTabGameIndex == 0 ? '' : 'private',
+    this.gameService.getAllOrMyGames(this.selectedTabGameIndex == 0 ? 'public' : '',
       this.selectedCategory[0] ? this.selectedCategory[0]._id : '', 10, 1).then(data => {
       this.loadingContent = false;
       this.gameData = data.data;
@@ -140,9 +142,9 @@ export class TriviaHubComponent implements OnInit {
     this.page++;
     this.loadingMore = true;
     this.clientService.getUserQuestions(this.selectedCategory[0] ? this.selectedCategory[0]._id : '', this.selectedTabIndex == 0
-      ? 'private'
+      ? 'public'
       : this.selectedTabIndex == 1
-        ? 'public'
+        ? 'private'
         : 'bookmark', this.search, this.page, 4).then(data => {
       this.loadingContent = false;
       this.loadingMore = false;
@@ -150,6 +152,58 @@ export class TriviaHubComponent implements OnInit {
       this.libraryQuestions = this.libraryQuestions.concat(data.data.questions);
       this.noMoreItems = data.data.questions?.length < 4;
     });
+  }
+
+  async addLike(item: any) {
+    this.clientService.likeQuestion(item._id).then(data => {
+      if (data.status == 1) {
+        if (item.liked) {
+          item.liked = !item.liked;
+          item.likes--;
+        } else {
+          if (item.disliked) {
+            item.disliked = !item.disliked;
+            item.dislikes--;
+          }
+          item.liked = !item.liked;
+          item.likes++;
+        }
+      }
+    })
+  }
+
+  async disLike(item: any) {
+    this.clientService.disLikeQuestion(item._id).then(data => {
+      if (data.status == 1) {
+        if (item.disliked) {
+          item.disliked = !item.disliked;
+          item.dislikes--;
+        } else {
+          if (item.liked) {
+            item.liked = !item.liked;
+            item.likes--;
+          }
+          item.disliked = !item.disliked;
+          item.dislikes++;
+        }
+      }
+    })
+  }
+
+  async addBookmark(item: any) {
+    this.clientService.bookmarkQuestion(item._id).then(data => {
+      if (data.status == 1) {
+        item.bookmarked = !item.bookmarked;
+      }
+    })
+  }
+
+  async removeBookmark(item: any) {
+    this.clientService.removeBookmarkQuestion(item._id).then(data => {
+      if (data.status == 1) {
+        item.bookmarked = !item.bookmarked;
+      }
+    })
   }
 
 }

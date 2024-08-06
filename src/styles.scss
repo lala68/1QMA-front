@@ -4,6 +4,7 @@
 @import 'material-icons/iconfont/material-icons.css';
 @import "../node_modules/bootstrap-icons/font/bootstrap-icons.css";
 @import 'custom-theme';
+@import 'css-star-rating/scss/star-rating';
 
 * {
   font-size: 14px;
@@ -293,7 +294,8 @@ button {
 
 .dashboard-content-default {
   //width: 1042px;
-  width: 1082px;
+  //width: 1082px;
+  width: calc(100% - 30px);;
   margin: 40px 0;
 }
 
@@ -421,6 +423,20 @@ input[type="tel"] {
   padding: 5px;
   width: fit-content;
   border-radius: 50px !important;
+}
+
+.tab-group-library {
+  mat-tab-header {
+    .mat-mdc-tab-label-container {
+      .mat-mdc-tab-list {
+        background: white;
+        max-width: 570px;
+        margin-bottom: 0px !important;
+        padding: 10px;
+        border-radius: 6px;
+      }
+    }
+  }
 }
 
 .tab-group-trivia {

@@ -51,9 +51,7 @@ export class DashboardComponent implements OnInit {
 
   async ngOnInit(): Promise<any> {
     await this.generalService.getUserData();
-    this.clientService.clientInit().then(data => {
-      this.generalService.clientInit = data.data;
-    });
+    await this.getGameInit();
     this.calculateRemainingDays();
     this.changeTopQuestions();
     await this.getQuestionsFromFriendsLatestGames();
@@ -102,6 +100,12 @@ export class DashboardComponent implements OnInit {
       verticalPosition: 'top',
       horizontalPosition: 'end',
       panelClass: title == 'Success' ? 'app-notification-success' : 'app-notification-error'
+    });
+  }
+
+  getGameInit() {
+    this.clientService.clientInit().then(data => {
+      this.generalService.clientInit = data.data;
     });
   }
 
