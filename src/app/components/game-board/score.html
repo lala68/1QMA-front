@@ -22,7 +22,7 @@
     <div style="width: 33%; border-left: 1px solid #E8E2E0" class="text-center bg-white">
       <div class="font-size-14 weight-800"
            style="color: #0CA609">
-        +{{data?.score}}
+        +{{data?.score | parsInt}}
       </div>
       <mat-label class="font-size-12 weight-500">This Game</mat-label>
     </div>
@@ -30,7 +30,7 @@
          class="text-center bg-white">
       <div class="font-size-14 weight-800"
            style="color: #0CA609">
-        {{data?.totalScore}}
+        {{data?.totalScore | parsInt}}
       </div>
       <mat-label class="font-size-12 weight-500">Total Score</mat-label>
     </div>

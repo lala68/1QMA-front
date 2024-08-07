@@ -457,7 +457,8 @@ export class JoiningGame {
   selector: 'import-from-library',
   templateUrl: 'import-from-library.html',
   standalone: true,
-  imports: [MaterialModule, CommonModule, FormsModule, ReactiveFormsModule, SharedModule, TranslateModule],
+  imports: [MaterialModule, CommonModule, FormsModule, ReactiveFormsModule, SharedModule, TranslateModule,
+    DaysAgoPipe],
 })
 
 export class ImportFromLibrary implements OnInit {

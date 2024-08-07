@@ -514,7 +514,7 @@
                                (countdownFinished)="handleCountdownRatingAnswerFinished()"></app-countdown-timer>
           <button mat-raised-button color="primary" class="next-step ms-3"
                   [disabled]="sendRateAnswerDisable"
-                  (click)="sendRateAnswer()">
+                  (click)="sendRateAnswer(true)">
             {{'Next' | translate}}
             <i class="bi bi-arrow-right"></i>
           </button>
@@ -631,7 +631,7 @@
                                (countdownFinished)="handleCountdownRatingQuestionsFinished()"></app-countdown-timer>
           <button mat-raised-button color="primary" class="next-step ms-3"
                   [disabled]="sendRateQuestionsDisable"
-                  (click)="sendRateQuestions()">
+                  (click)="sendRateQuestions(true)">
             {{'Next' | translate}}
             <i class="bi bi-arrow-right"></i>
           </button>

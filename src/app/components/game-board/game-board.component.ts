@@ -53,6 +53,8 @@ export class GameBoardComponent implements OnInit, OnDestroy {
   isModalOpen = false;
   backToCheckpoint: boolean = false;
   congratulation: boolean = false;
+  isDropped: boolean = false;
+  isDroppedQuestion: boolean = false;
   myRank: any;
 
   constructor(public generalService: GeneralService, private router: Router, private gameService: GamesService,
@@ -95,6 +97,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
         this.finishedTimerRatingAnswer = true;
         this.finishedTimerRatingQuestions = false;
         this.sendAnswerDisable = false;
+        this.isDropped = false;
       } else if (this.generalService.gameStep == 4) {
         this.nextStepTriggeredAnswer = false;
         this.nextStepTriggeredRatingAnswer = false;
@@ -427,7 +430,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     this.finishedTimerRatingAnswer = true;
     if (this.generalService.disconnectedModal == '') {
       if (!this.sendRateAnswerDisable) {
-        await this.sendRateAnswer();
+        await this.sendRateAnswer(false);
         this.sendRateAnswerDisable = true;
       } else {
         // console.log("elseeeeee")
@@ -577,6 +580,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
         rate: '1.01' // Assuming the rate is the new index + 1 as a string
       }));
     } else {
+      this.isDropped = true;
       this.generalService.rateAnswers = this.generalService.specificQuestionAnswers.answers.map((answer: any, index: any) => ({
         answer_id: answer._id,
         rate: (this.generalService.specificQuestionAnswers.answers.length - index).toString() // Assuming the rate is the new index + 1 as a string
@@ -591,6 +595,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
         rate: '1.01' // Assuming the rate is the new index + 1 as a string
       }));
     } else {
+      this.isDroppedQuestion = true;
       this.generalService.rateQuestions = this.generalService.allQuestions.map((question: any, index: any) => ({
         question_id: question._id,
         rate: (this.generalService.allQuestions.length - index).toString() // Assuming the rate is the new index + 1 as a string
@@ -598,11 +603,16 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     }
   }
 
-  async sendRateAnswer(): Promise<any> {
+  async sendRateAnswer(dropped: any = false): Promise<any> {
     await this.ngZone.run(async () => {
       this.sendRateAnswerDisable = true;
       this.sendAnswerDisable = false;
       this.numberOfDisconnectingInGameSteps = 0;
+      if (!dropped && this.isDropped) {
+        await this.updateRates(true);
+      } else if (dropped) {
+        await this.updateRates(true);
+      }
       this.gameService.sendRates(this.generalService.createdGameData.game.gameId, this.generalService.gameQuestion._id, this.generalService.rateAnswers).then(data => {
         if (data.status == 1) {
           this.loading = false;
@@ -613,10 +623,15 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     });
   }
 
-  async sendRateQuestions(): Promise<any> {
+  async sendRateQuestions(dropped: any = false): Promise<any> {
     this.sendRateQuestionsDisable = true;
     this.sendRateAnswerDisable = false;
     this.numberOfDisconnectingInGameSteps = 0;
+    if (!dropped && this.isDroppedQuestion) {
+      await this.updateRatesQuestions(true);
+    } else if (dropped) {
+      await this.updateRatesQuestions(true);
+    }
     this.gameService.sendRateQuestions(this.generalService.createdGameData.game.gameId, this.generalService.rateQuestions).then(data => {
       if (data.status == 1) {
         this.loading = false;
@@ -919,7 +934,7 @@ export class ShareGame {
   selector: 'score',
   templateUrl: 'score.html',
   standalone: true,
-  imports: [MaterialModule, CommonModule, TranslateModule, ClipboardModule]
+  imports: [MaterialModule, CommonModule, TranslateModule, ClipboardModule, ParsIntPipe]
 })
 
 export class Score {
