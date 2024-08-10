@@ -9,7 +9,7 @@
   &nbsp;{{'Keep Score' | translate}}
 </div>
 <div mat-dialog-content class="m-2">
-  <mat-label style="font-size: 14px; font-weight: 600; color: #2C2523">{{'Pay and keep your score:'}}
+  <mat-label class="green-color font-size-14 weight-600">{{'Pay and keep your score:'}}
   </mat-label>
   <br>
   <br>
@@ -20,16 +20,14 @@
       <mat-label class="font-size-12 weight-600">Score</mat-label>
     </div>
     <div style="width: 33%; border-left: 1px solid #E8E2E0" class="text-center bg-white">
-      <div class="font-size-14 weight-800"
-           style="color: #0CA609">
+      <div class="font-size-14 weight-800 green-color">
         +{{data?.score | parsInt}}
       </div>
       <mat-label class="font-size-12 weight-500">This Game</mat-label>
     </div>
     <div style="width: 33%; border-top-right-radius: 6px; border-bottom-right-radius: 6px; "
          class="text-center bg-white">
-      <div class="font-size-14 weight-800"
-           style="color: #0CA609">
+      <div class="font-size-14 weight-800 green-color">
         {{data?.totalScore | parsInt}}
       </div>
       <mat-label class="font-size-12 weight-500">Total Score</mat-label>

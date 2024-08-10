@@ -8,7 +8,7 @@ export class LoaderService {
   isLoading$ = new Subject<boolean>();
 
   show(): void {
-    setTimeout(() =>       this.isLoading$.next(true), 0);
+    setTimeout(() =>       this.isLoading$.next(true), 10);
   }
 
   hide(): void {

@@ -6,7 +6,7 @@ import {AppComponent} from './app.component';
 import {MaterialModule} from "./shared/material/material.module";
 import {SharedModule} from "./shared/shared.module";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {HttpClient, HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from "@angular/common/http";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
 import {RouterModule} from "@angular/router";
@@ -15,6 +15,7 @@ import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 import {MatDialogModule} from "@angular/material/dialog";
 import {StarRatingModule} from "angular-star-rating";
+import {LoaderInterceptService} from "./services/interceptors/loader-intercept.service";
 
 export const httpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(http, './assets/i18n/', '.json');
 
@@ -52,9 +53,9 @@ export const httpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(h
   ],
   exports: [
   ],
-  // providers: [
-  //   // {provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true}
-  // ],
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptService, multi: true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

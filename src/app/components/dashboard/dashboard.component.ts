@@ -14,6 +14,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {SnackbarContentComponent} from "../snackbar-content/snackbar-content.component";
 import {ParsIntPipe} from "../../pipes/pars-int.pipe";
 import {DaysAgoPipe} from "../../pipes/days-ago.pipe";
+import {LoaderService} from "../../services/loader/loader.service";
 
 @Component({
   selector: 'app-dashboard',
@@ -24,6 +25,7 @@ import {DaysAgoPipe} from "../../pipes/days-ago.pipe";
   styleUrl: './dashboard.component.scss',
 })
 export class DashboardComponent implements OnInit {
+  loading$ = this.loader.isLoading$;
   loading: boolean = true;
   loadingInvite: boolean = false;
   loadingContent: boolean = true;
@@ -44,7 +46,7 @@ export class DashboardComponent implements OnInit {
   noMoreItems: any;
 
   constructor(private clientService: ClientService, private _formBuilder: FormBuilder,
-              public generalService: GeneralService, public configService: ConfigService,
+              public generalService: GeneralService, public configService: ConfigService, private loader: LoaderService,
               private router: Router, public dialog: MatDialog, private _snackBar: MatSnackBar) {
     this.generalService.currentRout = '/dashboard';
   }

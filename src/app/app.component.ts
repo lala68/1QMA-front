@@ -15,6 +15,7 @@ import {GamesComponent} from "./components/games/games.component";
 import {GameBoardComponent} from "./components/game-board/game-board.component";
 import {CountdownTimerComponent} from "./components/countdown-timer/countdown-timer.component";
 import {GamesService} from "./services/games/games.service";
+import {LoaderService} from "./services/loader/loader.service";
 
 register();
 
@@ -25,12 +26,13 @@ register();
   providers: [GamesComponent, GameBoardComponent, CountdownTimerComponent]
 })
 export class AppComponent implements OnInit {
+  loading$ = this.loader.isLoading$;
   title = '1QMA';
 
   constructor(private router: Router, private translateService: TranslateService, private _snackBar: MatSnackBar,
               private generalService: GeneralService, private authService: AuthService, public dialog: MatDialog,
               private clientService: ClientService, private route: ActivatedRoute, private location: Location,
-              private gameComponent: GamesComponent, private gameService: GamesService) {
+              private gameComponent: GamesComponent, private gameService: GamesService,  private loader: LoaderService,) {
     this.translateService.setDefaultLang('en');
   }
 

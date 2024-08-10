@@ -49,8 +49,8 @@
             <div class="position-relative" style="width: 100px">
               <img src="assets/images/score.png"
                    width="28" height="28">&nbsp;
-              <div class="font-size-14 weight-800 position-absolute"
-                   style="padding-left: 5px; left: 30px; top: -5px; color: #0CA609">
+              <div class="font-size-14 weight-800 position-absolute green-color"
+                   style="padding-left: 5px; left: 30px; top: -5px;">
                 +{{gameResult?.statistics?.score | parsInt}}</div>
               <mat-label class="position-absolute font-size-14 weight-500"
                          style="padding-left: 5px;left: 30px; bottom: -5px;  color: #828282">
@@ -61,8 +61,8 @@
             <div class="position-relative" style="width: 100px">
               <img src="assets/images/XP.png"
                    width="28" height="28">&nbsp;
-              <div class="font-size-14 weight-800 position-absolute"
-                   style="padding-left: 5px; left: 30px; top: -5px; color: #0CA609">
+              <div class="font-size-14 weight-800 position-absolute green-color"
+                   style="padding-left: 5px; left: 30px; top: -5px;">
                 +{{gameResult?.statistics?.xp | parsInt}}</div>
               <mat-label class="position-absolute font-size-14 weight-500"
                          style="padding-left: 5px;left: 30px; bottom: -5px;  color: #828282">
@@ -73,14 +73,14 @@
           <div class="w-30 position-relative">
             <!--              2-->
             <img class="avatar-bordered bg-white"
-              style="position: absolute; left: 20px; bottom: 80px;"
-              [src]="gameResult?.result?.scoreboard[1]?.profilePicture ? gameResult?.result?.scoreboard[1]?.profilePicture?.startsWith('http') ? gameResult?.result?.scoreboard[1]?.profilePicture : configService.url(gameResult?.result?.scoreboard[1]?.profilePicture) : 'assets/images/frame.png'"
-              width="48">
+                 style="position: absolute; left: 20px; bottom: 80px;"
+                 [src]="gameResult?.result?.scoreboard[1]?.profilePicture ? gameResult?.result?.scoreboard[1]?.profilePicture?.startsWith('http') ? gameResult?.result?.scoreboard[1]?.profilePicture : configService.url(gameResult?.result?.scoreboard[1]?.profilePicture) : 'assets/images/frame.png'"
+                 width="48">
             <!--              1-->
             <img class="avatar-bordered bg-white"
-              style="position: absolute; left: 85px; bottom: 90px;"
-              [src]="gameResult?.result?.scoreboard[0]?.profilePicture ? gameResult?.result?.scoreboard[0]?.profilePicture?.startsWith('http') ? gameResult?.result?.scoreboard[0]?.profilePicture : configService.url(gameResult?.result?.scoreboard[0]?.profilePicture) : 'assets/images/frame.png'"
-              width="48">
+                 style="position: absolute; left: 85px; bottom: 90px;"
+                 [src]="gameResult?.result?.scoreboard[0]?.profilePicture ? gameResult?.result?.scoreboard[0]?.profilePicture?.startsWith('http') ? gameResult?.result?.scoreboard[0]?.profilePicture : configService.url(gameResult?.result?.scoreboard[0]?.profilePicture) : 'assets/images/frame.png'"
+                 width="48">
             <!--              3-->
             <img *ngIf="gameResult?.result?.scoreboard?.length > 2"
                  class="avatar-bordered bg-white"

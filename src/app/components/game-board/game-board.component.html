@@ -725,8 +725,8 @@
                   <div class="position-relative" style="width: 100px">
                     <img src="assets/images/score.png"
                          width="28" height="28">&nbsp;
-                    <div class="font-size-14 weight-800 position-absolute"
-                         style="padding-left: 5px; left: 30px; top: -5px; color: #0CA609">
+                    <div class="font-size-14 weight-800 position-absolute green-color"
+                         style="padding-left: 5px; left: 30px; top: -5px;">
                       +{{generalService.gameResult?.statistics?.score | parsInt}}</div>
                     <mat-label class="position-absolute font-size-14 weight-500"
                                style="padding-left: 5px;left: 30px; bottom: -5px;  color: #828282">
@@ -736,8 +736,8 @@
                   <div class="position-relative" style="width: 100px">
                     <img src="assets/images/XP.png"
                          width="28" height="28">&nbsp;
-                    <div class="font-size-14 weight-800 position-absolute"
-                         style="padding-left: 5px; left: 30px; top: -5px; color: #0CA609">
+                    <div class="font-size-14 weight-800 position-absolute green-color"
+                         style="padding-left: 5px; left: 30px; top: -5px;">
                       +{{generalService.gameResult?.statistics?.xp | parsInt}}</div>
                     <mat-label class="position-absolute font-size-14 weight-500"
                                style="padding-left: 5px;left: 30px; bottom: -5px;  color: #828282">
@@ -747,8 +747,8 @@
                   <div class="position-relative" style="width: 100px">
                     <img src="assets/images/coin-bronze.png"
                          width="28" height="28">&nbsp;
-                    <div class="font-size-14 weight-800 position-absolute"
-                         style="padding-left: 5px; left: 30px; top: -5px; color: #0CA609">
+                    <div class="font-size-14 weight-800 position-absolute green-color"
+                         style="padding-left: 5px; left: 30px; top: -5px;">
                       +{{generalService.gameResult?.statistics?.reward?.bronze}}</div>
                     <mat-label class="position-absolute font-size-14 weight-500"
                                style="padding-left: 5px;left: 30px; bottom: -5px; color: #828282">
@@ -807,15 +807,15 @@
                     <mat-label class="font-size-12 weight-600">Score</mat-label>
                   </div>
                   <div style="width: 33%" class="text-center p-2">
-                    <div class="font-size-14 weight-800"
-                         style="padding-bottom: 7px; color: #0CA609">
+                    <div class="font-size-14 weight-800 green-color"
+                         style="padding-bottom: 7px;">
                       +{{generalService.gameResult?.statistics?.score | parsInt}}
                     </div>
                     <mat-label class="font-size-12 weight-500">This Game</mat-label>
                   </div>
                   <div style="width: 33%" class="text-center p-2">
-                    <div class="font-size-14 weight-800"
-                         style="padding-bottom: 7px; color: #0CA609">
+                    <div class="font-size-14 weight-800 green-color"
+                         style="padding-bottom: 7px;">
                       +{{generalService.gameResult?.statistics?.survival?.totalScore | parsInt}}
                     </div>
                     <mat-label class="font-size-12 weight-500">Total Score</mat-label>
@@ -882,16 +882,14 @@
                     <mat-label class="font-size-12 weight-600">Score</mat-label>
                   </div>
                   <div style="width: 33%; border-left: 1px solid #E8E2E0" class="text-center bg-white">
-                    <div class="font-size-14 weight-800"
-                         style="color: #0CA609">
+                    <div class="font-size-14 weight-800 green-color">
                       +{{generalService.gameResult?.statistics?.score | parsInt}}
                     </div>
                     <mat-label class="font-size-12 weight-500">This Game</mat-label>
                   </div>
                   <div style="width: 33%; border-top-right-radius: 6px; border-bottom-right-radius: 6px; "
                        class="text-center bg-white">
-                    <div class="font-size-14 weight-800"
-                         style="color: #0CA609">
+                    <div class="font-size-14 weight-800 green-color">
                       {{generalService.gameResult?.statistics?.survival?.totalScore | parsInt}}
                     </div>
                     <mat-label class="font-size-12 weight-500">Total Score</mat-label>
@@ -941,7 +939,7 @@
 
               <div class="w-50 m-3 p-5"
                    *ngIf="myRank <= generalService.gameResult?.statistics?.survival?.avgRank">
-                <mat-label class="font-size-16 weight-800" style="color: #0CA609">GREAT!</mat-label>
+                <mat-label class="font-size-16 weight-800 green-color">GREAT!</mat-label>
                 <br>
                 <mat-label class="font-size-12 weight-500">Your score has been added to your total survival score.
                 </mat-label>
