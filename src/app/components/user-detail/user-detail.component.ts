@@ -6,7 +6,7 @@ import {CommonModule} from "@angular/common";
 import {ClientService} from "../../services/client/client.service";
 import {ConfigService} from "../../services/config/config.service";
 import {GeneralService} from "../../services/general/general.service";
-import {ParsIntPipe} from "../../pars-int.pipe";
+import {ParsIntPipe} from "../../pipes/pars-int.pipe";
 
 @Component({
   selector: 'app-user-detail',

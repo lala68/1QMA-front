@@ -419,8 +419,8 @@ input[type="tel"] {
 }
 
 .creator {
-  height: 52px;
-  padding: 5px;
+  //height: 52px;
+  padding: .25rem;
   width: fit-content;
   border-radius: 50px !important;
 }
@@ -610,6 +610,12 @@ input[type="tel"] {
 
 .border-bottom-gray {
   border-bottom: 1px solid lightgray
+}
+
+.avatar-bordered {
+  overflow: hidden;
+  border: 1px solid #E8E2E0;
+  border-radius: 50px
 }
 
 

@@ -4,12 +4,12 @@ import {SharedModule} from "../../shared/shared.module";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ActivatedRoute, Router, RouterModule} from "@angular/router";
 import {TranslateModule} from "@ngx-translate/core";
-import {DaysAgoPipe} from "../../days-ago.pipe";
+import {DaysAgoPipe} from "../../pipes/days-ago.pipe";
 import {GamesService} from "../../services/games/games.service";
 import {ConfigService} from "../../services/config/config.service";
-import {TimeDifferencePipe} from "../../time-difference.pipe";
+import {TimeDifferencePipe} from "../../pipes/time-difference.pipe";
 import { Location } from '@angular/common';
-import {ParsIntPipe} from "../../pars-int.pipe";
+import {ParsIntPipe} from "../../pipes/pars-int.pipe";
 
 @Component({
   selector: 'app-game-result',

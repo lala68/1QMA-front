@@ -21,8 +21,8 @@ import {GameBoardComponent} from "../game-board/game-board.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {SnackbarContentComponent} from "../snackbar-content/snackbar-content.component";
 import {CountdownTimerComponent} from "../countdown-timer/countdown-timer.component";
-import {DaysAgoPipe} from "../../days-ago.pipe";
-import {ParsIntPipe} from "../../pars-int.pipe";
+import {DaysAgoPipe} from "../../pipes/days-ago.pipe";
+import {ParsIntPipe} from "../../pipes/pars-int.pipe";
 
 @Component({
   selector: 'app-games',

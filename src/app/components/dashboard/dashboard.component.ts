@@ -12,8 +12,8 @@ import {ClipboardModule} from "@angular/cdk/clipboard";
 import {MatDialog} from "@angular/material/dialog";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {SnackbarContentComponent} from "../snackbar-content/snackbar-content.component";
-import {ParsIntPipe} from "../../pars-int.pipe";
-import {DaysAgoPipe} from "../../days-ago.pipe";
+import {ParsIntPipe} from "../../pipes/pars-int.pipe";
+import {DaysAgoPipe} from "../../pipes/days-ago.pipe";
 
 @Component({
   selector: 'app-dashboard',

@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import {Pipe, PipeTransform} from '@angular/core';
 
 @Pipe({
   name: 'daysAgo',
@@ -12,11 +12,17 @@ export class DaysAgoPipe implements PipeTransform {
     const date = new Date(value);
     const now = new Date();
     const diffTime = Math.abs(now.getTime() - date.getTime());
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-    if (diffDays === 0) return 'Today';
+    const diffHours = Math.floor(diffTime / (1000 * 60 * 60));
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+    if (diffDays === 0) {
+      if (diffHours === 0) return 'Just now';
+      if (diffHours === 1) return '1 hour ago';
+      return `${diffHours} hours ago`;
+    }
+
     if (diffDays === 1) return '1 day ago';
     return `${diffDays} days ago`;
   }
-
 }

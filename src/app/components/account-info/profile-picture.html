@@ -10,7 +10,7 @@
 <div mat-dialog-content>
   <div class="d-inline-flex border-bottom w-100 pb-3 position-relative">
     <div>
-      <img style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px"
+      <img class="avatar-bordered"
            [src]="generalService.userObj?.profilePicture ? generalService.userObj?.profilePicture?.startsWith('http') ? generalService.userObj?.profilePicture : configService.url(generalService.userObj?.profilePicture) : 'assets/images/frame.png'"
            width="60" height="60">
       &nbsp;&nbsp;<span

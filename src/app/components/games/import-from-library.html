@@ -41,7 +41,7 @@
   <div *ngIf="selectedTabIndex == 0">
     <div *ngFor="let item of library?.questions" class="gray-card p-4 mb-2">
       <div class="d-flex white-card position-relative">
-        <img style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px"
+        <img class="avatar-bordered"
              [src]="item?.user?.profilePicture ? item?.user?.profilePicture?.startsWith('http') ? item?.user?.profilePicture : configService.url(item?.user?.profilePicture) : 'assets/images/frame.png'"
              width="42" height="42">
         <mat-label class="font-size-13 weight-500"
@@ -89,7 +89,8 @@
       <div class="d-flex white-card position-relative">
         <img src="assets/images/frame.png" width="42">
         <mat-label class="font-size-13 weight-500" style="margin: auto 10px">Sam Smith</mat-label>
-        <mat-label class="font-size-12 weight-500 position-absolute" style="right: 10px; margin: 10px auto">{{item?.createdAt | daysAgo}}
+        <mat-label class="font-size-12 weight-500 position-absolute"
+                   style="right: 10px; margin: 10px auto">{{item?.createdAt | daysAgo}}
         </mat-label>
       </div>
       <br>
@@ -136,12 +137,13 @@
   <div *ngIf="selectedTabIndex == 2">
     <div *ngFor="let item of library?.questions" class="gray-card p-3 mb-2">
       <div class="d-flex white-card position-relative">
-        <img style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px"
+        <img class="avatar-bordered"
              [src]="item?.user?.profilePicture ? item?.user?.profilePicture?.startsWith('http') ? item?.user?.profilePicture : configService.url(item?.user?.profilePicture) : 'assets/images/frame.png'"
              width="42" height="42">
         <mat-label class="font-size-13 weight-500"
                    style="margin: auto 10px">{{item?.user?.firstName}} {{item?.user?.lastName}}</mat-label>
-        <mat-label class="font-size-12 weight-500 position-absolute" style="right: 10px; margin: 10px auto">{{item?.createdAt | daysAgo}}
+        <mat-label class="font-size-12 weight-500 position-absolute"
+                   style="right: 10px; margin: 10px auto">{{item?.createdAt | daysAgo}}
         </mat-label>
       </div>
       <br>

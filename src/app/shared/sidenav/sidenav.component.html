@@ -8,11 +8,11 @@
         <mat-card class="sidebar-user-detail" appearance="outlined">
           <mat-card-header class="pe-1 ps-1">
             <!--            <div mat-card-avatar class="avatar-header-image"></div>-->
-            <img mat-card-avatar style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px"
+            <img mat-card-avatar class="avatar-bordered"
                  [src]="generalService.userObj.profilePicture ? generalService.userObj.profilePicture?.startsWith('http') ? generalService.userObj?.profilePicture : configService.url(generalService.userObj?.profilePicture) : 'assets/images/frame.png'"
                  width="35" height="35">
             <mat-card-title>{{generalService.userObj.firstName + ' ' + generalService.userObj.lastName }}</mat-card-title>
-            <mat-card-subtitle>
+            <mat-card-subtitle class="d-flex align-items-center">
               <img src="assets/images/coin-bronze.png"
                    width="15">&nbsp;<span>{{generalService.userObj?.assets?.coins?.bronze}}</span>&nbsp;
               <img src="assets/images/coin-silver.png"

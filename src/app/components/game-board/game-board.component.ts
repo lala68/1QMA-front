@@ -13,11 +13,11 @@ import {MatExpansionModule} from "@angular/material/expansion";
 import {ConfigService} from "../../services/config/config.service";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {MaterialModule} from "../../shared/material/material.module";
-import {TimeDifferencePipe} from "../../time-difference.pipe";
+import {TimeDifferencePipe} from "../../pipes/time-difference.pipe";
 import {SnackbarContentComponent} from "../snackbar-content/snackbar-content.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {HttpClient} from "@angular/common/http";
-import {ParsIntPipe} from "../../pars-int.pipe";
+import {ParsIntPipe} from "../../pipes/pars-int.pipe";
 
 @Component({
   selector: 'app-game-board',

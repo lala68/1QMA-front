@@ -8,8 +8,8 @@ import {ClientService} from "../../services/client/client.service";
 import {TranslateModule} from "@ngx-translate/core";
 import {GeneralService} from "../../services/general/general.service";
 import {ConfigService} from "../../services/config/config.service";
-import {DaysAgoPipe} from "../../days-ago.pipe";
-import {ParsIntPipe} from "../../pars-int.pipe";
+import {DaysAgoPipe} from "../../pipes/days-ago.pipe";
+import {ParsIntPipe} from "../../pipes/pars-int.pipe";
 import {StarRatingModule} from "angular-star-rating";
 
 @Component({
@@ -115,7 +115,7 @@ export class TriviaHubComponent implements OnInit {
 
   async changeGames() {
     this.loadingContent = true;
-    this.gameService.getAllOrMyGames(this.selectedTabGameIndex == 0 ? 'public' : '',
+    this.gameService.getAllOrMyGames(this.selectedTabGameIndex == 0 ? '' : 'private',
       this.selectedCategory[0] ? this.selectedCategory[0]._id : '', 10, 1).then(data => {
       this.loadingContent = false;
       this.gameData = data.data;

@@ -23,7 +23,7 @@
         <div class="w-100 d-inline-flex">
           <div class="w-30">
             <mat-label class="font-size-14 weight-500" style="color: #585858">Created By:</mat-label>
-            &nbsp;&nbsp;<img style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px; background: white;"
+            &nbsp;&nbsp;<img class="avatar-bordered bg-white"
                              [src]="gameResult?.creator?.profilePicture ? gameResult?.creator?.profilePicture?.startsWith('http') ? gameResult?.creator?.profilePicture : configService.url(gameResult?.creator?.profilePicture) : 'assets/images/frame.png'"
                              width="40" height="40">
             &nbsp;<span
@@ -72,18 +72,19 @@
           </div>
           <div class="w-30 position-relative">
             <!--              2-->
-            <img
-              style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px; background: white; position: absolute; left: 20px; bottom: 80px;"
+            <img class="avatar-bordered bg-white"
+              style="position: absolute; left: 20px; bottom: 80px;"
               [src]="gameResult?.result?.scoreboard[1]?.profilePicture ? gameResult?.result?.scoreboard[1]?.profilePicture?.startsWith('http') ? gameResult?.result?.scoreboard[1]?.profilePicture : configService.url(gameResult?.result?.scoreboard[1]?.profilePicture) : 'assets/images/frame.png'"
               width="48">
             <!--              1-->
-            <img
-              style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px; background: white; position: absolute; left: 85px; bottom: 90px;"
+            <img class="avatar-bordered bg-white"
+              style="position: absolute; left: 85px; bottom: 90px;"
               [src]="gameResult?.result?.scoreboard[0]?.profilePicture ? gameResult?.result?.scoreboard[0]?.profilePicture?.startsWith('http') ? gameResult?.result?.scoreboard[0]?.profilePicture : configService.url(gameResult?.result?.scoreboard[0]?.profilePicture) : 'assets/images/frame.png'"
               width="48">
             <!--              3-->
             <img *ngIf="gameResult?.result?.scoreboard?.length > 2"
-                 style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px;background: white; position: absolute; right: 100px; bottom: 70px"
+                 class="avatar-bordered bg-white"
+                 style="position: absolute; right: 100px; bottom: 70px"
                  [src]="gameResult?.result?.scoreboard[2]?.profilePicture ? gameResult?.result?.scoreboard[2]?.profilePicture?.startsWith('http') ? gameResult?.result?.scoreboard[2]?.profilePicture : configService.url(gameResult?.result?.scoreboard[2]?.profilePicture) : 'assets/images/frame.png'"
                  width="48">
 
@@ -135,7 +136,7 @@
             <mat-label>{{i + 1}}</mat-label>
           </mat-grid-tile>
           <mat-grid-tile class="result-grid" [colspan]="1">
-            <img style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px; background: white;"
+            <img class="avatar-bordered bg-white"
                  [src]="res?.profilePicture ? res?.profilePicture?.startsWith('http') ? res?.profilePicture : configService.url(res?.profilePicture) : 'assets/images/frame.png'"
                  width="40">
           </mat-grid-tile>
@@ -161,7 +162,7 @@
         <br>
         <div class="w-100 d-inline-flex position-relative">
           <div class="font-size-14 weight-700">Score detail</div>
-          <div class="position-absolute end-10">
+          <div class="position-absolute end-10 d-flex align-items-center">
             <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
                 d="M21.4746 14.1719C21.4746 19.0019 17.5546 22.9219 12.7246 22.9219C7.89461 22.9219 3.97461 19.0019 3.97461 14.1719C3.97461 9.34188 7.89461 5.42188 12.7246 5.42188C17.5546 5.42188 21.4746 9.34188 21.4746 14.1719Z"
@@ -195,7 +196,7 @@
                       class="font-size-14 weight-600 pb-2">{{question?.questioner?.firstName}} {{question?.questioner?.lastName}}</mat-card-title>
                     <mat-card-subtitle class="font-size-14 weight-600 pb-2">{{question?.question}}
                     </mat-card-subtitle>
-                    <mat-card-subtitle>
+                    <mat-card-subtitle class="d-flex">
                       <img src="assets/images/score.png" width="16"/> &nbsp; {{question?.rate | parsInt}} Score
                     </mat-card-subtitle>
                   </mat-card-header>
@@ -211,7 +212,7 @@
             <div class="container-accordion">
               <div class="container-accordion-item" *ngFor="let answer of question?.answers">
                 <div>
-                  <img style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px; background: white;"
+                  <img class="avatar-bordered bg-white"
                        [src]="answer?.answerer?.profilePicture ? answer?.answerer?.profilePicture?.startsWith('http') ? answer?.answerer?.profilePicture : configService.url(answer?.answerer?.profilePicture) : 'assets/images/frame.png'"
                        width="40" height="40">
                   &nbsp;<span

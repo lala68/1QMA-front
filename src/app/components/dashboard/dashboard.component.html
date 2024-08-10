@@ -26,12 +26,12 @@
 
         <mat-card-header class="pe-1 ps-1 border-bottom">
           <!--          <div mat-card-avatar class="avatar-header-image-profile-dashboard"></div>-->
-          <img mat-card-avatar style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px"
+          <img mat-card-avatar class="avatar-bordered"
                [src]="generalService.userObj?.profilePicture ? generalService.userObj?.profilePicture?.startsWith('http') ? generalService.userObj?.profilePicture : configService.url(generalService.userObj?.profilePicture) : 'assets/images/frame.png'"
                width="35" height="35">
           <mat-card-title
-            class="card-title-profile-dashboard mt-2">{{generalService.userObj?.firstName + ' ' + generalService.userObj?.lastName }}</mat-card-title>
-          <mat-card-subtitle class="card-subtitle-profile-dashboard mt-3">
+            class="font-size-14 weight-700">{{generalService.userObj?.firstName + ' ' + generalService.userObj?.lastName }}</mat-card-title>
+          <mat-card-subtitle class="d-flex align-items-center font-size-12 weight-500 pt-1">
             {{generalService.userObj?.anonymousName}}
           </mat-card-subtitle>
         </mat-card-header>
@@ -49,7 +49,7 @@
         </mat-card-header>
         <mat-card-header class="pe-1 ps-1" *ngIf="generalService.userObj?.referer">
           <mat-card-title class="card-title-profile-dashboard mb-3" style="width: 120px">Referred By:</mat-card-title>
-          <img style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px"
+          <img class="avatar-bordered"
                [src]="generalService.userObj?.referer?.profilePicture ? generalService.userObj?.referer?.profilePicture?.startsWith('http') ? generalService.userObj?.referer?.profilePicture : configService.url(generalService.userObj?.referer?.profilePicture) : 'assets/images/frame.png'"
                width="28" height="28">
           <mat-label
@@ -223,8 +223,8 @@
         </div>
       </div>
       <mat-card class="shadow-none">
-        <mat-card-header class="pe-1 ps-1 position-relative">
-          <mat-card-title class="card-title-profile-dashboard mb-3" style="width: 120px">Coins:</mat-card-title>
+        <mat-card-header class="pe-1 ps-1 position-relative d-flex align-items-center">
+          <mat-card-title class="card-title-profile-dashboard" style="width: 120px">Coins:</mat-card-title>
           <img src="assets/images/coin-bronze.png"
                width="24" height="24">&nbsp;<span>{{generalService.userObj?.assets?.coins?.bronze}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <img src="assets/images/coin-silver.png"
@@ -400,7 +400,7 @@
     <div *ngFor="let item of questionsFromFriendsLatestGames" class="gray-card p-4 m-2 d-inline-block"
          style="width: 48%">
       <div class="d-flex white-card position-relative p-1">
-        <img style="overflow: hidden;border: 1px solid #E8E2E0;border-radius: 50px"
+        <img class="avatar-bordered"
              [src]="item?.user?.profilePicture ? item?.user?.profilePicture?.startsWith('http') ? item?.user?.profilePicture : configService.url(item?.user?.profilePicture) : 'assets/images/frame.png'"
              width="42" height="42">
         <mat-label class="font-size-13 weight-500"
