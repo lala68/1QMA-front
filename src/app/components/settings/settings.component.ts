@@ -32,7 +32,13 @@ export class SettingsComponent implements OnInit {
     console.log(this.generalService.userObj)
   }
 
-  async ngOnInit(): Promise<any> {
+  // async ngOnInit(): Promise<any> {
+  //   this.settingsForm = this._formBuilder.group({
+  //     language: [this.generalService.userObj?.preferedLanguage ? this.generalService.userObj?.preferedLanguage : '0'],
+  //     defaultHomePage: [this.generalService.userObj?.defaultHomePage ? this.generalService.userObj?.defaultHomePage : '/dashboard'],
+  //   });
+  // }
+  ngOnInit(): void {
     this.settingsForm = this._formBuilder.group({
       language: [this.generalService.userObj?.preferedLanguage ? this.generalService.userObj?.preferedLanguage : '0'],
       defaultHomePage: [this.generalService.userObj?.defaultHomePage ? this.generalService.userObj?.defaultHomePage : '/dashboard'],
@@ -47,6 +53,7 @@ export class SettingsComponent implements OnInit {
         await Preferences.remove({key: 'account'});
         await Preferences.set({key: 'account', value: JSON.stringify(data.data)});
         await this.generalService.getUserData();
+        await this.generalService.useGoogleTranslate();
         this.loading = false;
         this.openDialog(data.message, 'Success');
       } else {

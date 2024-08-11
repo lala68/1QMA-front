@@ -108,6 +108,7 @@ export class DashboardComponent implements OnInit {
   getGameInit() {
     this.clientService.clientInit().then(data => {
       this.generalService.clientInit = data.data;
+      this.generalService.userObj = (data.data.user);
     });
   }
 

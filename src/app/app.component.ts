@@ -32,7 +32,7 @@ export class AppComponent implements OnInit {
   constructor(private router: Router, private translateService: TranslateService, private _snackBar: MatSnackBar,
               private generalService: GeneralService, private authService: AuthService, public dialog: MatDialog,
               private clientService: ClientService, private route: ActivatedRoute, private location: Location,
-              private gameComponent: GamesComponent, private gameService: GamesService,  private loader: LoaderService,) {
+              private gameComponent: GamesComponent, private gameService: GamesService, private loader: LoaderService,) {
     this.translateService.setDefaultLang('en');
   }
 
@@ -71,7 +71,8 @@ export class AppComponent implements OnInit {
                   this.generalService.gameInit = data.data;
                 }
               });
-              this.router.navigate(['/dashboard']);
+              await this.generalService.useGoogleTranslate();
+              await this.router.navigate(['/dashboard']);
             } else {
               this.authService.registerInit().then(res => {
                 if (res.status == 1) {
@@ -94,7 +95,8 @@ export class AppComponent implements OnInit {
                     this.generalService.gameInit = data.data;
                   }
                 });
-                this.router.navigate(['/dashboard']);
+                await this.generalService.useGoogleTranslate();
+                await this.router.navigate(['/dashboard']);
               } else {
                 this.authService.registerInit().then(res => {
                   if (res.status == 1) {
@@ -107,6 +109,7 @@ export class AppComponent implements OnInit {
           } else if (this.generalService.userId && this.generalService.hasCompletedSignup) {
             this.clientService.clientInit().then(data => {
               this.generalService.clientInit = data.data;
+              this.generalService.userObj = (data.data.user);
             });
             this.gameService.gameInit().then(data => {
               if (data.status == 1) {
@@ -116,6 +119,7 @@ export class AppComponent implements OnInit {
             this.router.navigate([(this.router.url === ('/login') || this.router.url === ('/signup') || this.router.url === ('/forget-password')
               || this.router.url === ('/wizard') || this.router.url === ('/signup-social') || this.router.url === ('/signup-refer-email')
               || this.router.url === ('/social/callback')) ? '/dashboard' : this.location.path()]);
+            await this.generalService.useGoogleTranslate();
             this.generalService.currentRout = this.router.url;
           }
         }

@@ -149,4 +149,120 @@ export class GeneralService implements OnInit {
         });
       });
   }
+
+  googleTranslateElementInit(lang: any): void {
+    this.setCookie('googtrans', '/en/' + lang, 10);
+    new google.translate.TranslateElement({
+      pageLanguage: 'en',
+      layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+      autoDisplay: false
+    }, 'google_translate_element');
+  }
+
+  setCookie(cname: string, cvalue: string, exdays: number) {
+    const d = new Date();
+    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+    const expires = "expires=" + d.toUTCString();
+    document.cookie = `${cname}=${cvalue};${expires};path=/`;
+  }
+
+  loadGoogleTranslateScript(retryCount = 0): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const maxRetries = 10;
+      const existingScript = document.getElementById('google-translate-script');
+
+      // if (existingScript) {
+      //   console.log('Google Translate script is already loaded.');
+      //   resolve();
+      //   return;
+      // }
+
+      const script = document.createElement('script');
+      script.id = 'google-translate-script';
+      script.type = 'text/javascript';
+      script.src = "assets/js/element.js";  // Use the local file
+
+      script.onload = () => {
+        console.log('Google Translate script loaded successfully.');
+        resolve();
+      };
+
+      script.onerror = () => {
+        if (retryCount < maxRetries) {
+          console.warn(`Retrying to load Google Translate script (${retryCount + 1}/${maxRetries})`);
+          setTimeout(() => {
+            this.loadGoogleTranslateScript(retryCount + 1).then(resolve).catch(reject);
+          }, 3000);
+        } else {
+          console.error('Failed to load Google Translate script after multiple attempts.');
+          reject(new Error('Failed to load Google Translate script after multiple attempts.'));
+        }
+      };
+
+      document.body.appendChild(script);
+    });
+  }
+
+  waitForGoogleTranslate(retryCount = 0): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const maxRetries = 20; // Increase retries to account for slower initialization
+      const delay = 300; // Delay between retries in milliseconds
+
+      if (typeof google !== 'undefined' && google.translate && google.translate.TranslateElement) {
+        resolve(); // Resolve when the object is available
+      } else if (retryCount < maxRetries) {
+        setTimeout(() => {
+          console.warn(`Waiting for Google Translate to initialize (${retryCount + 1}/${maxRetries})`);
+          this.waitForGoogleTranslate(retryCount + 1).then(resolve).catch(reject);
+        }, delay);
+      } else {
+        reject(new Error('Google Translate failed to initialize after multiple attempts.'));
+      }
+    });
+  }
+
+  useGoogleTranslate() {
+    const targetLanguage = this.userObj?.preferedLanguage == '0' ? 'en' :
+      this.userObj?.preferedLanguage == '1' ? 'de' : 'fa';
+
+    // Set the cookie to change the language
+    this.setCookie('googtrans', '/en/' + targetLanguage, 10);
+
+    this.loadGoogleTranslateScript(0).then(() => {
+      this.waitForGoogleTranslate().then(() => {
+        // Reinitialize Google Translate with the new language
+        this.googleTranslateElementInit(targetLanguage);
+
+        // Simulate a language change event to force Google Translate to refresh
+        const selectElement = document.querySelector('select.goog-te-combo') as HTMLSelectElement;
+        if (selectElement) {
+          selectElement.value = targetLanguage;
+          selectElement.dispatchEvent(new Event('change'));
+        }
+      }).catch((err) => {
+        console.error('Google Translate failed to initialize.', err);
+      });
+    }).catch((err) => {
+      console.error('Google Translate script failed to load.', err);
+    });
+  }
+}
+
+declare namespace google {
+  namespace translate {
+    class TranslateElement {
+      constructor(options: TranslateElementOptions, element: string | HTMLElement);
+
+      static InlineLayout: {
+        SIMPLE: any;
+        VERTICAL: any;
+      };
+    }
+
+    interface TranslateElementOptions {
+      pageLanguage: string;
+      layout?: any;
+      autoDisplay?: boolean;
+    }
+  }
 }
