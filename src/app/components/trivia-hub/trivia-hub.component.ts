@@ -11,6 +11,7 @@ import {ConfigService} from "../../services/config/config.service";
 import {DaysAgoPipe} from "../../pipes/days-ago.pipe";
 import {ParsIntPipe} from "../../pipes/pars-int.pipe";
 import {StarRatingModule} from "angular-star-rating";
+import {ProcessHTTPMsgService} from "../../services/proccessHttpMsg/process-httpmsg.service";
 
 @Component({
   selector: 'app-trivia-hub',
@@ -41,7 +42,7 @@ export class TriviaHubComponent implements OnInit {
 
   constructor(private gameService: GamesService, private clientService: ClientService,
               public generalService: GeneralService, public configService: ConfigService,
-              private router: Router) {
+              private router: Router, private processHTTPMsgService: ProcessHTTPMsgService) {
     this.generalService.currentRout = '/trivia-hub';
     this.question = this.router.getCurrentNavigation()?.extras?.state?.['question'];
     if (this.question) {
@@ -65,6 +66,8 @@ export class TriviaHubComponent implements OnInit {
         this.library = (data.data);
         this.libraryQuestions = this.libraryQuestions.concat(data.data.questions);
         this.noMoreItems = data.data.questions?.length < 4;
+      }, error => {
+        return this.processHTTPMsgService.handleError(error);
       });
     }
   }
@@ -84,6 +87,8 @@ export class TriviaHubComponent implements OnInit {
         this.library = (data.data);
         this.libraryQuestions = this.libraryQuestions.concat(data.data.questions);
         this.noMoreItems = data.data.questions?.length < 4;
+      }, error => {
+        return this.processHTTPMsgService.handleError(error);
       });
     }
   }
@@ -119,7 +124,9 @@ export class TriviaHubComponent implements OnInit {
       this.selectedCategory[0] ? this.selectedCategory[0]._id : '', 10, 1).then(data => {
       this.loadingContent = false;
       this.gameData = data.data;
-    })
+    }, error => {
+      return this.processHTTPMsgService.handleError(error);
+    });
   }
 
   async gotoAnswer(item: any) {
@@ -135,7 +142,9 @@ export class TriviaHubComponent implements OnInit {
   async getPerformance(id: any) {
     this.clientService.getQuestionPerformance(id).then(data => {
       this.performance = data.data;
-    })
+    }, error => {
+      return this.processHTTPMsgService.handleError(error);
+    });
   }
 
   async showMore() {
@@ -151,6 +160,8 @@ export class TriviaHubComponent implements OnInit {
       this.library = (data.data);
       this.libraryQuestions = this.libraryQuestions.concat(data.data.questions);
       this.noMoreItems = data.data.questions?.length < 4;
+    }, error => {
+      return this.processHTTPMsgService.handleError(error);
     });
   }
 
@@ -169,7 +180,9 @@ export class TriviaHubComponent implements OnInit {
           item.likes++;
         }
       }
-    })
+    }, error => {
+      return this.processHTTPMsgService.handleError(error);
+    });
   }
 
   async disLike(item: any) {
@@ -187,7 +200,9 @@ export class TriviaHubComponent implements OnInit {
           item.dislikes++;
         }
       }
-    })
+    }, error => {
+      return this.processHTTPMsgService.handleError(error);
+    });
   }
 
   async addBookmark(item: any) {
@@ -203,7 +218,9 @@ export class TriviaHubComponent implements OnInit {
       if (data.status == 1) {
         item.bookmarked = !item.bookmarked;
       }
-    })
+    }, error => {
+      return this.processHTTPMsgService.handleError(error);
+    });
   }
 
 }

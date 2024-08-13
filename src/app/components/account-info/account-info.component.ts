@@ -14,6 +14,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {SnackbarContentComponent} from "../snackbar-content/snackbar-content.component";
 import {MaterialModule} from "../../shared/material/material.module";
 import {GamesService} from "../../services/games/games.service";
+import {ProcessHTTPMsgService} from "../../services/proccessHttpMsg/process-httpmsg.service";
 
 @Component({
   selector: 'app-account-info',
@@ -30,7 +31,8 @@ export class AccountInfoComponent {
   loadingUpload: boolean = false;
 
   constructor(private clientService: ClientService, private _formBuilder: FormBuilder, private _snackBar: MatSnackBar,
-              public generalService: GeneralService, public dialog: MatDialog, public configService: ConfigService) {
+              public generalService: GeneralService, public dialog: MatDialog, public configService: ConfigService,
+              private processHTTPMsgService: ProcessHTTPMsgService) {
     this.generalService.currentRout = '';
   }
 
@@ -69,7 +71,9 @@ export class AccountInfoComponent {
       } else {
         this.openDialog(data.message, 'Error');
       }
-    })
+    }, error => {
+      return this.processHTTPMsgService.handleError(error);
+    });
   }
 
   public OpenAddFilesDialog() {

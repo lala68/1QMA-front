@@ -23,6 +23,7 @@ import {SnackbarContentComponent} from "../snackbar-content/snackbar-content.com
 import {CountdownTimerComponent} from "../countdown-timer/countdown-timer.component";
 import {DaysAgoPipe} from "../../pipes/days-ago.pipe";
 import {ParsIntPipe} from "../../pipes/pars-int.pipe";
+import {ProcessHTTPMsgService} from "../../services/proccessHttpMsg/process-httpmsg.service";
 
 @Component({
   selector: 'app-games',
@@ -72,7 +73,7 @@ export class GamesComponent implements OnInit {
 
   constructor(public generalService: GeneralService, private gameService: GamesService, public configService: ConfigService,
               private _formBuilder: FormBuilder, private router: Router, public dialog: MatDialog, private _snackBar: MatSnackBar,
-              private route: ActivatedRoute, private gameBoardComponent: GameBoardComponent) {
+              private route: ActivatedRoute, private gameBoardComponent: GameBoardComponent, private processHTTPMsgService: ProcessHTTPMsgService) {
     this.generalService.currentRout = '/games/0';
   }
 
@@ -86,32 +87,44 @@ export class GamesComponent implements OnInit {
         this.myScoreboard = data.data;
         this.loading = false;
       }
-    })
+    }, error => {
+      return this.processHTTPMsgService.handleError(error);
+    });
     //
     this.gameService.getLiveGames().then(data => {
       if (data.status == 1)
         this.liveGames = data.data;
-    })
+    }, error => {
+      return this.processHTTPMsgService.handleError(error);
+    });
     //
     this.gameService.getFriendsRecentGames().then(data => {
       if (data.status == 1)
         this.friendsGames = data.data;
-    })
+    }, error => {
+      return this.processHTTPMsgService.handleError(error);
+    });
     //
     this.gameService.getScoreboardSurvival().then(data => {
       if (data.status == 1)
         this.scoreboardSurvival = data.data;
-    })
+    }, error => {
+      return this.processHTTPMsgService.handleError(error);
+    });
     //
     this.gameService.getLiveSurvival().then(data => {
       if (data.status == 1)
         this.liveSurvival = data.data;
-    })
+    }, error => {
+      return this.processHTTPMsgService.handleError(error);
+    });
     //
     this.gameService.getFriendsRecentSurvival().then(data => {
       if (data.status == 1)
         this.friendsRecentSurvival = data.data;
-    })
+    }, error => {
+      return this.processHTTPMsgService.handleError(error);
+    });
   }
 
   async gotoStepTwo(index: any) {
@@ -154,7 +167,9 @@ export class GamesComponent implements OnInit {
         } else {
           this.generalService.editingAnswer = false;
         }
-      })
+      }, error => {
+        return this.processHTTPMsgService.handleError(error);
+      });
     });
 
     setTimeout(() => {
@@ -219,6 +234,46 @@ export class GamesComponent implements OnInit {
     this.selectedCategory.push(item);
   }
 
+  isSelectedLive(item: any): boolean {
+    return this.selectedCategory.some((category: any) => category._id === item._id);
+  }
+
+  async selectCatLive(item: any) {
+    this.page = 1;
+    this.selectedCategory = [];
+    this.selectedCategory.push(item);
+    await this.getLives();
+  }
+
+  isSelectedLiveSurvival(item: any): boolean {
+    return this.selectedCategory.some((category: any) => category._id === item._id);
+  }
+
+  async selectCatLiveSurvival(item: any) {
+    this.page = 1;
+    this.selectedCategory = [];
+    this.selectedCategory.push(item);
+    await this.getLiveSurvival();
+  }
+
+  async getLiveSurvival() {
+    this.gameService.getLiveSurvival(this.selectedCategory[0] ? this.selectedCategory[0]._id : '').then(data => {
+      if (data.status == 1)
+        this.liveSurvival = data.data;
+    }, error => {
+      return this.processHTTPMsgService.handleError(error);
+    });
+  }
+
+  async getLives() {
+    this.gameService.getLiveGames(this.selectedCategory[0] ? this.selectedCategory[0]._id : '').then(data => {
+      if (data.status == 1)
+        this.liveGames = data.data;
+    }, error => {
+      return this.processHTTPMsgService.handleError(error);
+    });
+  }
+
   onSubmitInvite() {
     const index = this.generalService.invitedPlayersArray.findIndex((data: any) => data === this.inviteForm.controls.email.value);
     if (index !== -1) {
@@ -271,7 +326,9 @@ export class GamesComponent implements OnInit {
           } else {
             this.generalService.editingAnswer = false;
           }
-        })
+        }, error => {
+          return this.processHTTPMsgService.handleError(error);
+        });
       }, 500)
       this.gameBoardComponent.handleGameStep()
     });
@@ -291,7 +348,9 @@ export class GamesComponent implements OnInit {
       } else {
         this.openDialog(JSON.stringify(data.message), 'Error');
       }
-    })
+    }, error => {
+      return this.processHTTPMsgService.handleError(error);
+    });
   }
 
   findFriendGame() {
@@ -304,7 +363,9 @@ export class GamesComponent implements OnInit {
       } else {
         this.openDialog(JSON.stringify(data.message), 'Error');
       }
-    })
+    }, error => {
+      return this.processHTTPMsgService.handleError(error);
+    });
   }
 
   showMoreGames() {
@@ -321,14 +382,18 @@ export class GamesComponent implements OnInit {
       } else {
         this.openDialog(JSON.stringify(data.message), 'Error');
       }
-    })
+    }, error => {
+      return this.processHTTPMsgService.handleError(error);
+    });
   }
 
   async getResultOfSearch() {
     if (this.inviteForm.controls?.email?.value && this.inviteForm.controls?.email?.value?.length > 2) {
       this.gameService.searchUserToInvite(this.inviteForm.controls.email.value).then(data => {
         this.filteredEmails = (data.data);
-      })
+      }, error => {
+        return this.processHTTPMsgService.handleError(error);
+      });
     }
   }
 
@@ -469,7 +534,8 @@ export class ImportFromLibrary implements OnInit {
 
   constructor(private _formBuilder: FormBuilder, public dialogRef: MatDialogRef<ImportFromLibrary>,
               private clientService: ClientService, @Inject(MAT_DIALOG_DATA) public data: any,
-              public configService: ConfigService, public generalService: GeneralService) {
+              public configService: ConfigService, public generalService: GeneralService,
+              private processHTTPMsgService: ProcessHTTPMsgService, private gameService: GamesService) {
   }
 
   async ngOnInit(): Promise<any> {
@@ -483,8 +549,19 @@ export class ImportFromLibrary implements OnInit {
           : 'bookmark', this.search).then(data => {
         this.loading = false;
         this.library = data.data;
+      }, error => {
+        return this.processHTTPMsgService.handleError(error);
       });
     }
+
+    this.gameService.gameInit().then(data => {
+      if (data.status == 1) {
+        this.generalService.gameInit = data.data;
+      }
+    }, error => {
+      return this.processHTTPMsgService.handleError(error);
+    });
+
   }
 
 

@@ -17,12 +17,12 @@ export class ProcessHTTPMsgService {
     const userAccount = this.injector.get<AuthService>(AuthService);
     let errMsg: string;
 
-    if (error.error instanceof ErrorEvent) {
-      errMsg = error.error.title;
+    if (error instanceof ErrorEvent) {
+      errMsg = error.message;
     } else {
-      errMsg = error.error.title;
+      errMsg = error.message;
     }
-    switch (error.error.status) {
+    switch (error.status) {
       case 400:
         // alert('request-is-not-valid.');
         // alert(error.error.title);

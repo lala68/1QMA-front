@@ -8,8 +8,9 @@ import {DaysAgoPipe} from "../../pipes/days-ago.pipe";
 import {GamesService} from "../../services/games/games.service";
 import {ConfigService} from "../../services/config/config.service";
 import {TimeDifferencePipe} from "../../pipes/time-difference.pipe";
-import { Location } from '@angular/common';
+import {Location} from '@angular/common';
 import {ParsIntPipe} from "../../pipes/pars-int.pipe";
+import {ProcessHTTPMsgService} from "../../services/proccessHttpMsg/process-httpmsg.service";
 
 @Component({
   selector: 'app-game-result',
@@ -27,19 +28,20 @@ export class GameResultComponent implements OnInit {
 
 
   constructor(private gameService: GamesService, public configService: ConfigService,
-              private router: Router, private location: Location) {
+              private router: Router, private location: Location, private processHTTPMsgService: ProcessHTTPMsgService) {
     this.gameId = this.router.getCurrentNavigation()?.extras?.state?.['id'];
   }
 
   ngOnInit() {
     this.gameService.getGameResult(this.gameId).then(data => {
-        this.loading = false;
-        if (data.status == 1) {
-          this.gameResult = data.data;
-          console.log(this.gameResult)
-        }
+      this.loading = false;
+      if (data.status == 1) {
+        this.gameResult = data.data;
+        console.log(this.gameResult)
       }
-    )
+    }, error => {
+      return this.processHTTPMsgService.handleError(error);
+    });
   }
 
   goBack(): void {

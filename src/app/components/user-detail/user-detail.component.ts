@@ -7,6 +7,7 @@ import {ClientService} from "../../services/client/client.service";
 import {ConfigService} from "../../services/config/config.service";
 import {GeneralService} from "../../services/general/general.service";
 import {ParsIntPipe} from "../../pipes/pars-int.pipe";
+import {ProcessHTTPMsgService} from "../../services/proccessHttpMsg/process-httpmsg.service";
 
 @Component({
   selector: 'app-user-detail',
@@ -20,7 +21,7 @@ export class UserDetailComponent implements OnInit {
   id: any;
   user: any;
 
-  constructor(private clientService: ClientService, private router: Router,
+  constructor(private clientService: ClientService, private router: Router, private processHTTPMsgService: ProcessHTTPMsgService,
               public configService: ConfigService, private generalService: GeneralService) {
     this.id = this.router.getCurrentNavigation()?.extras?.state?.['id'];
     this.generalService.currentRout = '';
@@ -32,6 +33,8 @@ export class UserDetailComponent implements OnInit {
       if (data.status == 1) {
         this.user = data.data.user;
       }
-    })
+    }, error => {
+      return this.processHTTPMsgService.handleError(error);
+    });
   }
 }

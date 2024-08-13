@@ -16,6 +16,8 @@ import {GameBoardComponent} from "./components/game-board/game-board.component";
 import {CountdownTimerComponent} from "./components/countdown-timer/countdown-timer.component";
 import {GamesService} from "./services/games/games.service";
 import {LoaderService} from "./services/loader/loader.service";
+import {error} from "@angular/compiler-cli/src/transformers/util";
+import {ProcessHTTPMsgService} from "./services/proccessHttpMsg/process-httpmsg.service";
 
 register();
 
@@ -32,6 +34,7 @@ export class AppComponent implements OnInit {
   constructor(private router: Router, private translateService: TranslateService, private _snackBar: MatSnackBar,
               private generalService: GeneralService, private authService: AuthService, public dialog: MatDialog,
               private clientService: ClientService, private route: ActivatedRoute, private location: Location,
+              private processHTTPMsgService: ProcessHTTPMsgService,
               private gameComponent: GamesComponent, private gameService: GamesService, private loader: LoaderService,) {
     this.translateService.setDefaultLang('en');
   }
@@ -70,6 +73,8 @@ export class AppComponent implements OnInit {
                 if (data.status == 1) {
                   this.generalService.gameInit = data.data;
                 }
+              }, error => {
+                return this.processHTTPMsgService.handleError(error);
               });
               await this.generalService.useGoogleTranslate();
               await this.router.navigate(['/dashboard']);
@@ -81,7 +86,9 @@ export class AppComponent implements OnInit {
                 }
               })
             }
-          })
+          }, error => {
+            return this.processHTTPMsgService.handleError(error);
+          });
         } else if (status == -1) {
           this.openDialog(JSON.stringify(message), 'Error');
           return;
@@ -94,6 +101,8 @@ export class AppComponent implements OnInit {
                   if (data.status == 1) {
                     this.generalService.gameInit = data.data;
                   }
+                }, error => {
+                  return this.processHTTPMsgService.handleError(error);
                 });
                 await this.generalService.useGoogleTranslate();
                 await this.router.navigate(['/dashboard']);
@@ -105,16 +114,22 @@ export class AppComponent implements OnInit {
                   }
                 })
               }
-            })
+            }, error => {
+              return this.processHTTPMsgService.handleError(error);
+            });
           } else if (this.generalService.userId && this.generalService.hasCompletedSignup) {
             this.clientService.clientInit().then(data => {
               this.generalService.clientInit = data.data;
               this.generalService.userObj = (data.data.user);
+            }, error => {
+              return this.processHTTPMsgService.handleError(error);
             });
             this.gameService.gameInit().then(data => {
               if (data.status == 1) {
                 this.generalService.gameInit = data.data;
               }
+            }, error => {
+              return this.processHTTPMsgService.handleError(error);
             });
             this.router.navigate([(this.router.url === ('/login') || this.router.url === ('/signup') || this.router.url === ('/forget-password')
               || this.router.url === ('/wizard') || this.router.url === ('/signup-social') || this.router.url === ('/signup-refer-email')

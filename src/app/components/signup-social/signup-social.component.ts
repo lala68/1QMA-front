@@ -8,6 +8,7 @@ import {MaterialModule} from "../../shared/material/material.module";
 import {NgxMatIntlTelInputComponent} from "ngx-mat-intl-tel-input";
 import {TranslateModule} from "@ngx-translate/core";
 import {CountdownTimerComponent} from "../countdown-timer/countdown-timer.component";
+import {GeneralService} from "../../services/general/general.service";
 
 @Component({
   selector: 'app-signup-social',
@@ -33,7 +34,8 @@ export class SignupSocialComponent {
   email: any;
   resendAblePhone = false;
 
-  constructor(private _formBuilder: FormBuilder, public authService: AuthService, private router: Router) {
+  constructor(private _formBuilder: FormBuilder, public authService: AuthService, private router: Router,
+              public generalService: GeneralService) {
     this.email = this.router.getCurrentNavigation()?.extras?.state?.['email'] ? this.router.getCurrentNavigation()?.extras?.state?.['email'] : '';
     if (this.email) {
       this.signUpWaitListForm.controls.email.setValue(this.email);

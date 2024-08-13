@@ -131,6 +131,24 @@
                 {{'Join Live Games Now' | translate}}
               </mat-card-subtitle>
             </mat-card-header>
+            <div class="d-flex overflow-scroll">
+              <div class="m-2 d-inline-flex shadow-none cursor-pointer p-3"
+                   (click)="selectCatLive('')"
+                   [class]="{'mat-card-pref-selected': isSelectedLive(''), 'mat-card-pref': !isSelectedLive('')}">
+                <div class="text-center w-100" style="padding-top: 8px">
+                  <mat-label class="font-size-14 weight-600">{{ 'all categories' }}</mat-label>
+                </div>
+              </div>
+              <div *ngFor="let cat of generalService?.clientInit?.categories"
+                   class="m-2 d-inline-flex shadow-none cursor-pointer p-3"
+                   (click)="selectCatLive(cat)"
+                   [class]="{'mat-card-pref-selected': isSelectedLive(cat), 'mat-card-pref': !isSelectedLive(cat)}">
+                <div class="text-start">
+                  <img [src]="'https://api.staging.1qma.games/' + cat?.icon" width="35">
+                  <mat-label>{{ cat?.name }}</mat-label>
+                </div>
+              </div>
+            </div>
             <mat-card-content class="d-flex overflow-scroll">
               <mat-card *ngFor="let liveGame of liveGames"
                         class="bordered-card shadow-none text-center d-inline-flex">
@@ -163,7 +181,8 @@
                     <div *ngFor="let ply of liveGame?.players; let i=index" class="d-inline-block">
                       <img mat-card-avatar
                            [src]="ply?.profilePicture ? ply?.profilePicture?.startsWith('http') ? ply?.profilePicture : configService.url(ply?.profilePicture) : 'assets/images/frame.png'"
-                           width="26" height="26" class="avatar-bordered bg-white mb-0 position-absolute custom-position-{{i}}">
+                           width="26" height="26"
+                           class="avatar-bordered bg-white mb-0 position-absolute custom-position-{{i}}">
                     </div>
                   </div>
                   <div class="font-size-14 weight-500 p-2 text-end">
@@ -240,7 +259,8 @@
                     <div *ngFor="let ply of fg?.players; let i=index" class="d-inline-block">
                       <img mat-card-avatar
                            [src]="ply?.profilePicture ? ply?.profilePicture?.startsWith('http') ? ply?.profilePicture : configService.url(ply?.profilePicture) : 'assets/images/frame.png'"
-                           width="26" height="26" class="avatar-bordered bg-white mb-0 position-absolute custom-position-{{i}}">
+                           width="26" height="26"
+                           class="avatar-bordered bg-white mb-0 position-absolute custom-position-{{i}}">
                     </div>
                   </div>
                   <div class="font-size-14 weight-500 p-2 text-end">
@@ -350,6 +370,24 @@
                     class="font-size-14 weight-600">{{'Live Survival Games' | translate}}</mat-label>
                   <br>
                   <br>
+                  <div class="d-flex overflow-scroll">
+                    <div class="m-2 d-inline-flex shadow-none cursor-pointer p-3"
+                         (click)="selectCatLiveSurvival('')"
+                         [class]="{'mat-card-pref-selected': isSelectedLiveSurvival(''), 'mat-card-pref': !isSelectedLiveSurvival('')}">
+                      <div class="text-center w-100" style="padding-top: 8px">
+                        <mat-label class="font-size-14 weight-600">{{ 'all categories' }}</mat-label>
+                      </div>
+                    </div>
+                    <div *ngFor="let cat of generalService?.clientInit?.categories"
+                         class="m-2 d-inline-flex shadow-none cursor-pointer p-3"
+                         (click)="selectCatLiveSurvival(cat)"
+                         [class]="{'mat-card-pref-selected': isSelectedLiveSurvival(cat), 'mat-card-pref': !isSelectedLiveSurvival(cat)}">
+                      <div class="text-start">
+                        <img [src]="'https://api.staging.1qma.games/' + cat?.icon" width="35">
+                        <mat-label>{{ cat?.name }}</mat-label>
+                      </div>
+                    </div>
+                  </div>
                   <mat-grid-list *ngFor="let res of liveSurvival;let i=index"
                                  cols="12" rowHeight="50px" class="gray-card mb-2">
                     <mat-grid-tile class="result-grid" [colspan]="4">

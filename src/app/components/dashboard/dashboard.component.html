@@ -85,7 +85,7 @@
           <mat-progress-bar
             style="width: 320px; border-radius: 10px; display: inline-table; position: absolute; bottom: 0; left: 40px"
             color="primary"
-            [value]="(generalService.userObj?.statistics?.totalXP / 500) * 100"
+            [value]="((generalService.userObj?.statistics?.totalXP - generalService.userObj?.statistics?.currentLevelXP) / (generalService.userObj?.statistics?.xpNeededForNextLevel - generalService.userObj?.statistics?.currentLevelXP)) * 100"
             [bufferValue]="100"
             mode="determinate"></mat-progress-bar>
         </div>

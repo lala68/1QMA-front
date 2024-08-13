@@ -20,7 +20,8 @@
              [formControlName]="'verificationCode'" required>
     </mat-form-field>
     <div *ngIf="!resendAbleEmail" class="w-25 vertical-middle">
-      <app-countdown-timer (countdownFinished)="handleCountdownFinishedEmail()"></app-countdown-timer>
+      <app-countdown-timer [duration]="generalService.initData?.nextVerificationMinutes * 60"
+                           (countdownFinished)="handleCountdownFinishedEmail()"></app-countdown-timer>
     </div>
     <mat-label class="w-100 mb-2 font-size-12" style="color: #0B6FEA" *ngIf="resendAbleEmail"
                (click)="resendCodeEmail()">
@@ -46,7 +47,8 @@
              [formControlName]="'verificationCode'" required>
     </mat-form-field>
     <div *ngIf="!resendAblePhone" class="w-100">
-      <app-countdown-timer (countdownFinished)="handleCountdownFinishedMobile()"></app-countdown-timer>
+      <app-countdown-timer [duration]="generalService.initData?.nextVerificationMinutes * 60"
+                           (countdownFinished)="handleCountdownFinishedMobile()"></app-countdown-timer>
     </div>
     <mat-label class="w-100 mb-2 font-size-12" style="color: #0B6FEA" *ngIf="resendAblePhone"
                (click)="resendCodePhone()">

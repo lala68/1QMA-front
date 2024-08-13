@@ -52,7 +52,7 @@ export class SignupComponent {
   phoneVerified: boolean = false;
 
   constructor(private _formBuilder: FormBuilder, private loader: LoaderService, private router: Router,
-              public authService: AuthService, private generalService: GeneralService, public config: ConfigService) {
+              public authService: AuthService, public generalService: GeneralService, public config: ConfigService) {
     this.email = this.router.getCurrentNavigation()?.extras?.state?.['email'] ? this.router.getCurrentNavigation()?.extras?.state?.['email'] : '';
     if (this.email) {
       this.signUpWaitListForm.controls.email.setValue(this.email);

@@ -39,10 +39,11 @@
           XP till next level
         </div>
       </div>
+
       <mat-progress-bar
         style="width: 320px; border-radius: 10px; display: inline-table; position: absolute; bottom: 0; left: 40px"
         color="primary"
-        [value]="(user?.statistics?.totalXP/500) * 100"
+        [value]="((user?.statistics?.totalXP - user?.statistics?.currentLevelXP) / (user?.statistics?.xpNeededForNextLevel - user?.statistics?.currentLevelXP)) * 100"
         [bufferValue]="100"
         mode="determinate"></mat-progress-bar>
     </div>

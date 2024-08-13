@@ -4,6 +4,7 @@ import {GeneralService} from "../general/general.service";
 import {ConfigService} from "../config/config.service";
 import {delay, map, retryWhen, throwError} from "rxjs";
 import {take} from "rxjs/operators";
+import {ProcessHTTPMsgService} from "../proccessHttpMsg/process-httpmsg.service";
 
 @Injectable({
   providedIn: 'root'
@@ -11,21 +12,25 @@ import {take} from "rxjs/operators";
 export class GamesService {
 
   constructor(private http: HttpClient, private generalService: GeneralService,
-              private config: ConfigService,) {
+              private config: ConfigService, private processHTTPMsgService: ProcessHTTPMsgService) {
   }
 
   async gameInit(): Promise<any> {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
-
     })
-    const response = this.http.get(this.config.url('game/init'), {
-      headers: headers,
-      withCredentials: true
-    }).pipe(
-      map((response: any) => response)
-    ).toPromise();
-    return response;
+    try {
+      const response = this.http.get(this.config.url('game/init'), {
+        headers: headers,
+        withCredentials: true
+      }).pipe(
+        map((response: any) => response)
+      ).toPromise();
+      return response;
+    } catch (error) {
+      // Use ProcessHTTPMsgService to handle the error
+      return this.processHTTPMsgService.handleError(error);
+    }
   }
 
   async createGame(gameType: any, createMode: any, category: any, players: any, question: any, answer: any,
@@ -359,12 +364,12 @@ export class GamesService {
     return response;
   }
 
-  async getLiveGames(): Promise<any> {
+  async getLiveGames(category: any = ''): Promise<any> {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
     })
     const response = this.http.get(this.config.url('games/live'), {
-      // params: {type: 'all'},
+      params: {category: category},
       headers: headers,
       withCredentials: true
     }).pipe(
@@ -399,11 +404,12 @@ export class GamesService {
     return response;
   }
 
-  async getLiveSurvival(): Promise<any> {
+  async getLiveSurvival(category: any = ''): Promise<any> {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
     })
     const response = this.http.get(this.config.url('games/live/survival'), {
+      params: {category: category},
       headers: headers,
       withCredentials: true
     }).pipe(

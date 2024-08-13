@@ -10,6 +10,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {SnackbarContentComponent} from "../snackbar-content/snackbar-content.component";
 import {Preferences} from "@capacitor/preferences";
+import {ProcessHTTPMsgService} from "../../services/proccessHttpMsg/process-httpmsg.service";
 
 @Component({
   selector: 'app-settings',
@@ -27,7 +28,7 @@ export class SettingsComponent implements OnInit {
   error: any = '';
 
   constructor(public generalService: GeneralService, private _formBuilder: FormBuilder, public dialog: MatDialog,
-              private clientService: ClientService, private _snackBar: MatSnackBar) {
+              private clientService: ClientService, private _snackBar: MatSnackBar, private processHTTPMsgService: ProcessHTTPMsgService) {
     this.generalService.currentRout = '';
     console.log(this.generalService.userObj)
   }
@@ -59,7 +60,9 @@ export class SettingsComponent implements OnInit {
       } else {
         this.error = data.message;
       }
-    })
+    }, error => {
+      return this.processHTTPMsgService.handleError(error);
+    });
   }
 
   openDialog(message: any, title: any) {

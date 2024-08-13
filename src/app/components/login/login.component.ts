@@ -14,6 +14,7 @@ import {CountdownTimerComponent} from "../countdown-timer/countdown-timer.compon
 import {ClientService} from "../../services/client/client.service";
 import {ConfigService} from "../../services/config/config.service";
 import {io} from "socket.io-client";
+import {GamesService} from "../../services/games/games.service";
 
 @Component({
   selector: 'app-login',
@@ -35,7 +36,7 @@ export class LoginComponent {
 
   constructor(private _formBuilder: FormBuilder, private loader: LoaderService, private clientService: ClientService,
               public authService: AuthService, private router: Router, private generalService: GeneralService,
-              public config: ConfigService) {
+              public config: ConfigService, private gameService: GamesService) {
   }
 
   onSubmit() {
@@ -61,7 +62,12 @@ export class LoginComponent {
               this.generalService.clientInit = res.data;
               this.generalService.currentRout = '/dashboard';
             }
-          })
+          });
+          this.gameService.gameInit().then(data => {
+            if (data.status == 1) {
+              this.generalService.gameInit = data.data;
+            }
+          });
         }
       } else if (data?.status == -1) {
         this.error = data?.message;

@@ -15,6 +15,7 @@ import {SnackbarContentComponent} from "../snackbar-content/snackbar-content.com
 import {ParsIntPipe} from "../../pipes/pars-int.pipe";
 import {DaysAgoPipe} from "../../pipes/days-ago.pipe";
 import {LoaderService} from "../../services/loader/loader.service";
+import {ProcessHTTPMsgService} from "../../services/proccessHttpMsg/process-httpmsg.service";
 
 @Component({
   selector: 'app-dashboard',
@@ -45,7 +46,7 @@ export class DashboardComponent implements OnInit {
   page: any = 1;
   noMoreItems: any;
 
-  constructor(private clientService: ClientService, private _formBuilder: FormBuilder,
+  constructor(private clientService: ClientService, private _formBuilder: FormBuilder, private processHTTPMsgService: ProcessHTTPMsgService,
               public generalService: GeneralService, public configService: ConfigService, private loader: LoaderService,
               private router: Router, public dialog: MatDialog, private _snackBar: MatSnackBar) {
     this.generalService.currentRout = '/dashboard';
@@ -109,6 +110,8 @@ export class DashboardComponent implements OnInit {
     this.clientService.clientInit().then(data => {
       this.generalService.clientInit = data.data;
       this.generalService.userObj = (data.data.user);
+    }, error => {
+      return this.processHTTPMsgService.handleError(error);
     });
   }
 
@@ -118,7 +121,9 @@ export class DashboardComponent implements OnInit {
       this.selectedCategory[0] ? this.selectedCategory[0]._id : '', 5, 1).then(data => {
       this.loadingContent = false;
       this.topQuestions = data.data;
-    })
+    }, error => {
+      return this.processHTTPMsgService.handleError(error);
+    });
   }
 
   isSelected(item: any): boolean {
@@ -139,7 +144,9 @@ export class DashboardComponent implements OnInit {
     this.clientService.getQuestionsFromFriendsLatestGames(2, this.page).then(data => {
       this.questionsFromFriendsLatestGames = data.data;
       this.loadingQuestionsFromFriendsLatestGames = false;
-    })
+    }, error => {
+      return this.processHTTPMsgService.handleError(error);
+    });
   }
 
   async gotoResult(id: any) {
@@ -157,6 +164,8 @@ export class DashboardComponent implements OnInit {
       } else {
         this.openDialog(JSON.stringify(data.message), 'Error');
       }
-    })
+    }, error => {
+      return this.processHTTPMsgService.handleError(error);
+    });
   }
 }
