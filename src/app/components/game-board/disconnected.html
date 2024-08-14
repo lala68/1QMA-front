@@ -3,14 +3,13 @@
     <mat-spinner [diameter]="30"></mat-spinner>
   </div>
   <mat-label
-    style="font-size: 16px; font-weight: 600">{{'Connection Lost!'}}</mat-label>
+    style="font-size: 16px; font-weight: 600">{{'Connection Lost!' | translate}}</mat-label>
   <br>
   <mat-label
-    style="font-size: 14px; font-weight: 500">{{'trying to reconnect...'}}</mat-label>
+    style="font-size: 14px; font-weight: 500">{{'trying to reconnect...' | translate}}</mat-label>
   <br>
 </div>
 <div mat-dialog-actions style="margin: 1rem auto;">
-  <button style="width: 200px; border: 1px solid #0B6FEA" mat-stroked-button color="primary" (click)="gotoHome()">Exit
-    Game
+  <button style="width: 200px; border: 1px solid #0B6FEA" mat-stroked-button color="primary" (click)="gotoHome()">{{'Exit Game' | translate}}
   </button>
 </div>

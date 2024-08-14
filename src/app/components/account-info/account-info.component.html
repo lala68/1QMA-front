@@ -1,7 +1,7 @@
 <!--<app-header></app-header>-->
 <br><br>
 <div class="card border-0 p-4 font-size-16 weight-600" *ngIf="generalService.userObj">
-  Account Info
+  {{'Account Info' | translate}}
 </div>
 <br>
 <div style="display: ruby-text;">
@@ -19,15 +19,15 @@
           width="56" height="56" style="margin-top: 9px">
       </div>
       <br><br>
-      <mat-label class="font-size-14 weight-500 cursor-pointer" (click)="OpenAddFilesDialog()">Add Profile Image
+      <mat-label class="font-size-14 weight-500 cursor-pointer" (click)="OpenAddFilesDialog()">{{'Add Profile Image' | translate}}
       </mat-label>
       <br>
-      <mat-label class="font-size-14 weight-500 cursor-pointer" (click)="removeProfilePicture()">Remove Image
+      <mat-label class="font-size-14 weight-500 cursor-pointer" (click)="removeProfilePicture()">{{'Remove Image' | translate}}
       </mat-label>
     </div>
   </div>
   <div class="card border-0 p-5" style="width: 870px" *ngIf="generalService.userObj">
-    <mat-label class="font-size-14 weight-700">Personal information</mat-label>
+    <mat-label class="font-size-14 weight-700">{{'Personal information' | translate}}</mat-label>
     <form class="mb-3" [formGroup]="form" (ngSubmit)="updateProfile()">
       <br>
       <mat-form-field appearance="fill" class="custom-form-field w-100" [hideRequiredMarker]="true">
@@ -110,7 +110,7 @@
       </mat-form-field>
       <br>
       <br>
-      <mat-label class="font-size-14 weight-700">Account Type</mat-label>
+      <mat-label class="font-size-14 weight-700">{{'Account Type' | translate}}</mat-label>
       <br>
       <br>
       <div
@@ -124,7 +124,7 @@
             <mat-label
               class="font-size-16 weight-400">{{'Description' | translate}}</mat-label>
           </div>
-          <div class="position-absolute link-text" style="right: 16px; top: 40%">Change Plan</div>
+          <div class="position-absolute link-text" style="right: 16px; top: 40%">{{'Change Plan' | translate}}</div>
         </div>
       </div>
       <br>

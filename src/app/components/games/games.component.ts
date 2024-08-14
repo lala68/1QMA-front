@@ -41,6 +41,7 @@ export class GamesComponent implements OnInit {
   selectedGameMode: any;
   selectedGameType: any = [];
   selectedCategory: any = [];
+  selectedCategoryLive: any = [];
   inviteForm = this._formBuilder.group({
     email: new FormControl('', [Validators.required, Validators.email]),
   });
@@ -235,13 +236,13 @@ export class GamesComponent implements OnInit {
   }
 
   isSelectedLive(item: any): boolean {
-    return this.selectedCategory.some((category: any) => category._id === item._id);
+    return this.selectedCategoryLive.some((category: any) => category._id === item._id);
   }
 
   async selectCatLive(item: any) {
     this.page = 1;
-    this.selectedCategory = [];
-    this.selectedCategory.push(item);
+    this.selectedCategoryLive = [];
+    this.selectedCategoryLive.push(item);
     await this.getLives();
   }
 
@@ -266,7 +267,7 @@ export class GamesComponent implements OnInit {
   }
 
   async getLives() {
-    this.gameService.getLiveGames(this.selectedCategory[0] ? this.selectedCategory[0]._id : '').then(data => {
+    this.gameService.getLiveGames(this.selectedCategoryLive[0] ? this.selectedCategoryLive[0]._id : '').then(data => {
       if (data.status == 1)
         this.liveGames = data.data;
     }, error => {

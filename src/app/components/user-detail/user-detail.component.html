@@ -1,6 +1,6 @@
 <br><br>
 <div class="card border-0 p-4 font-size-16 weight-600">
-  User Detail
+  {{'User Detail' | translate}}
 </div>
 <br>
 <div style="display: ruby-text;">
@@ -33,10 +33,10 @@
 
       <div style="position: absolute; bottom: 30px; width: 100%; left: 40px">
         <div class="font-size-14 weight-600 position-absolute start-0">
-          Level: {{user?.statistics?.level}}</div>
+          {{'Level' | translate}}: {{user?.statistics?.level}}</div>
         <div
           class="font-size-12 weight-600 position-absolute end-0">{{user?.statistics?.xpNeededForNextLevel - user?.statistics?.totalXP}}
-          XP till next level
+          {{'XP till next level' | translate}}
         </div>
       </div>
 
@@ -56,7 +56,8 @@
             stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
 
-        <div class="font-size-12 weight-400" style="padding: 5px">Total <b class="font-size-12 weight-600">XP</b>:
+        <div class="font-size-12 weight-400" style="padding: 5px">Total <b
+          class="font-size-12 weight-600">{{'XP' | translate}}</b>:
         </div>
         <mat-label class="position-absolute font-size-14 weight-700"
                    style="padding: 5px;right: 5px">{{user?.statistics?.totalXP}}</mat-label>
@@ -69,7 +70,8 @@
             stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
 
-        <div class="font-size-12 weight-400" style="padding: 5px">Total <b class="font-size-12 weight-600">Score</b>:
+        <div class="font-size-12 weight-400" style="padding: 5px">{{'Total' | translate}} <b
+          class="font-size-12 weight-600">{{'Score' | translate}}</b>:
         </div>
         <mat-label class="position-absolute font-size-14 weight-700"
                    style="padding: 5px; right: 5px">{{user?.statistics?.totalScore | parsInt}}</mat-label>
@@ -100,7 +102,8 @@
 
         <div class="font-size-14 weight-700 position-absolute top-0"
              style="padding-left: 5px; left: 30px">{{user?.games?.won}}</div>
-        <mat-label class="position-absolute font-size-12 weight-400 bottom-0" style="padding-left: 5px;left: 30px">Win
+        <mat-label class="position-absolute font-size-12 weight-400 bottom-0"
+                   style="padding-left: 5px;left: 30px">{{'Win' | translate}}
         </mat-label>
       </div>
       <div class="card-games-small position-relative">
@@ -119,7 +122,7 @@
         <div class="font-size-14 weight-700 position-absolute top-0"
              style="padding-left: 5px; left: 30px">{{user?.games?.created}}</div>
         <mat-label class="position-absolute font-size-12 weight-400 bottom-0" style="padding-left: 5px;left: 30px">
-          Created
+          {{'Created' | translate}}
         </mat-label>
       </div>
       <div class="card-games-small position-relative">
@@ -147,7 +150,8 @@
 
         <div class="font-size-14 weight-700 position-absolute top-0"
              style="padding-left: 5px; left: 30px">{{user?.games?.played}}</div>
-        <mat-label class="position-absolute font-size-12 weight-400 bottom-0" style="padding-left: 5px;left: 30px">Play
+        <mat-label class="position-absolute font-size-12 weight-400 bottom-0"
+                   style="padding-left: 5px;left: 30px">{{'Play' | translate}}
         </mat-label>
       </div>
       <div class="card-games-small position-relative">
@@ -169,44 +173,76 @@
 
         <div class="font-size-14 weight-700 position-absolute top-0"
              style="padding-left: 5px; left: 30px">{{user?.games?.highScore | parsInt}}</div>
-        <mat-label class="position-absolute font-size-12 weight-400 bottom-0" style="padding-left: 5px;left: 30px">High
-          Score
+        <mat-label class="position-absolute font-size-12 weight-400 bottom-0"
+                   style="padding-left: 5px;left: 30px">{{'High Score' | translate}}
         </mat-label>
       </div>
     </div>
   </div>
   <div class="border-0 p-4 font-size-14 weight-600">
-    Latest Games
+    {{'Latest Games' | translate}}
   </div>
 
-  <div class="card-container">
-    <mat-card class="bordered-card shadow-none text-center">
-      <mat-card-header style="margin: 0 auto">
-        <mat-card-title class="font-size-14 weight-700">Environment</mat-card-title>
-        <mat-card-subtitle class="font-size-10 weight-500">2 Days Ago</mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-content class="p-0">
-        <mat-card class="shadow-none">
-          <mat-card-header class="pe-1 ps-1">
-            <img mat-card-avatar src="assets/images/frame.png"
-                 width="35" height="35">
-            <mat-card-title class="font-size-14 weight-500">Ladan Test</mat-card-title>
-            <mat-card-subtitle>
-              <span class="font-size-14 weight-700">1 </span><span class="font-size-14 weight-500"> Rank</span>
-              <span class="font-size-14 weight-700">1 </span><span class="font-size-14 weight-500"> Score</span>
-            </mat-card-subtitle>
-          </mat-card-header>
-        </mat-card>
-      </mat-card-content>
-      <mat-divider></mat-divider>
-      <div class="font-size-14 weight-500 p-2 text-end">Servival</div>
-      <mat-card-actions>
-        <button mat-raised-button class="game-button">{{'Game Detail' | translate}}
-        </button>
-      </mat-card-actions>
-    </mat-card>
+  <div class="card-container m-0">
+    <div>
+      <mat-card *ngFor="let endedGame of latestGames"
+                class="bordered-card shadow-none text-center d-inline-block">
+        <img [src]="'https://api.staging.1qma.games/' + endedGame?.category?.icon" width="50" height="50"
+             style="margin: 0 auto">
+        <mat-card-header style="margin: 0 auto; display: block">
+          <mat-card-title class="font-size-14 weight-700">{{ endedGame?.category?.name }}</mat-card-title>
+          <mat-card-subtitle class="font-size-12 weight-500">
+            {{endedGame?.endedAt | daysAgo}}
+          </mat-card-subtitle>
+        </mat-card-header>
+        <br>
+        <mat-card-content class="d-inline-flex position-relative p-0 w-100">
+          <mat-card class="shadow-none">
+            <mat-card-header class="pe-1 ps-1">
+              <img mat-card-avatar src="assets/images/frame.png"
+                   width="35" height="35">
+              <mat-card-title class="font-size-14 weight-500">...</mat-card-title>
+              <mat-card-subtitle class="pe-0">
+                <span class="font-size-14 weight-500"> {{'Rank' | translate}}</span>
+                <span class="font-size-14 weight-700">{{endedGame?.rank | parsInt}} </span>
+                &nbsp;<span class="font-size-14 weight-500"> {{'Score' | translate}}</span>
+                <span class="font-size-14 weight-700">{{endedGame?.score | parsInt}} </span>
+              </mat-card-subtitle>
+            </mat-card-header>
+          </mat-card>
+        </mat-card-content>
+        <mat-divider></mat-divider>
+        <div class="position-relative">
+          <div class="font-size-14 weight-500 p-2 text-start">
+            <div *ngFor="let ply of endedGame?.players; let i=index" class="d-inline-block">
+              <img mat-card-avatar
+                   [src]="ply?.profilePicture ? ply?.profilePicture?.startsWith('http') ? ply?.profilePicture : configService.url(ply?.profilePicture) : 'assets/images/frame.png'"
+                   width="26" height="26"
+                   class="avatar-bordered bg-white mb-0 position-absolute custom-position-{{i}}">
+            </div>
+          </div>
+          <div class="font-size-14 weight-500 p-2 text-end">
+                 <span class="font-size-14 weight-500 position-absolute bottom-0"
+                       style="right: 5px">{{endedGame?.gameType?.text}}</span>
+            <img src="assets/images/normal-game.png" *ngIf="endedGame?.gameType?.id == 'normal'" width="22"
+                 height="22"
+                 class="mb-0 position-absolute" style="top: 25px; right: 55px">
+            <img src="assets/images/survival-game.png" *ngIf="endedGame?.gameType?.id == 'survival'"
+                 width="22" height="22"
+                 class="mb-0 position-absolute" style="top: 25px; right: 55px">
+          </div>
+        </div>
+        <br>
+        <span
+          class="font-size-11 weight-500 text-start">{{endedGame?.players?.length}} {{'player' | translate}}</span>
+        <br>
+        <mat-card-actions>
+          <button mat-raised-button class="game-button"
+                  (click)="gotoResult(endedGame._id)">{{'Game Detail' | translate}}
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
   </div>
-
-
 </div>
 

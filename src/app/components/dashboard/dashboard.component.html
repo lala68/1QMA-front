@@ -36,19 +36,22 @@
           </mat-card-subtitle>
         </mat-card-header>
         <mat-card-header class="pe-1 ps-1 border-bottom position-relative">
-          <mat-card-title class="card-title-profile-dashboard mb-3" style="width: 120px">Account:</mat-card-title>
+          <mat-card-title class="card-title-profile-dashboard mb-3" style="width: 120px">{{'Account' | translate}}:
+          </mat-card-title>
           <img
             [src]="generalService.userObj?.accountType?.icon ? configService.url(generalService.userObj?.accountType?.icon) : 'assets/images/base.png'"
             width="38" height="38">
           <mat-label class="card-subtitle-profile-dashboard font-size-13 weight-500 text-light-color">
             &nbsp;{{remainingDays}}
-            Days Left
+            {{'Days Left' | translate}}
           </mat-label>
-          <small style="position: absolute; bottom: 5px; left: 165px" class="text-light-color">Renew
-            Automatically</small>
+          <small style="position: absolute; bottom: 5px; left: 165px"
+                 class="text-light-color">{{'Renew Automatically' | translate}}</small>
         </mat-card-header>
         <mat-card-header class="pe-1 ps-1" *ngIf="generalService.userObj?.referer">
-          <mat-card-title class="card-title-profile-dashboard mb-3" style="width: 120px">Referred By:</mat-card-title>
+          <mat-card-title class="card-title-profile-dashboard mb-3" style="width: 120px">{{'Referred By' | translate}}
+            :
+          </mat-card-title>
           <img class="avatar-bordered"
                [src]="generalService.userObj?.referer?.profilePicture ? generalService.userObj?.referer?.profilePicture?.startsWith('http') ? generalService.userObj?.referer?.profilePicture : configService.url(generalService.userObj?.referer?.profilePicture) : 'assets/images/frame.png'"
                width="28" height="28">
@@ -76,10 +79,10 @@
 
           <div style="position: absolute; bottom: 30px; width: 100%; left: 40px">
             <div class="font-size-14 weight-600 position-absolute start-0">
-              Level: {{generalService.userObj?.statistics?.level}}</div>
+              {{'Level' | translate}}: {{generalService.userObj?.statistics?.level}}</div>
             <div
               class="font-size-12 weight-600 position-absolute end-0">{{generalService.userObj?.statistics?.xpNeededForNextLevel - generalService.userObj?.statistics?.totalXP | parsInt}}
-              XP till next level
+              {{'XP till next level' | translate}}
             </div>
           </div>
           <mat-progress-bar
@@ -99,7 +102,8 @@
                 stroke-linejoin="round"/>
             </svg>
 
-            <div class="font-size-12 weight-400" style="padding: 5px">Total <b class="font-size-12 weight-600">XP</b>:
+            <div class="font-size-12 weight-400" style="padding: 5px">{{'Total' | translate}} <b
+              class="font-size-12 weight-600">{{'XP' | translate}}</b>:
             </div>
             <mat-label class="position-absolute font-size-14 weight-700"
                        style="padding: 5px;right: 5px">{{generalService.userObj?.statistics?.totalXP | parsInt}}</mat-label>
@@ -111,7 +115,8 @@
                 d="M14.4545 3.99793L16.2145 7.51793C16.4545 8.00793 17.0945 8.47793 17.6345 8.56793L20.8245 9.09793C22.8645 9.43793 23.3445 10.9179 21.8745 12.3779L19.3945 14.8579C18.9745 15.2779 18.7445 16.0879 18.8745 16.6679L19.5845 19.7379C20.1445 22.1679 18.8545 23.1079 16.7045 21.8379L13.7145 20.0679C13.1745 19.7479 12.2845 19.7479 11.7345 20.0679L8.74452 21.8379C6.60452 23.1079 5.30452 22.1579 5.86452 19.7379L6.57452 16.6679C6.70452 16.0879 6.47452 15.2779 6.05452 14.8579L3.57452 12.3779C2.11452 10.9179 2.58452 9.43793 4.62452 9.09793L7.81452 8.56793C8.34452 8.47793 8.98452 8.00793 9.22452 7.51793L10.9845 3.99793C11.9445 2.08793 13.5045 2.08793 14.4545 3.99793Z"
                 stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-            <div class="font-size-12 weight-400" style="padding: 5px">Total <b class="font-size-12 weight-600">Score</b>:
+            <div class="font-size-12 weight-400" style="padding: 5px">{{'Total' | translate}} <b
+              class="font-size-12 weight-600">{{'Score' | translate}}</b>:
             </div>
             <mat-label class="position-absolute font-size-14 weight-700"
                        style="padding: 5px; right: 5px">{{generalService.userObj?.statistics?.normal?.totalScore | parsInt}}</mat-label>
@@ -143,7 +148,7 @@
             <div class="font-size-14 weight-700 position-absolute top-0"
                  style="padding-left: 5px; left: 30px">{{generalService.userObj?.games?.won}}</div>
             <mat-label class="position-absolute font-size-12 weight-400 bottom-0" style="padding-left: 5px;left: 30px">
-              Win
+              {{'Win' | translate}}
             </mat-label>
           </div>
           <div class="card-games-small position-relative">
@@ -163,7 +168,7 @@
             <div class="font-size-14 weight-700 position-absolute top-0"
                  style="padding-left: 5px; left: 30px">{{generalService.userObj?.games?.created}}</div>
             <mat-label class="position-absolute font-size-12 weight-400 bottom-0" style="padding-left: 5px;left: 30px">
-              Created
+              {{'Created' | translate}}
             </mat-label>
           </div>
           <div class="card-games-small position-relative">
@@ -192,7 +197,7 @@
             <div class="font-size-14 weight-700 position-absolute top-0"
                  style="padding-left: 5px; left: 30px">{{generalService.userObj?.games?.played}}</div>
             <mat-label class="position-absolute font-size-12 weight-400 bottom-0" style="padding-left: 5px;left: 30px">
-              Play
+              {{'Play' | translate}}
             </mat-label>
           </div>
           <div class="card-games-small position-relative">
@@ -217,7 +222,7 @@
             <div class="font-size-14 weight-700 position-absolute top-0"
                  style="padding-left: 5px; left: 30px">{{generalService.userObj?.games?.highScore | parsInt}}</div>
             <mat-label class="position-absolute font-size-12 weight-400 bottom-0" style="padding-left: 5px;left: 30px">
-              High Score
+              {{'High Score' | translate}}
             </mat-label>
           </div>
         </div>
@@ -231,7 +236,7 @@
                width="24" height="24">&nbsp;<span>{{generalService.userObj?.assets?.coins?.silver}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <img src="assets/images/coin-gold.png"
                width="24" height="24">&nbsp;<span>{{generalService.userObj?.assets?.coins?.gold}}</span>
-          <div class="link-text font-size-14 weight-500 position-absolute end-0">Financial History ></div>
+          <div class="link-text font-size-14 weight-500 position-absolute end-0">{{'Financial History' | translate}} ></div>
         </mat-card-header>
       </mat-card>
     </div>
@@ -264,7 +269,7 @@
              (click)="selectCatTopQuestion('')"
              [class]="{'mat-card-pref-selected': isSelected(''), 'mat-card-pref': !isSelected('')}">
           <div class="text-center w-100" style="padding-top: 8px">
-            <mat-label class="font-size-14 weight-600">{{ 'all categories' }}</mat-label>
+            <mat-label class="font-size-14 weight-600">{{ 'all categories' | translate }}</mat-label>
           </div>
         </div>
         <div *ngFor="let cat of generalService?.clientInit?.categories"
@@ -283,22 +288,22 @@
           <mat-label class="font-size-14 weight-700">#</mat-label>
         </mat-grid-tile>
         <mat-grid-tile class="result-grid" [colspan]="4">
-          <mat-label class="font-size-14 weight-700">Question</mat-label>
+          <mat-label class="font-size-14 weight-700">{{'Question' | translate}}</mat-label>
         </mat-grid-tile>
         <mat-grid-tile class="result-grid" [colspan]="2">
-          <mat-label class="font-size-14 weight-700">Category</mat-label>
+          <mat-label class="font-size-14 weight-700">{{'Category' | translate}}</mat-label>
         </mat-grid-tile>
         <mat-grid-tile [colspan]="2">
-          <mat-label class="font-size-12 weight-700">Player</mat-label>
+          <mat-label class="font-size-14 weight-700">{{'Player' | translate}}</mat-label>
         </mat-grid-tile>
         <mat-grid-tile [colspan]="1">
-          <mat-label class="font-size-12 weight-700">Total Plays</mat-label>
+          <mat-label class="font-size-14 weight-700">{{'Total Plays' | translate}}</mat-label>
         </mat-grid-tile>
         <mat-grid-tile [colspan]="1">
-          <mat-label class="font-size-12 weight-700">Score</mat-label>
+          <mat-label class="font-size-14 weight-700">{{'Score' | translate}}</mat-label>
         </mat-grid-tile>
         <mat-grid-tile [colspan]="1">
-          <mat-label class="font-size-12 weight-700"></mat-label>
+          <mat-label class="font-size-14 weight-700"></mat-label>
         </mat-grid-tile>
       </mat-grid-list>
       <mat-grid-list *ngFor="let res of topQuestions;let i=index"
@@ -393,7 +398,7 @@
   <div class="d-inline-flex">
     <img src="assets/images/Magic%20Book%201.png"
          width="32" height="32">
-    <div class="font-size-16 weight-800 pt-2">&nbsp;{{'Questions From Friends Latest  Games' | translate}}</div>
+    <div class="font-size-16 weight-800 pt-2">&nbsp;{{'Questions From Friends Latest Games' | translate}}</div>
   </div>
   <br>
   <div class="d-block w-100">
@@ -406,7 +411,7 @@
         <mat-label class="font-size-13 weight-500"
                    style="margin: auto 10px">{{item?.user?.firstName}} {{item?.user?.lastName}}</mat-label>
         <mat-label class="font-size-12 weight-500 position-absolute" style="right: 10px; margin: 10px auto">
-          {{item?.createdAt | daysAgo}}
+          {{item?.endedAt | daysAgo}}
         </mat-label>
       </div>
       <br>
@@ -424,15 +429,18 @@
         </button>
         <div class="position-absolute bottom-0">
           <div class="d-inline-flex justify-content-between align-items-center m-1">
-            <div class="white-card p-1" style="width: fit-content">
-              <mat-label class="font-size-12 weight-600"
-                         style="margin: auto 5px">{{item?.category}}</mat-label>
+            <div class="white-card p-1 d-flex align-items-center" style="width: fit-content">
+              <!--              <mat-label class="font-size-12 weight-600"-->
+              <!--                         style="margin: auto 5px">{{item?.category}}</mat-label>-->
+              <img [src]="'https://api.staging.1qma.games/' + item?.category?.icon" width="25">
+              <span style="margin: auto 5px" class="font-size-12 weight-500">{{item?.category?.name}}</span>
             </div>
           </div>
           <div class="d-inline-flex justify-content-between align-items-center m-1">
-            <div class="white-card p-1" style="width: fit-content">
-              <mat-label class="font-size-12 weight-600"
-                         style="margin: auto 5px">{{item?.gameType}}</mat-label>
+            <div class="white-card p-1 d-flex align-items-center" style="width: fit-content">
+              <img src="assets/images/normal-game.png" *ngIf="item?.gameType?.id == 'normal'" width="25">
+              <img src="assets/images/survival-game.png" *ngIf="item?.gameType?.id == 'survival'" width="25">
+              <span style="margin: auto 5px" class="font-size-12 weight-500">{{item?.gameType?.text}}</span>
             </div>
           </div>
         </div>

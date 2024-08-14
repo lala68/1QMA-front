@@ -769,7 +769,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
   selector: 'cancel-game',
   templateUrl: 'cancel-game.html',
   standalone: true,
-  imports: [MaterialModule, CommonModule]
+  imports: [MaterialModule, CommonModule, TranslateModule]
 })
 
 export class CancelGame {
@@ -804,7 +804,7 @@ export class CancelGame {
   selector: 'disconnected',
   templateUrl: 'disconnected.html',
   standalone: true,
-  imports: [MaterialModule, CommonModule]
+  imports: [MaterialModule, CommonModule, TranslateModule]
 })
 
 export class Disconnected {
@@ -839,7 +839,7 @@ export class Disconnected {
   selector: 'force-exit-game',
   templateUrl: 'force-exit-game.html',
   standalone: true,
-  imports: [MaterialModule, CommonModule]
+  imports: [MaterialModule, CommonModule, TranslateModule]
 })
 
 export class ForceExitGame {

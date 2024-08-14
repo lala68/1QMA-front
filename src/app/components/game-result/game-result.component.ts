@@ -11,6 +11,7 @@ import {TimeDifferencePipe} from "../../pipes/time-difference.pipe";
 import {Location} from '@angular/common';
 import {ParsIntPipe} from "../../pipes/pars-int.pipe";
 import {ProcessHTTPMsgService} from "../../services/proccessHttpMsg/process-httpmsg.service";
+import {GeneralService} from "../../services/general/general.service";
 
 @Component({
   selector: 'app-game-result',
@@ -27,9 +28,10 @@ export class GameResultComponent implements OnInit {
   panelOpenState: boolean[] = [];
 
 
-  constructor(private gameService: GamesService, public configService: ConfigService,
+  constructor(private gameService: GamesService, public configService: ConfigService, public generalService: GeneralService,
               private router: Router, private location: Location, private processHTTPMsgService: ProcessHTTPMsgService) {
     this.gameId = this.router.getCurrentNavigation()?.extras?.state?.['id'];
+    this.generalService.useGoogleTranslate();
   }
 
   ngOnInit() {

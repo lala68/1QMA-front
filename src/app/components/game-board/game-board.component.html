@@ -41,7 +41,7 @@
               <path d="M8.47461 12.5868L11.3046 15.4168L16.9746 9.75684" stroke="#43a047" stroke-width="1.5"
                     stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-            <mat-label color="success">Joined</mat-label>
+            <mat-label color="success">{{'Joined' | translate}}</mat-label>
           </div>
         </div>
         <div *ngIf="generalService?.invitedPlayersArray?.length > 0">
@@ -54,7 +54,7 @@
             <mat-label class="font-size-14 weight-500 m-auto">{{playerNotJoined}}</mat-label>
             <div class="d-inline-flex position-absolute end-10" style="top: 10px">
               &nbsp;<mat-spinner [diameter]="20"></mat-spinner>&nbsp;
-              <mat-label>waiting</mat-label>
+              <mat-label>{{'waiting' | translate}}</mat-label>
             </div>
             <svg *ngIf="generalService?.userId == data?.game?.gameCreator?._id"
                  (click)="removeFromInvited(playerNotJoined)" style="position: absolute; right: -30px; top: 10px"
@@ -239,9 +239,9 @@
   <div style="height: 52px;"
        class="d-inline-block card border-0 text-center font-size-14 weight-800 pt-3 w-100">
     <mat-spinner class="d-inline-block" [diameter]="20"></mat-spinner> &nbsp;
-    <mat-label class="d-inline-block">Waiting
-      for {{generalService.gameInit?.numberOfPlayers - generalService.players?.length}}
-      of {{generalService.gameInit?.numberOfPlayers }} players to join the game...
+    <mat-label
+      class="d-inline-block">{{'Waiting for' | translate}} {{generalService.gameInit?.numberOfPlayers - generalService.players?.length}}
+      {{'of' | translate}} {{generalService.gameInit?.numberOfPlayers }} {{'players to join the game...' | translate}}
     </mat-label>
   </div>
 </div>
@@ -294,7 +294,7 @@
               <div class="d-inline-flex">
                 <img src="assets/images/frame.png" width="24"/>
                 <mat-label class="font-size-13  weight-500">
-                  Player {{generalService.gameQuestion ? generalService.gameQuestion?.step : 1}}</mat-label>
+                  {{'Player' | translate}} {{generalService.gameQuestion ? generalService.gameQuestion?.step : 1}}</mat-label>
               </div>
               <br>
               <br>
@@ -323,13 +323,13 @@
                   stroke-linejoin="round"/>
               </svg>
 
-              &nbsp;<div class="font-size-14 weight-600">My Answer:</div>
+              &nbsp;<div class="font-size-14 weight-600">{{'My Answer' | translate}}:</div>
             </div>
             <div class="textarea-container">
               <textarea #answerTextArea [disabled]="generalService.editingAnswer"
                         [(ngModel)]="generalService.gameAnswerGeneral"
                         (ngModelChange)="updateWordCountAnswer()"></textarea>
-              <div class="word-counter">{{ wordCountAnswer }} Words</div>
+              <div class="word-counter">{{ wordCountAnswer }} {{'Words' | translate}}</div>
             </div>
           </div>
         </div>
@@ -349,10 +349,10 @@
                    width="26" height="26" class="mb-0 position-absolute custom-position-{{i}}">
             </div>
           </div>
-          <mat-label class="d-inline-block" style="margin-left: 90px;">Waiting
-            for {{(submittedAnswer ? submittedAnswer?.numberOfPlayers : generalService.gameInit?.numberOfPlayers) - submittedAnswer?.numberOfSubmitted}}
-            of {{(submittedAnswer ? submittedAnswer?.numberOfPlayers : generalService.gameInit?.numberOfPlayers) }}
-            players...
+          <mat-label class="d-inline-block"
+                     style="margin-left: 90px;">{{'Waiting for' | translate}} {{(submittedAnswer ? submittedAnswer?.numberOfPlayers : generalService.gameInit?.numberOfPlayers) - submittedAnswer?.numberOfSubmitted}}
+            {{'of' | translate}} {{(submittedAnswer ? submittedAnswer?.numberOfPlayers : generalService.gameInit?.numberOfPlayers) }}
+            {{'players...' | translate}}
           </mat-label>
         </div>
         <div class="next-button">
@@ -425,7 +425,7 @@
               <div class="d-inline-flex">
                 <img src="assets/images/frame.png" width="24"/>
                 <mat-label class="font-size-13  weight-500">
-                  Player {{generalService.gameQuestion ? generalService.gameQuestion?.step : 1}}</mat-label>
+                  {{'Player' | translate}} {{generalService.gameQuestion ? generalService.gameQuestion?.step : 1}}</mat-label>
               </div>
               <br>
               <br>
@@ -482,7 +482,7 @@
               </div>
             </div>
             <mat-label style="position: absolute; left: 10px; bottom: -10px; color: #0B6FEA;"
-                       class="font-size-14 weight-600">Poor
+                       class="font-size-14 weight-600">{{'Poor' | translate}}
             </mat-label>
           </div>
         </div>
@@ -502,10 +502,10 @@
                    width="26" height="26" class="mb-0 position-absolute custom-position-{{i}}">
             </div>
           </div>
-          <mat-label class="d-inline-block" style="margin-left: 90px;">Waiting
-            for {{(submittedAnswer ? submittedAnswer?.numberOfPlayers : generalService.gameInit?.numberOfPlayers) - submittedAnswer?.numberOfSubmitted}}
-            of {{(submittedAnswer ? submittedAnswer?.numberOfPlayers : generalService.gameInit?.numberOfPlayers) }}
-            players...
+          <mat-label class="d-inline-block"
+                     style="margin-left: 90px;">{{'Waiting for' | translate}} {{(submittedAnswer ? submittedAnswer?.numberOfPlayers : generalService.gameInit?.numberOfPlayers) - submittedAnswer?.numberOfSubmitted}}
+            {{'of' | translate}} {{(submittedAnswer ? submittedAnswer?.numberOfPlayers : generalService.gameInit?.numberOfPlayers) }}
+            {{'players...' | translate}}
           </mat-label>
         </div>
         <div class="next-button">
@@ -553,7 +553,7 @@
         <div *ngIf="!loading">
           <div class="w-100 position-relative">
             <mat-label style="position: absolute; left: 20px; top: -20px; color: #0B6FEA"
-                       class="font-size-14 weight-600">Excellent
+                       class="font-size-14 weight-600">{{'Excellent' | translate}}
             </mat-label>
             <div
               style="position: absolute; left: 30px; top: 0; bottom: 0; width: 2px; background-color: #EDF9FF;"></div>
@@ -599,7 +599,7 @@
               </div>
             </div>
             <mat-label style="position: absolute; left: 10px; bottom: -10px; color: #0B6FEA;"
-                       class="font-size-14 weight-600">Poor
+                       class="font-size-14 weight-600">{{'Poor' | translate}}
             </mat-label>
           </div>
         </div>
@@ -619,10 +619,10 @@
                    width="26" height="26" class="mb-0 position-absolute custom-position-{{i}}">
             </div>
           </div>
-          <mat-label class="d-inline-block" style="margin-left: 90px;">Waiting
-            for {{(submittedAnswer ? submittedAnswer?.numberOfPlayers : generalService.gameInit?.numberOfPlayers) - submittedAnswer?.numberOfSubmitted}}
-            of {{(submittedAnswer ? submittedAnswer?.numberOfPlayers : generalService.gameInit?.numberOfPlayers) }}
-            players...
+          <mat-label class="d-inline-block"
+                     style="margin-left: 90px;">{{'Waiting for' | translate}} {{(submittedAnswer ? submittedAnswer?.numberOfPlayers : generalService.gameInit?.numberOfPlayers) - submittedAnswer?.numberOfSubmitted}}
+            {{'of' | translate}} {{(submittedAnswer ? submittedAnswer?.numberOfPlayers : generalService.gameInit?.numberOfPlayers) }}
+            {{'players...' | translate}}
           </mat-label>
         </div>
         <div class="next-button">
@@ -730,7 +730,7 @@
                       +{{generalService.gameResult?.statistics?.score | parsInt}}</div>
                     <mat-label class="position-absolute font-size-14 weight-500"
                                style="padding-left: 5px;left: 30px; bottom: -5px;  color: #828282">
-                      Score
+                      {{'Score' | translate}}
                     </mat-label>
                   </div>
                   <div class="position-relative" style="width: 100px">
@@ -741,7 +741,7 @@
                       +{{generalService.gameResult?.statistics?.xp | parsInt}}</div>
                     <mat-label class="position-absolute font-size-14 weight-500"
                                style="padding-left: 5px;left: 30px; bottom: -5px;  color: #828282">
-                      XP
+                      {{'XP' | translate}}
                     </mat-label>&nbsp;&nbsp;&nbsp;&nbsp;
                   </div>
                   <div class="position-relative" style="width: 100px">
@@ -752,7 +752,7 @@
                       +{{generalService.gameResult?.statistics?.reward?.bronze}}</div>
                     <mat-label class="position-absolute font-size-14 weight-500"
                                style="padding-left: 5px;left: 30px; bottom: -5px; color: #828282">
-                      Bronze
+                      {{'Bronze' | translate}}
                     </mat-label>
                   </div>
                 </mat-card-header>
@@ -762,11 +762,11 @@
                    style="width: 350px; height: 80px; background-color: #EDF9FF">
                 <div style="position: absolute; top: 10px;left: 10px; width: 100%;">
                   <div class="font-size-14 weight-600 position-absolute start-0">
-                    Level: {{generalService.gameResult?.statistics?.level}}</div>
+                    {{'Level' | translate}}: {{generalService.gameResult?.statistics?.level}}</div>
                   <div
                     class="font-size-12 weight-600 position-absolute"
                     style="right: 20px">{{generalService.gameResult?.statistics?.xpNeededForNextLevel - generalService.gameResult?.statistics?.totalXP | parsInt}}
-                    XP till next level
+                    {{'XP till next level' | translate}}
                   </div>
                 </div>
                 <mat-progress-bar
@@ -777,7 +777,7 @@
                   mode="determinate"></mat-progress-bar>
                 <div
                   class="font-size-14 weight-600 position-absolute bottom-10" style="left: 10px">
-                  Total XP: {{generalService.gameResult?.statistics?.totalXP | parsInt}}
+                  {{'Total XP' | translate}}: {{generalService.gameResult?.statistics?.totalXP | parsInt}}
                 </div>
               </div>
             </div>
@@ -788,11 +788,12 @@
                     *ngIf="data?.game?.gameType?.id == 'survival' && generalService.gameResult?.statistics?.survival?.checkpoint == 0">
             <mat-card-header class="p-3">
               <img src="assets/images/survival-game.png" width="25">
-              <span class="font-size-16 weight-600 text-white">Survival Result</span>
+              <span class="font-size-16 weight-600 text-white">{{'Survival Result' | translate}}</span>
               <div class="position-absolute end-10">
                 <span
-                  class="font-size-12 weight-400 text-white">Next Checkpoint: <b>{{generalService.gameResult?.nextCheckpoint}}
-                  Score</b></span>
+                  class="font-size-12 weight-400 text-white">{{'Next Checkpoint' | translate}}
+                  : <b>{{generalService.gameResult?.nextCheckpoint}}
+                    {{'Score' | translate}}</b></span>
               </div>
             </mat-card-header>
             <mat-card-content class="d-inline-flex p-5">
@@ -811,22 +812,22 @@
                          style="padding-bottom: 7px;">
                       +{{generalService.gameResult?.statistics?.score | parsInt}}
                     </div>
-                    <mat-label class="font-size-12 weight-500">This Game</mat-label>
+                    <mat-label class="font-size-12 weight-500">{{'This Game' | translate}}</mat-label>
                   </div>
                   <div style="width: 33%" class="text-center p-2">
                     <div class="font-size-14 weight-800 green-color"
                          style="padding-bottom: 7px;">
                       +{{generalService.gameResult?.statistics?.survival?.totalScore | parsInt}}
                     </div>
-                    <mat-label class="font-size-12 weight-500">Total Score</mat-label>
+                    <mat-label class="font-size-12 weight-500">{{'Total Score' | translate}}</mat-label>
                   </div>
                 </div>
               </div>
               <div class="w-50 m-3">
-                <mat-label class="font-size-16 weight-800">PERFECT!</mat-label>
+                <mat-label class="font-size-16 weight-800">{{'PERFECT!' | translate}}</mat-label>
                 <br>
-                <mat-label class="font-size-12 weight-500">Continue playing survival games
-                  to reach your first checkpoint at 50 score.
+                <mat-label
+                  class="font-size-12 weight-500">{{'Continue playing survival games to reach your first checkpoint at 50 score.' | translate}}
                 </mat-label>
               </div>
             </mat-card-content>
@@ -838,11 +839,12 @@
                     *ngIf="data?.game?.gameType?.id == 'survival' && generalService.gameResult?.statistics?.survival?.checkpoint > 0">
             <mat-card-header class="p-3">
               <img src="assets/images/survival-game.png" width="25">
-              <span class="font-size-16 weight-600 text-white">Survival Result</span>
+              <span class="font-size-16 weight-600 text-white">{{'Survival Result' | translate}}</span>
               <div class="position-absolute end-10">
                 <span
-                  class="font-size-12 weight-400 text-white">Next Checkpoint: <b>{{generalService.gameResult?.nextCheckpoint}}
-                  Score</b></span>
+                  class="font-size-12 weight-400 text-white">{{'Next Checkpoint' | translate}}
+                  : <b>{{generalService.gameResult?.nextCheckpoint}}
+                    {{'Score' | translate}}</b></span>
               </div>
             </mat-card-header>
             <mat-card-content class="d-inline-flex p-5">
@@ -851,14 +853,14 @@
                   <div style="width: 33%; margin: auto;" class="text-center">
                     <img src="assets/images/rank-star.png"
                          width="17" height="17">&nbsp;
-                    <mat-label class="font-size-12 weight-600">Rank</mat-label>
+                    <mat-label class="font-size-12 weight-600">{{'Rank' | translate}}</mat-label>
                   </div>
                   <div
                     style="width: 67%; border-top-right-radius: 6px; border-bottom-right-radius: 6px; border-left: 1px solid #E8E2E0"
                     class="text-center bg-white">
                     <div class="d-flex" style="border-bottom: 1px solid #E8E2E0">
                       <div class="font-size-12 weight-500 w-50">
-                        Average:
+                        {{'Average' | translate}}:
                       </div>
                       <div class="font-size-14 weight-700 w-50">
                         {{generalService.gameResult?.statistics?.survival?.avgRank | parsInt}}
@@ -867,7 +869,7 @@
 
                     <div class="d-flex">
                       <div class="font-size-12 weight-500 w-50">
-                        This game:
+                        {{'This game' | translate}}:
                       </div>
                       <div class="font-size-14 weight-700 w-50">
                         {{myRank | parsInt}}
@@ -879,28 +881,29 @@
                   <div style="width: 33%; margin: auto;" class="text-center">
                     <img src="assets/images/score.png"
                          width="17" height="17">&nbsp;
-                    <mat-label class="font-size-12 weight-600">Score</mat-label>
+                    <mat-label class="font-size-12 weight-600">{{'Score' | translate}}</mat-label>
                   </div>
                   <div style="width: 33%; border-left: 1px solid #E8E2E0" class="text-center bg-white">
                     <div class="font-size-14 weight-800 green-color">
                       +{{generalService.gameResult?.statistics?.score | parsInt}}
                     </div>
-                    <mat-label class="font-size-12 weight-500">This Game</mat-label>
+                    <mat-label class="font-size-12 weight-500">{{'This Game' | translate}}</mat-label>
                   </div>
                   <div style="width: 33%; border-top-right-radius: 6px; border-bottom-right-radius: 6px; "
                        class="text-center bg-white">
                     <div class="font-size-14 weight-800 green-color">
                       {{generalService.gameResult?.statistics?.survival?.totalScore | parsInt}}
                     </div>
-                    <mat-label class="font-size-12 weight-500">Total Score</mat-label>
+                    <mat-label class="font-size-12 weight-500">{{'Total Score' | translate}}</mat-label>
                   </div>
                 </div>
               </div>
               <div class="w-50 m-3 p-5 bg-white" style="border-radius: 6px; border: 1px solid #E8E2E0"
                    *ngIf="!backToCheckpoint && myRank > generalService.gameResult?.statistics?.survival?.avgRank">
-                <mat-label class="font-size-16 weight-800">OH SORRY!</mat-label>
+                <mat-label class="font-size-16 weight-800">{{'OH SORRY!' | translate}}</mat-label>
                 <br>
-                <mat-label class="font-size-12 weight-500">Your rank in this game is below your average rank:
+                <mat-label
+                  class="font-size-12 weight-500">{{'Your rank in this game is below your average rank:' | translate}}
                 </mat-label>
                 <br>
                 <br>
@@ -929,7 +932,7 @@
                      (click)="backToCheckpointMethod()">
                   <div class="font-size-14 weight-500">{{'Back to checkpoint' | translate}}</div>
                   <mat-label class="text-gray">
-                    {{generalService.gameResult?.statistics?.score | parsInt}} Score
+                    {{generalService.gameResult?.statistics?.score | parsInt}} {{'Score' | translate}}
                   </mat-label>
                   <div class="position-absolute end-10" style="top: 15px;">
                     <img src="assets/images/arrow-right-1.svg">
@@ -941,33 +944,36 @@
                    *ngIf="myRank <= generalService.gameResult?.statistics?.survival?.avgRank">
                 <mat-label class="font-size-16 weight-800 green-color">GREAT!</mat-label>
                 <br>
-                <mat-label class="font-size-12 weight-500">Your score has been added to your total survival score.
+                <mat-label
+                  class="font-size-12 weight-500">{{'Your score has been added to your total survival score.' | translate}}
                 </mat-label>
               </div>
 
               <div class="w-50 m-3 p-5" *ngIf="backToCheckpoint">
-                <mat-label class="font-size-16 weight-800" style="color: #FF0000">OH NO!</mat-label>
+                <mat-label class="font-size-16 weight-800" style="color: #FF0000">{{'OH NO!' | translate}}</mat-label>
                 <br>
-                <mat-label class="font-size-12 weight-500">You have lost the game and will start from previous
-                  checkpoint.
+                <mat-label
+                  class="font-size-12 weight-500">{{'You have lost the game and will start from previous checkpoint.' | translate}}
                 </mat-label>
                 <br>
                 <mat-label class="text-gray">
-                  Back to checkpoint:
-                  <b style="color: black">{{generalService.gameResult?.statistics?.score | parsInt}} Score</b>
+                  {{'Back to checkpoint' | translate}}:
+                  <b
+                    style="color: black">{{generalService.gameResult?.statistics?.score | parsInt}} {{'Score' | translate}}</b>
                 </mat-label>
               </div>
 
               <div class="w-50 m-3 p-5" *ngIf="congratulation">
-                <mat-label class="font-size-16 weight-800">Congratulation!</mat-label>
+                <mat-label class="font-size-16 weight-800">{{'Congratulations!' | translate}}</mat-label>
                 <br>
-                <mat-label class="font-size-14 weight-500">Your rank in this game is above your average rank.
+                <mat-label
+                  class="font-size-14 weight-500">{{'Your rank in this game is above your average rank.' | translate}}
                 </mat-label>
                 <br>
                 <br>
                 <mat-label class="font-size-14 weight-500">
-                  Your rank in this game is above your average rank.
-                  Score has been added to your total survival score.
+                  {{'Your rank in this game is above your average rank.' | translate}}
+                  {{'Score has been added to your total survival score.' | translate}}
                 </mat-label>
               </div>
             </mat-card-content>
@@ -978,7 +984,7 @@
 
           <mat-grid-list cols="12" rowHeight="30px">
             <mat-grid-tile class="result-grid" [colspan]="3">
-              <mat-label class="font-size-14 weight-700">Scoreboard</mat-label>
+              <mat-label class="font-size-14 weight-700">{{'Scoreboard' | translate}}</mat-label>
             </mat-grid-tile>
             <mat-grid-tile class="result-grid"
                            [colspan]="12 - (5 + (generalService.gameResult?.result?.scoreboard?.length))">
@@ -993,7 +999,7 @@
               <mat-label class="font-size-12 weight-700">Q</mat-label>
             </mat-grid-tile>
             <mat-grid-tile class="result-grid" [colspan]="1">
-              <mat-label class="font-size-12 weight-700">Total</mat-label>
+              <mat-label class="font-size-12 weight-700">{{'Total' | translate}}</mat-label>
             </mat-grid-tile>
           </mat-grid-list>
 
@@ -1044,7 +1050,7 @@
           <br>
           <br>
           <div class="w-100 d-inline-flex position-relative">
-            <div class="font-size-14 weight-700">Score detail</div>
+            <div class="font-size-14 weight-700">{{'Score detail' | translate}}</div>
             <div class="position-absolute end-10 d-flex align-items-center">
               <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -1080,7 +1086,7 @@
                       <mat-card-subtitle class="font-size-14 weight-600 pb-2">{{question?.question}}
                       </mat-card-subtitle>
                       <mat-card-subtitle>
-                        <img src="assets/images/score.png" width="16"/> &nbsp; {{question?.rate | parsInt}} Score
+                        <img src="assets/images/score.png" width="16"/> &nbsp; {{question?.rate | parsInt}} {{'Score' | translate}}
                       </mat-card-subtitle>
                     </mat-card-header>
                   </mat-card>
@@ -1105,7 +1111,7 @@
                     <mat-label class="font-size-14 weight-400">{{answer?.answer}}</mat-label>
                     <br>
                     <br>
-                    <img src="assets/images/score.png" width="16"/> &nbsp; {{answer?.rate | parsInt}} Score
+                    <img src="assets/images/score.png" width="16"/> &nbsp; {{answer?.rate | parsInt}} {{'Score' | translate}}
                   </div>
                 </div>
               </div>

@@ -50,12 +50,12 @@
           src="assets/images/x-media.png"
           style="margin-top: 6px"
           width="23"/></a>
-<!--        <button class="social-button-div border-0" (click)="gotoWizard()"><img src="assets/images/facebook.png"-->
-<!--                                                                               width="23"/></button>-->
-<!--        <button class="social-button-div border-0" (click)="gotoWizard()"><img src="assets/images/apple.png"-->
-<!--                                                                               width="23"/></button>-->
-<!--        <button class="social-button-div border-0" (click)="gotoWizard()"><img src="assets/images/x-media.png"-->
-<!--                                                                               width="23"/></button>-->
+        <!--        <button class="social-button-div border-0" (click)="gotoWizard()"><img src="assets/images/facebook.png"-->
+        <!--                                                                               width="23"/></button>-->
+        <!--        <button class="social-button-div border-0" (click)="gotoWizard()"><img src="assets/images/apple.png"-->
+        <!--                                                                               width="23"/></button>-->
+        <!--        <button class="social-button-div border-0" (click)="gotoWizard()"><img src="assets/images/x-media.png"-->
+        <!--                                                                               width="23"/></button>-->
       </div>
       <br>
       <br>
@@ -63,18 +63,18 @@
 
     <div *ngIf="step ==2">
       <form #f="ngForm" [formGroup]="setPasswordForm" (ngSubmit)="onSubmitPassword()" autocomplete="off">
-        <mat-label class="weight-500">Set a password for your account</mat-label>
+        <mat-label class="weight-500">{{'Set a password for your account' | translate}}</mat-label>
         <br>
         <br>
         <img src="assets/images/user.png" width="18" style="background: #D9D9D9; border-radius: 50px">&nbsp;&nbsp;<div
         class="d-inline-block weight-500">{{signUpEmailForm.controls.email.value}}</div>
         <br><br>
         <mat-form-field appearance="fill" class="custom-form-field w-100" [hideRequiredMarker]="true">
-          <mat-label>Verification Code</mat-label>
+          <mat-label>{{'Verification Code' | translate}}</mat-label>
           <input matInput placeholder="Verification Code" type="text" [formControlName]="'verificationCode'" required>
         </mat-form-field>
         <mat-form-field appearance="fill" class="custom-form-field w-100" [hideRequiredMarker]="true">
-          <mat-label>New password</mat-label>
+          <mat-label>{{'New password' | translate}}</mat-label>
           <div class="d-inline-flex w-100">
             <input matInput placeholder="New password" [type]="hide ? 'password' : 'text'"
                    [formControlName]="'password'" required>
@@ -83,7 +83,7 @@
 
         </mat-form-field>
         <mat-form-field appearance="fill" class="custom-form-field w-100 mb-2" [hideRequiredMarker]="true">
-          <mat-label>Retype new password</mat-label>
+          <mat-label>{{'Retype new password' | translate}}</mat-label>
           <div class="d-inline-flex w-100">
             <input matInput placeholder="Retype new password" [type]="hideCopy ? 'password' : 'text'"
                    [formControlName]="'passwordConfirmation'" required>
@@ -95,7 +95,7 @@
         </div>
         <button mat-raised-button color="primary" type="submit"
                 class="w-100 p-4" [disabled]="!setPasswordForm.valid || loading">
-          <span>Continue</span>
+          <span>{{'Continue' | translate}}</span>
         </button>
       </form>
 

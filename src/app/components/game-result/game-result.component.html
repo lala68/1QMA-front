@@ -22,7 +22,8 @@
       <div *ngIf="!loading">
         <div class="w-100 d-inline-flex">
           <div class="w-30">
-            <mat-label class="font-size-14 weight-500" style="color: #585858">Created By:</mat-label>
+            <mat-label class="font-size-14 weight-500" style="color: #585858">{{'Created By' | translate}}:
+            </mat-label>
             &nbsp;&nbsp;<img class="avatar-bordered bg-white"
                              [src]="gameResult?.creator?.profilePicture ? gameResult?.creator?.profilePicture?.startsWith('http') ? gameResult?.creator?.profilePicture : configService.url(gameResult?.creator?.profilePicture) : 'assets/images/frame.png'"
                              width="40" height="40">
@@ -30,7 +31,7 @@
             class="font-size-14 weight-700 pe-2">{{gameResult?.creator?.firstName}} {{gameResult?.creator?.lastName}}</span>
             <br>
             <br>
-            <mat-label class="font-size-14 weight-500" style="color: #585858">Played On:</mat-label>
+            <mat-label class="font-size-14 weight-500" style="color: #585858">{{'Played On' | translate}}:</mat-label>
             &nbsp;&nbsp;<mat-label class="font-size-14 weight-500">{{gameResult?.startedAt | date}}</mat-label>
           </div>
           <div class="w-30">
@@ -54,7 +55,7 @@
                 +{{gameResult?.statistics?.score | parsInt}}</div>
               <mat-label class="position-absolute font-size-14 weight-500"
                          style="padding-left: 5px;left: 30px; bottom: -5px;  color: #828282">
-                Score
+                {{'Score' | translate}}
               </mat-label>
             </div>
             &nbsp; &nbsp;
@@ -66,7 +67,7 @@
                 +{{gameResult?.statistics?.xp | parsInt}}</div>
               <mat-label class="position-absolute font-size-14 weight-500"
                          style="padding-left: 5px;left: 30px; bottom: -5px;  color: #828282">
-                XP
+                {{'XP' | translate}}
               </mat-label>&nbsp;&nbsp;&nbsp;&nbsp;
             </div>
           </div>
@@ -97,7 +98,7 @@
         <br>
         <mat-grid-list cols="12" rowHeight="30px">
           <mat-grid-tile class="result-grid" [colspan]="3">
-            <mat-label class="font-size-14 weight-700">Scoreboard</mat-label>
+            <mat-label class="font-size-14 weight-700">{{'Scoreboard' | translate}}</mat-label>
           </mat-grid-tile>
           <mat-grid-tile class="result-grid"
                          [colspan]="12 - (5 + (gameResult?.result?.scoreboard?.length))">
@@ -161,7 +162,7 @@
         <br>
         <br>
         <div class="w-100 d-inline-flex position-relative">
-          <div class="font-size-14 weight-700">Score detail</div>
+          <div class="font-size-14 weight-700">{{'Score detail' | translate}}</div>
           <div class="position-absolute end-10 d-flex align-items-center">
             <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
@@ -197,7 +198,8 @@
                     <mat-card-subtitle class="font-size-14 weight-600 pb-2">{{question?.question}}
                     </mat-card-subtitle>
                     <mat-card-subtitle class="d-flex">
-                      <img src="assets/images/score.png" width="16"/> &nbsp; {{question?.rate | parsInt}} Score
+                      <img src="assets/images/score.png" width="16"/>
+                      &nbsp; {{question?.rate | parsInt}} {{'Score' | translate}}
                     </mat-card-subtitle>
                   </mat-card-header>
                 </mat-card>
@@ -222,7 +224,8 @@
                   <mat-label class="font-size-14 weight-400">{{answer?.answer}}</mat-label>
                   <br>
                   <br>
-                  <img src="assets/images/score.png" width="16"/> &nbsp; {{answer?.rate | parsInt}} Score
+                  <img src="assets/images/score.png" width="16"/>
+                  &nbsp; {{answer?.rate | parsInt}} {{'Score' | translate}}
                 </div>
               </div>
             </div>

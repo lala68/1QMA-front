@@ -54,7 +54,6 @@ export class SettingsComponent implements OnInit {
         await Preferences.remove({key: 'account'});
         await Preferences.set({key: 'account', value: JSON.stringify(data.data)});
         await this.generalService.getUserData();
-        await this.generalService.useGoogleTranslate();
         this.loading = false;
         this.openDialog(data.message, 'Success');
       } else {

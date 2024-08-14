@@ -70,12 +70,12 @@
           <button mat-stroked-button (click)="importQuestion(item.question, item._id)" color="primary"
                   class="me-2 radius"
                   style="border: 1px solid #0B6FEA">
-            Import Question
+            {{'Import Question' | translate}}
           </button>
           <button mat-stroked-button (click)="importQuestionAnswer(item.question, item.answer, item._id)"
                   color="primary"
                   class="radius" style="border: 1px solid #0B6FEA">
-            Import Question + Answer
+            {{'Import Question' | translate}} + {{'Answer' | translate}}
           </button>
         </div>
       </div>
@@ -108,7 +108,8 @@
         &nbsp;&nbsp;
         <div class="white-card p-1" style="width: fit-content">
           <img src="assets/images/score.png" width="24">
-          <mat-label class="font-size-12 weight-600" style="margin: auto 10px">176 <span class="text-gray">Score</span>
+          <mat-label class="font-size-12 weight-600" style="margin: auto 10px">176 <span
+            class="text-gray">{{'Score' | translate}}</span>
           </mat-label>
         </div>
       </div>
@@ -119,13 +120,13 @@
       <div class="d-block">
         <div class="d-inline-block">
           <img src="assets/images/coin-bronze.png" width="25">
-          &nbsp;&nbsp;<span class="font-size-14 weight-600">5 Bronze</span>
+          &nbsp;&nbsp;<span class="font-size-14 weight-600">5 {{'Bronze' | translate}}</span>
         </div>
         <div class="float-end">
           <button (click)="importQuestion(item.question, item._id)" mat-stroked-button color="primary"
                   class="me-2 radius"
                   style="border: 1px solid #0B6FEA">
-            Import Question
+            {{'Import Question' | translate}}
           </button>
         </div>
       </div>
@@ -166,12 +167,12 @@
           <button mat-stroked-button (click)="importQuestion(item.question, item._id)" color="primary"
                   class="me-2 radius"
                   style="border: 1px solid #0B6FEA">
-            Import Question
+            {{'Import Question' | translate}}
           </button>
           <button mat-stroked-button (click)="importQuestionAnswer(item.question, item.answer, item._id)"
                   color="primary"
                   class="radius" style="border: 1px solid #0B6FEA">
-            Import Question + Answer
+            {{'Import Question' | translate}} + {{'Answer' | translate}}
           </button>
         </div>
       </div>

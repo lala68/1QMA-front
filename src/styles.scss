@@ -10,6 +10,10 @@
   font-size: 14px;
 }
 
+body *:not(#content-to-translate *) {
+  translate: none;
+}
+
 .container {
   display: flex;
   justify-content: center; /* Horizontal center */
@@ -373,6 +377,26 @@ input[type="tel"] {
   color: #0B6FEA;
 }
 
+.mat-card-pref-small {
+  width: 120px;
+  min-width: 120px;
+  background: #F9F7F7 !important;
+  border: 1px solid #E8E2E0 !important;
+  border-radius: 6px !important;
+  height: 50px;
+}
+
+.mat-card-pref-small-selected {
+  width: 120px;
+  min-width: 120px;
+  background: #EDF9FF !important;
+  border: 1px solid #0B6FEA !important;
+  border-radius: 6px !important;
+  color: #0B6FEA;
+  height: 50px;
+}
+
+
 .link-text {
   color: #0B6FEA;
 }
@@ -639,5 +663,6 @@ input[type="tel"] {
   z-index: 9999;
   background-color: rgba(245, 242, 242, 0.53);
 }
+
 
 

@@ -48,7 +48,7 @@
                 <mat-spinner *ngIf="loadingContent" [diameter]="30"></mat-spinner>
               </div>
               <div class="border-0 pt-4 ps-4 font-size-14 weight-600" *ngIf="library?.total">
-                {{library?.total}} Questions
+                {{library?.total}} {{'Questions' | translate}}
               </div>
               <div *ngFor="let item of libraryQuestions" class="gray-card p-4 m-2 d-inline-block" style="width: 48%">
                 <div class="d-flex white-card position-relative m-2">
@@ -201,7 +201,7 @@
                 <mat-spinner *ngIf="loadingContent" [diameter]="30"></mat-spinner>
               </div>
               <div class="border-0 pt-4 ps-4 font-size-14 weight-600" *ngIf="library?.total">
-                {{library?.total}} Questions
+                {{library?.total}} {{'Questions' | translate}}
               </div>
               <div *ngFor="let item of libraryQuestions" class="gray-card p-4 m-2 d-inline-block" style="width: 48%">
                 <div class="d-flex white-card position-relative m-2">
@@ -231,7 +231,7 @@
                   <div *ngIf="item?.score" class="white-card p-1 d-flex align-items-center" style="width: fit-content">
                     <img src="assets/images/score.png" width="16">
                     <mat-label class="font-size-12 weight-600" style="margin: auto 10px">{{item?.score | parsInt}} <span
-                      class="text-gray">Score</span>
+                      class="text-gray">{{'Score' | translate}}</span>
                     </mat-label>
                   </div>
                 </div>
@@ -331,7 +331,7 @@
                 <mat-spinner *ngIf="loadingContent" [diameter]="30"></mat-spinner>
               </div>
               <div class="border-0 pt-4 ps-4 font-size-14 weight-600" *ngIf="library?.total">
-                {{library?.total}} Questions
+                {{library?.total}} {{'Questions' | translate}}
               </div>
               <div *ngFor="let item of libraryQuestions" class="gray-card p-4 m-2 d-inline-block" style="width: 48%">
                 <div class="d-flex white-card position-relative m-2">
@@ -550,7 +550,8 @@
                     </div>
                   </div>
                   <br>
-                  <span class="font-size-11 weight-500 text-start">{{endedGame?.players?.length}} player</span>
+                  <span
+                    class="font-size-11 weight-500 text-start">{{endedGame?.players?.length}} {{'player' | translate}}</span>
                   <br>
                   <mat-card-actions>
                     <button mat-raised-button class="game-button"
@@ -588,10 +589,10 @@
                         <mat-card-subtitle class="text-start ps-0">
                           <img src="assets/images/rank.png" width="16"><span
                           class="font-size-14 weight-700">{{endedGame?.rank}} </span><span
-                          class="font-size-14 weight-500"> Rank</span>
+                          class="font-size-14 weight-500"> {{'Rank' | translate}}</span>
                           <img src="assets/images/score.png" width="16"><span
                           class="font-size-14 weight-700">{{endedGame?.score | parsInt}} </span><span
-                          class="font-size-14 weight-500"> Score</span>
+                          class="font-size-14 weight-500"> {{'Score' | translate}}</span>
                         </mat-card-subtitle>
                       </mat-card-header>
                     </mat-card>
@@ -602,7 +603,8 @@
                       <div *ngFor="let ply of endedGame?.players; let i=index" class="d-inline-block">
                         <img mat-card-avatar
                              [src]="ply?.profilePicture ? ply?.profilePicture?.startsWith('http') ? ply?.profilePicture : configService.url(ply?.profilePicture) : 'assets/images/frame.png'"
-                             width="26" height="26" class="bg-white avatar-bordered mb-0 position-absolute custom-position-{{i}}">
+                             width="26" height="26"
+                             class="bg-white avatar-bordered mb-0 position-absolute custom-position-{{i}}">
                       </div>
                     </div>
                     <div class="font-size-14 weight-500 p-2 text-end">
@@ -617,7 +619,8 @@
                     </div>
                   </div>
                   <br>
-                  <span class="font-size-11 weight-500 text-start">{{endedGame?.players?.length}} player</span>
+                  <span
+                    class="font-size-11 weight-500 text-start">{{endedGame?.players?.length}} {{'player' | translate}}</span>
                   <br>
                   <mat-card-actions>
                     <button mat-raised-button class="game-button"
@@ -683,7 +686,7 @@
             <path d="M12.8363 13.9102H12.8453" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
                   stroke-linejoin="round"/>
           </svg>
-          Question:
+          {{'Question' | translate}}:
           <br>
           <br>
           <div class="font-size-14 weight-700">
@@ -777,7 +780,7 @@
                        width="16">
                   <mat-label class="font-size-12 weight-600"
                              style="margin: auto 5px">{{questionDetail?.score | parsInt}}
-                    <mat-label class="font-size-12 weight-600 text-gray">Score</mat-label>
+                    <mat-label class="font-size-12 weight-600 text-gray">{{'Score' | translate}}</mat-label>
                   </mat-label>
                 </div>
               </div>
@@ -787,7 +790,7 @@
                        width="16">
                   <mat-label class="font-size-12 weight-600"
                              style="margin: auto 5px">{{questionDetail?.plays | parsInt}}
-                    <mat-label class="font-size-12 weight-600 text-gray">Plays</mat-label>
+                    <mat-label class="font-size-12 weight-600 text-gray">{{'Plays' | translate}}</mat-label>
                   </mat-label>
                 </div>
               </div>
@@ -797,7 +800,7 @@
                        width="16">
                   <mat-label class="font-size-12 weight-600"
                              style="margin: auto 5px">{{questionDetail?.answers | parsInt}}
-                    <mat-label class="font-size-12 weight-600 text-gray">Answers</mat-label>
+                    <mat-label class="font-size-12 weight-600 text-gray">{{'Answers' | translate}}</mat-label>
                   </mat-label>
                 </div>
               </div>
@@ -820,7 +823,7 @@
                 stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
                 stroke-linejoin="round"/>
             </svg>
-            Answer:
+            {{'Answer' | translate}}:
             <br>
             <br>
             <div class="font-size-14 weight-700">
@@ -918,7 +921,7 @@
                 <img src="assets/images/score.png" width="16" height="16">
                 <mat-label class="font-size-14 weight-700"
                            style="color: #585858">{{perf?.question?.rate | parsInt}} </mat-label>
-                Question Score
+                {{'Question Score' | translate}}
               </div>
               <div class="position-absolute end-10 cursor-pointer" style="color: #0B6FEA; bottom: 1.5rem"
                    (click)="gotoResult(perf._id)">
