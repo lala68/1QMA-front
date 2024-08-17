@@ -132,7 +132,7 @@
         <br>
         <br>
         <mat-card *ngFor="let cat of generalService.initData?.categories"
-                  class="m-2 d-inline-block"
+                  class="m-2 d-inline-block shadow-none"
                   (click)="selectCat(cat)"
                   [class]="{'mat-card-pref-selected': isSelected(cat), 'mat-card-pref': !isSelected(cat)}">
           <mat-card-content class="text-start">

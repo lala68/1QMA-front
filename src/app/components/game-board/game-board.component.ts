@@ -18,6 +18,7 @@ import {SnackbarContentComponent} from "../snackbar-content/snackbar-content.com
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {HttpClient} from "@angular/common/http";
 import {ParsIntPipe} from "../../pipes/pars-int.pipe";
+import translate from "translate";
 
 @Component({
   selector: 'app-game-board',
@@ -66,6 +67,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
+    // this.generalService.useGoogleTranslate();
     this.generalService.players = (this.data?.game?.gamePlayers);
     this.generalService.invitedPlayersArray = (this.data?.game?.gameInviteList);
     this.removeFromInvited(this.generalService.userObj?.email);
@@ -167,10 +169,6 @@ export class GameBoardComponent implements OnInit, OnDestroy {
   // }
 
 
-  ngOnDestroy(): void {
-    // this.beforeUnloadHandler
-  }
-
   openModal() {
     this.isModalOpen = true;
   }
@@ -252,6 +250,13 @@ export class GameBoardComponent implements OnInit, OnDestroy {
 
       if (data.status === 1) {
         this.generalService.specificQuestionAnswers = data.data;
+        for (const answer of this.generalService.specificQuestionAnswers.answers) {
+          answer.answer = await translate(answer.answer, {
+            to:
+              this.generalService?.userObj?.preferedLanguage == '0' ? 'en' :
+                this.generalService.userObj?.preferedLanguage == '1' ? 'de' : 'fa', from: answer.language
+          });
+        }
         this.updateRates(this.generalService.rateAnswers.length !== 0);
       }
     });
@@ -266,6 +271,13 @@ export class GameBoardComponent implements OnInit, OnDestroy {
 
       if (resQue.status === 1) {
         this.generalService.gameQuestion = resQue.data;
+        this.generalService.gameQuestion.question = await translate(this.generalService.gameQuestion.question,
+          {
+            to: this.generalService?.userObj?.preferedLanguage == '0' ? 'en' :
+              this.generalService.userObj?.preferedLanguage == '1' ? 'de' : 'fa',
+            from: this.generalService.gameQuestion.language
+          }
+        );
         this.generalService.gameAnswerGeneral = resQue.data.myAnswer || '';
         this.generalService.editingAnswer = !!resQue.data.myAnswer;
         // console.log(this.finishedTimerRatingAnswer)
@@ -280,6 +292,14 @@ export class GameBoardComponent implements OnInit, OnDestroy {
         await this.waitForConditionNextStepRatingAnswer();
         this.generalService.gameStep = 4;
         this.generalService.allQuestions = resQue.data;
+        for (const question of this.generalService.allQuestions.questions) {
+          question.question = await translate(question.question,
+            {
+              to:
+                this.generalService?.userObj?.preferedLanguage == '0' ? 'en' :
+                  this.generalService.userObj?.preferedLanguage == '1' ? 'de' : 'fa', from: question.languages
+            });
+        }
         this.updateRatesQuestions(this.generalService.rateQuestions.length !== 0);
       }
     });
@@ -358,13 +378,24 @@ export class GameBoardComponent implements OnInit, OnDestroy {
   }
 
   async getGameResult() {
-    this.gameService.getGameResult(this.generalService.createdGameData.game.gameId).then(data => {
+    this.gameService.getGameResult(this.generalService.createdGameData.game.gameId).then(async data => {
         this.generalService.gameResult = data.data;
+        for (const question of this.generalService.gameResult.result.details) {
+          question.question = await translate(question.question,
+            {
+              to: this.generalService?.userObj?.preferedLanguage == '0' ? 'en' :
+                this.generalService.userObj?.preferedLanguage == '1' ? 'de' : 'fa', from: question.language
+            });
+          for (const answer of question.answers) {
+            answer.answer = await translate(answer.answer, {
+              to: this.generalService?.userObj?.preferedLanguage == '0' ? 'en' :
+                this.generalService.userObj?.preferedLanguage == '1' ? 'de' : 'fa', from: answer.language
+            });
+          }
+        }
         this.generalService.gameResult.result.scoreboard.filter((item: any, index: any) => {
           if (item._id == this.generalService.userId) {
             this.myRank = index + 1;
-            console.log(this.myRank)
-            console.log(index)
           }
         });
       }
@@ -417,6 +448,13 @@ export class GameBoardComponent implements OnInit, OnDestroy {
 
       if (data.status === 1) {
         this.generalService.specificQuestionAnswers = data.data;
+        for (const answer of this.generalService.specificQuestionAnswers.answers) {
+          answer.answer = await translate(answer.answer, {
+            to:
+              this.generalService?.userObj?.preferedLanguage == '0' ? 'en' :
+                this.generalService.userObj?.preferedLanguage == '1' ? 'de' : 'fa', from: answer.language
+          });
+        }
         this.updateRates(this.generalService.rateAnswers.length !== 0);
       }
     }
@@ -450,6 +488,13 @@ export class GameBoardComponent implements OnInit, OnDestroy {
           this.generalService.createdGameData.game.gameId
         );
         this.generalService.allQuestions = resQue.data;
+        for (const question of this.generalService.allQuestions.questions) {
+          question.question = await translate(question.question,
+            {
+              to: this.generalService?.userObj?.preferedLanguage == '0' ? 'en' :
+                this.generalService.userObj?.preferedLanguage == '1' ? 'de' : 'fa', from: question.language
+            });
+        }
         this.updateRatesQuestions(this.generalService.rateQuestions.length !== 0);
       } else {
         this.numberOfDisconnectingInGameSteps++;
@@ -474,6 +519,12 @@ export class GameBoardComponent implements OnInit, OnDestroy {
         );
         if (resQue.status === 1) {
           this.generalService.gameQuestion = resQue.data;
+          this.generalService.gameQuestion.question = await translate(this.generalService.gameQuestion.question,
+            {
+              to: this.generalService?.userObj?.preferedLanguage == '0' ? 'en' :
+                this.generalService.userObj?.preferedLanguage == '1' ? 'de' : 'fa',
+              from: this.generalService.gameQuestion.language
+            });
           this.generalService.gameAnswerGeneral = resQue.data.myAnswer || '';
           this.generalService.editingAnswer = !!resQue.data.myAnswer;
         }
@@ -762,6 +813,11 @@ export class GameBoardComponent implements OnInit, OnDestroy {
         this.openDialog(JSON.stringify(data.message), 'Error');
       }
     })
+  }
+
+  ngOnDestroy(): void {
+    // Clear Google Translate settings when leaving the page
+    // this.generalService.clearGoogleTranslateSettings();
   }
 }
 

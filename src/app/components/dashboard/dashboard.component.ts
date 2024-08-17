@@ -16,6 +16,8 @@ import {ParsIntPipe} from "../../pipes/pars-int.pipe";
 import {DaysAgoPipe} from "../../pipes/days-ago.pipe";
 import {LoaderService} from "../../services/loader/loader.service";
 import {ProcessHTTPMsgService} from "../../services/proccessHttpMsg/process-httpmsg.service";
+import translate from "translate";
+import {GamesService} from "../../services/games/games.service";
 
 @Component({
   selector: 'app-dashboard',
@@ -48,7 +50,7 @@ export class DashboardComponent implements OnInit {
 
   constructor(private clientService: ClientService, private _formBuilder: FormBuilder, private processHTTPMsgService: ProcessHTTPMsgService,
               public generalService: GeneralService, public configService: ConfigService, private loader: LoaderService,
-              private router: Router, public dialog: MatDialog, private _snackBar: MatSnackBar) {
+              private router: Router, public dialog: MatDialog, private _snackBar: MatSnackBar, private gameService: GamesService) {
     this.generalService.currentRout = '/dashboard';
   }
 
@@ -110,6 +112,13 @@ export class DashboardComponent implements OnInit {
     this.clientService.clientInit().then(data => {
       this.generalService.clientInit = data.data;
       this.generalService.userObj = (data.data.user);
+    }, error => {
+      return this.processHTTPMsgService.handleError(error);
+    });
+    this.gameService.gameInit().then(data => {
+      if (data.status == 1) {
+        this.generalService.gameInit = data.data;
+      }
     }, error => {
       return this.processHTTPMsgService.handleError(error);
     });

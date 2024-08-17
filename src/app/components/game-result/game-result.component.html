@@ -195,7 +195,8 @@
                          width="40"/>
                     <mat-card-title
                       class="font-size-14 weight-600 pb-2">{{question?.questioner?.firstName}} {{question?.questioner?.lastName}}</mat-card-title>
-                    <mat-card-subtitle class="font-size-14 weight-600 pb-2">{{question?.question}}
+                    <mat-card-subtitle
+                      class="font-size-14 weight-600 pb-2">{{(question.question)}}
                     </mat-card-subtitle>
                     <mat-card-subtitle class="d-flex">
                       <img src="assets/images/score.png" width="16"/>
@@ -221,7 +222,8 @@
                   class="font-size-14 weight-700 pe-2">{{answer?.answerer?.firstName}} {{answer?.answerer?.lastName}}</span>
                   <br>
                   <br>
-                  <mat-label class="font-size-14 weight-400">{{answer?.answer}}</mat-label>
+                  <mat-label
+                    class="font-size-14 weight-400">{{(answer.answer)}}</mat-label>
                   <br>
                   <br>
                   <img src="assets/images/score.png" width="16"/>

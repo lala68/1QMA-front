@@ -777,7 +777,7 @@
                 </mat-option>
               </mat-autocomplete>
             </mat-form-field>
-            <button mat-raised-button type="submit"
+            <button mat-raised-button type="submit" [disabled]="inviteForm.invalid"
                     class="w-25 p-4 ms-2 invite-button">
               <span>{{'Invite' | translate}}</span>
             </button>

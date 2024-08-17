@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {SharedModule} from "../../shared/shared.module";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
@@ -12,6 +12,7 @@ import {Location} from '@angular/common';
 import {ParsIntPipe} from "../../pipes/pars-int.pipe";
 import {ProcessHTTPMsgService} from "../../services/proccessHttpMsg/process-httpmsg.service";
 import {GeneralService} from "../../services/general/general.service";
+import translate from "translate";
 
 @Component({
   selector: 'app-game-result',
@@ -21,25 +22,37 @@ import {GeneralService} from "../../services/general/general.service";
   templateUrl: './game-result.component.html',
   styleUrl: './game-result.component.scss'
 })
-export class GameResultComponent implements OnInit {
+export class GameResultComponent implements OnInit, OnDestroy {
   loading: boolean = true;
   gameResult: any;
   gameId: any;
   panelOpenState: boolean[] = [];
-
+  translations: { [key: string]: string } = {};
 
   constructor(private gameService: GamesService, public configService: ConfigService, public generalService: GeneralService,
               private router: Router, private location: Location, private processHTTPMsgService: ProcessHTTPMsgService) {
     this.gameId = this.router.getCurrentNavigation()?.extras?.state?.['id'];
-    this.generalService.useGoogleTranslate();
   }
 
-  ngOnInit() {
-    this.gameService.getGameResult(this.gameId).then(data => {
+  async ngOnInit() {
+    // this.generalService.useGoogleTranslate();
+    this.gameService.getGameResult(this.gameId).then(async data => {
       this.loading = false;
       if (data.status == 1) {
         this.gameResult = data.data;
-        console.log(this.gameResult)
+        for (const question of this.gameResult.result.details) {
+          question.question = await translate(question.question,
+            {
+              to: this.generalService?.userObj?.preferedLanguage == '0' ? 'en' :
+                this.generalService.userObj?.preferedLanguage == '1' ? 'de' : 'fa', from: question.language
+            });
+          for (const answer of question.answers) {
+            answer.answer = await translate(answer.answer, {
+              to: this.generalService?.userObj?.preferedLanguage == '0' ? 'en' :
+                this.generalService.userObj?.preferedLanguage == '1' ? 'de' : 'fa', from: answer.language
+            });
+          }
+        }
       }
     }, error => {
       return this.processHTTPMsgService.handleError(error);
@@ -48,6 +61,11 @@ export class GameResultComponent implements OnInit {
 
   goBack(): void {
     this.location.back();
+  }
+
+  ngOnDestroy(): void {
+    // Clear Google Translate settings when leaving the page
+    // this.generalService.clearGoogleTranslateSettings();
   }
 
 }
