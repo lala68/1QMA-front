@@ -133,3 +133,15 @@ mat-form-field {
   display: none;
 }
 
+.next-step-explanation {
+  position: absolute !important;
+  right: 0;
+  bottom: -40px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+iframe {
+  border-radius: 10px;
+}
+

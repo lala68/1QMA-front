@@ -8,6 +8,20 @@
       class="font-size-16 weight-400">{{'this helps us suggest you customized games you enjoy' | translate}}</mat-label>
   </div>
 </div>
+<div class="card border-0" *ngIf="innerStep == 2" style=" width: 746px; margin: 20px auto">
+  <mat-card class="shadow-none">
+    <mat-card-header>
+      <img src="assets/images/arrow-left.svg" width="24" height="24" (click)="innerStep = 1"
+           style="position: absolute; left: 10px; top: 0; bottom: 0; margin: auto;">
+      <div class="ms-4" style="height: 46px"></div>
+      <img src="assets/images/normal-game.png" *ngIf="innerExplanation?.gameType?.includes('Normal')" width="22"
+           height="22">
+      <img src="assets/images/survival-game.png" *ngIf="innerExplanation?.gameType?.includes('Survival')"
+           width="22" height="22">
+      <div class="font-size-14 weight-500 d-inline ps-2">{{innerExplanation?.gameType}}</div>
+    </mat-card-header>
+  </mat-card>
+</div>
 <div class="card p-4 border-0" style="width: 746px;margin: 10px auto; min-height: calc(100vh - 300px)">
   <div style="min-height: 50vh;">
     <mat-stepper linear #stepper>
@@ -176,7 +190,7 @@
         </form>
       </mat-step>
       <mat-step>
-        <form [formGroup]="accountTypeForm">
+        <div *ngIf="innerStep == 1">
           <div class="d-inline-block">
             <img src="assets/images/reading.png" width="69" height="69">
             <div class="position-absolute" style="left: 90px; top: 25px">
@@ -185,20 +199,52 @@
                 class="font-size-16 weight-400">{{'Road this to learn more about our game' | translate}}</mat-label>
             </div>
           </div>
-          <br><br>
-          <div class="d-inline-block position-relative w-100 mb-4" *ngFor="let item of [].constructor(3)">
-            <img src="assets/images/pocket.png" width="137" height="86">
-            <div class="position-absolute" style="left: 140px; top: 0px">
-              <div class="font-size-14 weight-600">Title for this part</div>
-              <mat-label
-                class="font-size-14 weight-500">There are many variations of passages of Lorem Ipsum available, but the
-                majority have
-                suffered alteration in some form, by injected humour, or randomised words which don't look even slightly
-                believable.
-              </mat-label>
+          <br><br><br>
+          <div class="d-inline-block position-relative w-100 mb-4"
+               *ngFor="let item of generalService?.initData?.gameExplanations">
+            <div (click)="gotoExplanationDetail(item)" class="pointer-event">
+              <!--              https://www.youtube.com/embed/dQw4w9WgXcQ-->
+              <iframe [src]="item?.link | safeUrl"
+                      width="192" height="124" frameborder="0" allowfullscreen></iframe>
+
+              <div class="position-absolute" style="left: 200px; top: 0px">
+                <img src="assets/images/normal-game.png" *ngIf="item?.gameType.includes('Normal')" width="22"
+                     height="22">
+                <img src="assets/images/survival-game.png" *ngIf="item?.gameType.includes('Survival')"
+                     width="22" height="22">
+                <div class="font-size-14 weight-600 d-inline ps-2">{{item?.gameType}}</div>
+                <br>
+                <br>
+                <mat-label
+                  class="font-size-14 weight-500">{{item?.explanation?.length > 150 ? (item?.explanation | slice:0:145) + ' ...' : item?.explanation}}
+                </mat-label>
+                <button mat-button color="primary" class="next-step-explanation" (click)="gotoExplanationDetail(item)">
+                  {{'Read More' | translate}}
+                  <i class="bi bi-chevron-right"></i>
+                </button>
+              </div>
             </div>
+            <br>
           </div>
-        </form>
+        </div>
+        <div *ngIf="innerStep == 2">
+          <div class="d-inline-block position-relative w-100 mb-4">
+            <iframe width="100%" height="320px" [src]="innerExplanation?.link | safeUrl"
+                    frameborder="0"
+                    allowfullscreen></iframe>
+            <div class="d-flex" style="margin: 20px 0">
+              <img src="assets/images/normal-game.png" *ngIf="innerExplanation?.gameType.includes('Normal')" width="22"
+                   height="22">
+              <img src="assets/images/survival-game.png" *ngIf="innerExplanation?.gameType.includes('Survival')"
+                   width="22" height="22">
+              <div class="font-size-14 weight-600 d-inline ps-2">{{innerExplanation?.gameType}}</div>
+              <br>
+            </div>
+            <mat-label
+              class="font-size-14 weight-500">{{innerExplanation?.explanation}}
+            </mat-label>
+          </div>
+        </div>
       </mat-step>
       <mat-step>
         <div class="d-block text-center">

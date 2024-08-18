@@ -169,7 +169,7 @@ export class DashboardComponent implements OnInit {
       this.page++;
       if (data.status == 1) {
         this.questionsFromFriendsLatestGames = this.questionsFromFriendsLatestGames.concat(data.data);
-        this.noMoreItems = data.data.endedGames?.length < 10;
+        this.noMoreItems = data.data?.length < 2;
       } else {
         this.openDialog(JSON.stringify(data.message), 'Error');
       }

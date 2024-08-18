@@ -13,12 +13,14 @@ import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog
 import {MaterialModule} from "../../shared/material/material.module";
 import {CountdownTimerComponent} from "../countdown-timer/countdown-timer.component";
 import {NgxMatIntlTelInputComponent} from "ngx-mat-intl-tel-input";
+import {DomSanitizer} from "@angular/platform-browser";
+import {SafeUrlPipe} from "../../pipes/safe-url.pipe";
 
 @Component({
   selector: 'app-wizard',
   standalone: true,
   imports: [CommonModule, SharedModule, FormsModule, RouterModule, ReactiveFormsModule,
-    QuestionTypesComponent, TranslateModule, NgxMatIntlTelInputComponent],
+    QuestionTypesComponent, TranslateModule, NgxMatIntlTelInputComponent, SafeUrlPipe],
   templateUrl: './wizard.component.html',
   styleUrl: './wizard.component.scss',
   providers: []
@@ -43,6 +45,8 @@ export class WizardComponent implements OnInit {
   hide = true;
   selectedCategory: any = [];
   email: any;
+  innerStep: any = 1;
+  innerExplanation: any;
   steps = [
     {name: 'Step 1', progress: 20},
     {name: 'Step 2', progress: 40},
@@ -60,6 +64,14 @@ export class WizardComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<any> {
+    ////should be commented
+    this.authService.registerInit().then(res => {
+      if (res.status == 1) {
+        this.generalService.initData = res.data;
+      }
+    })
+    //////
+
     await this.generalService?.getUserData();
     this.generalService.countryListEng = await this.generalService.getCountries();
 
@@ -86,6 +98,11 @@ export class WizardComponent implements OnInit {
 
   selectType(item: any) {
     this.selectedType = item;
+  }
+
+  gotoExplanationDetail(item: any) {
+    this.innerStep = 2;
+    this.innerExplanation = item;
   }
 
   submitAccountType() {

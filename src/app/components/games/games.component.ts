@@ -24,6 +24,7 @@ import {CountdownTimerComponent} from "../countdown-timer/countdown-timer.compon
 import {DaysAgoPipe} from "../../pipes/days-ago.pipe";
 import {ParsIntPipe} from "../../pipes/pars-int.pipe";
 import {ProcessHTTPMsgService} from "../../services/proccessHttpMsg/process-httpmsg.service";
+import translate from "translate";
 
 @Component({
   selector: 'app-games',
@@ -160,8 +161,15 @@ export class GamesComponent implements OnInit {
       console.log("start game" + ' ' + `[${timeString}]  `);
       this.generalService.gameStep = 2;
       this.gameBoardComponent.handleGameStep();
-      this.gameService.getGameQuestionBasedOnStep(this.generalService?.createdGameData?.game?.gameId, 1).then(resQue => {
+      this.gameService.getGameQuestionBasedOnStep(this.generalService?.createdGameData?.game?.gameId, 1).then(async resQue => {
         this.generalService.gameQuestion = resQue?.data;
+        this.generalService.gameQuestion.question = await translate(this.generalService.gameQuestion.question,
+          {
+            to: this.generalService?.userObj?.preferedLanguage == '0' ? 'en' :
+              this.generalService.userObj?.preferedLanguage == '1' ? 'de' : 'fa',
+            from: this.generalService.gameQuestion.language
+          }
+        );
         if (resQue?.data?.myAnswer) {
           this.generalService.gameAnswerGeneral = resQue?.data?.myAnswer;
           this.generalService.editingAnswer = true;
@@ -319,8 +327,15 @@ export class GamesComponent implements OnInit {
       this.generalService.gameStep = 2;
       setTimeout(() => {
         console.log(this.generalService?.createdGameData)
-        this.gameService.getGameQuestionBasedOnStep(this.generalService?.createdGameData?.game?.gameId, 1).then(resQue => {
+        this.gameService.getGameQuestionBasedOnStep(this.generalService?.createdGameData?.game?.gameId, 1).then(async resQue => {
           this.generalService.gameQuestion = resQue?.data;
+          this.generalService.gameQuestion.question = await translate(this.generalService.gameQuestion.question,
+            {
+              to: this.generalService?.userObj?.preferedLanguage == '0' ? 'en' :
+                this.generalService.userObj?.preferedLanguage == '1' ? 'de' : 'fa',
+              from: this.generalService.gameQuestion.language
+            }
+          );
           if (resQue?.data?.myAnswer) {
             this.generalService.gameAnswerGeneral = resQue?.data?.myAnswer;
             this.generalService.editingAnswer = true;
