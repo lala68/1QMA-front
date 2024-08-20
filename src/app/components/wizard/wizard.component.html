@@ -8,7 +8,7 @@
       class="font-size-16 weight-400">{{'this helps us suggest you customized games you enjoy' | translate}}</mat-label>
   </div>
 </div>
-<div class="card border-0" *ngIf="innerStep == 2" style=" width: 746px; margin: 20px auto">
+<div class="card border-0 wizard-card-subheader" *ngIf="innerStep == 2">
   <mat-card class="shadow-none">
     <mat-card-header>
       <img src="assets/images/arrow-left.svg" width="24" height="24" (click)="innerStep = 1"
@@ -22,12 +22,12 @@
     </mat-card-header>
   </mat-card>
 </div>
-<div class="card p-4 border-0" style="width: 746px;margin: 10px auto; min-height: calc(100vh - 300px)">
+<div class="card p-4 border-0 wizard-card">
   <div style="min-height: 50vh;">
     <mat-stepper linear #stepper>
       <mat-step [stepControl]="firstFormGroup">
         <form [formGroup]="firstFormGroup">
-          <div class="d-inline-block">
+          <div class="d-flex align-items-center">
             <img src="assets/images/book.png" width="52" height="52">
             <div class="position-absolute" style="left: 90px; top: 25px">
               <div class="font-size-18 weight-700">{{'Language' | translate}}</div>
@@ -36,7 +36,7 @@
             </div>
           </div>
           <br><br>
-          <mat-form-field appearance="fill" class="custom-form-field w-50">
+          <mat-form-field appearance="fill" class="custom-form-field">
             <mat-select [formControlName]="'language'">
               <mat-option *ngFor="let lang of generalService.initData?.languages"
                           [value]="lang._id">{{lang.title}}</mat-option>
@@ -264,7 +264,7 @@
     </mat-stepper>
   </div>
 </div>
-<div class="card p-4 border-0" style="margin: 20px auto 20px; width: 746px">
+<div class="card p-4 border-0 wizard-card-subheader">
   <footer>
     <div class="bullet-navigation">
       <button mat-raised-button [disabled]="stepper?.selectedIndex == 0"
@@ -273,13 +273,9 @@
         {{'Previous' | translate}}
       </button>
       <div class="bullet-container">
-        <!--        <div *ngFor="let step of steps; let i = index" class="bullet" [class.active]="stepper.selectedIndex === i">-->
-        <!--          •-->
-        <!--        </div>-->
         <div *ngFor="let step of steps; let i = index" class="bullet" [class.active]="stepper.selectedIndex === i">
           <div *ngIf="stepper.selectedIndex == i" class="stepIndex weight-600">{{stepper.selectedIndex + 1}} / 6</div>
-          <mat-progress-bar style="width: 310px; border-radius: 10px"
-                            class="success-color" color="accent"
+          <mat-progress-bar class="success-color progress-wizard" color="accent"
                             *ngIf="stepper.selectedIndex == i"
                             mode="determinate" [value]="getProgressValue(i)"></mat-progress-bar>
         </div>

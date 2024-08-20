@@ -45,12 +45,13 @@
         stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10"/>
     </svg>
   </button>
-  <div style="height: 30px; border-right: 1px solid #E8E2E0" *ngIf="!generalService?.startingGame"></div>
+  <div style="height: 30px; border-right: 1px solid #E8E2E0"
+       *ngIf="!generalService?.startingGame && generalService?.userId"></div>
   <button mat-icon-button *ngIf="authService?.isLoggedIn && !generalService?.startingGame" [matMenuTriggerFor]="menu">
     <mat-icon>person</mat-icon>
   </button>
   <div style="margin-right: 15px;height: 30px; border-right: 1px solid #E8E2E0"
-       *ngIf="!generalService?.startingGame"></div>
+       *ngIf="!generalService?.startingGame && generalService?.userId"></div>
 
   <mat-menu #menu="matMenu">
     <button [routerLink]="'/account-info'" style="border-bottom: 1px solid #E8E2E0" mat-menu-item

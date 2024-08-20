@@ -137,7 +137,7 @@ input:not(.country-search) {
   position: relative;
   width: 100%;
   background-color: #fff;
-  height: 135px;
+  //height: 135px;
   align-items: center;
   padding: 15px;
   font-size: 14px;
@@ -177,10 +177,10 @@ input:not(.country-search) {
 }
 
 .copyright {
-  height: 35px;
+  height: 20px;
   text-align: center;
   background: #fff;
-  position: absolute;
+  //position: absolute;
   left: 0;
   bottom: 0;
   right: 0;
@@ -314,6 +314,7 @@ button {
   border-radius: 6px;
   border: 1px solid #B29F9A;
   border-bottom: 0;
+  width: 50%;
 }
 
 .country-selector {
@@ -662,6 +663,251 @@ input[type="tel"] {
   text-align: center;
   z-index: 9999;
   background-color: rgba(245, 242, 242, 0.53);
+}
+
+.login-card {
+  height: 677px;
+  width: 460px;
+  margin: 60px auto 10px
+}
+
+.sponsor-card {
+  height: 52px !important;
+  width: 460px;
+  margin: 0px auto 20px;
+}
+
+.footer-logo {
+  position: absolute;
+  right: 30px;
+  top: 15px
+}
+
+.sponsor-title-footer {
+  position: absolute;
+  left: 30%;
+  top: 20px;
+}
+
+.ul-li-footer {
+  width: 10%;
+}
+
+.parent-ul-li-footer {
+  height: 100px;
+  display: block;
+}
+
+.wizard-card-subheader {
+  width: 746px;
+  margin: 20px auto;
+}
+
+.wizard-card {
+  width: 746px;
+  margin: 10px auto;
+  min-height: calc(100vh - 300px);
+}
+
+.custom-form-field {
+  width: 50%;
+}
+
+.progress-wizard {
+  width: 310px !important;
+  border-radius: 10px
+}
+
+.bullet-container {
+  display: grid;
+  flex-grow: 1;
+  justify-content: center;
+}
+
+.bullet {
+  cursor: pointer;
+  font-size: 24px;
+  margin: 0 5px;
+}
+
+.bullet.active {
+  color: #3f51b5;
+}
+
+.next-step, .prev-step {
+  width: 150px;
+  height: 48px !important;
+}
+
+.stepIndex {
+  text-align: center;
+  color: #43a047;
+  background: #EDF9FF;
+  border-radius: 10px;
+  width: 50px;
+  margin: 10px auto;
+}
+
+.mat-card-account {
+  width: 211px;
+  height: 214px;
+  background: #F9F7F7;
+  border: 1px solid #E8E2E0;
+  border-radius: 6px;
+}
+
+.mat-card-account-disable {
+  width: 211px;
+  height: 214px;
+  background: #F9F7F7;
+  border: 1px solid #E8E2E0;
+  border-radius: 6px;
+  opacity: 0.5;
+}
+
+.mat-card-account-selected {
+  width: 211px;
+  height: 214px;
+  background: #EDF9FF;
+  border: 1px solid #0B6FEA;
+  border-radius: 6px;
+  color: #0B6FEA;
+}
+
+//mobile
+@media only screen and (max-width: 767px) {
+  .login-card {
+    height: 677px;
+    width: 100%;
+    margin: 10px auto;
+  }
+
+  .sponsor-card {
+    height: 52px !important;
+    width: 100%;
+    margin: 0 auto 20px;
+  }
+
+  .footer-logo {
+    display: block;
+    margin: 0 auto;
+    position: static;
+  }
+
+  .sponsor-title-footer {
+    position: relative;
+    left: 0%;
+    top: 20px;
+    padding: 15px;
+    border-top: 1px solid #F2EFEE;
+  }
+
+  .sponsors {
+    position: relative;
+    top: 20px;
+    left: 10%;
+  }
+
+  .ul-li-footer {
+    width: 50%;
+  }
+
+  .parent-ul-li-footer {
+    border-top: 1px solid #F2EFEE;
+    height: 80px;
+    display: block;
+    margin-top: 35px;
+  }
+
+  .wizard-card-subheader {
+    width: 100%;
+    margin: 20px auto;
+    height: 110px;
+  }
+
+  .wizard-card {
+    width: 100%;
+    margin: 0 auto;
+    min-height: calc(100vh - 300px);
+  }
+
+  .wizard-header {
+    width: 100%;
+    margin: 40px auto 0px;
+    background: #0582FE !important;
+    border-radius: 0px !important;
+  }
+
+  .custom-form-field .mat-mdc-text-field-wrapper {
+    background-color: white !important;
+    border-radius: 6px;
+    border: 1px solid #B29F9A;
+    border-bottom: 0;
+    width: 100%;
+  }
+
+  .progress-wizard {
+    width: 100% !important;
+    border-radius: 10px
+  }
+
+  .bullet-container {
+    display: flow !important;
+    position: absolute;
+    width: 85%;
+    margin-top: 40px;
+  }
+
+  .bullet {
+    cursor: pointer;
+    font-size: 24px;
+    margin: 0 5px;
+    width: 100%;
+  }
+
+  .bullet.active {
+    color: #3f51b5;
+  }
+
+  .next-step, .prev-step {
+    width: auto;
+    height: 48px;
+  }
+
+  .stepIndex {
+    text-align: center;
+    color: #43a047;
+    background: #EDF9FF;
+    border-radius: 10px;
+    width: 50px;
+    margin: 0 auto 30px
+  }
+
+  .mat-card-account {
+    width: 100%;
+    height: 214px;
+    background: #F9F7F7;
+    border: 1px solid #E8E2E0;
+    border-radius: 6px;
+  }
+
+  .mat-card-account-disable {
+    width: 100%;
+    height: 214px;
+    background: #F9F7F7;
+    border: 1px solid #E8E2E0;
+    border-radius: 6px;
+    opacity: 0.5;
+  }
+
+  .mat-card-account-selected {
+    width: 100%;
+    height: 214px;
+    background: #EDF9FF;
+    border: 1px solid #0B6FEA;
+    border-radius: 6px;
+    color: #0B6FEA;
+  }
 }
 
 

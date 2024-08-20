@@ -53,19 +53,25 @@ export class AppComponent implements OnInit {
       });
       this.route.queryParams.subscribe(async params => {
         await this.generalService.getUserData();
-        console.log(params)
+        console.log(params);
         const status = params['status'];
+        // alert('status: ' + status)
         const user_id = params['user_id'];
+        // alert('user_id: ' + user_id)
         const message = params['message'];
+        // alert('message: ' + message)
         const game_code = params['code'];
         console.log(game_code)
         if (status == 1) {
+          // alert(1)
           if (user_id) {
+            // alert(2)
             await Preferences.set({key: 'account', value: JSON.stringify({_id: user_id})});
           }
           await this.authService.isAuthenticated();
           await this.generalService.getUserData();
           // await this.router.navigate(['wizard'], {state: {email: email}});
+          // alert(this.generalService.userId)
           this.authService.getUserDetails(this.generalService.userId).then(async user => {
             await Preferences.set({key: 'account', value: JSON.stringify(user.data)});
             if (user.data.hasCompletedSignup) {
@@ -87,12 +93,15 @@ export class AppComponent implements OnInit {
               })
             }
           }, error => {
+            // alert('error')
             return this.processHTTPMsgService.handleError(error);
           });
         } else if (status == -1) {
+          // alert('status == -1')
           this.openDialog(JSON.stringify(message), 'Error');
           return;
         } else {
+          // alert('else')
           if (this.generalService.userId && !this.generalService.hasCompletedSignup) {
             this.authService.getUserDetails(this.generalService.userId).then(async user => {
               await Preferences.set({key: 'account', value: JSON.stringify(user.data)});
