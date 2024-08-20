@@ -17,6 +17,7 @@ import {GameBoardComponent} from "../components/game-board/game-board.component"
 import {GameGuard} from "../game.guard";
 import {GameResultComponent} from "../components/game-result/game-result.component";
 import {TriviaHubComponent} from "../components/trivia-hub/trivia-hub.component";
+import {ShopComponent} from "../components/shop/shop.component";
 
 export const routes: Routes = [
   {path: 'login', component: LoginComponent, canActivate: [AuthRedirectGuard]},
@@ -26,6 +27,7 @@ export const routes: Routes = [
   {path: 'dashboard', component: DashboardComponent, canActivate: [authGuard]},
   {path: 'games/:id', component: GamesComponent, canActivate: [authGuard]},
   {path: 'trivia-hub', component: TriviaHubComponent, canActivate: [authGuard]},
+  {path: 'shop', component: ShopComponent, canActivate: [authGuard]},
   {path: 'game-result', component: GameResultComponent, canActivate: [authGuard]},
   {path: 'game-board', component: GameBoardComponent, canActivate: [authGuard, GameGuard]},
   // {path: 'game-board', component: GameBoardComponent, canActivate: [authGuard]},

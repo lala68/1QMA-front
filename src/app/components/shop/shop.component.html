@@ -1,0 +1,105 @@
+<br>
+<br>
+<div style="display: ruby-text;">
+  <mat-spinner *ngIf="loading" [diameter]="30"></mat-spinner>
+</div>
+<div *ngIf="!loading">
+  <div class="card border-0">
+    <div class="w-100 d-flex">
+      <mat-card class="shadow-none w-100">
+        <mat-card-header>
+          <mat-card-title class="font-size-16 weight-600">{{'Features' | translate}}</mat-card-title>
+          <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
+            {{'Possible Description for feature title' | translate}}
+          </mat-card-subtitle>
+        </mat-card-header>
+        <br>
+        <mat-card-content>
+          <mat-card *ngFor="let item of [].constructor(5)"
+                    class="bordered-card shadow-none text-center d-inline-flex">
+            <img src="assets/images/invitation.png" width="50" height="50" style="margin: 0 auto">
+            <mat-card-header style="margin: 0 auto; display: block">
+              <mat-card-title class="font-size-14 weight-600">5 Invitation</mat-card-title>
+              <mat-card-subtitle class="font-size-14 weight-500">
+                6 $
+              </mat-card-subtitle>
+            </mat-card-header>
+            <br>
+            <mat-card-actions>
+              <button mat-raised-button class="game-button">{{'Buy' | translate}}
+              </button>
+            </mat-card-actions>
+          </mat-card>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+  <br>
+  <div class="card border-0">
+    <div class="w-100 d-flex">
+      <mat-card class="shadow-none w-100">
+        <mat-card-header>
+          <mat-card-title class="font-size-16 weight-600">{{'Assets' | translate}}</mat-card-title>
+          <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
+            {{'Possible Description for assets title' | translate}}
+          </mat-card-subtitle>
+        </mat-card-header>
+        <br>
+        <mat-card-content>
+          <mat-card *ngFor="let item of [].constructor(5)"
+                    class="bordered-card shadow-none text-center d-inline-flex">
+            <img src="assets/images/coin-gold.png" width="47" height="47" style="margin: 0 auto">
+            <mat-card-header style="margin: 0 auto; display: block">
+              <mat-card-title class="font-size-14 weight-600">5 Gold Coin</mat-card-title>
+              <mat-card-subtitle class="font-size-14 weight-500">
+                6 $
+              </mat-card-subtitle>
+            </mat-card-header>
+            <br>
+            <mat-card-actions>
+              <button mat-raised-button class="game-button">{{'Buy' | translate}}
+              </button>
+            </mat-card-actions>
+          </mat-card>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+  <br>
+  <div class="card border-0">
+    <div class="w-100 d-flex">
+      <mat-card class="shadow-none w-100">
+        <mat-card-header>
+          <mat-card-title class="font-size-16 weight-600">{{'Bundle' | translate}}</mat-card-title>
+          <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
+            {{'Possible Description for bundle title' | translate}}
+          </mat-card-subtitle>
+        </mat-card-header>
+        <br>
+        <mat-card-content>
+          <mat-card *ngFor="let item of [].constructor(5)"
+                    class="bordered-card shadow-none text-center d-inline-flex">
+            <div class="d-inline-flex">
+              <img src="assets/images/invitation.png" width="47" height="47" style="margin: 0 auto">
+              <img src="assets/images/+.png" width="14" height="14" style="margin: auto">
+              <img src="assets/images/coin-gold.png" width="47" height="47" style="margin: 0 auto">
+            </div>
+            <mat-card-header style="margin: 0 auto; display: block">
+              <mat-card-title class="font-size-14 weight-600">5 Invitation + 5 Gold Coin</mat-card-title>
+              <mat-card-subtitle class="font-size-14 weight-500">
+                6 $
+              </mat-card-subtitle>
+            </mat-card-header>
+            <br>
+            <mat-card-actions>
+              <button mat-raised-button class="game-button">{{'Buy' | translate}}
+              </button>
+            </mat-card-actions>
+          </mat-card>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

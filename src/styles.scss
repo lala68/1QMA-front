@@ -314,7 +314,7 @@ button {
   border-radius: 6px;
   border: 1px solid #B29F9A;
   border-bottom: 0;
-  width: 50%;
+  width: 100%;
 }
 
 .country-selector {
@@ -707,10 +707,6 @@ input[type="tel"] {
   width: 746px;
   margin: 10px auto;
   min-height: calc(100vh - 300px);
-}
-
-.custom-form-field {
-  width: 50%;
 }
 
 .progress-wizard {

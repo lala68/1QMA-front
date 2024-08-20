@@ -41,7 +41,8 @@
               <img matListItemIcon src="assets/images/book-side.png" width="25">
               <span class="font-size-14 weight-600" matListItemTitle>{{'Trivia Hub' | translate}}</span>
             </mat-list-item>
-            <mat-list-item>
+            <mat-list-item [routerLink]="['/shop']"
+                           [class]="generalService.currentRout == '/shop' ? 'mat-list-item-selected' : ''">
               <img matListItemIcon src="assets/images/shop.png" width="25">
               <span class="font-size-14 weight-600" matListItemTitle>{{'Shop' | translate}}</span>
             </mat-list-item>
