@@ -18,6 +18,7 @@ import {GamesService} from "./services/games/games.service";
 import {LoaderService} from "./services/loader/loader.service";
 import {error} from "@angular/compiler-cli/src/transformers/util";
 import {ProcessHTTPMsgService} from "./services/proccessHttpMsg/process-httpmsg.service";
+import {SignupComponent} from "./components/signup/signup.component";
 
 register();
 
@@ -25,7 +26,7 @@ register();
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
-  providers: [GamesComponent, GameBoardComponent, CountdownTimerComponent]
+  providers: [GamesComponent, GameBoardComponent, CountdownTimerComponent, SignupComponent]
 })
 export class AppComponent implements OnInit {
   loading$ = this.loader.isLoading$;
@@ -34,7 +35,7 @@ export class AppComponent implements OnInit {
   constructor(private router: Router, private translateService: TranslateService, private _snackBar: MatSnackBar,
               private generalService: GeneralService, private authService: AuthService, public dialog: MatDialog,
               private clientService: ClientService, private route: ActivatedRoute, private location: Location,
-              private processHTTPMsgService: ProcessHTTPMsgService,
+              private processHTTPMsgService: ProcessHTTPMsgService, private signupComponent: SignupComponent,
               private gameComponent: GamesComponent, private gameService: GamesService, private loader: LoaderService,) {
     this.translateService.setDefaultLang('en');
   }
@@ -61,50 +62,19 @@ export class AppComponent implements OnInit {
         const message = params['message'];
         // alert('message: ' + message)
         const game_code = params['code'];
-        console.log(game_code)
+
         if (status == 1) {
-          // alert(1)
           if (user_id) {
-            // alert(2)
             await Preferences.set({key: 'account', value: JSON.stringify({_id: user_id})});
           }
           await this.authService.isAuthenticated();
           await this.generalService.getUserData();
-          // await this.router.navigate(['wizard'], {state: {email: email}});
-          // alert(this.generalService.userId)
           this.authService.getUserDetails(this.generalService.userId).then(async user => {
             await Preferences.set({key: 'account', value: JSON.stringify(user.data)});
-            if (user.data.hasCompletedSignup) {
-              this.gameService.gameInit().then(data => {
-                if (data.status == 1) {
-                  this.generalService.gameInit = data.data;
-                }
-              }, error => {
-                return this.processHTTPMsgService.handleError(error);
-              });
-              // await this.generalService.useGoogleTranslate();
-              await this.router.navigate(['/dashboard']);
+            if (user.data.inWaitList) {
+              await this.authService.forceToLoginAgain();
+              await this.router.navigate(['/signup'], {state: {waitList: true}});
             } else {
-              this.authService.registerInit().then(res => {
-                if (res.status == 1) {
-                  this.generalService.initData = res.data;
-                  this.router.navigate(['/wizard']);
-                }
-              })
-            }
-          }, error => {
-            // alert('error')
-            return this.processHTTPMsgService.handleError(error);
-          });
-        } else if (status == -1) {
-          // alert('status == -1')
-          this.openDialog(JSON.stringify(message), 'Error');
-          return;
-        } else {
-          // alert('else')
-          if (this.generalService.userId && !this.generalService.hasCompletedSignup) {
-            this.authService.getUserDetails(this.generalService.userId).then(async user => {
-              await Preferences.set({key: 'account', value: JSON.stringify(user.data)});
               if (user.data.hasCompletedSignup) {
                 this.gameService.gameInit().then(data => {
                   if (data.status == 1) {
@@ -122,6 +92,43 @@ export class AppComponent implements OnInit {
                     this.router.navigate(['/wizard']);
                   }
                 })
+              }
+            }
+          }, error => {
+            // alert('error')
+            return this.processHTTPMsgService.handleError(error);
+          });
+        } else if (status == -1) {
+          // alert('status == -1')
+          this.openDialog(JSON.stringify(message), 'Error');
+          return;
+        } else {
+          // alert('else')
+          if (this.generalService.userId && !this.generalService.hasCompletedSignup) {
+            this.authService.getUserDetails(this.generalService.userId).then(async user => {
+              await Preferences.set({key: 'account', value: JSON.stringify(user.data)});
+              if (user.data.inWaitList) {
+                await this.authService.forceToLoginAgain();
+                await this.router.navigate(['/signup'], {state: {waitList: true}});
+              } else {
+                if (user.data.hasCompletedSignup) {
+                  this.gameService.gameInit().then(data => {
+                    if (data.status == 1) {
+                      this.generalService.gameInit = data.data;
+                    }
+                  }, error => {
+                    return this.processHTTPMsgService.handleError(error);
+                  });
+                  // await this.generalService.useGoogleTranslate();
+                  await this.router.navigate(['/dashboard']);
+                } else {
+                  this.authService.registerInit().then(res => {
+                    if (res.status == 1) {
+                      this.generalService.initData = res.data;
+                      this.router.navigate(['/wizard']);
+                    }
+                  })
+                }
               }
             }, error => {
               return this.processHTTPMsgService.handleError(error);
@@ -152,7 +159,7 @@ export class AppComponent implements OnInit {
           this.gameComponent.joinToGame(game_code);
         }
       })
-    })
+    });
   }
 
   openDialog(message: any, title: any) {

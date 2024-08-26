@@ -48,15 +48,21 @@ export class SignupComponent {
   error: any;
   errorWaitList: any;
   email: any;
+  waitList: boolean = false;
   emailVerified: boolean = false;
   phoneVerified: boolean = false;
 
   constructor(private _formBuilder: FormBuilder, private loader: LoaderService, private router: Router,
               public authService: AuthService, public generalService: GeneralService, public config: ConfigService) {
     this.email = this.router.getCurrentNavigation()?.extras?.state?.['email'] ? this.router.getCurrentNavigation()?.extras?.state?.['email'] : '';
+    this.waitList = this.router.getCurrentNavigation()?.extras?.state?.['waitList'] ? this.router.getCurrentNavigation()?.extras?.state?.['waitList'] : false;
     if (this.email) {
       this.signUpWaitListForm.controls.email.setValue(this.email);
       this.signUpWaitListForm.controls.email.disable();
+
+    }
+    if (this.waitList) {
+      this.step = 3;
     }
   }
 
