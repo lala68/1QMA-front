@@ -1,4 +1,13 @@
-import {Component, Inject, OnInit, viewChild, ViewChild} from '@angular/core';
+import {
+  Component,
+  ContentChild,
+  CUSTOM_ELEMENTS_SCHEMA,
+  ElementRef,
+  Inject,
+  OnInit,
+  viewChild,
+  ViewChild
+} from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {SharedModule} from "../../shared/shared.module";
 import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
@@ -15,6 +24,11 @@ import {CountdownTimerComponent} from "../countdown-timer/countdown-timer.compon
 import {NgxMatIntlTelInputComponent} from "ngx-mat-intl-tel-input";
 import {DomSanitizer} from "@angular/platform-browser";
 import {SafeUrlPipe} from "../../pipes/safe-url.pipe";
+import SwiperCore from 'swiper';
+import {SwiperOptions} from "swiper/types";
+import {SwiperContainer} from 'swiper/element/bundle';
+
+SwiperCore.use([]);
 
 @Component({
   selector: 'app-wizard',
@@ -23,10 +37,12 @@ import {SafeUrlPipe} from "../../pipes/safe-url.pipe";
     QuestionTypesComponent, TranslateModule, NgxMatIntlTelInputComponent, SafeUrlPipe],
   templateUrl: './wizard.component.html',
   styleUrl: './wizard.component.scss',
-  providers: []
+  providers: [],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class WizardComponent implements OnInit {
   @ViewChild('stepper') stepper: any = {selectedIndex: 0};
+  @ContentChild('swiper') swiperRef!: ElementRef<SwiperContainer>;
   selectedType: any = '664f56e20b34ac027d3f8260';
   loadingAccountType: boolean = false;
 
@@ -46,7 +62,15 @@ export class WizardComponent implements OnInit {
   selectedCategory: any = [];
   email: any;
   innerStep: any = 1;
+  answers: any[] = [];
   innerExplanation: any;
+  config: SwiperOptions = {
+    effect: 'coverflow',
+    pagination: {clickable: true},
+    allowSlideNext: false,
+    allowSlidePrev: true,
+  };
+  currentIndex: number = 0;
   steps = [
     {name: 'Step 1', progress: 20},
     {name: 'Step 2', progress: 40},
@@ -61,6 +85,10 @@ export class WizardComponent implements OnInit {
       // this.selectedType = this.generalService.userObj?.accountType;
       this.selectedCategory = this.generalService.userObj?.preferedCategories;
     }
+
+    this.generalService?.initData?.furtherQuestions.forEach((slide: any) => {
+      this.answers.push({_id: slide._id, question: slide.question, answer: null});
+    });
   }
 
   async ngOnInit(): Promise<any> {
@@ -152,6 +180,23 @@ export class WizardComponent implements OnInit {
     })
   }
 
+  async submitAnswers() {
+    this.loading = true;
+    this.error = '';
+    this.authService.answerFurtherQuestions(this.answers).then(async data => {
+      if (data.status == 1) {
+        this.loading = false;
+        await Preferences.remove({key: 'account'});
+        await Preferences.set({key: 'account', value: JSON.stringify(data.data)});
+        await this.generalService.getUserData();
+        await this.stepper.next();
+      } else {
+        this.loading = false;
+        this.error = data.message;
+      }
+    })
+  }
+
   async gotoPrevStep() {
     const index = this.stepper?.selectedIndex;
     if (index > 0) {
@@ -231,12 +276,6 @@ export class WizardComponent implements OnInit {
     } else {
       this.selectedCategory.push(item);
     }
-    // const indexId = this.selectedCategoryId.indexOf(item._id);
-    // if (indexId >= 0) {
-    //   this.selectedCategoryId.splice(indexId, 1);
-    // } else {
-    //   this.selectedCategoryId.push(item?._id);
-    // }
   }
 
   submitPref() {
@@ -262,6 +301,84 @@ export class WizardComponent implements OnInit {
   getProgressBarClass(index: number): string {
     return `progress-bar-${index}`;
   }
+
+// To collect text input
+  collectTextAnswer(slide: any, event: Event) {
+    const inputElement = event.target as HTMLTextAreaElement;
+    const answer = inputElement?.value || '';
+    this.updateAnswer(slide, answer);
+  }
+
+  // To collect multiple choice answers
+  selectQuestion(slide: any, option: string) {
+    const existingAnswer = this.answers.find(a => a._id === slide._id);
+    if (existingAnswer) {
+      if (Array.isArray(existingAnswer.answer)) {
+        const index = existingAnswer.answer.indexOf(option);
+        if (index >= 0) {
+          existingAnswer.answer.splice(index, 1);
+        } else {
+          existingAnswer.answer.push(option);
+        }
+      } else {
+        existingAnswer.answer = [option];
+      }
+    } else {
+      this.answers.push({
+        _id: slide._id,
+        question: slide.question,
+        answer: [option]
+      });
+    }
+    this.checkSlideCompletion();
+  }
+
+  // To collect selected option from dropdown
+  selectDropdownAnswer(slide: any, answer: any) {
+    this.updateAnswer(slide, answer);
+  }
+
+  updateAnswer(slide: any, answer: any) {
+    const existingAnswer = this.answers.find(a => a._id === slide._id);
+    if (existingAnswer) {
+      existingAnswer.answer = answer;
+    } else {
+      this.answers.push({
+        _id: slide._id,
+        question: slide.question,
+        answer: answer
+      });
+    }
+    this.checkSlideCompletion();
+  }
+
+  // Check if current slide is completed
+  checkSlideCompletion() {
+    const currentSlideAnswer = this.answers[this.currentIndex];
+    if (currentSlideAnswer?.answer) {
+      this.config.allowSlideNext = true;
+    } else {
+      this.config.allowSlideNext = false;
+    }
+  }
+
+  // Handle slide change event
+  onSlideChange() {
+    this.currentIndex = this.swiperRef.nativeElement.swiper.realIndex;
+    this.checkSlideCompletion();
+  }
+
+  isSelectedQuestion(slide: any, option: string): boolean {
+    const existingAnswer = this.answers.find(a => a._id === slide._id);
+    return existingAnswer && Array.isArray(existingAnswer.answer) && existingAnswer.answer.includes(option);
+  }
+
+  // Method to handle the change event
+  onToggleChange(slide: any, event: any) {
+    const toggleValue = event.checked ? 1 : 0;
+    this.updateAnswer(slide, toggleValue)
+  }
+
 }
 
 
@@ -357,6 +474,7 @@ export class VerificationDialog {
     if (this.mobileSuccess && this.emailSuccess) {
       this.dialogRef.close('success')
     }
+
   }
 }
 

@@ -158,9 +158,58 @@
           {{error}}
         </div>
       </mat-step>
-      <!--      <mat-step editable="false">-->
-      <!--        <app-question-types></app-question-types>-->
-      <!--      </mat-step>-->
+      <mat-step>
+        <div class="d-flex align-items-center">
+          <img src="assets/images/Questions.png" width="52" height="52">
+          <div class="position-absolute" style="left: 90px; top: 25px">
+            <div class="font-size-18 weight-700">{{'Questions' | translate}}</div>
+            <mat-label
+              class="font-size-16 weight-400">{{'Please answer these questions' | translate}}</mat-label>
+          </div>
+        </div>
+        <br><br>
+        <swiper-container #swiper [config]="config" effect="coverflow" pagination="true" style="height: 250px">
+          <ng-container *ngFor="let slide of generalService?.initData?.furtherQuestions; let i=index">
+            <swiper-slide>
+              <div *ngIf="slide?.type == 'text' ">
+                <div class="font-size-14 weight-600">{{slide?.question}}</div>
+                <div class="textarea-container">
+                  <textarea (input)="collectTextAnswer(slide, $event)" [placeholder]="slide?.placeholder"></textarea>
+                </div>
+              </div>
+              <div *ngIf="slide?.type == 'multiple_options'">
+                <div class="font-size-14 weight-600">{{slide?.question}}</div>
+                <mat-card *ngFor="let opt of slide?.options"
+                          class="m-2 d-inline-block shadow-none"
+                          (click)="selectQuestion(slide, opt)"
+                          [ngClass]="{'mat-card-pref-selected': isSelectedQuestion(slide, opt), 'mat-card-pref': !isSelectedQuestion(slide, opt)}">
+                  <mat-card-content class="text-start">
+                    <mat-label>{{ opt }}</mat-label>
+                  </mat-card-content>
+                </mat-card>
+              </div>
+              <div *ngIf="slide?.type == 'select'">
+                <div class="font-size-14 weight-600">{{slide?.question}}</div>
+                <mat-form-field appearance="fill" class="custom-form-field">
+                  <mat-select (selectionChange)="selectDropdownAnswer(slide, $event.value)">
+                    <mat-option *ngFor="let opt of slide?.options"
+                                [value]="opt">{{opt}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div *ngIf="slide?.type == 'toggle'">
+                <p>
+                  <mat-slide-toggle labelPosition="before"
+                                    (change)="onToggleChange(slide, $event)">{{slide?.question}}</mat-slide-toggle>
+                </p>
+              </div>
+              <div role="alert" style="color: #ff5722; margin: 10px 0">
+                {{error}}
+              </div>
+            </swiper-slide>
+          </ng-container>
+        </swiper-container>
+      </mat-step>
       <mat-step>
         <form [formGroup]="accountTypeForm">
           <div class="d-inline-block">
@@ -296,11 +345,16 @@
                 (click)="submitPref()" class="next-step">{{'Next Step' | translate}}
           <i class="bi bi-arrow-right"></i>
         </button>
-        <button mat-raised-button color="primary" *ngIf="stepper?.selectedIndex == 3" [disabled]="loadingAccountType"
+        <button mat-raised-button color="primary" *ngIf="stepper?.selectedIndex == 3"
+                [disabled]="loading || answers?.length != generalService?.initData?.furtherQuestions?.length"
+                (click)="submitAnswers()" class="next-step">{{'Next Step' | translate}}
+          <i class="bi bi-arrow-right"></i>
+        </button>
+        <button mat-raised-button color="primary" *ngIf="stepper?.selectedIndex == 4" [disabled]="loadingAccountType"
                 (click)="submitAccountType()" class="next-step">{{'Next Step' | translate}}
           <i class="bi bi-arrow-right"></i>
         </button>
-        <button mat-raised-button color="primary" *ngIf="stepper?.selectedIndex == 4"
+        <button mat-raised-button color="primary" *ngIf="stepper?.selectedIndex == 5"
                 (click)="stepper?.next()" class="next-step">{{'Next Step' | translate}}
           <i class="bi bi-arrow-right"></i>
         </button>

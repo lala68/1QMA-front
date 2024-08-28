@@ -937,7 +937,7 @@ export class ShareGame {
   type: any;
   result: any;
 
-  constructor(public dialogRef: MatDialogRef<ShareGame>,
+  constructor(public dialogRef: MatDialogRef<ShareGame>, public generalService: GeneralService,
               private router: Router, @Inject(MAT_DIALOG_DATA) public data: any,) {
     this.type = this.data.type;
     this.result = this.data.result;
@@ -948,39 +948,68 @@ export class ShareGame {
   }
 
   async shareTelegram(text: any) {
-    if (this.type == '') {
-      const base64url = this.result
-      const blob = await (await fetch(base64url)).blob();
-      const file = new File([blob], '1qma.png', {type: blob.type});
-      navigator.share({
-        title: 'Hello',
-        text: 'Welcome to 1QMA Games!',
-        files: [file],
-      })
-      this.dialogRef.close();
-    } else {
-      const telegramUrl = `https://t.me/share/url?url=${encodeURIComponent('')}&text=${encodeURIComponent(text)}`;
-      window.open(telegramUrl, '_blank');
-      this.dialogRef.close();
-    }
+    // if (this.type == '') {
+    const base64url = this.result
+    const blob = await (await fetch(base64url)).blob();
+    const file = new File([blob], '1qma.png', {type: blob.type});
+    this.generalService.share({
+      title: 'Hello! Welcome to 1QMA Games!',
+      text: text,
+      files: [file],
+    })
+    // navigator.share({
+    //   title: 'Hello',
+    //   text: 'Welcome to 1QMA Games!',
+    //   files: [file],
+    // })
+    this.dialogRef.close();
+    // } else {
+    //   const telegramUrl = `https://t.me/share/url?url=${encodeURIComponent('')}&text=${encodeURIComponent(text)}`;
+    //   window.open(telegramUrl, '_blank');
+    //   this.dialogRef.close();
+    // }
 
   }
 
-  shareWhatsapp(text: any) {
-    const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
-    window.open(whatsappUrl, '_blank');
+  async shareWhatsapp(text: any) {
+    // const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
+    // window.open(whatsappUrl, '_blank');
+    const base64url = this.result
+    const blob = await (await fetch(base64url)).blob();
+    const file = new File([blob], '1qma.png', {type: blob.type});
+    this.generalService.share({
+      title: 'Hello! Welcome to 1QMA Games!',
+      text: text,
+      files: [file],
+    })
     this.dialogRef.close();
   }
 
-  shareFacebook(url: any, text: any) {
-    const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${encodeURIComponent(text)}`;
-    window.open(facebookUrl, '_blank');
+  async shareFacebook(url: any, text: any) {
+    // const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${encodeURIComponent(text)}`;
+    // window.open(facebookUrl, '_blank');
+    const base64url = this.result
+    const blob = await (await fetch(base64url)).blob();
+    const file = new File([blob], '1qma.png', {type: blob.type});
+    this.generalService.share({
+      title: 'Hello! Welcome to 1QMA Games!',
+      text: text,
+      files: [file],
+    })
     this.dialogRef.close();
   }
 
-  shareXMedia(text: any) {
-    const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
-    window.open(twitterUrl, '_blank');
+  async shareXMedia(text: any) {
+    // const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
+    // window.open(twitterUrl, '_blank');
+    const base64url = this.result
+    const blob = await (await fetch(base64url)).blob();
+    const file = new File([blob], '1qma.png', {type: blob.type});
+    this.generalService.share({
+      title: 'Hello! Welcome to 1QMA Games!',
+      text: text,
+      files: [file],
+    })
     this.dialogRef.close();
   }
 

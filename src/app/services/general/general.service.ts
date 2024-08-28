@@ -151,5 +151,31 @@ export class GeneralService implements OnInit {
         });
       });
   }
+
+  async shareData(data: any) {
+    try {
+      await navigator.share(data);
+    } catch (e) {
+      console.error(`Error: ${e}`);
+    }
+  }
+
+  canBrowserShareData(data: any) {
+    if (!navigator.share || !navigator.canShare) {
+      return false;
+    }
+    return navigator.canShare(data);
+  }
+
+  share(obj: any) {
+    const sharedData = obj;
+    if (this.canBrowserShareData(sharedData)) {
+      this.shareData(sharedData);
+    } else {
+      // copy to clipboard
+      navigator.clipboard.writeText(sharedData.url);
+      alert("Copied to clipboard!");
+    }
+  }
 }
 

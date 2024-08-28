@@ -368,6 +368,26 @@ export class AuthService {
     }
   }
 
+  async answerFurtherQuestions(data: any): Promise<any> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    })
+    try {
+      const response = this.http.post<any>(this.config.url('auth/answerFurtherQuestions'), {
+        id: this.generalService.userId,
+        answers: data,
+      }, {
+        headers: headers,
+        withCredentials: true
+      })
+        .toPromise();
+      return response;
+    } catch (error) {
+      // Use ProcessHTTPMsgService to handle the error
+      return this.processHTTPMsgService.handleError(error);
+    }
+  }
+
   async isAuthenticated(): Promise<boolean> {
     const user = await Preferences.get({key: 'account'});
     // console.log(user)
