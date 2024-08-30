@@ -35,6 +35,8 @@ export class GeneralService implements OnInit {
   allQuestions: any = [];
   invitedPlayersArray: any = [];
   gameResult: any;
+  notifList: any;
+  newNotif: boolean = false;
   disconnectedModal: any = '';
   rateAnswers: { answer_id: string, rate: string }[] = [];
   rateQuestions: { question_id: string, rate: string }[] = [];

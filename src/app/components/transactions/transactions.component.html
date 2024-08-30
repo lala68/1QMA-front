@@ -1,0 +1,80 @@
+<br>
+<div style="display: ruby-text;">
+  <mat-spinner *ngIf="loading" [diameter]="30"></mat-spinner>
+</div>
+<div class="card border-0">
+  <div class="w-100 d-flex">
+    <mat-card class="shadow-none">
+      <mat-card-header>
+        <div class="ms-2" style="height: 46px"></div>
+        <mat-label class="font-size-16 weight-600 ms-4">{{'Financial History' | translate}}</mat-label>
+      </mat-card-header>
+    </mat-card>
+  </div>
+</div>
+<br>
+<div *ngIf="!loading">
+  <div class="card border-0 w-100">
+    <mat-card class="shadow-none financial-card" style="height: 65px">
+      <mat-card-header class="pe-1 ps-1 position-relative d-flex align-items-center w-100">
+        <mat-card-title class="card-title-profile-dashboard" style="width: 400px;
+         margin: 0 auto; text-align: start; margin-left: 1rem">Coins:
+        </mat-card-title>
+        <div class="text-center" style="width: 60%; display: flex">
+          <div style="width: 30%">
+            <img src="assets/images/coin-bronze.png"
+                 width="24" height="24">&nbsp;<span>{{generalService.userObj?.assets?.coins?.bronze}}</span>
+          </div>
+          <div style="width: 30%">
+            <img src="assets/images/coin-silver.png"
+                 width="24" height="24">&nbsp;<span>{{generalService.userObj?.assets?.coins?.silver}}</span>
+          </div>
+          <div style="width: 30%">
+            <img src="assets/images/coin-gold.png"
+                 width="24" height="24">&nbsp;<span>{{generalService.userObj?.assets?.coins?.gold}}</span>
+          </div>
+        </div>
+      </mat-card-header>
+    </mat-card>
+    <div class="w-100 d-flex" *ngFor="let item of [].constructor(4)">
+      <mat-card class="shadow-none financial-card p-3">
+        <mat-grid-list cols="12" rowHeight="30px">
+          <mat-grid-tile class="result-grid text-gray" [colspan]="3">
+            <mat-label class="font-size-14 weight-700">{{'Type' | translate}}:</mat-label>
+          </mat-grid-tile>
+          <mat-grid-tile class="result-grid" [colspan]="8">
+            <mat-label class="font-size-14 weight-700">{{'Purchase' | translate}}</mat-label>
+          </mat-grid-tile>
+          <mat-grid-tile class="result-grid text-end" [colspan]="1">
+            <mat-label class="font-size-14 weight-700">{{'May 17' | translate}}</mat-label>
+          </mat-grid-tile>
+        </mat-grid-list>
+        <mat-grid-list cols="12" rowHeight="30px">
+          <mat-grid-tile class="result-grid text-gray" [colspan]="3">
+            <mat-label class="font-size-14 weight-700">{{'Description' | translate}}:</mat-label>
+          </mat-grid-tile>
+          <mat-grid-tile class="result-grid" [colspan]="5">
+            <mat-label class="font-size-14 weight-700">...</mat-label>
+          </mat-grid-tile>
+        </mat-grid-list>
+        <mat-grid-list cols="12" rowHeight="30px">
+          <mat-grid-tile class="result-grid text-gray" [colspan]="3">
+            <mat-label class="font-size-14 weight-700">{{'Amount' | translate}}:</mat-label>
+          </mat-grid-tile>
+          <mat-grid-tile class="result-grid" [colspan]="5">
+            <mat-label class="font-size-14 weight-700">-45$</mat-label>
+          </mat-grid-tile>
+        </mat-grid-list>
+        <mat-grid-list cols="12" rowHeight="30px">
+          <mat-grid-tile class="result-grid text-gray" [colspan]="3">
+            <mat-label class="font-size-14 weight-700">{{'New Balance' | translate}}:</mat-label>
+          </mat-grid-tile>
+          <mat-grid-tile class="result-grid" [colspan]="5">
+            <mat-label class="font-size-14 weight-700">430 Gold Coin</mat-label>
+          </mat-grid-tile>
+        </mat-grid-list>
+      </mat-card>
+    </div>
+    <br>
+  </div>
+</div>

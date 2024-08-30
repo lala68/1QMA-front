@@ -236,7 +236,7 @@
                width="24" height="24">&nbsp;<span>{{generalService.userObj?.assets?.coins?.silver}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <img src="assets/images/coin-gold.png"
                width="24" height="24">&nbsp;<span>{{generalService.userObj?.assets?.coins?.gold}}</span>
-          <div class="link-text font-size-14 weight-500 position-absolute end-0">{{'Financial History' | translate}} ></div>
+          <div [routerLink]="['/transactions']" class="link-text font-size-14 weight-500 position-absolute end-0 cursor-pointer">{{'Financial History' | translate}} ></div>
         </mat-card-header>
       </mat-card>
     </div>

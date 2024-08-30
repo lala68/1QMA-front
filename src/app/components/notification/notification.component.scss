@@ -1,0 +1,17 @@
+.date {
+  position: absolute !important;
+  right: 16px;
+  bottom: 0;
+  top: 0;
+  margin: auto;
+  display: flex;
+  align-items: center;
+}
+
+.notif-card {
+  background: #F9F7F7;
+  border: 1px solid #dacfcb !important;
+  margin: 20px auto 0px !important;
+  border-radius: 6px !important;
+  width: 940px;
+}

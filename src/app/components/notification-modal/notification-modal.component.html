@@ -1,0 +1,42 @@
+<div class="font-size-14 weight-700 p-2 border-bottom">
+  <svg (click)="cancel()" width="24" height="24" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M13.4819 21.4023L21.9672 12.9171" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
+          stroke-linejoin="round"/>
+    <path d="M21.9672 21.4032L13.4819 12.918" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
+          stroke-linejoin="round"/>
+  </svg>
+  &nbsp;{{'Reward' | translate}}
+</div>
+<div mat-dialog-content class="m-3 text-center">
+  <mat-label
+    style="font-size: 16px; font-weight: 600">You have received your daily reward!</mat-label>
+  <br>
+  <br>
+</div>
+<div mat-dialog-actions style="margin: 1rem auto;">
+  <button mat-flat-button color="primary" [routerLink]="['/games/2']" (click)="cancel()"
+          *ngIf="generalService?.hasCompletedSignup && !generalService?.startingGame">
+    <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M12.2246 21.2402C17.4713 21.2402 21.7246 16.9869 21.7246 11.7402C21.7246 6.49353 17.4713 2.24023 12.2246 2.24023C6.9779 2.24023 2.72461 6.49353 2.72461 11.7402C2.72461 16.9869 6.9779 21.2402 12.2246 21.2402Z"
+        stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M22.7246 22.2402L20.7246 20.2402" stroke="#fff" stroke-width="1.5" stroke-linecap="round"
+            stroke-linejoin="round"/>
+    </svg>
+    Find game
+  </button>
+  <button mat-flat-button class="ms-2" color="primary" [routerLink]="['/games/1']" (click)="cancel()"
+          *ngIf="generalService?.hasCompletedSignup && !generalService?.startingGame">
+    <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M16.6226 2.58691H8.62256C4.62256 2.58691 2.62256 4.58691 2.62256 8.58691V21.5869C2.62256 22.1369 3.07256 22.5869 3.62256 22.5869H16.6226C20.6226 22.5869 22.6226 20.5869 22.6226 16.5869V8.58691C22.6226 4.58691 20.6226 2.58691 16.6226 2.58691Z"
+        stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path
+        d="M13.5324 8.42707L8.34235 13.6171C8.14235 13.8171 7.95236 14.2071 7.91236 14.4871L7.63236 16.4671C7.53236 17.1871 8.03235 17.6871 8.75235 17.5871L10.7323 17.3071C11.0123 17.2671 11.4024 17.0771 11.6024 16.8771L16.7924 11.6871C17.6824 10.7971 18.1124 9.75706 16.7924 8.43706C15.4724 7.10706 14.4324 7.52707 13.5324 8.42707Z"
+        stroke="#fff" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M12.7925 9.16699C13.2325 10.737 14.4625 11.977 16.0425 12.417" stroke="#fff" stroke-width="1.5"
+            stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    Create game
+  </button>
+</div>

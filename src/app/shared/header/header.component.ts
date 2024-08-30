@@ -8,6 +8,7 @@ import {FormBuilder, FormControl, Validators} from "@angular/forms";
 import {ClientService} from "../../services/client/client.service";
 import {GamesComponent} from "../../components/games/games.component";
 import {GamesService} from "../../services/games/games.service";
+import {ShopService} from "../../services/shop.service";
 
 @Component({
   selector: 'app-header',
@@ -15,9 +16,13 @@ import {GamesService} from "../../services/games/games.service";
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent {
+  notifList: any;
 
   constructor(public generalService: GeneralService, public authService: AuthService,
-              private router: Router, public dialog: MatDialog) {
+              private router: Router, public dialog: MatDialog, private shopService: ShopService) {
+    this.shopService.getNotifications(1, 3).then(data => {
+      this.generalService.notifList = data.data;
+    })
   }
 
   async logout() {

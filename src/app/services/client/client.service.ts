@@ -339,4 +339,23 @@ export class ClientService {
       return this.processHTTPMsgService.handleError(error);
     }
   }
+
+  async getTransactions(limit: any, page: any): Promise<any> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    })
+    try {
+      const response = this.http.get(this.config.url('client/Transactions'), {
+        headers: headers,
+        params: {limit, page},
+        withCredentials: true
+      }).pipe(
+        map((response: any) => response)
+      ).toPromise();
+      return response;
+    } catch (error) {
+      // Use ProcessHTTPMsgService to handle the error
+      return this.processHTTPMsgService.handleError(error);
+    }
+  }
 }

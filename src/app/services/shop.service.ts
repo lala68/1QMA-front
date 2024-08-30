@@ -47,4 +47,23 @@ export class ShopService {
     })
       .toPromise();
   }
+
+  async getNotifications(page: any, limit: any): Promise<any> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    })
+    try {
+      const response = this.http.get(this.config.url('notifications'), {
+        params: {page, limit},
+        headers: headers,
+        withCredentials: true
+      }).pipe(
+        map((response: any) => response)
+      ).toPromise();
+      return response;
+    } catch (error) {
+      // Use ProcessHTTPMsgService to handle the error
+      return this.processHTTPMsgService.handleError(error);
+    }
+  }
 }

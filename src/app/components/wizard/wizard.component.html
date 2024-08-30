@@ -168,7 +168,7 @@
           </div>
         </div>
         <br><br>
-        <swiper-container #swiper [config]="config" effect="coverflow" pagination="true" style="height: 250px">
+        <swiper-container #swiper [config]="config" effect="coverflow" pagination="true" navigation="true" style="height: 250px">
           <ng-container *ngFor="let slide of generalService?.initData?.furtherQuestions; let i=index">
             <swiper-slide>
               <div *ngIf="slide?.type == 'text' ">

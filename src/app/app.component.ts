@@ -12,13 +12,15 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {SnackbarContentComponent} from "./components/snackbar-content/snackbar-content.component";
 import {io} from "socket.io-client";
 import {GamesComponent} from "./components/games/games.component";
-import {GameBoardComponent} from "./components/game-board/game-board.component";
+import {Disconnected, GameBoardComponent} from "./components/game-board/game-board.component";
 import {CountdownTimerComponent} from "./components/countdown-timer/countdown-timer.component";
 import {GamesService} from "./services/games/games.service";
 import {LoaderService} from "./services/loader/loader.service";
 import {error} from "@angular/compiler-cli/src/transformers/util";
 import {ProcessHTTPMsgService} from "./services/proccessHttpMsg/process-httpmsg.service";
 import {SignupComponent} from "./components/signup/signup.component";
+import {ShopService} from "./services/shop.service";
+import {NotificationModalComponent} from "./components/notification-modal/notification-modal.component";
 
 register();
 
@@ -36,7 +38,8 @@ export class AppComponent implements OnInit {
               private generalService: GeneralService, private authService: AuthService, public dialog: MatDialog,
               private clientService: ClientService, private route: ActivatedRoute, private location: Location,
               private processHTTPMsgService: ProcessHTTPMsgService, private signupComponent: SignupComponent,
-              private gameComponent: GamesComponent, private gameService: GamesService, private loader: LoaderService,) {
+              private gameComponent: GamesComponent, private gameService: GamesService,
+              private loader: LoaderService, private shopService: ShopService) {
     this.translateService.setDefaultLang('en');
   }
 
@@ -52,6 +55,21 @@ export class AppComponent implements OnInit {
           this.generalService.disconnectedModal = '';
         }
       });
+
+      this.generalService.socket.on("notification", (arg: any) => {
+        this.generalService.newNotif = true;
+        this.shopService.getNotifications(1, 3).then(data => {
+          this.generalService.notifList = data.data;
+        })
+      });
+
+      this.generalService.socket.on("notification:modal", (arg: any) => {
+        this.dialog.open(NotificationModalComponent, {
+          width: '500px',
+          disableClose: true
+        });
+      });
+
       this.route.queryParams.subscribe(async params => {
         await this.generalService.getUserData();
         console.log(params);

@@ -18,6 +18,8 @@ import {GameGuard} from "../game.guard";
 import {GameResultComponent} from "../components/game-result/game-result.component";
 import {TriviaHubComponent} from "../components/trivia-hub/trivia-hub.component";
 import {ShopComponent} from "../components/shop/shop.component";
+import {NotificationComponent} from "../components/notification/notification.component";
+import {TransactionsComponent} from "../components/transactions/transactions.component";
 
 export const routes: Routes = [
   {path: 'login', component: LoginComponent, canActivate: [AuthRedirectGuard]},
@@ -25,6 +27,8 @@ export const routes: Routes = [
   {path: 'forget-password', component: ForgetPasswordComponent, canActivate: [AuthRedirectGuard]},
   {path: 'wizard', component: WizardComponent, canActivate: [authGuard]},
   {path: 'dashboard', component: DashboardComponent, canActivate: [authGuard]},
+  {path: 'transactions', component: TransactionsComponent, canActivate: [authGuard]},
+  {path: 'notification', component: NotificationComponent, canActivate: [authGuard]},
   {path: 'games/:id', component: GamesComponent, canActivate: [authGuard]},
   {path: 'trivia-hub', component: TriviaHubComponent, canActivate: [authGuard]},
   {path: 'shop', component: ShopComponent, canActivate: [authGuard]},

@@ -1,0 +1,46 @@
+<br>
+<div style="display: ruby-text;">
+  <mat-spinner *ngIf="loading" [diameter]="30"></mat-spinner>
+</div>
+<div class="card border-0">
+  <div class="w-100 d-flex">
+    <mat-card class="shadow-none">
+      <mat-card-header>
+        <div class="ms-2" style="height: 46px"></div>
+        <mat-label class="font-size-16 weight-600 ms-4">{{'Notification History' | translate}}</mat-label>
+      </mat-card-header>
+    </mat-card>
+  </div>
+</div>
+<br>
+<div *ngIf="!loading">
+  <div class="card border-0">
+    <div class="w-100 d-flex" *ngFor="let item of [].constructor(4)">
+      <mat-card class="shadow-none notif-card">
+        <mat-card-header>
+          <svg mat-card-avatar width="25" height="25" viewBox="0 0 25 25" fill="none"
+               xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M12.0982 3.15039C8.78821 3.15039 6.09821 5.84039 6.09821 9.15039V12.0404C6.09821 12.6504 5.83821 13.5804 5.52821 14.1004L4.37821 16.0104C3.66821 17.1904 4.15821 18.5004 5.45821 18.9404C9.76821 20.3804 14.4182 20.3804 18.7282 18.9404C19.9382 18.5404 20.4682 17.1104 19.8082 16.0104L18.6582 14.1004C18.3582 13.5804 18.0982 12.6504 18.0982 12.0404V9.15039C18.0982 5.85039 15.3982 3.15039 12.0982 3.15039Z"
+              stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"/>
+            <path
+              d="M13.948 3.44066C13.638 3.35066 13.318 3.28066 12.988 3.24066C12.028 3.12066 11.108 3.19066 10.248 3.44066C10.538 2.70066 11.258 2.18066 12.098 2.18066C12.938 2.18066 13.658 2.70066 13.948 3.44066Z"
+              stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+              stroke-linejoin="round"/>
+            <path
+              d="M15.0981 19.2998C15.0981 20.9498 13.7481 22.2998 12.0981 22.2998C11.2781 22.2998 10.5181 21.9598 9.97814 21.4198C9.43814 20.8798 9.09814 20.1198 9.09814 19.2998"
+              stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10"/>
+          </svg>
+          <mat-card-title class="font-size-16 weight-600">Level Up!</mat-card-title>
+          <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
+            Congratulation...
+          </mat-card-subtitle>
+        </mat-card-header>
+        <mat-label class="date">
+          3Jun 2024
+        </mat-label>
+      </mat-card>
+    </div>
+    <br>
+  </div>
+</div>
