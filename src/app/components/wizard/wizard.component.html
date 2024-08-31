@@ -171,13 +171,13 @@
         <swiper-container #swiper [config]="config" effect="coverflow" pagination="true" navigation="true" style="height: 250px">
           <ng-container *ngFor="let slide of generalService?.initData?.furtherQuestions; let i=index">
             <swiper-slide>
-              <div *ngIf="slide?.type == 'text' ">
+              <div *ngIf="slide?.type == 'text' " class="ps-5 pe-5">
                 <div class="font-size-14 weight-600">{{slide?.question}}</div>
                 <div class="textarea-container">
                   <textarea (input)="collectTextAnswer(slide, $event)" [placeholder]="slide?.placeholder"></textarea>
                 </div>
               </div>
-              <div *ngIf="slide?.type == 'multiple_options'">
+              <div *ngIf="slide?.type == 'multiple_options'" class="ps-5 pe-5">
                 <div class="font-size-14 weight-600">{{slide?.question}}</div>
                 <mat-card *ngFor="let opt of slide?.options"
                           class="m-2 d-inline-block shadow-none"
@@ -188,7 +188,7 @@
                   </mat-card-content>
                 </mat-card>
               </div>
-              <div *ngIf="slide?.type == 'select'">
+              <div *ngIf="slide?.type == 'select'" class="ps-5 pe-5">
                 <div class="font-size-14 weight-600">{{slide?.question}}</div>
                 <mat-form-field appearance="fill" class="custom-form-field">
                   <mat-select (selectionChange)="selectDropdownAnswer(slide, $event.value)">
@@ -197,7 +197,7 @@
                   </mat-select>
                 </mat-form-field>
               </div>
-              <div *ngIf="slide?.type == 'toggle'">
+              <div *ngIf="slide?.type == 'toggle'" class="ps-5 pe-5">
                 <p>
                   <mat-slide-toggle labelPosition="before"
                                     (change)="onToggleChange(slide, $event)">{{slide?.question}}</mat-slide-toggle>

@@ -36,17 +36,17 @@
         </div>
       </mat-card-header>
     </mat-card>
-    <div class="w-100 d-flex" *ngFor="let item of [].constructor(4)">
+    <div class="w-100 d-flex" *ngFor="let item of data">
       <mat-card class="shadow-none financial-card p-3">
         <mat-grid-list cols="12" rowHeight="30px">
           <mat-grid-tile class="result-grid text-gray" [colspan]="3">
             <mat-label class="font-size-14 weight-700">{{'Type' | translate}}:</mat-label>
           </mat-grid-tile>
-          <mat-grid-tile class="result-grid" [colspan]="8">
-            <mat-label class="font-size-14 weight-700">{{'Purchase' | translate}}</mat-label>
+          <mat-grid-tile class="result-grid" [colspan]="7">
+            <mat-label class="font-size-14 weight-700">{{item?.type}}</mat-label>
           </mat-grid-tile>
-          <mat-grid-tile class="result-grid text-end" [colspan]="1">
-            <mat-label class="font-size-14 weight-700">{{'May 17' | translate}}</mat-label>
+          <mat-grid-tile class="result-grid text-end" [colspan]="2">
+            <mat-label class="font-size-14 weight-700">{{item?.createdAt | date}}</mat-label>
           </mat-grid-tile>
         </mat-grid-list>
         <mat-grid-list cols="12" rowHeight="30px">
@@ -54,7 +54,7 @@
             <mat-label class="font-size-14 weight-700">{{'Description' | translate}}:</mat-label>
           </mat-grid-tile>
           <mat-grid-tile class="result-grid" [colspan]="5">
-            <mat-label class="font-size-14 weight-700">...</mat-label>
+            <mat-label class="font-size-14 weight-700">{{item?.title}}</mat-label>
           </mat-grid-tile>
         </mat-grid-list>
         <mat-grid-list cols="12" rowHeight="30px">
@@ -62,7 +62,7 @@
             <mat-label class="font-size-14 weight-700">{{'Amount' | translate}}:</mat-label>
           </mat-grid-tile>
           <mat-grid-tile class="result-grid" [colspan]="5">
-            <mat-label class="font-size-14 weight-700">-45$</mat-label>
+            <mat-label class="font-size-14 weight-700">{{item?.coinAmount?.price}} {{item?.coinAmount?.coin}}</mat-label>
           </mat-grid-tile>
         </mat-grid-list>
         <mat-grid-list cols="12" rowHeight="30px">
