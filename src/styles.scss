@@ -10,8 +10,52 @@
   font-size: 14px;
 }
 
+/* styles.css */
+@font-face {
+  font-family: 'Exo';
+  src: url('./assets/fonts/Exo2-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Rokh';
+  src: url('./assets/fonts/Rokh-Regular.ttf') format('truetype');
+}
+
+/* styles.css */
+body.english-font {
+  font-family: 'Exo', sans-serif !important; /* Fallback to sans-serif if Exo is not available */
+}
+
+body.farsi-font {
+  font-family: 'Rokh', sans-serif !important; /* Fallback to sans-serif if Rokh is not available */
+}
+
+
 body *:not(#content-to-translate *) {
   translate: none;
+}
+
+.mat-button, .mat-toolbar, .mat-input, .mat-card-title, mat-label, mat-tab, mat-card, mat-card-header, mat-card-title, mat-card-subtitle, mat-tab-header, mat-card-content, mat-card-footer,
+mat-table, mat-tab-header, mat-tab-body, button, mat-list, mat-list-item, mat-grid-list, mat-form-field,
+mat-tab-group, .mat-mdc-tab, .mdc-list-item__primary-text, mat-list-option, mat-select, mat-selection-list,
+.mat-mdc-menu-content .mat-mdc-menu-item .mat-mdc-menu-item-text {
+  font-family: inherit !important; /* Ensure Material components inherit the font from body */
+}
+
+/* styles.css or component-specific CSS file */
+.countdown-timer p {
+  //font-size: 48px; /* Larger font size */
+  //font-weight: bold; /* Bolder text */
+  //text-align: center; /* Center the text */
+  //margin: 0; /* Remove default margin */
+}
+
+.countdown-timer.warning p {
+  color: orange; /* Change color to orange for warning */
+}
+
+.countdown-timer.danger p {
+  color: red; /* Change color to red for danger */
 }
 
 .container {
@@ -278,7 +322,7 @@ input:not(.country-search) {
 
 .wizard-header {
   width: 746px;
-  margin: 60px auto 20px;
+  margin: 55px auto 10px;
   background: #0582FE !important;
   border-radius: 10px !important;
 }
@@ -700,7 +744,7 @@ input[type="tel"] {
 
 .wizard-card-subheader {
   width: 746px;
-  margin: 20px auto;
+  margin: 10px auto;
 }
 
 .wizard-card {

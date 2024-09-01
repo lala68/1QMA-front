@@ -29,7 +29,7 @@ export class SignupComponent {
     referer: new FormControl('', [Validators.required]),
   });
   signUpWaitListForm = this._formBuilder.group({
-    email: new FormControl('', [Validators.required, Validators.email]),
+    email: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]),
     mobile: new FormControl('', [Validators.required, Validators.minLength(10)]),
   });
   signUpVerifyFormEmail = this._formBuilder.group({
@@ -37,7 +37,7 @@ export class SignupComponent {
     verificationCode: new FormControl('', [Validators.required]),
   });
   signUpVerifyFormMobile = this._formBuilder.group({
-    mobile: new FormControl('', [Validators.required]),
+    mobile: new FormControl('', [Validators.required, Validators.minLength(10)]),
     verificationCode: new FormControl('', [Validators.required]),
   });
   step: any = 1;

@@ -22,7 +22,7 @@ import {Preferences} from "@capacitor/preferences";
 })
 export class SignupReferEmailComponent {
   signUpEmailForm = this._formBuilder.group({
-    email: new FormControl('', [Validators.required, Validators.email]),
+    email: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]),
   });
   setPasswordForm = this._formBuilder.group({
     verificationCode: new FormControl('', [Validators.required]),

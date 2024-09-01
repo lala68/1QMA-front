@@ -16,6 +16,7 @@ import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 import {MatDialogModule} from "@angular/material/dialog";
 import {StarRatingModule} from "angular-star-rating";
 import {LoaderInterceptService} from "./services/interceptors/loader-intercept.service";
+import {NgxMatSelectSearchModule} from "ngx-mat-select-search";
 
 export const httpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(http, './assets/i18n/', '.json');
 
@@ -31,6 +32,7 @@ export const httpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(h
     BrowserAnimationsModule,
     FormsModule,
     CommonModule,
+    NgxMatSelectSearchModule,
     MatDialogModule,
     ReactiveFormsModule,
     MaterialModule,

@@ -27,6 +27,7 @@ import {SafeUrlPipe} from "../../pipes/safe-url.pipe";
 import SwiperCore from 'swiper';
 import {SwiperOptions} from "swiper/types";
 import {SwiperContainer} from 'swiper/element/bundle';
+import {Subject, takeUntil} from "rxjs";
 
 SwiperCore.use([]);
 
@@ -56,7 +57,7 @@ export class WizardComponent implements OnInit {
   });
   error: any;
   loading: boolean = false;
-  loadingLanguage: boolean = false;
+  loadingLanguage: boolean = true;
   loadingUserData: boolean = true;
   hide = true;
   selectedCategory: any = [];
@@ -78,6 +79,9 @@ export class WizardComponent implements OnInit {
     {name: 'Step 4', progress: 80},
     {name: 'Step 5', progress: 100}
   ];
+  countryFilterCtrl = new FormControl();
+  filteredCountries: any[] = [];
+  private _onDestroy = new Subject<void>();
 
   constructor(private _formBuilder: FormBuilder, private router: Router,
               public generalService: GeneralService, public authService: AuthService, public dialog: MatDialog,) {
@@ -96,12 +100,22 @@ export class WizardComponent implements OnInit {
     this.authService.registerInit().then(res => {
       if (res.status == 1) {
         this.generalService.initData = res.data;
+        this.loadingLanguage = false;
       }
     })
     //////
 
     await this.generalService?.getUserData();
     this.generalService.countryListEng = await this.generalService.getCountries();
+    // Load the initial country list
+    this.filteredCountries = await this.generalService.getCountries();
+
+    // Listen for search field value changes
+    this.countryFilterCtrl.valueChanges
+      .pipe(takeUntil(this._onDestroy))
+      .subscribe(() => {
+        this.filterCountries();
+      });
 
     this.email = this.router.getCurrentNavigation()?.extras?.state?.['email'] ? this.router.getCurrentNavigation()?.extras?.state?.['email'] : this.generalService.userObj?.email;
     this.firstFormGroup = this._formBuilder.group({
@@ -113,16 +127,21 @@ export class WizardComponent implements OnInit {
       email: [{
         value: this.email ? this.email : this.generalService.userObj?.email,
         disabled: true
-      }, [Validators.required, Validators.email]],
-      mobile: [this.generalService.userObj?.mobile ? this.generalService.userObj?.mobile : '', [Validators.required]],
-      gender: [this.generalService.userObj?.gender ? this.generalService.userObj?.gender?._id : '', []],
-      country: [this.generalService.userObj?.country ? this.generalService.userObj?.country : '', []],
-      education: [this.generalService.userObj?.education ? this.generalService.userObj?.education?._id : '', []],
-      city: [this.generalService.userObj?.city ? this.generalService.userObj?.city : '', []],
+      }, [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]],
+      mobile: [this.generalService.userObj?.mobile ? this.generalService.userObj?.mobile : '', [Validators.required, Validators.minLength(10)]],
+      gender: [this.generalService.userObj?.gender ? this.generalService.userObj?.gender?._id : '', [Validators.required]],
+      country: [this.generalService.userObj?.country ? this.generalService.userObj?.country : '', [Validators.required]],
+      education: [this.generalService.userObj?.education ? this.generalService.userObj?.education?._id : '', [Validators.required]],
+      city: [this.generalService.userObj?.city ? this.generalService.userObj?.city : '', [Validators.required]],
     });
     await this.setPasswordValidators();
   }
 
+  private filterCountries() {
+    const search = this.countryFilterCtrl.value ? this.countryFilterCtrl.value.toLowerCase() : '';
+    this.filteredCountries = this.generalService.countryListEng
+      .filter((country: any) => country.name.toLowerCase().includes(search));
+  }
 
   selectType(item: any) {
     this.selectedType = item;
@@ -153,7 +172,7 @@ export class WizardComponent implements OnInit {
     this.loadingLanguage = true;
     this.error = '';
     this.authService.updateLanguage(this.firstFormGroup.controls.language.value).then(async data => {
-      this.loadingLanguage = false;
+      // this.loadingLanguage = false;
       if (data.status == 1) {
         await Preferences.remove({key: 'account'});
         await Preferences.set({key: 'account', value: JSON.stringify(data.data)});
@@ -165,12 +184,12 @@ export class WizardComponent implements OnInit {
             email: [{
               value: this.email ? this.email : this.generalService.userObj?.email,
               disabled: true
-            }, [Validators.required, Validators.email]],
-            mobile: [this.generalService.userObj?.mobile ? this.generalService.userObj?.mobile : '', [Validators.required]],
-            gender: [this.generalService.userObj?.gender ? this.generalService.userObj?.gender?._id : '', []],
-            country: [this.generalService.userObj?.country ? this.generalService.userObj?.country : '', []],
-            education: [this.generalService.userObj?.education ? this.generalService.userObj?.education?._id : '', []],
-            city: [this.generalService.userObj?.city ? this.generalService.userObj?.city : '', []],
+            }, [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]],
+            mobile: [this.generalService.userObj?.mobile ? this.generalService.userObj?.mobile : '', [Validators.required, Validators.minLength(10)]],
+            gender: [this.generalService.userObj?.gender ? this.generalService.userObj?.gender?._id : '', [Validators.required]],
+            country: [this.generalService.userObj?.country ? this.generalService.userObj?.country : '', [Validators.required]],
+            education: [this.generalService.userObj?.education ? this.generalService.userObj?.education?._id : '', [Validators.required]],
+            city: [this.generalService.userObj?.city ? this.generalService.userObj?.city : '', [Validators.required]],
           });
           await this.stepper.next();
         }, 1000)
@@ -200,6 +219,7 @@ export class WizardComponent implements OnInit {
   async gotoPrevStep() {
     const index = this.stepper?.selectedIndex;
     if (index > 0) {
+      this.loadingLanguage = false;
       await this.stepper.previous();
     }
   }
@@ -392,7 +412,7 @@ export class WizardComponent implements OnInit {
 
 export class VerificationDialog {
   verifyFormEmail = this._formBuilder.group({
-    email: new FormControl({value: '', disabled: true}, [Validators.required]),
+    email: new FormControl({value: '', disabled: true}, [Validators.required,]),
     verificationCode: new FormControl('', [Validators.required]),
   });
   verifyFormMobile = this._formBuilder.group({

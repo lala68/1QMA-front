@@ -35,7 +35,7 @@ export class DashboardComponent implements OnInit {
   loadingQuestionsFromFriendsLatestGames: boolean = true;
   invitedEmail: any;
   inviteForm = this._formBuilder.group({
-    email: new FormControl('', [Validators.required, Validators.email]),
+    email: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]),
   });
   startDate: any; // in milliseconds
   expireDays: any;

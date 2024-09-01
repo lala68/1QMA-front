@@ -44,7 +44,7 @@ export class GamesComponent implements OnInit {
   selectedCategory: any = [];
   selectedCategoryLive: any = [];
   inviteForm = this._formBuilder.group({
-    email: new FormControl('', [Validators.required, Validators.email]),
+    email: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]),
   });
   wordCount: number = 100;
   wordCountAnswer: number = 100;
@@ -163,13 +163,14 @@ export class GamesComponent implements OnInit {
       this.gameBoardComponent.handleGameStep();
       this.gameService.getGameQuestionBasedOnStep(this.generalService?.createdGameData?.game?.gameId, 1).then(async resQue => {
         this.generalService.gameQuestion = resQue?.data;
-        this.generalService.gameQuestion.question = await translate(this.generalService.gameQuestion.question,
-          {
-            to: this.generalService?.userObj?.preferedLanguage == '0' ? 'en' :
-              this.generalService.userObj?.preferedLanguage == '1' ? 'de' : 'fa',
-            from: this.generalService.gameQuestion.language
-          }
-        );
+        // this.generalService.gameQuestion.question = await translate(this.generalService.gameQuestion.question,
+        //   {
+        //     to: this.generalService?.userObj?.preferedLanguage == '0' ? 'en' :
+        //       this.generalService.userObj?.preferedLanguage == '1' ? 'de' : 'fa',
+        //     from: this.generalService.gameQuestion.language
+        //   }
+        // );
+        this.updateWordCountAnswerGame();
         if (resQue?.data?.myAnswer) {
           this.generalService.gameAnswerGeneral = resQue?.data?.myAnswer;
           this.generalService.editingAnswer = true;
@@ -309,6 +310,11 @@ export class GamesComponent implements OnInit {
 
   updateWordCountAnswer() {
     this.wordCountAnswer = this.questionForm.controls.answer.value ? (100 - this.questionForm.controls.answer.value.trim().split(/\s+/).length) : 100;
+    this.generalService.wordCountAnswer = this.questionForm.controls.answer.value ? (100 - this.questionForm.controls.answer.value.trim().split(/\s+/).length) : 100;
+  }
+
+  updateWordCountAnswerGame() {
+    this.generalService.wordCountAnswer = this.questionForm.controls.answer.value ? (100 - this.questionForm.controls.answer.value.trim().split(/\s+/).length) : 100;
   }
 
   joinToGame(code: any = this.gameCode) {
@@ -329,13 +335,14 @@ export class GamesComponent implements OnInit {
         console.log(this.generalService?.createdGameData)
         this.gameService.getGameQuestionBasedOnStep(this.generalService?.createdGameData?.game?.gameId, 1).then(async resQue => {
           this.generalService.gameQuestion = resQue?.data;
-          this.generalService.gameQuestion.question = await translate(this.generalService.gameQuestion.question,
-            {
-              to: this.generalService?.userObj?.preferedLanguage == '0' ? 'en' :
-                this.generalService.userObj?.preferedLanguage == '1' ? 'de' : 'fa',
-              from: this.generalService.gameQuestion.language
-            }
-          );
+          // this.generalService.gameQuestion.question = await translate(this.generalService.gameQuestion.question,
+          //   {
+          //     to: this.generalService?.userObj?.preferedLanguage == '0' ? 'en' :
+          //       this.generalService.userObj?.preferedLanguage == '1' ? 'de' : 'fa',
+          //     from: this.generalService.gameQuestion.language
+          //   }
+          // );
+          this.updateWordCountAnswerGame();
           if (resQue?.data?.myAnswer) {
             this.generalService.gameAnswerGeneral = resQue?.data?.myAnswer;
             this.generalService.editingAnswer = true;

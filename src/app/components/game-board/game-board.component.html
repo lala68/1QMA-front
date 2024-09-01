@@ -326,10 +326,13 @@
               &nbsp;<div class="font-size-14 weight-600">{{'My Answer' | translate}}:</div>
             </div>
             <div class="textarea-container">
-              <textarea #answerTextArea [disabled]="generalService.editingAnswer"
+              <textarea (cut)="disableCopyPaste($event)"
+                        (copy)="disableCopyPaste($event)"
+                        (paste)="disableCopyPaste($event)"
+                        #answerTextArea [disabled]="generalService.editingAnswer"
                         [(ngModel)]="generalService.gameAnswerGeneral"
                         (ngModelChange)="updateWordCountAnswer()"></textarea>
-              <div class="word-counter">{{ wordCountAnswer }} {{'Words' | translate}}</div>
+              <div class="word-counter">{{ generalService?.wordCountAnswer }} {{'Words' | translate}}</div>
             </div>
           </div>
         </div>
@@ -350,7 +353,7 @@
             </div>
           </div>
           <mat-label class="d-inline-block"
-                     style="margin-left: 90px;">{{'Waiting for' | translate}} {{(submittedAnswer ? submittedAnswer?.numberOfPlayers : generalService.gameInit?.numberOfPlayers) - submittedAnswer?.numberOfSubmitted}}
+                     style="margin-left: 110px;">{{'Waiting for' | translate}} {{(submittedAnswer ? submittedAnswer?.numberOfPlayers : generalService.gameInit?.numberOfPlayers) - submittedAnswer?.numberOfSubmitted}}
             {{'of' | translate}} {{(submittedAnswer ? submittedAnswer?.numberOfPlayers : generalService.gameInit?.numberOfPlayers) }}
             {{'players...' | translate}}
           </mat-label>
@@ -689,7 +692,8 @@
                         stroke-linejoin="round"/>
                 </svg>
               </div>
-              <button style="height: 40px" mat-raised-button color="primary" class="next-step ms-3" (click)="newGame()">
+              <button style="height: 40px !important;" mat-raised-button color="primary" class="next-step ms-3"
+                      (click)="newGame()">
                 {{'New Game' | translate}}
               </button>
 
@@ -1086,7 +1090,8 @@
                       <mat-card-subtitle class="font-size-14 weight-600 pb-2">{{question?.question}}
                       </mat-card-subtitle>
                       <mat-card-subtitle>
-                        <img src="assets/images/score.png" width="16"/> &nbsp; {{question?.rate | parsInt}} {{'Score' | translate}}
+                        <img src="assets/images/score.png" width="16"/>
+                        &nbsp; {{question?.rate | parsInt}} {{'Score' | translate}}
                       </mat-card-subtitle>
                     </mat-card-header>
                   </mat-card>
@@ -1111,7 +1116,8 @@
                     <mat-label class="font-size-14 weight-400">{{answer?.answer}}</mat-label>
                     <br>
                     <br>
-                    <img src="assets/images/score.png" width="16"/> &nbsp; {{answer?.rate | parsInt}} {{'Score' | translate}}
+                    <img src="assets/images/score.png" width="16"/>
+                    &nbsp; {{answer?.rate | parsInt}} {{'Score' | translate}}
                   </div>
                 </div>
               </div>

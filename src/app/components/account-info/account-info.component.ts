@@ -1,5 +1,5 @@
 import {Component, Inject, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {ClientService} from "../../services/client/client.service";
 import {GeneralService} from "../../services/general/general.service";
 import {CommonModule} from "@angular/common";
@@ -15,6 +15,7 @@ import {SnackbarContentComponent} from "../snackbar-content/snackbar-content.com
 import {MaterialModule} from "../../shared/material/material.module";
 import {GamesService} from "../../services/games/games.service";
 import {ProcessHTTPMsgService} from "../../services/proccessHttpMsg/process-httpmsg.service";
+import {Subject, takeUntil} from "rxjs";
 
 @Component({
   selector: 'app-account-info',
@@ -29,6 +30,9 @@ export class AccountInfoComponent {
   cities: any;
   loading: boolean = true;
   loadingUpload: boolean = false;
+  countryFilterCtrl = new FormControl();
+  filteredCountries: any[] = [];
+  private _onDestroy = new Subject<void>();
 
   constructor(private clientService: ClientService, private _formBuilder: FormBuilder, private _snackBar: MatSnackBar,
               public generalService: GeneralService, public dialog: MatDialog, public configService: ConfigService,
@@ -39,6 +43,15 @@ export class AccountInfoComponent {
   async ngOnInit(): Promise<any> {
     await this.generalService?.getUserData();
     this.generalService.countryListEng = await this.generalService.getCountries();
+    // Load the initial country list
+    this.filteredCountries = await this.generalService.getCountries();
+
+    // Listen for search field value changes
+    this.countryFilterCtrl.valueChanges
+      .pipe(takeUntil(this._onDestroy))
+      .subscribe(() => {
+        this.filterCountries();
+      });
 
     this.form = this._formBuilder.group({
       firstName: [this.generalService.userObj?.firstName ? this.generalService.userObj?.firstName : '', [Validators.required]],
@@ -47,16 +60,22 @@ export class AccountInfoComponent {
         value: this.generalService.userObj?.email,
         disabled: true
       }, [Validators.required, Validators.email]],
-      mobile: [this.generalService.userObj?.mobile ? this.generalService.userObj?.mobile : '', [Validators.required]],
-      gender: [this.generalService.userObj?.gender ? this.generalService.userObj?.gender?._id : '', []],
-      country: [this.generalService.userObj?.country ? this.generalService.userObj?.country : '', []],
-      education: [this.generalService.userObj?.education ? this.generalService.userObj?.education?._id : '', []],
-      city: [this.generalService.userObj?.city ? this.generalService.userObj?.city : '', []],
+      mobile: [this.generalService.userObj?.mobile ? this.generalService.userObj?.mobile : '', [Validators.required, Validators.minLength(10)]],
+      gender: [this.generalService.userObj?.gender ? this.generalService.userObj?.gender?._id : '', [Validators.required]],
+      country: [this.generalService.userObj?.country ? this.generalService.userObj?.country : '', [Validators.required]],
+      education: [this.generalService.userObj?.education ? this.generalService.userObj?.education?._id : '', [Validators.required]],
+      city: [this.generalService.userObj?.city ? this.generalService.userObj?.city : '', [Validators.required]],
       currentPassword: ['', []],
       password: ['', []],
       passwordConfirmation: ['', []],
     });
     this.loading = false;
+  }
+
+  private filterCountries() {
+    const search = this.countryFilterCtrl.value ? this.countryFilterCtrl.value.toLowerCase() : '';
+    this.filteredCountries  = this.generalService.countryListEng
+      .filter((country: any) => country.name.toLowerCase().includes(search));
   }
 
   async updateProfile() {

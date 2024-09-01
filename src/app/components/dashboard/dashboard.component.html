@@ -1,5 +1,4 @@
 <br>
-<br>
 <div style="display: ruby-text;">
   <mat-spinner *ngIf="loading" [diameter]="30"></mat-spinner>
 </div>
@@ -236,7 +235,10 @@
                width="24" height="24">&nbsp;<span>{{generalService.userObj?.assets?.coins?.silver}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <img src="assets/images/coin-gold.png"
                width="24" height="24">&nbsp;<span>{{generalService.userObj?.assets?.coins?.gold}}</span>
-          <div [routerLink]="['/transactions']" class="link-text font-size-14 weight-500 position-absolute end-0 cursor-pointer">{{'Financial History' | translate}} ></div>
+          <div [routerLink]="['/transactions']"
+               class="link-text font-size-14 weight-500 position-absolute end-0 cursor-pointer">{{'Financial History' | translate}}
+            >
+          </div>
         </mat-card-header>
       </mat-card>
     </div>
@@ -419,7 +421,7 @@
         {{item?.question}}
       </div>
       <br>
-      <div class="font-size-13 weight-400">
+      <div class="font-size-13 weight-400" style="max-height: 100px; min-height: 100px">
         {{item?.answer}}
       </div>
       <br>

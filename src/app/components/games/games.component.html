@@ -1,6 +1,5 @@
-<br>
-<br>
-<div style="display: ruby-text;">
+<br><br>
+<div style="display: table; margin: 0 auto; text-align: center">
   <mat-spinner *ngIf="loading" [diameter]="30"></mat-spinner>
 </div>
 <div *ngIf="!loading">
@@ -896,10 +895,13 @@
           </mat-card-header>
           <div class="d-inline-flex w-50 find-game-div">
             <input matInput class="invite-input ps-2" [(ngModel)]="userEmail"
-                   placeholder="{{'Enter user email' | translate}}" type="email">
+                   name="userEmail"
+                   placeholder="{{'Enter user email' | translate}}" type="email"
+                   pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+                   #emailInput="ngModel" required>
             <button mat-raised-button color="primary" type="submit"
                     class="w-25 p-4s ms-2 blue-button" (click)="findFriendGame()"
-                    [disabled]="!userEmail || loadingFindFriend">
+                    [disabled]="emailInput.invalid || loadingFindFriend">
               <span>{{'See Games' | translate}}</span>
             </button>
           </div>

@@ -19,10 +19,12 @@
           width="56" height="56" style="margin-top: 9px">
       </div>
       <br><br>
-      <mat-label class="font-size-14 weight-500 cursor-pointer" (click)="OpenAddFilesDialog()">{{'Add Profile Image' | translate}}
+      <mat-label class="font-size-14 weight-500 cursor-pointer"
+                 (click)="OpenAddFilesDialog()">{{'Add Profile Image' | translate}}
       </mat-label>
       <br>
-      <mat-label class="font-size-14 weight-500 cursor-pointer" (click)="removeProfilePicture()">{{'Remove Image' | translate}}
+      <mat-label class="font-size-14 weight-500 cursor-pointer"
+                 (click)="removeProfilePicture()">{{'Remove Image' | translate}}
       </mat-label>
     </div>
   </div>
@@ -70,22 +72,22 @@
         <mat-form-field class="custom-form-field w-50" appearance="fill">
           <mat-label>{{'Country' | translate}}</mat-label>
           <mat-select [formControlName]="'country'">
-            <mat-option *ngFor="let country of generalService?.countryListEng"
+            <ngx-mat-select-search [formControl]="countryFilterCtrl" placeholderLabel="{{'Search Country' | translate}}"
+                                   noEntriesFoundLabel="No countries found">
+            </ngx-mat-select-search>
+            <mat-option *ngFor="let country of filteredCountries"
                         [value]="country.name"
                         (onSelectionChange)="generalService.getCitiesBasedOnCountry(country.code)">{{country.name}}</mat-option>
           </mat-select>
         </mat-form-field>&nbsp;&nbsp;
-        <!--        <mat-form-field class="custom-form-field w-50" appearance="fill">-->
-        <!--          <mat-label>{{'City' | translate}}</mat-label>-->
-        <!--          <mat-select [formControlName]="'city'">-->
-        <!--            <mat-option *ngFor="let cty of generalService?.cities | keyvalue"-->
-        <!--                        [value]="cty?.value">{{cty?.value}}</mat-option>-->
-        <!--          </mat-select>-->
-        <!--        </mat-form-field>-->
         <mat-form-field class="custom-form-field w-50" appearance="fill">
           <mat-label>{{'City' | translate}}</mat-label>
           <mat-select [formControlName]="'city'">
-            <mat-option *ngFor="let cty of generalService?.cities" [value]="cty">{{cty}}</mat-option>
+            <ngx-mat-select-search [formControl]="generalService.cityFilterCtrl"
+                                   placeholderLabel="{{'Search City' | translate}}"
+                                   noEntriesFoundLabel="No cities found">
+            </ngx-mat-select-search>
+            <mat-option *ngFor="let cty of generalService?.filteredCities" [value]="cty">{{cty}}</mat-option>
           </mat-select>
         </mat-form-field>
       </div>

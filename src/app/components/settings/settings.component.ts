@@ -4,7 +4,7 @@ import {CommonModule} from "@angular/common";
 import {SharedModule} from "../../shared/shared.module";
 import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {RouterModule} from "@angular/router";
-import {TranslateModule} from "@ngx-translate/core";
+import {TranslateModule, TranslateService} from "@ngx-translate/core";
 import {ClientService} from "../../services/client/client.service";
 import {MatDialog} from "@angular/material/dialog";
 import {MatSnackBar} from "@angular/material/snack-bar";
@@ -28,20 +28,15 @@ export class SettingsComponent implements OnInit {
   error: any = '';
 
   constructor(public generalService: GeneralService, private _formBuilder: FormBuilder, public dialog: MatDialog,
+              private translateService: TranslateService,
               private clientService: ClientService, private _snackBar: MatSnackBar, private processHTTPMsgService: ProcessHTTPMsgService) {
     this.generalService.currentRout = '';
     console.log(this.generalService.userObj)
   }
 
-  // async ngOnInit(): Promise<any> {
-  //   this.settingsForm = this._formBuilder.group({
-  //     language: [this.generalService.userObj?.preferedLanguage ? this.generalService.userObj?.preferedLanguage : '0'],
-  //     defaultHomePage: [this.generalService.userObj?.defaultHomePage ? this.generalService.userObj?.defaultHomePage : '/dashboard'],
-  //   });
-  // }
   ngOnInit(): void {
     this.settingsForm = this._formBuilder.group({
-      language: [this.generalService.userObj?.preferedLanguage ? this.generalService.userObj?.preferedLanguage : '0'],
+      language: [this.generalService.userObj?.preferedLanguage ? this.generalService.userObj?.preferedLanguage?._id : '0'],
       defaultHomePage: [this.generalService.userObj?.defaultHomePage ? this.generalService.userObj?.defaultHomePage : '/dashboard'],
     });
   }
@@ -54,6 +49,8 @@ export class SettingsComponent implements OnInit {
         await Preferences.remove({key: 'account'});
         await Preferences.set({key: 'account', value: JSON.stringify(data.data)});
         await this.generalService.getUserData();
+        this.translateService.use(this.generalService.userObj?.preferedLanguage?.code); // If using ngx-translate
+        this.generalService.updateFontBasedOnLanguage(this.generalService.userObj?.preferedLanguage?.code);
         this.loading = false;
         this.openDialog(data.message, 'Success');
       } else {

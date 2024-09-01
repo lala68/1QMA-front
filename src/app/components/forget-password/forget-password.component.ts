@@ -30,11 +30,11 @@ export class ForgetPasswordComponent {
 
   emailFormControl = new FormControl('', [
     Validators.required,
-    Validators.email
+    Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
   ]);
 
   phoneFormControl = new FormControl('', [
-    Validators.required,
+    Validators.required, Validators.minLength(10)
   ]);
   error: any;
 

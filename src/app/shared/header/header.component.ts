@@ -9,6 +9,8 @@ import {ClientService} from "../../services/client/client.service";
 import {GamesComponent} from "../../components/games/games.component";
 import {GamesService} from "../../services/games/games.service";
 import {ShopService} from "../../services/shop.service";
+import {SnackbarContentComponent} from "../../components/snackbar-content/snackbar-content.component";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-header',
@@ -100,7 +102,7 @@ export class AddQuestion {
   constructor(public dialogRef: MatDialogRef<AddQuestion>, private _formBuilder: FormBuilder,
               @Inject(MAT_DIALOG_DATA) public data: any, private authService: AuthService,
               public generalService: GeneralService, private clientService: ClientService,
-              public dialog: MatDialog) {
+              public dialog: MatDialog, private _snackBar: MatSnackBar) {
   }
 
   updateWordCount() {
@@ -122,13 +124,27 @@ export class AddQuestion {
 
   async submit() {
     this.error = '';
-    this.clientService.addQuestion(this.questionForm.value, this.selectedCategory).then(data => {
+    this.clientService.addQuestion(this.questionForm.value, this.selectedCategory[0]).then(data => {
       if (data.status == 1) {
+        this.openDialog(data.message, 'Success');
         this.dialogRef.close();
       } else {
         this.error = data?.message;
       }
     })
+  }
+
+  openDialog(message: any, title: any) {
+    this._snackBar.openFromComponent(SnackbarContentComponent, {
+      data: {
+        title: title,
+        message: message
+      },
+      duration: 3000,
+      verticalPosition: 'top',
+      horizontalPosition: 'end',
+      panelClass: title == 'Success' ? 'app-notification-success' : 'app-notification-error'
+    });
   }
 
   async closeModal() {

@@ -40,7 +40,6 @@ export class AppComponent implements OnInit {
               private processHTTPMsgService: ProcessHTTPMsgService, private signupComponent: SignupComponent,
               private gameComponent: GamesComponent, private gameService: GamesService,
               private loader: LoaderService, private shopService: ShopService) {
-    this.translateService.setDefaultLang('en');
   }
 
   ngOnInit(): void {
@@ -155,6 +154,8 @@ export class AppComponent implements OnInit {
             this.clientService.clientInit().then(data => {
               this.generalService.clientInit = data.data;
               this.generalService.userObj = (data.data.user);
+              this.translateService.setDefaultLang(this.generalService.userObj?.preferedLanguage?.code);
+              this.generalService.updateFontBasedOnLanguage(this.translateService.currentLang);
             }, error => {
               return this.processHTTPMsgService.handleError(error);
             });

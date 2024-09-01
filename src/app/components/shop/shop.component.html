@@ -1,5 +1,4 @@
 <br>
-<br>
 <div style="display: ruby-text;">
   <mat-spinner *ngIf="loading" [diameter]="30"></mat-spinner>
 </div>
@@ -172,7 +171,7 @@
                 </mat-card-header>
                 <br>
                 <mat-card-actions>
-                  <button mat-raised-button class="game-button">{{'Buy' | translate}}
+                  <button mat-raised-button class="game-button" (click)="gotoDetail(item)">{{'Buy' | translate}}
                   </button>
                 </mat-card-actions>
               </mat-card>

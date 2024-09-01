@@ -12,7 +12,7 @@
                  [src]="generalService.userObj.profilePicture ? generalService.userObj.profilePicture?.startsWith('http') ? generalService.userObj?.profilePicture : configService.url(generalService.userObj?.profilePicture) : 'assets/images/frame.png'"
                  width="35" height="35">
             <mat-card-title>{{generalService.userObj.firstName + ' ' + generalService.userObj.lastName }}</mat-card-title>
-            <mat-card-subtitle class="d-flex align-items-center">
+            <mat-card-subtitle class="d-flex align-items-center mt-1">
               <img src="assets/images/coin-bronze.png"
                    width="15">&nbsp;<span>{{generalService.userObj?.assets?.coins?.bronze}}</span>&nbsp;
               <img src="assets/images/coin-silver.png"

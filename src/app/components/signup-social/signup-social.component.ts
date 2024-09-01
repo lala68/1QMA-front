@@ -21,7 +21,7 @@ import {GeneralService} from "../../services/general/general.service";
 })
 export class SignupSocialComponent {
   signUpWaitListForm = this._formBuilder.group({
-    email: new FormControl('', [Validators.required, Validators.email]),
+    email: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]),
     mobile: new FormControl('', [Validators.required, Validators.minLength(10)]),
   });
   signUpVerifyFormMobile = this._formBuilder.group({

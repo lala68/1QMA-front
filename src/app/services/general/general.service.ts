@@ -1,10 +1,11 @@
 import {Injectable, OnInit} from '@angular/core';
 import {Preferences} from "@capacitor/preferences";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {map, pipe} from "rxjs";
+import {map, pipe, Subject, takeUntil} from "rxjs";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {SnackbarContentComponent} from "../../components/snackbar-content/snackbar-content.component";
 import {Router} from "@angular/router";
+import {FormControl} from "@angular/forms";
 
 @Injectable({
   providedIn: 'root'
@@ -40,6 +41,11 @@ export class GeneralService implements OnInit {
   disconnectedModal: any = '';
   rateAnswers: { answer_id: string, rate: string }[] = [];
   rateQuestions: { question_id: string, rate: string }[] = [];
+  cityFilterCtrl = new FormControl();
+  filteredCities: any[] = [];
+  private _onDestroy = new Subject<void>();
+  wordCountAnswer: number = 100;
+
 
   constructor(private http: HttpClient, private _snackBar: MatSnackBar, private router: Router) {
   }
@@ -122,11 +128,28 @@ export class GeneralService implements OnInit {
 
   async getCitiesBasedOnCountry(code: any) {
     this.cities = [];
-    this.getCities(code).then(data => {
+    this.getCities(code).then(async data => {
       if (data.data) {
         this.cities = data.data.sort((a: any, b: any) => a.localeCompare(b));
+        // Load the initial country list
+        this.filteredCities = this.cities;
+
+        // Listen for search field value changes
+        this.cityFilterCtrl.valueChanges
+          .pipe(takeUntil(this._onDestroy))
+          .subscribe(() => {
+            this.filterCities();
+          });
       }
     });
+  }
+
+  private filterCities() {
+    const search = this.cityFilterCtrl.value ? this.cityFilterCtrl.value.toLowerCase() : '';
+    this.filteredCities = this.cities
+      .filter((city: any) =>
+        city.replace(/`/g, '').toLowerCase().includes(search)
+      );
   }
 
   openSnackBar(message: string, title: any) {
@@ -177,6 +200,23 @@ export class GeneralService implements OnInit {
       // copy to clipboard
       navigator.clipboard.writeText(sharedData.url);
       alert("Copied to clipboard!");
+    }
+  }
+
+  updateFontBasedOnLanguage(lang: any) {
+    const body = document.body;
+    body.classList.remove('english-font', 'farsi-font'); // Remove all previous font classes
+
+    switch (lang) {
+      case 'en':
+        body.classList.add('english-font');
+        break;
+      case 'fa':
+        body.classList.add('farsi-font');
+        break;
+      // Add more cases as needed
+      default:
+        body.classList.add('english-font'); // Default font
     }
   }
 }
