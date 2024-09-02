@@ -1,0 +1,59 @@
+<br>
+<div style="display: ruby-text;">
+  <mat-spinner *ngIf="loading" [diameter]="30"></mat-spinner>
+</div>
+<div class="card border-0">
+  <div class="w-100 d-flex">
+    <mat-card class="shadow-none">
+      <mat-card-header>
+        <div class="ms-2" style="height: 46px"></div>
+        <mat-label class="font-size-16 weight-600 ms-2">{{'Report a bug' | translate}}</mat-label>
+      </mat-card-header>
+    </mat-card>
+  </div>
+</div>
+<br>
+<div *ngIf="!loading">
+  <div class="card border-0">
+    <mat-card class="shadow-none w-60 m-auto p-3">
+      <mat-card-header>
+        <img mat-card-avatar src="assets/images/Megaphone.png" width="73" height="73"/>
+        <mat-card-title class="font-size-16 weight-600">Encounter an issue?</mat-card-title>
+        <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
+          Report us the bug and we will get back to you as soon a possible.
+        </mat-card-subtitle>
+      </mat-card-header>
+      <br>
+      <mat-card-content>
+        <form [formGroup]="reportForm" (ngSubmit)="onSubmit()">
+          <div class="d-flex">
+            <mat-form-field class="custom-form-field w-50" appearance="fill">
+              <mat-label>{{'Buy Main-Category' | translate}}</mat-label>
+              <mat-select [formControlName]="'mainCategory'">
+                <mat-option value="option1">option 1</mat-option>
+                <mat-option value="option2">option 2</mat-option>
+              </mat-select>
+            </mat-form-field>&nbsp;&nbsp;
+            <mat-form-field class="custom-form-field w-50" appearance="fill">
+              <mat-label>{{'Buy Sub-Category' | translate}}</mat-label>
+              <mat-select [formControlName]="'subCategory'">
+                <mat-option value="option1">option 1</mat-option>
+                <mat-option value="option2">option 2</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="textarea-container">
+            <textarea [formControlName]="'description'"
+                      [(ngModel)]="reportForm.controls.description.value"
+                      (ngModelChange)="updateWordCount()" rows="6" placeholder="Bug description"></textarea>
+            <div class="word-counter">{{ wordCount }} {{'Words' | translate}}</div>
+          </div>
+          <br>
+          <button mat-raised-button color="primary" class="submit-button float-end">
+            {{'Submit' | translate}}
+          </button>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

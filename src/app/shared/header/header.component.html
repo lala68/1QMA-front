@@ -13,7 +13,8 @@
         stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
   </button>
-  <button mat-icon-button *ngIf="generalService?.hasCompletedSignup && !generalService?.startingGame">
+  <button mat-icon-button [matMenuTriggerFor]="menuGift"
+          *ngIf="generalService?.hasCompletedSignup && !generalService?.startingGame">
     <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
         d="M20.8711 10.2402H4.87109V18.2402C4.87109 21.2402 5.87109 22.2402 8.87109 22.2402H16.8711C19.8711 22.2402 20.8711 21.2402 20.8711 18.2402V10.2402Z"
@@ -83,8 +84,8 @@
     </button>
   </mat-menu>
 
-  <mat-menu #menuNotif="matMenu" class="custom-menu">
-    <div *ngFor="let item of [].constructor(3);" class="p-2 ms-1 me-1 border-bottom">
+  <mat-menu #menuNotif="matMenu">
+    <div mat-menu-item *ngFor="let item of [].constructor(3);" class="p-2 ms-1 me-1 border-bottom">
       <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path
           d="M12.0982 3.15039C8.78821 3.15039 6.09821 5.84039 6.09821 9.15039V12.0404C6.09821 12.6504 5.83821 13.5804 5.52821 14.1004L4.37821 16.0104C3.66821 17.1904 4.15821 18.5004 5.45821 18.9404C9.76821 20.3804 14.4182 20.3804 18.7282 18.9404C19.9382 18.5404 20.4682 17.1104 19.8082 16.0104L18.6582 14.1004C18.3582 13.5804 18.0982 12.6504 18.0982 12.0404V9.15039C18.0982 5.85039 15.3982 3.15039 12.0982 3.15039Z"
@@ -96,7 +97,7 @@
           d="M15.0981 19.2998C15.0981 20.9498 13.7481 22.2998 12.0981 22.2998C11.2781 22.2998 10.5181 21.9598 9.97814 21.4198C9.43814 20.8798 9.09814 20.1198 9.09814 19.2998"
           stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10"/>
       </svg>
-      <mat-label>Title</mat-label>
+      <mat-label>&nbsp;Title</mat-label>
       <br>
       <mat-label> desc... desc... desc...desc... desc... desc... desc... desc...desc... desc...</mat-label>
       <br>
@@ -106,6 +107,35 @@
       <span>See All</span>
     </button>
   </mat-menu>
+
+  <mat-menu #menuGift="matMenu">
+    <div mat-menu-item *ngFor="let item of [].constructor(3);" class="p-2 ms-1 me-1 border-bottom">
+      <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M20.8711 10.2402H4.87109V18.2402C4.87109 21.2402 5.87109 22.2402 8.87109 22.2402H16.8711C19.8711 22.2402 20.8711 21.2402 20.8711 18.2402V10.2402Z"
+          stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+        <path
+          d="M22.4009 7.24023V8.24023C22.4009 9.34023 21.8709 10.2402 20.4009 10.2402H5.40088C3.87088 10.2402 3.40088 9.34023 3.40088 8.24023V7.24023C3.40088 6.14023 3.87088 5.24023 5.40088 5.24023H20.4009C21.8709 5.24023 22.4009 6.14023 22.4009 7.24023Z"
+          stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+        <path
+          d="M12.5407 5.24066H7.02066C6.68066 4.87066 6.69066 4.30066 7.05066 3.94066L8.47066 2.52066C8.84066 2.15066 9.45066 2.15066 9.82066 2.52066L12.5407 5.24066Z"
+          stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+        <path
+          d="M18.771 5.24066H13.251L15.971 2.52066C16.341 2.15066 16.951 2.15066 17.321 2.52066L18.741 3.94066C19.101 4.30066 19.111 4.87066 18.771 5.24066Z"
+          stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+        <path
+          d="M9.84082 10.2402V15.3802C9.84082 16.1802 10.7208 16.6502 11.3908 16.2202L12.3308 15.6002C12.6708 15.3802 13.1008 15.3802 13.4308 15.6002L14.3208 16.2002C14.9808 16.6402 15.8708 16.1702 15.8708 15.3702V10.2402H9.84082Z"
+          stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <mat-label>&nbsp;Gift explanation goes here</mat-label>
+      <br>
+      <mat-label class="text-gray">5hrs ago</mat-label>
+    </div>
+    <button mat-flat-button [routerLink]="['/gift-history']" color="primary" class="w-100">
+      <span>See All</span>
+    </button>
+  </mat-menu>
+
   <button mat-stroked-button color="primary" class="me-2 radius" style="border: 1px solid #0B6FEA"
           *ngIf="generalService?.hasCompletedSignup && !generalService?.startingGame" (click)="openAddQuestion()">
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

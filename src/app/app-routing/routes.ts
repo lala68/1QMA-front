@@ -20,6 +20,10 @@ import {TriviaHubComponent} from "../components/trivia-hub/trivia-hub.component"
 import {ShopComponent} from "../components/shop/shop.component";
 import {NotificationComponent} from "../components/notification/notification.component";
 import {TransactionsComponent} from "../components/transactions/transactions.component";
+import {FaqComponent} from "../components/faq/faq.component";
+import {TermsComponent} from "../components/terms/terms.component";
+import {GiftHistoryComponent} from "../components/gift-history/gift-history.component";
+import {ReportBugComponent} from "../components/report-bug/report-bug.component";
 
 export const routes: Routes = [
   {path: 'login', component: LoginComponent, canActivate: [AuthRedirectGuard]},
@@ -29,9 +33,13 @@ export const routes: Routes = [
   {path: 'dashboard', component: DashboardComponent, canActivate: [authGuard]},
   {path: 'transactions', component: TransactionsComponent, canActivate: [authGuard]},
   {path: 'notification', component: NotificationComponent, canActivate: [authGuard]},
+  {path: 'gift-history', component: GiftHistoryComponent, canActivate: [authGuard]},
   {path: 'games/:id', component: GamesComponent, canActivate: [authGuard]},
   {path: 'trivia-hub', component: TriviaHubComponent, canActivate: [authGuard]},
   {path: 'shop', component: ShopComponent, canActivate: [authGuard]},
+  {path: 'report-bug', component: ReportBugComponent, canActivate: [authGuard]},
+  {path: 'faq', component: FaqComponent, canActivate: [authGuard]},
+  {path: 'terms', component: TermsComponent, canActivate: [authGuard]},
   {path: 'game-result', component: GameResultComponent, canActivate: [authGuard]},
   {path: 'game-board', component: GameBoardComponent, canActivate: [authGuard, GameGuard]},
   // {path: 'game-board', component: GameBoardComponent, canActivate: [authGuard]},

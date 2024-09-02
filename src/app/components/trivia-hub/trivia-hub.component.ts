@@ -58,7 +58,7 @@ export class TriviaHubComponent implements OnInit {
       this.libraryQuestions = [];
       this.loadingContent = true;
       this.clientService.getUserQuestions(this.selectedCategory[0] ? this.selectedCategory[0]._id : '', this.selectedTabIndex == 0
-        ? 'public'
+        ? 'trivia'
         : this.selectedTabIndex == 1
           ? 'private'
           : 'bookmark', this.search, this.page, 4).then(data => {
@@ -79,7 +79,7 @@ export class TriviaHubComponent implements OnInit {
       this.libraryQuestions = [];
       this.loadingContent = true;
       this.clientService.getUserQuestions(this.selectedCategory[0] ? this.selectedCategory[0]._id : '', this.selectedTabIndex == 0
-        ? 'public'
+        ? 'trivia'
         : this.selectedTabIndex == 1
           ? 'private'
           : 'bookmark', this.search, this.page, 4).then(data => {
@@ -151,7 +151,7 @@ export class TriviaHubComponent implements OnInit {
     this.page++;
     this.loadingMore = true;
     this.clientService.getUserQuestions(this.selectedCategory[0] ? this.selectedCategory[0]._id : '', this.selectedTabIndex == 0
-      ? 'public'
+      ? 'trivia'
       : this.selectedTabIndex == 1
         ? 'private'
         : 'bookmark', this.search, this.page, 4).then(data => {
