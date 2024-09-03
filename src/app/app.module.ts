@@ -35,7 +35,6 @@ export const httpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(h
     NgxMatSelectSearchModule,
     MatDialogModule,
     ReactiveFormsModule,
-    MaterialModule,
     RouterModule,
     ClipboardModule,
     StarRatingModule.forRoot(),

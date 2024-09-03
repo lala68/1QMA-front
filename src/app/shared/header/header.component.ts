@@ -11,14 +11,17 @@ import {GamesService} from "../../services/games/games.service";
 import {ShopService} from "../../services/shop.service";
 import {SnackbarContentComponent} from "../../components/snackbar-content/snackbar-content.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {DaysAgoPipe} from "../../pipes/days-ago.pipe";
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
+  // standalone: true,
+  // imports: [DaysAgoPipe]
 })
 export class HeaderComponent {
-  notifList: any;
+  notifList: any = [];
 
   constructor(public generalService: GeneralService, public authService: AuthService,
               private router: Router, public dialog: MatDialog, private shopService: ShopService) {

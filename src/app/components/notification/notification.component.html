@@ -15,7 +15,7 @@
 <br>
 <div *ngIf="!loading">
   <div class="card border-0">
-    <div class="w-100 d-flex" *ngFor="let item of [].constructor(4)">
+    <div class="w-100 d-flex" *ngFor="let item of data">
       <mat-card class="shadow-none notif-card">
         <mat-card-header>
           <svg mat-card-avatar width="25" height="25" viewBox="0 0 25 25" fill="none"
@@ -31,13 +31,13 @@
               d="M15.0981 19.2998C15.0981 20.9498 13.7481 22.2998 12.0981 22.2998C11.2781 22.2998 10.5181 21.9598 9.97814 21.4198C9.43814 20.8798 9.09814 20.1198 9.09814 19.2998"
               stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10"/>
           </svg>
-          <mat-card-title class="font-size-16 weight-600">Level Up!</mat-card-title>
+          <mat-card-title class="font-size-16 weight-600">{{item?.title}}</mat-card-title>
           <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
-            Congratulation...
+            {{item?.message}}
           </mat-card-subtitle>
         </mat-card-header>
         <mat-label class="date">
-          3Jun 2024
+          {{item?.createdAt | date}}
         </mat-label>
       </mat-card>
     </div>

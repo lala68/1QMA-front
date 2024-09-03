@@ -44,7 +44,10 @@ export class GamesComponent implements OnInit {
   selectedCategory: any = [];
   selectedCategoryLive: any = [];
   inviteForm = this._formBuilder.group({
-    email: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]),
+    email: new FormControl({
+      value: '',
+      disabled: this.generalService.invitedPlayersArray?.length === this.generalService.gameInit?.numberOfPlayers
+    }, [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]),
   });
   wordCount: number = 100;
   wordCountAnswer: number = 100;
@@ -292,11 +295,16 @@ export class GamesComponent implements OnInit {
       this.filteredEmails = [];
       this.generalService.invitedPlayersArray.push(this.inviteForm.controls.email.value);
       this.inviteForm.reset();
+      if (this.generalService.invitedPlayersArray?.length == this.generalService.gameInit?.numberOfPlayers) {
+        this.inviteForm.controls.email.disable();
+
+      }
     }
     console.log(this.generalService.invitedPlayersArray)
   }
 
   removeInvite(item: any) {
+    this.inviteForm.controls.email.enable()
     const index = this.generalService.invitedPlayersArray.findIndex((data: any) => data === item);
     if (index !== -1) {
       // Remove the item from the array
@@ -418,6 +426,7 @@ export class GamesComponent implements OnInit {
         return this.processHTTPMsgService.handleError(error);
       });
     }
+
   }
 
   openImportFromLib() {

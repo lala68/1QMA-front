@@ -776,14 +776,15 @@
                 </mat-option>
               </mat-autocomplete>
             </mat-form-field>
-            <button mat-raised-button type="submit" [disabled]="inviteForm.invalid"
+            <button mat-raised-button type="submit"
+                    [disabled]="inviteForm.invalid || generalService.invitedPlayersArray?.length == generalService.gameInit?.numberOfPlayers"
                     class="w-25 p-4 ms-2 invite-button">
               <span>{{'Invite' | translate}}</span>
             </button>
           </form>
         </div>
         <div class="d-inline-flex">
-          <div *ngFor="let ivt of generalService.invitedPlayersArray" class="invite-card m-3">
+          <div *ngFor="let ivt of generalService.invitedPlayersArray" class="invite-card m-2">
             <img class="avatar-bordered bg-white"
                  [src]="ivt?.profilePicture ? ivt?.profilePicture?.startsWith('http') ? ivt?.profilePicture : configService.url(ivt?.profilePicture) : 'assets/images/frame.png'"
                  width="32" height="32"/>
