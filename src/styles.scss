@@ -10,7 +10,6 @@
   font-size: 14px;
 }
 
-/* styles.css */
 @font-face {
   font-family: 'Exo';
   src: url('./assets/fonts/Exo2-Regular.ttf') format('truetype');
@@ -21,13 +20,110 @@
   src: url('./assets/fonts/Rokh-Regular.ttf') format('truetype');
 }
 
-/* styles.css */
+@font-face {
+  font-family: 'Anjoman';
+  src: url('./assets/fonts/Anjoman-Medium.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Daal';
+  src: url('./assets/fonts/DaalRegular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'damavand';
+  src: url('./assets/fonts/Damavand-ExtraBold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Dana';
+  src: url('./assets/fonts/Dana-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Farhang';
+  src: url('./assets/fonts/Farhang-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Irancell';
+  src: url('./assets/fonts/Irancell.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'IRANSans';
+  src: url('./assets/fonts/IRANSans_Medium.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Kohinoor';
+  src: url('./assets/fonts/Kohinoor Arabic Regular.TTF') format('truetype');
+}
+
+@font-face {
+  font-family: 'Peyda';
+  src: url('./assets/fonts/Peyda-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Pinar';
+  src: url('./assets/fonts/Pinar-DS1-Regular.ttf') format('truetype');
+}
+
 body.english-font {
-  font-family: 'Exo', sans-serif !important; /* Fallback to sans-serif if Exo is not available */
+  font-family: 'Exo', sans-serif; /* Fallback to sans-serif */
 }
 
 body.farsi-font {
-  font-family: 'Rokh', sans-serif !important; /* Fallback to sans-serif if Rokh is not available */
+  font-family: 'Rokh', sans-serif; /* Fallback to sans-serif */
+}
+
+body.exo-font {
+  font-family: 'Exo', sans-serif; /* Fallback to sans-serif */
+}
+
+body.rokh-font {
+  font-family: 'Rokh', sans-serif; /* Fallback to sans-serif */
+}
+
+body.anjoman-font {
+  font-family: 'Anjoman', sans-serif; /* Fallback to sans-serif */
+}
+
+body.daal-font {
+  font-family: 'Daal', sans-serif; /* Fallback to sans-serif */
+}
+
+body.damavand-font {
+  font-family: 'Damavand', sans-serif; /* Fallback to sans-serif */
+}
+
+body.dana-font {
+  font-family: 'Dana', sans-serif; /* Fallback to sans-serif */
+}
+
+body.farhang-font {
+  font-family: 'Farhang', sans-serif; /* Fallback to sans-serif */
+}
+
+body.irancell-font {
+  font-family: 'Irancell', sans-serif; /* Fallback to sans-serif */
+}
+
+body.IRANSans-font {
+  font-family: 'IRANSans', sans-serif; /* Fallback to sans-serif */
+}
+
+body.kohinoor-font {
+  font-family: 'Kohinoor', sans-serif; /* Fallback to sans-serif */
+}
+
+body.peyda-font {
+  font-family: 'Peyda', sans-serif; /* Fallback to sans-serif */
+}
+
+body.pinar-font {
+  font-family: 'Pinar', sans-serif; /* Fallback to sans-serif */
 }
 
 

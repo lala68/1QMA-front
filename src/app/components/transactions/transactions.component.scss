@@ -5,3 +5,28 @@
   border-radius: 6px !important;
   width: 60%;
 }
+
+.coins-section {
+  display: flex;
+  justify-content: flex-end;
+  width: 50%;
+}
+
+.coin {
+  display: flex;
+  align-items: center;
+  width: 35%;
+}
+
+.coin:first-child {
+  justify-content: flex-end;
+}
+
+.coin:nth-child(2) {
+  justify-content: center;
+}
+
+.coin:last-child {
+  justify-content: flex-start;
+}
+

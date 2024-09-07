@@ -34,7 +34,7 @@
     </svg>
   </button>
   <button mat-icon-button *ngIf="generalService?.hasCompletedSignup && !generalService?.startingGame"
-          [matMenuTriggerFor]="menuNotif" [matBadge]="generalService?.newNotif ? 1 : ''" matBadgePosition="after"
+          [matMenuTriggerFor]="menuNotif" [matBadge]="generalService.newNotif ? 1 : ''" matBadgePosition="after"
           (click)="generalService.newNotif = false">
     <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
@@ -85,7 +85,8 @@
   </mat-menu>
 
   <mat-menu #menuNotif="matMenu">
-    <div mat-menu-item *ngFor="let item of generalService?.notifList" class="p-2 ms-1 me-1 border-bottom" [routerLink]="['/notification']">
+    <div mat-menu-item *ngFor="let item of generalService?.notifList" class="p-2 ms-1 me-1 border-bottom"
+         [routerLink]="['/notification']">
       <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path
           d="M12.0982 3.15039C8.78821 3.15039 6.09821 5.84039 6.09821 9.15039V12.0404C6.09821 12.6504 5.83821 13.5804 5.52821 14.1004L4.37821 16.0104C3.66821 17.1904 4.15821 18.5004 5.45821 18.9404C9.76821 20.3804 14.4182 20.3804 18.7282 18.9404C19.9382 18.5404 20.4682 17.1104 19.8082 16.0104L18.6582 14.1004C18.3582 13.5804 18.0982 12.6504 18.0982 12.0404V9.15039C18.0982 5.85039 15.3982 3.15039 12.0982 3.15039Z"

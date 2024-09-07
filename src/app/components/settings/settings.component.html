@@ -20,6 +20,17 @@
                     [value]="hp.id">{{hp.name}}</mat-option>
       </mat-select>
     </mat-form-field>
+    <br>
+    <mat-form-field appearance="fill" class="custom-form-field w-50">
+      <mat-label>{{'Font' | translate}}</mat-label>
+<!--      (selectionChange)="generalService.onFontSelect($event)"-->
+      <mat-select (selectionChange)="onFontSelect($event)"  [(ngModel)]="generalService.font"
+                  [ngModelOptions]="{standalone: true}">
+        <mat-option *ngFor="let font of availableFonts" [value]="font">{{font}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+
     <br><br><br>
     <div role="alert" style="color: #ff5722; margin: 10px 0">
       {{error}}

@@ -45,6 +45,7 @@ export class GeneralService implements OnInit {
   filteredCities: any[] = [];
   private _onDestroy = new Subject<void>();
   wordCountAnswer: number = 100;
+  font: any;
 
 
   constructor(private http: HttpClient, private _snackBar: MatSnackBar, private router: Router) {
@@ -198,26 +199,77 @@ export class GeneralService implements OnInit {
       this.shareData(sharedData);
     } else {
       // copy to clipboard
-      navigator.clipboard.writeText(sharedData.url);
+      navigator.clipboard.writeText(sharedData.text);
       alert("Copied to clipboard!");
     }
   }
 
   updateFontBasedOnLanguage(lang: any) {
     const body = document.body;
-    body.classList.remove('english-font', 'farsi-font'); // Remove all previous font classes
+    body.classList.remove('english-font', 'farsi-font'); // Remove previous font classes
 
     switch (lang) {
       case 'en':
-        body.classList.add('english-font');
+        body.classList.add('english-font'); // Apply English font
         break;
       case 'fa':
-        body.classList.add('farsi-font');
+        body.classList.add('farsi-font'); // Apply Farsi font
         break;
-      // Add more cases as needed
       default:
-        body.classList.add('english-font'); // Default font
+        body.classList.add('english-font'); // Default to English font
     }
+  }
+
+  onFontSelect(font: any) {
+    const body = document.body;
+    body.classList.remove('english-font', 'farsi-font', 'exo-font', 'rokh-font'
+      , 'anjoman-font', 'daal-font', 'damavand-font', 'dana-font', 'farhang-font', 'irancell-font',
+      'IRANSans-font', 'kohinoor-font', 'peyda-font', 'pinar-font'); // Remove previous font classes
+    switch (font) {
+      case 'Exo':
+        body.classList.add('exo-font'); // Apply English font
+        break;
+      case 'Rokh':
+        body.classList.add('rokh-font'); // Apply Farsi font
+        break;
+      case 'Anjoman':
+        body.classList.add('anjoman-font'); // Apply Farsi font
+        break;
+      case 'Daal':
+        body.classList.add('daal-font'); // Apply Farsi font
+        break;
+      case 'Damavand':
+        body.classList.add('damavand-font'); // Apply Farsi font
+        break;
+      case 'Dana':
+        body.classList.add('dana-font'); // Apply Farsi font
+        break;
+      case 'Farhang':
+        body.classList.add('farhang-font'); // Apply Farsi font
+        break;
+      case 'Irancell':
+        body.classList.add('irancell-font'); // Apply Farsi font
+        break;
+      case 'IRANSans':
+        body.classList.add('IRANSans-font'); // Apply Farsi font
+        break;
+      case 'Kohinoor':
+        body.classList.add('kohinoor-font'); // Apply Farsi font
+        break;
+      case 'Peyda':
+        body.classList.add('peyda-font'); // Apply Farsi font
+        break;
+      case 'Pinar':
+        body.classList.add('pinar-font'); // Apply Farsi font
+        break;
+      default:
+        body.classList.add('english-font'); // Default to English font
+    }
+
+    Preferences.set({
+      key: 'font',
+      value: (font),
+    });
   }
 }
 

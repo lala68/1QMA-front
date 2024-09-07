@@ -15,27 +15,40 @@
 <br>
 <div *ngIf="!loading">
   <div class="card border-0 w-100">
-    <mat-card class="shadow-none financial-card" style="height: 65px">
+    <mat-card class="shadow-none financial-card" style="height: 65px;">
       <mat-card-header class="pe-1 ps-1 position-relative d-flex align-items-center w-100">
-        <mat-card-title class="card-title-profile-dashboard" style="width: 400px;
-         margin: 0 auto; text-align: start; margin-left: 1rem">Coins:
+
+        <!-- Title Section (Coins:) -->
+        <mat-card-title class="card-title-profile-dashboard"
+                        style="flex: 0 0 50%; text-align: start; padding-left: 1rem;">
+          Coins:
         </mat-card-title>
-        <div class="text-center" style="width: 60%; display: flex">
-          <div style="width: 30%">
-            <img src="assets/images/coin-bronze.png"
-                 width="24" height="24">&nbsp;<span>{{generalService.userObj?.assets?.coins?.bronze}}</span>
+
+        <!-- Coins Section -->
+        <div class="coins-section d-flex" style="flex: 0 0 100%; justify-content: space-around;">
+
+          <!-- Bronze Coins -->
+          <div class="coin d-flex align-items-center">
+            <img src="assets/images/coin-bronze.png" width="24" height="24">
+            &nbsp;<span>{{generalService.userObj?.assets?.coins?.bronze}}</span>
           </div>
-          <div style="width: 30%">
-            <img src="assets/images/coin-silver.png"
-                 width="24" height="24">&nbsp;<span>{{generalService.userObj?.assets?.coins?.silver}}</span>
+
+          <!-- Silver Coins -->
+          <div class="coin d-flex align-items-center">
+            <img src="assets/images/coin-silver.png" width="24" height="24">
+            &nbsp;<span>{{generalService.userObj?.assets?.coins?.silver}}</span>
           </div>
-          <div style="width: 30%">
-            <img src="assets/images/coin-gold.png"
-                 width="24" height="24">&nbsp;<span>{{generalService.userObj?.assets?.coins?.gold}}</span>
+
+          <!-- Gold Coins -->
+          <div class="coin d-flex align-items-center">
+            <img src="assets/images/coin-gold.png" width="24" height="24">
+            &nbsp;<span>{{generalService.userObj?.assets?.coins?.gold}}</span>
           </div>
         </div>
+
       </mat-card-header>
     </mat-card>
+
     <div class="w-100 d-flex" *ngFor="let item of data">
       <mat-card class="shadow-none financial-card p-3">
         <mat-grid-list cols="12" rowHeight="40px">

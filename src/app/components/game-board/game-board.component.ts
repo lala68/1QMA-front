@@ -184,12 +184,21 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     event.stopPropagation();
   }
 
-  openShareModal(type: any, data: any) {
-    const dialogRef = this.dialog.open(ShareGame, {
-      data: {type: type, result: data},
-      width: '500px',
-      disableClose: true
-    });
+  async openShareModal(type: any, data: any) {
+    // const dialogRef = this.dialog.open(ShareGame, {
+    //   data: {type: type, result: data},
+    //   width: '500px',
+    //   disableClose: true
+    // });
+    const base64url = data
+    const blob = await (await fetch(base64url)).blob();
+    const file = new File([blob], '1qma.png', {type: blob.type});
+    this.generalService.share({
+      title: 'Hello! Welcome to 1QMA Games!',
+      text: data,
+      files: [file],
+    })
+    // this.dialogRef.close();
   }
 
   async handleGameStep(): Promise<void> {
@@ -282,7 +291,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
         this.generalService.gameAnswerGeneral = resQue.data.myAnswer || '';
         this.generalService.editingAnswer = !!resQue.data.myAnswer;
         // if(resQue.data.myAnswer){
-          this.updateWordCountAnswer();
+        this.updateWordCountAnswer();
         // }
         // console.log(this.finishedTimerRatingAnswer)
         await this.waitForConditionNextStepRatingAnswer();
@@ -532,7 +541,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
           this.generalService.gameAnswerGeneral = resQue.data.myAnswer || '';
           this.generalService.editingAnswer = !!resQue.data.myAnswer;
           // if(resQue.data.myAnswer){
-            this.updateWordCountAnswer();
+          this.updateWordCountAnswer();
           // }
         }
       }

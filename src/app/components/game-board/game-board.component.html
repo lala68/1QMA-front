@@ -332,7 +332,7 @@
                         #answerTextArea [disabled]="generalService.editingAnswer"
                         [(ngModel)]="generalService.gameAnswerGeneral"
                         (ngModelChange)="updateWordCountAnswer()"></textarea>
-              <div class="word-counter">{{ generalService?.wordCountAnswer }} {{'Words' | translate}}</div>
+              <div class="word-counter">{{ generalService.wordCountAnswer }} {{'Words' | translate}}</div>
             </div>
           </div>
         </div>

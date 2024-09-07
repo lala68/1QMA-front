@@ -26,12 +26,14 @@ export class SettingsComponent implements OnInit {
   });
   loading: boolean = false;
   error: any = '';
+  availableFonts: string[] = ['Rokh', 'Exo', 'Anjoman', 'Daal', 'Damavand', 'Dana', 'Farhang', 'Irancell', 'IRANSans',
+    'Kohinoor', 'Peyda', 'Pinar'];
+
 
   constructor(public generalService: GeneralService, private _formBuilder: FormBuilder, public dialog: MatDialog,
               private translateService: TranslateService,
               private clientService: ClientService, private _snackBar: MatSnackBar, private processHTTPMsgService: ProcessHTTPMsgService) {
     this.generalService.currentRout = '';
-    console.log(this.generalService.userObj)
   }
 
   ngOnInit(): void {
@@ -39,6 +41,10 @@ export class SettingsComponent implements OnInit {
       language: [this.generalService.userObj?.preferedLanguage ? this.generalService.userObj?.preferedLanguage?._id : '0'],
       defaultHomePage: [this.generalService.userObj?.defaultHomePage ? this.generalService.userObj?.defaultHomePage : '/dashboard'],
     });
+  }
+
+  async onFontSelect(font: any) {
+    this.generalService.font = font.value;
   }
 
   async updateSettings() {
@@ -50,7 +56,8 @@ export class SettingsComponent implements OnInit {
         await Preferences.set({key: 'account', value: JSON.stringify(data.data)});
         await this.generalService.getUserData();
         this.translateService.use(this.generalService.userObj?.preferedLanguage?.code); // If using ngx-translate
-        this.generalService.updateFontBasedOnLanguage(this.generalService.userObj?.preferedLanguage?.code);
+        // this.generalService.updateFontBasedOnLanguage(this.generalService.userObj?.preferedLanguage?.code);
+        this.generalService.onFontSelect(this.generalService.font)
         this.loading = false;
         this.openDialog(data.message, 'Success');
       } else {
