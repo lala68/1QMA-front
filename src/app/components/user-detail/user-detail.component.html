@@ -1,6 +1,8 @@
 <br><br>
 <div class="card border-0 p-4 font-size-16 weight-600">
-  {{'User Detail' | translate}}
+  <img src="assets/images/arrow-left.svg" width="24" height="24" (click)="popId()"
+       style="position: absolute; left: 10px; top: 0; bottom: 0; margin: auto;">
+  <div class="ms-4">{{'User Detail' | translate}}</div>
 </div>
 <br>
 <div style="display: table; margin: 0 auto; text-align: center">
@@ -178,6 +180,22 @@
         </mat-label>
       </div>
     </div>
+
+    <mat-card class="shadow-none">
+      <mat-card-header class="pe-1 ps-1" *ngIf="user?.referer">
+        <mat-card-title class="card-title-profile-dashboard mb-3" style="width: 120px">{{'Referred By' | translate}}
+          :
+        </mat-card-title>
+        <img class="avatar-bordered"
+             [src]="user?.referer?.profilePicture ? user?.referer?.profilePicture?.startsWith('http') ? user?.referer?.profilePicture : configService.url(user?.referer?.profilePicture) : 'assets/images/frame.png'"
+             width="28" height="28">
+        <mat-label
+          class="card-subtitle-profile-dashboard text-light-color mt-2 font-size-13 weight-500 cursor-pointer"
+          (click)="pushId(user?.referer?._id)">
+          &nbsp;{{user?.referer?.firstName + ' ' + user?.referer?.lastName}}
+        </mat-label>
+      </mat-card-header>
+    </mat-card>
   </div>
   <div class="border-0 p-4 font-size-14 weight-600">
     {{'Latest Games' | translate}}
