@@ -156,15 +156,15 @@ export class AppComponent implements OnInit {
               this.generalService.userObj = (data.data.user);
               this.translateService.setDefaultLang(this.generalService.userObj?.preferedLanguage?.code);
               // this.generalService.updateFontBasedOnLanguage(this.translateService.currentLang);
-              const item = await Preferences.get({ key: 'font' });
-              console.log(item);
-
-              if (item && item.value) {
-                this.generalService.font = item.value;
-                this.generalService.onFontSelect(item.value);
-              } else {
-                console.log('No font value found');
-              }
+              // const item = await Preferences.get({ key: 'font' });
+              // console.log(item);
+              //
+              // if (item && item.value) {
+              //   this.generalService.font = item.value;
+              this.generalService.onFontSelect(this.generalService.userObj?.preferedFont);
+              // } else {
+              //   console.log('No font value found');
+              // }
             }, error => {
               return this.processHTTPMsgService.handleError(error);
             });

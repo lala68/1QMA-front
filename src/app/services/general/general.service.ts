@@ -45,8 +45,6 @@ export class GeneralService implements OnInit {
   filteredCities: any[] = [];
   private _onDestroy = new Subject<void>();
   wordCountAnswer: number = 100;
-  font: any;
-
 
   constructor(private http: HttpClient, private _snackBar: MatSnackBar, private router: Router) {
   }
@@ -265,11 +263,6 @@ export class GeneralService implements OnInit {
       default:
         body.classList.add('english-font'); // Default to English font
     }
-
-    Preferences.set({
-      key: 'font',
-      value: (font),
-    });
   }
 }
 

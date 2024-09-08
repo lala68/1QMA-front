@@ -156,7 +156,7 @@
                     <mat-label [class]="{'link-text': item?.disliked}">{{item?.dislikes}}</mat-label>
                     &nbsp;&nbsp;&nbsp;
                     <div class="d-inline-flex">
-                      <star-rating [starType]="'svg'" [rating]="item?.avgRate"></star-rating>
+                      <star-rating [starType]="'svg'" [rating]="item?.avgRate" [readOnly]="true"></star-rating>
                     </div>
                     <div class="d-inline-flex text-gray">
                       <mat-label *ngIf="item?.avgRate">{{item?.avgRate | number}}</mat-label>
@@ -286,7 +286,7 @@
                     <mat-label [class]="{'link-text': item?.disliked}">{{item?.dislikes}}</mat-label>
                     &nbsp;&nbsp;&nbsp;
                     <div class="d-inline-flex">
-                      <star-rating [starType]="'svg'" [rating]="item?.avgRate"></star-rating>
+                      <star-rating show-half-stars="true" [starType]="'svg'" [readOnly]="true" [rating]="item?.avgRate"></star-rating>
                     </div>
                     <div class="d-inline-flex text-gray">
                       <mat-label *ngIf="item?.avgRate">{{item?.avgRate | number}}</mat-label>
@@ -418,7 +418,7 @@
                     <mat-label [class]="{'link-text': item?.disliked}">{{item?.dislikes}}</mat-label>
                     &nbsp;&nbsp;&nbsp;
                     <div class="d-inline-flex">
-                      <star-rating [starType]="'svg'" [rating]="item?.avgRate"></star-rating>
+                      <star-rating show-half-stars="true" [starType]="'svg'"  [readOnly]="true" [rating]="item?.avgRate"></star-rating>
                     </div>
                     <div class="d-inline-flex text-gray">
                       <mat-label *ngIf="item?.avgRate">{{item?.avgRate | number}}</mat-label>
@@ -743,7 +743,7 @@
               <mat-label [class]="{'link-text': questionDetail?.disliked}">{{questionDetail?.dislikes}}</mat-label>
               &nbsp;&nbsp;&nbsp;
               <div class="d-inline-flex">
-                <star-rating [starType]="'svg'" [rating]="questionDetail?.avgRate"></star-rating>
+                <star-rating show-half-stars="true" [starType]="'svg'" [rating]="questionDetail?.avgRate" [readOnly]="true"></star-rating>
               </div>
               <div class="d-inline-flex text-gray">
                 <mat-label *ngIf="questionDetail?.avgRate">{{questionDetail?.avgRate | number}}</mat-label>
@@ -997,7 +997,7 @@
                     <mat-label [class]="{'link-text': answer?.disliked}">{{answer?.dislikes}}</mat-label>
                     &nbsp;&nbsp;&nbsp;
                     <div class="d-inline-flex">
-                      <star-rating [starType]="'svg'" [rating]="answer?.avgRate"></star-rating>
+                      <star-rating show-half-stars="true" [starType]="'svg'" [rating]="answer?.avgRate" [readOnly]="true"></star-rating>
                     </div>
                     <div class="d-inline-flex text-gray">
                       <mat-label *ngIf="answer?.avgRate">{{answer?.avgRate | number}}</mat-label>

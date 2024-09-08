@@ -22,6 +22,7 @@ import {ProcessHTTPMsgService} from "../../services/proccessHttpMsg/process-http
 export class SettingsComponent implements OnInit {
   settingsForm = this._formBuilder.group({
     language: [''],
+    font: [''],
     defaultHomePage: [''],
   });
   loading: boolean = false;
@@ -39,13 +40,14 @@ export class SettingsComponent implements OnInit {
   ngOnInit(): void {
     this.settingsForm = this._formBuilder.group({
       language: [this.generalService.userObj?.preferedLanguage ? this.generalService.userObj?.preferedLanguage?._id : '0'],
+      font: [this.generalService.userObj?.preferedFont ? this.generalService.userObj?.preferedFont : 'Exo'],
       defaultHomePage: [this.generalService.userObj?.defaultHomePage ? this.generalService.userObj?.defaultHomePage : '/dashboard'],
     });
   }
 
-  async onFontSelect(font: any) {
-    this.generalService.font = font.value;
-  }
+  // async onFontSelect(font: any) {
+  //   this.generalService.font = font.value;
+  // }
 
   async updateSettings() {
     this.loading = true;
@@ -57,7 +59,7 @@ export class SettingsComponent implements OnInit {
         await this.generalService.getUserData();
         this.translateService.use(this.generalService.userObj?.preferedLanguage?.code); // If using ngx-translate
         // this.generalService.updateFontBasedOnLanguage(this.generalService.userObj?.preferedLanguage?.code);
-        this.generalService.onFontSelect(this.generalService.font)
+        this.generalService.onFontSelect(this.generalService.userObj?.preferedFont)
         this.loading = false;
         this.openDialog(data.message, 'Success');
       } else {

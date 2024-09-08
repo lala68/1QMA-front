@@ -237,16 +237,16 @@
                   <mat-card class="shadow-none">
                     <mat-card-header class="pe-1 ps-1">
                       <img mat-card-avatar
-                           [src]="fg?.creator?.profilePicture ? fg?.creator?.profilePicture?.startsWith('http') ? fg?.creator?.profilePicture : configService.url(fg?.creator?.profilePicture) : 'assets/images/frame.png'"
+                           [src]="fg?.result?.scoreboard[0]?.profilePicture ? fg?.result?.scoreboard[0]?.profilePicture?.startsWith('http') ? fg?.result?.scoreboard[0]?.profilePicture : configService.url(fg?.result?.scoreboard[0]?.profilePicture) : 'assets/images/frame.png'"
                            width="33" height="33" class="avatar-bordered mb-0">
                       <mat-card-title
-                        class="font-size-14 weight-500 text-start">{{fg?.creator?.firstName}} {{fg?.creator?.lastName}}</mat-card-title>
-                      <mat-card-subtitle class="text-start ps-0">
+                        class="font-size-14 weight-500 text-start">{{fg?.result?.scoreboard[0]?.firstName}} {{fg?.result?.scoreboard[0]?.lastName}}</mat-card-title>
+                      <mat-card-subtitle class="text-start ps-0 d-flex">
                         <img src="assets/images/rank.png" width="16"><span
-                        class="font-size-14 weight-700">{{fg?.rank}} </span><span
+                        class="font-size-14 weight-700">1 </span><span
                         class="font-size-14 weight-500"> Rank</span>
-                        <img src="assets/images/score.png" width="16"><span
-                        class="font-size-14 weight-700">{{fg?.score | parsInt}} </span><span
+                        &nbsp;&nbsp;<img src="assets/images/score.png" width="16"><span
+                        class="font-size-14 weight-700">{{fg?.result?.scoreboard[0]?.totalScore | parsInt}} </span><span
                         class="font-size-14 weight-500"> Score</span>
                       </mat-card-subtitle>
                     </mat-card-header>
