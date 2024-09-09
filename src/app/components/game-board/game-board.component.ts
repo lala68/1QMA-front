@@ -47,7 +47,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
   finishedTimerAnswer: boolean = false;
   finishedTimerRatingAnswer: boolean = false;
   finishedTimerRatingQuestions: boolean = false;
-  submittedAnswer: any;
+  submittedAnswer: any = {};
   panelOpenState: boolean[] = [];
   numberOfDisconnectingInGameSteps: any = 0;
   isModalOpen = false;
@@ -63,18 +63,26 @@ export class GameBoardComponent implements OnInit, OnDestroy {
               private http: HttpClient) {
     this.data = this.router.getCurrentNavigation()?.extras?.state?.['data'];
     this.users = this.router.getCurrentNavigation()?.extras?.state?.['users'];
+    //numberOfSubmitted maybe remove it
+    this.submittedAnswer.numberOfSubmitted = 1;
   }
 
   async ngOnInit() {
     // this.generalService.useGoogleTranslate();
     this.generalService.players = (this.data?.game?.gamePlayers);
     this.generalService.invitedPlayersArray = (this.data?.game?.gameInviteList);
+    console.log(this.data)
+    console.log(this.data?.game?.gameInviteList)
     this.removeFromInvited(this.generalService.userObj?.email);
     this.generalService.socket.on("player added", (arg: any) => {
       const now = new Date();
       const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
       console.log("player added" + ' ' + `[${timeString}]  `);
-      this.generalService.players.push(arg);
+      console.log(this.generalService.players);
+      if (!this.generalService.players.some((player: any) => player.email === arg.email)) {
+        this.generalService.players.push(arg);
+      }
+      // this.generalService.players.push(arg);
       this.removeFromInvited(arg.email);
     });
 
@@ -240,7 +248,8 @@ export class GameBoardComponent implements OnInit, OnDestroy {
           console.warn(`Unknown game step: ${this.generalService.gameStep}`);
       }
       if (this.submittedAnswer)
-        this.submittedAnswer.numberOfSubmitted = 0;
+        // this.submittedAnswer.numberOfSubmitted = 0;
+        this.submittedAnswer.numberOfSubmitted = 1;
     });
   }
 
@@ -434,7 +443,32 @@ export class GameBoardComponent implements OnInit, OnDestroy {
         await this.sendAnswer();
         this.sendAnswerDisable = true;
       } else {
-        // console.log("elseeeeee")
+        console.log("elseeeeee");
+        this.generalService.gameAnswerGeneral = '';
+        this.generalService.gameStep = 3;
+        this.nextStepTriggeredAnswer = false;
+        this.nextStepTriggeredRatingAnswer = false;
+        this.nextStepTriggeredRatingQuestions = false;
+        this.finishedTimerAnswer = false;
+        this.finishedTimerRatingAnswer = false;
+        this.finishedTimerRatingQuestions = false;
+        this.sendAnswerDisable = false;
+        const data = await this.gameService.getAllAnswersOfSpecificQuestion(
+          this.generalService.createdGameData.game.gameId,
+          this.generalService.gameQuestion._id
+        );
+
+        if (data.status === 1) {
+          this.generalService.specificQuestionAnswers = data.data;
+          // for (const answer of this.generalService.specificQuestionAnswers.answers) {
+          //   answer.answer = await translate(answer.answer, {
+          //     to:
+          //       this.generalService?.userObj?.preferedLanguage == '0' ? 'en' :
+          //         this.generalService.userObj?.preferedLanguage == '1' ? 'de' : 'fa', from: answer.language
+          //   });
+          // }
+          this.updateRates(this.generalService.rateAnswers.length !== 0);
+        }
       }
     } else {
       this.numberOfDisconnectingInGameSteps++;
@@ -484,7 +518,36 @@ export class GameBoardComponent implements OnInit, OnDestroy {
         await this.sendRateAnswer(false);
         this.sendRateAnswerDisable = true;
       } else {
-        // console.log("elseeeeee")
+        console.log("elseeeeee");
+        // // maybe
+        // await this.sendRateAnswer(false);
+        // //
+        this.generalService.gameStep = 2;
+        this.nextStepTriggeredAnswer = false;
+        this.nextStepTriggeredRatingAnswer = false;
+        this.nextStepTriggeredRatingQuestions = false;
+        this.finishedTimerAnswer = false;
+        this.finishedTimerRatingAnswer = false;
+        this.finishedTimerRatingQuestions = false;
+        this.sendRateAnswerDisable = false;
+        const resQue = await this.gameService.getGameQuestionBasedOnStep(
+          this.generalService.createdGameData.game.gameId,
+          parseInt(this.generalService.gameQuestion.step) + 1
+        );
+        if (resQue.status === 1) {
+          this.generalService.gameQuestion = resQue.data;
+          // this.generalService.gameQuestion.question = await translate(this.generalService.gameQuestion.question,
+          //   {
+          //     to: this.generalService?.userObj?.preferedLanguage == '0' ? 'en' :
+          //       this.generalService.userObj?.preferedLanguage == '1' ? 'de' : 'fa',
+          //     from: this.generalService.gameQuestion.language
+          //   });
+          this.generalService.gameAnswerGeneral = resQue.data.myAnswer || '';
+          this.generalService.editingAnswer = !!resQue.data.myAnswer;
+          // if(resQue.data.myAnswer){
+          this.updateWordCountAnswer();
+          // }
+        }
       }
     } else {
       if (this.generalService.gameQuestion?.step == this.generalService.gameInit?.numberOfPlayers) {
@@ -713,6 +776,9 @@ export class GameBoardComponent implements OnInit, OnDestroy {
   }
 
   editAnswer() {
+    //maybe
+    this.sendAnswerDisable = false;
+    //
     this.generalService.editingAnswer = false;
   }
 
@@ -721,6 +787,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     if (index !== -1) {
       // Remove the item from the array
       this.generalService.invitedPlayersArray.splice(index, 1);
+      console.log(this.generalService.invitedPlayersArray)
     }
   }
 

@@ -120,7 +120,7 @@
         </div>
       </div>
       <br>
-      <div class="card border-0" *ngIf="liveGames?.length">
+      <div class="card border-0">
         <div class="w-100 d-flex">
           <mat-card class="shadow-none" style="width: 100%">
             <mat-card-header>
@@ -166,7 +166,8 @@
                 </mat-card-header>
                 <br>
                 <mat-card-content class="d-inline-flex position-relative p-0 w-100 text-start">
-                  <img mat-card-avatar src="assets/images/frame.png"
+                  <img mat-card-avatar
+                       [src]="liveGame?.creator?.profilePicture ? liveGame?.creator?.profilePicture?.startsWith('http') ? liveGame?.creator?.profilePicture : configService.url(liveGame?.creator?.profilePicture) : 'assets/images/frame.png'"
                        width="33" height="33" class="mb-0">
                   <mat-card-title class="font-size-10 weight-500 ms-1">{{'Created By' | translate}}:</mat-card-title>
                   <mat-card-subtitle class="position-absolute bottom-0" style="left: 45px">
@@ -197,7 +198,8 @@
                 </div>
                 <br>
                 <span class="font-size-11 weight-500 text-start"
-                      *ngIf="liveGame?.players.length < generalService.gameInit?.numberOfPlayers">Waiting for 1/{{generalService.gameInit?.numberOfPlayers}}
+                      *ngIf="liveGame?.players.length < generalService.gameInit?.numberOfPlayers">Waiting for {{generalService.gameInit?.numberOfPlayers - liveGame?.players?.length}}
+                  /{{generalService.gameInit?.numberOfPlayers}}
                   player</span>
                 <br>
                 <mat-card-actions>
@@ -996,7 +998,7 @@
             <br>
             <span class="font-size-11 weight-500 text-start"
                   *ngIf="liveGame?.players.length < generalService.gameInit?.numberOfPlayers">{{'Waiting for' | translate}}
-              1/{{generalService.gameInit?.numberOfPlayers}} {{'players' | translate}}</span>
+              {{generalService.gameInit?.numberOfPlayers - liveGame?.players?.length}}/{{generalService.gameInit?.numberOfPlayers}} {{'players' | translate}}</span>
             <br>
             <mat-card-actions>
               <button mat-raised-button class="game-button"

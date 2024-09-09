@@ -18,6 +18,8 @@ import {LoaderService} from "../../services/loader/loader.service";
 import {ProcessHTTPMsgService} from "../../services/proccessHttpMsg/process-httpmsg.service";
 import translate from "translate";
 import {GamesService} from "../../services/games/games.service";
+import {ExitGame} from "../../shared/header/header.component";
+import {CharityModalComponent} from "../charity-modal/charity-modal.component";
 
 @Component({
   selector: 'app-dashboard',
@@ -175,6 +177,16 @@ export class DashboardComponent implements OnInit {
       }
     }, error => {
       return this.processHTTPMsgService.handleError(error);
+    });
+  }
+
+  openCharityModal() {
+    const dialogRef = this.dialog.open(CharityModalComponent, {
+      width: '500px'
+    });
+    dialogRef.afterClosed().subscribe(async result => {
+      if (result == 'success') {
+      }
     });
   }
 }

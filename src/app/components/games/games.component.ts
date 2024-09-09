@@ -331,7 +331,12 @@ export class GamesComponent implements OnInit {
       const now = new Date();
       const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
       console.log("player added" + ' ' + `[${timeString}]  `);
-      this.generalService.players.push(arg);
+      console.log(this.generalService.players);
+      if (!this.generalService.players.some((player: any) => player.email === arg.email)) {
+        this.generalService.players.push(arg);
+      }
+      // this.generalService.players.push(arg);
+      this.gameBoardComponent.removeFromInvited(arg.email);
     });
 
     this.generalService.socket.on("start game", (arg: any) => {

@@ -350,65 +350,111 @@
   </div>
 </div>
 <br>
-<div class="card w-50 border-0 p-4" *ngIf="!loading">
-  <div class="d-inline-flex">
-    <img src="assets/images/invite.png"
-         width="32" height="32">
-    <div class="font-size-16 weight-800 pt-2">&nbsp;{{'Invite Friends' | translate}}</div>
-  </div>
-  <br>
-  <div class="d-inline-flex w-100">
-    <form [formGroup]="inviteForm" class="w-100" (ngSubmit)="onSubmit()" autocomplete="off">
-      <input matInput class="invite-input ps-2" placeholder="{{'Enter your email' | translate}}" type="email"
-             [formControlName]="'email'">
-
-      <button mat-raised-button color="primary" type="submit" [disabled]="!inviteForm.valid || loadingInvite"
-              class="w-25 p-4s ms-2 blue-button">
-        <span>{{'Invite' | translate}}</span>
-      </button>
-    </form>
-  </div>
-  <br>
-  <div class="d-inline w-100 copy-referrer cursor-pointer"
-       [cdkCopyToClipboard]="generalService.userObj?.referCode">
-    <div class="d-inline text-start">Referral Code</div>
-    <div class="d-inline text-end float-end"
-         matTooltip="Click to copy in clipboard!"
-         [matTooltipPosition]="'above'"
-         [matTooltipHideDelay]="1000"
-         #tooltip="matTooltip">
-      {{generalService.userObj?.referCode}} <i class="bi bi-copy"></i>
+<div class="w-100 d-flex">
+  <div class="card w-50 border-0 p-4 m-2" *ngIf="!loading">
+    <div class="d-inline-flex">
+      <img src="assets/images/invite.png"
+           width="32" height="32">
+      <div class="font-size-16 weight-800 pt-2">&nbsp;{{'Invite Friends' | translate}}</div>
     </div>
+    <br>
+    <div class="d-inline-flex w-100">
+      <form [formGroup]="inviteForm" class="w-100" (ngSubmit)="onSubmit()" autocomplete="off">
+        <input matInput class="invite-input ps-2" placeholder="{{'Enter your email' | translate}}" type="email"
+               [formControlName]="'email'">
+
+        <button mat-raised-button color="primary" type="submit" [disabled]="!inviteForm.valid || loadingInvite"
+                class="w-25 p-4s ms-2 blue-button">
+          <span>{{'Invite' | translate}}</span>
+        </button>
+      </form>
+    </div>
+    <br>
+    <div class="d-inline w-100 copy-referrer cursor-pointer"
+         [cdkCopyToClipboard]="generalService.userObj?.referCode">
+      <div class="d-inline text-start">Referral Code</div>
+      <div class="d-inline text-end float-end"
+           matTooltip="Click to copy in clipboard!"
+           [matTooltipPosition]="'above'"
+           [matTooltipHideDelay]="1000"
+           #tooltip="matTooltip">
+        {{generalService.userObj?.referCode}} <i class="bi bi-copy"></i>
+      </div>
+    </div>
+
+    <br>
+    <mat-card class="shadow-none">
+      <mat-card-header class="pe-1 ps-1 position-relative d-flex align-items-center border-top border-bottom"
+                       style="padding-bottom: 12px">
+        <mat-card-title class="card-title-profile-dashboard d-flex align-items-center">
+          <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M7.32617 12.1362C3.32617 12.1362 3.32617 13.9262 3.32617 16.1362V17.1362C3.32617 19.8962 3.32617 22.1362 8.32617 22.1362H16.3262C20.3262 22.1362 21.3262 19.8962 21.3262 17.1362V16.1362C21.3262 13.9262 21.3262 12.1362 17.3262 12.1362C16.3262 12.1362 16.0462 12.3462 15.5262 12.7362L14.5062 13.8162C13.3262 15.0762 11.3262 15.0762 10.1362 13.8162L9.12617 12.7362C8.60617 12.3462 8.32617 12.1362 7.32617 12.1362Z"
+              stroke="#2C2523" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+              stroke-linejoin="round"/>
+            <path
+              d="M19.3262 12.1362V6.13623C19.3262 3.92623 19.3262 2.13623 15.3262 2.13623H9.32617C5.32617 2.13623 5.32617 3.92623 5.32617 6.13623V12.1362"
+              stroke="#2C2523" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+              stroke-linejoin="round"/>
+            <path d="M10.876 9.36621H14.206" stroke="#2C2523" stroke-width="1.5" stroke-linecap="round"
+                  stroke-linejoin="round"/>
+            <path d="M10.0459 6.36621H15.0459" stroke="#2C2523" stroke-width="1.5" stroke-linecap="round"
+                  stroke-linejoin="round"/>
+          </svg>
+          {{generalService.userObj?.invitations.length}} / {{generalService.userObj?.maxInvites}} Left Invitations
+        </mat-card-title>
+        <div [routerLink]="['/shop']"
+             class="link-text font-size-14 weight-500 position-absolute end-0 cursor-pointer">{{'Buy More' | translate}}
+        </div>
+      </mat-card-header>
+    </mat-card>
+    <br>
+    <div class="font-size-14 weight-600 pt-2">&nbsp;{{'Invited Friends' | translate}}</div>
+
+    <mat-list>
+      <mat-list-item *ngFor="let invite of generalService.userObj?.invitations">
+        <div matListItemIcon style="background: #D9D9D9; border-radius: 50px; width: 40px; height: 40px; margin: 20px">
+          <img src="assets/images/frame.png" width="35" style="padding-left: 5px">
+        </div>
+        <div matListItemTitle>{{invite?.email}}</div>
+        <div matListItemLine>{{invite?.createdAt | date}}</div>
+      </mat-list-item>
+    </mat-list>
   </div>
-
-  <br>
-  <mat-card class="shadow-none">
-    <mat-card-header class="pe-1 ps-1 position-relative d-flex align-items-center border-top border-bottom" style="padding-bottom: 12px">
-      <mat-card-title class="card-title-profile-dashboard d-flex align-items-center">
-        <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M7.32617 12.1362C3.32617 12.1362 3.32617 13.9262 3.32617 16.1362V17.1362C3.32617 19.8962 3.32617 22.1362 8.32617 22.1362H16.3262C20.3262 22.1362 21.3262 19.8962 21.3262 17.1362V16.1362C21.3262 13.9262 21.3262 12.1362 17.3262 12.1362C16.3262 12.1362 16.0462 12.3462 15.5262 12.7362L14.5062 13.8162C13.3262 15.0762 11.3262 15.0762 10.1362 13.8162L9.12617 12.7362C8.60617 12.3462 8.32617 12.1362 7.32617 12.1362Z" stroke="#2C2523" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M19.3262 12.1362V6.13623C19.3262 3.92623 19.3262 2.13623 15.3262 2.13623H9.32617C5.32617 2.13623 5.32617 3.92623 5.32617 6.13623V12.1362" stroke="#2C2523" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M10.876 9.36621H14.206" stroke="#2C2523" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M10.0459 6.36621H15.0459" stroke="#2C2523" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        {{generalService.userObj?.invitations.length}} / {{generalService.userObj?.maxInvites}} Left Invitations
-      </mat-card-title>
-      <div [routerLink]="['/shop']" class="link-text font-size-14 weight-500 position-absolute end-0 cursor-pointer">{{'Buy More' | translate}}
-      </div>
-    </mat-card-header>
-  </mat-card>
-  <br>
-  <div class="font-size-14 weight-600 pt-2">&nbsp;{{'Invited Friends' | translate}}</div>
-
-  <mat-list>
-    <mat-list-item *ngFor="let invite of generalService.userObj?.invitations">
-      <div matListItemIcon style="background: #D9D9D9; border-radius: 50px; width: 40px; height: 40px; margin: 20px">
-        <img src="assets/images/frame.png" width="35" style="padding-left: 5px">
-      </div>
-      <div matListItemTitle>{{invite?.email}}</div>
-      <div matListItemLine>{{invite?.createdAt | date}}</div>
-    </mat-list-item>
-  </mat-list>
+  <div class="card w-50 border-0 p-4 m-2" *ngIf="!loading" style="max-height: 440px; min-height: 440px">
+    <div class="d-inline-flex">
+      <img src="assets/images/handshake.png"
+           width="40" height="28">
+      <div class="font-size-16 weight-800">&nbsp;{{'Charity' | translate}}</div>
+    </div>
+    <br>
+    <mat-card class="shadow-none border-0 bg-transparent">
+      <mat-card-header class="ps-0">
+        <img mat-card-avatar src="assets/images/charity.png"
+             width="64" height="56"/>
+        <mat-card-title
+          class="font-size-14 weight-600 pb-2">{{'Play Game,' | translate}}</mat-card-title>
+        <mat-card-subtitle
+          class="font-size-14 weight-600 pb-2 text-black">{{'Make A Difference!' | translate}}
+        </mat-card-subtitle>
+      </mat-card-header>
+    </mat-card>
+    <br>
+    <mat-label class="text-light-color">
+      By playing our game, you're not just having fun—you're making a difference.
+    </mat-label>
+    <br>
+    <mat-label class="text-light-color">
+      We allocate a portion of our income to support various charitable causes.
+    </mat-label>
+    <br>
+    <mat-label class="text-light-color">
+      Select the category closest to your heart and know that your choice directly contributes to positive change.
+    </mat-label>
+    <button mat-raised-button (click)="openCharityModal()"
+            class="answer-button position-absolute start-10" style="bottom: 30px">{{'Choose Category' | translate}}
+    </button>
+  </div>
 </div>
 
 <br>
