@@ -37,7 +37,7 @@ export class CharityModalComponent implements OnInit {
   selectActivity(item: any) {
     const obj = {
       "charity": {
-        "id": this.selectedCharity?._id,
+        "_id": this.selectedCharity?._id,
         "title": this.selectedCharity?.title
       },
       "activity": item

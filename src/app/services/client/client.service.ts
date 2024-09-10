@@ -361,8 +361,7 @@ export class ClientService {
 
   async postCharity(data: any): Promise<any> {
     let headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-
+      'Content-Type': 'application/json'
     })
     try {
       const response = this.http.post<any>(this.config.url('client/charity'), {
