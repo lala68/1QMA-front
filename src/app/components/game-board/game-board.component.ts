@@ -89,6 +89,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     this.generalService.socket.on("next step", (arg: any) => {
       const now = new Date();
       const timeString = now.toLocaleTimeString();
+      this.countdownTimer.resetTimer();
       console.log("next step" + ' ' + `[${timeString}]  `);
       if (this.generalService.gameStep == 2) {
         this.nextStepTriggeredAnswer = true;
@@ -210,10 +211,10 @@ export class GameBoardComponent implements OnInit, OnDestroy {
   }
 
   async handleGameStep(): Promise<void> {
-    // console.log("finishedTimerAnswer" + this.finishedTimerAnswer);
-    // console.log("finishedTimerRatingAnswer" + this.finishedTimerRatingAnswer);
-    // console.log("finishedTimerRatingQuestions" + this.finishedTimerRatingQuestions);
-    // console.log("gameStep" + this.generalService.gameStep);
+    console.log("finishedTimerAnswer" + this.finishedTimerAnswer);
+    console.log("finishedTimerRatingAnswer" + this.finishedTimerRatingAnswer);
+    console.log("finishedTimerRatingQuestions" + this.finishedTimerRatingQuestions);
+    console.log("gameStep" + this.generalService.gameStep);
     if (this.generalService.gameStep == 2) {
       // this.generalService.wordCountAnswer = 100;
       this.finishedTimerRatingQuestions = false;
@@ -340,7 +341,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
           clearInterval(interval);
           resolve();
         }
-      }, 1000); // Check every 100ms
+      }, 100); // Check every 100ms
     });
   }
 
@@ -351,7 +352,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
           clearInterval(interval);
           resolve();
         }
-      }, 1000); // Check every 100ms
+      }, 100); // Check every 100ms
     });
   }
 
@@ -362,7 +363,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
           clearInterval(interval);
           resolve();
         }
-      }, 1000); // Check every 100ms
+      }, 100); // Check every 100ms
     });
   }
 
@@ -373,7 +374,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
           clearInterval(interval);
           resolve();
         }
-      }, 1000); // Check every 100ms
+      }, 100); // Check every 100ms
     });
   }
 
@@ -384,7 +385,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
           clearInterval(interval);
           resolve();
         }
-      }, 1000); // Check every 100ms
+      }, 100); // Check every 100ms
     });
   }
 
@@ -395,7 +396,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
           clearInterval(interval);
           resolve();
         }
-      }, 1000); // Check every 100ms
+      }, 100); // Check every 100ms
     });
   }
 
@@ -444,31 +445,31 @@ export class GameBoardComponent implements OnInit, OnDestroy {
         this.sendAnswerDisable = true;
       } else {
         console.log("elseeeeee");
-        this.generalService.gameAnswerGeneral = '';
-        this.generalService.gameStep = 3;
-        this.nextStepTriggeredAnswer = false;
-        this.nextStepTriggeredRatingAnswer = false;
-        this.nextStepTriggeredRatingQuestions = false;
-        this.finishedTimerAnswer = false;
-        this.finishedTimerRatingAnswer = false;
-        this.finishedTimerRatingQuestions = false;
-        this.sendAnswerDisable = false;
-        const data = await this.gameService.getAllAnswersOfSpecificQuestion(
-          this.generalService.createdGameData.game.gameId,
-          this.generalService.gameQuestion._id
-        );
-
-        if (data.status === 1) {
-          this.generalService.specificQuestionAnswers = data.data;
-          // for (const answer of this.generalService.specificQuestionAnswers.answers) {
-          //   answer.answer = await translate(answer.answer, {
-          //     to:
-          //       this.generalService?.userObj?.preferedLanguage == '0' ? 'en' :
-          //         this.generalService.userObj?.preferedLanguage == '1' ? 'de' : 'fa', from: answer.language
-          //   });
-          // }
-          this.updateRates(this.generalService.rateAnswers.length !== 0);
-        }
+      //   this.generalService.gameAnswerGeneral = '';
+      //   this.generalService.gameStep = 3;
+      //   this.nextStepTriggeredAnswer = false;
+      //   this.nextStepTriggeredRatingAnswer = false;
+      //   this.nextStepTriggeredRatingQuestions = false;
+      //   this.finishedTimerAnswer = false;
+      //   this.finishedTimerRatingAnswer = false;
+      //   this.finishedTimerRatingQuestions = false;
+      //   this.sendAnswerDisable = false;
+      //   const data = await this.gameService.getAllAnswersOfSpecificQuestion(
+      //     this.generalService.createdGameData.game.gameId,
+      //     this.generalService.gameQuestion._id
+      //   );
+      //
+      //   if (data.status === 1) {
+      //     this.generalService.specificQuestionAnswers = data.data;
+      //     // for (const answer of this.generalService.specificQuestionAnswers.answers) {
+      //     //   answer.answer = await translate(answer.answer, {
+      //     //     to:
+      //     //       this.generalService?.userObj?.preferedLanguage == '0' ? 'en' :
+      //     //         this.generalService.userObj?.preferedLanguage == '1' ? 'de' : 'fa', from: answer.language
+      //     //   });
+      //     // }
+      //     this.updateRates(this.generalService.rateAnswers.length !== 0);
+      //   }
       }
     } else {
       this.numberOfDisconnectingInGameSteps++;
@@ -519,35 +520,35 @@ export class GameBoardComponent implements OnInit, OnDestroy {
         this.sendRateAnswerDisable = true;
       } else {
         console.log("elseeeeee");
-        // // maybe
-        // await this.sendRateAnswer(false);
-        // //
-        this.generalService.gameStep = 2;
-        this.nextStepTriggeredAnswer = false;
-        this.nextStepTriggeredRatingAnswer = false;
-        this.nextStepTriggeredRatingQuestions = false;
-        this.finishedTimerAnswer = false;
-        this.finishedTimerRatingAnswer = false;
-        this.finishedTimerRatingQuestions = false;
-        this.sendRateAnswerDisable = false;
-        const resQue = await this.gameService.getGameQuestionBasedOnStep(
-          this.generalService.createdGameData.game.gameId,
-          parseInt(this.generalService.gameQuestion.step) + 1
-        );
-        if (resQue.status === 1) {
-          this.generalService.gameQuestion = resQue.data;
-          // this.generalService.gameQuestion.question = await translate(this.generalService.gameQuestion.question,
-          //   {
-          //     to: this.generalService?.userObj?.preferedLanguage == '0' ? 'en' :
-          //       this.generalService.userObj?.preferedLanguage == '1' ? 'de' : 'fa',
-          //     from: this.generalService.gameQuestion.language
-          //   });
-          this.generalService.gameAnswerGeneral = resQue.data.myAnswer || '';
-          this.generalService.editingAnswer = !!resQue.data.myAnswer;
-          // if(resQue.data.myAnswer){
-          this.updateWordCountAnswer();
-          // }
-        }
+       /* // maybe
+       // await this.sendRateAnswer(false);
+        //*/
+        // this.generalService.gameStep = 2;
+        // this.nextStepTriggeredAnswer = false;
+        // this.nextStepTriggeredRatingAnswer = false;
+        // this.nextStepTriggeredRatingQuestions = false;
+        // this.finishedTimerAnswer = false;
+        // this.finishedTimerRatingAnswer = false;
+        // this.finishedTimerRatingQuestions = false;
+        // this.sendRateAnswerDisable = false;
+        // const resQue = await this.gameService.getGameQuestionBasedOnStep(
+        //   this.generalService.createdGameData.game.gameId,
+        //   parseInt(this.generalService.gameQuestion.step) + 1
+        // );
+        // if (resQue.status === 1) {
+        //   this.generalService.gameQuestion = resQue.data;
+        //   // this.generalService.gameQuestion.question = await translate(this.generalService.gameQuestion.question,
+        //   //   {
+        //   //     to: this.generalService?.userObj?.preferedLanguage == '0' ? 'en' :
+        //   //       this.generalService.userObj?.preferedLanguage == '1' ? 'de' : 'fa',
+        //   //     from: this.generalService.gameQuestion.language
+        //   //   });
+        //   this.generalService.gameAnswerGeneral = resQue.data.myAnswer || '';
+        //   this.generalService.editingAnswer = !!resQue.data.myAnswer;
+        //   // if(resQue.data.myAnswer){
+        //   this.updateWordCountAnswer();
+        //   // }
+        // }
       }
     } else {
       if (this.generalService.gameQuestion?.step == this.generalService.gameInit?.numberOfPlayers) {

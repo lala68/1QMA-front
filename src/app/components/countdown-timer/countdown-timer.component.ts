@@ -19,6 +19,7 @@ export class CountdownTimerComponent implements OnInit, OnDestroy {
   public timeLeft: any;
   private subscription: any;
   timerClass: string = ''; // Initialize with an empty string or normal state
+  countdownTimeout: any; // To track the timeout reference
 
 
   constructor(private generalService: GeneralService, private ngZone: NgZone) {
@@ -42,18 +43,25 @@ export class CountdownTimerComponent implements OnInit, OnDestroy {
   startCountdown(): void {
     let startTime: number;
     let pausedTime = 0;
-    let lastTimestamp: number;
+    let lastTimestamp: number | null = null;
     const interval = 1000; // Check every second
 
     const countdown = () => {
       const now = Date.now();
       const elapsedTime = now - startTime - pausedTime;
+
+      // Ensure countdownDuration is valid
+      if (typeof this.countdownDuration !== 'number' || isNaN(this.countdownDuration)) {
+        console.error('Invalid countdown duration');
+        return;
+      }
+
       const secondsLeft = Math.max(0, this.countdownDuration - Math.floor(elapsedTime / 1000));
 
       this.ngZone.run(() => {
         this.timeLeft = this.formatTime(secondsLeft);
 
-        // Determine the class based on the time left
+        // Update the timer class based on time left
         if (secondsLeft <= 10) {
           this.timerClass = 'danger';
         } else if (secondsLeft <= 30) {
@@ -69,55 +77,16 @@ export class CountdownTimerComponent implements OnInit, OnDestroy {
         });
       } else {
         lastTimestamp = now;
-        setTimeout(countdown, interval);
+        this.countdownTimeout = setTimeout(countdown, interval); // Track the timeout reference
       }
     };
 
     // Initialize the start time and begin the countdown
     startTime = Date.now();
+    pausedTime = 0; // Reset pausedTime
     countdown();
   }
 
-
-  // startCountdown(): void {
-  //   let startTime: number;
-  //   let pausedTime = 0;
-  //   let lastTimestamp: number;
-  //   const interval = 1000; // Check every second
-  //
-  //   const countdown = () => {
-  //     const now = Date.now();
-  //     const elapsedTime = now - startTime - pausedTime;
-  //     const secondsLeft = Math.max(0, this.countdownDuration - Math.floor(elapsedTime / 1000));
-  //
-  //     this.ngZone.run(() => {
-  //       this.timeLeft = this.formatTime(secondsLeft);
-  //     });
-  //
-  //     if (secondsLeft === 0) {
-  //       this.ngZone.run(() => {
-  //         this.countdownFinished.emit();
-  //       });
-  //     } else {
-  //       lastTimestamp = now;
-  //       setTimeout(countdown, interval);
-  //     }
-  //   };
-  //
-  //   const handleVisibilityChange = () => {
-  //     if (document.visibilityState === 'visible') {
-  //       startTime += Date.now() - lastTimestamp;
-  //     } else {
-  //       lastTimestamp = Date.now();
-  //     }
-  //   };
-  //
-  //   document.addEventListener('visibilitychange', handleVisibilityChange);
-  //
-  //   startTime = Date.now();
-  //   lastTimestamp = startTime;
-  //   countdown();
-  // }
 
 
   private formatTime(seconds: number): string {
@@ -126,6 +95,33 @@ export class CountdownTimerComponent implements OnInit, OnDestroy {
     const secondsRemaining: number = seconds % 60;
     const formattedSeconds: any = secondsRemaining.toString().padStart(2, '0');
     return `${formattedMinutes} : ${formattedMinutes !== 1 ? '' : ''} ${formattedSeconds} ${formattedSeconds !== 1 ? '' : ''}`;
+  }
+
+  resetTimer(): void {
+    // Fetch new duration from the service, or use the current value
+    const newDuration = this.generalService.gameInit?.eachStepDurationSeconds;
+
+    // Check if the new duration is valid
+    if (newDuration) {
+      this.countdownDuration = parseInt(newDuration, 10); // Parse as integer
+    } else {
+      // If no new duration, fall back to the existing countdown duration
+      this.countdownDuration = this.countdownDuration || 60; // Default to 60 if no duration
+    }
+
+    // Clear the previous countdown and reset the state
+    this.clearCountdown();
+
+    // Restart the countdown with the new duration
+    this.startCountdown();
+  }
+
+
+  clearCountdown(): void {
+    if (this.countdownTimeout) {
+      clearTimeout(this.countdownTimeout); // Clear the previous timeout
+      this.countdownTimeout = null; // Reset the reference
+    }
   }
 
 }
