@@ -69,6 +69,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     // this.generalService.useGoogleTranslate();
+    this.generalService.wordCountAnswer = this.generalService.gameInit?.answerWordsLimitation;
     this.generalService.players = (this.data?.game?.gamePlayers);
     this.generalService.invitedPlayersArray = (this.data?.game?.gameInviteList);
     console.log(this.data)
@@ -100,7 +101,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
         this.finishedTimerRatingQuestions = false;
         this.sendRateAnswerDisable = false;
       } else if (this.generalService.gameStep == 3) {
-        this.generalService.wordCountAnswer = 100;
+        this.generalService.wordCountAnswer = this.generalService.gameInit?.answerWordsLimitation;
         this.nextStepTriggeredAnswer = false;
         this.nextStepTriggeredRatingAnswer = true;
         this.nextStepTriggeredRatingQuestions = false;
@@ -441,35 +442,36 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     this.finishedTimerAnswer = true;
     if (this.generalService.disconnectedModal == '') {
       if (!this.sendAnswerDisable) {
+        this.countdownTimer.resetTimer();
         await this.sendAnswer();
         this.sendAnswerDisable = true;
       } else {
         console.log("elseeeeee");
-      //   this.generalService.gameAnswerGeneral = '';
-      //   this.generalService.gameStep = 3;
-      //   this.nextStepTriggeredAnswer = false;
-      //   this.nextStepTriggeredRatingAnswer = false;
-      //   this.nextStepTriggeredRatingQuestions = false;
-      //   this.finishedTimerAnswer = false;
-      //   this.finishedTimerRatingAnswer = false;
-      //   this.finishedTimerRatingQuestions = false;
-      //   this.sendAnswerDisable = false;
-      //   const data = await this.gameService.getAllAnswersOfSpecificQuestion(
-      //     this.generalService.createdGameData.game.gameId,
-      //     this.generalService.gameQuestion._id
-      //   );
-      //
-      //   if (data.status === 1) {
-      //     this.generalService.specificQuestionAnswers = data.data;
-      //     // for (const answer of this.generalService.specificQuestionAnswers.answers) {
-      //     //   answer.answer = await translate(answer.answer, {
-      //     //     to:
-      //     //       this.generalService?.userObj?.preferedLanguage == '0' ? 'en' :
-      //     //         this.generalService.userObj?.preferedLanguage == '1' ? 'de' : 'fa', from: answer.language
-      //     //   });
-      //     // }
-      //     this.updateRates(this.generalService.rateAnswers.length !== 0);
-      //   }
+        //   this.generalService.gameAnswerGeneral = '';
+        //   this.generalService.gameStep = 3;
+        //   this.nextStepTriggeredAnswer = false;
+        //   this.nextStepTriggeredRatingAnswer = false;
+        //   this.nextStepTriggeredRatingQuestions = false;
+        //   this.finishedTimerAnswer = false;
+        //   this.finishedTimerRatingAnswer = false;
+        //   this.finishedTimerRatingQuestions = false;
+        //   this.sendAnswerDisable = false;
+        //   const data = await this.gameService.getAllAnswersOfSpecificQuestion(
+        //     this.generalService.createdGameData.game.gameId,
+        //     this.generalService.gameQuestion._id
+        //   );
+        //
+        //   if (data.status === 1) {
+        //     this.generalService.specificQuestionAnswers = data.data;
+        //     // for (const answer of this.generalService.specificQuestionAnswers.answers) {
+        //     //   answer.answer = await translate(answer.answer, {
+        //     //     to:
+        //     //       this.generalService?.userObj?.preferedLanguage == '0' ? 'en' :
+        //     //         this.generalService.userObj?.preferedLanguage == '1' ? 'de' : 'fa', from: answer.language
+        //     //   });
+        //     // }
+        //     this.updateRates(this.generalService.rateAnswers.length !== 0);
+        //   }
       }
     } else {
       this.numberOfDisconnectingInGameSteps++;
@@ -516,13 +518,14 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     this.finishedTimerRatingAnswer = true;
     if (this.generalService.disconnectedModal == '') {
       if (!this.sendRateAnswerDisable) {
+        this.countdownTimer.resetTimer();
         await this.sendRateAnswer(false);
         this.sendRateAnswerDisable = true;
       } else {
         console.log("elseeeeee");
-       /* // maybe
-       // await this.sendRateAnswer(false);
-        //*/
+        /* // maybe
+        // await this.sendRateAnswer(false);
+         //*/
         // this.generalService.gameStep = 2;
         // this.nextStepTriggeredAnswer = false;
         // this.nextStepTriggeredRatingAnswer = false;
@@ -618,6 +621,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     console.log("finishedTimer" + ' ' + `[${timeString}]  `);
     this.finishedTimerRatingQuestions = true;
     if (!this.sendRateQuestionsDisable) {
+      this.countdownTimer.resetTimer();
       await this.sendRateQuestions();
       this.sendRateQuestionsDisable = true;
     } else {
@@ -635,9 +639,9 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     }
   }
 
-  restartCountdown() {
-    this.countdownTimer.startCountdown();
-  }
+  // restartCountdown() {
+  //   this.countdownTimer.startCountdown();
+  // }
 
   async sendAnswer(): Promise<any> {
     await this.ngZone.run(async () => {
@@ -773,7 +777,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
   }
 
   updateWordCountAnswer() {
-    this.generalService.wordCountAnswer = this.generalService?.gameAnswerGeneral ? (100 - this.generalService?.gameAnswerGeneral.trim().split(/\s+/).length) : 100;
+    this.generalService.wordCountAnswer = this.generalService?.gameAnswerGeneral ? ((this.generalService.gameInit?.answerWordsLimitation) - this.generalService?.gameAnswerGeneral.trim().split(/\s+/).length) : this.generalService.gameInit?.answerWordsLimitation;
   }
 
   editAnswer() {

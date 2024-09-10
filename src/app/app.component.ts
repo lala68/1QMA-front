@@ -56,6 +56,7 @@ export class AppComponent implements OnInit {
       });
 
       this.generalService.socket.on("notification", (arg: any) => {
+        console.log(arg)
         this.generalService.newNotif = true;
         this.shopService.getNotifications(1, 3).then(data => {
           this.generalService.notifList = data.data;
@@ -63,6 +64,7 @@ export class AppComponent implements OnInit {
       });
 
       this.generalService.socket.on("notification:modal", (arg: any) => {
+        console.log(arg)
         this.dialog.open(NotificationModalComponent, {
           width: '500px',
           disableClose: true

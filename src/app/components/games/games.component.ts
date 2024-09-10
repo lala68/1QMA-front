@@ -83,6 +83,8 @@ export class GamesComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<any> {
+    console.log(this.generalService.gameInit)
+    this.wordCountAnswer = this.generalService.gameInit?.answerWordsLimitation;
     this.route.paramMap.subscribe(params => {
       this.selectedTabIndex = params.get('id');
     });
@@ -317,12 +319,12 @@ export class GamesComponent implements OnInit {
   }
 
   updateWordCountAnswer() {
-    this.wordCountAnswer = this.questionForm.controls.answer.value ? (100 - this.questionForm.controls.answer.value.trim().split(/\s+/).length) : 100;
-    this.generalService.wordCountAnswer = this.questionForm.controls.answer.value ? (100 - this.questionForm.controls.answer.value.trim().split(/\s+/).length) : 100;
+    this.wordCountAnswer = this.questionForm.controls.answer.value ? ((this.generalService.gameInit?.answerWordsLimitation) - this.questionForm.controls.answer.value.trim().split(/\s+/).length) : this.generalService.gameInit?.answerWordsLimitation;
+    this.generalService.wordCountAnswer = this.questionForm.controls.answer.value ? ((this.generalService.gameInit?.answerWordsLimitation) - this.questionForm.controls.answer.value.trim().split(/\s+/).length) : this.generalService.gameInit?.answerWordsLimitation;
   }
 
   updateWordCountAnswerGame() {
-    this.generalService.wordCountAnswer = this.questionForm.controls.answer.value ? (100 - this.questionForm.controls.answer.value.trim().split(/\s+/).length) : 100;
+    this.generalService.wordCountAnswer = this.questionForm.controls.answer.value ? (this.generalService.gameInit?.answerWordsLimitation - this.questionForm.controls.answer.value.trim().split(/\s+/).length) : this.generalService.gameInit?.answerWordsLimitation;
   }
 
   joinToGame(code: any = this.gameCode) {
@@ -538,7 +540,7 @@ export class JoiningGame {
   }
 
   updateWordCountAnswer() {
-    this.wordCountAnswer = this.questionForm.controls.answer.value ? (100 - this.questionForm.controls.answer.value.trim().split(/\s+/).length) : 100;
+    this.wordCountAnswer = this.questionForm.controls.answer.value ? ((this.generalService.gameInit?.answerWordsLimitation) - this.questionForm.controls.answer.value.trim().split(/\s+/).length) : this.generalService.gameInit?.answerWordsLimitation;
   }
 
   openDialog(message: any, title: any) {

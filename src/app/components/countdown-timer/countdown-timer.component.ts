@@ -88,7 +88,6 @@ export class CountdownTimerComponent implements OnInit, OnDestroy {
   }
 
 
-
   private formatTime(seconds: number): string {
     const minutes: number = Math.floor(seconds / 60);
     const formattedMinutes: any = minutes.toString().padStart(2, '0');
@@ -99,7 +98,8 @@ export class CountdownTimerComponent implements OnInit, OnDestroy {
 
   resetTimer(): void {
     // Fetch new duration from the service, or use the current value
-    const newDuration = this.generalService.gameInit?.eachStepDurationSeconds;
+    const newDuration = this.generalService.gameStep == 2 ? this.generalService.gameInit?.eachStepDurationSeconds :
+      this.generalService.gameStep == 3 ? this.generalService.gameInit?.rateAnswersDurationSeconds : this.generalService.gameInit?.rateQuestionsDurationSeconds;
 
     // Check if the new duration is valid
     if (newDuration) {

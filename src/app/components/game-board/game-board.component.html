@@ -560,7 +560,8 @@
         </mat-label>
       </div>
       <div class="next-button">
-        <app-countdown-timer [duration]="generalService.gameInit?.eachStepDurationSeconds"
+        <app-countdown-timer [duration]="generalService.gameStep == 2 ? generalService.gameInit?.eachStepDurationSeconds :
+generalService.gameStep == 3 ? generalService.gameInit?.rateAnswersDurationSeconds : generalService.gameInit?.rateQuestionsDurationSeconds"
                              (countdownFinished)="generalService.gameStep == 2 ? handleCountdownSendAnswerFinished() :
                               generalService.gameStep == 3 ? handleCountdownRatingAnswerFinished() : handleCountdownRatingQuestionsFinished()"></app-countdown-timer>
         <button *ngIf="generalService.gameStep == 2"

@@ -11,6 +11,7 @@ import {GeneralService} from "../../services/general/general.service";
 import {ShopService} from "../../services/shop.service";
 import {SnackbarContentComponent} from "../snackbar-content/snackbar-content.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {Preferences} from "@capacitor/preferences";
 
 @Component({
   selector: 'app-shop',
@@ -74,9 +75,19 @@ export class ShopComponent implements OnInit {
 
   async payWithCoin(id: any) {
     if (this.selected == 'coin') {
-      this.shopService.payWithCoin(id).then(data => {
+      this.shopService.payWithCoin(id).then(async data => {
         if (data.status == 1) {
           this.step = 4;
+          let account = await this.generalService.getItem('account');
+          if (account) {
+            // Update the "assets" property
+            account.assets.coins = data?.data?.newBalance;
+            // Save the updated "account" object back to storage
+            this.generalService.saveToStorage('account', JSON.stringify(account));
+          }
+          await Preferences.remove({key: 'account'});
+          await Preferences.set({key: 'account', value: JSON.stringify(account)});
+          await this.generalService.getUserData();
         } else {
           this.openDialog(data.message, 'Error');
         }
