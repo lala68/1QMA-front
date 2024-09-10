@@ -512,7 +512,7 @@
     </div>
   </div>
   <div style="margin: 20px auto">
-    <button mat-stroked-button color="primary" type="submit" *ngIf="!loadingMore && !noMoreItems"
+    <button mat-stroked-button color="primary" type="submit" *ngIf="questionsFromFriendsLatestGames?.length > 0 && !loadingMore && !noMoreItems"
             class="p-4s ms-2 blue-button" (click)="showMoreFriendsQuestions()"
             style="min-width: 150px; border: 1px solid #0B6FEA">
       <span>{{'More' | translate}}</span>

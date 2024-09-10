@@ -7,20 +7,59 @@
   </svg>
   &nbsp;{{'Choose charity category' | translate}}
 </div>
-<div mat-dialog-content class="m-3">
+<div mat-dialog-content class="m-3 mt-0">
   <div class="charity-header">
     <img src="assets/images/charity.png" width="64" height="56"/>
     <mat-label class="font-size-16 weight-600 ms-3">{{'Play Game, Make A Difference!' | translate}}</mat-label>
   </div>
   <br>
-  <mat-label class="text-light-color text-start">
+  <mat-label class="font-size-14 weight-500 text-light-color text-start">
     We allocate a portion of our income to support various charitable causes.
-  </mat-label><br>
-  <mat-label class="text-light-color text-start">
+  </mat-label>
+  <br>
+  <mat-label class="font-size-14 weight-500 text-light-color text-start">
     Select the category closest to your heart and know that your choice directly contributes to positive change.
   </mat-label>
   <br>
-  <mat-label class="text-light-color text-start">
-    Which category would you like to participate in?
-  </mat-label>
+  <br>
+  <div *ngIf="!selectedCharity">
+    <mat-label class="font-size-14 weight-600 text-start">
+      Which category would you like to participate in?
+    </mat-label>
+    <br>
+    <mat-card *ngFor="let chr of generalService.clientInit?.charityCategories"
+              class="mt-2 me-1 d-inline-block shadow-none mat-card-pref"
+              (click)="selectCharity(chr)">
+      <mat-card-content class="text-start">
+        <img [src]="'https://api.staging.1qma.games/' + chr?.icon" width="35">
+        <mat-label>{{ chr.title }}</mat-label>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div *ngIf="selectedCharity">
+    <mat-label class="font-size-14 weight-600 text-start">
+      Selected Category
+    </mat-label>
+    <br>
+    <mat-card class="mt-2 me-1 d-inline-block shadow-none mat-card-pref-selected">
+      <mat-card-content class="text-start" (click)="selectedCharity = ''">
+        <img [src]="'https://api.staging.1qma.games/' + selectedCharity?.icon" width="35">
+        <mat-label>{{ selectedCharity.title }}</mat-label>
+      </mat-card-content>
+    </mat-card>
+    <br>
+    <br>
+    <mat-label class="font-size-14 weight-600 text-start">
+      Now choose the activity you like
+    </mat-label>
+    <br>
+    <mat-card *ngFor="let activity of selectedCharity?.activities"
+              class="mt-2 me-1 d-inline-block shadow-none mat-card-pref"
+              (click)="selectActivity(activity)">
+      <mat-card-content class="text-start">
+        <mat-label>{{ activity.title }}</mat-label>
+      </mat-card-content>
+    </mat-card>
+  </div>
 </div>

@@ -24,7 +24,7 @@
                 class="font-size-14 weight-700 pe-2">{{generalService.userObj?.firstName + ' ' + generalService.userObj?.lastName}}</span>
               </div>
               <br>
-              <mat-grid-list cols="12" rowHeight="30px">
+              <mat-grid-list [cols]="myScoreboard[0]?.result?.answersRates?.length + 10" rowHeight="30px">
                 <mat-grid-tile class="result-grid" [colspan]="2">
                   <mat-label class="font-size-14 weight-700">{{'Played' | translate}}</mat-label>
                 </mat-grid-tile>
@@ -35,7 +35,7 @@
                   <mat-label class="font-size-14 weight-700">{{'Category' | translate}}</mat-label>
                 </mat-grid-tile>
                 <mat-grid-tile class="result-grid"
-                               [colspan]="12 - (10 + (myScoreboard[0]?.result?.answersRates?.length))">
+                               [colspan]="(myScoreboard[0]?.result?.answersRates?.length + 10) - (10 + (myScoreboard[0]?.result?.answersRates?.length))">
                   <mat-label></mat-label>
                 </mat-grid-tile>
                 <mat-grid-tile
@@ -58,7 +58,7 @@
               </mat-grid-list>
 
               <mat-grid-list *ngFor="let res of myScoreboard;let i=index"
-                             cols="12" rowHeight="50px" class="gray-card mb-2">
+                             [cols]="myScoreboard[0]?.result?.answersRates?.length + 10" rowHeight="50px" class="gray-card mb-2">
                 <mat-grid-tile class="result-grid" [colspan]="2">
                   <mat-label>{{res?.endedAt | daysAgo}}</mat-label>
                 </mat-grid-tile>
@@ -75,7 +75,7 @@
                     <span class="font-size-12 weight-500">{{res?.category?.name}}</span>
                   </div>
                 </mat-grid-tile>
-                <mat-grid-tile [colspan]="12 - (10 + res?.result?.answersRates?.length)">
+                <mat-grid-tile [colspan]="(myScoreboard[0]?.result?.answersRates?.length + 10) - (10 + res?.result?.answersRates?.length)">
                   <mat-label></mat-label>
                 </mat-grid-tile>
                 <mat-grid-tile

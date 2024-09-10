@@ -182,7 +182,7 @@ export class DashboardComponent implements OnInit {
 
   openCharityModal() {
     const dialogRef = this.dialog.open(CharityModalComponent, {
-      width: '500px'
+      width: '700px'
     });
     dialogRef.afterClosed().subscribe(async result => {
       if (result == 'success') {

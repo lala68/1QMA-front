@@ -358,4 +358,28 @@ export class ClientService {
       return this.processHTTPMsgService.handleError(error);
     }
   }
+
+  async postCharity(data: any): Promise<any> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+
+    })
+    try {
+      const response = this.http.post<any>(this.config.url('client/charity'), {
+        id: this.generalService.userId,
+        charity: data.charity,
+        activity: data.activity
+      }, {
+        headers: headers,
+        withCredentials: true
+      })
+        .toPromise();
+      return response;
+    } catch (error) {
+      // Use ProcessHTTPMsgService to handle the error
+      return this.processHTTPMsgService.handleError(error);
+    }
+  }
+
+
 }

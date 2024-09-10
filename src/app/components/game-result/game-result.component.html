@@ -71,26 +71,26 @@
               </mat-label>&nbsp;&nbsp;&nbsp;&nbsp;
             </div>
           </div>
-          <div class="w-30 position-relative">
+          <div class="position-relative" style="width: 300px">
             <!--              2-->
             <img class="avatar-bordered bg-white"
-                 style="position: absolute; left: 20px; bottom: 80px;"
+                 style="position: absolute; left: 60px; bottom: 80px;"
                  [src]="gameResult?.result?.scoreboard[1]?.profilePicture ? gameResult?.result?.scoreboard[1]?.profilePicture?.startsWith('http') ? gameResult?.result?.scoreboard[1]?.profilePicture : configService.url(gameResult?.result?.scoreboard[1]?.profilePicture) : 'assets/images/frame.png'"
                  width="48">
             <!--              1-->
             <img class="avatar-bordered bg-white"
-                 style="position: absolute; left: 85px; bottom: 90px;"
+                 style="position: absolute; left: 120px; bottom: 90px;"
                  [src]="gameResult?.result?.scoreboard[0]?.profilePicture ? gameResult?.result?.scoreboard[0]?.profilePicture?.startsWith('http') ? gameResult?.result?.scoreboard[0]?.profilePicture : configService.url(gameResult?.result?.scoreboard[0]?.profilePicture) : 'assets/images/frame.png'"
                  width="48">
             <!--              3-->
             <img *ngIf="gameResult?.result?.scoreboard?.length > 2"
                  class="avatar-bordered bg-white"
-                 style="position: absolute; right: 100px; bottom: 70px"
+                 style="position: absolute; left: 180px; bottom: 70px"
                  [src]="gameResult?.result?.scoreboard[2]?.profilePicture ? gameResult?.result?.scoreboard[2]?.profilePicture?.startsWith('http') ? gameResult?.result?.scoreboard[2]?.profilePicture : configService.url(gameResult?.result?.scoreboard[2]?.profilePicture) : 'assets/images/frame.png'"
                  width="48">
 
             <img src="assets/images/Leaderboards.png" width="190" height="65"
-                 style="position: absolute; left: 10px; right: 50px; bottom: 20px; margin: 0 auto;"/>
+                 style="position: absolute; left: 50px; right: 50px; bottom: 20px; margin: 0 auto;"/>
           </div>
         </div>
         <br>
