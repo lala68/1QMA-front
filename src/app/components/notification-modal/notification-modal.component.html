@@ -8,13 +8,15 @@
   &nbsp;{{'Reward' | translate}}
 </div>
 <div mat-dialog-content class="m-3 text-center">
+  <img src="assets/images/reward.png" width="90" height="90"/><br>
   <mat-label
-    style="font-size: 16px; font-weight: 600">You have received your daily reward!</mat-label>
+    style="font-size: 16px; font-weight: 600">You have received your daily reward!
+  </mat-label>
   <br>
   <br>
 </div>
 <div mat-dialog-actions style="margin: 1rem auto;">
-  <button mat-flat-button color="primary" [routerLink]="['/games/2']" (click)="cancel()"
+  <button mat-flat-button color="primary" [routerLink]="['/games/find-game']" (click)="cancel()"
           *ngIf="generalService?.hasCompletedSignup && !generalService?.startingGame">
     <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
@@ -25,7 +27,7 @@
     </svg>
     Find game
   </button>
-  <button mat-flat-button class="ms-2" color="primary" [routerLink]="['/games/1']" (click)="cancel()"
+  <button mat-flat-button class="ms-2" color="primary" [routerLink]="['/games/overview']" (click)="cancel()"
           *ngIf="generalService?.hasCompletedSignup && !generalService?.startingGame">
     <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path

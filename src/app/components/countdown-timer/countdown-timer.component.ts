@@ -52,7 +52,7 @@ export class CountdownTimerComponent implements OnInit, OnDestroy {
 
       // Ensure countdownDuration is valid
       if (typeof this.countdownDuration !== 'number' || isNaN(this.countdownDuration)) {
-        console.error('Invalid countdown duration');
+        // console.error('Invalid countdown duration');
         return;
       }
 
@@ -96,10 +96,11 @@ export class CountdownTimerComponent implements OnInit, OnDestroy {
     return `${formattedMinutes} : ${formattedMinutes !== 1 ? '' : ''} ${formattedSeconds} ${formattedSeconds !== 1 ? '' : ''}`;
   }
 
-  resetTimer(): void {
+  resetTimer(step: any): void {
     // Fetch new duration from the service, or use the current value
-    const newDuration = this.generalService.gameStep == 2 ? this.generalService.gameInit?.eachStepDurationSeconds :
-      this.generalService.gameStep == 3 ? this.generalService.gameInit?.rateAnswersDurationSeconds : this.generalService.gameInit?.rateQuestionsDurationSeconds;
+    console.log(step)
+    const newDuration = step == 2 ? this.generalService.gameInit?.eachStepDurationSeconds :
+      step == 3 ? this.generalService.gameInit?.rateAnswersDurationSeconds : this.generalService.gameInit?.rateQuestionsDurationSeconds;
 
     // Check if the new duration is valid
     if (newDuration) {

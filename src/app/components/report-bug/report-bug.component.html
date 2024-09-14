@@ -28,17 +28,19 @@
         <form [formGroup]="reportForm" (ngSubmit)="onSubmit()">
           <div class="d-flex">
             <mat-form-field class="custom-form-field w-50" appearance="fill">
-              <mat-label>{{'Buy Main-Category' | translate}}</mat-label>
-              <mat-select [formControlName]="'mainCategory'">
-                <mat-option value="option1">option 1</mat-option>
-                <mat-option value="option2">option 2</mat-option>
+              <mat-label>{{'Bug Main-Category' | translate}}</mat-label>
+              <mat-select [formControlName]="'mainCategory'" (selectionChange)="onMainCategoryChange($event.value)">
+                <mat-option *ngFor="let category of generalService.clientInit?.bugTypes"
+                            [value]="category._id">
+                  {{category?.category}}</mat-option>
               </mat-select>
             </mat-form-field>&nbsp;&nbsp;
             <mat-form-field class="custom-form-field w-50" appearance="fill">
-              <mat-label>{{'Buy Sub-Category' | translate}}</mat-label>
+              <mat-label>{{'Bug Sub-Category' | translate}}</mat-label>
               <mat-select [formControlName]="'subCategory'">
-                <mat-option value="option1">option 1</mat-option>
-                <mat-option value="option2">option 2</mat-option>
+                <mat-option *ngFor="let subCategory of filteredSubCategories" [value]="subCategory._id">
+                  {{subCategory.title}}
+                </mat-option>
               </mat-select>
             </mat-form-field>
           </div>
@@ -49,7 +51,7 @@
             <div class="word-counter">{{ wordCount }} {{'Words' | translate}}</div>
           </div>
           <br>
-          <button mat-raised-button color="primary" class="submit-button float-end">
+          <button mat-raised-button color="primary" class="submit-button float-end" [disabled]="!reportForm.valid">
             {{'Submit' | translate}}
           </button>
         </form>

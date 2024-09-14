@@ -3,7 +3,8 @@
   <mat-spinner *ngIf="loading" [diameter]="30"></mat-spinner>
 </div>
 <div *ngIf="!loading">
-  <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" [(selectedIndex)]="selectedTabIndex">
+  <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start"
+                 [selectedIndex]="getSelectedTabIndex()" (selectedIndexChange)="onTabIndexChange($event)">
     <mat-tab label="Overview">
       <div class="card border-0">
         <div class="w-100 d-flex">
@@ -58,7 +59,8 @@
               </mat-grid-list>
 
               <mat-grid-list *ngFor="let res of myScoreboard;let i=index"
-                             [cols]="myScoreboard[0]?.result?.answersRates?.length + 10" rowHeight="50px" class="gray-card mb-2">
+                             [cols]="myScoreboard[0]?.result?.answersRates?.length + 10" rowHeight="50px"
+                             class="gray-card mb-2">
                 <mat-grid-tile class="result-grid" [colspan]="2">
                   <mat-label>{{res?.endedAt | daysAgo}}</mat-label>
                 </mat-grid-tile>
@@ -75,7 +77,8 @@
                     <span class="font-size-12 weight-500">{{res?.category?.name}}</span>
                   </div>
                 </mat-grid-tile>
-                <mat-grid-tile [colspan]="(myScoreboard[0]?.result?.answersRates?.length + 10) - (10 + res?.result?.answersRates?.length)">
+                <mat-grid-tile
+                  [colspan]="(myScoreboard[0]?.result?.answersRates?.length + 10) - (10 + res?.result?.answersRates?.length)">
                   <mat-label></mat-label>
                 </mat-grid-tile>
                 <mat-grid-tile
@@ -998,7 +1001,8 @@
             <br>
             <span class="font-size-11 weight-500 text-start"
                   *ngIf="liveGame?.players.length < generalService.gameInit?.numberOfPlayers">{{'Waiting for' | translate}}
-              {{generalService.gameInit?.numberOfPlayers - liveGame?.players?.length}}/{{generalService.gameInit?.numberOfPlayers}} {{'players' | translate}}</span>
+              {{generalService.gameInit?.numberOfPlayers - liveGame?.players?.length}}
+              /{{generalService.gameInit?.numberOfPlayers}} {{'players' | translate}}</span>
             <br>
             <mat-card-actions>
               <button mat-raised-button class="game-button"

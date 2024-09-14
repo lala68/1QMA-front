@@ -380,5 +380,24 @@ export class ClientService {
     }
   }
 
+  async postBugReport(data: any): Promise<any> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    })
+    try {
+      const response = this.http.post<any>(this.config.url('client/bugReports/add'), {
+        ...data
+      }, {
+        headers: headers,
+        withCredentials: true
+      })
+        .toPromise();
+      return response;
+    } catch (error) {
+      // Use ProcessHTTPMsgService to handle the error
+      return this.processHTTPMsgService.handleError(error);
+    }
+  }
+
 
 }

@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, HostListener, Inject, OnInit, ViewEncapsulation} from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {SharedModule} from "../../shared/shared.module";
 import {
@@ -60,7 +60,7 @@ export class GamesComponent implements OnInit {
   filteredEmails: any = [];
   findFriendStep: any = 1;
   findFriendGameData: any;
-  selectedTabIndex: any = 0;
+  selectedTabIndex: string = 'overview';
   loadingJoinWithCode: boolean = false;
   loadingFindFriend: boolean = false;
   loadingCreateGame: boolean = false;
@@ -79,14 +79,16 @@ export class GamesComponent implements OnInit {
   constructor(public generalService: GeneralService, private gameService: GamesService, public configService: ConfigService,
               private _formBuilder: FormBuilder, private router: Router, public dialog: MatDialog, private _snackBar: MatSnackBar,
               private route: ActivatedRoute, private gameBoardComponent: GameBoardComponent, private processHTTPMsgService: ProcessHTTPMsgService) {
-    this.generalService.currentRout = '/games/0';
+    this.generalService.currentRout = '/games/overview';
   }
 
   async ngOnInit(): Promise<any> {
     console.log(this.generalService.gameInit)
     this.wordCountAnswer = this.generalService.gameInit?.answerWordsLimitation;
     this.route.paramMap.subscribe(params => {
-      this.selectedTabIndex = params.get('id');
+      console.log(params.get('id'))
+
+      this.selectedTabIndex = params.get('id') || '';
     });
 
     this.gameService.getMyScoreboard().then(data => {
@@ -389,6 +391,24 @@ export class GamesComponent implements OnInit {
     }, error => {
       return this.processHTTPMsgService.handleError(error);
     });
+  }
+
+// Function to get the current tab index based on the selectedTabIndex value
+  getSelectedTabIndex(): number {
+    return this.selectedTabIndex === 'overview' ? 0 :
+      this.selectedTabIndex === 'create-game' ? 1 :
+        2;
+  }
+
+// Function to handle changes in the tab index
+  onTabIndexChange(index: number): void {
+    if (index === 0) {
+      this.selectedTabIndex = 'overview';
+    } else if (index === 1) {
+      this.selectedTabIndex = 'create-game';
+    } else {
+      this.selectedTabIndex = 'find-game';
+    }
   }
 
   findFriendGame() {

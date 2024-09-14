@@ -16,7 +16,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
         CommonModule, MaterialModule, RouterModule,TranslateModule, FormsModule, ReactiveFormsModule
     ],
   exports: [
-    MaterialModule, SidenavComponent, HeaderComponent, FooterComponent,
+    MaterialModule, SidenavComponent, HeaderComponent, FooterComponent, RouterModule
   ],
   providers: []
 })

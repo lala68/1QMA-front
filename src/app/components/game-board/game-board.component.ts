@@ -1,4 +1,4 @@
-import {Component, Inject, NgZone, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, HostListener, Inject, NgZone, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {Router, RouterModule} from "@angular/router";
@@ -57,6 +57,21 @@ export class GameBoardComponent implements OnInit, OnDestroy {
   isDroppedQuestion: boolean = false;
   myRank: any;
 
+  // Listen for 'beforeunload' to detect page refresh or tab close
+  @HostListener('window:beforeunload', ['$event'])
+  unloadNotification($event: any): void {
+    if (this.hasUnsavedChanges()) {
+      // Modern browsers ignore custom messages, but setting returnValue still triggers the prompt
+      $event.returnValue = 'You have unsaved changes! Are you sure you want to leave?';
+    }
+  }
+
+  hasUnsavedChanges(): boolean {
+    // Logic to determine if there are unsaved changes
+    // This can be replaced with actual condition to track unsaved changes
+    return true; // Example: return true if there are unsaved changes
+  }
+
   constructor(public generalService: GeneralService, private router: Router, private gameService: GamesService,
               public configService: ConfigService, private ngZone: NgZone, private _snackBar: MatSnackBar,
               private countdownTimerComponent: CountdownTimerComponent, public dialog: MatDialog,
@@ -90,7 +105,6 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     this.generalService.socket.on("next step", (arg: any) => {
       const now = new Date();
       const timeString = now.toLocaleTimeString();
-      this.countdownTimer.resetTimer();
       console.log("next step" + ' ' + `[${timeString}]  `);
       if (this.generalService.gameStep == 2) {
         this.nextStepTriggeredAnswer = true;
@@ -100,6 +114,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
         this.finishedTimerRatingAnswer = false;
         this.finishedTimerRatingQuestions = false;
         this.sendRateAnswerDisable = false;
+        this.countdownTimer.resetTimer(3);
       } else if (this.generalService.gameStep == 3) {
         this.generalService.wordCountAnswer = this.generalService.gameInit?.answerWordsLimitation;
         this.nextStepTriggeredAnswer = false;
@@ -110,6 +125,8 @@ export class GameBoardComponent implements OnInit, OnDestroy {
         this.finishedTimerRatingQuestions = false;
         this.sendAnswerDisable = false;
         this.isDropped = false;
+        console.log(this.generalService?.gameQuestion)
+        this.countdownTimer.resetTimer(this.generalService.gameInit?.numberOfPlayers == parseInt(this.generalService.gameQuestion?.step) ? 4 : 2);
       } else if (this.generalService.gameStep == 4) {
         this.nextStepTriggeredAnswer = false;
         this.nextStepTriggeredRatingAnswer = false;
@@ -117,6 +134,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
         this.finishedTimerAnswer = false;
         this.finishedTimerRatingAnswer = false;
         this.finishedTimerRatingQuestions = true;
+        this.countdownTimer.resetTimer(3);
       }
       this.countdownTimerComponent.startCountdown();
       this.handleGameStep();
@@ -225,6 +243,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     } else if (this.generalService.gameStep == 3) {
       this.finishedTimerAnswer = false;
       this.finishedTimerRatingQuestions = false;
+      this.nextStepTriggeredAnswer = false;
       // console.log(this.finishedTimerRatingAnswer)
       await this.waitForConditionsRatingAnswer(); // Wait for conditions to be met
     } else if (this.generalService.gameStep == 4) {
@@ -339,6 +358,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     return new Promise<void>((resolve) => {
       const interval = setInterval(async () => {
         if (this.finishedTimerAnswer) {
+          this.nextStepTriggeredAnswer = true;
           clearInterval(interval);
           resolve();
         }
@@ -442,7 +462,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     this.finishedTimerAnswer = true;
     if (this.generalService.disconnectedModal == '') {
       if (!this.sendAnswerDisable) {
-        this.countdownTimer.resetTimer();
+        this.countdownTimer.resetTimer(3);
         await this.sendAnswer();
         this.sendAnswerDisable = true;
       } else {
@@ -484,6 +504,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
       }
       this.generalService.gameAnswerGeneral = '';
       this.generalService.gameStep = 3;
+      this.countdownTimer.resetTimer(3);
       this.nextStepTriggeredAnswer = false;
       this.nextStepTriggeredRatingAnswer = false;
       this.nextStepTriggeredRatingQuestions = false;
@@ -518,7 +539,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     this.finishedTimerRatingAnswer = true;
     if (this.generalService.disconnectedModal == '') {
       if (!this.sendRateAnswerDisable) {
-        this.countdownTimer.resetTimer();
+        this.countdownTimer.resetTimer(2);
         await this.sendRateAnswer(false);
         this.sendRateAnswerDisable = true;
       } else {
@@ -564,6 +585,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
           });
         }
         this.generalService.gameStep = 4;
+        this.countdownTimer.resetTimer(4);
         const resQue = await this.gameService.getQuestionsOfGame(
           this.generalService.createdGameData.game.gameId
         );
@@ -586,6 +608,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
           });
         }
         this.generalService.gameStep = 2;
+        this.countdownTimer.resetTimer(2);
         this.nextStepTriggeredAnswer = false;
         this.nextStepTriggeredRatingAnswer = false;
         this.nextStepTriggeredRatingQuestions = false;
@@ -621,7 +644,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     console.log("finishedTimer" + ' ' + `[${timeString}]  `);
     this.finishedTimerRatingQuestions = true;
     if (!this.sendRateQuestionsDisable) {
-      this.countdownTimer.resetTimer();
+      this.countdownTimer.resetTimer(2);
       await this.sendRateQuestions();
       this.sendRateQuestionsDisable = true;
     } else {
@@ -813,7 +836,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     this.generalService.rateQuestions = [];
     this.generalService.invitedPlayersArray = [];
     this.submittedAnswer = null;
-    await this.router.navigate(['/games/1']);
+    await this.router.navigate(['/games/create-game']);
   }
 
   isEmailFormat(input: string): boolean {

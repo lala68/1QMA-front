@@ -16,9 +16,9 @@
           </a>
         </label>
       </li>
-      <li class="p-2 ul-li-footer" [routerLink]="['/terms']">
+      <li class="p-2 ul-li-footer" >
         <label>
-          <a class="nav-link pointer">
+          <a [routerLink]="'/terms'" class="nav-link pointer">
             Privacy and policy
           </a>
         </label>
@@ -32,18 +32,18 @@
           </a>
         </label>
       </li>
-      <li class="p-2 ul-li-footer" [routerLink]="['/report-bug']">
+      <li class="p-2 ul-li-footer" *ngIf="generalService?.hasCompletedSignup">
         <label>
-          <a class="nav-link pointer">
+          <a [routerLink]="'/report-bug'" class="nav-link pointer" >
             Report a bug
           </a>
         </label>
       </li>
     </ul>
     <ul class="pe-1 d-flex mb-0">
-      <li class="p-2 ul-li-footer" [routerLink]="['/faq']">
+      <li class="p-2 ul-li-footer">
         <label>
-          <a class="nav-link pointer">
+          <a [routerLink]="'/faq'" class="nav-link pointer">
             FAQ
           </a>
         </label>

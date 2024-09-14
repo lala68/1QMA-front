@@ -2,7 +2,8 @@
   <app-header></app-header>
   <mat-drawer-container style="min-height: 100vh">
     <mat-drawer class="bg-transparent border-0 position-fixed" mode="side" opened
-                *ngIf="generalService?.hasCompletedSignup && !generalService.startingGame">
+                *ngIf="generalService?.hasCompletedSignup && !generalService.startingGame"
+    style="height: 87%">
       <!--    <mat-drawer class="bg-transparent border-0" mode="side" opened s>-->
       <div class="dashboard-sidebar">
         <mat-card class="sidebar-user-detail" appearance="outlined">
@@ -29,10 +30,10 @@
               <img matListItemIcon src="assets/images/home.png" width="25">
               <span class="font-size-14 weight-600" matListItemTitle>{{'Dashboard' | translate}}</span>
             </mat-list-item>
-            <mat-list-item [routerLink]="['/games/0']"
-                           [class]="generalService.currentRout == '/games/0' ? 'mat-list-item-selected' : ''">
+            <mat-list-item [routerLink]="['/games/overview']"
+                           [class]="generalService.currentRout == '/games/overview' ? 'mat-list-item-selected' : ''">
               <!--                          <mat-list-item [routerLink]="['/game-board']"-->
-              <!--                                         [class]="generalService.currentRout == '/games/0' ? 'mat-list-item-selected' : ''">-->
+              <!--                                         [class]="generalService.currentRout == '/games/overview' ? 'mat-list-item-selected' : ''">-->
               <img matListItemIcon src="assets/images/game.png" width="25">
               <span class="font-size-14 weight-600" matListItemTitle>{{'Games' | translate}}</span>
             </mat-list-item>

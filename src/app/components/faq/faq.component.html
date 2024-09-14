@@ -3,7 +3,7 @@
   {{'FAQ' | translate}}
 </div>
 <br>
-<div class="card border-0 p-5" *ngIf="generalService.userObj">
+<div class="card border-0 p-5">
   <mat-accordion class="example-headers-align shadow-none position-relative w-75 m-auto"
                  *ngFor="let question of [].constructor(4); let i=index" hideToggle>
     <mat-expansion-panel class="gray-card shadow-none"
@@ -38,3 +38,4 @@
     <br>
   </mat-accordion>
 </div>
+<app-footer *ngIf="!generalService?.hasCompletedSignup"></app-footer>

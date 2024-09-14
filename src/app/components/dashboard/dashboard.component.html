@@ -448,12 +448,26 @@
       We allocate a portion of our income to support various charitable causes.
     </mat-label>
     <br>
-    <mat-label class="text-light-color">
+    <mat-label class="text-light-color" *ngIf="!generalService.userObj?.preferedCharity">
       Select the category closest to your heart and know that your choice directly contributes to positive change.
     </mat-label>
-    <button mat-raised-button (click)="openCharityModal()"
-            class="answer-button position-absolute start-10" style="bottom: 30px">{{'Choose Category' | translate}}
+    <button *ngIf="!generalService.userObj?.preferedCharity" mat-raised-button (click)="openCharityModal()"
+            class="answer-button mt-4 start-10 w-25" >{{'Choose Category' | translate}}
     </button>
+    <div *ngIf="generalService.userObj?.preferedCharity" class="copy-referrer">
+      <mat-label class="text-light-color">You are participated in:</mat-label>
+      <br>
+      <mat-label class="font-size-14 weight-700">{{generalService?.userObj?.preferedCharity?.charity?.title}}
+        > {{generalService?.userObj?.preferedCharity?.activity?.title}}</mat-label><br>
+      <mat-progress-bar
+        style="width: 50%; border-radius: 10px; display: inline-table;"
+        color="primary"
+        [value]="generalService?.clientInit?.charityProgress"
+        [bufferValue]="100"
+        mode="determinate"></mat-progress-bar>
+      <br>
+      <mat-label class="mt-2 font-size-12 weight-500">{{generalService?.clientInit?.charityProgress}}% {{'Completed' | translate}}</mat-label>
+    </div>
   </div>
 </div>
 
@@ -512,7 +526,8 @@
     </div>
   </div>
   <div style="margin: 20px auto">
-    <button mat-stroked-button color="primary" type="submit" *ngIf="questionsFromFriendsLatestGames?.length > 0 && !loadingMore && !noMoreItems"
+    <button mat-stroked-button color="primary" type="submit"
+            *ngIf="questionsFromFriendsLatestGames?.length > 0 && !loadingMore && !noMoreItems"
             class="p-4s ms-2 blue-button" (click)="showMoreFriendsQuestions()"
             style="min-width: 150px; border: 1px solid #0B6FEA">
       <span>{{'More' | translate}}</span>

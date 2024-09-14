@@ -25,9 +25,11 @@ export class HeaderComponent {
 
   constructor(public generalService: GeneralService, public authService: AuthService,
               private router: Router, public dialog: MatDialog, private shopService: ShopService) {
-    this.shopService.getNotifications(1, 3).then(data => {
-      this.generalService.notifList = data.data;
-    })
+    if (this.generalService?.hasCompletedSignup) {
+      this.shopService.getNotifications(1, 3).then(data => {
+        this.generalService.notifList = data.data;
+      })
+    }
   }
 
   async logout() {
