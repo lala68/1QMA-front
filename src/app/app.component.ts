@@ -66,6 +66,7 @@ export class AppComponent implements OnInit {
       this.generalService.socket.on("notification:modal", (arg: any) => {
         console.log(arg)
         this.dialog.open(NotificationModalComponent, {
+          data: arg,
           width: '500px',
           disableClose: true
         });

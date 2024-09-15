@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {GeneralService} from "../../services/general/general.service";
 
 @Component({
@@ -9,6 +9,10 @@ import {GeneralService} from "../../services/general/general.service";
 export class FooterComponent {
 
   constructor(public generalService: GeneralService) {
+  }
+
+  gotoSponsorLink(link: any) {
+    window.open(link, '_blank');
   }
 
 }

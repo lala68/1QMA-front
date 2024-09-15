@@ -9,28 +9,29 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {SnackbarContentComponent} from "../snackbar-content/snackbar-content.component";
 
 @Component({
-  selector: 'app-terms',
+  selector: 'app-privacy',
   standalone: true,
   imports: [CommonModule, TranslateModule, SharedModule],
-  templateUrl: './terms.component.html',
-  styleUrl: './terms.component.scss'
+  templateUrl: './privacy.component.html',
+  styleUrl: './privacy.component.scss'
 })
-export class TermsComponent {
-  terms: any;
+export class PrivacyComponent {
+  privacy: any;
 
   constructor(public generalService: GeneralService, private clientService: ClientService,
               private processHTTPMsgService: ProcessHTTPMsgService, private _snackBar: MatSnackBar) {
   }
 
   ngOnInit() {
-    this.clientService.getTerms().then(data => {
+    this.clientService.getPrivacy().then(data => {
       if (data.status == 1) {
-        this.terms = data;
+        this.privacy = data;
       } else {
         this.openDialog(JSON.stringify(data.message), 'Error');
       }
     }, error => {
       return this.processHTTPMsgService.handleError(error);
+
     });
   }
 
@@ -46,5 +47,6 @@ export class TermsComponent {
       panelClass: title == 'Success' ? 'app-notification-success' : 'app-notification-error'
     });
   }
+
 
 }

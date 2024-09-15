@@ -24,6 +24,7 @@ import {FaqComponent} from "../components/faq/faq.component";
 import {TermsComponent} from "../components/terms/terms.component";
 import {GiftHistoryComponent} from "../components/gift-history/gift-history.component";
 import {ReportBugComponent} from "../components/report-bug/report-bug.component";
+import {PrivacyComponent} from "../components/privacy/privacy.component";
 
 export const routes: Routes = [
   {path: 'login', component: LoginComponent, canActivate: [AuthRedirectGuard]},
@@ -40,6 +41,7 @@ export const routes: Routes = [
   {path: 'report-bug', component: ReportBugComponent, canActivate: [authGuard]},
   {path: 'faq', component: FaqComponent},
   {path: 'terms', component: TermsComponent},
+  {path: 'privacy', component: PrivacyComponent},
   {path: 'game-result', component: GameResultComponent, canActivate: [authGuard]},
   {path: 'game-board', component: GameBoardComponent, canActivate: [authGuard, GameGuard]},
   // {path: 'game-board', component: GameBoardComponent, canActivate: [authGuard]},

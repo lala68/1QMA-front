@@ -808,6 +808,10 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     this.sendAnswerDisable = false;
     //
     this.generalService.editingAnswer = false;
+    this.gameService.editAnswer(this.generalService.createdGameData.game.gameId, this.generalService.gameQuestion._id).then(data => {
+      if (data.status == 1) {
+      }
+    })
   }
 
   removeFromInvited(email: any) {

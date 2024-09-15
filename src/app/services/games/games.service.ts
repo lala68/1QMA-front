@@ -204,6 +204,21 @@ export class GamesService {
     return response;
   }
 
+  async editAnswer(gameId: any, questionId: any): Promise<any> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    })
+    return this.http.post<any>(this.config.url('game/editAnswer'), {
+      id: this.generalService.userId,
+      gameId: gameId,
+      questionId: questionId,
+    }, {
+      headers: headers,
+      withCredentials: true
+    })
+      .toPromise();
+  }
+
   async sendAnswer(gameId: any, questionId: any, answer: any): Promise<any> {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',

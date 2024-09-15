@@ -399,5 +399,59 @@ export class ClientService {
     }
   }
 
+  async getFaqs(): Promise<any> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    })
+    try {
+      const response = this.http.get(this.config.url('client/faqs'), {
+        headers: headers,
+        withCredentials: true
+      }).pipe(
+        map((response: any) => response)
+      ).toPromise();
+      return response;
+    } catch (error) {
+      // Use ProcessHTTPMsgService to handle the error
+      return this.processHTTPMsgService.handleError(error);
+    }
+  }
+
+  async getPrivacy(): Promise<any> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    })
+    try {
+      const response = this.http.get(this.config.url('client/privacyPolicies'), {
+        headers: headers,
+        withCredentials: true
+      }).pipe(
+        map((response: any) => response)
+      ).toPromise();
+      return response;
+    } catch (error) {
+      // Use ProcessHTTPMsgService to handle the error
+      return this.processHTTPMsgService.handleError(error);
+    }
+  }
+
+  async getTerms(): Promise<any> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    })
+    try {
+      const response = this.http.get(this.config.url('client/termsOfService'), {
+        headers: headers,
+        withCredentials: true
+      }).pipe(
+        map((response: any) => response)
+      ).toPromise();
+      return response;
+    } catch (error) {
+      // Use ProcessHTTPMsgService to handle the error
+      return this.processHTTPMsgService.handleError(error);
+    }
+  }
+
 
 }
