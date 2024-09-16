@@ -85,7 +85,7 @@
   </mat-menu>
 
   <mat-menu #menuNotif="matMenu">
-    <div mat-menu-item *ngFor="let item of generalService?.notifList" class="p-2 ms-1 me-1 border-bottom"
+    <div mat-menu-item *ngFor="let item of generalService?.notifList" class="p-2 border-bottom"
          [routerLink]="['/notification']">
       <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path
@@ -110,7 +110,7 @@
   </mat-menu>
 
   <mat-menu #menuGift="matMenu">
-    <div mat-menu-item *ngFor="let item of [].constructor(3);" class="p-2 ms-1 me-1 border-bottom">
+    <div mat-menu-item *ngFor="let item of [].constructor(3);" class="p-2 border-bottom">
       <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path
           d="M20.8711 10.2402H4.87109V18.2402C4.87109 21.2402 5.87109 22.2402 8.87109 22.2402H16.8711C19.8711 22.2402 20.8711 21.2402 20.8711 18.2402V10.2402Z"

@@ -4,7 +4,7 @@
 @import 'material-icons/iconfont/material-icons.css';
 @import "../node_modules/bootstrap-icons/font/bootstrap-icons.css";
 @import 'custom-theme';
-@import 'css-star-rating/scss/star-rating';
+//@import 'css-star-rating/scss/star-rating';
 
 * {
   font-size: 14px;
@@ -1072,3 +1072,6 @@ input[type="tel"] {
 
 
 
+
+/* Importing Bootstrap SCSS file. */
+@import 'bootstrap/scss/bootstrap';

@@ -5,6 +5,7 @@ import {TranslateModule} from "@ngx-translate/core";
 import {GeneralService} from "../../services/general/general.service";
 import {RouterModule} from "@angular/router";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import {GamesComponent} from "../games/games.component";
 
 @Component({
   selector: 'app-notification-modal',
@@ -16,11 +17,16 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 export class NotificationModalComponent {
 
   constructor(public generalService: GeneralService, public dialogRef: MatDialogRef<NotificationModalComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: any,) {
+              @Inject(MAT_DIALOG_DATA) public data: any, private gameComponent: GamesComponent) {
   }
 
   cancel(): void {
     this.dialogRef.close(false);
+  }
+
+  gotoGame() {
+    this.gameComponent.joinToGame(this.data.data.gameId);
+    this.cancel();
   }
 
 }

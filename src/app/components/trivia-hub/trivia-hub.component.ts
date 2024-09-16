@@ -10,16 +10,33 @@ import {GeneralService} from "../../services/general/general.service";
 import {ConfigService} from "../../services/config/config.service";
 import {DaysAgoPipe} from "../../pipes/days-ago.pipe";
 import {ParsIntPipe} from "../../pipes/pars-int.pipe";
-import {StarRatingModule} from "angular-star-rating";
 import {ProcessHTTPMsgService} from "../../services/proccessHttpMsg/process-httpmsg.service";
+import {NgbRatingModule} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-trivia-hub',
   standalone: true,
   imports: [CommonModule, SharedModule, FormsModule, RouterModule, TranslateModule, DaysAgoPipe, ParsIntPipe,
-    StarRatingModule],
+    NgbRatingModule],
   templateUrl: './trivia-hub.component.html',
-  styleUrl: './trivia-hub.component.scss'
+  styleUrl: './trivia-hub.component.scss',
+  styles: `
+			i {
+				position: relative;
+				display: inline-block;
+				font-size: 1.5rem;
+				padding-right: 0.1rem;
+				color: #d3d3d3;
+			}
+
+			.filled {
+				color: gold;
+				overflow: hidden;
+				position: absolute;
+				top: 0;
+				left: 0;
+			}
+		`,
 })
 export class TriviaHubComponent implements OnInit {
   loading: boolean = false;
@@ -39,6 +56,9 @@ export class TriviaHubComponent implements OnInit {
   loadingMore: boolean = false;
   page: any = 1;
   noMoreItems: any;
+  rating = 3.14;
+  selectedSortOption: string = 'newest';
+  selectedSortOptionGame: string = 'newest';
 
   constructor(private gameService: GamesService, private clientService: ClientService,
               public generalService: GeneralService, public configService: ConfigService,
@@ -61,7 +81,7 @@ export class TriviaHubComponent implements OnInit {
         ? 'trivia'
         : this.selectedTabIndex == 1
           ? 'private'
-          : 'bookmark', this.search, this.page, 4).then(data => {
+          : 'bookmark', this.search, this.page, 4, this.selectedSortOption).then(data => {
         this.loadingContent = false;
         this.library = (data.data);
         this.libraryQuestions = this.libraryQuestions.concat(data.data.questions);
@@ -82,7 +102,7 @@ export class TriviaHubComponent implements OnInit {
         ? 'trivia'
         : this.selectedTabIndex == 1
           ? 'private'
-          : 'bookmark', this.search, this.page, 4).then(data => {
+          : 'bookmark', this.search, this.page, 4, this.selectedSortOption).then(data => {
         this.loadingContent = false;
         this.library = (data.data);
         this.libraryQuestions = this.libraryQuestions.concat(data.data.questions);
@@ -121,7 +141,7 @@ export class TriviaHubComponent implements OnInit {
   async changeGames() {
     this.loadingContent = true;
     this.gameService.getAllOrMyGames(this.selectedTabGameIndex == 0 ? '' : 'private',
-      this.selectedCategory[0] ? this.selectedCategory[0]._id : '', 10, 1).then(data => {
+      this.selectedCategory[0] ? this.selectedCategory[0]._id : '', 10, 1, this.selectedSortOptionGame).then(data => {
       this.loadingContent = false;
       this.gameData = data.data;
     }, error => {
@@ -154,7 +174,7 @@ export class TriviaHubComponent implements OnInit {
       ? 'trivia'
       : this.selectedTabIndex == 1
         ? 'private'
-        : 'bookmark', this.search, this.page, 4).then(data => {
+        : 'bookmark', this.search, this.page, 4, this.selectedSortOption).then(data => {
       this.loadingContent = false;
       this.loadingMore = false;
       this.library = (data.data);
@@ -221,6 +241,20 @@ export class TriviaHubComponent implements OnInit {
     }, error => {
       return this.processHTTPMsgService.handleError(error);
     });
+  }
+
+  onSelect(option: string): void {
+    this.selectedSortOption = option;
+    console.log('Selected option:', this.selectedSortOption);
+    this.changeQuestions();
+    // You can also perform any additional logic here based on the selected option.
+  }
+
+  onSelectGameSort(option: string): void {
+    this.selectedSortOptionGame = option;
+    console.log('Selected option:', this.selectedSortOption);
+    this.changeGames();
+    // You can also perform any additional logic here based on the selected option.
   }
 
 }

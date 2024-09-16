@@ -146,13 +146,13 @@ export class ClientService {
     }
   }
 
-  async getUserQuestions(category: any = '', type: any = '', search: any = '', page: any = 1, limit: any = 10): Promise<any> {
+  async getUserQuestions(category: any = '', type: any = '', search: any = '', page: any = 1, limit: any = 10, sort: any = ''): Promise<any> {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
     })
     try {
       const response = this.http.get(this.config.url('client/questions'), {
-        params: {category: category, type: type, search: search, page, limit},
+        params: {category: category, type: type, search: search, page, limit, sort},
         headers: headers,
         withCredentials: true
       }).pipe(

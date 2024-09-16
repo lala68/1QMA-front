@@ -14,9 +14,11 @@ import {ClipboardModule} from "@angular/cdk/clipboard";
 import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
 import {MatDialogModule} from "@angular/material/dialog";
-import {StarRatingModule} from "angular-star-rating";
+// import {StarRatingModule} from "angular-star-rating";
 import {LoaderInterceptService} from "./services/interceptors/loader-intercept.service";
 import {NgxMatSelectSearchModule} from "ngx-mat-select-search";
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
 
 export const httpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(http, './assets/i18n/', '.json');
 
@@ -37,7 +39,7 @@ export const httpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(h
     ReactiveFormsModule,
     RouterModule,
     ClipboardModule,
-    StarRatingModule.forRoot(),
+    NgbRatingModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -45,6 +47,7 @@ export const httpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(h
         deps: [HttpClient],
       },
     }),
+    NgbModule,
     // ServiceWorkerModule.register('ngsw-worker.js', {
     //   enabled: !isDevMode(),
     //   // Register the ServiceWorker as soon as the application is stable

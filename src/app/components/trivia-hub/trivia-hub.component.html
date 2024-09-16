@@ -46,9 +46,33 @@
               <div style="display: ruby-text;">
                 <mat-spinner *ngIf="loadingContent" [diameter]="30"></mat-spinner>
               </div>
-              <div class="border-0 pt-4 ps-4 font-size-14 weight-600" *ngIf="library?.total">
-                {{library?.total}} {{'Questions' | translate}}
+              <div class="position-relative">
+                <div class="border-0 pt-3 ps-4 font-size-14 weight-600" *ngIf="library?.total">
+                  {{library?.total}} {{'Questions' | translate}}
+                </div>
+                <button [matMenuTriggerFor]="menuSortQuestion" *ngIf="library?.total"
+                        class="font-size-14 weight-600 position-absolute end-10 top-0 border-0 bg-transparent d-flex align-items-center"
+                        style="width: fit-content">
+                  {{selectedSortOption}}
+                  <i class="bi bi-chevron-down color-black" style="padding: 10px"></i>
+                </button>
+                <mat-menu #menuSortQuestion="matMenu">
+                  <div mat-menu-item class="p-2 border-bottom" (click)="onSelect('oldest')">
+                    <mat-label>oldest</mat-label>
+                  </div>
+                  <div mat-menu-item class="p-2 border-bottom" (click)="onSelect('newest')">
+                    <mat-label>newest</mat-label>
+                  </div>
+                  <div mat-menu-item class="p-2 border-bottom" (click)="onSelect('highest')">
+                    <mat-label>highest</mat-label>
+                  </div>
+                  <div mat-menu-item class="p-2" (click)="onSelect('lowest')">
+                    <mat-label>lowest</mat-label>
+                  </div>
+                </mat-menu>
               </div>
+              <br>
+
               <div *ngFor="let item of libraryQuestions" class="gray-card p-4 m-2 d-inline-block" style="width: 48%">
                 <div class="d-flex white-card position-relative m-2">
                   <img class="avatar-bordered"
@@ -156,7 +180,16 @@
                     <mat-label [class]="{'link-text': item?.disliked}">{{item?.dislikes}}</mat-label>
                     &nbsp;&nbsp;&nbsp;
                     <div class="d-inline-flex">
-                      <star-rating [starType]="'svg'" [rating]="item?.avgRate" [readOnly]="true"></star-rating>
+                      <!--                      <star-rating [starType]="'svg'" [rating]="item?.avgRate" [readOnly]="true"></star-rating>-->
+                      <ng-template #t let-fill="fill">
+                        <i class="bi-star-fill">
+                          @if (fill > 0) {
+                          <i class="bi-star-fill filled" [style.width.%]="fill"></i>
+                          }
+                        </i>
+                      </ng-template>
+
+                      <ngb-rating [(rate)]="item.avgRate" [starTemplate]="t" [readonly]="true" [max]="5"/>
                     </div>
                     <div class="d-inline-flex text-gray">
                       <mat-label *ngIf="item?.avgRate">{{item?.avgRate | number}}</mat-label>
@@ -199,9 +232,38 @@
               <div style="display: ruby-text;">
                 <mat-spinner *ngIf="loadingContent" [diameter]="30"></mat-spinner>
               </div>
-              <div class="border-0 pt-4 ps-4 font-size-14 weight-600" *ngIf="library?.total">
-                {{library?.total}} {{'Questions' | translate}}
+              <div class="position-relative">
+                <div class="border-0 pt-4 ps-4 font-size-14 weight-600" *ngIf="library?.total">
+                  {{library?.total}} {{'Questions' | translate}}
+                </div>
+                <button [matMenuTriggerFor]="menuSortQuestion" *ngIf="library?.total"
+                        class="font-size-14 weight-600 position-absolute end-10 top-0 border-0 bg-transparent d-flex align-items-center"
+                        style="width: fit-content">
+                  {{selectedSortOption}}
+                  <i class="bib bi-chevron-down color-black" style="padding: 10px"></i>
+                </button>
+                <button [matMenuTriggerFor]="menuSortQuestion" *ngIf="library?.total"
+                        class="font-size-14 weight-600 position-absolute end-10 top-0 border-0 bg-transparent d-flex align-items-center"
+                        style="width: fit-content">
+                  {{selectedSortOption}}
+                  <i class="bi bi-chevron-down color-black" style="padding: 10px"></i>
+                </button>
+                <mat-menu #menuSortQuestion="matMenu">
+                  <div mat-menu-item class="p-2 border-bottom" (click)="onSelect('oldest')">
+                    <mat-label>oldest</mat-label>
+                  </div>
+                  <div mat-menu-item class="p-2 border-bottom" (click)="onSelect('newest')">
+                    <mat-label>newest</mat-label>
+                  </div>
+                  <div mat-menu-item class="p-2 border-bottom" (click)="onSelect('highest')">
+                    <mat-label>highest</mat-label>
+                  </div>
+                  <div mat-menu-item class="p-2" (click)="onSelect('lowest')">
+                    <mat-label>lowest</mat-label>
+                  </div>
+                </mat-menu>
               </div>
+              <br>
               <div *ngFor="let item of libraryQuestions" class="gray-card p-4 m-2 d-inline-block" style="width: 48%">
                 <div class="d-flex white-card position-relative m-2">
                   <img class="avatar-bordered"
@@ -286,7 +348,16 @@
                     <mat-label [class]="{'link-text': item?.disliked}">{{item?.dislikes}}</mat-label>
                     &nbsp;&nbsp;&nbsp;
                     <div class="d-inline-flex">
-                      <star-rating show-half-stars="true" [starType]="'svg'" [readOnly]="true" [rating]="item?.avgRate"></star-rating>
+                      <!--                      <star-rating show-half-stars="true" [starType]="'svg'" [readOnly]="true" [rating]="item?.avgRate"></star-rating>-->
+                      <ng-template #t let-fill="fill">
+                        <i class="bi-star-fill">
+                          @if (fill > 0) {
+                          <i class="bi-star-fill filled" [style.width.%]="fill"></i>
+                          }
+                        </i>
+                      </ng-template>
+
+                      <ngb-rating [(rate)]="item.avgRate" [starTemplate]="t" [readonly]="true" [max]="5"/>
                     </div>
                     <div class="d-inline-flex text-gray">
                       <mat-label *ngIf="item?.avgRate">{{item?.avgRate | number}}</mat-label>
@@ -329,9 +400,32 @@
               <div style="display: ruby-text;">
                 <mat-spinner *ngIf="loadingContent" [diameter]="30"></mat-spinner>
               </div>
-              <div class="border-0 pt-4 ps-4 font-size-14 weight-600" *ngIf="library?.total">
-                {{library?.total}} {{'Questions' | translate}}
+              <div class="position-relative">
+                <div class="border-0 pt-4 ps-4 font-size-14 weight-600" *ngIf="library?.total">
+                  {{library?.total}} {{'Questions' | translate}}
+                </div>
+                <button [matMenuTriggerFor]="menuSortQuestion"
+                        class="font-size-14 weight-600 position-absolute end-10 top-0 border-0 bg-transparent d-flex align-items-center"
+                        style="width: fit-content">
+                  {{selectedSortOption}}
+                  <i class="bi bi-chevron-down color-black" style="padding: 10px"></i>
+                </button>
+                <mat-menu #menuSortQuestion="matMenu">
+                  <div mat-menu-item class="p-2 border-bottom" (click)="onSelect('oldest')">
+                    <mat-label>oldest</mat-label>
+                  </div>
+                  <div mat-menu-item class="p-2 border-bottom" (click)="onSelect('newest')">
+                    <mat-label>newest</mat-label>
+                  </div>
+                  <div mat-menu-item class="p-2 border-bottom" (click)="onSelect('highest')">
+                    <mat-label>highest</mat-label>
+                  </div>
+                  <div mat-menu-item class="p-2" (click)="onSelect('lowest')">
+                    <mat-label>lowest</mat-label>
+                  </div>
+                </mat-menu>
               </div>
+              <br>
               <div *ngFor="let item of libraryQuestions" class="gray-card p-4 m-2 d-inline-block" style="width: 48%">
                 <div class="d-flex white-card position-relative m-2">
                   <img class="avatar-bordered"
@@ -418,7 +512,16 @@
                     <mat-label [class]="{'link-text': item?.disliked}">{{item?.dislikes}}</mat-label>
                     &nbsp;&nbsp;&nbsp;
                     <div class="d-inline-flex">
-                      <star-rating show-half-stars="true" [starType]="'svg'"  [readOnly]="true" [rating]="item?.avgRate"></star-rating>
+                      <!--                      <star-rating show-half-stars="true" [starType]="'svg'"  [readOnly]="true" [rating]="item?.avgRate"></star-rating>-->
+                      <ng-template #t let-fill="fill">
+                        <i class="bi-star-fill">
+                          @if (fill > 0) {
+                          <i class="bi-star-fill filled" [style.width.%]="fill"></i>
+                          }
+                        </i>
+                      </ng-template>
+
+                      <ngb-rating [(rate)]="item.avgRate" [starTemplate]="t" [readonly]="true" [max]="5"/>
                     </div>
                     <div class="d-inline-flex text-gray">
                       <mat-label *ngIf="item?.avgRate">{{item?.avgRate | number}}</mat-label>
@@ -501,6 +604,24 @@
                 <mat-spinner *ngIf="loadingContent" [diameter]="30"></mat-spinner>
               </div>
               <div>
+                <div class="position-relative" *ngIf="gameData?.length > 0">
+                  <button [matMenuTriggerFor]="menuSortGame"
+                          class="font-size-14 weight-600 position-absolute end-10 top-0 border-0 bg-transparent d-flex align-items-center"
+                          style="width: fit-content">
+                    {{selectedSortOptionGame}}
+                    <i class="bib bi-chevron-down color-black" style="padding: 10px"></i>
+                  </button>
+                  <mat-menu #menuSortGame="matMenu">
+                    <div mat-menu-item class="p-2 border-bottom" (click)="onSelectGameSort('oldest')">
+                      <mat-label>oldest</mat-label>
+                    </div>
+                    <div mat-menu-item class="p-2" (click)="onSelectGameSort('newest')">
+                      <mat-label>newest</mat-label>
+                    </div>
+                  </mat-menu>
+                </div>
+                <br>
+                <br>
                 <mat-card *ngFor="let endedGame of gameData"
                           class="bordered-card shadow-none text-center d-inline-block">
                   <img [src]="'https://api.staging.1qma.games/' + endedGame?.category?.icon" width="50" height="50"
@@ -565,6 +686,24 @@
               <div style="display: ruby-text;">
                 <mat-spinner *ngIf="loadingContent" [diameter]="30"></mat-spinner>
               </div>
+              <div class="position-relative" *ngIf="gameData?.length > 0">
+                <button [matMenuTriggerFor]="menuSortGame"
+                        class="font-size-14 weight-600 position-absolute end-10 top-0 border-0 bg-transparent d-flex align-items-center"
+                        style="width: fit-content">
+                  {{selectedSortOptionGame}}
+                  <i class="bib bi-chevron-down color-black" style="padding: 10px"></i>
+                </button>
+                <mat-menu #menuSortGame="matMenu">
+                  <div mat-menu-item class="p-2 border-bottom" (click)="onSelectGameSort('oldest')">
+                    <mat-label>oldest</mat-label>
+                  </div>
+                  <div mat-menu-item class="p-2" (click)="onSelectGameSort('newest')">
+                    <mat-label>newest</mat-label>
+                  </div>
+                </mat-menu>
+              </div>
+              <br>
+              <br>
               <div class="">
                 <mat-card *ngFor="let endedGame of gameData"
                           class="bordered-card shadow-none text-center d-inline-block">
@@ -743,7 +882,16 @@
               <mat-label [class]="{'link-text': questionDetail?.disliked}">{{questionDetail?.dislikes}}</mat-label>
               &nbsp;&nbsp;&nbsp;
               <div class="d-inline-flex">
-                <star-rating show-half-stars="true" [starType]="'svg'" [rating]="questionDetail?.avgRate" [readOnly]="true"></star-rating>
+                <!--                <star-rating show-half-stars="true" [starType]="'svg'" [rating]="questionDetail?.avgRate" [readOnly]="true"></star-rating>-->
+                <ng-template #t let-fill="fill">
+                  <i class="bi-star-fill">
+                    @if (fill > 0) {
+                    <i class="bi-star-fill filled" [style.width.%]="fill"></i>
+                    }
+                  </i>
+                </ng-template>
+
+                <ngb-rating [(rate)]="questionDetail.avgRate" [starTemplate]="t" [readonly]="true" [max]="5"/>
               </div>
               <div class="d-inline-flex text-gray">
                 <mat-label *ngIf="questionDetail?.avgRate">{{questionDetail?.avgRate | number}}</mat-label>
@@ -997,7 +1145,16 @@
                     <mat-label [class]="{'link-text': answer?.disliked}">{{answer?.dislikes}}</mat-label>
                     &nbsp;&nbsp;&nbsp;
                     <div class="d-inline-flex">
-                      <star-rating show-half-stars="true" [starType]="'svg'" [rating]="answer?.avgRate" [readOnly]="true"></star-rating>
+                      <!--                      <star-rating show-half-stars="true" [starType]="'svg'" [rating]="answer?.avgRate" [readOnly]="true"></star-rating>-->
+                      <ng-template #t let-fill="fill">
+                        <i class="bi-star-fill">
+                          @if (fill > 0) {
+                          <i class="bi-star-fill filled" [style.width.%]="fill"></i>
+                          }
+                        </i>
+                      </ng-template>
+
+                      <ngb-rating [(rate)]="answer.avgRate" [starTemplate]="t" [readonly]="true" [max]="5"/>
                     </div>
                     <div class="d-inline-flex text-gray">
                       <mat-label *ngIf="answer?.avgRate">{{answer?.avgRate | number}}</mat-label>

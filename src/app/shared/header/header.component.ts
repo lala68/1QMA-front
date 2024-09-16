@@ -1,4 +1,4 @@
-import {Component, Inject} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {GeneralService} from "../../services/general/general.service";
 import {AuthService} from "../../services/auth/auth.service";
 import {Preferences} from "@capacitor/preferences";
@@ -20,12 +20,17 @@ import {DaysAgoPipe} from "../../pipes/days-ago.pipe";
   // standalone: true,
   // imports: [DaysAgoPipe]
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
   notifList: any = [];
 
   constructor(public generalService: GeneralService, public authService: AuthService,
               private router: Router, public dialog: MatDialog, private shopService: ShopService) {
-    if (this.generalService?.hasCompletedSignup) {
+
+  }
+
+  async ngOnInit(): Promise<any> {
+    await this.generalService.getUserData();
+    if (await this.generalService?.hasCompletedSignup) {
       this.shopService.getNotifications(1, 3).then(data => {
         this.generalService.notifList = data.data;
       })

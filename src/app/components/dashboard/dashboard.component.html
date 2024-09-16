@@ -324,10 +324,12 @@
           </div>
         </mat-grid-tile>
         <mat-grid-tile [colspan]="2">
-          <img style="border: 1px solid #E8E2E0;border-radius: 50px; background: white;"
-               [src]="res?.user?.profilePicture ? res?.user?.profilePicture?.startsWith('http') ? res?.user?.profilePicture : configService.url(res?.user?.profilePicture) : 'assets/images/frame.png'"
-               width="40">&nbsp;&nbsp;
-          <mat-label>{{res?.user?.firstName}} {{res?.user?.lastName}}</mat-label>
+          <div class="w-100">
+            <img style="border: 1px solid #E8E2E0;border-radius: 50px; background: white;"
+                 [src]="res?.user?.profilePicture ? res?.user?.profilePicture?.startsWith('http') ? res?.user?.profilePicture : configService.url(res?.user?.profilePicture) : 'assets/images/frame.png'"
+                 width="40">&nbsp;&nbsp;
+            <mat-label>{{res?.user?.firstName}} {{res?.user?.lastName}}</mat-label>
+          </div>
         </mat-grid-tile>
         <mat-grid-tile [colspan]="1">
           <mat-label class="font-size-14 weight-700 gray-card text-center"
@@ -452,13 +454,14 @@
       Select the category closest to your heart and know that your choice directly contributes to positive change.
     </mat-label>
     <button *ngIf="!generalService.userObj?.preferedCharity" mat-raised-button (click)="openCharityModal()"
-            class="answer-button mt-4 start-10 w-25" >{{'Choose Category' | translate}}
+            class="answer-button mt-4 start-10 w-25">{{'Choose Category' | translate}}
     </button>
     <div *ngIf="generalService.userObj?.preferedCharity" class="copy-referrer">
       <mat-label class="text-light-color">You are participated in:</mat-label>
       <br>
       <mat-label class="font-size-14 weight-700">{{generalService?.userObj?.preferedCharity?.charity?.title}}
-        > {{generalService?.userObj?.preferedCharity?.activity?.title}}</mat-label><br>
+        > {{generalService?.userObj?.preferedCharity?.activity?.title}}</mat-label>
+      <br>
       <mat-progress-bar
         style="width: 50%; border-radius: 10px; display: inline-table;"
         color="primary"
@@ -466,7 +469,8 @@
         [bufferValue]="100"
         mode="determinate"></mat-progress-bar>
       <br>
-      <mat-label class="mt-2 font-size-12 weight-500">{{generalService?.clientInit?.charityProgress}}% {{'Completed' | translate}}</mat-label>
+      <mat-label class="mt-2 font-size-12 weight-500">{{generalService?.clientInit?.charityProgress}}
+        % {{'Completed' | translate}}</mat-label>
     </div>
   </div>
 </div>

@@ -821,9 +821,9 @@
       <br>
       <div class="card border-0" *ngIf="createGameStep == 2">
         <mat-card class="shadow-none">
-          <mat-card-header>
+          <mat-card-header style="padding: 16px;">
             <!--            <img mat-card-avatar src="assets/images/wallet-minus.svg" style="width: 24px; height: 24px">-->
-            <svg style="width: 24px; height: 24px" mat-card-avatar width="25" height="25" viewBox="0 0 25 25"
+            <svg style="width: 24px;height: 24px;margin-top: 8px;margin-bottom: 0;padding: 0;display: flex;align-items: center;" mat-card-avatar width="25" height="25" viewBox="0 0 25 25"
                  fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M15.1626 16.3145H10.1626" stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10"
                     stroke-linecap="round" stroke-linejoin="round"/>
@@ -845,7 +845,7 @@
             </svg>
 
             <mat-card-title class="font-size-12 weight-600"
-                            style="color: #585858">{{'My Balance' | translate}}</mat-card-title>
+                            style="color: #585858;">{{'My Balance' | translate}}</mat-card-title>
             <mat-card-subtitle class="font-size-14 weight-600 mt-2">
               {{generalService.userObj?.assets?.coins?.bronze}} {{'Bronze' | translate}}
             </mat-card-subtitle>
@@ -1079,7 +1079,7 @@
             </mat-card-actions>
           </mat-card>
         </div>
-        <div style="margin: 0 auto">
+        <div style="margin: 10px auto">
           <button mat-stroked-button color="primary" type="submit" *ngIf="!loadingMore && !noMoreItems"
                   class="p-4s ms-2 blue-button" (click)="showMoreGames()"
                   style="min-width: 150px; border: 1px solid #0B6FEA">

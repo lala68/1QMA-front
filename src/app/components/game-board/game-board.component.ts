@@ -57,12 +57,13 @@ export class GameBoardComponent implements OnInit, OnDestroy {
   isDroppedQuestion: boolean = false;
   myRank: any;
 
-  // Listen for 'beforeunload' to detect page refresh or tab close
   @HostListener('window:beforeunload', ['$event'])
   unloadNotification($event: any): void {
     if (this.hasUnsavedChanges()) {
-      // Modern browsers ignore custom messages, but setting returnValue still triggers the prompt
       $event.returnValue = 'You have unsaved changes! Are you sure you want to leave?';
+
+      // Call exitGame with useBeacon set to true
+      this.gameService.exitGame(this.generalService.createdGameData.game.gameId, true);
     }
   }
 
@@ -462,7 +463,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     this.finishedTimerAnswer = true;
     if (this.generalService.disconnectedModal == '') {
       if (!this.sendAnswerDisable) {
-        this.countdownTimer.resetTimer(3);
+        // this.countdownTimer.resetTimer(3);
         await this.sendAnswer();
         this.sendAnswerDisable = true;
       } else {
@@ -539,7 +540,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     this.finishedTimerRatingAnswer = true;
     if (this.generalService.disconnectedModal == '') {
       if (!this.sendRateAnswerDisable) {
-        this.countdownTimer.resetTimer(2);
+        // this.countdownTimer.resetTimer(2);
         await this.sendRateAnswer(false);
         this.sendRateAnswerDisable = true;
       } else {
@@ -644,7 +645,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     console.log("finishedTimer" + ' ' + `[${timeString}]  `);
     this.finishedTimerRatingQuestions = true;
     if (!this.sendRateQuestionsDisable) {
-      this.countdownTimer.resetTimer(2);
+      // this.countdownTimer.resetTimer(2);
       await this.sendRateQuestions();
       this.sendRateQuestionsDisable = true;
     } else {

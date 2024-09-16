@@ -82,13 +82,13 @@ export class GamesService {
     return response;
   }
 
-  async getAllOrMyGames(type: any, category: any, limit: any, page: any): Promise<any> {
+  async getAllOrMyGames(type: any, category: any, limit: any, page: any, sort: any = ''): Promise<any> {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
     })
     const response = this.http.get(this.config.url('games'), {
       headers: headers,
-      params: {type: type, category: category, limit, page},
+      params: {type: type, category: category, limit, page, sort},
       withCredentials: true
     }).pipe(
       map((response: any) => response)
@@ -335,19 +335,32 @@ export class GamesService {
   }
 
 
-  async exitGame(gameId: any): Promise<any> {
-    let headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-
-    })
-    return this.http.post<any>(this.config.url('game/leave'), {
+  async exitGame(gameId: any, useBeacon: boolean = false): Promise<any> {
+    const url = this.config.url('game/leave');
+    const data = {
       id: this.generalService.userId,
       gameId: gameId
-    }, {
-      headers: headers,
-      withCredentials: true
-    })
-      .toPromise();
+    };
+
+    if (useBeacon) {
+      // Use navigator.sendBeacon when useBeacon is true
+      const payload = JSON.stringify(data);
+      const blob = new Blob([payload], { type: 'application/json' });
+      navigator.sendBeacon(url, blob);
+
+      // Return a resolved promise for consistency
+      return Promise.resolve();
+    } else {
+      // Default to the original method if not using beacon
+      let headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+      });
+
+      return this.http.post<any>(url, data, {
+        headers: headers,
+        withCredentials: true
+      }).toPromise();
+    }
   }
 
   async invitePlayer(gameId: any, email: any): Promise<any> {
