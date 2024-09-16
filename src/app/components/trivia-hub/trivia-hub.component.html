@@ -53,7 +53,7 @@
                 <button [matMenuTriggerFor]="menuSortQuestion" *ngIf="library?.total"
                         class="font-size-14 weight-600 position-absolute end-10 top-0 border-0 bg-transparent d-flex align-items-center"
                         style="width: fit-content">
-                  {{selectedSortOption}}
+                  {{selectedSortOption == 'highest' ? 'highest rate' : selectedSortOption == 'lowest' ? 'lowest rate' : selectedSortOption }}
                   <i class="bi bi-chevron-down color-black" style="padding: 10px"></i>
                 </button>
                 <mat-menu #menuSortQuestion="matMenu">
@@ -63,11 +63,11 @@
                   <div mat-menu-item class="p-2 border-bottom" (click)="onSelect('newest')">
                     <mat-label>newest</mat-label>
                   </div>
-                  <div mat-menu-item class="p-2 border-bottom" (click)="onSelect('highest')">
-                    <mat-label>highest</mat-label>
+                  <div mat-menu-item class="p-2 border-bottom" (click)="onSelect('highest rate')">
+                    <mat-label>highest rate</mat-label>
                   </div>
-                  <div mat-menu-item class="p-2" (click)="onSelect('lowest')">
-                    <mat-label>lowest</mat-label>
+                  <div mat-menu-item class="p-2" (click)="onSelect('lowest rate')">
+                    <mat-label>lowest rate</mat-label>
                   </div>
                 </mat-menu>
               </div>
@@ -85,7 +85,7 @@
                   </mat-label>
                 </div>
                 <br>
-                <div class="font-size-14 weight-700" style="min-height: 50px">
+                <div class="font-size-14 weight-700" style="min-height: 80px">
                   {{item?.question}}
                 </div>
                 <br>
@@ -130,7 +130,7 @@
                 </div>
 
                 <br>
-                <mat-card-actions class="position-relative d-flex align-items-center">
+                <mat-card-actions class="position-relative d-flex align-items-center pb-0 pt-3">
                   <button mat-raised-button (click)="gotoAnswer(item)"
                           class="answer-button position-absolute end-10 bottom-0">{{'Answer' | translate}}
                   </button>
@@ -239,13 +239,7 @@
                 <button [matMenuTriggerFor]="menuSortQuestion" *ngIf="library?.total"
                         class="font-size-14 weight-600 position-absolute end-10 top-0 border-0 bg-transparent d-flex align-items-center"
                         style="width: fit-content">
-                  {{selectedSortOption}}
-                  <i class="bib bi-chevron-down color-black" style="padding: 10px"></i>
-                </button>
-                <button [matMenuTriggerFor]="menuSortQuestion" *ngIf="library?.total"
-                        class="font-size-14 weight-600 position-absolute end-10 top-0 border-0 bg-transparent d-flex align-items-center"
-                        style="width: fit-content">
-                  {{selectedSortOption}}
+                  {{selectedSortOption == 'highest' ? 'highest rate' : selectedSortOption == 'lowest' ? 'lowest rate' : selectedSortOption }}
                   <i class="bi bi-chevron-down color-black" style="padding: 10px"></i>
                 </button>
                 <mat-menu #menuSortQuestion="matMenu">
@@ -276,7 +270,7 @@
                   </mat-label>
                 </div>
                 <br>
-                <div class="font-size-14 weight-700" style="min-height: 50px">
+                <div class="font-size-14 weight-700" style="min-height: 80px">
                   {{item?.question}}
                 </div>
                 <br>
@@ -298,7 +292,7 @@
                 </div>
                 <br>
                 <br>
-                <mat-card-actions class="position-relative d-flex align-items-center">
+                <mat-card-actions class="position-relative d-flex align-items-center pb-0 pt-3">
                   <button mat-raised-button (click)="gotoAnswer(item)"
                           class="answer-button position-absolute end-10 bottom-0">{{'Answer' | translate}}
                   </button>
@@ -407,7 +401,7 @@
                 <button [matMenuTriggerFor]="menuSortQuestion"
                         class="font-size-14 weight-600 position-absolute end-10 top-0 border-0 bg-transparent d-flex align-items-center"
                         style="width: fit-content">
-                  {{selectedSortOption}}
+                  {{selectedSortOption == 'highest' ? 'highest rate' : selectedSortOption == 'lowest' ? 'lowest rate' : selectedSortOption }}
                   <i class="bi bi-chevron-down color-black" style="padding: 10px"></i>
                 </button>
                 <mat-menu #menuSortQuestion="matMenu">
@@ -438,7 +432,7 @@
                   </mat-label>
                 </div>
                 <br>
-                <div class="font-size-14 weight-700" style="min-height: 50px">
+                <div class="font-size-14 weight-700" style="min-height: 80px">
                   {{item?.question}}
                 </div>
                 <br>
@@ -462,7 +456,7 @@
                   </div>
                 </div>
                 <br>
-                <mat-card-actions class="position-relative d-flex align-items-center">
+                <mat-card-actions class="position-relative d-flex align-items-center pb-0 pt-3">
                   <button mat-raised-button (click)="gotoAnswer(item)"
                           class="answer-button position-absolute end-10 bottom-0">{{'Answer' | translate}}
                   </button>

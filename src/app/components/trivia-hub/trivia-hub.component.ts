@@ -244,6 +244,7 @@ export class TriviaHubComponent implements OnInit {
   }
 
   onSelect(option: string): void {
+
     this.selectedSortOption = option;
     console.log('Selected option:', this.selectedSortOption);
     this.changeQuestions();
