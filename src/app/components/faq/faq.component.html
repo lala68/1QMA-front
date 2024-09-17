@@ -38,4 +38,7 @@
     <br>
   </mat-accordion>
 </div>
-<app-footer *ngIf="!generalService?.hasCompletedSignup"></app-footer>
+<div *ngIf="!generalService.userId">
+  <br>
+  <app-footer></app-footer>
+</div>

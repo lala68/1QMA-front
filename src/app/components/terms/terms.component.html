@@ -8,3 +8,8 @@
     <mat-card-content [innerHTML]="terms?.data"></mat-card-content>
   </mat-card>
 </div>
+
+<div *ngIf="!generalService.userId">
+  <br>
+  <app-footer></app-footer>
+</div>

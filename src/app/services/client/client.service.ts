@@ -146,7 +146,7 @@ export class ClientService {
     }
   }
 
-  async getUserQuestions(category: any = '', type: any = '', search: any = '', page: any = 1, limit: any = 10, sort: any = ''): Promise<any> {
+  async getUserQuestions(category: any = '', type: any = '', search: any = '', page: any = 1, limit: any = 10, sort: any = 'newest'): Promise<any> {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
     })

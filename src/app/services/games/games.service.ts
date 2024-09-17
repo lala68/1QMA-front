@@ -82,7 +82,7 @@ export class GamesService {
     return response;
   }
 
-  async getAllOrMyGames(type: any, category: any, limit: any, page: any, sort: any = ''): Promise<any> {
+  async getAllOrMyGames(type: any, category: any, limit: any, page: any, sort: any = 'newest'): Promise<any> {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
     })

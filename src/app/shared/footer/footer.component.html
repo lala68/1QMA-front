@@ -11,15 +11,15 @@
     <ul class="pe-1 d-flex mb-0">
       <li class="p-2 ul-li-footer">
         <label>
-          <a class="nav-link pointer">
-            Tutorials
+          <a [routerLink]="'/privacy'" class="nav-link pointer">
+            Privacy and policy
           </a>
         </label>
       </li>
       <li class="p-2 ul-li-footer">
         <label>
-          <a [routerLink]="'/terms'" class="nav-link pointer">
-            Terms Of Services
+          <a class="nav-link pointer">
+            Tutorials
           </a>
         </label>
       </li>
@@ -27,15 +27,15 @@
     <ul class="pe-1 d-flex mb-0">
       <li class="p-2 ul-li-footer">
         <label>
-          <a class="nav-link pointer">
-            Careers
+          <a [routerLink]="'/terms'" class="nav-link pointer">
+            Terms Of Services
           </a>
         </label>
       </li>
-      <li class="p-2 ul-li-footer" *ngIf="generalService?.hasCompletedSignup">
+      <li class="p-2 ul-li-footer">
         <label>
-          <a [routerLink]="'/report-bug'" class="nav-link pointer">
-            Report a bug
+          <a class="nav-link pointer">
+            Careers
           </a>
         </label>
       </li>
@@ -48,10 +48,11 @@
           </a>
         </label>
       </li>
-      <li class="p-2 ul-li-footer">
+
+      <li class="p-2 ul-li-footer" *ngIf="generalService?.hasCompletedSignup">
         <label>
-          <a [routerLink]="'/privacy'" class="nav-link pointer">
-            Privacy and policy
+          <a [routerLink]="'/report-bug'" class="nav-link pointer">
+            Report a bug
           </a>
         </label>
       </li>

@@ -3,7 +3,7 @@
   <mat-drawer-container style="min-height: 100vh">
     <mat-drawer class="bg-transparent border-0 position-fixed" mode="side" opened
                 *ngIf="generalService?.hasCompletedSignup && !generalService.startingGame"
-    style="height: 87%">
+                style="height: calc(100vh - 120px);">
       <!--    <mat-drawer class="bg-transparent border-0" mode="side" opened s>-->
       <div class="dashboard-sidebar">
         <mat-card class="sidebar-user-detail" appearance="outlined">
