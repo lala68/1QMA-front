@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {SharedModule} from "../../shared/shared.module";
 import {FormsModule} from "@angular/forms";
@@ -12,6 +12,8 @@ import {DaysAgoPipe} from "../../pipes/days-ago.pipe";
 import {ParsIntPipe} from "../../pipes/pars-int.pipe";
 import {ProcessHTTPMsgService} from "../../services/proccessHttpMsg/process-httpmsg.service";
 import {NgbRatingModule} from "@ng-bootstrap/ng-bootstrap";
+import {IntroJsService} from "../../services/introJs/intro-js.service";
+import {MatTabGroup} from "@angular/material/tabs";
 
 @Component({
   selector: 'app-trivia-hub',
@@ -61,7 +63,7 @@ export class TriviaHubComponent implements OnInit {
   selectedSortOptionGame: string = 'newest';
 
   constructor(private gameService: GamesService, private clientService: ClientService,
-              public generalService: GeneralService, public configService: ConfigService,
+              public generalService: GeneralService, public configService: ConfigService, private intro: IntroJsService,
               private router: Router, private processHTTPMsgService: ProcessHTTPMsgService) {
     this.generalService.currentRout = '/trivia-hub';
     this.question = this.router.getCurrentNavigation()?.extras?.state?.['question'];
@@ -90,6 +92,39 @@ export class TriviaHubComponent implements OnInit {
         return this.processHTTPMsgService.handleError(error);
       });
     }
+
+    setTimeout(() => {
+      this.showIntro().then(() => {
+      });
+    }, 3000);
+  }
+
+  async showIntro() {
+    const steps = [
+      {
+        element: '#questions',
+        intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+        position: 'bottom',
+      }, {
+        element: '#triviaGames',
+        intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+        position: 'bottom',
+      }, {
+        element: '#allQuestions',
+        intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+        position: 'bottom',
+      }, {
+        element: '#myQuestions',
+        intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+        position: 'bottom',
+      }, {
+        element: '#bookmark',
+        intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+        position: 'bottom',
+      }
+    ];
+
+    // await this.intro.showHelp('app-trivia', steps);
   }
 
   async changeQuestions() {

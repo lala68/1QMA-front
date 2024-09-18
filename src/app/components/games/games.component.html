@@ -9,7 +9,7 @@
       <div class="card border-0">
         <div class="w-100 d-flex">
           <mat-card class="shadow-none w-100">
-            <mat-card-header>
+            <mat-card-header id="scoreboard">
               <img mat-card-avatar src="assets/images/scoreboard.png" width="45" height="45">
               <mat-card-title class="font-size-16 weight-600">{{'Scoreboard' | translate}}</mat-card-title>
               <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
@@ -126,7 +126,7 @@
       <div class="card border-0">
         <div class="w-100 d-flex">
           <mat-card class="shadow-none" style="width: 100%">
-            <mat-card-header>
+            <mat-card-header id="live">
               <img mat-card-avatar src="assets/images/live.png" width="45" height="45">
               <mat-card-title class="font-size-16 weight-600">{{'Live' | translate}}</mat-card-title>
               <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
@@ -219,7 +219,7 @@
       <div class="card border-0" *ngIf="friendsGames?.length">
         <div class="w-100 d-flex">
           <mat-card class="shadow-none" style="width: 100%">
-            <mat-card-header>
+            <mat-card-header id="friendsRecent">
               <img mat-card-avatar src="assets/images/friends-games.png" width="45" height="45">
               <mat-card-title class="font-size-16 weight-600">{{'Friends Recent Games' | translate}}</mat-card-title>
               <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
@@ -295,7 +295,7 @@
       <div class="card border-0" *ngIf="scoreboardSurvival?.length || friendsGames?.length || liveGames?.length">
         <div class="w-100 d-flex">
           <mat-card class="shadow-none w-100">
-            <mat-card-header>
+            <mat-card-header id="survival">
               <img mat-card-avatar src="assets/images/survival-game.png" width="45" height="45">
               <mat-card-title class="font-size-16 weight-600">{{'Survival' | translate}}</mat-card-title>
               <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
@@ -370,7 +370,7 @@
               <br>
               <div class="w-100 d-flex">
                 <div class="w-50 m-2">
-                  <mat-label
+                  <mat-label id="liveSurvival"
                     class="font-size-14 weight-600">{{'Live Survival Games' | translate}}</mat-label>
                   <br>
                   <br>
@@ -435,7 +435,7 @@
                 </div>
 
                 <div class="w-50 m-2">
-                  <mat-label
+                  <mat-label id="friendsSurvival"
                     class="font-size-14 weight-600">{{'Survival Games From Friends' | translate}}</mat-label>
                   <br>
                   <br>

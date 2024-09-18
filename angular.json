@@ -35,7 +35,8 @@
             "styles": [
               "src/styles.scss",
               "src/custom-theme.scss",
-              "node_modules/bootstrap/dist/css/bootstrap.min.css"
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/intro.js/minified/introjs.min.css"
             ],
             "scripts": []
           },
@@ -106,7 +107,8 @@
             "styles": [
               "src/styles.scss",
               "src/custom-theme.scss",
-              "node_modules/bootstrap/dist/css/bootstrap.min.css"
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/intro.js/minified/introjs.min.css"
             ],
             "scripts": []
           }

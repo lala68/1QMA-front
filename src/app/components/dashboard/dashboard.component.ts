@@ -18,8 +18,10 @@ import {LoaderService} from "../../services/loader/loader.service";
 import {ProcessHTTPMsgService} from "../../services/proccessHttpMsg/process-httpmsg.service";
 import translate from "translate";
 import {GamesService} from "../../services/games/games.service";
-import {ExitGame} from "../../shared/header/header.component";
+import {ExitGame, HeaderComponent} from "../../shared/header/header.component";
 import {CharityModalComponent} from "../charity-modal/charity-modal.component";
+import {IntroJsService} from "../../services/introJs/intro-js.service";
+import {SidenavComponent} from "../../shared/sidenav/sidenav.component";
 
 @Component({
   selector: 'app-dashboard',
@@ -28,6 +30,7 @@ import {CharityModalComponent} from "../charity-modal/charity-modal.component";
     TranslateModule, ClipboardModule, ParsIntPipe, DaysAgoPipe],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
+  providers: [HeaderComponent]
 })
 export class DashboardComponent implements OnInit {
   loading$ = this.loader.isLoading$;
@@ -52,7 +55,8 @@ export class DashboardComponent implements OnInit {
 
   constructor(private clientService: ClientService, private _formBuilder: FormBuilder, private processHTTPMsgService: ProcessHTTPMsgService,
               public generalService: GeneralService, public configService: ConfigService, private loader: LoaderService,
-              private router: Router, public dialog: MatDialog, private _snackBar: MatSnackBar, private gameService: GamesService) {
+              private router: Router, public dialog: MatDialog, private _snackBar: MatSnackBar, private sideNavComponent: SidenavComponent,
+              private gameService: GamesService, private intro: IntroJsService, private headerComponent: HeaderComponent) {
     this.generalService.currentRout = '/dashboard';
   }
 
@@ -63,6 +67,11 @@ export class DashboardComponent implements OnInit {
     this.changeTopQuestions();
     await this.getQuestionsFromFriendsLatestGames();
     this.loading = false;
+    setTimeout(async () => {
+      await this.headerComponent.showIntro();   // Header intro
+      await this.sideNavComponent.showIntro();  // Sidebar intro
+      await this.showIntro();              // Main intro
+    }, 3000);
   }
 
   calculateRemainingDays(): void {
@@ -188,5 +197,32 @@ export class DashboardComponent implements OnInit {
       if (result == 'success') {
       }
     });
+  }
+
+  async showIntro() {
+    const steps = [
+      {
+        element: '#accountOverview',
+        intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+        position: 'bottom',
+      }, {
+        element: '#topQuestions',
+        intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+        position: 'bottom',
+      }, {
+        element: '#InviteFriends',
+        intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+        position: 'bottom',
+      }, {
+        element: '#charity',
+        intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+        position: 'bottom',
+      }, {
+        element: '#questionsFromFriends',
+        intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+        position: 'bottom',
+      }
+    ];
+    await this.intro.showHelp('app-dashboard', steps);
   }
 }

@@ -137,7 +137,7 @@
     </button>
   </mat-menu>
 
-  <button mat-stroked-button color="primary" class="me-2 radius" style="border: 1px solid #0B6FEA"
+  <button mat-stroked-button color="primary" class="me-2 radius" style="border: 1px solid #0B6FEA" id="addQuestion"
           *ngIf="generalService?.hasCompletedSignup && !generalService?.startingGame" (click)="openAddQuestion()">
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M6 12H18" stroke="#0B6FEA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -146,7 +146,7 @@
 
     Add question
   </button>
-  <button mat-flat-button color="primary" [routerLink]="['/games/find-game']"
+  <button mat-flat-button color="primary" [routerLink]="['/games/find-game']" id="find"
           *ngIf="generalService?.hasCompletedSignup && !generalService?.startingGame">
     <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
@@ -157,7 +157,7 @@
     </svg>
     Find game
   </button>
-  <button mat-flat-button class="ms-2" color="primary" [routerLink]="['/games/create-game']"
+  <button mat-flat-button class="ms-2" color="primary" [routerLink]="['/games/create-game']" id="create"
           *ngIf="generalService?.hasCompletedSignup && !generalService?.startingGame">
     <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path

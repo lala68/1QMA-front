@@ -12,6 +12,7 @@ import {ShopService} from "../../services/shop.service";
 import {SnackbarContentComponent} from "../../components/snackbar-content/snackbar-content.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {DaysAgoPipe} from "../../pipes/days-ago.pipe";
+import {IntroJsService} from "../../services/introJs/intro-js.service";
 
 @Component({
   selector: 'app-header',
@@ -23,7 +24,7 @@ import {DaysAgoPipe} from "../../pipes/days-ago.pipe";
 export class HeaderComponent implements OnInit {
   notifList: any = [];
 
-  constructor(public generalService: GeneralService, public authService: AuthService,
+  constructor(public generalService: GeneralService, public authService: AuthService, private intro: IntroJsService,
               private router: Router, public dialog: MatDialog, private shopService: ShopService) {
 
   }
@@ -87,6 +88,25 @@ export class HeaderComponent implements OnInit {
     this.generalService.rateQuestions = [];
     this.generalService.invitedPlayersArray = [];
     await this.router.navigate(['/dashboard']);
+  }
+
+  async showIntro() {
+    const steps = [
+      {
+        element: '#create',
+        intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+        position: 'bottom',
+      }, {
+        element: '#find',
+        intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+        position: 'bottom',
+      }, {
+        element: '#addQuestion',
+        intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+        position: 'bottom',
+      }
+    ];
+    await this.intro.showHelp('app-header', steps);
   }
 }
 

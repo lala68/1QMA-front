@@ -25,6 +25,7 @@ import {DaysAgoPipe} from "../../pipes/days-ago.pipe";
 import {ParsIntPipe} from "../../pipes/pars-int.pipe";
 import {ProcessHTTPMsgService} from "../../services/proccessHttpMsg/process-httpmsg.service";
 import translate from "translate";
+import {IntroJsService} from "../../services/introJs/intro-js.service";
 
 @Component({
   selector: 'app-games',
@@ -78,7 +79,7 @@ export class GamesComponent implements OnInit {
 
   constructor(public generalService: GeneralService, private gameService: GamesService, public configService: ConfigService,
               private _formBuilder: FormBuilder, private router: Router, public dialog: MatDialog, private _snackBar: MatSnackBar,
-              private route: ActivatedRoute, private gameBoardComponent: GameBoardComponent, private processHTTPMsgService: ProcessHTTPMsgService) {
+              private route: ActivatedRoute, private intro: IntroJsService, private gameBoardComponent: GameBoardComponent, private processHTTPMsgService: ProcessHTTPMsgService) {
     this.generalService.currentRout = '/games/overview';
   }
 
@@ -134,6 +135,42 @@ export class GamesComponent implements OnInit {
     }, error => {
       return this.processHTTPMsgService.handleError(error);
     });
+    setTimeout(() => {
+      this.showIntro().then(() => {
+      });
+    }, 3000);
+
+  }
+
+  async showIntro() {
+    const steps = [
+      {
+        element: '#scoreboard',
+        intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+        position: 'bottom',
+      }, {
+        element: '#live',
+        intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+        position: 'bottom',
+      }, {
+        element: '#friendsRecent',
+        intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+        position: 'bottom',
+      }, {
+        element: '#survival',
+        intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+        position: 'bottom',
+      }, {
+        element: '#liveSurvival',
+        intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+        position: 'bottom',
+      }, {
+        element: '#friendsSurvival',
+        intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+        position: 'bottom',
+      }
+    ];
+    await this.intro.showHelp('app-games', steps);
   }
 
   async gotoStepTwo(index: any) {

@@ -3,7 +3,7 @@
   <mat-spinner *ngIf="loading" [diameter]="30"></mat-spinner>
 </div>
 <div class="card border-0 p-4" *ngIf="!loading">
-  <div class="d-inline-flex">
+  <div class="d-inline-flex" id="accountOverview">
     <img src="assets/images/profile.png"
          width="35" height="35">
     <div class="font-size-16 weight-800 pt-2">&nbsp;{{'Account Overview' | translate}}</div>
@@ -246,8 +246,8 @@
 </div>
 <br>
 
-<div class="card border-0 p-4" *ngIf="!loading">
-  <div class="d-inline-flex">
+<div class="card border-0 p-4" *ngIf="!loading" >
+  <div class="d-inline-flex" id="topQuestions">
     <img src="assets/images/top-question.png"
          width="35" height="35">
     <div class="font-size-16 weight-800 pt-2">&nbsp;{{'Top Questions' | translate}}</div>
@@ -353,8 +353,8 @@
 </div>
 <br>
 <div class="w-100 d-flex">
-  <div class="card w-50 border-0 p-4 m-2" *ngIf="!loading">
-    <div class="d-inline-flex">
+  <div class="card w-50 border-0 p-4 m-2" *ngIf="!loading" >
+    <div class="d-inline-flex" id="InviteFriends">
       <img src="assets/images/invite.png"
            width="32" height="32">
       <div class="font-size-16 weight-800 pt-2">&nbsp;{{'Invite Friends' | translate}}</div>
@@ -423,8 +423,8 @@
       </mat-list-item>
     </mat-list>
   </div>
-  <div class="card w-50 border-0 p-4 m-2" *ngIf="!loading" style="max-height: 440px; min-height: 440px">
-    <div class="d-inline-flex">
+  <div class="card w-50 border-0 p-4 m-2" *ngIf="!loading"  style="max-height: 440px; min-height: 440px">
+    <div class="d-inline-flex" id="charity">
       <img src="assets/images/handshake.png"
            width="40" height="28">
       <div class="font-size-16 weight-800">&nbsp;{{'Charity' | translate}}</div>
@@ -476,8 +476,8 @@
 </div>
 
 <br>
-<div class="card w-100 border-0 p-4" *ngIf="!loadingQuestionsFromFriendsLatestGames">
-  <div class="d-inline-flex">
+<div class="card w-100 border-0 p-4" *ngIf="!loadingQuestionsFromFriendsLatestGames" >
+  <div class="d-inline-flex" id="questionsFromFriends">
     <img src="assets/images/Magic%20Book%201.png"
          width="32" height="32">
     <div class="font-size-16 weight-800 pt-2">&nbsp;{{'Questions From Friends Latest Games' | translate}}</div>

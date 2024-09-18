@@ -5,7 +5,7 @@
 <div *ngIf="!loading && questionStep == 1">
   <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" class="tab-group-trivia"
                  [(selectedIndex)]="selectedTabIndexParent" (selectedTabChange)="questionOrGame()">
-    <mat-tab label="Questions">
+    <mat-tab label="Questions" id="questions">
       <div class="card border-0">
         <div class="w-100 d-flex">
           <mat-card class="shadow-none p-2" style="width: 100%">
@@ -13,11 +13,11 @@
               <div>
                 <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" class="tab-group-library"
                                [(selectedIndex)]="selectedTabIndex" (selectedTabChange)="changeQuestions()">
-                  <mat-tab label="All Questions">
+                  <mat-tab label="All Questions" id="allQuestions">
                   </mat-tab>
-                  <mat-tab label="My Questions">
+                  <mat-tab label="My Questions" id="myQuestions">
                   </mat-tab>
-                  <mat-tab label="Bookmarked">
+                  <mat-tab label="Bookmarked" id="bookmark">
                   </mat-tab>
                 </mat-tab-group>
               </div>
@@ -559,7 +559,7 @@
       </div>
     </mat-tab>
 
-    <mat-tab label="Games">
+    <mat-tab label="Games" id="triviaGames">
       <div class="card border-0">
         <div class="w-100 d-flex">
           <mat-card class="shadow-none p-2" style="width: 100%">

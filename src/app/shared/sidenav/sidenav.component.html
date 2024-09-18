@@ -6,7 +6,7 @@
                 style="height: calc(100vh - 120px);">
       <!--    <mat-drawer class="bg-transparent border-0" mode="side" opened s>-->
       <div class="dashboard-sidebar">
-        <mat-card class="sidebar-user-detail" appearance="outlined">
+        <mat-card class="sidebar-user-detail" appearance="outlined" id="userAccount">
           <mat-card-header class="p-3 align-items-center">
             <!--            <div mat-card-avatar class="avatar-header-image"></div>-->
             <img mat-card-avatar class="avatar-bordered mb-0"
@@ -25,24 +25,24 @@
         </mat-card>
         <div class="card border-0 mt-3" style="height: 255px">
           <mat-list>
-            <mat-list-item [routerLink]="['/dashboard']"
+            <mat-list-item [routerLink]="['/dashboard']" id="dashboard"
                            [class]="generalService.currentRout == '/dashboard' ? 'mat-list-item-selected' : ''">
               <img matListItemIcon src="assets/images/home.png" width="25">
               <span class="font-size-14 weight-600" matListItemTitle>{{'Dashboard' | translate}}</span>
             </mat-list-item>
-            <mat-list-item [routerLink]="['/games/overview']"
+            <mat-list-item [routerLink]="['/games/overview']" id="games"
                            [class]="generalService.currentRout == '/games/overview' ? 'mat-list-item-selected' : ''">
               <!--                          <mat-list-item [routerLink]="['/game-board']"-->
               <!--                                         [class]="generalService.currentRout == '/games/overview' ? 'mat-list-item-selected' : ''">-->
               <img matListItemIcon src="assets/images/game.png" width="25">
               <span class="font-size-14 weight-600" matListItemTitle>{{'Games' | translate}}</span>
             </mat-list-item>
-            <mat-list-item [routerLink]="['/trivia-hub']"
+            <mat-list-item [routerLink]="['/trivia-hub']" id="trivia"
                            [class]="generalService.currentRout == '/trivia-hub' ? 'mat-list-item-selected' : ''">
               <img matListItemIcon src="assets/images/book-side.png" width="25">
               <span class="font-size-14 weight-600" matListItemTitle>{{'Trivia Hub' | translate}}</span>
             </mat-list-item>
-            <mat-list-item [routerLink]="['/shop']"
+            <mat-list-item [routerLink]="['/shop']" id="shop"
                            [class]="generalService.currentRout == '/shop' ? 'mat-list-item-selected' : ''">
               <img matListItemIcon src="assets/images/shop.png" width="25">
               <span class="font-size-14 weight-600" matListItemTitle>{{'Shop' | translate}}</span>
