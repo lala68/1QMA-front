@@ -2,6 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {GeneralService} from "../../services/general/general.service";
 import {ConfigService} from "../../services/config/config.service";
 import {IntroJsService} from "../../services/introJs/intro-js.service";
+import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
 
 
 @Component({
@@ -11,36 +12,23 @@ import {IntroJsService} from "../../services/introJs/intro-js.service";
 })
 export class SidenavComponent implements OnInit {
 
-
-  constructor(private intro: IntroJsService, public generalService: GeneralService, public configService: ConfigService) {
+  constructor(private intro: IntroJsService, private observer: BreakpointObserver,
+              public generalService: GeneralService, public configService: ConfigService) {
   }
 
   ngOnInit(): void {
     setTimeout(() => {
       this.ngAfterViewInit();
     }, 10000);
-
   }
-
 
   ngAfterViewInit() {
-    // this.observer.observe(["(max-width: 800px)"]).subscribe((res) => {
-    //   setTimeout(() => {
-    //     if (res.matches) {
-    //       this.sidenav.mode = "over";
-    //       this.sidenav.close();
-    //     } else {
-    //       this.sidenav.mode = "side";
-    //       this.sidenav.open();
-    //     }
-    //   }, 4000);
-    // });
-  }
-
-  async closeNavMenu() {
-    // if (this.sidenav.mode === "over") {
-    //   this.sidenav.close();
-    // }
+    this.observer.observe(["(max-width: 800px)"])
+      .subscribe(result => {
+        console.log(result)
+        this.generalService.isMobileView = result.matches;
+      });
+    this.showIntro();
   }
 
   async showIntro() {

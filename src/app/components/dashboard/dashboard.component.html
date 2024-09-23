@@ -2,14 +2,16 @@
 <div style="display: ruby-text;">
   <mat-spinner *ngIf="loading" [diameter]="30"></mat-spinner>
 </div>
-<div class="card border-0 p-4" *ngIf="!loading">
+<div class="card border-0" *ngIf="!loading"
+     [class]="{'p-4': !generalService?.isMobileView, 'p-1': generalService?.isMobileView}">
   <div class="d-inline-flex" id="accountOverview">
     <img src="assets/images/profile.png"
          width="35" height="35">
     <div class="font-size-16 weight-800 pt-2">&nbsp;{{'Account Overview' | translate}}</div>
   </div>
-  <div class="w-100 d-flex">
-    <div class="w-40 p-3" style="border-right: 1px solid #E8E2E0">
+  <div [class]="{'d-flex': !generalService?.isMobileView, 'd-block': generalService?.isMobileView}">
+    <div [class]="{'p-3': !generalService?.isMobileView, 'p-1': generalService?.isMobileView}"
+         [style]="generalService.isMobileView ? 'width: 100%' : 'border-right: 1px solid #E8E2E0; width: 40%'">
       <mat-card class="shadow-none">
         <!--        <img src="assets/images/edit-2.svg" width="16" class="edit-img" [routerLink]="'/account-info'">-->
         <svg width="16" class="edit-img" [routerLink]="'/account-info'" viewBox="0 0 25 25" fill="none"
@@ -64,7 +66,7 @@
     </div>
     <div class="w-60 p-3">
       <div class="border-bottom pb-3">
-        <div class="position-relative d-inline-flex" style="width: 320px">
+        <div class="position-relative d-inline-flex" [style]="generalService.isMobileView ? 'width: 250px' : 'width: 320px'">
           <!--          <img src="assets/images/crown.svg" width="36" height="36"/>-->
           <svg width="36" height="36" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
@@ -84,8 +86,8 @@
               {{'XP till next level' | translate}}
             </div>
           </div>
-          <mat-progress-bar
-            style="width: 320px; border-radius: 10px; display: inline-table; position: absolute; bottom: 0; left: 40px"
+          <mat-progress-bar [style]="generalService.isMobileView ? 'width: 250px' : 'width: 320px;'"
+            style="border-radius: 10px; display: inline-table; position: absolute; bottom: 0; left: 40px"
             color="primary"
             [value]="((generalService.userObj?.statistics?.totalXP - generalService.userObj?.statistics?.currentLevelXP) / (generalService.userObj?.statistics?.xpNeededForNextLevel - generalService.userObj?.statistics?.currentLevelXP)) * 100"
             [bufferValue]="100"
@@ -228,16 +230,19 @@
       </div>
       <mat-card class="shadow-none">
         <mat-card-header class="pe-1 ps-1 position-relative d-flex align-items-center">
-          <mat-card-title class="card-title-profile-dashboard" style="width: 120px">Coins:</mat-card-title>
-          <img src="assets/images/coin-bronze.png"
-               width="24" height="24">&nbsp;<span>{{generalService.userObj?.assets?.coins?.bronze}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <img src="assets/images/coin-silver.png"
-               width="24" height="24">&nbsp;<span>{{generalService.userObj?.assets?.coins?.silver}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <img src="assets/images/coin-gold.png"
-               width="24" height="24">&nbsp;<span>{{generalService.userObj?.assets?.coins?.gold}}</span>
-          <div [routerLink]="['/transactions']"
-               class="link-text font-size-14 weight-500 position-absolute end-0 cursor-pointer">{{'Financial History' | translate}}
-            >
+          <mat-card-title class="card-title-profile-dashboard" [style]="generalService.isMobileView ? '' : 'width: 120px'">Coins:</mat-card-title>
+         <div>
+           <img src="assets/images/coin-bronze.png"
+                width="24" height="24">&nbsp;<span>{{generalService.userObj?.assets?.coins?.bronze}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+           <img src="assets/images/coin-silver.png"
+                width="24" height="24">&nbsp;<span>{{generalService.userObj?.assets?.coins?.silver}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+           <img src="assets/images/coin-gold.png"
+                width="24" height="24">&nbsp;<span>{{generalService.userObj?.assets?.coins?.gold}}</span>
+           <div [routerLink]="['/transactions']"
+                class="link-text font-size-14 weight-500 position-absolute end-0 cursor-pointer">{{'Financial History' | translate}}
+             >
+         </div>
+
           </div>
         </mat-card-header>
       </mat-card>
@@ -246,15 +251,17 @@
 </div>
 <br>
 
-<div class="card border-0 p-4" *ngIf="!loading" >
+<div class="card border-0" *ngIf="!loading"
+     [class]="{'p-4': !generalService?.isMobileView, 'p-1': generalService?.isMobileView}">
   <div class="d-inline-flex" id="topQuestions">
     <img src="assets/images/top-question.png"
          width="35" height="35">
     <div class="font-size-16 weight-800 pt-2">&nbsp;{{'Top Questions' | translate}}</div>
   </div>
   <div class="w-100 d-flex">
-    <mat-card class="shadow-none p-2" style="width: 100%">
-      <mat-card-header>
+    <mat-card class="shadow-none w-100"
+              [class]="{'p-2': !generalService?.isMobileView, 'p-0': generalService?.isMobileView}">
+      <mat-card-header [class]="{'': !generalService?.isMobileView, 'p-0': generalService?.isMobileView}">
         <div>
           <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" class="tab-top-questions"
                          [(selectedIndex)]="selectedTabTopQuestionsIndex" (selectedTabChange)="changeTopQuestions()">
@@ -352,8 +359,9 @@
   </div>
 </div>
 <br>
-<div class="w-100 d-flex">
-  <div class="card w-50 border-0 p-4 m-2" *ngIf="!loading" >
+<div class="w-100" [class]="{'d-flex': !generalService?.isMobileView, 'd-block': generalService?.isMobileView}">
+  <div class="card border-0 p-4 m-2" *ngIf="!loading"
+       [class]="{'w-50': !generalService?.isMobileView, 'w-100': generalService?.isMobileView}">
     <div class="d-inline-flex" id="InviteFriends">
       <img src="assets/images/invite.png"
            width="32" height="32">
@@ -423,7 +431,8 @@
       </mat-list-item>
     </mat-list>
   </div>
-  <div class="card w-50 border-0 p-4 m-2" *ngIf="!loading"  style="max-height: 440px; min-height: 440px">
+  <div class="card border-0 p-4 m-2" *ngIf="!loading" style="max-height: 440px; min-height: 440px"
+       [class]="{'w-50': !generalService?.isMobileView, 'w-100': generalService?.isMobileView}">
     <div class="d-inline-flex" id="charity">
       <img src="assets/images/handshake.png"
            width="40" height="28">
@@ -476,7 +485,8 @@
 </div>
 
 <br>
-<div class="card w-100 border-0 p-4" *ngIf="!loadingQuestionsFromFriendsLatestGames" >
+<div class="card w-100 border-0" *ngIf="!loadingQuestionsFromFriendsLatestGames"
+     [class]="{'p-4': !generalService?.isMobileView, 'p-1': generalService?.isMobileView}">
   <div class="d-inline-flex" id="questionsFromFriends">
     <img src="assets/images/Magic%20Book%201.png"
          width="32" height="32">
@@ -485,7 +495,7 @@
   <br>
   <div class="d-block w-100">
     <div *ngFor="let item of questionsFromFriendsLatestGames" class="gray-card p-4 m-2 d-inline-block"
-         style="width: 48%">
+         [style]="generalService.isMobileView ? 'width: 98%' : 'width: 48%'">
       <div class="d-flex white-card position-relative p-1">
         <img class="avatar-bordered"
              [src]="item?.user?.profilePicture ? item?.user?.profilePicture?.startsWith('http') ? item?.user?.profilePicture : configService.url(item?.user?.profilePicture) : 'assets/images/frame.png'"

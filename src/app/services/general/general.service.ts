@@ -45,6 +45,7 @@ export class GeneralService implements OnInit {
   filteredCities: any[] = [];
   private _onDestroy = new Subject<void>();
   wordCountAnswer: number = 100;
+  isMobileView: boolean = false;
 
   constructor(private http: HttpClient, private _snackBar: MatSnackBar, private router: Router) {
   }

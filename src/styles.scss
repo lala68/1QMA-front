@@ -933,6 +933,22 @@ input[type="tel"] {
   top: 10px;
 }
 
+.mobileviewFooterButtonstoolbarNav {
+  display: none !important;
+}
+
+.sideDrawer {
+  display: inline !important;
+}
+
+.mat-drawer-content {
+  margin-left: 260px !important;
+}
+
+.mobileviewHeaderButtonstoolbarNav {
+  display: none !important;
+}
+
 
 //mobile
 @media only screen and (max-width: 767px) {
@@ -963,9 +979,7 @@ input[type="tel"] {
   }
 
   .sponsors {
-    position: relative;
-    top: 20px;
-    left: 10%;
+    display: contents;
   }
 
   .ul-li-footer {
@@ -974,7 +988,7 @@ input[type="tel"] {
 
   .parent-ul-li-footer {
     border-top: 1px solid #F2EFEE;
-    height: 80px;
+    //height: 80px;
     display: block;
     margin-top: 35px;
   }
@@ -1068,9 +1082,45 @@ input[type="tel"] {
     border-radius: 6px;
     color: #0B6FEA;
   }
+
+  .desktopViewHeader {
+    display: none !important;
+  }
+
+  .mobileviewFooterButtonstoolbarNav {
+    display: inline !important;
+    position: fixed;
+    bottom: 0px;
+    z-index: 9999;
+    padding: 0;
+    width: 100%;
+  }
+
+  .mobileviewHeaderButtonstoolbarNav {
+    display: inline !important;
+    z-index: 9999;
+    padding: 0;
+    margin-top: 65px !important;
+    position: absolute;
+  }
+
+  .sideDrawer {
+    display: none !important;
+  }
+
+  .mat-drawer-content {
+    margin-left: 0 !important;
+  }
+
+  .dashboard-content-default {
+    //width: 1042px;
+    //width: 1082px;
+    width: 100%;
+    margin: 40px 0;
+    //margin: 15px 0;
+  }
+
 }
-
-
 
 
 /* Importing Bootstrap SCSS file. */
