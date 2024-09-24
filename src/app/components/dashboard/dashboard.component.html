@@ -3,14 +3,14 @@
   <mat-spinner *ngIf="loading" [diameter]="30"></mat-spinner>
 </div>
 <div class="card border-0" *ngIf="!loading"
-     [class]="{'p-4': !generalService?.isMobileView, 'p-1': generalService?.isMobileView}">
+     [class]="{'p-4': !generalService.isMobileView, 'p-1': generalService.isMobileView}">
   <div class="d-inline-flex" id="accountOverview">
     <img src="assets/images/profile.png"
          width="35" height="35">
     <div class="font-size-16 weight-800 pt-2">&nbsp;{{'Account Overview' | translate}}</div>
   </div>
-  <div [class]="{'d-flex': !generalService?.isMobileView, 'd-block': generalService?.isMobileView}">
-    <div [class]="{'p-3': !generalService?.isMobileView, 'p-1': generalService?.isMobileView}"
+  <div [class]="{'d-flex': !generalService.isMobileView, 'd-block': generalService.isMobileView}">
+    <div [class]="{'p-3': !generalService.isMobileView, 'p-1': generalService.isMobileView}"
          [style]="generalService.isMobileView ? 'width: 100%' : 'border-right: 1px solid #E8E2E0; width: 40%'">
       <mat-card class="shadow-none">
         <!--        <img src="assets/images/edit-2.svg" width="16" class="edit-img" [routerLink]="'/account-info'">-->
@@ -64,7 +64,7 @@
         </mat-card-header>
       </mat-card>
     </div>
-    <div class="p-3" [class]="{'w-60': !generalService?.isMobileView, 'w-100': generalService?.isMobileView}">
+    <div class="p-3" [class]="{'w-60': !generalService.isMobileView, 'w-100': generalService.isMobileView}">
       <div class="border-bottom pb-3">
         <div class="position-relative d-inline-flex"
              [style]="generalService.isMobileView ? 'width: 250px' : 'width: 320px'">
@@ -255,7 +255,7 @@
 <br>
 
 <div class="card border-0" *ngIf="!loading"
-     [class]="{'p-4': !generalService?.isMobileView, 'p-1': generalService?.isMobileView}">
+     [class]="{'p-4': !generalService.isMobileView, 'p-1': generalService.isMobileView}">
   <div class="d-inline-flex" id="topQuestions">
     <img src="assets/images/top-question.png"
          width="35" height="35">
@@ -263,8 +263,8 @@
   </div>
   <div class="w-100 d-flex">
     <mat-card class="shadow-none w-100"
-              [class]="{'p-2': !generalService?.isMobileView, 'p-0': generalService?.isMobileView}">
-      <mat-card-header [class]="{'': !generalService?.isMobileView, 'p-0': generalService?.isMobileView}">
+              [class]="{'p-2': !generalService.isMobileView, 'p-0': generalService.isMobileView}">
+      <mat-card-header [class]="{'': !generalService.isMobileView, 'p-0': generalService.isMobileView}">
         <div>
           <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" class="tab-top-questions"
                          [(selectedIndex)]="selectedTabTopQuestionsIndex" (selectedTabChange)="changeTopQuestions()">
@@ -284,7 +284,7 @@
             <mat-label class="font-size-14 weight-600">{{ 'all categories' | translate }}</mat-label>
           </div>
         </div>
-        <div *ngFor="let cat of generalService?.clientInit?.categories"
+        <div *ngFor="let cat of generalService.clientInit?.categories"
              class="m-2 d-inline-flex shadow-none cursor-pointer p-3"
              (click)="selectCatTopQuestion(cat)"
              [class]="{'mat-card-pref-selected': isSelected(cat), 'mat-card-pref': !isSelected(cat)}">
@@ -295,7 +295,7 @@
         </div>
       </div>
       <br>
-      <div *ngIf="!generalService?.isMobileView">
+      <div *ngIf="!generalService.isMobileView">
         <mat-grid-list cols="12" rowHeight="50px" class="gray-card">
           <mat-grid-tile class="result-grid" [colspan]="1">
             <mat-label class="font-size-14 weight-700">#</mat-label>
@@ -360,7 +360,7 @@
           </mat-grid-tile>
         </mat-grid-list>
       </div>
-      <div *ngIf="generalService?.isMobileView">
+      <div *ngIf="generalService.isMobileView">
         <div *ngFor="let res of topQuestions;let i=index" class="p-2"
              [class]="{'border-bottom-gray': i < topQuestions?.length - 1}">
           <br>
@@ -401,9 +401,9 @@
   </div>
 </div>
 <br>
-<div class="w-100" [class]="{'d-flex': !generalService?.isMobileView, 'd-block': generalService?.isMobileView}">
+<div class="w-100" [class]="{'d-flex': !generalService.isMobileView, 'd-block': generalService.isMobileView}">
   <div class="card border-0 p-4 m-2" *ngIf="!loading"
-       [class]="{'w-50': !generalService?.isMobileView, 'w-100': generalService?.isMobileView}">
+       [class]="{'w-50': !generalService.isMobileView, 'w-100': generalService.isMobileView}">
     <div class="d-inline-flex" id="InviteFriends">
       <img src="assets/images/invite.png"
            width="32" height="32">
@@ -474,7 +474,7 @@
     </mat-list>
   </div>
   <div class="card border-0 p-4 m-2" *ngIf="!loading" style="max-height: 440px; min-height: 440px"
-       [class]="{'w-50': !generalService?.isMobileView, 'w-100': generalService?.isMobileView}">
+       [class]="{'w-50': !generalService.isMobileView, 'w-100': generalService.isMobileView}">
     <div class="d-inline-flex" id="charity">
       <img src="assets/images/handshake.png"
            width="40" height="28">
@@ -510,17 +510,17 @@
     <div *ngIf="generalService.userObj?.preferedCharity" class="copy-referrer">
       <mat-label class="text-light-color">You are participated in:</mat-label>
       <br>
-      <mat-label class="font-size-14 weight-700">{{generalService?.userObj?.preferedCharity?.charity?.title}}
-        > {{generalService?.userObj?.preferedCharity?.activity?.title}}</mat-label>
+      <mat-label class="font-size-14 weight-700">{{generalService.userObj?.preferedCharity?.charity?.title}}
+        > {{generalService.userObj?.preferedCharity?.activity?.title}}</mat-label>
       <br>
       <mat-progress-bar
         style="width: 50%; border-radius: 10px; display: inline-table;"
         color="primary"
-        [value]="generalService?.clientInit?.charityProgress"
+        [value]="generalService.clientInit?.charityProgress"
         [bufferValue]="100"
         mode="determinate"></mat-progress-bar>
       <br>
-      <mat-label class="mt-2 font-size-12 weight-500">{{generalService?.clientInit?.charityProgress}}
+      <mat-label class="mt-2 font-size-12 weight-500">{{generalService.clientInit?.charityProgress}}
         % {{'Completed' | translate}}</mat-label>
     </div>
   </div>
@@ -528,7 +528,7 @@
 
 <br>
 <div class="card w-100 border-0" *ngIf="!loadingQuestionsFromFriendsLatestGames"
-     [class]="{'p-4': !generalService?.isMobileView, 'p-1': generalService?.isMobileView}">
+     [class]="{'p-4': !generalService.isMobileView, 'p-1': generalService.isMobileView}">
   <div class="d-inline-flex" id="questionsFromFriends">
     <img src="assets/images/Magic%20Book%201.png"
          width="32" height="32">

@@ -33,21 +33,21 @@
               stroke-linejoin="round"/>
       </svg>
 
-      <div style="position: absolute; bottom: 30px; width: 100%; left: 40px">
+      <div style="position: absolute; bottom: 30px; width: 90%; left: 40px">
         <div class="font-size-14 weight-600 position-absolute start-0">
           {{'Level' | translate}}: {{user?.statistics?.level}}</div>
         <div
-          class="font-size-12 weight-600 position-absolute end-0">{{user?.statistics?.xpNeededForNextLevel - user?.statistics?.totalXP}}
+          class="font-size-12 weight-600 position-absolute end-0">{{user?.statistics?.xpNeededForNextLevel - user?.statistics?.totalXP | parsInt}}
           {{'XP till next level' | translate}}
         </div>
       </div>
 
-      <mat-progress-bar
-        style="width: 320px; border-radius: 10px; display: inline-table; position: absolute; bottom: 0; left: 40px"
-        color="primary"
-        [value]="((user?.statistics?.totalXP - user?.statistics?.currentLevelXP) / (user?.statistics?.xpNeededForNextLevel - user?.statistics?.currentLevelXP)) * 100"
-        [bufferValue]="100"
-        mode="determinate"></mat-progress-bar>
+      <mat-progress-bar [style]="generalService.isMobileView ? 'width: 250px' : 'width: 320px;'"
+                        style="border-radius: 10px; display: inline-table; position: absolute; bottom: 0; left: 40px"
+                        color="primary"
+                        [value]="((user?.statistics?.totalXP - user?.statistics?.currentLevelXP) / (user?.statistics?.xpNeededForNextLevel - user?.statistics?.currentLevelXP)) * 100"
+                        [bufferValue]="100"
+                        mode="determinate"></mat-progress-bar>
     </div>
     <div>
       <div class="card-games position-relative">
@@ -62,7 +62,7 @@
           class="font-size-12 weight-600">{{'XP' | translate}}</b>:
         </div>
         <mat-label class="position-absolute font-size-14 weight-700"
-                   style="padding: 5px;right: 5px">{{user?.statistics?.totalXP}}</mat-label>
+                   style="padding: 5px;right: 5px">{{user?.statistics?.totalXP | parsInt}}</mat-label>
       </div>
       <div class="card-games position-relative">
         <!--        <img src="assets/images/star.svg" width="24">-->

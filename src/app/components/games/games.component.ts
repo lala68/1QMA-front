@@ -76,6 +76,11 @@ export class GamesComponent implements OnInit {
   friendsRecentSurvival: any;
   liveSurvival: any;
   questionId: any;
+  scoreboards = [
+    { time: '3 Days Ago', level: 'Normal', subject: 'Environment', score: 345, rank: 2 },
+    { time: '2 Weeks Ago', level: 'Normal', subject: 'Art', score: 345, rank: 1 },
+    { time: '3 Weeks Ago', level: 'Normal', subject: 'Social Science', score: 345, rank: 4 }
+  ];
 
   constructor(public generalService: GeneralService, private gameService: GamesService, public configService: ConfigService,
               private _formBuilder: FormBuilder, private router: Router, public dialog: MatDialog, private _snackBar: MatSnackBar,

@@ -26,7 +26,7 @@ export class UserDetailComponent implements OnInit {
   currentId: number | null = null; // Current ID displayed
 
   constructor(private clientService: ClientService, private router: Router, private processHTTPMsgService: ProcessHTTPMsgService,
-              public configService: ConfigService, private generalService: GeneralService) {
+              public configService: ConfigService, public generalService: GeneralService) {
     this.id = this.router.getCurrentNavigation()?.extras?.state?.['id'];
     this.generalService.currentRout = '';
     this.idStack.push(this.id);

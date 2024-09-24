@@ -774,6 +774,14 @@ input[type="tel"] {
   }
 }
 
+.result-grid-mobile {
+  .mat-grid-tile-content {
+    justify-content: flex-start !important;
+    left: 10px;
+    display: grid;
+  }
+}
+
 .pre-line {
   white-space: pre-line;
 }

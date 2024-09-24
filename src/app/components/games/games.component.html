@@ -12,7 +12,7 @@
             <mat-card-header id="scoreboard">
               <img mat-card-avatar src="assets/images/scoreboard.png" width="45" height="45">
               <mat-card-title class="font-size-16 weight-600">{{'Scoreboard' | translate}}</mat-card-title>
-              <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
+              <mat-card-subtitle class="font-size-14 weight-500 mt-2 pe-0" style="color: #585858">
                 {{'See your performance in the latest games' | translate}}
               </mat-card-subtitle>
             </mat-card-header>
@@ -25,99 +25,183 @@
                 class="font-size-14 weight-700 pe-2">{{generalService.userObj?.firstName + ' ' + generalService.userObj?.lastName}}</span>
               </div>
               <br>
-              <mat-grid-list [cols]="myScoreboard[0]?.result?.answersRates?.length + 10" rowHeight="30px">
-                <mat-grid-tile class="result-grid" [colspan]="2">
-                  <mat-label class="font-size-14 weight-700">{{'Played' | translate}}</mat-label>
-                </mat-grid-tile>
-                <mat-grid-tile class="result-grid" [colspan]="2">
-                  <mat-label class="font-size-14 weight-700">{{'Game Type' | translate}}</mat-label>
-                </mat-grid-tile>
-                <mat-grid-tile class="result-grid" [colspan]="2">
-                  <mat-label class="font-size-14 weight-700">{{'Category' | translate}}</mat-label>
-                </mat-grid-tile>
-                <mat-grid-tile class="result-grid"
-                               [colspan]="(myScoreboard[0]?.result?.answersRates?.length + 10) - (10 + (myScoreboard[0]?.result?.answersRates?.length))">
-                  <mat-label></mat-label>
-                </mat-grid-tile>
-                <mat-grid-tile
-                  *ngFor="let col of myScoreboard[0]?.result?.answersRates; let i=index"
-                  [colspan]="1">
-                  <mat-label class="font-size-14 weight-700">A{{i + 1}}</mat-label>
-                </mat-grid-tile>
-                <mat-grid-tile [colspan]="1">
-                  <mat-label class="font-size-14 weight-700">Q</mat-label>
-                </mat-grid-tile>
-                <mat-grid-tile [colspan]="1">
-                  <mat-label class="font-size-14 weight-700">{{'Score' | translate}}</mat-label>
-                </mat-grid-tile>
-                <mat-grid-tile [colspan]="1">
-                  <mat-label class="font-size-14 weight-700">{{'Rank' | translate}}</mat-label>
-                </mat-grid-tile>
-                <mat-grid-tile [colspan]="1">
-                  <mat-label class="font-size-14 weight-700"></mat-label>
-                </mat-grid-tile>
-              </mat-grid-list>
-
-              <mat-grid-list *ngFor="let res of myScoreboard;let i=index"
-                             [cols]="myScoreboard[0]?.result?.answersRates?.length + 10" rowHeight="50px"
-                             class="gray-card mb-2">
-                <mat-grid-tile class="result-grid" [colspan]="2">
-                  <mat-label>{{res?.endedAt | daysAgo}}</mat-label>
-                </mat-grid-tile>
-                <mat-grid-tile class="result-grid" [colspan]="2">
-                  <div color="primary">
-                    <img src="assets/images/normal-game.png" *ngIf="res?.gameType?.id == 'normal'" width="25">
-                    <img src="assets/images/survival-game.png" *ngIf="res?.gameType?.id == 'survival'" width="25">
-                    <span class="font-size-12 weight-500">{{res?.gameType?.text}}</span>
-                  </div>
-                </mat-grid-tile>
-                <mat-grid-tile class="result-grid" [colspan]="2">
-                  <div color="primary">
-                    <img [src]="'https://api.staging.1qma.games/' + res?.category?.icon" width="25">
-                    <span class="font-size-12 weight-500">{{res?.category?.name}}</span>
-                  </div>
-                </mat-grid-tile>
-                <mat-grid-tile
-                  [colspan]="(myScoreboard[0]?.result?.answersRates?.length + 10) - (10 + res?.result?.answersRates?.length)">
-                  <mat-label></mat-label>
-                </mat-grid-tile>
-                <mat-grid-tile
-                  *ngFor="let score of res?.result?.answersRates; let i=index"
-                  [colspan]="1">
-                  <mat-label>{{score | parsInt}}</mat-label>
-                </mat-grid-tile>
-                <mat-grid-tile [colspan]="1">
-                  <mat-label>{{res?.result?.questionRate | parsInt}}</mat-label>
-                </mat-grid-tile>
-                <mat-grid-tile [colspan]="1">
-                  <mat-label class="font-size-14 weight-700">{{res?.result?.totalScore | parsInt}}</mat-label>
-                </mat-grid-tile>
-                <mat-grid-tile [colspan]="1">
-                  <mat-label class="font-size-14 weight-700">
-                    <img *ngIf="res?.rank == 1"
-                         src="assets/images/rank-1.png"
-                         width="36">
-                    <img *ngIf="res?.rank == 2"
-                         src="assets/images/rank-2.png"
-                         width="36">
-                    <img *ngIf="res?.rank == 3"
-                         src="assets/images/rank-3.png"
-                         width="36">
-                    <mat-label *ngIf="res?.rank > 3">
-                      {{res?.rank}}
+              <div *ngIf="!generalService.isMobileView">
+                <mat-grid-list [cols]="myScoreboard[0]?.result?.answersRates?.length + 10" rowHeight="30px">
+                  <mat-grid-tile class="result-grid" [colspan]="2">
+                    <mat-label class="font-size-14 weight-700">{{'Played' | translate}}</mat-label>
+                  </mat-grid-tile>
+                  <mat-grid-tile class="result-grid" [colspan]="2">
+                    <mat-label class="font-size-14 weight-700">{{'Game Type' | translate}}</mat-label>
+                  </mat-grid-tile>
+                  <mat-grid-tile class="result-grid" [colspan]="2">
+                    <mat-label class="font-size-14 weight-700">{{'Category' | translate}}</mat-label>
+                  </mat-grid-tile>
+                  <mat-grid-tile class="result-grid"
+                                 [colspan]="(myScoreboard[0]?.result?.answersRates?.length + 10) - (10 + (myScoreboard[0]?.result?.answersRates?.length))">
+                    <mat-label></mat-label>
+                  </mat-grid-tile>
+                  <mat-grid-tile
+                    *ngFor="let col of myScoreboard[0]?.result?.answersRates; let i=index"
+                    [colspan]="1">
+                    <mat-label class="font-size-14 weight-700">A{{i + 1}}</mat-label>
+                  </mat-grid-tile>
+                  <mat-grid-tile [colspan]="1">
+                    <mat-label class="font-size-14 weight-700">Q</mat-label>
+                  </mat-grid-tile>
+                  <mat-grid-tile [colspan]="1">
+                    <mat-label class="font-size-14 weight-700">{{'Score' | translate}}</mat-label>
+                  </mat-grid-tile>
+                  <mat-grid-tile [colspan]="1">
+                    <mat-label class="font-size-14 weight-700">{{'Rank' | translate}}</mat-label>
+                  </mat-grid-tile>
+                  <mat-grid-tile [colspan]="1">
+                    <mat-label class="font-size-14 weight-700"></mat-label>
+                  </mat-grid-tile>
+                </mat-grid-list>
+                <mat-grid-list *ngFor="let res of myScoreboard;let i=index"
+                               [cols]="myScoreboard[0]?.result?.answersRates?.length + 10" rowHeight="50px"
+                               class="gray-card mb-2">
+                  <mat-grid-tile class="result-grid" [colspan]="2">
+                    <mat-label>{{res?.endedAt | daysAgo}}</mat-label>
+                  </mat-grid-tile>
+                  <mat-grid-tile class="result-grid" [colspan]="2">
+                    <div color="primary">
+                      <img src="assets/images/normal-game.png" *ngIf="res?.gameType?.id == 'normal'" width="25">
+                      <img src="assets/images/survival-game.png" *ngIf="res?.gameType?.id == 'survival'" width="25">
+                      <span class="font-size-12 weight-500">{{res?.gameType?.text}}</span>
+                    </div>
+                  </mat-grid-tile>
+                  <mat-grid-tile class="result-grid" [colspan]="2">
+                    <div color="primary">
+                      <img [src]="'https://api.staging.1qma.games/' + res?.category?.icon" width="25">
+                      <span class="font-size-12 weight-500">{{res?.category?.name}}</span>
+                    </div>
+                  </mat-grid-tile>
+                  <mat-grid-tile
+                    [colspan]="(myScoreboard[0]?.result?.answersRates?.length + 10) - (10 + res?.result?.answersRates?.length)">
+                    <mat-label></mat-label>
+                  </mat-grid-tile>
+                  <mat-grid-tile
+                    *ngFor="let score of res?.result?.answersRates; let i=index"
+                    [colspan]="1">
+                    <mat-label>{{score | parsInt}}</mat-label>
+                  </mat-grid-tile>
+                  <mat-grid-tile [colspan]="1">
+                    <mat-label>{{res?.result?.questionRate | parsInt}}</mat-label>
+                  </mat-grid-tile>
+                  <mat-grid-tile [colspan]="1">
+                    <mat-label class="font-size-14 weight-700">{{res?.result?.totalScore | parsInt}}</mat-label>
+                  </mat-grid-tile>
+                  <mat-grid-tile [colspan]="1">
+                    <mat-label class="font-size-14 weight-700">
+                      <img *ngIf="res?.rank == 1"
+                           src="assets/images/rank-1.png"
+                           width="36">
+                      <img *ngIf="res?.rank == 2"
+                           src="assets/images/rank-2.png"
+                           width="36">
+                      <img *ngIf="res?.rank == 3"
+                           src="assets/images/rank-3.png"
+                           width="36">
+                      <mat-label *ngIf="res?.rank > 3">
+                        {{res?.rank}}
+                      </mat-label>
                     </mat-label>
-                  </mat-label>
-                </mat-grid-tile>
-                <mat-grid-tile [colspan]="1" (click)="gotoResult(res?.gameId)">
-                  <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      d="M9.53223 20.4084L16.0522 13.8884C16.8222 13.1184 16.8222 11.8584 16.0522 11.0884L9.53223 4.56836"
-                      stroke="#0B6FEA" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
-                      stroke-linejoin="round"/>
-                  </svg>
-                </mat-grid-tile>
-              </mat-grid-list>
+                  </mat-grid-tile>
+                  <mat-grid-tile [colspan]="1" (click)="gotoResult(res?.gameId)">
+                    <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M9.53223 20.4084L16.0522 13.8884C16.8222 13.1184 16.8222 11.8584 16.0522 11.0884L9.53223 4.56836"
+                        stroke="#0B6FEA" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                        stroke-linejoin="round"/>
+                    </svg>
+                  </mat-grid-tile>
+                </mat-grid-list>
+              </div>
+              <!--              Mobile view -->
+              <div *ngIf="generalService.isMobileView">
+                <mat-grid-list [cols]="myScoreboard[0]?.result?.answersRates?.length + 8" rowHeight="30px">
+                  <mat-grid-tile class="result-grid" [colspan]="4">
+                    <mat-label class="font-size-14 weight-700">{{'Scoreboard' | translate}}</mat-label>
+                  </mat-grid-tile>
+                  <mat-grid-tile
+                    *ngFor="let col of myScoreboard[0]?.result?.answersRates; let i=index"
+                    [colspan]="1">
+                    <mat-label class="font-size-14 weight-700">A{{i + 1}}</mat-label>
+                  </mat-grid-tile>
+                  <mat-grid-tile [colspan]="1">
+                    <mat-label class="font-size-14 weight-700">Q</mat-label>
+                  </mat-grid-tile>
+                  <mat-grid-tile [colspan]="1">
+                    <mat-label class="font-size-14 weight-700">{{'Scr' | translate}}</mat-label>
+                  </mat-grid-tile>
+                  <mat-grid-tile [colspan]="1">
+                    <mat-label class="font-size-14 weight-700">{{'Rnk' | translate}}</mat-label>
+                  </mat-grid-tile>
+                  <mat-grid-tile [colspan]="1">
+                    <mat-label class="font-size-14 weight-700"></mat-label>
+                  </mat-grid-tile>
+                </mat-grid-list>
 
+
+                <mat-grid-list *ngFor="let res of myScoreboard;let i=index"
+                               [cols]="myScoreboard[0]?.result?.answersRates?.length + 8" rowHeight="100px"
+                               class="gray-card mb-2" style="height: 150px">
+                  <mat-grid-tile class="result-grid-mobile" [colspan]="4">
+                    <mat-label>{{res?.endedAt | daysAgo}}</mat-label>
+                    <div color="primary" class="d-flex align-items-center">
+                      <img src="assets/images/normal-game.png" *ngIf="res?.gameType?.id == 'normal'" width="25">
+                      <img src="assets/images/survival-game.png" *ngIf="res?.gameType?.id == 'survival'" width="25">
+                      <span class="font-size-12 weight-500">{{res?.gameType?.text}}</span>
+                    </div>
+                    <div color="primary" class="d-flex align-items-center">
+                      <img [src]="'https://api.staging.1qma.games/' + res?.category?.icon" width="25">
+                      <span class="font-size-12 weight-500">{{res?.category?.name}}</span>
+                    </div>
+                  </mat-grid-tile>
+
+                  <mat-grid-tile
+                    [colspan]="(myScoreboard[0]?.result?.answersRates?.length + 8) - (8 + res?.result?.answersRates?.length)">
+                    <mat-label></mat-label>
+                  </mat-grid-tile>
+                  <mat-grid-tile
+                    *ngFor="let score of res?.result?.answersRates; let i=index"
+                    [colspan]="1">
+                    <mat-label>{{score | parsInt}}</mat-label>
+                  </mat-grid-tile>
+                  <mat-grid-tile [colspan]="1">
+                    <mat-label>{{res?.result?.questionRate | parsInt}}</mat-label>
+                  </mat-grid-tile>
+                  <mat-grid-tile [colspan]="1">
+                    <mat-label class="font-size-14 weight-700">{{res?.result?.totalScore | parsInt}}</mat-label>
+                  </mat-grid-tile>
+                  <mat-grid-tile [colspan]="1">
+                    <mat-label class="font-size-14 weight-700">
+                      <img *ngIf="res?.rank == 1"
+                           src="assets/images/rank-1.png"
+                           width="36">
+                      <img *ngIf="res?.rank == 2"
+                           src="assets/images/rank-2.png"
+                           width="36">
+                      <img *ngIf="res?.rank == 3"
+                           src="assets/images/rank-3.png"
+                           width="36">
+                      <mat-label *ngIf="res?.rank > 3">
+                        {{res?.rank}}
+                      </mat-label>
+                    </mat-label>
+                  </mat-grid-tile>
+                  <mat-grid-tile [colspan]="1" (click)="gotoResult(res?.gameId)">
+                    <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M9.53223 20.4084L16.0522 13.8884C16.8222 13.1184 16.8222 11.8584 16.0522 11.0884L9.53223 4.56836"
+                        stroke="#0B6FEA" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                        stroke-linejoin="round"/>
+                    </svg>
+                  </mat-grid-tile>
+                </mat-grid-list>
+
+              </div>
             </mat-card-content>
           </mat-card>
         </div>
@@ -309,32 +393,36 @@
                   class="font-size-14 weight-600">{{'Survival games global scoreboard' | translate}}</mat-label>
                 <br>
                 <br>
-                <mat-grid-list cols="12" rowHeight="30px">
+                <mat-grid-list [cols]="generalService.isMobileView? 13 : 12" rowHeight="30px">
                   <mat-grid-tile class="result-grid" [colspan]="1">
                     <mat-label class="font-size-14 weight-700">{{'Rank' | translate}}</mat-label>
                   </mat-grid-tile>
                   <mat-grid-tile class="result-grid" [colspan]="4">
                     <mat-label class="font-size-14 weight-700">{{'User' | translate}}</mat-label>
                   </mat-grid-tile>
-                  <mat-grid-tile class="result-grid" [colspan]="3">
+                  <mat-grid-tile class="result-grid" [colspan]="generalService.isMobileView? 0 : 3">
                     <mat-label></mat-label>
                   </mat-grid-tile>
-                  <mat-grid-tile class="result-grid" [colspan]="1">
-                    <mat-label class="font-size-14 weight-700">{{'Avg.Rank' | translate}}</mat-label>
+                  <mat-grid-tile class="result-grid" [colspan]="generalService.isMobileView? 2 : 1">
+                    <mat-label class="weight-700"
+                               [class]="{'font-size-14': !generalService.isMobileView, 'font-size-10': generalService.isMobileView}">{{'Avg.‌ Rank' | translate}}</mat-label>
                   </mat-grid-tile>
-                  <mat-grid-tile [colspan]="1">
-                    <mat-label class="font-size-14 weight-700">{{'Avg Q.Rank' | translate}}</mat-label>
+                  <mat-grid-tile [colspan]="generalService.isMobileView? 2 : 1">
+                    <mat-label class="weight-700"
+                               [class]="{'font-size-14': !generalService.isMobileView, 'font-size-10': generalService.isMobileView}">{{'Avg Q.Rank' | translate}}</mat-label>
                   </mat-grid-tile>
-                  <mat-grid-tile [colspan]="1">
-                    <mat-label class="font-size-14 weight-700">{{'Avg.Score' | translate}}</mat-label>
+                  <mat-grid-tile [colspan]="generalService.isMobileView? 2 : 1">
+                    <mat-label class="weight-700"
+                               [class]="{'font-size-14': !generalService.isMobileView, 'font-size-10': generalService.isMobileView}">{{'Avg. Score' | translate}}</mat-label>
                   </mat-grid-tile>
-                  <mat-grid-tile [colspan]="1">
-                    <mat-label class="font-size-14 weight-700">{{'Total Score' | translate}}</mat-label>
+                  <mat-grid-tile [colspan]="generalService.isMobileView? 2 : 1">
+                    <mat-label class="weight-700"
+                               [class]="{'font-size-14': !generalService.isMobileView, 'font-size-10': generalService.isMobileView}">{{'Total Score' | translate}}</mat-label>
                   </mat-grid-tile>
                 </mat-grid-list>
 
                 <mat-grid-list *ngFor="let res of scoreboardSurvival;let i=index"
-                               cols="12" rowHeight="50px" class="gray-card mb-2">
+                               [cols]="generalService.isMobileView? 13 : 12" rowHeight="50px" class="gray-card mb-2">
                   <mat-grid-tile class="result-grid" [colspan]="1">
                     <mat-label class="font-size-14 weight-700">{{i + 1}}</mat-label>
                   </mat-grid-tile>
@@ -344,22 +432,22 @@
                          width="40">&nbsp;&nbsp;
                     <mat-label>{{res?.firstName}} {{res?.lastName}}</mat-label>
                   </mat-grid-tile>
-                  <mat-grid-tile [colspan]="3">
+                  <mat-grid-tile [colspan]="generalService.isMobileView? 0 : 3">
                     <mat-label></mat-label>
                   </mat-grid-tile>
-                  <mat-grid-tile [colspan]="1">
+                  <mat-grid-tile [colspan]="generalService.isMobileView? 2 : 1">
                     <mat-label
                       class="font-size-14 weight-500">{{res?.statistics?.survival?.avgRank | parsInt}}</mat-label>
                   </mat-grid-tile>
-                  <mat-grid-tile [colspan]="1">
+                  <mat-grid-tile [colspan]="generalService.isMobileView? 2 : 1">
                     <mat-label
                       class="font-size-14 weight-500">{{res?.statistics?.survival?.avgQuestionScore | parsInt}}</mat-label>
                   </mat-grid-tile>
-                  <mat-grid-tile [colspan]="1">
+                  <mat-grid-tile [colspan]="generalService.isMobileView? 2 : 1">
                     <mat-label
                       class="font-size-14 weight-500">{{res?.statistics?.survival?.totalScore | parsInt}}</mat-label>
                   </mat-grid-tile>
-                  <mat-grid-tile [colspan]="1">
+                  <mat-grid-tile [colspan]="generalService.isMobileView? 2 : 1">
                     <mat-label
                       class="font-size-14 weight-800">{{res?.statistics?.survival?.totalScore | parsInt}}</mat-label>
                   </mat-grid-tile>
@@ -368,10 +456,11 @@
               </div>
               <br>
               <br>
-              <div class="w-100 d-flex">
-                <div class="w-50 m-2">
+              <div class="w-100"
+                   [class]="{'d-flex': !generalService.isMobileView, 'd-block': generalService.isMobileView}">
+                <div class="m-2" [class]="{'w-50': !generalService.isMobileView, 'w-100': generalService.isMobileView}">
                   <mat-label id="liveSurvival"
-                    class="font-size-14 weight-600">{{'Live Survival Games' | translate}}</mat-label>
+                             class="font-size-14 weight-600">{{'Live Survival Games' | translate}}</mat-label>
                   <br>
                   <br>
                   <div class="d-flex overflow-scroll mb-2">
@@ -434,9 +523,9 @@
                   </mat-grid-list>
                 </div>
 
-                <div class="w-50 m-2">
+                <div class="m-2" [class]="{'w-50': !generalService.isMobileView, 'w-100': generalService.isMobileView}">
                   <mat-label id="friendsSurvival"
-                    class="font-size-14 weight-600">{{'Survival Games From Friends' | translate}}</mat-label>
+                             class="font-size-14 weight-600">{{'Survival Games From Friends' | translate}}</mat-label>
                   <br>
                   <br>
                   <mat-grid-list *ngFor="let res of friendsRecentSurvival;let i=index"
@@ -493,7 +582,8 @@
             </mat-card-header>
           </mat-card>
         </div>
-        <mat-card class="shadow-none game-type-card">
+        <mat-card class="shadow-none"
+                  [class]="{'game-type-card': !generalService.isMobileView, 'game-type-card-mobile': generalService.isMobileView}">
           <mat-card-header>
             <img mat-card-avatar src="assets/images/full-control.png" width="45" height="45">
             <mat-card-title class="font-size-16 weight-600">{{'I’m Ready' | translate}}</mat-card-title>
@@ -502,13 +592,15 @@
               + {{'Players' | translate}}</span>
             </mat-card-subtitle>
           </mat-card-header>
-          <button mat-raised-button color="primary" class="next-step-game"
+          <button mat-raised-button color="primary"
+                  [class]="{'next-step-game': !generalService.isMobileView, 'next-step-game-mobile': generalService.isMobileView}"
                   (click)="gotoStepTwo(0)">
             {{'Create Game' | translate}}
             <i class="bi bi-arrow-right"></i>
           </button>
         </mat-card>
-        <mat-card class="shadow-none game-type-card">
+        <mat-card class="shadow-none"
+                  [class]="{'game-type-card': !generalService.isMobileView, 'game-type-card-mobile': generalService.isMobileView}">
           <mat-card-header>
             <img mat-card-avatar src="assets/images/Account-type.png" width="45" height="45">
             <mat-card-title class="font-size-16 weight-600">{{'Topic By Me' | translate}}</mat-card-title>
@@ -518,12 +610,15 @@
               class="font-size-14 weight-600">{{'Players' | translate}}</span>
             </mat-card-subtitle>
           </mat-card-header>
-          <button mat-raised-button color="primary" class="next-step-game" (click)="gotoStepTwo(1)">
+          <button mat-raised-button color="primary"
+                  [class]="{'next-step-game': !generalService.isMobileView, 'next-step-game-mobile': generalService.isMobileView}"
+                  (click)="gotoStepTwo(1)">
             {{'Create Game' | translate}}
             <i class="bi bi-arrow-right"></i>
           </button>
         </mat-card>
-        <mat-card class="shadow-none game-type-card">
+        <mat-card class="shadow-none"
+                  [class]="{'game-type-card': !generalService.isMobileView, 'game-type-card-mobile': generalService.isMobileView}">
           <mat-card-header>
             <img mat-card-avatar src="assets/images/players.png" width="45" height="45">
             <mat-card-title class="font-size-16 weight-600">{{'Players By Me' | translate}}</mat-card-title>
@@ -532,12 +627,15 @@
               &nbsp;&nbsp; {{'System choose: ' | translate}} <span class="font-size-14 weight-600">Topic</span>
             </mat-card-subtitle>
           </mat-card-header>
-          <button mat-raised-button color="primary" class="next-step-game" (click)="gotoStepTwo(2)">
+          <button mat-raised-button color="primary"
+                  [class]="{'next-step-game': !generalService.isMobileView, 'next-step-game-mobile': generalService.isMobileView}"
+                  (click)="gotoStepTwo(2)">
             {{'Create Game' | translate}}
             <i class="bi bi-arrow-right"></i>
           </button>
         </mat-card>
-        <mat-card class="shadow-none game-type-card">
+        <mat-card class="shadow-none"
+                  [class]="{'game-type-card': !generalService.isMobileView, 'game-type-card-mobile': generalService.isMobileView}">
           <mat-card-header>
             <img mat-card-avatar src="assets/images/players.png" width="36" height="36">
             <img mat-card-avatar src="assets/images/Account-type.png" width="36" height="36">
@@ -546,7 +644,9 @@
               {{'I choose:' | translate}} <span class="font-size-14 weight-600">Topic + Players</span>
             </mat-card-subtitle>
           </mat-card-header>
-          <button mat-raised-button color="primary" class="next-step-game" (click)="gotoStepTwo(3)">
+          <button mat-raised-button color="primary"
+                  [class]="{'next-step-game': !generalService.isMobileView, 'next-step-game-mobile': generalService.isMobileView}"
+                  (click)="gotoStepTwo(3)">
             {{'Create Game' | translate}}
             <i class="bi bi-arrow-right"></i>
           </button>
@@ -702,7 +802,8 @@
                 {{'Write your question and answer for the game' | translate}}
               </mat-card-subtitle>
             </mat-card-header>
-            <mat-card-content style="width: 1000px; margin-top: 30px">
+            <mat-card-content style="margin-top: 30px"
+                              [style]="generalService.isMobileView ? 'width: 98%' : 'width: 1000px'">
               <form #f="ngForm" [formGroup]="questionForm" autocomplete="off">
                 <div class="d-flex">
                   <!--                  <img src="assets/images/message-question.svg" width="24">-->
@@ -770,9 +871,11 @@
             </mat-card-subtitle>
           </mat-card-header>
         </mat-card>
-        <div class="d-inline-flex w-50 m-4">
+        <div class="d-inline-flex m-4"
+             [class]="{'w-50': !generalService.isMobileView, 'w-100': generalService.isMobileView}"
+        >
           <form [formGroup]="inviteForm" class="w-100" (ngSubmit)="onSubmitInvite()">
-            <mat-form-field appearance="outline" style="width: 73%; height: 47px">
+            <mat-form-field appearance="outline" style="width: 65%; height: 47px">
               <input matInput class="invite-input ps-2" placeholder="{{'Email address' | translate}}" type="email"
                      [formControlName]="'email'" [matAutocomplete]="auto" (input)="getResultOfSearch()">
               <mat-autocomplete #auto="matAutocomplete">
@@ -788,7 +891,7 @@
             </button>
           </form>
         </div>
-        <div class="d-inline-flex">
+        <div [class]="{'d-inline-flex': !generalService.isMobileView, 'd-block': generalService.isMobileView}">
           <div *ngFor="let ivt of generalService.invitedPlayersArray" class="invite-card m-2">
             <img class="avatar-bordered bg-white"
                  [src]="ivt?.profilePicture ? ivt?.profilePicture?.startsWith('http') ? ivt?.profilePicture : configService.url(ivt?.profilePicture) : 'assets/images/frame.png'"
@@ -823,8 +926,10 @@
         <mat-card class="shadow-none">
           <mat-card-header style="padding: 16px;">
             <!--            <img mat-card-avatar src="assets/images/wallet-minus.svg" style="width: 24px; height: 24px">-->
-            <svg style="width: 24px;height: 24px;margin-top: 8px;margin-bottom: 0;padding: 0;display: flex;align-items: center;" mat-card-avatar width="25" height="25" viewBox="0 0 25 25"
-                 fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg
+              style="width: 24px;height: 24px;margin-top: 8px;margin-bottom: 0;padding: 0;display: flex;align-items: center;"
+              mat-card-avatar width="25" height="25" viewBox="0 0 25 25"
+              fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M15.1626 16.3145H10.1626" stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10"
                     stroke-linecap="round" stroke-linejoin="round"/>
               <path
@@ -874,7 +979,8 @@
             </mat-card-header>
           </mat-card>
         </div>
-        <mat-card class="shadow-none game-type-card p-4">
+        <mat-card class="shadow-none p-4"
+                  [class]="{'game-type-card': !generalService.isMobileView, 'game-type-card-mobile': generalService.isMobileView}">
           <mat-card-header>
             <img mat-card-avatar src="assets/images/join-game.png" width="45" height="45">
             <mat-card-title class="font-size-16 weight-600">{{'Join with Code' | translate}}</mat-card-title>
@@ -882,7 +988,8 @@
               {{'Enter with code and join:' | translate}}
             </mat-card-subtitle>
           </mat-card-header>
-          <div class="d-inline-flex w-50 find-game-div">
+          <div class="d-inline-flex "
+               [class]="{'find-game-div': !generalService.isMobileView, 'find-game-div-mobile': generalService.isMobileView}">
             <input matInput class="invite-input ps-2" [(ngModel)]="gameCode"
                    placeholder="{{'Enter a code' | translate}}" type="email">
             <button mat-raised-button color="primary" type="submit" [disabled]="!gameCode || loadingJoinWithCode"
@@ -891,7 +998,8 @@
             </button>
           </div>
         </mat-card>
-        <mat-card class="shadow-none game-type-card p-4">
+        <mat-card class="shadow-none p-4"
+                  [class]="{'game-type-card': !generalService.isMobileView, 'game-type-card-mobile': generalService.isMobileView}">
           <mat-card-header>
             <img mat-card-avatar src="assets/images/find-user-game.png" width="45" height="45">
             <mat-card-title class="font-size-16 weight-600">{{'Find friend\'s games' | translate}}</mat-card-title>
@@ -899,7 +1007,9 @@
               {{'Enter email or username and join games:' | translate}}
             </mat-card-subtitle>
           </mat-card-header>
-          <div class="d-inline-flex w-50 find-game-div">
+          <div class="d-inline-flex"
+               [class]="{'find-game-div': !generalService.isMobileView, 'find-game-div-mobile': generalService.isMobileView}">
+
             <input matInput class="invite-input ps-2" [(ngModel)]="userEmail"
                    name="userEmail"
                    placeholder="{{'Enter user email' | translate}}" type="email"
