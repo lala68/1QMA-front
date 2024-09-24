@@ -58,7 +58,7 @@
 }
 
 .invite-input {
-  width: 73%;
+  width: 70%;
   border-radius: 6px;
   border: 1px solid #B29F9A;
   height: 44px;
@@ -71,4 +71,11 @@
 
 #google_translate_element {
   display: none;
+}
+
+.gray-card-mobile {
+  background: #F9F7F7 !important;
+  border: 1px solid #E8E2E0 !important;
+  border-radius: 25px;
+  padding: 10px;
 }

@@ -64,9 +64,10 @@
         </mat-card-header>
       </mat-card>
     </div>
-    <div class="w-60 p-3">
+    <div class="p-3" [class]="{'w-60': !generalService?.isMobileView, 'w-100': generalService?.isMobileView}">
       <div class="border-bottom pb-3">
-        <div class="position-relative d-inline-flex" [style]="generalService.isMobileView ? 'width: 250px' : 'width: 320px'">
+        <div class="position-relative d-inline-flex"
+             [style]="generalService.isMobileView ? 'width: 250px' : 'width: 320px'">
           <!--          <img src="assets/images/crown.svg" width="36" height="36"/>-->
           <svg width="36" height="36" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
@@ -87,11 +88,11 @@
             </div>
           </div>
           <mat-progress-bar [style]="generalService.isMobileView ? 'width: 250px' : 'width: 320px;'"
-            style="border-radius: 10px; display: inline-table; position: absolute; bottom: 0; left: 40px"
-            color="primary"
-            [value]="((generalService.userObj?.statistics?.totalXP - generalService.userObj?.statistics?.currentLevelXP) / (generalService.userObj?.statistics?.xpNeededForNextLevel - generalService.userObj?.statistics?.currentLevelXP)) * 100"
-            [bufferValue]="100"
-            mode="determinate"></mat-progress-bar>
+                            style="border-radius: 10px; display: inline-table; position: absolute; bottom: 0; left: 40px"
+                            color="primary"
+                            [value]="((generalService.userObj?.statistics?.totalXP - generalService.userObj?.statistics?.currentLevelXP) / (generalService.userObj?.statistics?.xpNeededForNextLevel - generalService.userObj?.statistics?.currentLevelXP)) * 100"
+                            [bufferValue]="100"
+                            mode="determinate"></mat-progress-bar>
         </div>
         <div>
           <div class="card-games position-relative">
@@ -230,20 +231,22 @@
       </div>
       <mat-card class="shadow-none">
         <mat-card-header class="pe-1 ps-1 position-relative d-flex align-items-center">
-          <mat-card-title class="card-title-profile-dashboard" [style]="generalService.isMobileView ? '' : 'width: 120px'">Coins:</mat-card-title>
-         <div>
-           <img src="assets/images/coin-bronze.png"
-                width="24" height="24">&nbsp;<span>{{generalService.userObj?.assets?.coins?.bronze}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-           <img src="assets/images/coin-silver.png"
-                width="24" height="24">&nbsp;<span>{{generalService.userObj?.assets?.coins?.silver}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-           <img src="assets/images/coin-gold.png"
-                width="24" height="24">&nbsp;<span>{{generalService.userObj?.assets?.coins?.gold}}</span>
-           <div [routerLink]="['/transactions']"
-                class="link-text font-size-14 weight-500 position-absolute end-0 cursor-pointer">{{'Financial History' | translate}}
-             >
-         </div>
+          <mat-card-title class="card-title-profile-dashboard"
+                          [style]="generalService.isMobileView ? '' : 'width: 120px'">Coins:
+          </mat-card-title>
+          <mat-card-subtitle>
+            <img src="assets/images/coin-bronze.png"
+                 width="24" height="24">&nbsp;<span>{{generalService.userObj?.assets?.coins?.bronze}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <img src="assets/images/coin-silver.png"
+                 width="24" height="24">&nbsp;<span>{{generalService.userObj?.assets?.coins?.silver}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <img src="assets/images/coin-gold.png"
+                 width="24" height="24">&nbsp;<span>{{generalService.userObj?.assets?.coins?.gold}}</span>
+            <div [routerLink]="['/transactions']"
+                 class="link-text font-size-14 weight-500 position-absolute end-0 bottom-10 cursor-pointer">{{'Financial History' | translate}}
+              >
+            </div>
 
-          </div>
+          </mat-card-subtitle>
         </mat-card-header>
       </mat-card>
     </div>
@@ -292,69 +295,108 @@
         </div>
       </div>
       <br>
-      <mat-grid-list cols="12" rowHeight="50px" class="gray-card">
-        <mat-grid-tile class="result-grid" [colspan]="1">
-          <mat-label class="font-size-14 weight-700">#</mat-label>
-        </mat-grid-tile>
-        <mat-grid-tile class="result-grid" [colspan]="4">
-          <mat-label class="font-size-14 weight-700">{{'Question' | translate}}</mat-label>
-        </mat-grid-tile>
-        <mat-grid-tile class="result-grid" [colspan]="2">
-          <mat-label class="font-size-14 weight-700">{{'Category' | translate}}</mat-label>
-        </mat-grid-tile>
-        <mat-grid-tile [colspan]="2">
-          <mat-label class="font-size-14 weight-700">{{'Player' | translate}}</mat-label>
-        </mat-grid-tile>
-        <mat-grid-tile [colspan]="1">
-          <mat-label class="font-size-14 weight-700">{{'Total Plays' | translate}}</mat-label>
-        </mat-grid-tile>
-        <mat-grid-tile [colspan]="1">
-          <mat-label class="font-size-14 weight-700">{{'Score' | translate}}</mat-label>
-        </mat-grid-tile>
-        <mat-grid-tile [colspan]="1">
-          <mat-label class="font-size-14 weight-700"></mat-label>
-        </mat-grid-tile>
-      </mat-grid-list>
-      <mat-grid-list *ngFor="let res of topQuestions;let i=index"
-                     [class]="{'border-bottom-gray': i < topQuestions?.length - 1}"
-                     cols="12" rowHeight="70px" class="mb-2">
-        <mat-grid-tile class="result-grid" [colspan]="1">
-          <mat-label>{{i + 1}}</mat-label>
-        </mat-grid-tile>
-        <mat-grid-tile class="result-grid" [colspan]="4">
-          {{res?.question}}
-        </mat-grid-tile>
-        <mat-grid-tile class="result-grid" [colspan]="2">
-          <div color="primary">
-            <img [src]="'https://api.staging.1qma.games/' + res?.category?.icon" width="25">
-            <span class="font-size-12 weight-500">{{res?.category?.name}}</span>
+      <div *ngIf="!generalService?.isMobileView">
+        <mat-grid-list cols="12" rowHeight="50px" class="gray-card">
+          <mat-grid-tile class="result-grid" [colspan]="1">
+            <mat-label class="font-size-14 weight-700">#</mat-label>
+          </mat-grid-tile>
+          <mat-grid-tile class="result-grid" [colspan]="4">
+            <mat-label class="font-size-14 weight-700">{{'Question' | translate}}</mat-label>
+          </mat-grid-tile>
+          <mat-grid-tile class="result-grid" [colspan]="2">
+            <mat-label class="font-size-14 weight-700">{{'Category' | translate}}</mat-label>
+          </mat-grid-tile>
+          <mat-grid-tile [colspan]="2">
+            <mat-label class="font-size-14 weight-700">{{'Player' | translate}}</mat-label>
+          </mat-grid-tile>
+          <mat-grid-tile [colspan]="1">
+            <mat-label class="font-size-14 weight-700">{{'Total Plays' | translate}}</mat-label>
+          </mat-grid-tile>
+          <mat-grid-tile [colspan]="1">
+            <mat-label class="font-size-14 weight-700">{{'Score' | translate}}</mat-label>
+          </mat-grid-tile>
+          <mat-grid-tile [colspan]="1">
+            <mat-label class="font-size-14 weight-700"></mat-label>
+          </mat-grid-tile>
+        </mat-grid-list>
+        <mat-grid-list *ngFor="let res of topQuestions;let i=index"
+                       [class]="{'border-bottom-gray': i < topQuestions?.length - 1}"
+                       cols="12" rowHeight="70px" class="mb-2">
+          <mat-grid-tile class="result-grid" [colspan]="1">
+            <mat-label>{{i + 1}}</mat-label>
+          </mat-grid-tile>
+          <mat-grid-tile class="result-grid" [colspan]="4">
+            {{res?.question}}
+          </mat-grid-tile>
+          <mat-grid-tile class="result-grid" [colspan]="2">
+            <div color="primary">
+              <img [src]="'https://api.staging.1qma.games/' + res?.category?.icon" width="25">
+              <span class="font-size-12 weight-500">{{res?.category?.name}}</span>
+            </div>
+          </mat-grid-tile>
+          <mat-grid-tile [colspan]="2">
+            <div class="w-100">
+              <img style="border: 1px solid #E8E2E0;border-radius: 50px; background: white;"
+                   [src]="res?.user?.profilePicture ? res?.user?.profilePicture?.startsWith('http') ? res?.user?.profilePicture : configService.url(res?.user?.profilePicture) : 'assets/images/frame.png'"
+                   width="40">&nbsp;&nbsp;
+              <mat-label>{{res?.user?.firstName}} {{res?.user?.lastName}}</mat-label>
+            </div>
+          </mat-grid-tile>
+          <mat-grid-tile [colspan]="1">
+            <mat-label class="font-size-14 weight-700 gray-card text-center"
+                       style="min-width: 75px;border-radius: 50px !important;">{{res?.plays | parsInt}}</mat-label>
+          </mat-grid-tile>
+          <mat-grid-tile [colspan]="1">
+            <mat-label class="font-size-14 weight-700 gray-card text-center"
+                       style="min-width: 75px; border-radius: 50px !important;">{{res?.score | parsInt}}</mat-label>
+          </mat-grid-tile>
+          <mat-grid-tile [colspan]="1" (click)="gotoQuestionDetail(res)">
+            <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M9.53223 20.4084L16.0522 13.8884C16.8222 13.1184 16.8222 11.8584 16.0522 11.0884L9.53223 4.56836"
+                stroke="#0B6FEA" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                stroke-linejoin="round"/>
+            </svg>
+          </mat-grid-tile>
+        </mat-grid-list>
+      </div>
+      <div *ngIf="generalService?.isMobileView">
+        <div *ngFor="let res of topQuestions;let i=index" class="p-2"
+             [class]="{'border-bottom-gray': i < topQuestions?.length - 1}">
+          <br>
+          <mat-label class="font-size-14 weight-600">{{i + 1}}.&nbsp;</mat-label>
+          <mat-label class="font-size-14 weight-600">{{res?.question}}</mat-label>
+          <div class="d-flex mt-3 mb-3">
+            <div class="w-100">
+              <img style="border: 1px solid #E8E2E0;border-radius: 50px; background: white;"
+                   [src]="res?.user?.profilePicture ? res?.user?.profilePicture?.startsWith('http') ? res?.user?.profilePicture : configService.url(res?.user?.profilePicture) : 'assets/images/frame.png'"
+                   width="40">&nbsp;&nbsp;
+              <mat-label>{{res?.user?.firstName}} {{res?.user?.lastName}}</mat-label>
+            </div>
+            <div color="primary" class="d-flex align-items-center">
+              <img [src]="'https://api.staging.1qma.games/' + res?.category?.icon" width="25">
+              <span class="font-size-12 weight-500">{{res?.category?.name}}</span>
+            </div>
           </div>
-        </mat-grid-tile>
-        <mat-grid-tile [colspan]="2">
-          <div class="w-100">
-            <img style="border: 1px solid #E8E2E0;border-radius: 50px; background: white;"
-                 [src]="res?.user?.profilePicture ? res?.user?.profilePicture?.startsWith('http') ? res?.user?.profilePicture : configService.url(res?.user?.profilePicture) : 'assets/images/frame.png'"
-                 width="40">&nbsp;&nbsp;
-            <mat-label>{{res?.user?.firstName}} {{res?.user?.lastName}}</mat-label>
+          <div class="gray-card-mobile d-flex m-1">
+            <div style="flex: 1">
+              <mat-label class="font-size-12 weight-400">Total Plays:</mat-label>
+              <mat-label class="font-size-14 weight-500">{{res?.plays | parsInt}}</mat-label>
+            </div>
+            <div style="flex: 1">
+              <mat-label class="font-size-12 weight-400">Total Score:</mat-label>
+              <mat-label class="font-size-14 weight-500">{{res?.score | parsInt}}</mat-label>
+            </div>
+            <svg (click)="gotoQuestionDetail(res)" width="25" height="25" viewBox="0 0 25 25" fill="none"
+                 xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M9.53223 20.4084L16.0522 13.8884C16.8222 13.1184 16.8222 11.8584 16.0522 11.0884L9.53223 4.56836"
+                stroke="#0B6FEA" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                stroke-linejoin="round"/>
+            </svg>
           </div>
-        </mat-grid-tile>
-        <mat-grid-tile [colspan]="1">
-          <mat-label class="font-size-14 weight-700 gray-card text-center"
-                     style="min-width: 75px;border-radius: 50px !important;">{{res?.plays | parsInt}}</mat-label>
-        </mat-grid-tile>
-        <mat-grid-tile [colspan]="1">
-          <mat-label class="font-size-14 weight-700 gray-card text-center"
-                     style="min-width: 75px; border-radius: 50px !important;">{{res?.score | parsInt}}</mat-label>
-        </mat-grid-tile>
-        <mat-grid-tile [colspan]="1" (click)="gotoQuestionDetail(res)">
-          <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M9.53223 20.4084L16.0522 13.8884C16.8222 13.1184 16.8222 11.8584 16.0522 11.0884L9.53223 4.56836"
-              stroke="#0B6FEA" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
-              stroke-linejoin="round"/>
-          </svg>
-        </mat-grid-tile>
-      </mat-grid-list>
+        </div>
+      </div>
     </mat-card>
   </div>
 </div>
