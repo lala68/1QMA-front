@@ -237,7 +237,8 @@
             </div>
             <mat-card-content class="d-flex overflow-scroll">
               <mat-card *ngFor="let liveGame of liveGames"
-                        class="bordered-card shadow-none text-center d-inline-flex">
+                        [class]="{'bordered-card': !generalService.isMobileView, 'bordered-card-mobile': generalService.isMobileView}"
+                        class="shadow-none text-center d-inline-flex">
                 <img [src]="'https://api.staging.1qma.games/' + liveGame?.category?.icon" width="50" height="50"
                      style="margin: 0 auto">
                 <mat-card-header style="margin: 0 auto; display: block">
@@ -312,7 +313,8 @@
             </mat-card-header>
             <mat-card-content class="d-flex overflow-scroll">
               <mat-card *ngFor="let fg of friendsGames"
-                        class="bordered-card shadow-none text-center d-inline-flex">
+                        class="shadow-none text-center d-inline-flex"
+                        [class]="{'bordered-card': !generalService.isMobileView, 'bordered-card-mobile': generalService.isMobileView}">
                 <img [src]="'https://api.staging.1qma.games/' + fg?.category?.icon" width="50" height="50"
                      style="margin: 0 auto">
                 <mat-card-header style="margin: 0 auto; display: block">
@@ -1063,7 +1065,8 @@
         </div>
         <div class="">
           <mat-card *ngFor="let liveGame of findFriendGameData?.liveGames"
-                    class="bordered-card shadow-none text-center d-inline-block">
+                    [class]="{'bordered-card': !generalService.isMobileView, 'bordered-card-mobile': generalService.isMobileView}"
+                    class="shadow-none text-center d-inline-block">
             <img [src]="'https://api.staging.1qma.games/' + liveGame?.category?.icon" width="50" height="50"
                  style="margin: 0 auto">
             <mat-card-header style="margin: 0 auto; display: block">
@@ -1128,7 +1131,8 @@
         </div>
         <div class="">
           <mat-card *ngFor="let endedGame of findFriendGameData?.endedGames"
-                    class="bordered-card shadow-none text-center d-inline-block">
+                    [class]="{'bordered-card': !generalService.isMobileView, 'bordered-card-mobile': generalService.isMobileView}"
+                    class="shadow-none text-center d-inline-block">
             <img [src]="'https://api.staging.1qma.games/' + endedGame?.category?.icon" width="50" height="50"
                  style="margin: 0 auto">
             <mat-card-header style="margin: 0 auto; display: block">
@@ -1138,7 +1142,7 @@
               </mat-card-subtitle>
             </mat-card-header>
             <br>
-            <mat-card-content class="d-inline-flex position-relative p-0">
+            <mat-card-content class="d-inline-flex position-relative p-0 w-100">
               <mat-card class="shadow-none">
                 <mat-card-header class="pe-1 ps-1">
                   <img mat-card-avatar

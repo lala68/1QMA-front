@@ -42,7 +42,7 @@
                 </div>
               </div>
             </div>
-            <mat-card-content *ngIf="selectedTabIndex == 0">
+            <mat-card-content *ngIf="selectedTabIndex == 0" class="ps-0">
               <div style="display: ruby-text;">
                 <mat-spinner *ngIf="loadingContent" [diameter]="30"></mat-spinner>
               </div>
@@ -73,7 +73,9 @@
               </div>
               <br>
 
-              <div *ngFor="let item of libraryQuestions" class="gray-card p-4 m-2 d-inline-block" style="width: 48%">
+              <div *ngFor="let item of libraryQuestions" class="gray-card m-2 d-inline-block"
+                   [class]="{'p-4': !generalService.isMobileView, 'p-1': generalService.isMobileView}"
+                   [style]="generalService.isMobileView ? 'width : 100%' : 'width : 48%'">
                 <div class="d-flex white-card position-relative m-2">
                   <img class="avatar-bordered"
                        [src]="item?.user?.profilePicture ? item?.user?.profilePicture?.startsWith('http') ? item?.user?.profilePicture : configService.url(item?.user?.profilePicture) : 'assets/images/frame.png'"
@@ -131,7 +133,7 @@
 
                 <br>
                 <mat-card-actions class="position-relative d-flex align-items-center pb-0 pt-3">
-                  <button mat-raised-button (click)="gotoAnswer(item)"
+                  <button *ngIf="!generalService.isMobileView" mat-raised-button (click)="gotoAnswer(item)"
                           class="answer-button position-absolute end-10 bottom-0">{{'Answer' | translate}}
                   </button>
                   <div class="position-absolute bottom-0" style="display: contents">
@@ -215,6 +217,11 @@
                     </svg>
                   </div>
                 </mat-card-actions>
+                <mat-card-actions *ngIf="generalService.isMobileView">
+                  <button mat-raised-button (click)="gotoAnswer(item)"
+                          class="answer-button w-100">{{'Answer' | translate}}
+                  </button>
+                </mat-card-actions>
               </div>
               <div style="margin: 20px auto; text-align: center" *ngIf="libraryQuestions?.length > 0">
                 <button mat-stroked-button color="primary" type="submit" *ngIf="!loadingMore && !noMoreItems"
@@ -228,7 +235,7 @@
             </mat-card-content>
 
             <!--  public-->
-            <mat-card-content *ngIf="selectedTabIndex == 1">
+            <mat-card-content *ngIf="selectedTabIndex == 1" class="ps-0">
               <div style="display: ruby-text;">
                 <mat-spinner *ngIf="loadingContent" [diameter]="30"></mat-spinner>
               </div>
@@ -258,7 +265,9 @@
                 </mat-menu>
               </div>
               <br>
-              <div *ngFor="let item of libraryQuestions" class="gray-card p-4 m-2 d-inline-block" style="width: 48%">
+              <div *ngFor="let item of libraryQuestions" class="gray-card m-2 d-inline-block"
+                   [class]="{'p-4': !generalService.isMobileView, 'p-1': generalService.isMobileView}"
+                   [style]="generalService.isMobileView ? 'width : 100%' : 'width : 48%'">
                 <div class="d-flex white-card position-relative m-2">
                   <img class="avatar-bordered"
                        [src]="item?.user?.profilePicture ? item?.user?.profilePicture?.startsWith('http') ? item?.user?.profilePicture : configService.url(item?.user?.profilePicture) : 'assets/images/frame.png'"
@@ -293,7 +302,7 @@
                 <br>
                 <br>
                 <mat-card-actions class="position-relative d-flex align-items-center pb-0 pt-3">
-                  <button mat-raised-button (click)="gotoAnswer(item)"
+                  <button mat-raised-button (click)="gotoAnswer(item)" *ngIf="!generalService.isMobileView"
                           class="answer-button position-absolute end-10 bottom-0">{{'Answer' | translate}}
                   </button>
                   <div class="position-absolute bottom-0" style="display: contents">
@@ -377,6 +386,11 @@
                     </svg>
                   </div>
                 </mat-card-actions>
+                <mat-card-actions *ngIf="generalService.isMobileView">
+                  <button mat-raised-button (click)="gotoAnswer(item)"
+                          class="answer-button w-100">{{'Answer' | translate}}
+                  </button>
+                </mat-card-actions>
               </div>
               <div style="margin: 20px auto; text-align: center" *ngIf="libraryQuestions?.length > 0">
                 <button mat-stroked-button color="primary" type="submit" *ngIf="!loadingMore && !noMoreItems"
@@ -390,7 +404,7 @@
             </mat-card-content>
 
             <!--  bookmark-->
-            <mat-card-content *ngIf="selectedTabIndex == 2">
+            <mat-card-content *ngIf="selectedTabIndex == 2" class="ps-0">
               <div style="display: ruby-text;">
                 <mat-spinner *ngIf="loadingContent" [diameter]="30"></mat-spinner>
               </div>
@@ -420,7 +434,9 @@
                 </mat-menu>
               </div>
               <br>
-              <div *ngFor="let item of libraryQuestions" class="gray-card p-4 m-2 d-inline-block" style="width: 48%">
+              <div *ngFor="let item of libraryQuestions" class="gray-card m-2 d-inline-block"
+                   [class]="{'p-4': !generalService.isMobileView, 'p-1': generalService.isMobileView}"
+                   [style]="generalService.isMobileView ? 'width : 100%' : 'width : 48%'">
                 <div class="d-flex white-card position-relative m-2">
                   <img class="avatar-bordered"
                        [src]="item?.user?.profilePicture ? item?.user?.profilePicture?.startsWith('http') ? item?.user?.profilePicture : configService.url(item?.user?.profilePicture) : 'assets/images/frame.png'"
@@ -457,7 +473,7 @@
                 </div>
                 <br>
                 <mat-card-actions class="position-relative d-flex align-items-center pb-0 pt-3">
-                  <button mat-raised-button (click)="gotoAnswer(item)"
+                  <button mat-raised-button (click)="gotoAnswer(item)" *ngIf="!generalService.isMobileView"
                           class="answer-button position-absolute end-10 bottom-0">{{'Answer' | translate}}
                   </button>
                   <div class="position-absolute bottom-0" style="display: contents">
@@ -541,6 +557,11 @@
                     </svg>
                   </div>
                 </mat-card-actions>
+                <mat-card-actions *ngIf="generalService.isMobileView">
+                  <button mat-raised-button (click)="gotoAnswer(item)"
+                          class="answer-button w-100">{{'Answer' | translate}}
+                  </button>
+                </mat-card-actions>
 
               </div>
               <div style="margin: 20px auto; text-align: center" *ngIf="libraryQuestions?.length > 0">
@@ -617,7 +638,8 @@
                 <br>
                 <br>
                 <mat-card *ngFor="let endedGame of gameData"
-                          class="bordered-card shadow-none text-center d-inline-block">
+                          class="shadow-none text-center d-inline-block"
+                          [class]="{'bordered-card': !generalService.isMobileView, 'bordered-card-mobile': generalService.isMobileView}">
                   <img [src]="'https://api.staging.1qma.games/' + endedGame?.category?.icon" width="50" height="50"
                        style="margin: 0 auto">
                   <mat-card-header style="margin: 0 auto; display: block">
@@ -700,7 +722,8 @@
               <br>
               <div class="">
                 <mat-card *ngFor="let endedGame of gameData"
-                          class="bordered-card shadow-none text-center d-inline-block">
+                          class="shadow-none text-center d-inline-block"
+                          [class]="{'bordered-card': !generalService.isMobileView, 'bordered-card-mobile': generalService.isMobileView}">
                   <img [src]="'https://api.staging.1qma.games/' + endedGame?.category?.icon" width="50" height="50"
                        style="margin: 0 auto">
                   <mat-card-header style="margin: 0 auto; display: block">

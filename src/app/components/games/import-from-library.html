@@ -8,7 +8,7 @@
   </svg>
   &nbsp;{{'Import from library' | translate}}
 </div>
-<div mat-dialog-content>
+<div mat-dialog-content [style]="generalService.isMobileView ? 'padding : 10px' : ''">
   <div class="gray-card">
     <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" class="tab-group-library"
                    [(selectedIndex)]="selectedTabIndex" (selectedTabChange)="ngOnInit()">
@@ -22,7 +22,9 @@
   </div>
   <br>
   <div class="d-flex position-relative">
-    <input matInput class="invite-input ps-5" [(ngModel)]="search" (input)="ngOnInit()"
+    <input matInput class="invite-input ps-5"
+           [class]="{'w-100': generalService.isMobileView}"
+           [(ngModel)]="search" (input)="ngOnInit()"
            placeholder="{{'Search' | translate}}" type="text">
     <svg class="position-absolute top-0 bottom-0 start-0" style="margin: auto 5px" width="25" height="25"
          viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -34,12 +36,13 @@
     </svg>
   </div>
   <br>
-  <div style="display: ruby-text;">
+  <div [style]="!generalService.isMobileView ? 'display : ruby-text' : ''">
     <mat-spinner *ngIf="loading" [diameter]="30"></mat-spinner>
   </div>
   <!--  private-->
   <div *ngIf="selectedTabIndex == 0">
-    <div *ngFor="let item of library?.questions" class="gray-card p-4 mb-2">
+    <div *ngFor="let item of library?.questions" class="gray-card mb-2"
+         [class]="{'p-4': !generalService.isMobileView, 'p-1': generalService.isMobileView}">
       <div class="d-flex white-card position-relative">
         <img class="avatar-bordered"
              [src]="item?.user?.profilePicture ? item?.user?.profilePicture?.startsWith('http') ? item?.user?.profilePicture : configService.url(item?.user?.profilePicture) : 'assets/images/frame.png'"
@@ -59,7 +62,8 @@
         {{item?.answer}}
       </div>
       <br>
-      <div class="d-flex justify-content-between align-items-center">
+      <div class="justify-content-between align-items-center"
+           [class]="{'d-flex': !generalService.isMobileView, 'd-block': generalService.isMobileView}">
         <div class="white-card p-1" style="width: fit-content">
           <img
             [src]="configService.url(item.category?.icon)"
@@ -69,11 +73,13 @@
         <div>
           <button mat-stroked-button (click)="importQuestion(item.question, item._id)" color="primary"
                   class="me-2 radius"
+                  [class]="{'': !generalService.isMobileView, 'm-1': generalService.isMobileView}"
                   style="border: 1px solid #0B6FEA">
             {{'Import Question' | translate}}
           </button>
           <button mat-stroked-button (click)="importQuestionAnswer(item.question, item.answer, item._id)"
                   color="primary"
+                  [class]="{'': !generalService.isMobileView, 'm-1': generalService.isMobileView}"
                   class="radius" style="border: 1px solid #0B6FEA">
             {{'Import Question' | translate}} + {{'Answer' | translate}}
           </button>
@@ -85,7 +91,8 @@
 
   <!--  public-->
   <div *ngIf="selectedTabIndex == 1">
-    <div *ngFor="let item of library?.questions" class="gray-card p-4 mb-2">
+    <div *ngFor="let item of library?.questions" class="gray-card mb-2"
+         [class]="{'p-4': !generalService.isMobileView, 'p-1': generalService.isMobileView}">
       <div class="d-flex white-card position-relative">
         <img src="assets/images/frame.png" width="42">
         <mat-label class="font-size-13 weight-500" style="margin: auto 10px">Sam Smith</mat-label>
@@ -136,7 +143,8 @@
 
   <!--  bookmark-->
   <div *ngIf="selectedTabIndex == 2">
-    <div *ngFor="let item of library?.questions" class="gray-card p-3 mb-2">
+    <div *ngFor="let item of library?.questions" class="gray-card mb-2"
+         [class]="{'p-4': !generalService.isMobileView, 'p-1': generalService.isMobileView}">
       <div class="d-flex white-card position-relative">
         <img class="avatar-bordered"
              [src]="item?.user?.profilePicture ? item?.user?.profilePicture?.startsWith('http') ? item?.user?.profilePicture : configService.url(item?.user?.profilePicture) : 'assets/images/frame.png'"

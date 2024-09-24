@@ -12,6 +12,15 @@
   padding: .5rem;
 }
 
+.bordered-card-mobile {
+  //max-width: 247px;
+  min-width: 100%;
+  margin: 10px 5px 10px 0;
+  border: 1px solid #BFAEAA !important;
+  border-radius: 10px;
+  padding: .5rem;
+}
+
 .game-button {
   background: #0B6FEA !important;
   width: 100% !important;

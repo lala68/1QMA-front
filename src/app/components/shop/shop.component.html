@@ -44,7 +44,8 @@
           <br>
           <mat-card-content>
             <mat-card *ngFor="let item of features"
-                      class="bordered-card shadow-none text-center d-inline-flex">
+                      class="shadow-none text-center d-inline-flex"
+                      [class]="{'bordered-card': !generalService.isMobileView, 'bordered-card-mobile': generalService.isMobileView}">
               <img [src]="item?.icon ? 'https://api.staging.1qma.games/' + item?.icon : 'assets/images/invitation.png'"
                    width="50" height="50" style="margin: 0 auto">
               <mat-card-header style="margin: 0 auto; display: block">
@@ -81,7 +82,8 @@
           <br>
           <mat-card-content>
             <mat-card *ngFor="let item of assets"
-                      class="bordered-card shadow-none text-center d-inline-flex">
+                      class="shadow-none text-center d-inline-flex"
+                      [class]="{'bordered-card': !generalService.isMobileView, 'bordered-card-mobile': generalService.isMobileView}">
               <img [src]="item?.icon ? 'https://api.staging.1qma.games/' + item?.icon : 'assets/images/invitation.png'"
                    width="50" height="50" style="margin: 0 auto">
               <mat-card-header style="margin: 0 auto; display: block">
@@ -119,7 +121,8 @@
           <br>
           <mat-card-content>
             <mat-card *ngFor="let item of bundles"
-                      class="bordered-card shadow-none text-center d-inline-flex">
+                      class="shadow-none text-center d-inline-flex"
+                      [class]="{'bordered-card': !generalService.isMobileView, 'bordered-card-mobile': generalService.isMobileView}">
               <div class="d-inline-flex">
                 <img
                   [src]="item?.icon ? 'https://api.staging.1qma.games/' + item?.icon : 'assets/images/invitation.png'"
@@ -158,7 +161,8 @@
             </mat-card-header>
             <mat-card-content>
               <mat-card *ngFor="let item of allData"
-                        class="bordered-card shadow-none text-center d-inline-flex">
+                        class="shadow-none text-center d-inline-flex"
+                        [class]="{'bordered-card': !generalService.isMobileView, 'bordered-card-mobile': generalService.isMobileView}">
                 <img
                   [src]="item?.icon ? 'https://api.staging.1qma.games/' + item?.icon : 'assets/images/invitation.png'"
                   width="50" height="50" style="margin: 0 auto">
@@ -213,7 +217,7 @@
               Choose payment method:
             </mat-label>
             <div class="mt-3 mb-3">
-              <button mat-stroked-button class="me-2" style="border-radius: 10px; height: 56px"
+              <button mat-stroked-button class="m-2" style="border-radius: 10px; height: 56px"
                       (click)="select('coin')"
                       [class]="{'button-selected': isSelected('coin'), 'button-not-selected': !isSelected('coin')}">
                 <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -230,7 +234,7 @@
                 Pay with coin credit
               </button>
 
-              <button mat-stroked-button class="me-2" style="border-radius: 10px; height: 56px"
+              <button mat-stroked-button class="m-2" style="border-radius: 10px; height: 56px"
                       (click)="select('credit')"
                       [class]="{'button-selected': isSelected('credit'), 'button-not-selected': !isSelected('credit')}">
                 <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
