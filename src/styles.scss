@@ -782,6 +782,12 @@ input[type="tel"] {
   }
 }
 
+.result-grid-transaction {
+  .mat-grid-tile-content {
+    justify-content: flex-start !important;
+  }
+}
+
 .pre-line {
   white-space: pre-line;
 }

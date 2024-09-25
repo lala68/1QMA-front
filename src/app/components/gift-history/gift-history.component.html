@@ -16,7 +16,8 @@
 <div *ngIf="!loading">
   <div class="card border-0">
     <div class="w-100 d-flex" *ngFor="let item of [].constructor(4)">
-      <mat-card class="shadow-none gift-card">
+      <mat-card class="shadow-none"
+                [class]="{'gift-card': !generalService.isMobileView, 'gift-card-mobile': generalService.isMobileView}">
         <mat-card-header>
           <svg mat-card-avatar width="25" height="25" viewBox="0 0 25 25" fill="none"
                xmlns="http://www.w3.org/2000/svg">
@@ -46,7 +47,7 @@
             Possible description for title
           </mat-card-subtitle>
         </mat-card-header>
-        <mat-label class="date">
+        <mat-label [class]="{'date': !generalService.isMobileView, 'date-mobile': generalService.isMobileView}">
           3Jun 2024
         </mat-label>
       </mat-card>

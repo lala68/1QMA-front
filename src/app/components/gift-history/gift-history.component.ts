@@ -5,6 +5,7 @@ import {SharedModule} from "../../shared/shared.module";
 import {DaysAgoPipe} from "../../pipes/days-ago.pipe";
 import {TranslateModule} from "@ngx-translate/core";
 import {RouterModule} from "@angular/router";
+import {GeneralService} from "../../services/general/general.service";
 
 @Component({
   selector: 'app-gift-history',
@@ -17,6 +18,6 @@ import {RouterModule} from "@angular/router";
 export class GiftHistoryComponent {
   loading: boolean = false;
 
-  constructor() {
+  constructor(public generalService: GeneralService) {
   }
 }

@@ -3,8 +3,10 @@
   {{'FAQ' | translate}}
 </div>
 <br>
-<div class="card border-0 p-5">
-  <mat-accordion class="example-headers-align shadow-none position-relative w-75 m-auto"
+<div class="card border-0"
+     [class]="{'p-5': !generalService.isMobileView, 'p-2': generalService.isMobileView}">
+  <mat-accordion class="example-headers-align shadow-none position-relative m-auto"
+                 [class]="{'w-75': !generalService.isMobileView, 'w-100': generalService.isMobileView}"
                  *ngFor="let question of faqs; let i=index" hideToggle>
     <mat-expansion-panel class="gray-card shadow-none" *ngIf="question?.isActive"
                          (opened)="panelOpenState[i] = true"
@@ -13,7 +15,7 @@
         <mat-panel-title>
           <mat-card class="shadow-none border-0 bg-transparent">
             <mat-card-header class="pt-0">
-              <mat-card-title
+              <mat-card-title style="white-space: nowrap"
                 class="font-size-14 weight-600">{{question?.question}}
               </mat-card-title>
             </mat-card-header>

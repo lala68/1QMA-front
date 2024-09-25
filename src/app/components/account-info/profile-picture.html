@@ -7,8 +7,9 @@
   </svg>
   &nbsp;{{'Profile picture' | translate}}
 </div>
-<div mat-dialog-content>
-  <div class="d-inline-flex border-bottom w-100 pb-3 position-relative">
+<div mat-dialog-content [style]="generalService.isMobileView ? 'padding: 5px 0 5px 5px;' : ''">
+  <div class=" border-bottom w-100 pb-3 position-relative"
+       [class]="{'d-inline-flex': !generalService.isMobileView, 'd-block': generalService.isMobileView}">
     <div>
       <img class="avatar-bordered"
            [src]="generalService.userObj?.profilePicture ? generalService.userObj?.profilePicture?.startsWith('http') ? generalService.userObj?.profilePicture : configService.url(generalService.userObj?.profilePicture) : 'assets/images/frame.png'"
@@ -16,9 +17,10 @@
       &nbsp;&nbsp;<span
       class="font-size-14 weight-700">{{generalService.userObj?.firstName}} {{generalService.userObj?.lastName}}</span>
     </div>
-    <div class="d-inline-flex position-absolute" style="right: 20px; top: 10px">
+    <div class="" style="right: 20px; top: 10px"
+         [class]="{'d-inline-flex position-absolute': !generalService.isMobileView, 'd-flex': generalService.isMobileView}">
       <button mat-stroked-button color="primary" class="radius" (click)="openAddFilesDialog()"
-              style="border: 1px solid #0B6FEA; width: 148px; height: 47px">
+              style="border: 1px solid #0B6FEA; width: 148px; height: 47px; margin: auto">
         Upload Image
       </button>
       <input #FileSelectInputDialog type="file" (change)="imageProfileInput($event)" hidden/>
@@ -39,7 +41,8 @@
   <br>
 
   <button mat-raised-button color="primary" [disabled]="loadingUpload"
-          (click)="uploadImageFromAssets()" style="width: 386px; height: 58px; display: block; margin: 0 auto">
+          [style]="generalService.isMobileView ? 'width: 100%' : 'width: 386px;'"
+          (click)="uploadImageFromAssets()" style="height: 58px; display: block; margin: 0 auto">
     {{'Save' | translate}}
   </button>
   <br>

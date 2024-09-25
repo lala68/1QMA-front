@@ -5,7 +5,8 @@
 <br>
 <div class="card border-0 p-4" *ngIf="generalService.userObj">
   <form [formGroup]="settingsForm" (ngSubmit)="updateSettings()">
-    <mat-form-field appearance="fill" class="custom-form-field w-50">
+    <mat-form-field appearance="fill" class="custom-form-field"
+                    [class]="{'w-50': !generalService.isMobileView, 'w-100': generalService.isMobileView}">
       <mat-label>{{'Language' | translate}}</mat-label>
       <mat-select [formControlName]="'language'">
         <mat-option *ngFor="let lang of generalService?.clientInit?.languages"
@@ -13,7 +14,8 @@
       </mat-select>
     </mat-form-field>
     <br>
-    <mat-form-field appearance="fill" class="custom-form-field w-50">
+    <mat-form-field appearance="fill" class="custom-form-field"
+                    [class]="{'w-50': !generalService.isMobileView, 'w-100': generalService.isMobileView}">
       <mat-label>{{'Homepage' | translate}}</mat-label>
       <mat-select [formControlName]="'defaultHomePage'">
         <mat-option *ngFor="let hp of generalService?.clientInit?.homePages"
@@ -21,9 +23,10 @@
       </mat-select>
     </mat-form-field>
     <br>
-    <mat-form-field appearance="fill" class="custom-form-field w-50">
+    <mat-form-field appearance="fill" class="custom-form-field"
+                    [class]="{'w-50': !generalService.isMobileView, 'w-100': generalService.isMobileView}">
       <mat-label>{{'Font' | translate}}</mat-label>
-<!--     [ngModelOptions]="{standalone: true}" (selectionChange)="generalService.onFontSelect($event)" (selectionChange)="onFontSelect($event)"  [(ngModel)]="generalService.font"-->
+      <!--     [ngModelOptions]="{standalone: true}" (selectionChange)="generalService.onFontSelect($event)" (selectionChange)="onFontSelect($event)"  [(ngModel)]="generalService.font"-->
       <mat-select [formControlName]="'font'">
         <mat-option *ngFor="let font of availableFonts" [value]="font">{{font}}</mat-option>
       </mat-select>
@@ -35,7 +38,8 @@
       {{error}}
     </div>
     <button mat-raised-button color="primary" type="submit" [disabled]="loading"
-            class="w-50 p-4">
+            class="p-4"
+            [class]="{'w-50': !generalService.isMobileView, 'w-100': generalService.isMobileView}">
       <span>{{'Update' | translate}}</span>
     </button>
   </form>

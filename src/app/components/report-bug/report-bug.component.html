@@ -15,7 +15,8 @@
 <br>
 <div *ngIf="!loading">
   <div class="card border-0">
-    <mat-card class="shadow-none w-60 m-auto p-3">
+    <mat-card class="shadow-none m-auto p-3"
+              [class]="{'w-60': !generalService.isMobileView, 'w-100': generalService.isMobileView}">
       <mat-card-header>
         <img mat-card-avatar src="assets/images/Megaphone.png" width="73" height="73"/>
         <mat-card-title class="font-size-16 weight-600">Encounter an issue?</mat-card-title>
@@ -26,8 +27,10 @@
       <br>
       <mat-card-content>
         <form [formGroup]="reportForm" (ngSubmit)="onSubmit()">
-          <div class="d-flex">
-            <mat-form-field class="custom-form-field w-50" appearance="fill">
+          <div [class]="{'d-flex': !generalService.isMobileView, 'd-block': generalService.isMobileView}">
+            <mat-form-field class="custom-form-field"
+                            [class]="{'w-50': !generalService.isMobileView, 'w-100': generalService.isMobileView}"
+                            appearance="fill">
               <mat-label>{{'Bug Main-Category' | translate}}</mat-label>
               <mat-select [formControlName]="'mainCategory'" (selectionChange)="onMainCategoryChange($event.value)">
                 <mat-option *ngFor="let category of generalService.clientInit?.bugTypes"
@@ -35,7 +38,8 @@
                   {{category?.category}}</mat-option>
               </mat-select>
             </mat-form-field>&nbsp;&nbsp;
-            <mat-form-field class="custom-form-field w-50" appearance="fill">
+            <mat-form-field class="custom-form-field" appearance="fill"
+                            [class]="{'w-50': !generalService.isMobileView, 'w-100': generalService.isMobileView}">
               <mat-label>{{'Bug Sub-Category' | translate}}</mat-label>
               <mat-select [formControlName]="'subCategory'">
                 <mat-option *ngFor="let subCategory of filteredSubCategories" [value]="subCategory._id">
@@ -51,7 +55,9 @@
             <div class="word-counter">{{ wordCount }} {{'Words' | translate}}</div>
           </div>
           <br>
-          <button mat-raised-button color="primary" class="submit-button float-end" [disabled]="!reportForm.valid">
+          <button mat-raised-button color="primary" class="float-end"
+                  [class]="{'submit-buttons': !generalService.isMobileView, 'submit-button-mobile': generalService.isMobileView}"
+                  [disabled]="!reportForm.valid">
             {{'Submit' | translate}}
           </button>
         </form>
