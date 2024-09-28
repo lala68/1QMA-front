@@ -68,9 +68,12 @@ export class DashboardComponent implements OnInit {
     await this.getQuestionsFromFriendsLatestGames();
     this.loading = false;
     setTimeout(async () => {
-      await this.headerComponent.showIntro();   // Header intro
-      await this.sideNavComponent.showIntro();  // Sidebar intro
-      await this.showIntro();              // Main intro
+      if (!this.generalService.clientInit?.user?.hasSeenIntros?.dashboard) {
+        await this.headerComponent.showIntro();   // Header intro
+        await this.sideNavComponent.showIntro();  // Sidebar intro
+        await this.showIntro();              // Main intro
+      }
+
     }, 3000);
   }
 
@@ -223,6 +226,6 @@ export class DashboardComponent implements OnInit {
         position: 'bottom',
       }
     ];
-    await this.intro.showHelp('app-dashboard', steps);
+    await this.intro.showHelp('dashboard', steps);
   }
 }

@@ -106,7 +106,7 @@ export class HeaderComponent implements OnInit {
         position: 'bottom',
       }
     ];
-    await this.intro.showHelp('app-header', steps);
+    await this.intro.showHelp('dashboard', steps);
   }
 }
 

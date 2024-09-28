@@ -85,11 +85,13 @@ export class AppComponent implements OnInit {
 
         if (status == 1) {
           if (user_id) {
+            await Preferences.remove({key: 'account'});
             await Preferences.set({key: 'account', value: JSON.stringify({_id: user_id})});
           }
           await this.authService.isAuthenticated();
           await this.generalService.getUserData();
           this.authService.getUserDetails(this.generalService.userId).then(async user => {
+            await Preferences.remove({key: 'account'});
             await Preferences.set({key: 'account', value: JSON.stringify(user.data)});
             if (user.data.inWaitList) {
               await this.authService.forceToLoginAgain();
@@ -126,6 +128,7 @@ export class AppComponent implements OnInit {
           // alert('else')
           if (this.generalService.userId && !this.generalService.hasCompletedSignup) {
             this.authService.getUserDetails(this.generalService.userId).then(async user => {
+              await Preferences.remove({key: 'account'});
               await Preferences.set({key: 'account', value: JSON.stringify(user.data)});
               if (user.data.inWaitList) {
                 await this.authService.forceToLoginAgain();
@@ -154,6 +157,11 @@ export class AppComponent implements OnInit {
               return this.processHTTPMsgService.handleError(error);
             });
           } else if (this.generalService.userId && this.generalService.hasCompletedSignup) {
+            this.authService.getUserDetails(this.generalService.userId).then(async user => {
+              await Preferences.remove({key: 'account'});
+              await Preferences.set({key: 'account', value: JSON.stringify(user.data)});
+              await this.generalService.getUserData();
+            })
             this.clientService.clientInit().then(async data => {
               this.generalService.clientInit = data.data;
               this.generalService.userObj = (data.data.user);

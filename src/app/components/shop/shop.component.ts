@@ -12,6 +12,7 @@ import {ShopService} from "../../services/shop.service";
 import {SnackbarContentComponent} from "../snackbar-content/snackbar-content.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Preferences} from "@capacitor/preferences";
+import {IntroJsService} from "../../services/introJs/intro-js.service";
 
 @Component({
   selector: 'app-shop',
@@ -35,12 +36,37 @@ export class ShopComponent implements OnInit {
   selected: any;
 
   constructor(public generalService: GeneralService, private processHTTPMsgService: ProcessHTTPMsgService,
-              private shopService: ShopService, private _snackBar: MatSnackBar) {
+              private shopService: ShopService, private _snackBar: MatSnackBar, private intro: IntroJsService,) {
     this.generalService.currentRout = '/shop';
   }
 
   async ngOnInit(): Promise<any> {
     await this.getShops();
+    setTimeout(() => {
+      if (!this.generalService.clientInit?.user?.hasSeenIntros?.shop) {
+        this.showIntro().then(() => {
+        });
+      }
+    }, 3000);
+  }
+
+  async showIntro() {
+    const steps = [
+      {
+        element: '#features',
+        intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+        position: 'bottom',
+      }, {
+        element: '#assets',
+        intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+        position: 'bottom',
+      }, {
+        element: '#features',
+        intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+        position: 'bottom',
+      }
+    ];
+    await this.intro.showHelp('games', steps);
   }
 
   async getShops() {

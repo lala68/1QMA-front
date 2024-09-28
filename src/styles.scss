@@ -955,12 +955,16 @@ input[type="tel"] {
   display: inline !important;
 }
 
-.mat-drawer-content {
-  margin-left: 260px !important;
-}
+//.mat-drawer-content {
+//  margin-left: 260px !important;
+//}
 
 .mobileviewHeaderButtonstoolbarNav {
   display: none !important;
+}
+
+.introjs-helperLayer{
+  opacity: 0.5 !important;
 }
 
 
@@ -1005,6 +1009,7 @@ input[type="tel"] {
     //height: 80px;
     display: block;
     margin-top: 35px;
+    margin-bottom: 50px;
   }
 
   .wizard-card-subheader {
@@ -1108,6 +1113,7 @@ input[type="tel"] {
     z-index: 9999;
     padding: 0;
     width: 100%;
+    background: white !important;
   }
 
   .mobileviewHeaderButtonstoolbarNav {
@@ -1122,9 +1128,9 @@ input[type="tel"] {
     display: none !important;
   }
 
-  .mat-drawer-content {
-    margin-left: 0 !important;
-  }
+  //.mat-drawer-content {
+  //  margin-left: 0 !important;
+  //}
 
   .dashboard-content-default {
     //width: 1042px;

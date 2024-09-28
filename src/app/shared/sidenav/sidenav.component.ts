@@ -28,7 +28,6 @@ export class SidenavComponent implements OnInit {
         console.log(result)
         this.generalService.isMobileView = result.matches;
       });
-    this.showIntro();
   }
 
   async showIntro() {
@@ -55,6 +54,6 @@ export class SidenavComponent implements OnInit {
         position: 'bottom',
       }
     ];
-    await this.intro.showHelp('app-side', steps);
+    await this.intro.showHelp('dashboard', steps);
   }
 }

@@ -3,25 +3,26 @@
   <mat-toolbar class="mobileviewFooterButtonstoolbarNav">
     <button mat-flat-button [routerLink]="['/dashboard']" id="dashboard"
             [class]="generalService.currentRout == '/dashboard' ? 'mat-list-item-selected' : ''"
-            routerLinkActive="active-link" class="w-25">
+            routerLinkActive="active-link" class="w-25 mt-3">
       <img matListItemIcon src="assets/images/home.png" width="25">
       <span class="d-block">Dashboard</span>
     </button>
+    <!--    <button mat-flat-button [routerLink]="['/game-board']" id="games"-->
     <button mat-flat-button [routerLink]="['/games/overview']" id="games"
             [class]="generalService.currentRout == '/games/overview' ? 'mat-list-item-selected' : ''"
-            routerLinkActive="active-link" class="w-25">
+            routerLinkActive="active-link" class="w-25 mt-3">
       <img matListItemIcon src="assets/images/game.png" width="25">
       <span class="d-block">Games</span>
     </button>
     <button mat-flat-button [routerLink]="['/trivia-hub']" id="trivia"
             [class]="generalService.currentRout == '/trivia-hub' ? 'mat-list-item-selected' : ''"
-            routerLinkActive="active-link" class="w-25">
+            routerLinkActive="active-link" class="w-25 mt-3">
       <img matListItemIcon src="assets/images/book-side.png" width="25">
       <span class="d-block">Trivia Hub</span>
     </button>
-    <button mat-flat-button [routerLink]="['/shop']" id="trivia"
+    <button mat-flat-button [routerLink]="['/shop']" id="shop"
             [class]="generalService.currentRout == '/shop' ? 'mat-list-item-selected' : ''"
-            routerLinkActive="active-link" class="w-25">
+            routerLinkActive="active-link" class="w-25 mt-3">
       <img matListItemIcon src="assets/images/shop.png" width="25">
       <span class="d-block">Shop</span>
     </button>

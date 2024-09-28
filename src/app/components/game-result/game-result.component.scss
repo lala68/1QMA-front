@@ -18,6 +18,12 @@
   box-sizing: border-box; /* Ensures padding and border are included in the width calculation */
 }
 
+.container-accordion-item-mobile {
+  flex: 1 1 100%; /* Flex-grow: 1, Flex-shrink: 1, Flex-basis: 50% */
+  padding: 20px;
+  box-sizing: border-box; /* Ensures padding and border are included in the width calculation */
+}
+
 .accordion-num {
   position: absolute;
   top: 40px;

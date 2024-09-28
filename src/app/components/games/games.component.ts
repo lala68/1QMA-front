@@ -141,8 +141,10 @@ export class GamesComponent implements OnInit {
       return this.processHTTPMsgService.handleError(error);
     });
     setTimeout(() => {
-      this.showIntro().then(() => {
-      });
+      if (!this.generalService.clientInit?.user?.hasSeenIntros?.games) {
+        this.showIntro().then(() => {
+        });
+      }
     }, 3000);
 
   }
@@ -175,7 +177,7 @@ export class GamesComponent implements OnInit {
         position: 'bottom',
       }
     ];
-    await this.intro.showHelp('app-games', steps);
+    await this.intro.showHelp('games', steps);
   }
 
   async gotoStepTwo(index: any) {

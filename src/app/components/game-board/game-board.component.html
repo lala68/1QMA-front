@@ -10,8 +10,19 @@
         <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
           {{'Possible description for title' | translate}}
         </mat-card-subtitle>
+        <mat-card-subtitle *ngIf="generalService.isMobileView">
+          <mat-chip mat-raised-button color="primary" class="chip-header-category">
+            <img [src]="'https://api.staging.1qma.games/' + data?.game?.gameCategory?.icon" width="25">
+            <span class="font-size-12 weight-500">{{data?.game?.gameCategory?.name}}</span>
+          </mat-chip>
+          &nbsp; &nbsp;<mat-chip mat-raised-button color="primary" class="chip-header-type">
+          <img src="assets/images/normal-game.png" *ngIf="data?.game?.gameType?.id == 'normal'" width="25">
+          <img src="assets/images/survival-game.png" *ngIf="data?.game?.gameType?.id == 'survival'" width="25">
+          <span class="font-size-12 weight-500">{{data?.game?.gameType?.text}}</span>
+        </mat-chip>
+        </mat-card-subtitle>
       </mat-card-header>
-      <div class="position-absolute top-0 bottom-0 end-10 mt-4">
+      <div class="position-absolute top-0 bottom-0 end-10 mt-4" *ngIf="!generalService.isMobileView">
         <mat-chip mat-raised-button color="primary" class="chip-header-category">
           <img [src]="'https://api.staging.1qma.games/' + data?.game?.gameCategory?.icon" width="25">
           <span class="font-size-12 weight-500">{{data?.game?.gameCategory?.name}}</span>
@@ -88,7 +99,7 @@
         </div>
         <br>
         <br>
-        <div class="d-inline-flex">
+        <div [class]="{'d-inline-flex': !generalService.isMobileView, 'd-block': generalService.isMobileView}">
           <div>
             <mat-card class="shadow-none">
               <mat-card-header>
@@ -256,8 +267,19 @@
         <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
           {{'Possible description for title' | translate}}
         </mat-card-subtitle>
+        <mat-card-subtitle *ngIf="generalService.isMobileView">
+          <mat-chip mat-raised-button color="primary" class="chip-header-category">
+            <img [src]="'https://api.staging.1qma.games/' + data?.game?.gameCategory?.icon" width="25">
+            <span class="font-size-12 weight-500">{{data?.game?.gameCategory?.name}}</span>
+          </mat-chip>
+          &nbsp; &nbsp;<mat-chip mat-raised-button color="primary" class="chip-header-type">
+          <img src="assets/images/normal-game.png" *ngIf="data?.game?.gameType?.id == 'normal'" width="25">
+          <img src="assets/images/survival-game.png" *ngIf="data?.game?.gameType?.id == 'survival'" width="25">
+          <span class="font-size-12 weight-500">{{data?.game?.gameType?.text}}</span>
+        </mat-chip>
+        </mat-card-subtitle>
       </mat-card-header>
-      <div class="position-absolute top-0 bottom-0 end-10 mt-4">
+      <div class="position-absolute top-0 bottom-0 end-10 mt-4" *ngIf="!generalService.isMobileView">
         <mat-chip mat-raised-button color="primary" class="chip-header-category">
           <img [src]="'https://api.staging.1qma.games/' + data?.game?.gameCategory?.icon" width="25">
           <span class="font-size-12 weight-500">{{data?.game?.gameCategory?.name}}</span>
@@ -269,7 +291,8 @@
       </mat-chip>
       </div>
 
-      <mat-card-content class="p-5" style="min-height: 480px">
+      <mat-card-content [class]="{'p-5': !generalService.isMobileView, 'p-2': generalService.isMobileView}"
+                        style="min-height: 480px">
         <div style="display: ruby-text;">
           <mat-spinner *ngIf="loading || !generalService.gameQuestion" [diameter]="30"></mat-spinner>
         </div>
@@ -351,8 +374,19 @@
         <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
           {{'Possible description for title' | translate}}
         </mat-card-subtitle>
+        <mat-card-subtitle *ngIf="generalService.isMobileView">
+          <mat-chip mat-raised-button color="primary" class="chip-header-category">
+            <img [src]="'https://api.staging.1qma.games/' + data?.game?.gameCategory?.icon" width="25">
+            <span class="font-size-12 weight-500">{{data?.game?.gameCategory?.name}}</span>
+          </mat-chip>
+          &nbsp; &nbsp;<mat-chip mat-raised-button color="primary" class="chip-header-type">
+          <img src="assets/images/normal-game.png" *ngIf="data?.game?.gameType?.id == 'normal'" width="25">
+          <img src="assets/images/survival-game.png" *ngIf="data?.game?.gameType?.id == 'survival'" width="25">
+          <span class="font-size-12 weight-500">{{data?.game?.gameType?.text}}</span>
+        </mat-chip>
+        </mat-card-subtitle>
       </mat-card-header>
-      <div class="position-absolute top-0 bottom-0 end-10 mt-4">
+      <div class="position-absolute top-0 bottom-0 end-10 mt-4" *ngIf="!generalService.isMobileView">
         <mat-chip mat-raised-button color="primary" class="chip-header-category">
           <img [src]="'https://api.staging.1qma.games/' + data?.game?.gameCategory?.icon" width="25">
           <span class="font-size-12 weight-500">{{data?.game?.gameCategory?.name}}</span>
@@ -364,13 +398,16 @@
       </mat-chip>
       </div>
 
-      <mat-card-content class="p-5" style="min-height: 480px">
+      <mat-card-content [class]="{'p-5': !generalService.isMobileView, 'p-2': generalService.isMobileView}"
+                        style="min-height: 480px">
         <div style="display: ruby-text;">
           <mat-spinner *ngIf="loading" [diameter]="30"></mat-spinner>
         </div>
         <div *ngIf="!loading">
-          <div class="d-inline-flex w-100">
-            <div class="gray-card p-2" style="width: 100px; height: 40px; margin: 0 auto">
+          <div class="w-100"
+               [class]="{'d-inline-flex': !generalService.isMobileView, 'd-block': generalService.isMobileView}">
+            <div class="gray-card p-2"
+                 [style]="generalService.isMobileView ? 'width: 100px; height: 40px; margin: 0 20px 16px' : 'width: 100px; height: 40px; margin: 0 auto'">
               <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                   d="M17.8408 18.5899H13.8408L9.39081 21.5499C8.73081 21.9899 7.84082 21.5199 7.84082 20.7199V18.5899C4.84082 18.5899 2.84082 16.5899 2.84082 13.5899V7.58984C2.84082 4.58984 4.84082 2.58984 7.84082 2.58984H17.8408C20.8408 2.58984 22.8408 4.58984 22.8408 7.58984V13.5899C22.8408 16.5899 20.8408 18.5899 17.8408 18.5899Z"
@@ -417,8 +454,8 @@
               <!--              generalService?.specificQuestionAnswers?.answers-->
               <div *ngFor="let answer of generalService?.specificQuestionAnswers?.answers; let i = index"
                    class="example-box">
-                <div cdkDrag
-                     style="white-space: pre-line; border: 1px dashed #2C2523; width: 500px; margin: 0 auto;padding: 20px;color: #2C2523;border-radius: 10px;">
+                <div cdkDrag [style]="generalService.isMobileView ? 'width: 200px' : 'width: 500px'"
+                     style="white-space: pre-line; border: 1px dashed #2C2523; margin: 0 auto;padding: 20px;color: #2C2523;border-radius: 10px;">
                   {{answer?.answer}}
                 </div>
                 <div class="rate-index">{{generalService.specificQuestionAnswers?.answers?.length - i}}</div>
@@ -465,8 +502,19 @@
         <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
           {{'Possible description for title' | translate}}
         </mat-card-subtitle>
+        <mat-card-subtitle *ngIf="generalService.isMobileView">
+          <mat-chip mat-raised-button color="primary" class="chip-header-category">
+            <img [src]="'https://api.staging.1qma.games/' + data?.game?.gameCategory?.icon" width="25">
+            <span class="font-size-12 weight-500">{{data?.game?.gameCategory?.name}}</span>
+          </mat-chip>
+          &nbsp; &nbsp;<mat-chip mat-raised-button color="primary" class="chip-header-type">
+          <img src="assets/images/normal-game.png" *ngIf="data?.game?.gameType?.id == 'normal'" width="25">
+          <img src="assets/images/survival-game.png" *ngIf="data?.game?.gameType?.id == 'survival'" width="25">
+          <span class="font-size-12 weight-500">{{data?.game?.gameType?.text}}</span>
+        </mat-chip>
+        </mat-card-subtitle>
       </mat-card-header>
-      <div class="position-absolute top-0 bottom-0 end-10 mt-4">
+      <div class="position-absolute top-0 bottom-0 end-10 mt-4" *ngIf="!generalService.isMobileView">
         <mat-chip mat-raised-button color="primary" class="chip-header-category">
           <img [src]="'https://api.staging.1qma.games/' + data?.game?.gameCategory?.icon" width="25">
           <span class="font-size-12 weight-500">{{data?.game?.gameCategory?.name}}</span>
@@ -478,7 +526,8 @@
       </mat-chip>
       </div>
 
-      <mat-card-content class="p-5" style="min-height: 480px">
+      <mat-card-content [class]="{'p-5': !generalService.isMobileView, 'p-2': generalService.isMobileView}"
+                        style="min-height: 480px">
         <div style="display: ruby-text;">
           <mat-spinner *ngIf="loading" [diameter]="30"></mat-spinner>
         </div>
@@ -493,8 +542,8 @@
             <div cdkDropList class="example-list" (cdkDropListDropped)="dropQuestions($event)">
               <div *ngFor="let question of generalService.allQuestions; let i = index"
                    class="example-box">
-                <div cdkDrag
-                     style="white-space: pre-line; border: 1px dashed #2C2523; width: 500px; margin: 0 auto;padding: 20px;color: #2C2523;border-radius: 10px;">
+                <div cdkDrag [style]="generalService.isMobileView ? 'width: 200px' : 'width: 500px'"
+                     style="white-space: pre-line; border: 1px dashed #2C2523; margin: 0 auto;padding: 20px;color: #2C2523;border-radius: 10px;">
                   <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
                       d="M17.8408 18.5899H13.8408L9.39081 21.5499C8.73081 21.9899 7.84082 21.5199 7.84082 20.7199V18.5899C4.84082 18.5899 2.84082 16.5899 2.84082 13.5899V7.58984C2.84082 4.58984 4.84082 2.58984 7.84082 2.58984H17.8408C20.8408 2.58984 22.8408 4.58984 22.8408 7.58984V13.5899C22.8408 16.5899 20.8408 18.5899 17.8408 18.5899Z"
@@ -540,7 +589,8 @@
   </div>
 </div>
 
-<div class="card p-4 border-0" style="margin: 20px auto 20px; width: 100%"
+<div class="card border-0" style="margin: 20px auto 20px; width: 100%"
+     [class]="{'p-4': !generalService.isMobileView, 'p-2': generalService.isMobileView}"
      *ngIf="generalService.gameStep != 1 && generalService.gameStep != 5">
   <footer>
     <div style=" display: flex; justify-content: space-between; align-items: center;">
@@ -560,18 +610,19 @@
         </mat-label>
       </div>
       <div class="next-button">
-        <app-countdown-timer [duration]="generalService.gameStep == 2 ? generalService.gameInit?.eachStepDurationSeconds :
+        <app-countdown-timer [style]="generalService.isMobileView ? 'position: absolute;top: -12px;right: 25px;' : ''"
+                             [duration]="generalService.gameStep == 2 ? generalService.gameInit?.eachStepDurationSeconds :
 generalService.gameStep == 3 ? generalService.gameInit?.rateAnswersDurationSeconds : generalService.gameInit?.rateQuestionsDurationSeconds"
                              (countdownFinished)="generalService.gameStep == 2 ? handleCountdownSendAnswerFinished() :
                               generalService.gameStep == 3 ? handleCountdownRatingAnswerFinished() : handleCountdownRatingQuestionsFinished()"></app-countdown-timer>
-        <button *ngIf="generalService.gameStep == 2"
+        <button *ngIf="generalService.gameStep == 2 "
                 mat-button
                 color="primary" class="ms-3"
                 (click)="editAnswer()"
                 [disabled]="!generalService.editingAnswer">
           {{'Edit' | translate}}
         </button>
-        <button mat-raised-button color="primary" class="next-step ms-3"
+        <button mat-raised-button color="primary" class="next-step ms-3" *ngIf="!generalService.isMobileView"
                 [disabled]="generalService.gameStep == 2 ?  sendAnswerDisable:
 generalService.gameStep == 3 ? sendRateAnswerDisable : sendRateQuestionsDisable"
                 (click)="generalService.gameStep == 2 ?  sendAnswer():
@@ -581,6 +632,14 @@ generalService.gameStep == 3 ? sendRateAnswer(true) : sendRateQuestions(true)">
         </button>
       </div>
     </div>
+    <button mat-raised-button color="primary" class="w-100" *ngIf="generalService.isMobileView"
+            [disabled]="generalService.gameStep == 2 ?  sendAnswerDisable:
+generalService.gameStep == 3 ? sendRateAnswerDisable : sendRateQuestionsDisable"
+            (click)="generalService.gameStep == 2 ?  sendAnswer():
+generalService.gameStep == 3 ? sendRateAnswer(true) : sendRateQuestions(true)">
+      {{'Next' | translate}}
+      <i class="bi bi-arrow-right"></i>
+    </button>
   </footer>
 </div>
 
@@ -595,8 +654,19 @@ generalService.gameStep == 3 ? sendRateAnswer(true) : sendRateQuestions(true)">
         <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
           {{'Possible description for title' | translate}}
         </mat-card-subtitle>
+        <mat-card-subtitle *ngIf="generalService.isMobileView">
+          <mat-chip mat-raised-button color="primary" class="chip-header-category">
+            <img [src]="'https://api.staging.1qma.games/' + data?.game?.gameCategory?.icon" width="25">
+            <span class="font-size-12 weight-500">{{data?.game?.gameCategory?.name}}</span>
+          </mat-chip>
+          &nbsp; &nbsp;<mat-chip mat-raised-button color="primary" class="chip-header-type">
+          <img src="assets/images/normal-game.png" *ngIf="data?.game?.gameType?.id == 'normal'" width="25">
+          <img src="assets/images/survival-game.png" *ngIf="data?.game?.gameType?.id == 'survival'" width="25">
+          <span class="font-size-12 weight-500">{{data?.game?.gameType?.text}}</span>
+        </mat-chip>
+        </mat-card-subtitle>
       </mat-card-header>
-      <div class="position-absolute top-0 bottom-0 end-10 mt-4">
+      <div class="position-absolute top-0 bottom-0 end-10 mt-4" *ngIf="!generalService.isMobileView">
         <mat-chip mat-raised-button color="primary" class="chip-header-category">
           <img [src]="'https://api.staging.1qma.games/' + data?.game?.gameCategory?.icon" width="25">
           <span class="font-size-12 weight-500">{{data?.game?.gameCategory?.name}}</span>
@@ -608,7 +678,8 @@ generalService.gameStep == 3 ? sendRateAnswer(true) : sendRateQuestions(true)">
       </mat-chip>
       </div>
 
-      <mat-card-content class="p-5" style="min-height: 480px">
+      <mat-card-content [class]="{'p-5': !generalService.isMobileView, 'p-2': generalService.isMobileView}"
+                        style="min-height: 480px">
         <div style="display: ruby-text;">
           <mat-spinner *ngIf="loading" [diameter]="30"></mat-spinner>
         </div>
@@ -643,8 +714,11 @@ generalService.gameStep == 3 ? sendRateAnswer(true) : sendRateQuestions(true)">
           <br>
           <mat-divider class="mt-3"></mat-divider>
           <br>
-          <div class="w-100 d-inline-flex text-center">
-            <div class="w-40 position-relative">
+          <div class="w-100  text-center"
+               [class]="{'d-inline-flex': !generalService.isMobileView, 'd-block': generalService.isMobileView}">
+            <div class="position-relative"
+                 [style]="generalService.isMobileView ? 'margin-top: 120px' : ''"
+                 [class]="{'w-40': !generalService.isMobileView, 'w-100': generalService.isMobileView}">
               <!--              2-->
               <img class="avatar-bordered bg-white"
                    style="position: absolute; left: 100px; bottom: 80px;"
@@ -664,7 +738,7 @@ generalService.gameStep == 3 ? sendRateAnswer(true) : sendRateQuestions(true)">
               <img src="assets/images/Leaderboards.png" width="190" height="65"
                    style="position: absolute; left: 50px; right: 50px; bottom: 20px; margin: 0 auto;"/>
             </div>
-            <div class="w-60">
+            <div [class]="{'w-60': !generalService.isMobileView, 'w-100': generalService.isMobileView}">
               <mat-card class="position-relative d-inline-flex text-start shadow-none">
                 <mat-card-header>
                   <div class="position-relative" style="width: 100px">
@@ -704,7 +778,8 @@ generalService.gameStep == 3 ? sendRateAnswer(true) : sendRateQuestions(true)">
               </mat-card>
               <br>
               <div class="position-relative d-inline-flex m-3 radius"
-                   style="width: 350px; height: 80px; background-color: #EDF9FF">
+                   [style]="generalService.isMobileView ? 'width: 270px' : 'width: 350px;'"
+                   style="height: 80px; background-color: #EDF9FF">
                 <div style="position: absolute; top: 10px;left: 10px; width: 100%;">
                   <div class="font-size-14 weight-600 position-absolute start-0">
                     {{'Level' | translate}}: {{generalService.gameResult?.statistics?.level}}</div>
@@ -715,7 +790,8 @@ generalService.gameStep == 3 ? sendRateAnswer(true) : sendRateQuestions(true)">
                   </div>
                 </div>
                 <mat-progress-bar
-                  style="width: 320px; border-radius: 10px; left: 15px; display: inline-table; position: absolute; top: 40px;"
+                  [style]="generalService.isMobileView ? 'width: 250px' : 'width: 320px;'"
+                  style="border-radius: 10px; left: 15px; display: inline-table; position: absolute; top: 40px;"
                   color="primary"
                   [value]="((generalService.gameResult?.statistics?.totalXP - generalService.gameResult?.statistics?.currentLevelXP) / (generalService.gameResult?.statistics?.xpNeededForNextLevel - generalService.gameResult?.statistics?.currentLevelXP)) * 100"
                   [bufferValue]="100"
@@ -741,8 +817,9 @@ generalService.gameStep == 3 ? sendRateAnswer(true) : sendRateQuestions(true)">
                     {{'Score' | translate}}</b></span>
               </div>
             </mat-card-header>
-            <mat-card-content class="d-inline-flex p-5">
-              <div class="w-50 m-3">
+            <mat-card-content class=" p-5"
+                              [class]="{'d-inline-flex': !generalService.isMobileView, 'd-block': generalService.isMobileView}">
+              <div class="m-3" [class]="{'w-50': !generalService.isMobileView, 'w-100': generalService.isMobileView}">
                 <div class="gray-card w-75 d-inline-flex">
                   <div
                     style="width: 33%; border-top-left-radius: 6px; border-bottom-left-radius: 6px;border-right: 1px solid #E8E2E0"
@@ -768,7 +845,7 @@ generalService.gameStep == 3 ? sendRateAnswer(true) : sendRateQuestions(true)">
                   </div>
                 </div>
               </div>
-              <div class="w-50 m-3">
+              <div class="m-3" [class]="{'w-50': !generalService.isMobileView, 'w-100': generalService.isMobileView}">
                 <mat-label class="font-size-16 weight-800">{{'PERFECT!' | translate}}</mat-label>
                 <br>
                 <mat-label
@@ -792,8 +869,10 @@ generalService.gameStep == 3 ? sendRateAnswer(true) : sendRateQuestions(true)">
                     {{'Score' | translate}}</b></span>
               </div>
             </mat-card-header>
-            <mat-card-content class="d-inline-flex p-5">
-              <div class="w-50 m-auto">
+            <mat-card-content class="p-5"
+                              [class]="{'d-inline-flex': !generalService.isMobileView, 'd-block': generalService.isMobileView}">
+              <div class="m-auto"
+                   [class]="{'w-50': !generalService.isMobileView, 'w-100': generalService.isMobileView}">
                 <div class="gray-card w-75 d-inline-flex mb-1">
                   <div style="width: 33%; margin: auto;" class="text-center">
                     <img src="assets/images/rank-star.png"
@@ -843,7 +922,9 @@ generalService.gameStep == 3 ? sendRateAnswer(true) : sendRateQuestions(true)">
                   </div>
                 </div>
               </div>
-              <div class="w-50 m-3 p-5 bg-white" style="border-radius: 6px; border: 1px solid #E8E2E0"
+              <div class="m-3 p-5 bg-white"
+                   [class]="{'w-50': !generalService.isMobileView, 'w-100': generalService.isMobileView}"
+                   style="border-radius: 6px; border: 1px solid #E8E2E0"
                    *ngIf="!backToCheckpoint && myRank > generalService.gameResult?.statistics?.survival?.avgRank">
                 <mat-label class="font-size-16 weight-800">{{'OH SORRY!' | translate}}</mat-label>
                 <br>
@@ -885,7 +966,8 @@ generalService.gameStep == 3 ? sendRateAnswer(true) : sendRateQuestions(true)">
                 </div>
               </div>
 
-              <div class="w-50 m-3 p-5"
+              <div class="m-3 p-5"
+                   [class]="{'w-50': !generalService.isMobileView, 'w-100': generalService.isMobileView}"
                    *ngIf="myRank <= generalService.gameResult?.statistics?.survival?.avgRank">
                 <mat-label class="font-size-16 weight-800 green-color">GREAT!</mat-label>
                 <br>
@@ -894,7 +976,8 @@ generalService.gameStep == 3 ? sendRateAnswer(true) : sendRateQuestions(true)">
                 </mat-label>
               </div>
 
-              <div class="w-50 m-3 p-5" *ngIf="backToCheckpoint">
+              <div class="m-3 p-5" *ngIf="backToCheckpoint"
+                   [class]="{'w-50': !generalService.isMobileView, 'w-100': generalService.isMobileView}">
                 <mat-label class="font-size-16 weight-800" style="color: #FF0000">{{'OH NO!' | translate}}</mat-label>
                 <br>
                 <mat-label
@@ -908,7 +991,8 @@ generalService.gameStep == 3 ? sendRateAnswer(true) : sendRateQuestions(true)">
                 </mat-label>
               </div>
 
-              <div class="w-50 m-3 p-5" *ngIf="congratulation">
+              <div class="m-3 p-5" *ngIf="congratulation"
+                   [class]="{'w-50': !generalService.isMobileView, 'w-100': generalService.isMobileView}">
                 <mat-label class="font-size-16 weight-800">{{'Congratulations!' | translate}}</mat-label>
                 <br>
                 <mat-label
