@@ -18,7 +18,7 @@ import {LoaderService} from "../../services/loader/loader.service";
 import {ProcessHTTPMsgService} from "../../services/proccessHttpMsg/process-httpmsg.service";
 import translate from "translate";
 import {GamesService} from "../../services/games/games.service";
-import {ExitGame, HeaderComponent} from "../../shared/header/header.component";
+import {AddQuestion, ExitGame, HeaderComponent} from "../../shared/header/header.component";
 import {CharityModalComponent} from "../charity-modal/charity-modal.component";
 import {IntroJsService} from "../../services/introJs/intro-js.service";
 import {SidenavComponent} from "../../shared/sidenav/sidenav.component";
@@ -95,6 +95,16 @@ export class DashboardComponent implements OnInit {
 
   async gotoUserDetail(id: any) {
     await this.router.navigate(['user-detail'], {state: {id: id}});
+  }
+
+  async openAddQuestion() {
+    const dialogRef = this.dialog.open(AddQuestion, {
+      width: '700px'
+    });
+    dialogRef.afterClosed().subscribe(async result => {
+      if (result == 'success') {
+      }
+    });
   }
 
   onSubmit() {

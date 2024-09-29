@@ -1,6 +1,7 @@
 <!--<app-header></app-header>-->
 <br>
-<div class="card p-3 border-0 wizard-header">
+<div class="card border-0 wizard-header"
+     [class]="{'p-3': !generalService.isMobileView, 'p-4': generalService.isMobileView}">
   <img src="assets/images/handshake.png" width="92" height="66">
   <div class="position-absolute text-white" style="left: 120px; top: 25px">
     <div class="font-size-18 weight-700">{{'Lets get to know each other' | translate}}</div>
@@ -249,14 +250,18 @@
             </div>
           </div>
           <br><br><br>
-          <div class="d-inline-block position-relative w-100 mb-4"
+          <div class="position-relative w-100 mb-4"
+               [class]="{'d-inline-block': !generalService.isMobileView, 'd-block': generalService.isMobileView}"
                *ngFor="let item of generalService?.initData?.gameExplanations">
             <div (click)="gotoExplanationDetail(item)" class="pointer-event">
               <!--              https://www.youtube.com/embed/dQw4w9WgXcQ-->
               <iframe [src]="item?.link | safeUrl"
+                      [class]="{'': !generalService.isMobileView, 'd-block': generalService.isMobileView}"
+                      [style]="generalService.isMobileView ? 'width: 100%' : 'width: 192px' "
                       width="192" height="124" frameborder="0" allowfullscreen></iframe>
 
-              <div class="position-absolute" style="left: 200px; top: 0px">
+              <div [class]="{'position-absolute': !generalService.isMobileView, 'position-relative': generalService.isMobileView}"
+                   [style]="!generalService.isMobileView ? 'left: 200px; top: 0px' : 'left: 0; '">
                 <img src="assets/images/normal-game.png" *ngIf="item?.gameType.includes('Normal')" width="22"
                      height="22">
                 <img src="assets/images/survival-game.png" *ngIf="item?.gameType.includes('Survival')"
