@@ -64,10 +64,8 @@
     </mat-card>
   </form>
   <div class="mt-4 text-center">
-    <div role="alert" style="color: #ff5722; margin: 10px 0">
-      {{error}}
-    </div>
     <button mat-raised-button color="primary" type="submit"
+            [disabled]="questionForm.invalid"
             class="w-75 p-4" style="margin: 0 auto" (click)="submit()">
       <span>{{'Add' | translate}}</span>
     </button>

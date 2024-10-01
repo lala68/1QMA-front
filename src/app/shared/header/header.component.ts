@@ -121,12 +121,11 @@ export class HeaderComponent implements OnInit {
 export class AddQuestion {
   questionForm = this._formBuilder.group({
     question: new FormControl('', [Validators.required]),
-    answer: new FormControl('', [Validators.required]),
+    answer: new FormControl('', []),
   });
   wordCount: number = 100;
   wordCountAnswer: number = 100;
   selectedCategory: any = [];
-  error: any = '';
   displayAnswer: boolean = false;
 
   constructor(public dialogRef: MatDialogRef<AddQuestion>, private _formBuilder: FormBuilder,
@@ -153,13 +152,12 @@ export class AddQuestion {
   }
 
   async submit() {
-    this.error = '';
     this.clientService.addQuestion(this.questionForm.value, this.selectedCategory[0]).then(data => {
       if (data.status == 1) {
         this.openDialog(data.message, 'Success');
         this.dialogRef.close();
       } else {
-        this.error = data?.message;
+        this.openDialog(JSON.stringify(data.message), 'Error');
       }
     })
   }

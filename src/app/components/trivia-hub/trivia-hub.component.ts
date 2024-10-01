@@ -94,38 +94,41 @@ export class TriviaHubComponent implements OnInit {
     }
 
     setTimeout(() => {
-      this.showIntro().then(() => {
-      });
+      if (!this.generalService.clientInit?.user?.hasSeenIntros?.triviaHub) {
+        this.showIntro().then(() => {
+        });
+      }
     }, 3000);
   }
 
   async showIntro() {
     const steps = [
       {
-        element: '#questions',
+        element: '#mat-tab-label-0-0',
         intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
         position: 'bottom',
       },
-      // {
-      //   element: '#triviaGames',
-      //   intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
-      //   position: 'bottom',
-      // }, {
-      //   element: '#allQuestions',
-      //   intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
-      //   position: 'bottom',
-      // }, {
-      //   element: '#myQuestions',
-      //   intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
-      //   position: 'bottom',
-      // }, {
-      //   element: '#bookmark',
-      //   intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
-      //   position: 'bottom',
-      // }
+      {
+        element: '#mat-tab-label-0-1',
+        intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+        position: 'bottom',
+      }, {
+        element: '#mat-tab-label-1-0',
+        intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+        position: 'bottom',
+      },
+      {
+        element: '#mat-tab-label-1-1',
+        intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+        position: 'bottom',
+      }, {
+        element: '#mat-tab-label-1-2',
+        intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+        position: 'bottom',
+      }
     ];
 
-    await this.intro.showHelp('app-trivia', steps);
+    await this.intro.showHelp('triviaHub', steps);
   }
 
   async changeQuestions() {

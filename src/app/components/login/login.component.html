@@ -23,9 +23,6 @@
           <i (click)="hide = !hide" [class]="hide? 'bi-eye-slash' : 'bi-eye'"></i>
         </div>
       </mat-form-field>
-      <div role="alert" style="color: #ff5722; margin: 10px 0">
-        {{error}}
-      </div>
       <button mat-raised-button color="primary" type="submit" [disabled]="!loginForm.valid || loading"
               class="w-100 p-4">
         <span>{{'Login' | translate}}</span>

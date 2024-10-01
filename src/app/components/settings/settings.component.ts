@@ -26,7 +26,6 @@ export class SettingsComponent implements OnInit {
     defaultHomePage: [''],
   });
   loading: boolean = false;
-  error: any = '';
   availableFonts: string[] = ['Rokh', 'Exo', 'Anjoman', 'Daal', 'Damavand', 'Dana', 'Farhang', 'Irancell', 'IRANSans',
     'Kohinoor', 'Peyda', 'Pinar'];
 
@@ -51,7 +50,6 @@ export class SettingsComponent implements OnInit {
 
   async updateSettings() {
     this.loading = true;
-    this.error = '';
     this.clientService.updateSettings(this.settingsForm.value, this.generalService.userId).then(async data => {
       if (data.status == 1) {
         await Preferences.remove({key: 'account'});
@@ -67,7 +65,7 @@ export class SettingsComponent implements OnInit {
         this.loading = false;
         this.openDialog(data.message, 'Success');
       } else {
-        this.error = data.message;
+        this.openDialog(JSON.stringify(data.message), 'Error');
       }
     }, error => {
       return this.processHTTPMsgService.handleError(error);

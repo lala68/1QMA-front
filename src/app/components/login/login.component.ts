@@ -15,6 +15,8 @@ import {ClientService} from "../../services/client/client.service";
 import {ConfigService} from "../../services/config/config.service";
 import {io} from "socket.io-client";
 import {GamesService} from "../../services/games/games.service";
+import {SnackbarContentComponent} from "../snackbar-content/snackbar-content.component";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-login',
@@ -31,16 +33,14 @@ export class LoginComponent {
     email: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]),
     password: new FormControl('', [Validators.required]),
   });
-  error: any;
   hide = true;
 
   constructor(private _formBuilder: FormBuilder, private loader: LoaderService, private clientService: ClientService,
               public authService: AuthService, private router: Router, private generalService: GeneralService,
-              public config: ConfigService, private gameService: GamesService) {
+              public config: ConfigService, private gameService: GamesService, private _snackBar: MatSnackBar) {
   }
 
   onSubmit() {
-    this.error = '';
     this.loading = true;
     this.authService.loginWithEmail(this.loginForm.value).then(async data => {
       this.loading = false;
@@ -70,10 +70,22 @@ export class LoginComponent {
           });
         }
       } else if (data?.status == -1) {
-        this.error = data?.message;
+        this.openDialog(JSON.stringify(data.message), 'Error');
       }
-
     })
+  }
+
+  openDialog(message: any, title: any) {
+    this._snackBar.openFromComponent(SnackbarContentComponent, {
+      data: {
+        title: title,
+        message: message
+      },
+      duration: 3000,
+      verticalPosition: 'top',
+      horizontalPosition: 'end',
+      panelClass: title == 'Success' ? 'app-notification-success' : 'app-notification-error'
+    });
   }
 
   async gotoDashboard() {
