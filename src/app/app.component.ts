@@ -166,6 +166,11 @@ export class AppComponent implements OnInit {
               this.generalService.clientInit = data.data;
               this.generalService.userObj = (data.data.user);
               this.translateService.setDefaultLang(this.generalService.userObj?.preferedLanguage?.code);
+              document.documentElement.dir = this.generalService.userObj?.preferedLanguage?.code != 'fa' ? 'ltr' : 'rtl';
+              this.generalService.direction = document.documentElement.dir;
+              const bootstrapRTL = document.getElementById('bootstrapRTL') as HTMLLinkElement;
+              bootstrapRTL.disabled = document.documentElement.dir !== 'rtl';
+
               // this.generalService.updateFontBasedOnLanguage(this.translateService.currentLang);
               // const item = await Preferences.get({ key: 'font' });
               // console.log(item);

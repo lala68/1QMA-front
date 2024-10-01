@@ -157,7 +157,8 @@
       <button mat-raised-button color="primary" class="next-step-game" [disabled]="questionForm.invalid || loading"
               (click)="joinGame()">
         {{'Play and join game' | translate}}
-        <i class="bi bi-arrow-right"></i>
+        <i *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'" class="bi bi-arrow-right"></i>
+        <i  *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" class="bi bi-arrow-left"></i>
       </button>
     </div>
   </div>

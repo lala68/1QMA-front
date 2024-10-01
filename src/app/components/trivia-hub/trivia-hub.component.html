@@ -82,7 +82,7 @@
                        width="42" height="42">
                   <mat-label class="font-size-13 weight-500"
                              style="margin: auto 10px">{{item?.user?.firstName}} {{item?.user?.lastName}}</mat-label>
-                  <mat-label class="font-size-12 weight-500 position-absolute" style="right: 10px; margin: 10px auto">
+                  <mat-label class="font-size-12 weight-500 position-absolute" style="inset-inline-end: 10px; margin: 10px auto">
                     {{item?.createdAt | daysAgo}}
                   </mat-label>
                 </div>
@@ -274,7 +274,7 @@
                        width="42" height="42">
                   <mat-label class="font-size-13 weight-500"
                              style="margin: auto 10px">{{item?.user?.firstName}} {{item?.user?.lastName}}</mat-label>
-                  <mat-label class="font-size-12 weight-500 position-absolute" style="right: 10px; margin: 10px auto">
+                  <mat-label class="font-size-12 weight-500 position-absolute" style="inset-inline-end: 10px; margin: 10px auto">
                     {{item?.createdAt | daysAgo}}
                   </mat-label>
                 </div>
@@ -444,7 +444,7 @@
                        width="42" height="42">
                   <mat-label class="font-size-13 weight-500"
                              style="margin: auto 10px">{{item?.user?.firstName}} {{item?.user?.lastName}}</mat-label>
-                  <mat-label class="font-size-12 weight-500 position-absolute" style="right: 10px; margin: 10px auto">
+                  <mat-label class="font-size-12 weight-500 position-absolute" style="inset-inline-end: 10px; margin: 10px auto">
                     {{item?.createdAt | daysAgo}}
                   </mat-label>
                 </div>
@@ -677,13 +677,13 @@
                     </div>
                     <div class="font-size-14 weight-500 p-2 text-end">
                  <span class="font-size-14 weight-500 position-absolute bottom-0"
-                       style="right: 5px">{{endedGame?.gameType?.text}}</span>
+                       style="inset-inline-end: 5px">{{endedGame?.gameType?.text}}</span>
                       <img src="assets/images/normal-game.png" *ngIf="endedGame?.gameType?.id == 'normal'" width="22"
                            height="22"
-                           class="mb-0 position-absolute" style="top: 25px; right: 55px">
+                           class="mb-0 position-absolute" style="top: 25px; inset-inline-end: 55px">
                       <img src="assets/images/survival-game.png" *ngIf="endedGame?.gameType?.id == 'survival'"
                            width="22" height="22"
-                           class="mb-0 position-absolute" style="top: 25px; right: 55px">
+                           class="mb-0 position-absolute" style="top: 25px; inset-inline-end: 55px">
                     </div>
                   </div>
                   <br>
@@ -765,13 +765,13 @@
                     </div>
                     <div class="font-size-14 weight-500 p-2 text-end">
                  <span class="font-size-14 weight-500 position-absolute bottom-0"
-                       style="right: 5px">{{endedGame?.gameType?.text}}</span>
+                       style="inset-inline-end: 5px">{{endedGame?.gameType?.text}}</span>
                       <img src="assets/images/normal-game.png" *ngIf="endedGame?.gameType?.id == 'normal'" width="22"
                            height="22"
-                           class="mb-0 position-absolute" style="top: 25px; right: 55px">
+                           class="mb-0 position-absolute" style="top: 25px; inset-inline-end: 55px">
                       <img src="assets/images/survival-game.png" *ngIf="endedGame?.gameType?.id == 'survival'"
                            width="22" height="22"
-                           class="mb-0 position-absolute" style="top: 25px; right: 55px">
+                           class="mb-0 position-absolute" style="top: 25px; inset-inline-end: 55px">
                     </div>
                   </div>
                   <br>
@@ -798,8 +798,10 @@
     <div class="w-100 d-flex">
       <mat-card class="shadow-none">
         <mat-card-header>
-          <img src="assets/images/arrow-left.svg" width="24" height="24" (click)="questionStep = 1"
-               style="position: absolute; left: 10px; top: 0; bottom: 0; margin: auto;">
+          <img  *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'" src="assets/images/arrow-left.svg" width="24" height="24" (click)="questionStep = 1"
+               style="position: absolute; inset-inline-start: 10px; top: 0; bottom: 0; margin: auto;">
+          <img  *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" src="assets/images/arrow-right-1.svg" width="24" height="24" (click)="questionStep = 1"
+               style="position: absolute; inset-inline-start: 10px; top: 0; bottom: 0; margin: auto;">
           <div class="ms-2" style="height: 46px"></div>
           <mat-label class="font-size-16 weight-600 ms-4">{{'Question Detail' | translate}}</mat-label>
         </mat-card-header>
@@ -822,12 +824,12 @@
               <mat-label class="font-size-13 weight-500"
                          style="margin: auto 10px">{{questionDetail?.user?.firstName}} {{questionDetail?.user?.lastName}}</mat-label>
               <mat-label *ngIf="!generalService.isMobileView" class="font-size-12 weight-500 position-absolute"
-                         style="right: 10px; margin: 10px auto">
+                         style="inset-inline-end: 10px; margin: 10px auto">
                 {{questionDetail?.createdAt | daysAgo}}
               </mat-label>
             </div>
             <div class="position-absolute"
-                 [style]="!generalService.isMobileView ? 'top: 50px; right: 50px' : 'right: 0px'">
+                 [style]="!generalService.isMobileView ? 'top: 50px; inset-inline-end: 50px' : 'inset-inline-end: 0px'">
               <div class="p-1" style="width: fit-content">
                 <img
                   [src]="configService.url(questionDetail?.category?.icon)"
@@ -942,12 +944,12 @@
                   d="M17.2188 2.81494H7.57875C5.44875 2.81494 3.71875 4.55494 3.71875 6.67494V20.7649C3.71875 22.5649 5.00875 23.3249 6.58875 22.4549L11.4688 19.7449C11.9888 19.4549 12.8287 19.4549 13.3387 19.7449L18.2188 22.4549C19.7987 23.3349 21.0888 22.5749 21.0888 20.7649V6.67494C21.0788 4.55494 19.3488 2.81494 17.2188 2.81494ZM14.8988 12.2149H9.89875C9.48875 12.2149 9.14875 11.8749 9.14875 11.4649C9.14875 11.0549 9.48875 10.7149 9.89875 10.7149H14.8988C15.3088 10.7149 15.6488 11.0549 15.6488 11.4649C15.6488 11.8749 15.3088 12.2149 14.8988 12.2149Z"
                   fill="#2C2523"/>
               </svg>
-              <div class="position-absolute end-0 bottom-0" *ngIf="!generalService.isMobileView">
+              <div class="position-absolute bottom-0" style="inset-inline-end: 0" *ngIf="!generalService.isMobileView">
                 <mat-label>{{questionDetail?.createdAt | date}}</mat-label>
               </div>
             </div>
 
-            <div class=" bottom-0 end-0"
+            <div class="bottom-0" style="inset-inline-end: 0"
                  [class]="{'w-50 position-absolute text-end': !generalService.isMobileView, 'w-100': generalService.isMobileView}">
               <div class="d-inline-flex justify-content-between align-items-center m-1">
                 <div class="p-1 d-flex align-items-center" style="width: fit-content">
@@ -1061,7 +1063,7 @@
                 <br>
                 <br>
                 <mat-card-actions class="position-relative">
-                  <div class="position-absolute end-0 bottom-0 d-flex align-items-center" style="width: fit-content;">
+                  <div class="position-absolute bottom-0 d-flex align-items-center" style="width: fit-content; inset-inline-end: 0">
                     <img src="assets/images/score.png" width="16" height="16">
                     &nbsp;<mat-label class="font-size-14 weight-500 vertical-middle">{{answer?.rate | parsInt}} Score
                   </mat-label>

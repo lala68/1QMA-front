@@ -58,6 +58,10 @@ export class SettingsComponent implements OnInit {
         await Preferences.set({key: 'account', value: JSON.stringify(data.data)});
         await this.generalService.getUserData();
         this.translateService.use(this.generalService.userObj?.preferedLanguage?.code); // If using ngx-translate
+        document.documentElement.dir = this.generalService.userObj?.preferedLanguage?.code != 'fa' ? 'ltr' : 'rtl';
+        this.generalService.direction = document.documentElement.dir;
+        const bootstrapRTL = document.getElementById('bootstrapRTL') as HTMLLinkElement;
+        bootstrapRTL.disabled = document.documentElement.dir !== 'rtl';
         // this.generalService.updateFontBasedOnLanguage(this.generalService.userObj?.preferedLanguage?.code);
         this.generalService.onFontSelect(this.generalService.userObj?.preferedFont)
         this.loading = false;

@@ -105,26 +105,27 @@ export class TriviaHubComponent implements OnInit {
         element: '#questions',
         intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
         position: 'bottom',
-      }, {
-        element: '#triviaGames',
-        intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
-        position: 'bottom',
-      }, {
-        element: '#allQuestions',
-        intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
-        position: 'bottom',
-      }, {
-        element: '#myQuestions',
-        intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
-        position: 'bottom',
-      }, {
-        element: '#bookmark',
-        intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
-        position: 'bottom',
-      }
+      },
+      // {
+      //   element: '#triviaGames',
+      //   intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+      //   position: 'bottom',
+      // }, {
+      //   element: '#allQuestions',
+      //   intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+      //   position: 'bottom',
+      // }, {
+      //   element: '#myQuestions',
+      //   intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+      //   position: 'bottom',
+      // }, {
+      //   element: '#bookmark',
+      //   intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+      //   position: 'bottom',
+      // }
     ];
 
-    // await this.intro.showHelp('app-trivia', steps);
+    await this.intro.showHelp('app-trivia', steps);
   }
 
   async changeQuestions() {

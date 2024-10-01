@@ -17,8 +17,9 @@
       &nbsp;&nbsp;<span
       class="font-size-14 weight-700">{{generalService.userObj?.firstName}} {{generalService.userObj?.lastName}}</span>
     </div>
-    <div class="" style="right: 20px; top: 10px"
-         [class]="{'d-inline-flex position-absolute': !generalService.isMobileView, 'd-flex': generalService.isMobileView}">
+    <div class="" style="inset-inline-end: 20px; top: 10px"
+         [style]="generalService.isMobileView ? '' : 'position: absolute'"
+         [class]="{'d-inline-flex': !generalService.isMobileView, 'd-flex': generalService.isMobileView}">
       <button mat-stroked-button color="primary" class="radius" (click)="openAddFilesDialog()"
               style="border: 1px solid #0B6FEA; width: 148px; height: 47px; margin: auto">
         Upload Image

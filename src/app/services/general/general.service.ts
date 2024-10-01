@@ -46,6 +46,7 @@ export class GeneralService implements OnInit {
   private _onDestroy = new Subject<void>();
   wordCountAnswer: number = 100;
   isMobileView: boolean = false;
+  direction: any = 'ltr';
 
   constructor(private http: HttpClient, private _snackBar: MatSnackBar, private router: Router) {
   }

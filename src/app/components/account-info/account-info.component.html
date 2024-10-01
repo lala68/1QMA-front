@@ -10,7 +10,7 @@
 <div [class]="{'d-inline-flex': !generalService.isMobileView, 'd-block': generalService.isMobileView}" *ngIf="!loading">
   <div class="card border-0 text-center mb-2"
        [class]="{'w-20': !generalService.isMobileView, 'w-100 p-2': generalService.isMobileView}"
-       [style]="generalService.isMobileView ? 'margin-right: 0' : 'margin-right: 1rem; padding: 2rem'"
+       [style]="generalService.isMobileView ? 'margin-inline-end: 0' : 'margin-inline-end: 1rem; padding: 2rem'"
        style="height: 200px" *ngIf="generalService.userObj">
     <div style="margin: 0 auto">
       <mat-spinner *ngIf="loadingUpload" [diameter]="30"></mat-spinner>
@@ -137,12 +137,12 @@
           <img style="margin: 16px;"
                [src]="generalService.userObj?.accountType?.icon ? configService.url(generalService.userObj?.accountType?.icon)  : 'assets/images/base.png'"
                width="80" height="80">
-          <div class="position-absolute" style="left: 100px; top: 30px">
+          <div class="position-absolute" style="inset-inline-start: 100px; top: 30px">
             <div class="font-size-18 weight-700">{{generalService.userObj?.accountType?.name}}</div>
             <mat-label
               class="font-size-16 weight-400">{{'Description' | translate}}</mat-label>
           </div>
-          <div class="position-absolute link-text" style="right: 16px; top: 40%">{{'Change Plan' | translate}}</div>
+          <div class="position-absolute link-text" style="inset-inline-end: 16px; top: 40%">{{'Change Plan' | translate}}</div>
         </div>
       </div>
       <br>

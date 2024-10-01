@@ -2,7 +2,7 @@
 <div style="display: ruby-text;">
   <mat-spinner *ngIf="loading" [diameter]="30"></mat-spinner>
 </div>
-<mat-toolbar *ngIf="generalService.isMobileView" class="mb-3" style="padding-right: 0;background: transparent;">
+<mat-toolbar *ngIf="generalService.isMobileView" class="mb-3" style="padding-inline-end: 0;background: transparent;">
   <button mat-flat-button (click)="openAddQuestion()" id="addQuestion" style="height: 60px"
           [class]="generalService.currentRout == '/shop' ? 'mat-list-item-selected' : ''"
           routerLinkActive="active-link" class="w-30 m-1">
@@ -52,7 +52,7 @@
   </div>
   <div [class]="{'d-flex': !generalService.isMobileView, 'd-block': generalService.isMobileView}">
     <div [class]="{'p-3': !generalService.isMobileView, 'p-1': generalService.isMobileView}"
-         [style]="generalService.isMobileView ? 'width: 100%' : 'border-right: 1px solid #E8E2E0; width: 40%'">
+         [style]="generalService.isMobileView ? 'width: 100%' : 'border-inline-end: 1px solid #E8E2E0; width: 40%'">
       <mat-card class="shadow-none">
         <!--        <img src="assets/images/edit-2.svg" width="16" class="edit-img" [routerLink]="'/account-info'">-->
         <svg width="16" class="edit-img" [routerLink]="'/account-info'" viewBox="0 0 25 25" fill="none"
@@ -87,7 +87,7 @@
             &nbsp;{{remainingDays}}
             {{'Days Left' | translate}}
           </mat-label>
-          <small style="position: absolute; bottom: 5px; left: 165px"
+          <small style="position: absolute; bottom: 5px; inset-inline-start: 165px"
                  class="text-light-color">{{'Renew Automatically' | translate}}</small>
         </mat-card-header>
         <mat-card-header class="pe-1 ps-1" *ngIf="generalService.userObj?.referer">
@@ -120,16 +120,17 @@
                   stroke-linejoin="round"/>
           </svg>
 
-          <div style="position: absolute; bottom: 30px; width: 100%; left: 40px">
+          <div style="position: absolute; bottom: 30px; width: 100%; inset-inline-start: 40px">
             <div class="font-size-14 weight-600 position-absolute start-0">
               {{'Level' | translate}}: {{generalService.userObj?.statistics?.level}}</div>
             <div
-              class="font-size-12 weight-600 position-absolute end-0">{{generalService.userObj?.statistics?.xpNeededForNextLevel - generalService.userObj?.statistics?.totalXP | parsInt}}
+              class="font-size-12 weight-600 position-absolute"
+              style="inset-inline-end: 0">{{generalService.userObj?.statistics?.xpNeededForNextLevel - generalService.userObj?.statistics?.totalXP | parsInt}}
               {{'XP till next level' | translate}}
             </div>
           </div>
           <mat-progress-bar [style]="generalService.isMobileView ? 'width: 250px' : 'width: 320px;'"
-                            style="border-radius: 10px; display: inline-table; position: absolute; bottom: 0; left: 40px"
+                            style="border-radius: 10px; display: inline-table; position: absolute; bottom: 0; inset-inline-start: 40px"
                             color="primary"
                             [value]="((generalService.userObj?.statistics?.totalXP - generalService.userObj?.statistics?.currentLevelXP) / (generalService.userObj?.statistics?.xpNeededForNextLevel - generalService.userObj?.statistics?.currentLevelXP)) * 100"
                             [bufferValue]="100"
@@ -149,7 +150,7 @@
               class="font-size-12 weight-600">{{'XP' | translate}}</b>:
             </div>
             <mat-label class="position-absolute font-size-14 weight-700"
-                       style="padding: 5px;right: 5px">{{generalService.userObj?.statistics?.totalXP | parsInt}}</mat-label>
+                       style="padding: 5px;inset-inline-end: 5px">{{generalService.userObj?.statistics?.totalXP | parsInt}}</mat-label>
           </div>
           <div class="card-games position-relative">
             <!--            <img src="assets/images/star.svg" width="24">-->
@@ -162,7 +163,7 @@
               class="font-size-12 weight-600">{{'Score' | translate}}</b>:
             </div>
             <mat-label class="position-absolute font-size-14 weight-700"
-                       style="padding: 5px; right: 5px">{{generalService.userObj?.statistics?.normal?.totalScore | parsInt}}</mat-label>
+                       style="padding: 5px; inset-inline-end: 5px">{{generalService.userObj?.statistics?.normal?.totalScore | parsInt}}</mat-label>
           </div>
         </div>
 
@@ -189,8 +190,9 @@
             </svg>
 
             <div class="font-size-14 weight-700 position-absolute top-0"
-                 style="padding-left: 5px; left: 30px">{{generalService.userObj?.games?.won}}</div>
-            <mat-label class="position-absolute font-size-12 weight-400 bottom-0" style="padding-left: 5px;left: 30px">
+                 style="padding-inline-start: 5px; inset-inline-start: 30px">{{generalService.userObj?.games?.won}}</div>
+            <mat-label class="position-absolute font-size-12 weight-400 bottom-0"
+                       style="padding-inline-start: 5px;inset-inline-start: 30px">
               {{'Win' | translate}}
             </mat-label>
           </div>
@@ -209,8 +211,9 @@
             </svg>
 
             <div class="font-size-14 weight-700 position-absolute top-0"
-                 style="padding-left: 5px; left: 30px">{{generalService.userObj?.games?.created}}</div>
-            <mat-label class="position-absolute font-size-12 weight-400 bottom-0" style="padding-left: 5px;left: 30px">
+                 style="padding-inline-start: 5px; inset-inline-start: 30px">{{generalService.userObj?.games?.created}}</div>
+            <mat-label class="position-absolute font-size-12 weight-400 bottom-0"
+                       style="padding-inline-start: 5px;inset-inline-start: 30px">
               {{'Created' | translate}}
             </mat-label>
           </div>
@@ -238,8 +241,9 @@
             </svg>
 
             <div class="font-size-14 weight-700 position-absolute top-0"
-                 style="padding-left: 5px; left: 30px">{{generalService.userObj?.games?.played}}</div>
-            <mat-label class="position-absolute font-size-12 weight-400 bottom-0" style="padding-left: 5px;left: 30px">
+                 style="padding-inline-start: 5px; inset-inline-start: 30px">{{generalService.userObj?.games?.played}}</div>
+            <mat-label class="position-absolute font-size-12 weight-400 bottom-0"
+                       style="padding-inline-start: 5px;inset-inline-start: 30px">
               {{'Play' | translate}}
             </mat-label>
           </div>
@@ -263,8 +267,9 @@
             </svg>
 
             <div class="font-size-14 weight-700 position-absolute top-0"
-                 style="padding-left: 5px; left: 30px">{{generalService.userObj?.games?.highScore | parsInt}}</div>
-            <mat-label class="position-absolute font-size-12 weight-400 bottom-0" style="padding-left: 5px;left: 30px">
+                 style="padding-inline-start: 5px; inset-inline-start: 30px">{{generalService.userObj?.games?.highScore | parsInt}}</div>
+            <mat-label class="position-absolute font-size-12 weight-400 bottom-0"
+                       style="padding-inline-start: 5px;inset-inline-start: 30px">
               {{'High Score' | translate}}
             </mat-label>
           </div>
@@ -283,7 +288,8 @@
             <img src="assets/images/coin-gold.png"
                  width="24" height="24">&nbsp;<span>{{generalService.userObj?.assets?.coins?.gold}}</span>
             <div [routerLink]="['/transactions']"
-                 class="link-text font-size-14 weight-500 position-absolute end-0 bottom-10 cursor-pointer">{{'Financial History' | translate}}
+                 class="link-text font-size-14 weight-500 position-absolute bottom-10 cursor-pointer"
+                 style="inset-inline-end: 0">{{'Financial History' | translate}}
               >
             </div>
 
@@ -337,7 +343,7 @@
       </div>
       <br>
       <div *ngIf="!generalService.isMobileView">
-        <mat-grid-list cols="12" rowHeight="50px" class="gray-card">
+        <mat-grid-list cols="12" rowHeight="50px" class="gray-card" [dir]="generalService.direction">
           <mat-grid-tile class="result-grid" [colspan]="1">
             <mat-label class="font-size-14 weight-700">#</mat-label>
           </mat-grid-tile>
@@ -360,7 +366,7 @@
             <mat-label class="font-size-14 weight-700"></mat-label>
           </mat-grid-tile>
         </mat-grid-list>
-        <mat-grid-list *ngFor="let res of topQuestions;let i=index"
+        <mat-grid-list *ngFor="let res of topQuestions;let i=index" [dir]="generalService.direction"
                        [class]="{'border-bottom-gray': i < topQuestions?.length - 1}"
                        cols="12" rowHeight="70px" class="mb-2">
           <mat-grid-tile class="result-grid" [colspan]="1">
@@ -392,12 +398,20 @@
                        style="min-width: 75px; border-radius: 50px !important;">{{res?.score | parsInt}}</mat-label>
           </mat-grid-tile>
           <mat-grid-tile [colspan]="1" (click)="gotoQuestionDetail(res)">
-            <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg"
+            *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'">
               <path
                 d="M9.53223 20.4084L16.0522 13.8884C16.8222 13.1184 16.8222 11.8584 16.0522 11.0884L9.53223 4.56836"
                 stroke="#0B6FEA" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
                 stroke-linejoin="round"/>
             </svg>
+            <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg"
+                 *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'">
+              <path d="M9.2439 11.2694L5.43766 7.75383C4.98816 7.33865 4.98816 6.65926 5.43766 6.24408L9.2439 2.72852"
+                    stroke="#0B6FEA" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                    stroke-linejoin="round"/>
+            </svg>
+
           </mat-grid-tile>
         </mat-grid-list>
       </div>
@@ -463,10 +477,11 @@
       </form>
     </div>
     <br>
-    <div class="d-inline w-100 copy-referrer cursor-pointer"
+    <div class="d-inline w-100 copy-referrer cursor-pointer position-relative"
          [cdkCopyToClipboard]="generalService.userObj?.referCode">
       <div class="d-inline text-start">Referral Code</div>
-      <div class="d-inline text-end float-end"
+      <div class="d-inline text-end position-absolute"
+           style="inset-inline-end: 10px"
            matTooltip="Click to copy in clipboard!"
            [matTooltipPosition]="'above'"
            [matTooltipHideDelay]="1000"
@@ -497,7 +512,8 @@
           {{generalService.userObj?.invitations.length}} / {{generalService.userObj?.maxInvites}} Left Invitations
         </mat-card-title>
         <div [routerLink]="['/shop']"
-             class="link-text font-size-14 weight-500 position-absolute end-0 cursor-pointer">{{'Buy More' | translate}}
+             class="link-text font-size-14 weight-500 position-absolute cursor-pointer"
+             style="inset-inline-end: 0">{{'Buy More' | translate}}
         </div>
       </mat-card-header>
     </mat-card>
@@ -507,7 +523,7 @@
     <mat-list>
       <mat-list-item *ngFor="let invite of generalService.userObj?.invitations">
         <div matListItemIcon style="background: #D9D9D9; border-radius: 50px; width: 40px; height: 40px; margin: 20px">
-          <img src="assets/images/frame.png" width="35" style="padding-left: 5px">
+          <img src="assets/images/frame.png" width="35" style="padding-inline-start: 5px">
         </div>
         <div matListItemTitle>{{invite?.email}}</div>
         <div matListItemLine>{{invite?.createdAt | date}}</div>
@@ -585,7 +601,7 @@
              width="42" height="42">
         <mat-label class="font-size-13 weight-500"
                    style="margin: auto 10px">{{item?.user?.firstName}} {{item?.user?.lastName}}</mat-label>
-        <mat-label class="font-size-12 weight-500 position-absolute" style="right: 10px; margin: 10px auto">
+        <mat-label class="font-size-12 weight-500 position-absolute" style="inset-inline-end: 10px; margin: 10px auto">
           {{item?.endedAt | daysAgo}}
         </mat-label>
       </div>

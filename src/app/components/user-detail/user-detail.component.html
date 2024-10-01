@@ -1,6 +1,8 @@
 <br><br>
 <div class="card border-0 p-4 font-size-16 weight-600">
-  <img src="assets/images/arrow-left.svg" width="24" height="24" (click)="popId()"
+  <img  *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'" src="assets/images/arrow-left.svg" width="24" height="24" (click)="popId()"
+       style="position: absolute; left: 10px; top: 0; bottom: 0; margin: auto;">
+  <img  *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" src="assets/images/arrow-right-1.svg" width="24" height="24" (click)="popId()"
        style="position: absolute; left: 10px; top: 0; bottom: 0; margin: auto;">
   <div class="ms-4">{{'User Detail' | translate}}</div>
 </div>

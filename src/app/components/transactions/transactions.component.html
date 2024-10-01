@@ -21,7 +21,7 @@
 
         <!-- Title Section (Coins:) -->
         <mat-card-title class="card-title-profile-dashboard"
-                        style="flex: 0 0 50%; text-align: start; padding-left: 1rem;">
+                        style="flex: 0 0 50%; text-align: start; padding-inline-start: 1rem;">
           Coins:
         </mat-card-title>
 
@@ -53,7 +53,7 @@
     <div class="w-100 d-flex" *ngFor="let item of data">
       <mat-card class="shadow-none p-3"
                 [class]="{'financial-card': !generalService.isMobileView, 'financial-card-mobile': generalService.isMobileView}">
-        <mat-grid-list cols="12" rowHeight="40px">
+        <mat-grid-list cols="12" rowHeight="40px" [dir]="generalService.direction">
           <mat-grid-tile class="result-grid-transaction text-gray" [colspan]="3">
             <mat-label class="font-size-14 weight-700">{{'Type' | translate}}:</mat-label>
           </mat-grid-tile>
@@ -64,7 +64,7 @@
             <mat-label class="font-size-14 weight-700">{{item?.createdAt | date}}</mat-label>
           </mat-grid-tile>
         </mat-grid-list>
-        <mat-grid-list cols="12" rowHeight="40px">
+        <mat-grid-list cols="12" rowHeight="40px" [dir]="generalService.direction">
           <mat-grid-tile class="result-grid-transaction text-gray" [colspan]="3">
             <mat-label class="font-size-14 weight-700">{{'Description' | translate}}:</mat-label>
           </mat-grid-tile>
@@ -72,7 +72,7 @@
             <mat-label class="font-size-14 weight-700">{{item?.title}}</mat-label>
           </mat-grid-tile>
         </mat-grid-list>
-        <mat-grid-list cols="12" rowHeight="40px">
+        <mat-grid-list cols="12" rowHeight="40px" [dir]="generalService.direction">
           <mat-grid-tile class="result-grid-transaction text-gray" [colspan]="3">
             <mat-label class="font-size-14 weight-700">{{'Amount' | translate}}:</mat-label>
           </mat-grid-tile>
@@ -81,7 +81,7 @@
               class="font-size-14 weight-700">{{item?.coinAmount?.price}} {{item?.coinAmount?.coin}}</mat-label>
           </mat-grid-tile>
         </mat-grid-list>
-        <mat-grid-list cols="12" rowHeight="40px">
+        <mat-grid-list cols="12" rowHeight="40px" [dir]="generalService.direction">
           <mat-grid-tile class="result-grid-transaction text-gray" [colspan]="3">
             <mat-label class="font-size-14 weight-700">{{'New Balance' | translate}}:</mat-label>
           </mat-grid-tile>
@@ -89,7 +89,7 @@
             <mat-label class="font-size-14 weight-700">430 Gold Coin</mat-label>
           </mat-grid-tile>
         </mat-grid-list>
-        <mat-grid-list cols="12" rowHeight="40px" *ngIf="generalService.isMobileView">
+        <mat-grid-list cols="12" rowHeight="40px" [dir]="generalService.direction" *ngIf="generalService.isMobileView">
           <mat-grid-tile class="result-grid-transaction text-gray" [colspan]="5">
             <mat-label class="font-size-14 weight-700">{{item?.createdAt | date}}</mat-label>
           </mat-grid-tile>

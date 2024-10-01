@@ -238,7 +238,7 @@ span.mat-mdc-list-item-unscoped-content.mdc-list-item__primary-text {
 
 input:not(.country-search) {
   bottom: 0px;
-  left: 10px;
+  inset-inline-start: 10px;
 }
 
 .mat-menu-content:not(:empty) {
@@ -257,21 +257,21 @@ input:not(.country-search) {
 
 .back-btn-register {
   position: absolute;
-  left: 20px;
+  inset-inline-start: 20px;
   top: 20px;
 }
 
 .header {
   position: fixed;
   top: 0;
-  left: 0;
+  inset-inline-start: 0;
   width: 100% !important;
   background-color: #fff !important;
   height: 65px !important;
   z-index: 9;
   display: flex !important;
   align-items: center !important;
-  padding-left: 10px !important;
+  padding-inline-start: 10px !important;
 }
 
 .example-spacer {
@@ -298,11 +298,11 @@ input:not(.country-search) {
 }
 
 .end-10 {
-  right: 10px;
+  inset-inline-end: 10px;
 }
 
 .start-10 {
-  left: 10px;
+  inset-inline-start: 10px;
 }
 
 .w-10 {
@@ -330,9 +330,9 @@ input:not(.country-search) {
   text-align: center;
   background: #fff;
   //position: absolute;
-  left: 0;
+  inset-inline-start: 0;
   bottom: 0;
-  right: 0;
+  inset-inline-end: 0;
   border-top: 1px solid #F2EFEE;
   padding-top: 5px;
 }
@@ -412,7 +412,7 @@ input:not(.country-search) {
 .sponsors {
   position: absolute;
   top: 40px;
-  left: 40%;
+  inset-inline-start: 40%;
 }
 
 .sponsor-button {
@@ -468,11 +468,14 @@ button {
 }
 
 .country-selector {
-  left: -15px !important;
+  inset-inline-start: -15px !important;
 }
 
 input[type="tel"] {
-  padding: 0 6px 0 80px !important;
+  padding-top: 0 !important;
+  padding-inline-end: 6px !important;
+  padding-bottom: 0 !important;
+  padding-inline-start: 80px !important;
 }
 
 .cursor-pointer {
@@ -770,14 +773,14 @@ input[type="tel"] {
 .result-grid {
   .mat-grid-tile-content {
     justify-content: flex-start !important;
-    left: 10px
+    inset-inline-start: 10px
   }
 }
 
 .result-grid-mobile {
   .mat-grid-tile-content {
     justify-content: flex-start !important;
-    left: 10px;
+    inset-inline-start: 10px;
     display: grid;
   }
 }
@@ -798,7 +801,7 @@ input[type="tel"] {
 
 .connected-chip {
   span.mdc-evolution-chip__action.mat-mdc-chip-action.mdc-evolution-chip__action--primary.mdc-evolution-chip__action--presentational {
-    padding-left: 5px !important;
+    padding-inline-start: 5px !important;
   }
 }
 
@@ -843,13 +846,13 @@ input[type="tel"] {
 
 .footer-logo {
   position: absolute;
-  right: 30px;
+  inset-inline-end: 30px;
   top: 15px
 }
 
 .sponsor-title-footer {
   position: absolute;
-  left: 40%;
+  inset-inline-start: 40%;
   top: 20px;
 }
 
@@ -943,7 +946,7 @@ input[type="tel"] {
 }
 
 .mat-badge-after .mat-badge-content {
-  left: 35px !important;
+  inset-inline-start: 35px !important;
   top: 10px;
 }
 
@@ -955,15 +958,11 @@ input[type="tel"] {
   display: inline !important;
 }
 
-//.mat-drawer-content {
-//  margin-left: 260px !important;
-//}
-
 .mobileviewHeaderButtonstoolbarNav {
   display: none !important;
 }
 
-.introjs-helperLayer{
+.introjs-helperLayer {
   opacity: 0.5 !important;
 }
 
@@ -990,7 +989,7 @@ input[type="tel"] {
 
   .sponsor-title-footer {
     position: relative;
-    left: 0%;
+    inset-inline-start: 0%;
     top: 20px;
     padding: 15px;
     border-top: 1px solid #F2EFEE;
@@ -1128,10 +1127,6 @@ input[type="tel"] {
   .sideDrawer {
     display: none !important;
   }
-
-  //.mat-drawer-content {
-  //  margin-left: 0 !important;
-  //}
 
   .dashboard-content-default {
     //width: 1042px;

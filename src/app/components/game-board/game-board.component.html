@@ -68,7 +68,7 @@
               <mat-label>{{'waiting' | translate}}</mat-label>
             </div>
             <svg *ngIf="generalService?.userId == data?.game?.gameCreator?._id"
-                 (click)="removeFromInvited(playerNotJoined)" style="position: absolute; right: -30px; top: 10px"
+                 (click)="removeFromInvited(playerNotJoined)" style="position: absolute; inset-inline-end: -30px; top: 10px"
                  width="24" height="24" viewBox="0 0 35 35"
                  fill="none"
                  xmlns="http://www.w3.org/2000/svg">
@@ -444,11 +444,11 @@
           </div>
           <br>
           <div class="w-100 position-relative">
-            <mat-label style="position: absolute; left: 20px; top: -20px; color: #0B6FEA"
+            <mat-label style="position: absolute; inset-inline-start: 20px; top: -20px; color: #0B6FEA"
                        class="font-size-14 weight-600">Excellent
             </mat-label>
             <div
-              style="position: absolute; left: 30px; top: 0; bottom: 0; width: 2px; background-color: #EDF9FF;"></div>
+              style="position: absolute; inset-inline-start: 30px; top: 0; bottom: 0; width: 2px; background-color: #EDF9FF;"></div>
             <!-- Vertical line -->
             <div cdkDropList (cdkDropListDropped)="drop($event)" class="example-list">
               <!--              generalService?.specificQuestionAnswers?.answers-->
@@ -482,7 +482,7 @@
                 </div>
               </div>
             </div>
-            <mat-label style="position: absolute; left: 10px; bottom: -10px; color: #0B6FEA;"
+            <mat-label style="position: absolute; inset-inline-start: 10px; bottom: -10px; color: #0B6FEA;"
                        class="font-size-14 weight-600">{{'Poor' | translate}}
             </mat-label>
           </div>
@@ -533,11 +533,11 @@
         </div>
         <div *ngIf="!loading">
           <div class="w-100 position-relative">
-            <mat-label style="position: absolute; left: 20px; top: -20px; color: #0B6FEA"
+            <mat-label style="position: absolute; inset-inline-start: 20px; top: -20px; color: #0B6FEA"
                        class="font-size-14 weight-600">{{'Excellent' | translate}}
             </mat-label>
             <div
-              style="position: absolute; left: 30px; top: 0; bottom: 0; width: 2px; background-color: #EDF9FF;"></div>
+              style="position: absolute; inset-inline-start: 30px; top: 0; bottom: 0; width: 2px; background-color: #EDF9FF;"></div>
             <!-- Vertical line -->
             <div cdkDropList class="example-list" (cdkDropListDropped)="dropQuestions($event)">
               <div *ngFor="let question of generalService.allQuestions; let i = index"
@@ -579,7 +579,7 @@
                 </div>
               </div>
             </div>
-            <mat-label style="position: absolute; left: 10px; bottom: -10px; color: #0B6FEA;"
+            <mat-label style="position: absolute; inset-inline-start: 10px; bottom: -10px; color: #0B6FEA;"
                        class="font-size-14 weight-600">{{'Poor' | translate}}
             </mat-label>
           </div>
@@ -604,13 +604,13 @@
           </div>
         </div>
         <mat-label class="d-inline-block"
-                   style="margin-left: 90px;">{{'Waiting for' | translate}} {{(submittedAnswer?.numberOfPlayers ? submittedAnswer?.numberOfPlayers : generalService.gameInit?.numberOfPlayers) - submittedAnswer?.numberOfSubmitted}}
+                   style="margin-inline-start: 90px;">{{'Waiting for' | translate}} {{(submittedAnswer?.numberOfPlayers ? submittedAnswer?.numberOfPlayers : generalService.gameInit?.numberOfPlayers) - submittedAnswer?.numberOfSubmitted}}
           {{'of' | translate}} {{(submittedAnswer ? submittedAnswer?.numberOfPlayers : generalService.gameInit?.numberOfPlayers) }}
           {{'players...' | translate}}
         </mat-label>
       </div>
       <div class="next-button">
-        <app-countdown-timer [style]="generalService.isMobileView ? 'position: absolute;top: -12px;right: 25px;' : ''"
+        <app-countdown-timer [style]="generalService.isMobileView ? 'position: absolute;top: -12px;inset-inline-end: 25px;' : ''"
                              [duration]="generalService.gameStep == 2 ? generalService.gameInit?.eachStepDurationSeconds :
 generalService.gameStep == 3 ? generalService.gameInit?.rateAnswersDurationSeconds : generalService.gameInit?.rateQuestionsDurationSeconds"
                              (countdownFinished)="generalService.gameStep == 2 ? handleCountdownSendAnswerFinished() :
@@ -628,7 +628,8 @@ generalService.gameStep == 3 ? sendRateAnswerDisable : sendRateQuestionsDisable"
                 (click)="generalService.gameStep == 2 ?  sendAnswer():
 generalService.gameStep == 3 ? sendRateAnswer(true) : sendRateQuestions(true)">
           {{'Next' | translate}}
-          <i class="bi bi-arrow-right"></i>
+          <i *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'" class="bi bi-arrow-right"></i>
+          <i  *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" class="bi bi-arrow-left"></i>
         </button>
       </div>
     </div>
@@ -638,7 +639,8 @@ generalService.gameStep == 3 ? sendRateAnswerDisable : sendRateQuestionsDisable"
             (click)="generalService.gameStep == 2 ?  sendAnswer():
 generalService.gameStep == 3 ? sendRateAnswer(true) : sendRateQuestions(true)">
       {{'Next' | translate}}
-      <i class="bi bi-arrow-right"></i>
+      <i *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'" class="bi bi-arrow-right"></i>
+      <i  *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" class="bi bi-arrow-left"></i>
     </button>
   </footer>
 </div>
@@ -721,22 +723,22 @@ generalService.gameStep == 3 ? sendRateAnswer(true) : sendRateQuestions(true)">
                  [class]="{'w-40': !generalService.isMobileView, 'w-100': generalService.isMobileView}">
               <!--              2-->
               <img class="avatar-bordered bg-white"
-                   style="position: absolute; left: 100px; bottom: 80px;"
+                   style="position: absolute; inset-inline-start: 100px; bottom: 80px;"
                    [src]="generalService.gameResult?.result?.scoreboard[1]?.profilePicture ? generalService.gameResult?.result?.scoreboard[1]?.profilePicture?.startsWith('http') ? generalService.gameResult?.result?.scoreboard[1]?.profilePicture : configService.url(generalService.gameResult?.result?.scoreboard[1]?.profilePicture) : 'assets/images/frame.png'"
                    width="48">
               <!--              1-->
               <img class="avatar-bordered bg-white"
-                   style="position: absolute; left: 170px; bottom: 90px;"
+                   style="position: absolute; inset-inline-start: 170px; bottom: 90px;"
                    [src]="generalService.gameResult?.result?.scoreboard[0]?.profilePicture ? generalService.gameResult?.result?.scoreboard[0]?.profilePicture?.startsWith('http') ? generalService.gameResult?.result?.scoreboard[0]?.profilePicture : configService.url(generalService.gameResult?.result?.scoreboard[0]?.profilePicture) : 'assets/images/frame.png'"
                    width="48">
               <!--              3-->
               <img class="avatar-bordered bg-white" *ngIf="generalService.gameResult?.result?.scoreboard?.length > 2"
-                   style="position: absolute; right: 100px; bottom: 70px"
+                   style="position: absolute; inset-inline-end: 100px; bottom: 70px"
                    [src]="generalService.gameResult?.result?.scoreboard[2]?.profilePicture ? generalService.gameResult?.result?.scoreboard[2]?.profilePicture?.startsWith('http') ? generalService.gameResult?.result?.scoreboard[2]?.profilePicture : configService.url(generalService.gameResult?.result?.scoreboard[2]?.profilePicture) : 'assets/images/frame.png'"
                    width="48">
 
               <img src="assets/images/Leaderboards.png" width="190" height="65"
-                   style="position: absolute; left: 50px; right: 50px; bottom: 20px; margin: 0 auto;"/>
+                   style="position: absolute; inset-inline-start: 50px; inset-inline-end: 50px; bottom: 20px; margin: 0 auto;"/>
             </div>
             <div [class]="{'w-60': !generalService.isMobileView, 'w-100': generalService.isMobileView}">
               <mat-card class="position-relative d-inline-flex text-start shadow-none">
@@ -745,10 +747,10 @@ generalService.gameStep == 3 ? sendRateAnswer(true) : sendRateQuestions(true)">
                     <img src="assets/images/score.png"
                          width="28" height="28">&nbsp;
                     <div class="font-size-14 weight-800 position-absolute green-color"
-                         style="padding-left: 5px; left: 30px; top: -5px;">
+                         style="padding-inline-start: 5px; inset-inline-start: 30px; top: -5px;">
                       +{{generalService.gameResult?.statistics?.score | parsInt}}</div>
                     <mat-label class="position-absolute font-size-14 weight-500"
-                               style="padding-left: 5px;left: 30px; bottom: -5px;  color: #828282">
+                               style="padding-inline-start: 5px;inset-inline-start: 30px; bottom: -5px;  color: #828282">
                       {{'Score' | translate}}
                     </mat-label>
                   </div>
@@ -756,10 +758,10 @@ generalService.gameStep == 3 ? sendRateAnswer(true) : sendRateQuestions(true)">
                     <img src="assets/images/XP.png"
                          width="28" height="28">&nbsp;
                     <div class="font-size-14 weight-800 position-absolute green-color"
-                         style="padding-left: 5px; left: 30px; top: -5px;">
+                         style="padding-inline-start: 5px; inset-inline-start: 30px; top: -5px;">
                       +{{generalService.gameResult?.statistics?.xp | parsInt}}</div>
                     <mat-label class="position-absolute font-size-14 weight-500"
-                               style="padding-left: 5px;left: 30px; bottom: -5px;  color: #828282">
+                               style="padding-inline-start: 5px;inset-inline-start: 30px; bottom: -5px;  color: #828282">
                       {{'XP' | translate}}
                     </mat-label>&nbsp;&nbsp;&nbsp;&nbsp;
                   </div>
@@ -767,10 +769,10 @@ generalService.gameStep == 3 ? sendRateAnswer(true) : sendRateQuestions(true)">
                     <img src="assets/images/coin-bronze.png"
                          width="28" height="28">&nbsp;
                     <div class="font-size-14 weight-800 position-absolute green-color"
-                         style="padding-left: 5px; left: 30px; top: -5px;">
+                         style="padding-inline-start: 5px; inset-inline-start: 30px; top: -5px;">
                       +{{generalService.gameResult?.statistics?.reward?.bronze}}</div>
                     <mat-label class="position-absolute font-size-14 weight-500"
-                               style="padding-left: 5px;left: 30px; bottom: -5px; color: #828282">
+                               style="padding-inline-start: 5px;inset-inline-start: 30px; bottom: -5px; color: #828282">
                       {{'Bronze' | translate}}
                     </mat-label>
                   </div>
@@ -780,24 +782,24 @@ generalService.gameStep == 3 ? sendRateAnswer(true) : sendRateQuestions(true)">
               <div class="position-relative d-inline-flex m-3 radius"
                    [style]="generalService.isMobileView ? 'width: 270px' : 'width: 350px;'"
                    style="height: 80px; background-color: #EDF9FF">
-                <div style="position: absolute; top: 10px;left: 10px; width: 100%;">
+                <div style="position: absolute; top: 10px;inset-inline-start: 10px; width: 100%;">
                   <div class="font-size-14 weight-600 position-absolute start-0">
                     {{'Level' | translate}}: {{generalService.gameResult?.statistics?.level}}</div>
                   <div
                     class="font-size-12 weight-600 position-absolute"
-                    style="right: 20px">{{generalService.gameResult?.statistics?.xpNeededForNextLevel - generalService.gameResult?.statistics?.totalXP | parsInt}}
+                    style="inset-inline-end: 20px">{{generalService.gameResult?.statistics?.xpNeededForNextLevel - generalService.gameResult?.statistics?.totalXP | parsInt}}
                     {{'XP till next level' | translate}}
                   </div>
                 </div>
                 <mat-progress-bar
                   [style]="generalService.isMobileView ? 'width: 250px' : 'width: 320px;'"
-                  style="border-radius: 10px; left: 15px; display: inline-table; position: absolute; top: 40px;"
+                  style="border-radius: 10px; inset-inline-start: 15px; display: inline-table; position: absolute; top: 40px;"
                   color="primary"
                   [value]="((generalService.gameResult?.statistics?.totalXP - generalService.gameResult?.statistics?.currentLevelXP) / (generalService.gameResult?.statistics?.xpNeededForNextLevel - generalService.gameResult?.statistics?.currentLevelXP)) * 100"
                   [bufferValue]="100"
                   mode="determinate"></mat-progress-bar>
                 <div
-                  class="font-size-14 weight-600 position-absolute bottom-10" style="left: 10px">
+                  class="font-size-14 weight-600 position-absolute bottom-10" style="inset-inline-start: 10px">
                   {{'Total XP' | translate}}: {{generalService.gameResult?.statistics?.totalXP | parsInt}}
                 </div>
               </div>
@@ -1037,17 +1039,17 @@ generalService.gameStep == 3 ? sendRateAnswer(true) : sendRateQuestions(true)">
           <mat-grid-list *ngFor="let res of generalService.gameResult?.result?.scoreboard;let i=index"
                          cols="12" rowHeight="50px" class="gray-card mb-2">
             <img *ngIf="i == 0"
-                 style="position: absolute; left: -40px; top: 5px"
+                 style="position: absolute; inset-inline-start: -40px; top: 5px"
                  src="assets/images/rank-1.png"
                  width="36">
             <!--              1-->
             <img *ngIf="i == 1"
-                 style="position: absolute; left: -40px; top: 5px"
+                 style="position: absolute; inset-inline-start: -40px; top: 5px"
                  src="assets/images/rank-2.png"
                  width="36">
             <!--              3-->
             <img *ngIf="i == 2"
-                 style="position: absolute; left: -40px; top: 5px"
+                 style="position: absolute; inset-inline-start: -40px; top: 5px"
                  src="assets/images/rank-3.png"
                  width="36">
             <mat-grid-tile class="result-grid" [colspan]="1">
@@ -1103,7 +1105,7 @@ generalService.gameStep == 3 ? sendRateAnswer(true) : sendRateQuestions(true)">
             <mat-expansion-panel class="gray-card shadow-none"
                                  (opened)="panelOpenState[i] = true"
                                  (closed)="panelOpenState[i] = false">
-              <mat-expansion-panel-header style="height: 120px; padding-left: 0">
+              <mat-expansion-panel-header style="height: 120px; padding-inline-start: 0">
                 <mat-panel-title>
                   <mat-card class="shadow-none border-0 bg-transparent">
                     <mat-card-header>

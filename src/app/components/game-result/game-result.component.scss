@@ -4,7 +4,7 @@
 }
 
 .example-headers-align .mat-mdc-form-field + .mat-mdc-form-field {
-  margin-left: 8px;
+  margin-inline-start: 8px;
 }
 
 .container-accordion {
@@ -27,7 +27,7 @@
 .accordion-num {
   position: absolute;
   top: 40px;
-  left: -35px;
+  inset-inline-start: -35px;
   width: 32px;
   height: 32px;
   text-align: center;

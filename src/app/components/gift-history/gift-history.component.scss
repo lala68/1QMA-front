@@ -1,6 +1,6 @@
 .date {
   position: absolute !important;
-  right: 16px;
+  inset-inline-end: 16px;
   bottom: 0;
   top: 0;
   margin: auto;
@@ -8,7 +8,7 @@
   align-items: center;
 }
 .date-mobile {
-  margin-left: 50px;
+  margin-inline-start: 50px;
 }
 
 .gift-card {

@@ -145,7 +145,7 @@ export class GamesComponent implements OnInit {
         this.showIntro().then(() => {
         });
       }
-    }, 3000);
+    }, 4000);
 
   }
 
@@ -544,7 +544,7 @@ export class JoiningGame {
   questionId: any;
 
   constructor(private _formBuilder: FormBuilder, public dialogRef: MatDialogRef<JoiningGame>, public configService: ConfigService,
-              public dialog: MatDialog, private gameService: GamesService, private generalService: GeneralService,
+              public dialog: MatDialog, private gameService: GamesService, public generalService: GeneralService,
               @Inject(MAT_DIALOG_DATA) public data: any, private router: Router, private _snackBar: MatSnackBar) {
   }
 

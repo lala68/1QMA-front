@@ -78,7 +78,8 @@
         </div>
       </div>
     </mat-drawer>
-    <mat-drawer-content>
+    <mat-drawer-content style="margin-left: 0; "
+                        [style]="generalService.isMobileView ? 'margin-inline-start: 0px;' : generalService.userId && generalService.hasCompletedSignup ? 'margin-inline-start: 260px;' : 'margin-inline-start: 0px;'">
       <div class="border-0"
            [class]="{'dashboard-content-default' : generalService.hasCompletedSignup && !generalService.startingGame, 'dashboard-content-game-board' : generalService.hasCompletedSignup && generalService.startingGame, '' : !generalService.hasCompletedSignup }">
         <!--      <div class="border-0" [class]="{'dashboard-content' : !generalService.hasCompletedSignup, '' : !generalService.hasCompletedSignup }">-->

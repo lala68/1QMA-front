@@ -11,7 +11,7 @@
     <mat-expansion-panel class="gray-card shadow-none" *ngIf="question?.isActive"
                          (opened)="panelOpenState[i] = true"
                          (closed)="panelOpenState[i] = false">
-      <mat-expansion-panel-header style="height: 80px; padding-left: 0">
+      <mat-expansion-panel-header style="height: 80px; padding-inline-start: 0">
         <mat-panel-title>
           <mat-card class="shadow-none border-0 bg-transparent">
             <mat-card-header class="pt-0">
@@ -21,7 +21,7 @@
             </mat-card-header>
           </mat-card>
         </mat-panel-title>
-        <mat-panel-description style="min-width: 20%">
+        <mat-panel-description style="min-width: 4%; position: absolute; inset-inline-end: 0px; top:0; bottom:0">
           <mat-icon class="position-absolute end-10 color-black" *ngIf="!panelOpenState[i]">add_circle
           </mat-icon>
           <mat-icon class="position-absolute end-10 color-black" *ngIf="panelOpenState[i]">remove_circle

@@ -74,7 +74,7 @@ export class DashboardComponent implements OnInit {
         await this.showIntro();              // Main intro
       }
 
-    }, 3000);
+    }, 5000);
   }
 
   calculateRemainingDays(): void {
