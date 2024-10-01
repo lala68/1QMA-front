@@ -111,11 +111,17 @@
                     </mat-label>
                   </mat-grid-tile>
                   <mat-grid-tile [colspan]="1" (click)="gotoResult(res?.gameId)">
-                    <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'" width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path
                         d="M9.53223 20.4084L16.0522 13.8884C16.8222 13.1184 16.8222 11.8584 16.0522 11.0884L9.53223 4.56836"
                         stroke="#0B6FEA" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
                         stroke-linejoin="round"/>
+                    </svg>
+                    <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg"
+                         *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'">
+                      <path d="M9.2439 11.2694L5.43766 7.75383C4.98816 7.33865 4.98816 6.65926 5.43766 6.24408L9.2439 2.72852"
+                            stroke="#0B6FEA" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                            stroke-linejoin="round"/>
                     </svg>
                   </mat-grid-tile>
                 </mat-grid-list>
@@ -195,11 +201,17 @@
                     </mat-label>
                   </mat-grid-tile>
                   <mat-grid-tile [colspan]="1" (click)="gotoResult(res?.gameId)">
-                    <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'" width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path
                         d="M9.53223 20.4084L16.0522 13.8884C16.8222 13.1184 16.8222 11.8584 16.0522 11.0884L9.53223 4.56836"
                         stroke="#0B6FEA" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
                         stroke-linejoin="round"/>
+                    </svg>
+                    <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg"
+                         *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'">
+                      <path d="M9.2439 11.2694L5.43766 7.75383C4.98816 7.33865 4.98816 6.65926 5.43766 6.24408L9.2439 2.72852"
+                            stroke="#0B6FEA" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                            stroke-linejoin="round"/>
                     </svg>
                   </mat-grid-tile>
                 </mat-grid-list>
@@ -522,11 +534,17 @@
                       </div>
                     </mat-grid-tile>
                     <mat-grid-tile [colspan]="1" (click)="joinToGame(res?.code)">
-                      <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <svg *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'" width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
                           d="M9.53223 20.4084L16.0522 13.8884C16.8222 13.1184 16.8222 11.8584 16.0522 11.0884L9.53223 4.56836"
                           stroke="#0B6FEA" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
                           stroke-linejoin="round"/>
+                      </svg>
+                      <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg"
+                           *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'">
+                        <path d="M9.2439 11.2694L5.43766 7.75383C4.98816 7.33865 4.98816 6.65926 5.43766 6.24408L9.2439 2.72852"
+                              stroke="#0B6FEA" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                              stroke-linejoin="round"/>
                       </svg>
                     </mat-grid-tile>
                   </mat-grid-list>
@@ -563,11 +581,17 @@
                       </div>
                     </mat-grid-tile>
                     <mat-grid-tile [colspan]="1" (click)="gotoResult(res?._id)">
-                      <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <svg *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'" width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
                           d="M9.53223 20.4084L16.0522 13.8884C16.8222 13.1184 16.8222 11.8584 16.0522 11.0884L9.53223 4.56836"
                           stroke="#0B6FEA" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
                           stroke-linejoin="round"/>
+                      </svg>
+                      <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg"
+                           *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'">
+                        <path d="M9.2439 11.2694L5.43766 7.75383C4.98816 7.33865 4.98816 6.65926 5.43766 6.24408L9.2439 2.72852"
+                              stroke="#0B6FEA" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                              stroke-linejoin="round"/>
                       </svg>
                     </mat-grid-tile>
                   </mat-grid-list>

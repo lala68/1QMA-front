@@ -1,9 +1,9 @@
 <br><br>
 <div class="card border-0 p-4 font-size-16 weight-600">
   <img  *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'" src="assets/images/arrow-left.svg" width="24" height="24" (click)="popId()"
-       style="position: absolute; left: 10px; top: 0; bottom: 0; margin: auto;">
+       style="position: absolute; inset-inline-start: 10px; top: 0; bottom: 0; margin: auto;">
   <img  *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" src="assets/images/arrow-right-1.svg" width="24" height="24" (click)="popId()"
-       style="position: absolute; left: 10px; top: 0; bottom: 0; margin: auto;">
+       style="position: absolute; inset-inline-start: 10px; top: 0; bottom: 0; margin: auto;">
   <div class="ms-4">{{'User Detail' | translate}}</div>
 </div>
 <br>
@@ -35,17 +35,17 @@
               stroke-linejoin="round"/>
       </svg>
 
-      <div style="position: absolute; bottom: 30px; width: 90%; left: 40px">
+      <div style="position: absolute; bottom: 30px; width: 90%; inset-inline-start: 40px">
         <div class="font-size-14 weight-600 position-absolute start-0">
           {{'Level' | translate}}: {{user?.statistics?.level}}</div>
         <div
-          class="font-size-12 weight-600 position-absolute end-0">{{user?.statistics?.xpNeededForNextLevel - user?.statistics?.totalXP | parsInt}}
+          class="font-size-12 weight-600 position-absolute" style="inset-inline-end: 0">{{user?.statistics?.xpNeededForNextLevel - user?.statistics?.totalXP | parsInt}}
           {{'XP till next level' | translate}}
         </div>
       </div>
 
       <mat-progress-bar [style]="generalService.isMobileView ? 'width: 250px' : 'width: 320px;'"
-                        style="border-radius: 10px; display: inline-table; position: absolute; bottom: 0; left: 40px"
+                        style="border-radius: 10px; display: inline-table; position: absolute; bottom: 0; inset-inline-start: 40px"
                         color="primary"
                         [value]="((user?.statistics?.totalXP - user?.statistics?.currentLevelXP) / (user?.statistics?.xpNeededForNextLevel - user?.statistics?.currentLevelXP)) * 100"
                         [bufferValue]="100"
@@ -64,7 +64,7 @@
           class="font-size-12 weight-600">{{'XP' | translate}}</b>:
         </div>
         <mat-label class="position-absolute font-size-14 weight-700"
-                   style="padding: 5px;right: 5px">{{user?.statistics?.totalXP | parsInt}}</mat-label>
+                   style="padding: 5px;inset-inline-end: 5px">{{user?.statistics?.totalXP | parsInt}}</mat-label>
       </div>
       <div class="card-games position-relative">
         <!--        <img src="assets/images/star.svg" width="24">-->
@@ -78,7 +78,7 @@
           class="font-size-12 weight-600">{{'Score' | translate}}</b>:
         </div>
         <mat-label class="position-absolute font-size-14 weight-700"
-                   style="padding: 5px; right: 5px">{{user?.statistics?.normal?.totalScore | parsInt}}</mat-label>
+                   style="padding: 5px; inset-inline-end: 5px">{{user?.statistics?.normal?.totalScore | parsInt}}</mat-label>
       </div>
     </div>
 
@@ -105,9 +105,9 @@
         </svg>
 
         <div class="font-size-14 weight-700 position-absolute top-0"
-             style="padding-left: 5px; left: 30px">{{user?.games?.won}}</div>
+             style="padding-inline-start: 5px; inset-inline-start: 30px">{{user?.games?.won}}</div>
         <mat-label class="position-absolute font-size-12 weight-400 bottom-0"
-                   style="padding-left: 5px;left: 30px">{{'Win' | translate}}
+                   style="padding-inline-start: 5px;inset-inline-start: 30px">{{'Win' | translate}}
         </mat-label>
       </div>
       <div class="card-games-small position-relative">
@@ -124,8 +124,8 @@
         </svg>
 
         <div class="font-size-14 weight-700 position-absolute top-0"
-             style="padding-left: 5px; left: 30px">{{user?.games?.created}}</div>
-        <mat-label class="position-absolute font-size-12 weight-400 bottom-0" style="padding-left: 5px;left: 30px">
+             style="padding-inline-start: 5px; inset-inline-start: 30px">{{user?.games?.created}}</div>
+        <mat-label class="position-absolute font-size-12 weight-400 bottom-0" style="padding-inline-start: 5px;inset-inline-start: 30px">
           {{'Created' | translate}}
         </mat-label>
       </div>
@@ -153,9 +153,9 @@
         </svg>
 
         <div class="font-size-14 weight-700 position-absolute top-0"
-             style="padding-left: 5px; left: 30px">{{user?.games?.played}}</div>
+             style="padding-inline-start: 5px; inset-inline-start: 30px">{{user?.games?.played}}</div>
         <mat-label class="position-absolute font-size-12 weight-400 bottom-0"
-                   style="padding-left: 5px;left: 30px">{{'Play' | translate}}
+                   style="padding-inline-start: 5px;inset-inline-start: 30px">{{'Play' | translate}}
         </mat-label>
       </div>
       <div class="card-games-small position-relative">
@@ -176,9 +176,9 @@
         </svg>
 
         <div class="font-size-14 weight-700 position-absolute top-0"
-             style="padding-left: 5px; left: 30px">{{user?.games?.highScore | parsInt}}</div>
+             style="padding-inline-start: 5px; inset-inline-start: 30px">{{user?.games?.highScore | parsInt}}</div>
         <mat-label class="position-absolute font-size-12 weight-400 bottom-0"
-                   style="padding-left: 5px;left: 30px">{{'High Score' | translate}}
+                   style="padding-inline-start: 5px;inset-inline-start: 30px">{{'High Score' | translate}}
         </mat-label>
       </div>
     </div>
@@ -243,13 +243,13 @@
           </div>
           <div class="font-size-14 weight-500 p-2 text-end">
                  <span class="font-size-14 weight-500 position-absolute bottom-0"
-                       style="right: 5px">{{endedGame?.gameType?.text}}</span>
+                       style="inset-inline-end: 5px">{{endedGame?.gameType?.text}}</span>
             <img src="assets/images/normal-game.png" *ngIf="endedGame?.gameType?.id == 'normal'" width="22"
                  height="22"
-                 class="mb-0 position-absolute" style="top: 25px; right: 55px">
+                 class="mb-0 position-absolute" style="top: 25px; inset-inline-end: 55px">
             <img src="assets/images/survival-game.png" *ngIf="endedGame?.gameType?.id == 'survival'"
                  width="22" height="22"
-                 class="mb-0 position-absolute" style="top: 25px; right: 55px">
+                 class="mb-0 position-absolute" style="top: 25px; inset-inline-end: 55px">
           </div>
         </div>
         <br>
