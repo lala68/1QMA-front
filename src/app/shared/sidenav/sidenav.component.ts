@@ -3,6 +3,8 @@ import {GeneralService} from "../../services/general/general.service";
 import {ConfigService} from "../../services/config/config.service";
 import {IntroJsService} from "../../services/introJs/intro-js.service";
 import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
+import {AddQuestion} from "../header/header.component";
+import {MatDialog} from "@angular/material/dialog";
 
 
 @Component({
@@ -11,8 +13,9 @@ import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
   styleUrls: ['./sidenav.component.scss']
 })
 export class SidenavComponent implements OnInit {
+  isFabOpen = false;
 
-  constructor(private intro: IntroJsService, private observer: BreakpointObserver,
+  constructor(private intro: IntroJsService, private observer: BreakpointObserver, public dialog: MatDialog,
               public generalService: GeneralService, public configService: ConfigService) {
   }
 
@@ -55,5 +58,19 @@ export class SidenavComponent implements OnInit {
       }
     ];
     await this.intro.showHelp('dashboard', steps);
+  }
+
+  toggleFab() {
+    this.isFabOpen = !this.isFabOpen;
+  }
+
+  async openAddQuestion() {
+    const dialogRef = this.dialog.open(AddQuestion, {
+      width: '700px'
+    });
+    dialogRef.afterClosed().subscribe(async result => {
+      if (result == 'success') {
+      }
+    });
   }
 }

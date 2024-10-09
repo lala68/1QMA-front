@@ -127,11 +127,11 @@
       <div class="d-block">
         <div class="d-inline-block">
           <img src="assets/images/coin-bronze.png" width="25">
-          &nbsp;&nbsp;<span class="font-size-14 weight-600">5 {{'Bronze' | translate}}</span>
+          &nbsp;&nbsp;<span class="font-size-14 weight-600 ">5 {{'Bronze' | translate}}</span>
         </div>
-        <div class="float-end">
+        <div [class]="{'': !generalService.isMobileView, 'd-flex align-items-center': generalService.isMobileView}">
           <button (click)="importQuestion(item.question, item._id)" mat-stroked-button color="primary"
-                  class="me-2 radius"
+                  class="m-2 radius"
                   style="border: 1px solid #0B6FEA">
             {{'Import Question' | translate}}
           </button>

@@ -68,7 +68,8 @@
               <mat-label>{{'waiting' | translate}}</mat-label>
             </div>
             <svg *ngIf="generalService?.userId == data?.game?.gameCreator?._id"
-                 (click)="removeFromInvited(playerNotJoined)" style="position: absolute; inset-inline-end: -30px; top: 10px"
+                 (click)="removeFromInvited(playerNotJoined)"
+                 style="position: absolute; inset-inline-end: -30px; top: 10px"
                  width="24" height="24" viewBox="0 0 35 35"
                  fill="none"
                  xmlns="http://www.w3.org/2000/svg">
@@ -106,7 +107,8 @@
                 <mat-card-title class="font-size-16 weight-600">{{'Game link:' | translate}}</mat-card-title>
               </mat-card-header>
               <mat-card-content class="d-inline-flex">
-                <div class="copy-referrer cursor-pointer">
+                <div class="copy-referrer cursor-pointer"
+                     [style]="generalService.isMobileView ? 'max-width: 200px;min-width: 200px;white-space: pre;overflow: hidden;' : ''">
                   <div class="d-inline text-start">{{data?.game?.gameLink}}</div>
                 </div>
                 &nbsp;
@@ -593,7 +595,8 @@
      [class]="{'p-4': !generalService.isMobileView, 'p-2': generalService.isMobileView}"
      *ngIf="generalService.gameStep != 1 && generalService.gameStep != 5">
   <footer>
-    <div style=" display: flex; justify-content: space-between; align-items: center;">
+    <div style=" display: flex; justify-content: space-between; align-items: center;"
+         [style]="generalService.isMobileView ? 'margin-bottom: 20px;margin-top: 10px;' : ''">
       <div class="d-flex justify-content-start">
         <div class="position-relative">
           <div *ngFor="let ply of generalService.players; let i=index" class="d-inline-block">
@@ -610,10 +613,11 @@
         </mat-label>
       </div>
       <div class="next-button">
-        <app-countdown-timer [style]="generalService.isMobileView ? 'position: absolute;top: -12px;inset-inline-end: 25px;' : ''"
-                             [duration]="generalService.gameStep == 2 ? generalService.gameInit?.eachStepDurationSeconds :
+        <app-countdown-timer
+          [style]="generalService.isMobileView ? 'position: absolute;top: -12px;inset-inline-end: 25px;' : ''"
+          [duration]="generalService.gameStep == 2 ? generalService.gameInit?.eachStepDurationSeconds :
 generalService.gameStep == 3 ? generalService.gameInit?.rateAnswersDurationSeconds : generalService.gameInit?.rateQuestionsDurationSeconds"
-                             (countdownFinished)="generalService.gameStep == 2 ? handleCountdownSendAnswerFinished() :
+          (countdownFinished)="generalService.gameStep == 2 ? handleCountdownSendAnswerFinished() :
                               generalService.gameStep == 3 ? handleCountdownRatingAnswerFinished() : handleCountdownRatingQuestionsFinished()"></app-countdown-timer>
         <button *ngIf="generalService.gameStep == 2 "
                 mat-button
@@ -629,7 +633,7 @@ generalService.gameStep == 3 ? sendRateAnswerDisable : sendRateQuestionsDisable"
 generalService.gameStep == 3 ? sendRateAnswer(true) : sendRateQuestions(true)">
           {{'Next' | translate}}
           <i *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'" class="bi bi-arrow-right"></i>
-          <i  *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" class="bi bi-arrow-left"></i>
+          <i *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" class="bi bi-arrow-left"></i>
         </button>
       </div>
     </div>
@@ -640,7 +644,7 @@ generalService.gameStep == 3 ? sendRateAnswerDisable : sendRateQuestionsDisable"
 generalService.gameStep == 3 ? sendRateAnswer(true) : sendRateQuestions(true)">
       {{'Next' | translate}}
       <i *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'" class="bi bi-arrow-right"></i>
-      <i  *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" class="bi bi-arrow-left"></i>
+      <i *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" class="bi bi-arrow-left"></i>
     </button>
   </footer>
 </div>
@@ -1013,7 +1017,7 @@ generalService.gameStep == 3 ? sendRateAnswer(true) : sendRateQuestions(true)">
           <br>
 
 
-          <mat-grid-list cols="12" rowHeight="30px">
+          <mat-grid-list cols="12" rowHeight="30px" [dir]="generalService.direction">
             <mat-grid-tile class="result-grid" [colspan]="3">
               <mat-label class="font-size-14 weight-700">{{'Scoreboard' | translate}}</mat-label>
             </mat-grid-tile>
@@ -1037,22 +1041,26 @@ generalService.gameStep == 3 ? sendRateAnswer(true) : sendRateQuestions(true)">
 
           <!--generalService.gameResult?.result?.scoreboard-->
           <mat-grid-list *ngFor="let res of generalService.gameResult?.result?.scoreboard;let i=index"
-                         cols="12" rowHeight="50px" class="gray-card mb-2">
+                         [dir]="generalService.direction" cols="12" rowHeight="50px" class="gray-card mb-2">
             <img *ngIf="i == 0"
-                 style="position: absolute; inset-inline-start: -40px; top: 5px"
+                 [style]="generalService.isMobileView ? 'margin-top: 5px' : 'position: absolute; inset-inline-start: -40px; top: 5px'"
                  src="assets/images/rank-1.png"
                  width="36">
             <!--              1-->
             <img *ngIf="i == 1"
-                 style="position: absolute; inset-inline-start: -40px; top: 5px"
+                 [style]="generalService.isMobileView ? 'margin-top: 5px' : 'position: absolute; inset-inline-start: -40px; top: 5px'"
                  src="assets/images/rank-2.png"
                  width="36">
             <!--              3-->
             <img *ngIf="i == 2"
-                 style="position: absolute; inset-inline-start: -40px; top: 5px"
+                 [style]="generalService.isMobileView ? 'margin-top: 5px' : 'position: absolute; inset-inline-start: -40px; top: 5px'"
                  src="assets/images/rank-3.png"
                  width="36">
             <mat-grid-tile class="result-grid" [colspan]="1">
+              <mat-label>{{i + 1}}</mat-label>
+            </mat-grid-tile>
+            <mat-grid-tile class="result-grid" [colspan]="1"
+                           [style]="generalService.isMobileView && (i + 1) <= 3 ? 'display: none' : ''">
               <mat-label>{{i + 1}}</mat-label>
             </mat-grid-tile>
             <mat-grid-tile class="result-grid" [colspan]="1">
@@ -1101,12 +1109,12 @@ generalService.gameStep == 3 ? sendRateAnswer(true) : sendRateQuestions(true)">
           <!--          generalService.gameResult?.result?.details-->
           <mat-accordion class="example-headers-align shadow-none position-relative"
                          *ngFor="let question of generalService.gameResult?.result?.details; let i=index" hideToggle>
-            <div class="accordion-num">{{i + 1}}</div>
+            <div *ngIf="!generalService.isMobileView" class="accordion-num">{{i + 1}}</div>
             <mat-expansion-panel class="gray-card shadow-none"
                                  (opened)="panelOpenState[i] = true"
                                  (closed)="panelOpenState[i] = false">
-              <mat-expansion-panel-header style="height: 120px; padding-inline-start: 0">
-                <mat-panel-title>
+              <mat-expansion-panel-header style="height: 120px; padding-inline-start: 0; padding-inline-end: 0">
+                <mat-panel-title style="min-width: 90%">
                   <mat-card class="shadow-none border-0 bg-transparent">
                     <mat-card-header>
                       <img mat-card-avatar
@@ -1123,15 +1131,23 @@ generalService.gameStep == 3 ? sendRateAnswer(true) : sendRateQuestions(true)">
                     </mat-card-header>
                   </mat-card>
                 </mat-panel-title>
+                <!--                <mat-panel-description>-->
+                <!--                  <mat-icon class="position-absolute end-10 color-black" *ngIf="!panelOpenState[i]">add_circle-->
+                <!--                  </mat-icon>-->
+                <!--                  <mat-icon class="position-absolute end-10 color-black" *ngIf="panelOpenState[i]">remove_circle-->
+                <!--                  </mat-icon>-->
+                <!--                </mat-panel-description>-->
                 <mat-panel-description>
-                  <mat-icon class="position-absolute end-10 color-black" *ngIf="!panelOpenState[i]">add_circle
+                  <mat-icon class="color-black" *ngIf="!panelOpenState[i]">add_circle
                   </mat-icon>
-                  <mat-icon class="position-absolute end-10 color-black" *ngIf="panelOpenState[i]">remove_circle
+                  <mat-icon class="color-black" *ngIf="panelOpenState[i]">remove_circle
                   </mat-icon>
                 </mat-panel-description>
               </mat-expansion-panel-header>
               <div class="container-accordion">
-                <div class="container-accordion-item" *ngFor="let answer of question?.answers">
+                <div
+                  [class]="{'container-accordion-item': !generalService.isMobileView, 'container-accordion-item-mobile': generalService.isMobileView}"
+                  *ngFor="let answer of question?.answers">
                   <div>
                     <img class="avatar-bordered bg-white"
                          [src]="answer?.answerer?.profilePicture ? answer?.answerer?.profilePicture?.startsWith('http') ? answer?.answerer?.profilePicture : configService.url(answer?.answerer?.profilePicture) : 'assets/images/frame.png'"

@@ -460,6 +460,11 @@ button {
   margin: 40px auto;
 }
 
+.dashboard-content-game-board-mobile {
+  width: 100%;
+  margin: 40px auto;
+}
+
 .custom-form-field .mat-mdc-text-field-wrapper {
   background-color: white !important;
   border-radius: 6px;
@@ -965,6 +970,20 @@ input[type="tel"] {
 
 .introjs-helperLayer {
   opacity: 0.5 !important;
+}
+
+.next-step-game-joining {
+  width: 196px;
+  position: absolute !important;
+  inset-inline-end: 16px;
+  bottom: 0;
+  top: 0px;
+  margin: auto;
+}
+
+.next-step-game-joining-mobile {
+  width: 95%;
+  margin: 10px;
 }
 
 

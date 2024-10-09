@@ -112,3 +112,32 @@ mat-list-item:hover {
   background: #F2EFEE;
   border-radius: 10px !important;
 }
+
+.fab-container {
+  position: fixed;
+  bottom: 60px; /* Distance from the bottom */
+  right: 16px; /* Distance from the right edge */
+}
+
+.fab-list {
+  display: flex;
+  flex-direction: column-reverse; /* Stack buttons above the main FAB */
+  gap: 8px; /* Space between buttons */
+  margin-bottom: 16px; /* Adjusted margin to position the list above the FAB */
+  align-items: center;
+}
+
+.fab-item {
+  display: flex;
+  align-items: center;
+}
+
+.fab-item mat-icon {
+  margin-right: 8px;
+}
+
+.fab-label {
+  font-size: 14px;
+  color: #fff; /* White text color */
+}
+

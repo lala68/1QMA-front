@@ -2,7 +2,7 @@
 <div style="display: ruby-text;">
   <mat-spinner *ngIf="loading" [diameter]="30"></mat-spinner>
 </div>
-<mat-toolbar *ngIf="generalService.isMobileView" class="mb-3" style="padding-inline-end: 0;background: transparent;">
+<mat-toolbar *ngIf="generalService.isMobileView" class="mb-3 mt-1" style="padding-inline-end: 0;background: transparent;">
   <button mat-flat-button (click)="openAddQuestion()" id="addQuestion" style="height: 60px"
           [class]="generalService.currentRout == '/shop' ? 'mat-list-item-selected' : ''"
           routerLinkActive="active-link" class="w-30 m-1">
@@ -38,7 +38,7 @@
       <path d="M12.7925 9.16699C13.2325 10.737 14.4625 11.977 16.0425 12.417" stroke="#fff" stroke-width="1.5"
             stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
-    <span class="d-block">Create game</span>
+    <span class="d-block">{{'Create game' | translate}}</span>
 
   </button>
 

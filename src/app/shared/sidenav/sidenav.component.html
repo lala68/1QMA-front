@@ -1,30 +1,37 @@
 <main class="bg-light">
   <app-header></app-header>
-  <mat-toolbar class="mobileviewFooterButtonstoolbarNav" *ngIf="generalService.userId && generalService.hasCompletedSignup">
+  <mat-toolbar class="mobileviewFooterButtonstoolbarNav"
+               *ngIf="generalService.userId && generalService.hasCompletedSignup && !generalService.startingGame">
     <button mat-flat-button [routerLink]="['/dashboard']" id="dashboard"
             [class]="generalService.currentRout == '/dashboard' ? 'mat-list-item-selected' : ''"
-            routerLinkActive="active-link" class="w-25 mt-3">
+            routerLinkActive="active-link" class="w-20 mt-3" style="margin-top: 2px !important; height: 52px;">
       <img matListItemIcon src="assets/images/home.png" width="25">
       <span class="d-block">Dashboard</span>
     </button>
     <!--    <button mat-flat-button [routerLink]="['/game-board']" id="games"-->
     <button mat-flat-button [routerLink]="['/games/overview']" id="games"
             [class]="generalService.currentRout == '/games/overview' ? 'mat-list-item-selected' : ''"
-            routerLinkActive="active-link" class="w-25 mt-3">
+            routerLinkActive="active-link" class="w-25 mt-3" style="margin-top: 2px !important; height: 52px;">
       <img matListItemIcon src="assets/images/game.png" width="25">
       <span class="d-block">Games</span>
     </button>
     <button mat-flat-button [routerLink]="['/trivia-hub']" id="trivia"
             [class]="generalService.currentRout == '/trivia-hub' ? 'mat-list-item-selected' : ''"
-            routerLinkActive="active-link" class="w-25 mt-3">
+            routerLinkActive="active-link" class="w-20 mt-3" style="margin-top: 2px !important; height: 52px;">
       <img matListItemIcon src="assets/images/book-side.png" width="25">
       <span class="d-block">Trivia Hub</span>
     </button>
     <button mat-flat-button [routerLink]="['/shop']" id="shop"
             [class]="generalService.currentRout == '/shop' ? 'mat-list-item-selected' : ''"
-            routerLinkActive="active-link" class="w-25 mt-3">
+            routerLinkActive="active-link" class="w-20 mt-3" style="margin-top: 2px !important; height: 52px;">
       <img matListItemIcon src="assets/images/shop.png" width="25">
       <span class="d-block">Shop</span>
+    </button>
+    <button mat-flat-button [routerLink]="['/more']"
+            [class]="generalService.currentRout == '/more' ? 'mat-list-item-selected' : ''"
+            routerLinkActive="active-link" class="w-20 mt-3" style="margin-top: 2px !important; height: 52px;">
+      <img matListItemIcon src="assets/images/icon-more.png" width="25">
+      <span class="d-block">More</span>
     </button>
   </mat-toolbar>
   <mat-drawer-container style="min-height: 100vh">
@@ -81,10 +88,55 @@
     <mat-drawer-content style="margin-left: 0; "
                         [style]="generalService.isMobileView ? 'margin-inline-start: 0px;' : generalService.userId && generalService.hasCompletedSignup ? 'margin-inline-start: 260px;' : 'margin-inline-start: 0px;'">
       <div class="border-0"
-           [class]="{'dashboard-content-default' : generalService.hasCompletedSignup && !generalService.startingGame, 'dashboard-content-game-board' : generalService.hasCompletedSignup && generalService.startingGame, '' : !generalService.hasCompletedSignup }">
+           [class]="{'dashboard-content-default' : generalService.hasCompletedSignup && !generalService.startingGame, 'dashboard-content-game-board' : generalService.hasCompletedSignup && generalService.startingGame && !generalService.isMobileView,'dashboard-content-game-board-mobile' : generalService.hasCompletedSignup && generalService.startingGame && generalService.isMobileView, '' : !generalService.hasCompletedSignup }">
         <!--      <div class="border-0" [class]="{'dashboard-content' : !generalService.hasCompletedSignup, '' : !generalService.hasCompletedSignup }">-->
         <router-outlet id="top"></router-outlet>
       </div>
+      <div class="fab-container" *ngIf="generalService.isMobileView && !generalService.startingGame"
+           style="z-index: 100000">
+
+        <!-- Mini FAB Buttons for the extra items -->
+        <div *ngIf="isFabOpen" class="fab-list">
+          <button (click)="toggleFab(); openAddQuestion()" mat-mini-fab
+                  style="width: 140px; background: white; direction: rtl; border-radius: 4px">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M6 12H18" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M12 18V6" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <mat-label>Add Question</mat-label>
+          </button>
+          <button (click)="toggleFab()" [routerLink]="['/games/find-game']" mat-mini-fab
+                  style="width: 140px; background: white; direction: rtl; border-radius: 4px">
+            <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M12.2246 21.2402C17.4713 21.2402 21.7246 16.9869 21.7246 11.7402C21.7246 6.49353 17.4713 2.24023 12.2246 2.24023C6.9779 2.24023 2.72461 6.49353 2.72461 11.7402C2.72461 16.9869 6.9779 21.2402 12.2246 21.2402Z"
+                stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M22.7246 22.2402L20.7246 20.2402" stroke="#000" stroke-width="1.5" stroke-linecap="round"
+                    stroke-linejoin="round"/>
+            </svg>
+            <mat-label>{{'Find Game' | translate}}</mat-label>
+          </button>
+          <button (click)="toggleFab()" [routerLink]="['/games/create-game']" mat-mini-fab
+                  style="width: 140px; background: white; direction: rtl; border-radius: 4px">
+            <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M16.6226 2.58691H8.62256C4.62256 2.58691 2.62256 4.58691 2.62256 8.58691V21.5869C2.62256 22.1369 3.07256 22.5869 3.62256 22.5869H16.6226C20.6226 22.5869 22.6226 20.5869 22.6226 16.5869V8.58691C22.6226 4.58691 20.6226 2.58691 16.6226 2.58691Z"
+                stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path
+                d="M13.5324 8.42707L8.34235 13.6171C8.14235 13.8171 7.95236 14.2071 7.91236 14.4871L7.63236 16.4671C7.53236 17.1871 8.03235 17.6871 8.75235 17.5871L10.7323 17.3071C11.0123 17.2671 11.4024 17.0771 11.6024 16.8771L16.7924 11.6871C17.6824 10.7971 18.1124 9.75706 16.7924 8.43706C15.4724 7.10706 14.4324 7.52707 13.5324 8.42707Z"
+                stroke="#000" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M12.7925 9.16699C13.2325 10.737 14.4625 11.977 16.0425 12.417" stroke="#fff" stroke-width="1.5"
+                    stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <mat-label>Create Game</mat-label>
+          </button>
+        </div>
+        <!-- Main FAB Button -->
+        <button mat-fab color="primary" class="float-end" (click)="toggleFab()">
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+
     </mat-drawer-content>
   </mat-drawer-container>
 

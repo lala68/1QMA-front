@@ -22,6 +22,7 @@ import {AddQuestion, ExitGame, HeaderComponent} from "../../shared/header/header
 import {CharityModalComponent} from "../charity-modal/charity-modal.component";
 import {IntroJsService} from "../../services/introJs/intro-js.service";
 import {SidenavComponent} from "../../shared/sidenav/sidenav.component";
+import {JoiningGame} from "../games/games.component";
 
 @Component({
   selector: 'app-dashboard',
