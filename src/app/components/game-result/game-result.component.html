@@ -4,9 +4,11 @@
   <div class="w-100 d-flex">
     <mat-card class="shadow-none">
       <mat-card-header>
-        <img  *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'" src="assets/images/arrow-left.svg" width="24" height="24" (click)="goBack()"
+        <img *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'" src="assets/images/arrow-left.svg"
+             width="24" height="24" (click)="goBack()"
              style="position: absolute; inset-inline-start: 10px; top: 0; bottom: 0; margin: auto;">
-        <img  *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" src="assets/images/arrow-right-1.svg" width="24" height="24" (click)="goBack()"
+        <img *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" src="assets/images/arrow-right-1.svg"
+             width="24" height="24" (click)="goBack()"
              style="position: absolute; inset-inline-start: 10px; top: 0; bottom: 0; margin: auto;">
         <div class="ms-2" style="height: 46px"></div>
         <mat-label class="font-size-16 weight-600 ms-4">{{'Game Detail' | translate}}</mat-label>
@@ -172,7 +174,8 @@
         <mat-grid-list *ngFor="let res of gameResult?.result?.scoreboard;let i=index"
                        [dir]="generalService.direction"
                        cols="12" rowHeight="50px" class="gray-card mb-2">
-          <img *ngIf="i == 0" [style]="generalService.isMobileView ? 'margin-top: 5px' : 'position: absolute; inset-inline-start: -40px; top: 5px'"
+          <img *ngIf="i == 0"
+               [style]="generalService.isMobileView ? 'margin-top: 5px' : 'position: absolute; inset-inline-start: -40px; top: 5px'"
                src="assets/images/rank-1.png"
                width="36">
           <!--              1-->
@@ -239,7 +242,7 @@
           <mat-expansion-panel class="gray-card shadow-none"
                                (opened)="panelOpenState[i] = true"
                                (closed)="panelOpenState[i] = false">
-            <mat-expansion-panel-header style="height: 120px; padding-inline-start: 0; padding-inline-end: 0">
+            <mat-expansion-panel-header style="height: fit-content; padding-inline-start: 0; padding-bottom: 10px; padding-inline-end: 0">
               <mat-panel-title style="min-width: 90%">
                 <mat-card class="shadow-none border-0 bg-transparent">
                   <mat-card-header>
@@ -258,7 +261,7 @@
                   </mat-card-header>
                 </mat-card>
               </mat-panel-title>
-              <mat-panel-description >
+              <mat-panel-description>
                 <mat-icon class="color-black" *ngIf="!panelOpenState[i]">add_circle
                 </mat-icon>
                 <mat-icon class="color-black" *ngIf="panelOpenState[i]">remove_circle
@@ -266,7 +269,9 @@
               </mat-panel-description>
             </mat-expansion-panel-header>
             <div class="container-accordion">
-              <div [class]="{'container-accordion-item': !generalService.isMobileView, 'container-accordion-item-mobile': generalService.isMobileView}" *ngFor="let answer of question?.answers">
+              <div
+                [class]="{'container-accordion-item': !generalService.isMobileView, 'container-accordion-item-mobile': generalService.isMobileView}"
+                *ngFor="let answer of question?.answers">
                 <div>
                   <img class="avatar-bordered bg-white"
                        [src]="answer?.answerer?.profilePicture ? answer?.answerer?.profilePicture?.startsWith('http') ? answer?.answerer?.profilePicture : configService.url(answer?.answerer?.profilePicture) : 'assets/images/frame.png'"

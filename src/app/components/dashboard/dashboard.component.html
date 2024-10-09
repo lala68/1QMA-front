@@ -478,17 +478,22 @@
     </div>
     <br>
     <div class="d-inline w-100 copy-referrer cursor-pointer position-relative"
-         [cdkCopyToClipboard]="generalService.userObj?.referCode">
+         [cdkCopyToClipboard]="generalService.userObj?.referCode"
+         (click)="tooltip.show()"
+         (mouseleave)="tooltip.hide()">
       <div class="d-inline text-start">Referral Code</div>
       <div class="d-inline text-end position-absolute"
            style="inset-inline-end: 10px"
            matTooltip="Click to copy in clipboard!"
            [matTooltipPosition]="'above'"
            [matTooltipHideDelay]="1000"
+           [matTooltipShowDelay]="0"
+           matTooltipTouchGestures="auto"
            #tooltip="matTooltip">
         {{generalService.userObj?.referCode}} <i class="bi bi-copy"></i>
       </div>
     </div>
+
 
     <br>
     <mat-card class="shadow-none">

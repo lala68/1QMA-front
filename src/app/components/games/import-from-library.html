@@ -62,15 +62,14 @@
         {{item?.answer}}
       </div>
       <br>
-      <div class="justify-content-between align-items-center"
-           [class]="{'d-flex': !generalService.isMobileView, 'd-block': generalService.isMobileView}">
+      <div class="d-block justify-content-between align-items-center">
         <div class="white-card p-1" style="width: fit-content">
           <img
             [src]="configService.url(item.category?.icon)"
             width="24">
           <mat-label class="font-size-12 weight-600" style="margin: auto 5px">{{item?.category?.name}}</mat-label>
         </div>
-        <div>
+        <div class="mt-2">
           <button mat-stroked-button (click)="importQuestion(item.question, item._id)" color="primary"
                   class="me-2 radius"
                   [class]="{'': !generalService.isMobileView, 'm-1': generalService.isMobileView}"
@@ -164,14 +163,14 @@
         {{item?.answer}}
       </div>
       <br>
-      <div class="d-flex justify-content-between align-items-center">
+      <div class="d-block justify-content-between align-items-center">
         <div class="white-card p-1" style="width: fit-content">
           <img
             [src]="configService.url(item.category?.icon)"
             width="24">
           <mat-label class="font-size-12 weight-600" style="margin: auto 5px">{{item?.category?.name}}</mat-label>
         </div>
-        <div>
+        <div class="mt-2">
           <button mat-stroked-button (click)="importQuestion(item.question, item._id)" color="primary"
                   class="me-2 radius"
                   style="border: 1px solid #0B6FEA">

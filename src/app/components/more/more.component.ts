@@ -4,6 +4,7 @@ import {SharedModule} from "../../shared/shared.module";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {RouterModule} from "@angular/router";
 import {TranslateModule} from "@ngx-translate/core";
+import {GeneralService} from "../../services/general/general.service";
 
 @Component({
   selector: 'app-more',
@@ -14,7 +15,7 @@ import {TranslateModule} from "@ngx-translate/core";
 })
 export class MoreComponent {
 
-  constructor() {
+  constructor(public generalService: GeneralService) {
   }
 
 }

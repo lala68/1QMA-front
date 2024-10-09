@@ -986,6 +986,27 @@ input[type="tel"] {
   margin: 10px;
 }
 
+/* Apply this to make the tab group scrollable */
+.responsive-tabs .mat-tab-labels {
+  overflow-x: auto;  /* Enable horizontal scrolling */
+  display: flex;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+}
+
+.responsive-tabs .mat-tab-label {
+  flex-shrink: 0; /* Prevent the tab labels from shrinking */
+}
+
+/* Optional: Customize scrollbars (for webkit-based browsers) */
+.responsive-tabs .mat-tab-labels::-webkit-scrollbar {
+  height: 8px;
+}
+
+.responsive-tabs .mat-tab-labels::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+}
 
 //mobile
 @media only screen and (max-width: 767px) {

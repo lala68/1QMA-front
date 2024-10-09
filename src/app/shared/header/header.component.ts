@@ -13,6 +13,7 @@ import {SnackbarContentComponent} from "../../components/snackbar-content/snackb
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {DaysAgoPipe} from "../../pipes/days-ago.pipe";
 import {IntroJsService} from "../../services/introJs/intro-js.service";
+import {ProcessHTTPMsgService} from "../../services/proccessHttpMsg/process-httpmsg.service";
 
 @Component({
   selector: 'app-header',
@@ -25,7 +26,8 @@ export class HeaderComponent implements OnInit {
   notifList: any = [];
 
   constructor(public generalService: GeneralService, public authService: AuthService, private intro: IntroJsService,
-              private router: Router, public dialog: MatDialog, private shopService: ShopService) {
+              private router: Router, public dialog: MatDialog, private shopService: ShopService,
+              private processHTTPMsgService: ProcessHTTPMsgService, private _snackBar: MatSnackBar) {
 
   }
 
@@ -47,9 +49,27 @@ export class HeaderComponent implements OnInit {
         this.generalService.userObj = '';
         this.generalService.hasCompletedSignup = false;
         await this.router.navigate(['/login']);
+      } else {
+        this.openDialog(JSON.stringify(data.message), 'Error');
       }
+    }, error => {
+      return this.processHTTPMsgService.handleError(error);
     })
   }
+
+  openDialog(message: any, title: any) {
+    this._snackBar.openFromComponent(SnackbarContentComponent, {
+      data: {
+        title: title,
+        message: message
+      },
+      duration: 3000,
+      verticalPosition: 'top',
+      horizontalPosition: 'end',
+      panelClass: title == 'Success' ? 'app-notification-success' : 'app-notification-error'
+    });
+  }
+
 
   async openAddQuestion() {
     const dialogRef = this.dialog.open(AddQuestion, {

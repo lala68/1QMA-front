@@ -1,12 +1,23 @@
-<mat-list-item class="border-bottom" style="margin-top: 6rem;" [routerLink]="'/settings'">
+<mat-list-item class="position-relative border-bottom" style="margin-top: 6rem;" [routerLink]="'/settings'">
   <mat-label>{{'Setting' | translate}}</mat-label>
+  <mat-icon style="position: absolute; right: 5px" *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'">chevron_right</mat-icon> <!-- Right angle at the end -->
+  <mat-icon style="position: absolute; left: 5px" *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'">chevron_left</mat-icon> <!-- Right angle at the end -->
 </mat-list-item>
-<mat-list-item class="border-bottom" [routerLink]="'/report-bug'">
+
+<mat-list-item class="position-relative border-bottom" [routerLink]="'/report-bug'">
   <mat-label>{{'Report Bug' | translate}}</mat-label>
+  <mat-icon style="position: absolute; right: 5px" *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'">chevron_right</mat-icon> <!-- Right angle at the end -->
+  <mat-icon style="position: absolute; left: 5px" *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'">chevron_left</mat-icon> <!-- Right angle at the end -->
 </mat-list-item>
-<mat-list-item class="border-bottom" [routerLink]="'/terms'">
+
+<mat-list-item class="position-relative border-bottom" [routerLink]="'/terms'">
   <mat-label>{{'Term Of Use' | translate}}</mat-label>
+  <mat-icon style="position: absolute; right: 5px" *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'">chevron_right</mat-icon> <!-- Right angle at the end -->
+  <mat-icon style="position: absolute; left: 5px" *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'">chevron_left</mat-icon> <!-- Right angle at the end -->
 </mat-list-item>
-<mat-list-item class="border-bottom" [routerLink]="'/faq'">
+
+<mat-list-item class="position-relative border-bottom" [routerLink]="'/faq'">
   <mat-label>{{'FAQ' | translate}}</mat-label>
+  <mat-icon style="position: absolute; right: 5px" *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'">chevron_right</mat-icon> <!-- Right angle at the end -->
+  <mat-icon style="position: absolute; left: 5px" *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'">chevron_left</mat-icon> <!-- Right angle at the end -->
 </mat-list-item>
