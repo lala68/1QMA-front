@@ -88,8 +88,14 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     this.generalService.wordCountAnswer = this.generalService.gameInit?.answerWordsLimitation;
     this.generalService.players = (this.data?.game?.gamePlayers);
     this.generalService.invitedPlayersArray = (this.data?.game?.gameInviteList);
+    this.generalService.invitedPlayersArray = this.generalService.invitedPlayersArray.filter(
+      (invitedPlayer: any) => !this.generalService.players.some(
+        (player: any) => player.email === invitedPlayer.email
+      )
+    );
     console.log(this.data)
     console.log(this.data?.game?.gameInviteList)
+    console.log(this.generalService.invitedPlayersArray)
     this.removeFromInvited(this.generalService.userObj?.email);
     this.generalService.socket.on("player added", (arg: any) => {
       const now = new Date();

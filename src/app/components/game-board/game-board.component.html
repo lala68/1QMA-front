@@ -620,7 +620,7 @@
         </div>
         <mat-label class="d-inline-block"
                    style="margin-inline-start: 90px;">{{'Waiting for' | translate}} {{(submittedAnswer?.numberOfPlayers ? submittedAnswer?.numberOfPlayers : generalService.gameInit?.numberOfPlayers) - submittedAnswer?.numberOfSubmitted}}
-          {{'of' | translate}} {{(submittedAnswer ? submittedAnswer?.numberOfPlayers : generalService.gameInit?.numberOfPlayers) }}
+          {{'of' | translate}} {{(submittedAnswer?.numberOfPlayers ? submittedAnswer?.numberOfPlayers : generalService.gameInit?.numberOfPlayers) }}
           {{'players...' | translate}}
         </mat-label>
       </div>
