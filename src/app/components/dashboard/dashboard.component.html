@@ -514,7 +514,7 @@
             <path d="M10.0459 6.36621H15.0459" stroke="#2C2523" stroke-width="1.5" stroke-linecap="round"
                   stroke-linejoin="round"/>
           </svg>
-          {{generalService.userObj?.invitations.length}} / {{generalService.userObj?.maxInvites}} Left Invitations
+          {{generalService.userObj?.maxInvites - generalService.userObj?.invitations.length}} / {{generalService.userObj?.maxInvites}} Left Invitations
         </mat-card-title>
         <div [routerLink]="['/shop']"
              class="link-text font-size-14 weight-500 position-absolute cursor-pointer"
@@ -567,9 +567,9 @@
       Select the category closest to your heart and know that your choice directly contributes to positive change.
     </mat-label>
     <button *ngIf="!generalService.userObj?.preferedCharity" mat-raised-button (click)="openCharityModal()"
-            class="answer-button mt-4 start-10 w-25">{{'Choose Category' | translate}}
+            class="charity-button mt-4 start-10 w-40">{{'Choose Category' | translate}}
     </button>
-    <div *ngIf="generalService.userObj?.preferedCharity" class="copy-referrer">
+    <div *ngIf="generalService.userObj?.preferedCharity" class="copy-referrer" (click)="openCharityModal()">
       <mat-label class="text-light-color">You are participated in:</mat-label>
       <br>
       <mat-label class="font-size-14 weight-700">{{generalService.userObj?.preferedCharity?.charity?.title}}
@@ -611,11 +611,10 @@
         </mat-label>
       </div>
       <br>
-      <div class="font-size-14 weight-700">
+      <div class="font-size-14 weight-700" style="min-height: 80px; max-height: 80px;">
         {{item?.question}}
       </div>
-      <br>
-      <div class="font-size-13 weight-400" style="max-height: 100px; min-height: 100px">
+      <div class="font-size-13 weight-400" style="max-height: 80px; min-height: 80px">
         {{item?.answer}}
       </div>
       <br>

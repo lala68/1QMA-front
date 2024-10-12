@@ -5,7 +5,7 @@
 <div *ngIf="!loading && questionStep == 1">
   <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" class="tab-group-trivia"
                  [(selectedIndex)]="selectedTabIndexParent" (selectedTabChange)="questionOrGame()">
-    <mat-tab label="Questions" >
+    <mat-tab label="Questions">
       <div class="card border-0">
         <div class="w-100 d-flex">
           <mat-card class="shadow-none p-2" style="width: 100%">
@@ -82,52 +82,55 @@
                        width="42" height="42">
                   <mat-label class="font-size-13 weight-500"
                              style="margin: auto 10px">{{item?.user?.firstName}} {{item?.user?.lastName}}</mat-label>
-                  <mat-label class="font-size-12 weight-500 position-absolute" style="inset-inline-end: 10px; margin: 10px auto">
+                  <mat-label class="font-size-12 weight-500 position-absolute"
+                             style="inset-inline-end: 10px; margin: 10px auto">
                     {{item?.createdAt | daysAgo}}
                   </mat-label>
                 </div>
                 <br>
-                <div class="font-size-14 weight-700" style="min-height: 80px">
+                <div class="font-size-14 weight-700" style="min-height: 80px; max-height: 80px">
                   {{item?.question}}
                 </div>
                 <br>
-                <div *ngIf="item?.score" class="d-inline-flex justify-content-between align-items-center m-1">
-                  <div class="white-card p-1 d-flex align-items-center" style="width: fit-content">
-                    <img src="assets/images/score.png"
-                         width="16">
-                    <mat-label class="font-size-12 weight-600"
-                               style="margin: auto 5px">{{item?.score | parsInt}}
-                      <mat-label class="font-size-12 weight-600 text-gray">Score</mat-label>
-                    </mat-label>
+                <div style="min-height: 50px; max-height: 50px">
+                  <div *ngIf="item?.score" class="d-inline-flex justify-content-between align-items-center m-1">
+                    <div class="white-card p-1 d-flex align-items-center" style="width: fit-content">
+                      <img src="assets/images/score.png"
+                           width="16">
+                      <mat-label class="font-size-12 weight-600"
+                                 style="margin: auto 5px">{{item?.score | parsInt}}
+                        <mat-label class="font-size-12 weight-600 text-gray">Score</mat-label>
+                      </mat-label>
+                    </div>
                   </div>
-                </div>
-                <div class="d-inline-flex justify-content-between align-items-center m-1">
-                  <div class="white-card p-1 d-flex align-items-center" style="width: fit-content">
-                    <img src="assets/images/plays.png"
-                         width="16">
-                    <mat-label class="font-size-12 weight-600"
-                               style="margin: auto 5px">{{item?.plays | parsInt}}
-                      <mat-label class="font-size-12 weight-600 text-gray">Plays</mat-label>
-                    </mat-label>
+                  <div class="d-inline-flex justify-content-between align-items-center m-1">
+                    <div class="white-card p-1 d-flex align-items-center" style="width: fit-content">
+                      <img src="assets/images/plays.png"
+                           width="16">
+                      <mat-label class="font-size-12 weight-600"
+                                 style="margin: auto 5px">{{item?.plays | parsInt}}
+                        <mat-label class="font-size-12 weight-600 text-gray">Plays</mat-label>
+                      </mat-label>
+                    </div>
                   </div>
-                </div>
-                <div class="d-inline-flex justify-content-between align-items-center m-1">
-                  <div class="white-card p-1 d-flex align-items-center" style="width: fit-content">
-                    <img src="assets/images/answer-questions.png"
-                         width="16">
-                    <mat-label class="font-size-12 weight-600"
-                               style="margin: auto 5px">{{item?.answers | parsInt}}
-                      <mat-label class="font-size-12 weight-600 text-gray">Answers</mat-label>
-                    </mat-label>
+                  <div class="d-inline-flex justify-content-between align-items-center m-1">
+                    <div class="white-card p-1 d-flex align-items-center" style="width: fit-content">
+                      <img src="assets/images/answer-questions.png"
+                           width="16">
+                      <mat-label class="font-size-12 weight-600"
+                                 style="margin: auto 5px">{{item?.answers | parsInt}}
+                        <mat-label class="font-size-12 weight-600 text-gray">Answers</mat-label>
+                      </mat-label>
+                    </div>
                   </div>
-                </div>
-                <div class="d-inline-flex justify-content-between align-items-center m-1">
-                  <div class="white-card p-1 d-flex align-items-center" style="width: fit-content">
-                    <img
-                      [src]="configService.url(item?.category?.icon)"
-                      width="16">
-                    <mat-label class="font-size-12 weight-600"
-                               style="margin: auto 5px">{{item?.category?.name}}</mat-label>
+                  <div class="d-inline-flex justify-content-between align-items-center m-1">
+                    <div class="white-card p-1 d-flex align-items-center" style="width: fit-content">
+                      <img
+                        [src]="configService.url(item?.category?.icon)"
+                        width="16">
+                      <mat-label class="font-size-12 weight-600"
+                                 style="margin: auto 5px">{{item?.category?.name}}</mat-label>
+                    </div>
                   </div>
                 </div>
 
@@ -274,7 +277,8 @@
                        width="42" height="42">
                   <mat-label class="font-size-13 weight-500"
                              style="margin: auto 10px">{{item?.user?.firstName}} {{item?.user?.lastName}}</mat-label>
-                  <mat-label class="font-size-12 weight-500 position-absolute" style="inset-inline-end: 10px; margin: 10px auto">
+                  <mat-label class="font-size-12 weight-500 position-absolute"
+                             style="inset-inline-end: 10px; margin: 10px auto">
                     {{item?.createdAt | daysAgo}}
                   </mat-label>
                 </div>
@@ -444,7 +448,8 @@
                        width="42" height="42">
                   <mat-label class="font-size-13 weight-500"
                              style="margin: auto 10px">{{item?.user?.firstName}} {{item?.user?.lastName}}</mat-label>
-                  <mat-label class="font-size-12 weight-500 position-absolute" style="inset-inline-end: 10px; margin: 10px auto">
+                  <mat-label class="font-size-12 weight-500 position-absolute"
+                             style="inset-inline-end: 10px; margin: 10px auto">
                     {{item?.createdAt | daysAgo}}
                   </mat-label>
                 </div>
@@ -735,20 +740,23 @@
                   </mat-card-header>
                   <br>
                   <mat-card-content class="d-inline-flex position-relative p-0">
-                    <mat-card class="shadow-none">
-                      <mat-card-header class="pe-1 ps-1">
+                    <mat-card class="shadow-none" *ngFor="let ply of endedGame?.players; let i=index">
+                      <mat-card-header class="pe-1 ps-1" *ngIf="ply?._id == generalService.userId">
                         <img mat-card-avatar
-                             [src]="endedGame?.creator?.profilePicture ? endedGame?.creator?.profilePicture?.startsWith('http') ? endedGame?.creator?.profilePicture : configService.url(endedGame?.creator?.profilePicture) : 'assets/images/frame.png'"
+                             [src]="ply?.profilePicture ? ply?.profilePicture?.startsWith('http') ? ply?.profilePicture : configService.url(ply?.profilePicture) : 'assets/images/frame.png'"
                              width="33" height="33" class="avatar-bordered bg-white mb-0">
                         <mat-card-title
-                          class="font-size-14 weight-500 text-start">{{endedGame?.creator?.firstName}} {{endedGame?.creator?.lastName}}</mat-card-title>
-                        <mat-card-subtitle class="text-start ps-0">
-                          <img src="assets/images/rank.png" width="16"><span
-                          class="font-size-14 weight-700">{{endedGame?.rank}} </span><span
-                          class="font-size-14 weight-500"> {{'Rank' | translate}}</span>
-                          <img src="assets/images/score.png" width="16"><span
-                          class="font-size-14 weight-700">{{endedGame?.score | parsInt}} </span><span
-                          class="font-size-14 weight-500"> {{'Score' | translate}}</span>
+                          class="font-size-14 weight-500 text-start">{{ply?.firstName}} {{ply?.lastName}}</mat-card-title>
+                        <mat-card-subtitle class="text-start ps-0"
+                                           *ngFor="let scoreboard of endedGame?.result?.scoreboard; let i=index">
+                          <div *ngIf="scoreboard?._id == generalService.userId">
+                            <img src="assets/images/rank.png" width="16"><span
+                            class="font-size-14 weight-700">{{i + 1}} </span><span
+                            class="font-size-14 weight-500"> {{'Rank' | translate}}</span>
+                            <img src="assets/images/score.png" width="16"><span
+                            class="font-size-14 weight-700">{{scoreboard?.totalScore | parsInt}} </span><span
+                            class="font-size-14 weight-500"> {{'Score' | translate}}</span>
+                          </div>
                         </mat-card-subtitle>
                       </mat-card-header>
                     </mat-card>
@@ -798,9 +806,11 @@
     <div class="w-100 d-flex">
       <mat-card class="shadow-none">
         <mat-card-header>
-          <img  *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'" src="assets/images/arrow-left.svg" width="24" height="24" (click)="questionStep = 1"
+          <img *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'" src="assets/images/arrow-left.svg"
+               width="24" height="24" (click)="questionStep = 1"
                style="position: absolute; inset-inline-start: 10px; top: 0; bottom: 0; margin: auto;">
-          <img  *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" src="assets/images/arrow-right-1.svg" width="24" height="24" (click)="questionStep = 1"
+          <img *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" src="assets/images/arrow-right-1.svg"
+               width="24" height="24" (click)="questionStep = 1"
                style="position: absolute; inset-inline-start: 10px; top: 0; bottom: 0; margin: auto;">
           <div class="ms-2" style="height: 46px"></div>
           <mat-label class="font-size-16 weight-600 ms-4">{{'Question Detail' | translate}}</mat-label>
@@ -983,7 +993,7 @@
               </div>
             </div>
             <div *ngIf="generalService.isMobileView"
-              [class]="{'position-absolute': !generalService.isMobileView, '': generalService.isMobileView}">
+                 [class]="{'position-absolute': !generalService.isMobileView, '': generalService.isMobileView}">
               <mat-label>{{questionDetail?.createdAt | date}}</mat-label>
             </div>
           </mat-card-actions>
@@ -1063,7 +1073,8 @@
                 <br>
                 <br>
                 <mat-card-actions class="position-relative">
-                  <div class="position-absolute bottom-0 d-flex align-items-center" style="width: fit-content; inset-inline-end: 0">
+                  <div class="position-absolute bottom-0 d-flex align-items-center"
+                       style="width: fit-content; inset-inline-end: 0">
                     <img src="assets/images/score.png" width="16" height="16">
                     &nbsp;<mat-label class="font-size-14 weight-500 vertical-middle">{{answer?.rate | parsInt}} Score
                   </mat-label>

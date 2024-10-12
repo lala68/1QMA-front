@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {SharedModule} from "../../shared/shared.module";
 import {FormsModule} from "@angular/forms";
-import {Router, RouterModule} from "@angular/router";
+import {NavigationStart, Router, RouterModule} from "@angular/router";
 import {GamesService} from "../../services/games/games.service";
 import {ClientService} from "../../services/client/client.service";
 import {TranslateModule} from "@ngx-translate/core";
@@ -14,6 +14,7 @@ import {ProcessHTTPMsgService} from "../../services/proccessHttpMsg/process-http
 import {NgbRatingModule} from "@ng-bootstrap/ng-bootstrap";
 import {IntroJsService} from "../../services/introJs/intro-js.service";
 import {MatTabGroup} from "@angular/material/tabs";
+import introJs from "intro.js";
 
 @Component({
   selector: 'app-trivia-hub',
@@ -61,6 +62,8 @@ export class TriviaHubComponent implements OnInit {
   rating = 3.14;
   selectedSortOption: string = 'newest';
   selectedSortOptionGame: string = 'newest';
+  private routerSubscription: any;
+  private introInProgress: boolean = false; // Track whether the intro is showing
 
   constructor(private gameService: GamesService, private clientService: ClientService,
               public generalService: GeneralService, public configService: ConfigService, private intro: IntroJsService,
@@ -74,7 +77,12 @@ export class TriviaHubComponent implements OnInit {
     }
   }
 
-  async ngOnInit(): Promise<any> {
+  async ngOnInit() {
+    this.routerSubscription = this.router.events.subscribe(event => {
+      if (event instanceof NavigationStart && this.introInProgress) {
+        this.destroyIntro(); // Destroy the intro if the page is changing
+      }
+    });
     if (!this.search || this.search.length > 2) {
       this.library = [];
       this.libraryQuestions = [];
@@ -93,12 +101,34 @@ export class TriviaHubComponent implements OnInit {
       });
     }
 
-    setTimeout(() => {
-      if (!this.generalService.clientInit?.user?.hasSeenIntros?.triviaHub) {
-        this.showIntro().then(() => {
-        });
-      }
-    }, 3000);
+    await this.waitForClientInit();
+
+    // After clientInit is ready, check the value
+    if (
+      this.generalService.clientInit &&
+      this.generalService.clientInit.user &&
+      this.generalService.clientInit.user.hasSeenIntros &&
+      !this.generalService.clientInit.user.hasSeenIntros.triviaHub
+    ) {
+      await this.showIntro(); // Wait for showIntro to finish
+    }
+  }
+
+  destroyIntro() {
+    if (this.introInProgress) {
+      introJs().exit(true); // Assuming 'cancel()' is a method from the intro library to stop the intro
+      this.introInProgress = false; // Reset the flag
+    }
+  }
+
+  async waitForClientInit() {
+    while (!this.generalService.clientInit?.user?.hasSeenIntros.triviaHub) {
+      await new Promise(resolve => setTimeout(resolve, 1000)); // Check every 100ms
+    }
+  }
+
+  ngOnDestroy() {
+    introJs().exit(true);
   }
 
   async showIntro() {
@@ -128,7 +158,12 @@ export class TriviaHubComponent implements OnInit {
       }
     ];
 
-    await this.intro.showHelp('triviaHub', steps);
+    this.introInProgress = true; // Mark the intro as in progress
+    try {
+      await this.intro.showHelp('triviaHub', steps);
+    } finally {
+      this.introInProgress = false; // Reset the flag once the intro is done
+    }
   }
 
   async changeQuestions() {

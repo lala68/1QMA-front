@@ -399,12 +399,14 @@ export class AuthService {
           this.generalService.userObj = JSON.parse(user.value);
           this.generalService.userId = this.generalService.userObj._id;
           this.isLoggedIn = true;
+          this.generalService.emailVerified = this.generalService.userObj?.emailVerified;
           this.generalService.hasCompletedSignup = this.generalService.userObj?.hasCompletedSignup;
         } else {
           //Not Json
           this.generalService.userObj = (user.value);
           this.generalService.userId = this.generalService.userObj._id;
           this.isLoggedIn = true;
+          this.generalService.emailVerified = this.generalService.userObj?.emailVerified;
           this.generalService.hasCompletedSignup = this.generalService.userObj?.hasCompletedSignup;
         }
       } catch {
@@ -457,6 +459,7 @@ export class AuthService {
     this.isLoggedIn = false;
     this.generalService.userId = '';
     this.generalService.userObj = '';
+    this.generalService.emailVerified = false;
     this.generalService.hasCompletedSignup = false;
     await this.router.navigate(['/login']);
   }

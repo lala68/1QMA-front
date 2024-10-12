@@ -404,7 +404,7 @@ export class ClientService {
       'Content-Type': 'application/json',
     })
     try {
-      const response = this.http.get(this.config.url('client/faqs'), {
+      const response = this.http.get(this.config.url('faqs'), {
         headers: headers,
         withCredentials: true
       }).pipe(
@@ -422,7 +422,7 @@ export class ClientService {
       'Content-Type': 'application/json',
     })
     try {
-      const response = this.http.get(this.config.url('client/privacyPolicies'), {
+      const response = this.http.get(this.config.url('privacyPolicies'), {
         headers: headers,
         withCredentials: true
       }).pipe(
@@ -440,7 +440,7 @@ export class ClientService {
       'Content-Type': 'application/json',
     })
     try {
-      const response = this.http.get(this.config.url('client/termsOfService'), {
+      const response = this.http.get(this.config.url('termsOfService'), {
         headers: headers,
         withCredentials: true
       }).pipe(

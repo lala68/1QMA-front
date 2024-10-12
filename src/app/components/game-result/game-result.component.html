@@ -51,29 +51,31 @@
               <span class="font-size-12 weight-500">{{gameResult?.gameType?.text}}</span>
             </div>
           </div>
-          <div class="w-20">
-            <div class="position-relative" style="width: 100px">
-              <img src="assets/images/score.png"
-                   width="28" height="28">&nbsp;
-              <div class="font-size-14 weight-800 position-absolute green-color"
-                   style="padding-inline-start: 5px; inset-inline-start: 30px; top: -5px;">
-                +{{gameResult?.statistics?.score | parsInt}}</div>
-              <mat-label class="position-absolute font-size-14 weight-500"
-                         style="padding-inline-start: 5px;inset-inline-start: 30px; bottom: -5px;  color: #828282">
-                {{'Score' | translate}}
-              </mat-label>
-            </div>
-            &nbsp; &nbsp;
-            <div class="position-relative" style="width: 100px">
-              <img src="assets/images/XP.png"
-                   width="28" height="28">&nbsp;
-              <div class="font-size-14 weight-800 position-absolute green-color"
-                   style="padding-inline-start: 5px; inset-inline-start: 30px; top: -5px;">
-                +{{gameResult?.statistics?.xp | parsInt}}</div>
-              <mat-label class="position-absolute font-size-14 weight-500"
-                         style="padding-inline-start: 5px;inset-inline-start: 30px; bottom: -5px;  color: #828282">
-                {{'XP' | translate}}
-              </mat-label>&nbsp;&nbsp;&nbsp;&nbsp;
+          <div *ngFor="let ply of gameResult?.result?.scoreboard; let i=index">
+            <div  class="w-20" >
+              <div class="position-relative" style="width: 100px" *ngIf="ply?._id == generalService.userId">
+                <img src="assets/images/score.png"
+                     width="28" height="28">&nbsp;
+                <div class="font-size-14 weight-800 position-absolute green-color"
+                     style="padding-inline-start: 5px; inset-inline-start: 30px; top: -5px;">
+                  +{{gameResult?.statistics?.score | parsInt}}</div>
+                <mat-label class="position-absolute font-size-14 weight-500"
+                           style="padding-inline-start: 5px;inset-inline-start: 30px; bottom: -5px;  color: #828282">
+                  {{'Score' | translate}}
+                </mat-label>
+              </div>
+              &nbsp; &nbsp;
+              <div class="position-relative" style="width: 100px" *ngIf="ply?._id == generalService.userId">
+                <img src="assets/images/XP.png"
+                     width="28" height="28">&nbsp;
+                <div class="font-size-14 weight-800 position-absolute green-color"
+                     style="padding-inline-start: 5px; inset-inline-start: 30px; top: -5px;">
+                  +{{gameResult?.statistics?.xp | parsInt}}</div>
+                <mat-label class="position-absolute font-size-14 weight-500"
+                           style="padding-inline-start: 5px;inset-inline-start: 30px; bottom: -5px;  color: #828282">
+                  {{'XP' | translate}}
+                </mat-label>&nbsp;&nbsp;&nbsp;&nbsp;
+              </div>
             </div>
           </div>
           <div class="position-relative" style="width: 300px">
@@ -230,6 +232,7 @@
                     stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
             <mat-label
+              [style]="generalService.userObj?.preferedLanguage?.code != 'fa' ? 'direction: ltr' : 'direction: ltr'"
               class="font-size-14 weight-600">{{gameResult?.startedAt | timeDifference:gameResult?.endedAt }}</mat-label>
           </div>
         </div>
@@ -242,7 +245,8 @@
           <mat-expansion-panel class="gray-card shadow-none"
                                (opened)="panelOpenState[i] = true"
                                (closed)="panelOpenState[i] = false">
-            <mat-expansion-panel-header style="height: fit-content; padding-inline-start: 0; padding-bottom: 10px; padding-inline-end: 0">
+            <mat-expansion-panel-header
+              style="height: fit-content; padding-inline-start: 0; padding-bottom: 10px; padding-inline-end: 0">
               <mat-panel-title style="min-width: 90%">
                 <mat-card class="shadow-none border-0 bg-transparent">
                   <mat-card-header>

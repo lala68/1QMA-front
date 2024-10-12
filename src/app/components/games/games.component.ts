@@ -8,7 +8,7 @@ import {
   ReactiveFormsModule,
   Validators
 } from "@angular/forms";
-import {ActivatedRoute, Router, RouterModule} from "@angular/router";
+import {ActivatedRoute, NavigationStart, Router, RouterModule} from "@angular/router";
 import {TranslateModule} from "@ngx-translate/core";
 import {GeneralService} from "../../services/general/general.service";
 import {GamesService} from "../../services/games/games.service";
@@ -26,6 +26,8 @@ import {ParsIntPipe} from "../../pipes/pars-int.pipe";
 import {ProcessHTTPMsgService} from "../../services/proccessHttpMsg/process-httpmsg.service";
 import translate from "translate";
 import {IntroJsService} from "../../services/introJs/intro-js.service";
+import introJs from "intro.js";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-games',
@@ -77,10 +79,12 @@ export class GamesComponent implements OnInit {
   liveSurvival: any;
   questionId: any;
   scoreboards = [
-    { time: '3 Days Ago', level: 'Normal', subject: 'Environment', score: 345, rank: 2 },
-    { time: '2 Weeks Ago', level: 'Normal', subject: 'Art', score: 345, rank: 1 },
-    { time: '3 Weeks Ago', level: 'Normal', subject: 'Social Science', score: 345, rank: 4 }
+    {time: '3 Days Ago', level: 'Normal', subject: 'Environment', score: 345, rank: 2},
+    {time: '2 Weeks Ago', level: 'Normal', subject: 'Art', score: 345, rank: 1},
+    {time: '3 Weeks Ago', level: 'Normal', subject: 'Social Science', score: 345, rank: 4}
   ];
+  private routerSubscription: any;
+  private introInProgress: boolean = false; // Track whether the intro is showing
 
   constructor(public generalService: GeneralService, private gameService: GamesService, public configService: ConfigService,
               private _formBuilder: FormBuilder, private router: Router, public dialog: MatDialog, private _snackBar: MatSnackBar,
@@ -88,7 +92,14 @@ export class GamesComponent implements OnInit {
     this.generalService.currentRout = '/games/overview';
   }
 
-  async ngOnInit(): Promise<any> {
+  async ngOnInit() {
+    // Subscribe to router events to detect page changes
+    this.routerSubscription = this.router.events.subscribe(event => {
+      if (event instanceof NavigationStart && this.introInProgress) {
+        this.destroyIntro(); // Destroy the intro if the page is changing
+      }
+    });
+
     console.log(this.generalService.gameInit)
     this.wordCountAnswer = this.generalService.gameInit?.answerWordsLimitation;
     this.route.paramMap.subscribe(params => {
@@ -140,13 +151,30 @@ export class GamesComponent implements OnInit {
     }, error => {
       return this.processHTTPMsgService.handleError(error);
     });
-    setTimeout(() => {
-      if (!this.generalService.clientInit?.user?.hasSeenIntros?.games) {
-        this.showIntro().then(() => {
-        });
-      }
-    }, 4000);
 
+    await this.waitForClientInit();
+
+    // After clientInit is ready, check the value
+    if (
+      this.generalService.clientInit &&
+      this.generalService.clientInit.user &&
+      this.generalService.clientInit.user.hasSeenIntros &&
+      !this.generalService.clientInit.user.hasSeenIntros.games
+    ) {
+      await this.showIntro(); // Wait for showIntro to finish
+    }
+  }
+
+  async waitForClientInit() {
+    while (!this.generalService.clientInit?.user?.hasSeenIntros.games) {
+      await new Promise(resolve => setTimeout(resolve, 1000)); // Check every 100ms
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.routerSubscription) {
+      this.routerSubscription.unsubscribe();
+    }
   }
 
   async showIntro() {
@@ -177,7 +205,20 @@ export class GamesComponent implements OnInit {
         position: 'bottom',
       }
     ];
-    await this.intro.showHelp('games', steps);
+    this.introInProgress = true; // Mark the intro as in progress
+    try {
+      await this.intro.showHelp('games', steps);
+    } finally {
+      this.introInProgress = false; // Reset the flag once the intro is done
+    }
+  }
+
+  // Method to destroy or cancel the intro
+  destroyIntro() {
+    if (this.introInProgress) {
+      introJs().exit(true); // Assuming 'cancel()' is a method from the intro library to stop the intro
+      this.introInProgress = false; // Reset the flag
+    }
   }
 
   async gotoStepTwo(index: any) {

@@ -4,7 +4,7 @@ import {SharedModule} from "../../shared/shared.module";
 import {ClientService} from "../../services/client/client.service";
 import {FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {GeneralService} from "../../services/general/general.service";
-import {Router, RouterModule} from "@angular/router";
+import {NavigationStart, Router, RouterModule} from "@angular/router";
 import {NgxMatIntlTelInputComponent} from "ngx-mat-intl-tel-input";
 import {TranslateModule} from "@ngx-translate/core";
 import {ConfigService} from "../../services/config/config.service";
@@ -23,6 +23,7 @@ import {CharityModalComponent} from "../charity-modal/charity-modal.component";
 import {IntroJsService} from "../../services/introJs/intro-js.service";
 import {SidenavComponent} from "../../shared/sidenav/sidenav.component";
 import {JoiningGame} from "../games/games.component";
+import introJs from "intro.js";
 
 @Component({
   selector: 'app-dashboard',
@@ -53,6 +54,8 @@ export class DashboardComponent implements OnInit {
   loadingMore: boolean = false;
   page: any = 1;
   noMoreItems: any;
+  private routerSubscription: any;
+  private introInProgress: boolean = false; // Track whether the intro is showing
 
   constructor(private clientService: ClientService, private _formBuilder: FormBuilder, private processHTTPMsgService: ProcessHTTPMsgService,
               public generalService: GeneralService, public configService: ConfigService, private loader: LoaderService,
@@ -61,21 +64,46 @@ export class DashboardComponent implements OnInit {
     this.generalService.currentRout = '/dashboard';
   }
 
-  async ngOnInit(): Promise<any> {
+  async ngOnInit() {
+    this.routerSubscription = this.router.events.subscribe(event => {
+      if (event instanceof NavigationStart && this.introInProgress) {
+        this.destroyIntro(); // Destroy the intro if the page is changing
+      }
+    });
     await this.generalService.getUserData();
     await this.getGameInit();
     this.calculateRemainingDays();
     this.changeTopQuestions();
     await this.getQuestionsFromFriendsLatestGames();
     this.loading = false;
-    setTimeout(async () => {
-      if (!this.generalService.clientInit?.user?.hasSeenIntros?.dashboard) {
-        await this.headerComponent.showIntro();   // Header intro
-        await this.sideNavComponent.showIntro();  // Sidebar intro
-        await this.showIntro();              // Main intro
-      }
+    await this.waitForClientInit();
 
-    }, 5000);
+    // After clientInit is ready, check the value
+    if (
+      this.generalService.clientInit &&
+      this.generalService.clientInit.user &&
+      this.generalService.clientInit.user.hasSeenIntros &&
+      !this.generalService.clientInit.user.hasSeenIntros.dashboard
+    ) {
+      await this.showIntro(); // Wait for showIntro to finish
+    }
+  }
+
+  async waitForClientInit() {
+    while (!this.generalService.clientInit?.user?.hasSeenIntros.dashboard) {
+      await new Promise(resolve => setTimeout(resolve, 1000)); // Check every 100ms
+    }
+  }
+
+  ngOnDestroy() {
+    introJs().exit(true);
+  }
+
+  destroyIntro() {
+    if (this.introInProgress) {
+      introJs().exit(true); // Assuming 'cancel()' is a method from the intro library to stop the intro
+      this.introInProgress = false; // Reset the flag
+    }
   }
 
   calculateRemainingDays(): void {
@@ -237,6 +265,11 @@ export class DashboardComponent implements OnInit {
         position: 'bottom',
       }
     ];
-    await this.intro.showHelp('dashboard', steps);
+    this.introInProgress = true; // Mark the intro as in progress
+    try {
+      await this.intro.showHelp('dashboard', steps);
+    } finally {
+      this.introInProgress = false; // Reset the flag once the intro is done
+    }
   }
 }

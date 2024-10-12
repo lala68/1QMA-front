@@ -98,7 +98,7 @@ export class AppComponent implements OnInit {
                 await this.authService.forceToLoginAgain();
                 await this.router.navigate(['/signup'], {state: {waitList: true}});
               } else {
-                if (user.data.hasCompletedSignup) {
+                if (user.data.hasCompletedSignup && user.data.emailVerified) {
                   this.gameService.gameInit().then(data => {
                     if (data.status == 1) {
                       this.generalService.gameInit = data.data;
@@ -108,13 +108,17 @@ export class AppComponent implements OnInit {
                   });
                   // await this.generalService.useGoogleTranslate();
                   await this.router.navigate(['/dashboard']);
-                } else {
+                } else if (!user.data.hasCompletedSignup && user.data.emailVerified) {
                   this.authService.registerInit().then(res => {
                     if (res.status == 1) {
                       this.generalService.initData = res.data;
                       this.router.navigate(['/wizard']);
                     }
                   })
+                } else {
+//todo
+                  await this.router.navigate(['/signup-refer-email']);
+
                 }
               }
             }, error => {
@@ -126,77 +130,93 @@ export class AppComponent implements OnInit {
             this.openDialog(JSON.stringify(message), 'Error');
             return;
           } else {
-            // alert('else')
-            if (this.generalService.userId && !this.generalService.hasCompletedSignup) {
-              this.authService.getUserDetails(this.generalService.userId).then(async user => {
-                await Preferences.remove({key: 'account'});
-                await Preferences.set({key: 'account', value: JSON.stringify(user.data)});
-                if (user.data.inWaitList) {
-                  await this.authService.forceToLoginAgain();
-                  await this.router.navigate(['/signup'], {state: {waitList: true}});
-                } else {
-                  if (user.data.hasCompletedSignup) {
-                    this.gameService.gameInit().then(data => {
-                      if (data.status == 1) {
-                        this.generalService.gameInit = data.data;
-                      }
-                    }, error => {
-                      return this.processHTTPMsgService.handleError(error);
-                    });
-                    // await this.generalService.useGoogleTranslate();
-                    await this.router.navigate(['/dashboard']);
-                  } else {
-                    this.authService.registerInit().then(res => {
-                      if (res.status == 1) {
-                        this.generalService.initData = res.data;
-                        this.router.navigate(['/wizard']);
-                      }
-                    })
-                  }
-                }
-              }, error => {
-                return this.processHTTPMsgService.handleError(error);
-              });
-            } else if (this.generalService.userId && this.generalService.hasCompletedSignup) {
-              this.authService.getUserDetails(this.generalService.userId).then(async user => {
-                await Preferences.remove({key: 'account'});
-                await Preferences.set({key: 'account', value: JSON.stringify(user.data)});
-                await this.generalService.getUserData();
-              })
+            if(this.generalService.userId){
               this.clientService.clientInit().then(async data => {
                 this.generalService.clientInit = data.data;
                 this.generalService.userObj = (data.data.user);
-                this.translateService.setDefaultLang(this.generalService.userObj?.preferedLanguage?.code);
-                document.documentElement.dir = this.generalService.userObj?.preferedLanguage?.code != 'fa' ? 'ltr' : 'rtl';
-                this.generalService.direction = document.documentElement.dir;
-                const bootstrapRTL = document.getElementById('bootstrapRTL') as HTMLLinkElement;
-                bootstrapRTL.disabled = document.documentElement.dir !== 'rtl';
+                this.generalService.hasCompletedSignup = data.data.user.hasCompletedSignup;
+                this.generalService.emailVerified = data.data.user.emailVerified;
+                if (this.generalService.userId && !this.generalService.hasCompletedSignup && this.generalService.emailVerified) {
+                  this.authService.getUserDetails(this.generalService.userId).then(async user => {
+                    await Preferences.remove({key: 'account'});
+                    await Preferences.set({key: 'account', value: JSON.stringify(user.data)});
+                    if (user.data.inWaitList) {
+                      await this.authService.forceToLoginAgain();
+                      await this.router.navigate(['/signup'], {state: {waitList: true}});
+                    } else {
+                      if (user.data.hasCompletedSignup) {
+                        this.gameService.gameInit().then(data => {
+                          if (data.status == 1) {
+                            this.generalService.gameInit = data.data;
+                          }
+                        }, error => {
+                          return this.processHTTPMsgService.handleError(error);
+                        });
+                        // await this.generalService.useGoogleTranslate();
+                        await this.router.navigate(['/dashboard']);
+                      } else if (!this.generalService.hasCompletedSignup && this.generalService.emailVerified) {
+                        this.authService.registerInit().then(res => {
+                          if (res.status == 1) {
+                            this.generalService.initData = res.data;
+                            this.router.navigate(['/wizard']);
+                          }
+                        })
+                      } else {
+                        //todo
+                        await this.router.navigate(['/signup-refer-email']);
+                      }
+                    }
+                  }, error => {
+                    return this.processHTTPMsgService.handleError(error);
+                  });
+                } else if (this.generalService.userId && this.generalService.hasCompletedSignup) {
+                  this.authService.getUserDetails(this.generalService.userId).then(async user => {
+                    await Preferences.remove({key: 'account'});
+                    await Preferences.set({key: 'account', value: JSON.stringify(user.data)});
+                    await this.generalService.getUserData();
+                  })
+                  // this.clientService.clientInit().then(async data => {
+                  //   this.generalService.clientInit = data.data;
+                  //   this.generalService.userObj = (data.data.user);
+                  this.translateService.setDefaultLang(this.generalService.userObj?.preferedLanguage?.code);
+                  document.documentElement.dir = this.generalService.userObj?.preferedLanguage?.code != 'fa' ? 'ltr' : 'rtl';
+                  this.generalService.direction = document.documentElement.dir;
+                  const bootstrapRTL = document.getElementById('bootstrapRTL') as HTMLLinkElement;
+                  bootstrapRTL.disabled = document.documentElement.dir !== 'rtl';
 
-                // this.generalService.updateFontBasedOnLanguage(this.translateService.currentLang);
-                // const item = await Preferences.get({ key: 'font' });
-                // console.log(item);
-                //
-                // if (item && item.value) {
-                //   this.generalService.font = item.value;
-                this.generalService.onFontSelect(this.generalService.userObj?.preferedFont);
-                // } else {
-                //   console.log('No font value found');
-                // }
-              }, error => {
-                return this.processHTTPMsgService.handleError(error);
-              });
-              this.gameService.gameInit().then(data => {
-                if (data.status == 1) {
-                  this.generalService.gameInit = data.data;
+                  // this.generalService.updateFontBasedOnLanguage(this.translateService.currentLang);
+                  // const item = await Preferences.get({ key: 'font' });
+                  // console.log(item);
+                  //
+                  // if (item && item.value) {
+                  //   this.generalService.font = item.value;
+                  this.generalService.onFontSelect(this.generalService.userObj?.preferedFont);
+                  // } else {
+                  //   console.log('No font value found');
+                  // }
+                  // }, error => {
+                  //   return this.processHTTPMsgService.handleError(error);
+                  // });
+                  this.gameService.gameInit().then(data => {
+                    if (data.status == 1) {
+                      this.generalService.gameInit = data.data;
+                    }
+                  }, error => {
+                    return this.processHTTPMsgService.handleError(error);
+                  });
+                  this.router.navigate([(this.router.url === ('/login') || this.router.url === ('/signup') || this.router.url === ('/forget-password')
+                    || this.router.url === ('/wizard') || this.router.url === ('/signup-social') || this.router.url === ('/signup-refer-email')
+                    || this.router.url === ('/social/callback')) ? '/dashboard' : this.location.path()]);
+                  // await this.generalService.useGoogleTranslate();
+                  this.generalService.currentRout = this.router.url;
                 }
-              }, error => {
-                return this.processHTTPMsgService.handleError(error);
               });
-              this.router.navigate([(this.router.url === ('/login') || this.router.url === ('/signup') || this.router.url === ('/forget-password')
-                || this.router.url === ('/wizard') || this.router.url === ('/signup-social') || this.router.url === ('/signup-refer-email')
-                || this.router.url === ('/social/callback')) ? '/dashboard' : this.location.path()]);
-              // await this.generalService.useGoogleTranslate();
-              this.generalService.currentRout = this.router.url;
+            } else {
+              this.authService.registerInit().then(res => {
+                if (res.status == 1) {
+                  this.generalService.initData = res.data;
+                }
+              })
             }
           }
 

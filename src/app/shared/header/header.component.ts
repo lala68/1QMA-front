@@ -47,6 +47,7 @@ export class HeaderComponent implements OnInit {
         this.authService.isLoggedIn = false;
         this.generalService.userId = '';
         this.generalService.userObj = '';
+        this.generalService.emailVerified = false;
         this.generalService.hasCompletedSignup = false;
         await this.router.navigate(['/login']);
       } else {

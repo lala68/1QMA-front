@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {SharedModule} from "../../shared/shared.module";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {RouterModule} from "@angular/router";
+import {NavigationStart, Router, RouterModule} from "@angular/router";
 import {TranslateModule} from "@ngx-translate/core";
 import {DaysAgoPipe} from "../../pipes/days-ago.pipe";
 import {ParsIntPipe} from "../../pipes/pars-int.pipe";
@@ -13,6 +13,7 @@ import {SnackbarContentComponent} from "../snackbar-content/snackbar-content.com
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Preferences} from "@capacitor/preferences";
 import {IntroJsService} from "../../services/introJs/intro-js.service";
+import introJs from "intro.js";
 
 @Component({
   selector: 'app-shop',
@@ -34,20 +35,49 @@ export class ShopComponent implements OnInit {
   shopType: any;
   detail: any;
   selected: any;
+  private routerSubscription: any;
+  private introInProgress: boolean = false; // Track whether the intro is showing
 
-  constructor(public generalService: GeneralService, private processHTTPMsgService: ProcessHTTPMsgService,
+  constructor(public generalService: GeneralService, private processHTTPMsgService: ProcessHTTPMsgService, private router: Router,
               private shopService: ShopService, private _snackBar: MatSnackBar, private intro: IntroJsService,) {
     this.generalService.currentRout = '/shop';
   }
 
-  async ngOnInit(): Promise<any> {
-    await this.getShops();
-    setTimeout(() => {
-      if (!this.generalService.clientInit?.user?.hasSeenIntros?.shop) {
-        this.showIntro().then(() => {
-        });
+  async ngOnInit() {
+    this.routerSubscription = this.router.events.subscribe(event => {
+      if (event instanceof NavigationStart && this.introInProgress) {
+        this.destroyIntro(); // Destroy the intro if the page is changing
       }
-    }, 3000);
+    });
+    await this.getShops();
+    await this.waitForClientInit();
+
+    // After clientInit is ready, check the value
+    if (
+      this.generalService.clientInit &&
+      this.generalService.clientInit.user &&
+      this.generalService.clientInit.user.hasSeenIntros &&
+      !this.generalService.clientInit.user.hasSeenIntros.shop
+    ) {
+      await this.showIntro(); // Wait for showIntro to finish
+    }
+  }
+
+  async waitForClientInit() {
+    while (!this.generalService.clientInit?.user?.hasSeenIntros.shop) {
+      await new Promise(resolve => setTimeout(resolve, 1000)); // Check every 100ms
+    }
+  }
+
+  ngOnDestroy(){
+    introJs().exit(true);
+  }
+
+  destroyIntro() {
+    if (this.introInProgress) {
+      introJs().exit(true); // Assuming 'cancel()' is a method from the intro library to stop the intro
+      this.introInProgress = false; // Reset the flag
+    }
   }
 
   async showIntro() {
@@ -66,7 +96,12 @@ export class ShopComponent implements OnInit {
         position: 'bottom',
       }
     ];
-    await this.intro.showHelp('games', steps);
+    this.introInProgress = true; // Mark the intro as in progress
+    try {
+      await this.intro.showHelp('shop', steps);
+    } finally {
+      this.introInProgress = false; // Reset the flag once the intro is done
+    }
   }
 
   async getShops() {

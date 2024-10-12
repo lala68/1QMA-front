@@ -15,6 +15,7 @@ import {FormControl} from "@angular/forms";
 export class GeneralService implements OnInit {
   countryListEng: any;
   userId: any;
+  emailVerified: any;
   hasCompletedSignup: any;
   initData: any;
   userObj: any;

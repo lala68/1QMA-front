@@ -2,7 +2,7 @@
   <img src="assets/images/logo.png" width="110" class="footer-logo">
   <div class="weight-500 sponsor-title-footer">Sponsors:</div>
   <div class="sponsors">
-    <button *ngFor="let sponsor of generalService.clientInit?.sponsors" (click)="gotoSponsorLink(sponsor.link)"
+    <button *ngFor="let sponsor of generalService.initData ? generalService.initData?.sponsors : generalService.clientInit?.sponsors" (click)="gotoSponsorLink(sponsor.link)"
             class="sponsor-button border-0">
       <img [src]="'https://api.staging.1qma.games/' + sponsor.icon" width="45" height="45"/>
     </button>

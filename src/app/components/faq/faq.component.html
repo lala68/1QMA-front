@@ -1,4 +1,6 @@
 <br><br>
+<div *ngIf="!generalService.userId"><br><br></div>
+
 <div class="card border-0 p-4 font-size-16 weight-600" *ngIf="generalService.userObj">
   {{'FAQ' | translate}}
 </div>

@@ -135,7 +135,8 @@ body *:not(#content-to-translate *) {
 mat-table, mat-tab-header, mat-tab-body, button, mat-list, mat-list-item, mat-grid-list, mat-form-field, span, .container-accordion-item,
 mat-tab-group, .mat-mdc-tab, .mdc-list-item__primary-text, mat-list-option, mat-select, mat-selection-list,
 .mat-mdc-menu-content .mat-mdc-menu-item .mat-mdc-menu-item-text, mat-expansion-panel-header,
-.mat-expansion-panel-body, mat-dialog-container, .mat-mdc-dialog-container .mat-mdc-dialog-content {
+.mat-expansion-panel-body, mat-dialog-container, .mat-mdc-dialog-container .mat-mdc-dialog-content,
+.container-accordion, .container-accordion-item-mobile {
   font-family: inherit !important; /* Ensure Material components inherit the font from body */
 }
 
