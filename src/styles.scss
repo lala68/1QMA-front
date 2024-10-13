@@ -82,6 +82,10 @@ body.exo-font {
   font-family: 'Exo', sans-serif; /* Fallback to sans-serif */
 }
 
+.exo-font {
+  font-family: 'Exo', sans-serif !important; /* Fallback to sans-serif */
+}
+
 body.rokh-font {
   font-family: 'Rokh', sans-serif; /* Fallback to sans-serif */
 }
@@ -120,6 +124,10 @@ body.kohinoor-font {
 
 body.peyda-font {
   font-family: 'Peyda', sans-serif; /* Fallback to sans-serif */
+}
+
+.peyda-font {
+  font-family: 'Peyda', sans-serif !important; /* Fallback to sans-serif */
 }
 
 body.pinar-font {
@@ -522,16 +530,16 @@ input[type="tel"] {
 }
 
 .mat-card-pref {
-  width: 200px;
-  min-width: 200px;
+  width: 160px;
+  min-width: 160px;
   background: #F9F7F7 !important;
   border: 1px solid #E8E2E0 !important;
   border-radius: 6px !important;
 }
 
 .mat-card-pref-selected {
-  width: 200px;
-  min-width: 200px;
+  width: 160px;
+  min-width: 160px;
   background: #EDF9FF !important;
   border: 1px solid #0B6FEA !important;
   border-radius: 6px !important;
@@ -989,7 +997,7 @@ input[type="tel"] {
 
 /* Apply this to make the tab group scrollable */
 .responsive-tabs .mat-tab-labels {
-  overflow-x: auto;  /* Enable horizontal scrolling */
+  overflow-x: auto; /* Enable horizontal scrolling */
   display: flex;
   flex-wrap: nowrap;
   white-space: nowrap;
@@ -1007,6 +1015,16 @@ input[type="tel"] {
 .responsive-tabs .mat-tab-labels::-webkit-scrollbar-thumb {
   background-color: rgba(0, 0, 0, 0.3);
   border-radius: 4px;
+}
+
+.mobile-dialog .mat-dialog-container {
+  border-radius: 10px 10px 0 0; /* Rounded corners for the top */
+  width: 100vw !important; /* Full width on mobile */
+  position: absolute;
+  bottom: 0;
+  margin: 0;
+  padding: 0;
+  z-index: 1000;
 }
 
 //mobile

@@ -2,7 +2,8 @@
 <div style="display: ruby-text;">
   <mat-spinner *ngIf="loading" [diameter]="30"></mat-spinner>
 </div>
-<mat-toolbar *ngIf="generalService.isMobileView" class="mb-3 mt-1" style="padding-inline-end: 0;background: transparent;">
+<mat-toolbar *ngIf="generalService.isMobileView" class="mb-3 mt-1"
+             style="padding-inline-end: 0;background: transparent;">
   <button mat-flat-button (click)="openAddQuestion()" id="addQuestion" style="height: 60px"
           [class]="generalService.currentRout == '/shop' ? 'mat-list-item-selected' : ''"
           routerLinkActive="active-link" class="w-30 m-1">
@@ -70,6 +71,7 @@
           <!--          <div mat-card-avatar class="avatar-header-image-profile-dashboard"></div>-->
           <img mat-card-avatar class="avatar-bordered"
                [src]="generalService.userObj?.profilePicture ? generalService.userObj?.profilePicture?.startsWith('http') ? generalService.userObj?.profilePicture : configService.url(generalService.userObj?.profilePicture) : 'assets/images/frame.png'"
+               (error)="handleImageError($event)"
                width="35" height="35">
           <mat-card-title
             class="font-size-14 weight-700">{{generalService.userObj?.firstName + ' ' + generalService.userObj?.lastName }}</mat-card-title>
@@ -96,6 +98,7 @@
           </mat-card-title>
           <img class="avatar-bordered"
                [src]="generalService.userObj?.referer?.profilePicture ? generalService.userObj?.referer?.profilePicture?.startsWith('http') ? generalService.userObj?.referer?.profilePicture : configService.url(generalService.userObj?.referer?.profilePicture) : 'assets/images/frame.png'"
+               (error)="handleImageError($event)"
                width="28" height="28">
           <mat-label
             class="card-subtitle-profile-dashboard text-light-color mt-2 font-size-13 weight-500 cursor-pointer"
@@ -324,7 +327,7 @@
       </mat-card-header>
       <br>
       <div class="d-flex overflow-scroll">
-        <div class="m-2 d-inline-flex shadow-none cursor-pointer p-3"
+        <div class="m-2 d-inline-flex shadow-none cursor-pointer p-2"
              (click)="selectCatTopQuestion('')"
              [class]="{'mat-card-pref-selected': isSelected(''), 'mat-card-pref': !isSelected('')}">
           <div class="text-center w-100" style="padding-top: 8px">
@@ -332,7 +335,7 @@
           </div>
         </div>
         <div *ngFor="let cat of generalService.clientInit?.categories"
-             class="m-2 d-inline-flex shadow-none cursor-pointer p-3"
+             class="m-2 d-inline-flex shadow-none cursor-pointer p-2"
              (click)="selectCatTopQuestion(cat)"
              [class]="{'mat-card-pref-selected': isSelected(cat), 'mat-card-pref': !isSelected(cat)}">
           <div class="text-start">
@@ -385,6 +388,7 @@
             <div class="w-100">
               <img style="border: 1px solid #E8E2E0;border-radius: 50px; background: white;"
                    [src]="res?.user?.profilePicture ? res?.user?.profilePicture?.startsWith('http') ? res?.user?.profilePicture : configService.url(res?.user?.profilePicture) : 'assets/images/frame.png'"
+                   (error)="handleImageError($event)"
                    width="40">&nbsp;&nbsp;
               <mat-label>{{res?.user?.firstName}} {{res?.user?.lastName}}</mat-label>
             </div>
@@ -399,7 +403,7 @@
           </mat-grid-tile>
           <mat-grid-tile [colspan]="1" (click)="gotoQuestionDetail(res)">
             <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg"
-            *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'">
+                 *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'">
               <path
                 d="M9.53223 20.4084L16.0522 13.8884C16.8222 13.1184 16.8222 11.8584 16.0522 11.0884L9.53223 4.56836"
                 stroke="#0B6FEA" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
@@ -425,6 +429,7 @@
             <div class="w-100">
               <img style="border: 1px solid #E8E2E0;border-radius: 50px; background: white;"
                    [src]="res?.user?.profilePicture ? res?.user?.profilePicture?.startsWith('http') ? res?.user?.profilePicture : configService.url(res?.user?.profilePicture) : 'assets/images/frame.png'"
+                   (error)="handleImageError($event)"
                    width="40">&nbsp;&nbsp;
               <mat-label>{{res?.user?.firstName}} {{res?.user?.lastName}}</mat-label>
             </div>
@@ -479,16 +484,17 @@
     <br>
     <div class="d-inline w-100 copy-referrer cursor-pointer position-relative"
          [cdkCopyToClipboard]="generalService.userObj?.referCode"
-         (click)="tooltip.show()"
+         (click)="showTooltip()"
          (mouseleave)="tooltip.hide()">
       <div class="d-inline text-start">Referral Code</div>
       <div class="d-inline text-end position-absolute"
            style="inset-inline-end: 10px"
-           matTooltip="Click to copy in clipboard!"
+           [matTooltip]="tooltipMessage"
            [matTooltipPosition]="'above'"
-           [matTooltipHideDelay]="1000"
+           [matTooltipHideDelay]="0"
            [matTooltipShowDelay]="0"
            matTooltipTouchGestures="auto"
+           [matTooltipDisabled]="tooltipVisible"
            #tooltip="matTooltip">
         {{generalService.userObj?.referCode}} <i class="bi bi-copy"></i>
       </div>
@@ -514,7 +520,8 @@
             <path d="M10.0459 6.36621H15.0459" stroke="#2C2523" stroke-width="1.5" stroke-linecap="round"
                   stroke-linejoin="round"/>
           </svg>
-          {{generalService.userObj?.maxInvites - generalService.userObj?.invitations.length}} / {{generalService.userObj?.maxInvites}} Left Invitations
+          {{generalService.userObj?.maxInvites - generalService.userObj?.invitations.length}}
+          / {{generalService.userObj?.maxInvites}} Left Invitations
         </mat-card-title>
         <div [routerLink]="['/shop']"
              class="link-text font-size-14 weight-500 position-absolute cursor-pointer"
@@ -603,6 +610,7 @@
       <div class="d-flex white-card position-relative p-1">
         <img class="avatar-bordered"
              [src]="item?.user?.profilePicture ? item?.user?.profilePicture?.startsWith('http') ? item?.user?.profilePicture : configService.url(item?.user?.profilePicture) : 'assets/images/frame.png'"
+             (error)="handleImageError($event)"
              width="42" height="42">
         <mat-label class="font-size-13 weight-500"
                    style="margin: auto 10px">{{item?.user?.firstName}} {{item?.user?.lastName}}</mat-label>

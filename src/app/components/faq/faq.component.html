@@ -32,7 +32,7 @@
       </mat-expansion-panel-header>
       <div class="container-accordion">
         <div class="container-accordion-item">
-         <span
+         <span [ngClass]="generalService.userObj?.preferedLanguage?.code != 'fa' ? 'exo-font' : 'peyda-font'"
            class="font-size-14 weight-400 text-gray">
            {{question?.answer}}
          </span>

@@ -230,7 +230,8 @@ export class TriviaHubComponent implements OnInit {
   }
 
   async gotoResult(id: any) {
-    await this.router.navigate(['game-result'], {state: {id: id}});
+    // await this.router.navigate(['game-result'], {state: {id: id}});
+    await this.router.navigate(['game-result'],{ queryParams: { id: id } });
   }
 
   async getPerformance(id: any) {
@@ -330,6 +331,11 @@ export class TriviaHubComponent implements OnInit {
     console.log('Selected option:', this.selectedSortOption);
     this.changeGames();
     // You can also perform any additional logic here based on the selected option.
+  }
+
+  handleImageError(event: Event) {
+    const imgElement = event.target as HTMLImageElement;
+    imgElement.src = 'assets/images/frame.png';
   }
 
 }

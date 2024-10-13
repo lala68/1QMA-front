@@ -16,6 +16,7 @@
       <mat-card-header class="pe-1 ps-1">
         <img mat-card-avatar
              [src]="user?.profilePicture ? user?.profilePicture?.startsWith('http') ? user?.profilePicture : configService.url(user?.profilePicture) : 'assets/images/frame.png'"
+             (error)="handleImageError($event)"
              width="35" height="35">
         <mat-card-title
           class="card-title-profile-dashboard mt-2">{{user?.firstName + ' ' + user?.lastName }}</mat-card-title>
@@ -190,6 +191,7 @@
         </mat-card-title>
         <img class="avatar-bordered"
              [src]="user?.referer?.profilePicture ? user?.referer?.profilePicture?.startsWith('http') ? user?.referer?.profilePicture : configService.url(user?.referer?.profilePicture) : 'assets/images/frame.png'"
+             (error)="handleImageError($event)"
              width="28" height="28">
         <mat-label
           class="card-subtitle-profile-dashboard text-light-color mt-2 font-size-13 weight-500 cursor-pointer"
@@ -238,6 +240,7 @@
               <img mat-card-avatar
                    [src]="ply?.profilePicture ? ply?.profilePicture?.startsWith('http') ? ply?.profilePicture : configService.url(ply?.profilePicture) : 'assets/images/frame.png'"
                    width="26" height="26"
+                   (error)="handleImageError($event)"
                    class="avatar-bordered bg-white mb-0 position-absolute custom-position-{{i}}">
             </div>
           </div>

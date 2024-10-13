@@ -30,8 +30,12 @@ export class GameResultComponent implements OnInit, OnDestroy {
   translations: { [key: string]: string } = {};
 
   constructor(private gameService: GamesService, public configService: ConfigService, public generalService: GeneralService,
-              private router: Router, private location: Location, private processHTTPMsgService: ProcessHTTPMsgService) {
-    this.gameId = this.router.getCurrentNavigation()?.extras?.state?.['id'];
+              private router: Router, private location: Location, private processHTTPMsgService: ProcessHTTPMsgService,
+              private route: ActivatedRoute) {
+    // this.gameId = this.router.getCurrentNavigation()?.extras?.state?.['id'];
+    this.route.queryParams.subscribe(params => {
+      this.gameId = params['id'];
+    });
   }
 
   async ngOnInit() {
@@ -66,6 +70,11 @@ export class GameResultComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     // Clear Google Translate settings when leaving the page
     // this.generalService.clearGoogleTranslateSettings();
+  }
+
+  handleImageError(event: Event) {
+    const imgElement = event.target as HTMLImageElement;
+    imgElement.src = 'assets/images/frame.png';
   }
 
 }

@@ -2,7 +2,7 @@
 <br>
 <div class="card border-0">
   <div class="w-100 d-flex">
-    <mat-card class="shadow-none">
+    <mat-card class="w-100 shadow-none">
       <mat-card-header>
         <img *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'" src="assets/images/arrow-left.svg"
              width="24" height="24" (click)="goBack()"
@@ -12,6 +12,8 @@
              style="position: absolute; inset-inline-start: 10px; top: 0; bottom: 0; margin: auto;">
         <div class="ms-2" style="height: 46px"></div>
         <mat-label class="font-size-16 weight-600 ms-4">{{'Game Detail' | translate}}</mat-label>
+        <mat-label class="position-absolute font-size-14 weight-400" style="inset-inline-end: 60px">{{'ID' | translate}}: <span
+          class="font-size-14 weight-600">{{gameResult?.id}}</span></mat-label>
       </mat-card-header>
     </mat-card>
   </div>
@@ -31,6 +33,7 @@
             </mat-label>
             &nbsp;&nbsp;<img class="avatar-bordered bg-white"
                              [src]="gameResult?.creator?.profilePicture ? gameResult?.creator?.profilePicture?.startsWith('http') ? gameResult?.creator?.profilePicture : configService.url(gameResult?.creator?.profilePicture) : 'assets/images/frame.png'"
+                             (error)="handleImageError($event)"
                              width="40" height="40">
             &nbsp;<span
             class="font-size-14 weight-700 pe-2">{{gameResult?.creator?.firstName}} {{gameResult?.creator?.lastName}}</span>
@@ -52,7 +55,7 @@
             </div>
           </div>
           <div *ngFor="let ply of gameResult?.result?.scoreboard; let i=index">
-            <div  class="w-20" >
+            <div class="w-20">
               <div class="position-relative" style="width: 100px" *ngIf="ply?._id == generalService.userId">
                 <img src="assets/images/score.png"
                      width="28" height="28">&nbsp;
@@ -83,17 +86,20 @@
             <img class="avatar-bordered bg-white"
                  style="position: absolute; inset-inline-start: 60px; bottom: 80px;"
                  [src]="gameResult?.result?.scoreboard[1]?.profilePicture ? gameResult?.result?.scoreboard[1]?.profilePicture?.startsWith('http') ? gameResult?.result?.scoreboard[1]?.profilePicture : configService.url(gameResult?.result?.scoreboard[1]?.profilePicture) : 'assets/images/frame.png'"
+                 (error)="handleImageError($event)"
                  width="48">
             <!--              1-->
             <img class="avatar-bordered bg-white"
                  style="position: absolute; inset-inline-start: 120px; bottom: 90px;"
                  [src]="gameResult?.result?.scoreboard[0]?.profilePicture ? gameResult?.result?.scoreboard[0]?.profilePicture?.startsWith('http') ? gameResult?.result?.scoreboard[0]?.profilePicture : configService.url(gameResult?.result?.scoreboard[0]?.profilePicture) : 'assets/images/frame.png'"
+                 (error)="handleImageError($event)"
                  width="48">
             <!--              3-->
             <img *ngIf="gameResult?.result?.scoreboard?.length > 2"
                  class="avatar-bordered bg-white"
                  style="position: absolute; inset-inline-start: 180px; bottom: 70px"
                  [src]="gameResult?.result?.scoreboard[2]?.profilePicture ? gameResult?.result?.scoreboard[2]?.profilePicture?.startsWith('http') ? gameResult?.result?.scoreboard[2]?.profilePicture : configService.url(gameResult?.result?.scoreboard[2]?.profilePicture) : 'assets/images/frame.png'"
+                 (error)="handleImageError($event)"
                  width="48">
 
             <img src="assets/images/Leaderboards.png" width="190" height="65"
@@ -107,17 +113,20 @@
             <img class="avatar-bordered bg-white"
                  style="position: absolute; inset-inline-start: 60px; bottom: 80px;"
                  [src]="gameResult?.result?.scoreboard[1]?.profilePicture ? gameResult?.result?.scoreboard[1]?.profilePicture?.startsWith('http') ? gameResult?.result?.scoreboard[1]?.profilePicture : configService.url(gameResult?.result?.scoreboard[1]?.profilePicture) : 'assets/images/frame.png'"
+                 (error)="handleImageError($event)"
                  width="48">
             <!--              1-->
             <img class="avatar-bordered bg-white"
                  style="position: absolute; inset-inline-start: 120px; bottom: 90px;"
                  [src]="gameResult?.result?.scoreboard[0]?.profilePicture ? gameResult?.result?.scoreboard[0]?.profilePicture?.startsWith('http') ? gameResult?.result?.scoreboard[0]?.profilePicture : configService.url(gameResult?.result?.scoreboard[0]?.profilePicture) : 'assets/images/frame.png'"
+                 (error)="handleImageError($event)"
                  width="48">
             <!--              3-->
             <img *ngIf="gameResult?.result?.scoreboard?.length > 2"
                  class="avatar-bordered bg-white"
                  style="position: absolute; inset-inline-start: 180px; bottom: 70px"
                  [src]="gameResult?.result?.scoreboard[2]?.profilePicture ? gameResult?.result?.scoreboard[2]?.profilePicture?.startsWith('http') ? gameResult?.result?.scoreboard[2]?.profilePicture : configService.url(gameResult?.result?.scoreboard[2]?.profilePicture) : 'assets/images/frame.png'"
+                 (error)="handleImageError($event)"
                  width="48">
 
             <img src="assets/images/Leaderboards.png" width="190" height="65"
@@ -140,6 +149,7 @@
             </mat-label>
             &nbsp;&nbsp;<img class="avatar-bordered bg-white"
                              [src]="gameResult?.creator?.profilePicture ? gameResult?.creator?.profilePicture?.startsWith('http') ? gameResult?.creator?.profilePicture : configService.url(gameResult?.creator?.profilePicture) : 'assets/images/frame.png'"
+                             (error)="handleImageError($event)"
                              width="40" height="40">
             &nbsp;<span
             class="font-size-14 weight-700 pe-2">{{gameResult?.creator?.firstName}} {{gameResult?.creator?.lastName}}</span>
@@ -197,6 +207,7 @@
           <mat-grid-tile class="result-grid" [colspan]="1">
             <img class="avatar-bordered bg-white"
                  [src]="res?.profilePicture ? res?.profilePicture?.startsWith('http') ? res?.profilePicture : configService.url(res?.profilePicture) : 'assets/images/frame.png'"
+                 (error)="handleImageError($event)"
                  width="40">
           </mat-grid-tile>
           <mat-grid-tile class="result-grid" [colspan]="3">
@@ -252,6 +263,7 @@
                   <mat-card-header>
                     <img mat-card-avatar
                          [src]="question?.questioner?.profilePicture ? question?.questioner?.profilePicture?.startsWith('http') ? question?.questioner?.profilePicture : configService.url(question?.questioner?.profilePicture) : 'assets/images/frame.png'"
+                         (error)="handleImageError($event)"
                          width="40"/>
                     <mat-card-title
                       class="font-size-14 weight-600 pb-2">{{question?.questioner?.firstName}} {{question?.questioner?.lastName}}</mat-card-title>
@@ -279,13 +291,14 @@
                 <div>
                   <img class="avatar-bordered bg-white"
                        [src]="answer?.answerer?.profilePicture ? answer?.answerer?.profilePicture?.startsWith('http') ? answer?.answerer?.profilePicture : configService.url(answer?.answerer?.profilePicture) : 'assets/images/frame.png'"
+                       (error)="handleImageError($event)"
                        width="40" height="40">
                   &nbsp;<span
-                  class="font-size-14 weight-700 pe-2">{{answer?.answerer?.firstName}} {{answer?.answerer?.lastName}}</span>
+                  class="font-size-14 weight-700 pe-2" [ngClass]="generalService.userObj?.preferedLanguage?.code != 'fa' ? 'exo-font' : 'peyda-font'">{{answer?.answerer?.firstName}} {{answer?.answerer?.lastName}}</span>
                   <br>
                   <br>
-                  <mat-label
-                    class="font-size-14 weight-400">{{(answer.answer)}}</mat-label>
+                  <mat-label [ngClass]="generalService.userObj?.preferedLanguage?.code != 'fa' ? 'exo-font' : 'peyda-font'"
+                             class="font-size-14 weight-400">{{(answer.answer)}}</mat-label>
                   <br>
                   <br>
                   <img src="assets/images/score.png" width="16"/>

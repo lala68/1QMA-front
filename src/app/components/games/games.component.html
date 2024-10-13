@@ -20,6 +20,7 @@
               <div class="gray-card creator">
                 <img class="avatar-bordered bg-white"
                      [src]="generalService.userObj?.profilePicture ? generalService.userObj?.profilePicture?.startsWith('http') ? generalService.userObj?.profilePicture : configService.url(generalService.userObj?.profilePicture) : 'assets/images/frame.png'"
+                     (error)="handleImageError($event)"
                      width="40" height="40">
                 &nbsp;<span
                 class="font-size-14 weight-700 pe-2">{{generalService.userObj?.firstName + ' ' + generalService.userObj?.lastName}}</span>
@@ -271,6 +272,7 @@
                 <mat-card-content class="d-inline-flex position-relative p-0 w-100" style="text-align: start;">
                   <img mat-card-avatar
                        [src]="liveGame?.creator?.profilePicture ? liveGame?.creator?.profilePicture?.startsWith('http') ? liveGame?.creator?.profilePicture : configService.url(liveGame?.creator?.profilePicture) : 'assets/images/frame.png'"
+                       (error)="handleImageError($event)"
                        width="33" height="33" class="mb-0">
                   <mat-card-title class="font-size-10 weight-500 ms-1">{{'Created By' | translate}}:</mat-card-title>
                   <mat-card-subtitle class="position-absolute bottom-0" style="inset-inline-start: 45px">
@@ -284,6 +286,7 @@
                     <div *ngFor="let ply of liveGame?.players; let i=index" class="d-inline-block">
                       <img mat-card-avatar
                            [src]="ply?.profilePicture ? ply?.profilePicture?.startsWith('http') ? ply?.profilePicture : configService.url(ply?.profilePicture) : 'assets/images/frame.png'"
+                           (error)="handleImageError($event)"
                            width="26" height="26"
                            class="avatar-bordered bg-white mb-0 position-absolute custom-position-{{i}}">
                     </div>
@@ -344,6 +347,7 @@
                     <mat-card-header class="pe-1 ps-1">
                       <img mat-card-avatar
                            [src]="fg?.result?.scoreboard[0]?.profilePicture ? fg?.result?.scoreboard[0]?.profilePicture?.startsWith('http') ? fg?.result?.scoreboard[0]?.profilePicture : configService.url(fg?.result?.scoreboard[0]?.profilePicture) : 'assets/images/frame.png'"
+                           (error)="handleImageError($event)"
                            width="33" height="33" class="avatar-bordered mb-0">
                       <mat-card-title
                         class="font-size-14 weight-500"
@@ -365,6 +369,7 @@
                     <div *ngFor="let ply of fg?.players; let i=index" class="d-inline-block">
                       <img mat-card-avatar
                            [src]="ply?.profilePicture ? ply?.profilePicture?.startsWith('http') ? ply?.profilePicture : configService.url(ply?.profilePicture) : 'assets/images/frame.png'"
+                           (error)="handleImageError($event)"
                            width="26" height="26"
                            class="avatar-bordered bg-white mb-0 position-absolute custom-position-{{i}}">
                     </div>
@@ -449,6 +454,7 @@
                   <mat-grid-tile class="result-grid" [colspan]="4">
                     <img style="border: 1px solid #E8E2E0;border-radius: 50px; background: white;"
                          [src]="res?.profilePicture ? res?.profilePicture?.startsWith('http') ? res?.profilePicture : configService.url(res?.profilePicture) : 'assets/images/frame.png'"
+                         (error)="handleImageError($event)"
                          width="40">&nbsp;&nbsp;
                     <mat-label>{{res?.firstName}} {{res?.lastName}}</mat-label>
                   </mat-grid-tile>
@@ -561,7 +567,8 @@
                     <mat-grid-tile class="result-grid" [colspan]="4">
                       <img style="border: 1px solid #E8E2E0;border-radius: 50px; background: white;"
                            [src]="res?.creator?.profilePicture ? res?.creator?.profilePicture?.startsWith('http') ? res?.creator?.profilePicture : configService.url(res?.creator?.profilePicture) : 'assets/images/frame.png'"
-                           width="40">&nbsp;&nbsp;
+                           (error)="handleImageError($event)" width="40">&nbsp;&nbsp;
+                           (error)="handleImageError($event)" width="40">&nbsp;&nbsp;
                       <mat-label>{{res?.creator?.firstName}} {{res?.creator?.lastName}}</mat-label>
                     </mat-grid-tile>
                     <mat-grid-tile class="result-grid" [colspan]="3">
@@ -833,7 +840,7 @@
                         class="m-2 d-inline-block shadow-none cursor-pointer"
                         (click)="selectCat(cat)"
                         [class]="{'mat-card-pref-selected': isSelected(cat), 'mat-card-pref': !isSelected(cat)}">
-                <mat-card-content style="text-align: start;">
+                <mat-card-content style="text-align: start; padding: 16px 5px">
                   <img [src]="'https://api.staging.1qma.games/' + cat?.icon" width="35">
                   <mat-label>{{ cat.name }}</mat-label>
                 </mat-card-content>
@@ -855,7 +862,7 @@
               </mat-card-subtitle>
             </mat-card-header>
             <mat-card-content style="margin-top: 30px"
-                              [style]="generalService.isMobileView ? 'width: 100%' : 'width: 1000px'">
+                              [style]="generalService.isMobileView ? 'width: 100%' : 'width: 900px'">
               <form #f="ngForm" [formGroup]="questionForm" autocomplete="off">
                 <div class="d-flex">
                   <!--                  <img src="assets/images/message-question.svg" width="24">-->
@@ -947,6 +954,7 @@
           <div *ngFor="let ivt of generalService.invitedPlayersArray" class="invite-card m-2">
             <img class="avatar-bordered bg-white"
                  [src]="ivt?.profilePicture ? ivt?.profilePicture?.startsWith('http') ? ivt?.profilePicture : configService.url(ivt?.profilePicture) : 'assets/images/frame.png'"
+                 (error)="handleImageError($event)"
                  width="32" height="32"/>
             <mat-label class="font-size-14 weight-500 m-auto">{{ivt}}</mat-label>
             &nbsp;&nbsp;
@@ -1106,6 +1114,7 @@
               <div class="d-inline-flex m-auto ms-2">
                 <img class="avatar-bordered bg-white"
                      [src]="findFriendGameData?.friend?.profilePicture ? findFriendGameData?.friend?.profilePicture?.startsWith('http') ? findFriendGameData?.friend?.profilePicture : configService.url(findFriendGameData?.friend?.profilePicture) : 'assets/images/frame.png'"
+                     (error)="handleImageError($event)"
                      width="40" height="40">
                 <span
                   class="font-size-14 weight-500 text-light-color m-auto">
@@ -1151,6 +1160,7 @@
                 <div *ngFor="let ply of liveGame?.players; let i=index" class="d-inline-block">
                   <img mat-card-avatar
                        [src]="ply?.profilePicture ? ply?.profilePicture?.startsWith('http') ? ply?.profilePicture : configService.url(ply?.profilePicture) : 'assets/images/frame.png'"
+                       (error)="handleImageError($event)"
                        width="26" height="26"
                        class="avatar-bordered bg-white mb-0 position-absolute custom-position-{{i}}">
                 </div>
@@ -1202,6 +1212,7 @@
                 <mat-card-header class="pe-1 ps-1">
                   <img mat-card-avatar
                        [src]="findFriendGameData?.friend?.profilePicture ? findFriendGameData?.friend?.profilePicture?.startsWith('http') ? findFriendGameData?.friend?.profilePicture : configService.url(findFriendGameData?.friend?.profilePicture) : 'assets/images/frame.png'"
+                       (error)="handleImageError($event)"
                        width="33" height="33" class="mb-0 avatar-bordered bg-white">
                   <mat-card-title
                     class="font-size-14 weight-500"
@@ -1223,6 +1234,7 @@
                 <div *ngFor="let ply of endedGame?.players; let i=index" class="d-inline-block">
                   <img mat-card-avatar
                        [src]="ply?.profilePicture ? ply?.profilePicture?.startsWith('http') ? ply?.profilePicture : configService.url(ply?.profilePicture) : 'assets/images/frame.png'"
+                       (error)="handleImageError($event)"
                        width="26" height="26"
                        class="avatar-bordered bg-white mb-0 position-absolute custom-position-{{i}}">
                 </div>

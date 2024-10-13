@@ -1,6 +1,6 @@
 <main class="bg-light">
   <app-header></app-header>
-  <mat-toolbar class="mobileviewFooterButtonstoolbarNav"
+  <mat-toolbar class="mobileviewFooterButtonstoolbarNav" style="z-index: 10"
                *ngIf="generalService.userId && generalService.hasCompletedSignup && !generalService.startingGame">
     <button mat-flat-button [routerLink]="['/dashboard']" id="dashboard"
             [class]="generalService.currentRout == '/dashboard' ? 'mat-list-item-selected' : ''"
@@ -93,7 +93,7 @@
         <router-outlet id="top"></router-outlet>
       </div>
       <div class="fab-container"
-           *ngIf="generalService.userId && generalService.isMobileView && !generalService.startingGame"
+           *ngIf="generalService.userId && generalService.hasCompletedSignup && generalService.isMobileView && !generalService.startingGame"
            style="z-index: 100000">
 
         <!-- Mini FAB Buttons for the extra items -->

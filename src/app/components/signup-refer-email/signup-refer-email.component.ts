@@ -37,7 +37,7 @@ export class SignupReferEmailComponent {
   hide = true;
 
   constructor(private _formBuilder: FormBuilder, private loader: LoaderService, private router: Router,
-              public authService: AuthService, private generalService: GeneralService, public config: ConfigService) {
+              public authService: AuthService, public generalService: GeneralService, public config: ConfigService) {
   }
 
   async onSubmitEmail() {

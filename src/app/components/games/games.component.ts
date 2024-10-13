@@ -12,7 +12,7 @@ import {ActivatedRoute, NavigationStart, Router, RouterModule} from "@angular/ro
 import {TranslateModule} from "@ngx-translate/core";
 import {GeneralService} from "../../services/general/general.service";
 import {GamesService} from "../../services/games/games.service";
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
 import {MaterialModule} from "../../shared/material/material.module";
 import {ConfigService} from "../../services/config/config.service";
 import {ClientService} from "../../services/client/client.service";
@@ -381,13 +381,15 @@ export class GamesComponent implements OnInit {
     if (index !== -1) {
       // Remove the item from the array
     } else {
-      this.filteredEmails = [];
-      this.generalService.invitedPlayersArray.push(this.inviteForm.controls.email.value);
-      this.inviteForm.reset();
-      if (this.generalService.invitedPlayersArray?.length == this.generalService.gameInit?.numberOfPlayers) {
-        this.inviteForm.controls.email.disable();
-
+      if (this.inviteForm.controls.email.value != this.generalService.userObj?.email) {
+        this.filteredEmails = [];
+        this.generalService.invitedPlayersArray.push(this.inviteForm.controls.email.value);
+        this.inviteForm.reset();
+        if (this.generalService.invitedPlayersArray?.length == this.generalService.gameInit?.numberOfPlayers) {
+          this.inviteForm.controls.email.disable();
+        }
       }
+
     }
     console.log(this.generalService.invitedPlayersArray)
   }
@@ -462,10 +464,19 @@ export class GamesComponent implements OnInit {
     this.gameService.joinToGame(code).then(data => {
       this.loadingJoinWithCode = false;
       if (data.status == 1) {
-        const dialogRef = this.dialog.open(JoiningGame, {
-          data: {data: data.data, gameCode: code},
-          width: '700px'
-        });
+        const dialogConfig = new MatDialogConfig();
+        // Check if it's mobile
+        if (this.generalService.isMobileView) { // Assuming mobile devices are <= 768px
+          dialogConfig.width = '100vw';
+          dialogConfig.maxWidth = '100vw';
+          dialogConfig.height = 'auto'; // You can specify the height if needed
+          dialogConfig.position = {bottom: '0px'};
+          dialogConfig.panelClass = 'mobile-dialog'; // Add custom class for mobile
+          dialogConfig.data = {data: data.data, gameCode: code}
+        } else {
+          dialogConfig.width = '700px'; // Full size for desktop or larger screens
+        }
+        const dialogRef = this.dialog.open(JoiningGame, dialogConfig);
         dialogRef.afterClosed().subscribe(async result => {
           if (result == 'success') {
           }
@@ -542,10 +553,19 @@ export class GamesComponent implements OnInit {
   }
 
   openImportFromLib() {
-    const dialogRef = this.dialog.open(ImportFromLibrary, {
-      data: {category: this.selectedCategory, type: this.selectedGameType},
-      width: '620px'
-    });
+    const dialogConfig = new MatDialogConfig();
+    // Check if it's mobile
+    if (this.generalService.isMobileView) { // Assuming mobile devices are <= 768px
+      dialogConfig.width = '100vw';
+      dialogConfig.maxWidth = '100vw';
+      dialogConfig.height = 'auto'; // You can specify the height if needed
+      dialogConfig.position = {bottom: '0px'};
+      dialogConfig.panelClass = 'mobile-dialog'; // Add custom class for mobile
+      dialogConfig.data = {category: this.selectedCategory, type: this.selectedGameType}
+    } else {
+      dialogConfig.width = '700px'; // Full size for desktop or larger screens
+    }
+    const dialogRef = this.dialog.open(ImportFromLibrary, dialogConfig);
     dialogRef.afterClosed().subscribe(async result => {
       console.log(result)
       if (result) {
@@ -563,7 +583,14 @@ export class GamesComponent implements OnInit {
   }
 
   async gotoResult(id: any) {
-    await this.router.navigate(['game-result'], {state: {id: id}});
+    // await this.router.navigate(['game-result'], {state: {id: id}});
+    await this.router.navigate(['game-result'], {queryParams: {id: id}});
+  }
+
+
+  handleImageError(event: Event) {
+    const imgElement = event.target as HTMLImageElement;
+    imgElement.src = 'assets/images/frame.png';
   }
 }
 
@@ -594,11 +621,20 @@ export class JoiningGame {
   }
 
   openImportFromLib() {
-    console.log(this.data)
-    const dialogRef = this.dialog.open(ImportFromLibrary, {
-      data: {category: [this.data?.data?.game?.category], type: this.data.data.game.gameType.id},
-      width: '620px'
-    });
+    console.log(this.data);
+    const dialogConfig = new MatDialogConfig();
+    // Check if it's mobile
+    if (this.generalService.isMobileView) { // Assuming mobile devices are <= 768px
+      dialogConfig.width = '100vw';
+      dialogConfig.maxWidth = '100vw';
+      dialogConfig.height = 'auto'; // You can specify the height if needed
+      dialogConfig.position = { bottom: '0px' };
+      dialogConfig.panelClass = 'mobile-dialog'; // Add custom class for mobile
+      dialogConfig.data = {category: [this.data?.data?.game?.category], type: this.data.data.game.gameType.id};
+    } else {
+      dialogConfig.width = '700px'; // Full size for desktop or larger screens
+    }
+    const dialogRef = this.dialog.open(ImportFromLibrary, dialogConfig);
     dialogRef.afterClosed().subscribe(async result => {
       console.log(result)
       if (result) {

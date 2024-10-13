@@ -4,7 +4,7 @@ import {ConfigService} from "../../services/config/config.service";
 import {IntroJsService} from "../../services/introJs/intro-js.service";
 import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
 import {AddQuestion} from "../header/header.component";
-import {MatDialog} from "@angular/material/dialog";
+import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 
 
 @Component({
@@ -64,10 +64,30 @@ export class SidenavComponent implements OnInit {
     this.isFabOpen = !this.isFabOpen;
   }
 
-  async openAddQuestion() {
-    const dialogRef = this.dialog.open(AddQuestion, {
-      width: '700px'
-    });
+  // async openAddQuestion() {
+  //   const dialogRef = this.dialog.open(AddQuestion, {
+  //     width: '700px'
+  //   });
+  //   dialogRef.afterClosed().subscribe(async result => {
+  //     if (result == 'success') {
+  //     }
+  //   });
+  // }
+
+  openAddQuestion(): void {
+    const dialogConfig = new MatDialogConfig();
+    // Check if it's mobile
+    if (this.generalService.isMobileView) { // Assuming mobile devices are <= 768px
+      dialogConfig.width = '100vw';
+      dialogConfig.maxWidth = '100vw';
+      dialogConfig.height = 'auto'; // You can specify the height if needed
+      dialogConfig.position = { bottom: '0px' };
+      dialogConfig.panelClass = 'mobile-dialog'; // Add custom class for mobile
+    } else {
+      dialogConfig.width = '700px'; // Full size for desktop or larger screens
+    }
+
+    const dialogRef = this.dialog.open(AddQuestion, dialogConfig);
     dialogRef.afterClosed().subscribe(async result => {
       if (result == 'success') {
       }

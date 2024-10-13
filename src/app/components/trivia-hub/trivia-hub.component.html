@@ -25,7 +25,7 @@
             <br>
             <!--  private-->
             <div class="d-flex overflow-scroll">
-              <div class="m-2 d-inline-flex shadow-none cursor-pointer p-3"
+              <div class="m-2 d-inline-flex shadow-none cursor-pointer p-2"
                    (click)="selectCat('')"
                    [class]="{'mat-card-pref-selected': isSelected(''), 'mat-card-pref': !isSelected('')}">
                 <div class="text-center w-100" style="padding-top: 8px">
@@ -33,7 +33,7 @@
                 </div>
               </div>
               <div *ngFor="let cat of generalService?.clientInit?.categories"
-                   class="m-2 d-inline-flex shadow-none cursor-pointer p-3"
+                   class="m-2 d-inline-flex shadow-none cursor-pointer p-2"
                    (click)="selectCat(cat)"
                    [class]="{'mat-card-pref-selected': isSelected(cat), 'mat-card-pref': !isSelected(cat)}">
                 <div class="text-start">
@@ -79,6 +79,7 @@
                 <div class="d-flex white-card position-relative m-2">
                   <img class="avatar-bordered"
                        [src]="item?.user?.profilePicture ? item?.user?.profilePicture?.startsWith('http') ? item?.user?.profilePicture : configService.url(item?.user?.profilePicture) : 'assets/images/frame.png'"
+                       (error)="handleImageError($event)"
                        width="42" height="42">
                   <mat-label class="font-size-13 weight-500"
                              style="margin: auto 10px">{{item?.user?.firstName}} {{item?.user?.lastName}}</mat-label>
@@ -274,6 +275,7 @@
                 <div class="d-flex white-card position-relative m-2">
                   <img class="avatar-bordered"
                        [src]="item?.user?.profilePicture ? item?.user?.profilePicture?.startsWith('http') ? item?.user?.profilePicture : configService.url(item?.user?.profilePicture) : 'assets/images/frame.png'"
+                       (error)="handleImageError($event)"
                        width="42" height="42">
                   <mat-label class="font-size-13 weight-500"
                              style="margin: auto 10px">{{item?.user?.firstName}} {{item?.user?.lastName}}</mat-label>
@@ -445,6 +447,7 @@
                 <div class="d-flex white-card position-relative m-2">
                   <img class="avatar-bordered"
                        [src]="item?.user?.profilePicture ? item?.user?.profilePicture?.startsWith('http') ? item?.user?.profilePicture : configService.url(item?.user?.profilePicture) : 'assets/images/frame.png'"
+                       (error)="handleImageError($event)"
                        width="42" height="42">
                   <mat-label class="font-size-13 weight-500"
                              style="margin: auto 10px">{{item?.user?.firstName}} {{item?.user?.lastName}}</mat-label>
@@ -603,7 +606,7 @@
             </mat-card-header>
             <br>
             <div class="d-flex overflow-scroll">
-              <div class="m-2 d-inline-flex shadow-none cursor-pointer p-3"
+              <div class="m-2 d-inline-flex shadow-none cursor-pointer p-2"
                    (click)="selectCatGame('')"
                    [class]="{'mat-card-pref-selected': isSelected(''), 'mat-card-pref': !isSelected('')}">
                 <div class="text-center w-100" style="padding-top: 8px">
@@ -611,7 +614,7 @@
                 </div>
               </div>
               <div *ngFor="let cat of generalService?.clientInit?.categories"
-                   class="m-2 d-inline-flex shadow-none cursor-pointer p-3"
+                   class="m-2 d-inline-flex shadow-none cursor-pointer p-2"
                    (click)="selectCatGame(cat)"
                    [class]="{'mat-card-pref-selected': isSelected(cat), 'mat-card-pref': !isSelected(cat)}">
                 <div class="text-start">
@@ -660,6 +663,7 @@
                       <mat-card-header class="pe-1 ps-1">
                         <img mat-card-avatar
                              [src]="endedGame?.creator?.profilePicture ? endedGame?.creator?.profilePicture?.startsWith('http') ? endedGame?.creator?.profilePicture : configService.url(endedGame?.creator?.profilePicture) : 'assets/images/frame.png'"
+                             (error)="handleImageError($event)"
                              width="33" height="33" class="avatar-bordered bg-white mb-0">
                         <mat-card-title
                           class="font-size-10 weight-500 text-start p-1 text-gray">Created by:
@@ -676,6 +680,7 @@
                       <div *ngFor="let ply of endedGame?.players; let i=index" class="d-inline-block">
                         <img mat-card-avatar
                              [src]="ply?.profilePicture ? ply?.profilePicture?.startsWith('http') ? ply?.profilePicture : configService.url(ply?.profilePicture) : 'assets/images/frame.png'"
+                             (error)="handleImageError($event)"
                              width="26" height="26"
                              class="avatar-bordered bg-white mb-0 position-absolute custom-position-{{i}}">
                       </div>
@@ -744,6 +749,7 @@
                       <mat-card-header class="pe-1 ps-1" *ngIf="ply?._id == generalService.userId">
                         <img mat-card-avatar
                              [src]="ply?.profilePicture ? ply?.profilePicture?.startsWith('http') ? ply?.profilePicture : configService.url(ply?.profilePicture) : 'assets/images/frame.png'"
+                             (error)="handleImageError($event)"
                              width="33" height="33" class="avatar-bordered bg-white mb-0">
                         <mat-card-title
                           class="font-size-14 weight-500 text-start">{{ply?.firstName}} {{ply?.lastName}}</mat-card-title>
@@ -767,6 +773,7 @@
                       <div *ngFor="let ply of endedGame?.players; let i=index" class="d-inline-block">
                         <img mat-card-avatar
                              [src]="ply?.profilePicture ? ply?.profilePicture?.startsWith('http') ? ply?.profilePicture : configService.url(ply?.profilePicture) : 'assets/images/frame.png'"
+                             (error)="handleImageError($event)"
                              width="26" height="26"
                              class="bg-white avatar-bordered mb-0 position-absolute custom-position-{{i}}">
                       </div>
@@ -830,6 +837,7 @@
                  [style]="!generalService.isMobileView ? 'background: #F9F7F7' : ''">
               <img class="avatar-bordered"
                    [src]="questionDetail?.user?.profilePicture ? questionDetail?.user?.profilePicture?.startsWith('http') ? questionDetail?.user?.profilePicture : configService.url(questionDetail?.user?.profilePicture) : 'assets/images/frame.png'"
+                   (error)="handleImageError($event)"
                    width="42" height="42">
               <mat-label class="font-size-13 weight-500"
                          style="margin: auto 10px">{{questionDetail?.user?.firstName}} {{questionDetail?.user?.lastName}}</mat-label>
@@ -1064,12 +1072,16 @@
                 *ngFor="let answer of perf?.question?.answers">
                 <img class="avatar-bordered bg-white"
                      [src]="answer?.player?.profilePicture ? answer?.player?.profilePicture?.startsWith('http') ? answer?.player?.profilePicture : configService.url(answer?.player?.profilePicture) : 'assets/images/frame.png'"
+                     (error)="handleImageError($event)"
                      width="40" height="40">
                 &nbsp;<span
-                class="font-size-14 weight-700 pe-2">{{answer?.player?.firstName}} {{answer?.player?.lastName}}</span>
+                class="font-size-14 weight-700 pe-2"
+                [ngClass]="generalService.userObj?.preferedLanguage?.code != 'fa' ? 'exo-font' : 'peyda-font'">{{answer?.player?.firstName}} {{answer?.player?.lastName}}</span>
                 <br>
                 <br>
-                <mat-label class="font-size-14 weight-400">{{answer?.answer}}</mat-label>
+                <mat-label class="font-size-14 weight-400"
+                           [ngClass]="generalService.userObj?.preferedLanguage?.code != 'fa' ? 'exo-font' : 'peyda-font'"
+                >{{answer?.answer}}</mat-label>
                 <br>
                 <br>
                 <mat-card-actions class="position-relative">

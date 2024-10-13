@@ -18,7 +18,7 @@ import {TranslateModule} from "@ngx-translate/core";
 import {GeneralService} from "../../services/general/general.service";
 import {AuthService} from "../../services/auth/auth.service";
 import {Preferences} from "@capacitor/preferences";
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
 import {MaterialModule} from "../../shared/material/material.module";
 import {CountdownTimerComponent} from "../countdown-timer/countdown-timer.component";
 import {NgxMatIntlTelInputComponent} from "ngx-mat-intl-tel-input";
@@ -267,14 +267,21 @@ export class WizardComponent implements OnInit {
   }
 
   openDialogVerification(enterAnimationDuration: string, exitAnimationDuration: string): void {
-    const dialogRef = this.dialog.open(VerificationDialog, {
-      width: '500px',
-      data: {
-        email: this.form.get('email')?.value, phone: this.form.get('mobile')?.value
-      },
-      enterAnimationDuration,
-      exitAnimationDuration,
-    });
+    const dialogConfig = new MatDialogConfig();
+    // Check if it's mobile
+    if (this.generalService.isMobileView) { // Assuming mobile devices are <= 768px
+      dialogConfig.width = '100vw';
+      dialogConfig.maxWidth = '100vw';
+      dialogConfig.height = 'auto'; // You can specify the height if needed
+      dialogConfig.position = {bottom: '0px'};
+      dialogConfig.panelClass = 'mobile-dialog'; // Add custom class for mobile
+      dialogConfig.data = {email: this.form.get('email')?.value, phone: this.form.get('mobile')?.value};
+      dialogConfig.enterAnimationDuration = enterAnimationDuration;
+      dialogConfig.exitAnimationDuration = exitAnimationDuration
+    } else {
+      dialogConfig.width = '700px'; // Full size for desktop or larger screens
+    }
+    const dialogRef = this.dialog.open(VerificationDialog, dialogConfig);
     dialogRef.afterClosed().subscribe(async result => {
       if (result == 'success') {
         this.stepper.next();
@@ -287,9 +294,7 @@ export class WizardComponent implements OnInit {
   }
 
   selectCat(item: any) {
-    console.log(this.selectedCategory)
     const index = this.selectedCategory.findIndex((data: any) => data._id === item._id);
-    console.log(index)
     if (index !== -1) {
       // Remove the item from the array
       this.selectedCategory.splice(index, 1);

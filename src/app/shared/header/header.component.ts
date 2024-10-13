@@ -3,7 +3,7 @@ import {GeneralService} from "../../services/general/general.service";
 import {AuthService} from "../../services/auth/auth.service";
 import {Preferences} from "@capacitor/preferences";
 import {Router} from "@angular/router";
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
 import {FormBuilder, FormControl, Validators} from "@angular/forms";
 import {ClientService} from "../../services/client/client.service";
 import {GamesComponent} from "../../components/games/games.component";
@@ -73,9 +73,19 @@ export class HeaderComponent implements OnInit {
 
 
   async openAddQuestion() {
-    const dialogRef = this.dialog.open(AddQuestion, {
-      width: '700px'
-    });
+    const dialogConfig = new MatDialogConfig();
+    // Check if it's mobile
+    if (this.generalService.isMobileView) { // Assuming mobile devices are <= 768px
+      dialogConfig.width = '100vw';
+      dialogConfig.maxWidth = '100vw';
+      dialogConfig.height = 'auto'; // You can specify the height if needed
+      dialogConfig.position = {bottom: '0px'};
+      dialogConfig.panelClass = 'mobile-dialog'; // Add custom class for mobile
+    } else {
+      dialogConfig.width = '700px'; // Full size for desktop or larger screens
+    }
+
+    const dialogRef = this.dialog.open(AddQuestion, dialogConfig);
     dialogRef.afterClosed().subscribe(async result => {
       if (result == 'success') {
       }

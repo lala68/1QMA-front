@@ -1163,10 +1163,12 @@ generalService.gameStep == 3 ? sendRateAnswer(true) : sendRateQuestions(true)">
                          [src]="answer?.answerer?.profilePicture ? answer?.answerer?.profilePicture?.startsWith('http') ? answer?.answerer?.profilePicture : configService.url(answer?.answerer?.profilePicture) : 'assets/images/frame.png'"
                          width="40" height="40">
                     &nbsp;<span
-                    class="font-size-14 weight-700 pe-2">{{answer?.answerer?.firstName}} {{answer?.answerer?.lastName}}</span>
+                    class="font-size-14 weight-700 pe-2"
+                    [ngClass]="generalService.userObj?.preferedLanguage?.code != 'fa' ? 'exo-font' : 'peyda-font'">{{answer?.answerer?.firstName}} {{answer?.answerer?.lastName}}</span>
                     <br>
                     <br>
-                    <mat-label class="font-size-14 weight-400">{{answer?.answer}}</mat-label>
+                    <mat-label [ngClass]="generalService.userObj?.preferedLanguage?.code != 'fa' ? 'exo-font' : 'peyda-font'"
+                               class="font-size-14 weight-400">{{answer?.answer}}</mat-label>
                     <br>
                     <br>
                     <img src="assets/images/score.png" width="16"/>

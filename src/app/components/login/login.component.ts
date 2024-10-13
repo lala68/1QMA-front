@@ -36,7 +36,7 @@ export class LoginComponent {
   hide = true;
 
   constructor(private _formBuilder: FormBuilder, private loader: LoaderService, private clientService: ClientService,
-              public authService: AuthService, private router: Router, private generalService: GeneralService,
+              public authService: AuthService, private router: Router, public generalService: GeneralService,
               public config: ConfigService, private gameService: GamesService, private _snackBar: MatSnackBar) {
   }
 

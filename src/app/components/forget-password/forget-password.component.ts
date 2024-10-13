@@ -7,6 +7,7 @@ import {MaterialModule} from "../../shared/material/material.module";
 import {NgxMatIntlTelInputComponent} from "ngx-mat-intl-tel-input";
 import {TranslateModule} from "@ngx-translate/core";
 import {AuthService} from "../../services/auth/auth.service";
+import {GeneralService} from "../../services/general/general.service";
 
 @Component({
   selector: 'app-forget-password',
@@ -37,9 +38,10 @@ export class ForgetPasswordComponent {
     Validators.required, Validators.minLength(10)
   ]);
   error: any;
+  message: any;
 
   constructor(private _formBuilder: FormBuilder, private router: Router,
-              private authService: AuthService) {
+              private authService: AuthService, public generalService: GeneralService) {
   }
 
   gotoStepTwo(type: any) {
@@ -56,6 +58,7 @@ export class ForgetPasswordComponent {
         console.log(data?.message)
         if (data?.status == 1) {
           this.step = 3;
+          this.message = data?.message;
         } else if (data?.status == -1) {
           this.error = data?.message;
         }
@@ -102,6 +105,7 @@ export class ForgetPasswordComponent {
 
   async prevStep() {
     this.error = '';
+    this.message = '';
     if (this.step === 1) {
       await this.router.navigateByUrl('/login');
     } else {

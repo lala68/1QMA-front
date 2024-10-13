@@ -26,8 +26,11 @@ export class UserDetailComponent implements OnInit {
   currentId: number | null = null; // Current ID displayed
 
   constructor(private clientService: ClientService, private router: Router, private processHTTPMsgService: ProcessHTTPMsgService,
-              public configService: ConfigService, public generalService: GeneralService) {
-    this.id = this.router.getCurrentNavigation()?.extras?.state?.['id'];
+              public configService: ConfigService, public generalService: GeneralService, private route: ActivatedRoute) {
+    // this.id = this.router.getCurrentNavigation()?.extras?.state?.['id'];
+    this.route.queryParams.subscribe(params => {
+      this.id = params['id'];
+    });
     this.generalService.currentRout = '';
     this.idStack.push(this.id);
   }
@@ -45,7 +48,8 @@ export class UserDetailComponent implements OnInit {
   }
 
   async gotoResult(id: any) {
-    await this.router.navigate(['game-result'], {state: {id: id}});
+    // await this.router.navigate(['game-result'], {state: {id: id}});
+    await this.router.navigate(['game-result'],{ queryParams: { id: id } });
   }
 
   async gotoUserDetail(id: any) {
@@ -83,6 +87,12 @@ export class UserDetailComponent implements OnInit {
     }, error => {
       return this.processHTTPMsgService.handleError(error);
     });
+  }
+
+
+  handleImageError(event: Event) {
+    const imgElement = event.target as HTMLImageElement;
+    imgElement.src = 'assets/images/frame.png';
   }
 
 }

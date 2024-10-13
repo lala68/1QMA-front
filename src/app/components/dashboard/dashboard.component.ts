@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {SharedModule} from "../../shared/shared.module";
 import {ClientService} from "../../services/client/client.service";
@@ -9,7 +9,7 @@ import {NgxMatIntlTelInputComponent} from "ngx-mat-intl-tel-input";
 import {TranslateModule} from "@ngx-translate/core";
 import {ConfigService} from "../../services/config/config.service";
 import {ClipboardModule} from "@angular/cdk/clipboard";
-import {MatDialog} from "@angular/material/dialog";
+import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {SnackbarContentComponent} from "../snackbar-content/snackbar-content.component";
 import {ParsIntPipe} from "../../pipes/pars-int.pipe";
@@ -35,6 +35,7 @@ import introJs from "intro.js";
   providers: [HeaderComponent]
 })
 export class DashboardComponent implements OnInit {
+  @ViewChild('tooltip') tooltip!: any;
   loading$ = this.loader.isLoading$;
   loading: boolean = true;
   loadingInvite: boolean = false;
@@ -56,6 +57,8 @@ export class DashboardComponent implements OnInit {
   noMoreItems: any;
   private routerSubscription: any;
   private introInProgress: boolean = false; // Track whether the intro is showing
+  tooltipVisible = false;  // Control whether the tooltip is visible
+  tooltipMessage = 'Click to copy!';
 
   constructor(private clientService: ClientService, private _formBuilder: FormBuilder, private processHTTPMsgService: ProcessHTTPMsgService,
               public generalService: GeneralService, public configService: ConfigService, private loader: LoaderService,
@@ -106,6 +109,12 @@ export class DashboardComponent implements OnInit {
     }
   }
 
+
+  handleImageError(event: Event) {
+    const imgElement = event.target as HTMLImageElement;
+    imgElement.src = 'assets/images/frame.png';
+  }
+
   calculateRemainingDays(): void {
     // Convert startDate from milliseconds to a Date object
     const startDate = new Date(this.generalService.userObj.accountType.startDate);
@@ -123,13 +132,32 @@ export class DashboardComponent implements OnInit {
   }
 
   async gotoUserDetail(id: any) {
-    await this.router.navigate(['user-detail'], {state: {id: id}});
+    // await this.router.navigate(['user-detail'], {state: {id: id}});
+    await this.router.navigate(['user-detail'], {queryParams: {id: id}});
   }
 
   async openAddQuestion() {
-    const dialogRef = this.dialog.open(AddQuestion, {
-      width: '700px'
-    });
+    // const dialogRef = this.dialog.open(AddQuestion, {
+    //   width: '700px'
+    // });
+    // dialogRef.afterClosed().subscribe(async result => {
+    //   if (result == 'success') {
+    //   }
+    // });
+    const dialogConfig = new MatDialogConfig();
+
+    // Check if it's mobile
+    if (this.generalService.isMobileView) { // Assuming mobile devices are <= 768px
+      dialogConfig.width = '100vw';
+      dialogConfig.maxWidth = '100vw';
+      dialogConfig.height = 'auto'; // You can specify the height if needed
+      dialogConfig.position = {bottom: '0px'};
+      dialogConfig.panelClass = 'mobile-dialog'; // Add custom class for mobile
+    } else {
+      dialogConfig.width = '700px'; // Full size for desktop or larger screens
+    }
+
+    const dialogRef = this.dialog.open(AddQuestion, dialogConfig);
     dialogRef.afterClosed().subscribe(async result => {
       if (result == 'success') {
       }
@@ -212,7 +240,8 @@ export class DashboardComponent implements OnInit {
   }
 
   async gotoResult(id: any) {
-    await this.router.navigate(['game-result'], {state: {id: id}});
+    // await this.router.navigate(['game-result'], {state: {id: id}});
+    await this.router.navigate(['game-result'], {queryParams: {id: id}});
   }
 
   showMoreFriendsQuestions() {
@@ -232,13 +261,36 @@ export class DashboardComponent implements OnInit {
   }
 
   openCharityModal() {
-    const dialogRef = this.dialog.open(CharityModalComponent, {
-      width: '700px'
-    });
+    const dialogConfig = new MatDialogConfig();
+    // Check if it's mobile
+    if (this.generalService.isMobileView) { // Assuming mobile devices are <= 768px
+      dialogConfig.width = '100vw';
+      dialogConfig.maxWidth = '100vw';
+      dialogConfig.height = 'auto'; // You can specify the height if needed
+      dialogConfig.position = {bottom: '0px'};
+      dialogConfig.panelClass = 'mobile-dialog'; // Add custom class for mobile
+    } else {
+      dialogConfig.width = '700px'; // Full size for desktop or larger screens
+    }
+    const dialogRef = this.dialog.open(CharityModalComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(async result => {
       if (result == 'success') {
       }
     });
+  }
+
+  showTooltip() {
+    this.tooltip.show();
+    // this.tooltipVisible = true;  // Set tooltip visibility to true
+    this.tooltipMessage = 'Copied!';
+    // Hide tooltip after 2 seconds
+    setTimeout(() => {
+      this.tooltip.hide();
+      setTimeout(() => {
+        this.tooltipMessage = 'Click to copy!';
+      }, 500);
+      // this.tooltipVisible = false;  // Reset tooltip visibility
+    }, 1000);
   }
 
   async showIntro() {

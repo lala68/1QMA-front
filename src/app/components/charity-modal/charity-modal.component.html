@@ -7,7 +7,8 @@
   </svg>
   &nbsp;{{'Choose charity category' | translate}}
 </div>
-<div mat-dialog-content class="m-3 mt-0">
+<div mat-dialog-content class="mt-0"
+     [class]="{'m-3': !generalService.isMobileView, 'm-1': generalService.isMobileView}">
   <div class="charity-header">
     <img src="assets/images/charity.png" width="64" height="56"/>
     <mat-label class="font-size-16 weight-600 ms-3">{{'Play Game, Make A Difference!' | translate}}</mat-label>
@@ -30,7 +31,7 @@
     <mat-card *ngFor="let chr of generalService.clientInit?.charityCategories"
               class="mt-2 me-1 d-inline-block shadow-none mat-card-pref"
               (click)="selectCharity(chr)">
-      <mat-card-content class="text-start">
+      <mat-card-content class="text-start" style="padding: 16px 5px">
         <img [src]="'https://api.staging.1qma.games/' + chr?.icon" width="35">
         <mat-label>{{ chr.title }}</mat-label>
       </mat-card-content>
@@ -43,7 +44,7 @@
     </mat-label>
     <br>
     <mat-card class="mt-2 me-1 d-inline-block shadow-none mat-card-pref-selected">
-      <mat-card-content class="text-start" (click)="selectedCharity = ''">
+      <mat-card-content class="text-start" (click)="selectedCharity = ''" style="padding: 16px 5px">
         <img [src]="'https://api.staging.1qma.games/' + selectedCharity?.icon" width="35">
         <mat-label>{{ selectedCharity.title }}</mat-label>
       </mat-card-content>
