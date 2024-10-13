@@ -93,7 +93,7 @@ export class DashboardComponent implements OnInit {
   }
 
   async waitForClientInit() {
-    while (!this.generalService.clientInit?.user?.hasSeenIntros.dashboard) {
+    while (!this.generalService.clientInit?.user?.hasSeenIntros) {
       await new Promise(resolve => setTimeout(resolve, 1000)); // Check every 100ms
     }
   }

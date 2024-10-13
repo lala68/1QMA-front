@@ -242,7 +242,7 @@
                 </div>
               </div>
               <div *ngFor="let cat of generalService?.clientInit?.categories"
-                   class="m-2 d-inline-flex shadow-none cursor-pointer p-3"
+                   class="m-2 d-inline-flex shadow-none cursor-pointer p-2"
                    (click)="selectCatLive(cat)"
                    [class]="{'mat-card-pref-selected': isSelectedLive(cat), 'mat-card-pref': !isSelectedLive(cat)}">
                 <div style="text-align: start;">
@@ -499,7 +499,7 @@
                       </div>
                     </div>
                     <div *ngFor="let cat of generalService?.clientInit?.categories"
-                         class="ms-2 me-2 d-inline-flex shadow-none cursor-pointer p-3"
+                         class="ms-2 me-2 d-inline-flex shadow-none cursor-pointer p-2"
                          (click)="selectCatLiveSurvival(cat)"
                          [class]="{'mat-card-pref-small-selected': isSelectedLiveSurvival(cat), 'mat-card-pref-small': !isSelectedLiveSurvival(cat)}">
                       <div class="d-flex align-items-center">

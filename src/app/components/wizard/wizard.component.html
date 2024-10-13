@@ -150,7 +150,7 @@
                   class="m-2 d-inline-block shadow-none"
                   (click)="selectCat(cat)"
                   [class]="{'mat-card-pref-selected': isSelected(cat), 'mat-card-pref': !isSelected(cat)}">
-          <mat-card-content class="text-start">
+          <mat-card-content class="text-start" style="padding: 16px 5px">
             <img [src]="'https://api.staging.1qma.games/' + cat?.icon" width="35">
             <mat-label>{{ cat.name }}</mat-label>
           </mat-card-content>

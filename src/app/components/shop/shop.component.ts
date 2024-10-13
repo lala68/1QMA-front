@@ -51,7 +51,6 @@ export class ShopComponent implements OnInit {
     });
     await this.getShops();
     await this.waitForClientInit();
-
     // After clientInit is ready, check the value
     if (
       this.generalService.clientInit &&
@@ -64,7 +63,7 @@ export class ShopComponent implements OnInit {
   }
 
   async waitForClientInit() {
-    while (!this.generalService.clientInit?.user?.hasSeenIntros.shop) {
+    while (!this.generalService.clientInit?.user?.hasSeenIntros) {
       await new Promise(resolve => setTimeout(resolve, 1000)); // Check every 100ms
     }
   }
@@ -74,6 +73,7 @@ export class ShopComponent implements OnInit {
   }
 
   destroyIntro() {
+    console.log(1111111)
     if (this.introInProgress) {
       introJs().exit(true); // Assuming 'cancel()' is a method from the intro library to stop the intro
       this.introInProgress = false; // Reset the flag

@@ -166,7 +166,7 @@ export class GamesComponent implements OnInit {
   }
 
   async waitForClientInit() {
-    while (!this.generalService.clientInit?.user?.hasSeenIntros.games) {
+    while (!this.generalService.clientInit?.user?.hasSeenIntros) {
       await new Promise(resolve => setTimeout(resolve, 1000)); // Check every 100ms
     }
   }
@@ -474,6 +474,7 @@ export class GamesComponent implements OnInit {
           dialogConfig.panelClass = 'mobile-dialog'; // Add custom class for mobile
           dialogConfig.data = {data: data.data, gameCode: code}
         } else {
+          dialogConfig.data = {data: data.data, gameCode: code}
           dialogConfig.width = '700px'; // Full size for desktop or larger screens
         }
         const dialogRef = this.dialog.open(JoiningGame, dialogConfig);
@@ -563,6 +564,7 @@ export class GamesComponent implements OnInit {
       dialogConfig.panelClass = 'mobile-dialog'; // Add custom class for mobile
       dialogConfig.data = {category: this.selectedCategory, type: this.selectedGameType}
     } else {
+      dialogConfig.data = {category: this.selectedCategory, type: this.selectedGameType}
       dialogConfig.width = '700px'; // Full size for desktop or larger screens
     }
     const dialogRef = this.dialog.open(ImportFromLibrary, dialogConfig);
@@ -632,6 +634,7 @@ export class JoiningGame {
       dialogConfig.panelClass = 'mobile-dialog'; // Add custom class for mobile
       dialogConfig.data = {category: [this.data?.data?.game?.category], type: this.data.data.game.gameType.id};
     } else {
+      dialogConfig.data = {category: [this.data?.data?.game?.category], type: this.data.data.game.gameType.id};
       dialogConfig.width = '700px'; // Full size for desktop or larger screens
     }
     const dialogRef = this.dialog.open(ImportFromLibrary, dialogConfig);

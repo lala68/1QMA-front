@@ -69,7 +69,7 @@ export class WizardComponent implements OnInit {
     effect: 'coverflow',
     pagination: {clickable: true},
     allowSlideNext: false,
-    allowSlidePrev: true,
+    allowSlidePrev: true
   };
   currentIndex: number = 0;
   steps = [
@@ -269,6 +269,7 @@ export class WizardComponent implements OnInit {
   openDialogVerification(enterAnimationDuration: string, exitAnimationDuration: string): void {
     const dialogConfig = new MatDialogConfig();
     // Check if it's mobile
+    console.log(this.form.get('mobile')?.value)
     if (this.generalService.isMobileView) { // Assuming mobile devices are <= 768px
       dialogConfig.width = '100vw';
       dialogConfig.maxWidth = '100vw';
@@ -279,6 +280,9 @@ export class WizardComponent implements OnInit {
       dialogConfig.enterAnimationDuration = enterAnimationDuration;
       dialogConfig.exitAnimationDuration = exitAnimationDuration
     } else {
+      dialogConfig.data = {email: this.form.get('email')?.value, phone: this.form.get('mobile')?.value};
+      dialogConfig.enterAnimationDuration = enterAnimationDuration;
+      dialogConfig.exitAnimationDuration = exitAnimationDuration
       dialogConfig.width = '700px'; // Full size for desktop or larger screens
     }
     const dialogRef = this.dialog.open(VerificationDialog, dialogConfig);
@@ -436,6 +440,7 @@ export class VerificationDialog {
 
   constructor(public dialogRef: MatDialogRef<VerificationDialog>, private _formBuilder: FormBuilder,
               @Inject(MAT_DIALOG_DATA) public data: any, private authService: AuthService, public generalService: GeneralService) {
+    console.log(data)
     this.verifyFormEmail.controls.email.setValue(data?.email);
     this.verifyFormMobile.controls.mobile.setValue(data?.phone);
   }
