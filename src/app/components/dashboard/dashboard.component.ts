@@ -24,6 +24,7 @@ import {IntroJsService} from "../../services/introJs/intro-js.service";
 import {SidenavComponent} from "../../shared/sidenav/sidenav.component";
 import {JoiningGame} from "../games/games.component";
 import introJs from "intro.js";
+import {Preferences} from "@capacitor/preferences";
 
 @Component({
   selector: 'app-dashboard',
@@ -166,9 +167,12 @@ export class DashboardComponent implements OnInit {
 
   onSubmit() {
     this.loadingInvite = true;
-    this.clientService.inviteFriend(this.inviteForm.value, this.generalService.userId).then(data => {
+    this.clientService.inviteFriend(this.inviteForm.value, this.generalService.userId).then(async data => {
       this.loadingInvite = false;
       if (data.status == 1) {
+        this.generalService.userObj = (data.data);
+        await Preferences.remove({key: 'account'});
+        await Preferences.set({key: 'account', value: JSON.stringify(data.data)});
         this.openDialog(data.message, 'Success');
       } else {
         this.openDialog(data.message, 'Error');
@@ -190,9 +194,13 @@ export class DashboardComponent implements OnInit {
   }
 
   getGameInit() {
-    this.clientService.clientInit().then(data => {
+    this.clientService.clientInit().then(async data => {
       this.generalService.clientInit = data.data;
       this.generalService.userObj = (data.data.user);
+      //
+      await Preferences.remove({key: 'account'});
+      await Preferences.set({key: 'account', value: JSON.stringify(data.data.user)});
+      //
     }, error => {
       return this.processHTTPMsgService.handleError(error);
     });

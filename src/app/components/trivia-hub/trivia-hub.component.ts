@@ -91,26 +91,23 @@ export class TriviaHubComponent implements OnInit {
         ? 'trivia'
         : this.selectedTabIndex == 1
           ? 'private'
-          : 'bookmark', this.search, this.page, 4, this.selectedSortOption).then(data => {
+          : 'bookmark', this.search, this.page, 4, this.selectedSortOption).then(async data => {
         this.loadingContent = false;
         this.library = (data.data);
         this.libraryQuestions = this.libraryQuestions.concat(data.data.questions);
         this.noMoreItems = data.data.questions?.length < 4;
+        await this.waitForClientInit();
+        // After clientInit is ready, check the value
+        if (
+          this.generalService.clientInit &&
+          this.generalService.clientInit.user &&
+          !this.generalService.clientInit.user.hasSeenIntros
+        ) {
+          await this.showIntro(); // Wait for showIntro to finish
+        }
       }, error => {
         return this.processHTTPMsgService.handleError(error);
       });
-    }
-
-    await this.waitForClientInit();
-
-    // After clientInit is ready, check the value
-    if (
-      this.generalService.clientInit &&
-      this.generalService.clientInit.user &&
-      this.generalService.clientInit.user.hasSeenIntros &&
-      !this.generalService.clientInit.user.hasSeenIntros.triviaHub
-    ) {
-      await this.showIntro(); // Wait for showIntro to finish
     }
   }
 
@@ -132,27 +129,43 @@ export class TriviaHubComponent implements OnInit {
   }
 
   async showIntro() {
+    const tabLabel0 = document.querySelector('#mat-tab-label-0-0');
+    const tabLabel1 = document.querySelector('#mat-tab-label-4-0');
+    const tabLabel2 = document.querySelector('#mat-tab-label-8-0');
+    const tabLabel3 = document.querySelector('#mat-tab-label-12-0');
+    const tabLabel4 = document.querySelector('#mat-tab-label-16-0');
+    // Use the first one that exists
+    const targetElement1 = tabLabel0 || tabLabel1 || tabLabel2 || tabLabel3 || tabLabel4; // If tabLabel0 doesn't exist, use tabLabel1
+
+    const tabLabel5 = document.querySelector('#mat-tab-label-0-1');
+    const tabLabel6 = document.querySelector('#mat-tab-label-4-1');
+    const tabLabel7 = document.querySelector('#mat-tab-label-8-1');
+    const tabLabel8 = document.querySelector('#mat-tab-label-12-1');
+    const tabLabel9 = document.querySelector('#mat-tab-label-16-1');
+    // Use the first one that exists
+    const targetElement2 = tabLabel5 || tabLabel6 || tabLabel7 || tabLabel8 || tabLabel9; // If tabLabel0 doesn't exist, use tabLabel1
+
+    const tabLabel10 = document.querySelector('#mat-tab-label-1-0');
+    const tabLabel11 = document.querySelector('#mat-tab-label-5-0');
+    const tabLabel12 = document.querySelector('#mat-tab-label-9-0');
+    const tabLabel13 = document.querySelector('#mat-tab-label-13-0');
+    const tabLabel14 = document.querySelector('#mat-tab-label-17-0');
+    // Use the first one that exists
+    const targetElement3 = tabLabel10 || tabLabel11 || tabLabel12 || tabLabel13 || tabLabel14; // If tabLabel0 doesn't exist, use tabLabel1
+
+
     const steps = [
       {
-        element: '#mat-tab-label-0-0',
+        element: targetElement1,
         intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
         position: 'bottom',
       },
       {
-        element: '#mat-tab-label-0-1',
+        element: targetElement2,
         intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
         position: 'bottom',
       }, {
-        element: '#mat-tab-label-1-0',
-        intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
-        position: 'bottom',
-      },
-      {
-        element: '#mat-tab-label-1-1',
-        intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
-        position: 'bottom',
-      }, {
-        element: '#mat-tab-label-1-2',
+        element: targetElement3,
         intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
         position: 'bottom',
       }
@@ -231,7 +244,7 @@ export class TriviaHubComponent implements OnInit {
 
   async gotoResult(id: any) {
     // await this.router.navigate(['game-result'], {state: {id: id}});
-    await this.router.navigate(['game-result'],{ queryParams: { id: id } });
+    await this.router.navigate(['game-result'], {queryParams: {id: id}});
   }
 
   async getPerformance(id: any) {

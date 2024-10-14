@@ -19,7 +19,7 @@
       <form #f="ngForm" [formGroup]="signUpEmailForm" (ngSubmit)="onSubmitEmail()" autocomplete="off">
         <mat-form-field appearance="fill" class="custom-form-field w-100 mb-2" [hideRequiredMarker]="true">
           <mat-label>{{'E-mail Address' | translate}}</mat-label>
-          <input matInput placeholder="{{'E-mail Address' | translate}}" type="text" name="email"
+          <input matInput placeholder="{{'E-mail Address' | translate}}" type="text" name="email" [readonly]="!!email"
                  [formControlName]="'email'" required>
         </mat-form-field>
         <div role="alert" style="color: #ff5722; margin: 10px 0">

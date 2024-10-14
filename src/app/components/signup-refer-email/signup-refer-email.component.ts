@@ -35,15 +35,26 @@ export class SignupReferEmailComponent {
   error: any;
   hideCopy = true;
   hide = true;
+  email: any;
+  invitationId: any;
 
   constructor(private _formBuilder: FormBuilder, private loader: LoaderService, private router: Router,
               public authService: AuthService, public generalService: GeneralService, public config: ConfigService) {
+    this.email = this.router.getCurrentNavigation()?.extras?.state?.['email'] ? this.router.getCurrentNavigation()?.extras?.state?.['email'] : '';
+    this.invitationId = this.router.getCurrentNavigation()?.extras?.state?.['invitationId'] ? this.router.getCurrentNavigation()?.extras?.state?.['invitationId'] : '';
+    if (this.email) {
+      this.signUpEmailForm.controls.email.setValue(this.email);
+      // Make the input field readonly instead of disabling it
+      this.signUpEmailForm.controls.email.disable({onlySelf: true, emitEvent: false});
+      setTimeout(() => this.signUpEmailForm.controls.email.enable(), 0); // Re-enable form control but make the input readonly
+
+    }
   }
 
   async onSubmitEmail() {
     this.error = '';
     this.loading = true;
-    this.authService.setEmail(this.signUpEmailForm.controls.email.value).then(data => {
+    this.authService.setEmail(this.signUpEmailForm.controls.email.value, this.invitationId).then(data => {
       this.loading = false;
       if (data.status == 1) {
         this.step = 2;
@@ -82,7 +93,7 @@ export class SignupReferEmailComponent {
     if (this.step === 1) {
       await this.router.navigateByUrl('/signup');
     } else {
-      --this.step;
+        --this.step;
     }
   }
 }

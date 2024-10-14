@@ -57,9 +57,11 @@ export class LoginComponent {
           })
         } else if (this.generalService.userId && this.generalService.hasCompletedSignup) {
           await this.router.navigate(['/dashboard']);
-          this.clientService.clientInit().then(res => {
+          this.clientService.clientInit().then(async res => {
             if (res.status == 1) {
               this.generalService.clientInit = res.data;
+              await Preferences.remove({key: 'account'});
+              await Preferences.set({key: 'account', value: JSON.stringify(res.data.user)});
               this.generalService.currentRout = '/dashboard';
             }
           });

@@ -92,14 +92,15 @@ export class AuthService {
     }
   }
 
-  async setEmail(data: any): Promise<any> {
+  async setEmail(data: any, invitationId: any = null): Promise<any> {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json'
     })
     try {
       const response = this.http.post<any>(this.config.url('auth/setEmail'), {
         id: this.generalService.userId,
-        email: data
+        email: data,
+        invitationId: invitationId
       }, {
         headers: headers,
         withCredentials: true
@@ -438,7 +439,6 @@ export class AuthService {
   async getUserDetails(id: any): Promise<any> {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
-
     })
     try {
       const response = this.http.get(this.config.url('auth/' + id + '/details'), {
@@ -447,6 +447,24 @@ export class AuthService {
       }).pipe(
         map((response: any) => response)
       ).toPromise();
+      return response;
+    } catch (error) {
+      // Use ProcessHTTPMsgService to handle the error
+      return this.processHTTPMsgService.handleError(error);
+    }
+  }
+
+  async registerInvitationLink(id: any): Promise<any> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+
+    })
+    try {
+      const response = this.http.post<any>(this.config.url('auth/registerWithInvitationLink'), {id: id}, {
+        headers: headers,
+        withCredentials: true
+      })
+        .toPromise();
       return response;
     } catch (error) {
       // Use ProcessHTTPMsgService to handle the error

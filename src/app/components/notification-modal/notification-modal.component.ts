@@ -18,6 +18,7 @@ export class NotificationModalComponent {
 
   constructor(public generalService: GeneralService, public dialogRef: MatDialogRef<NotificationModalComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any, private gameComponent: GamesComponent) {
+    // alert(JSON.stringify(data))
   }
 
   cancel(): void {

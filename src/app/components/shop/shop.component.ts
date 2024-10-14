@@ -68,7 +68,7 @@ export class ShopComponent implements OnInit {
     }
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     introJs().exit(true);
   }
 
