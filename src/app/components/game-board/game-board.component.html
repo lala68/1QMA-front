@@ -114,14 +114,15 @@
                 &nbsp;
                 <div class="copy-referrer cursor-pointer"
                      [cdkCopyToClipboard]="data?.game?.gameLink"
-                     (click)="tooltip.show()"
-                     (mouseleave)="tooltip.hide()"
-                     matTooltip="Click to copy in clipboard!"
+                     (click)="showTooltip1()"
+                     (mouseleave)="tooltip1.hide()"
+                     [matTooltip]="tooltipMessage1"
                      [matTooltipPosition]="'above'"
-                     [matTooltipHideDelay]="1000"
+                     [matTooltipHideDelay]="0"
                      [matTooltipShowDelay]="0"
                      matTooltipTouchGestures="auto"
-                     #tooltip="matTooltip">
+                     [matTooltipDisabled]="tooltipVisible1"
+                     #tooltip1="matTooltip">
                   <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
                       d="M17.8408 14.3219V17.3219C17.8408 21.3219 16.2408 22.9219 12.2408 22.9219H8.44082C4.44082 22.9219 2.84082 21.3219 2.84082 17.3219V13.5219C2.84082 9.52188 4.44082 7.92188 8.44082 7.92188H11.4408"
@@ -165,14 +166,15 @@
                 &nbsp;
                 <div class="copy-referrer cursor-pointer"
                      [cdkCopyToClipboard]="data?.game?.gameCode"
-                     (click)="tooltip.show()"
-                     (mouseleave)="tooltip.hide()"
-                     matTooltip="Click to copy in clipboard!"
+                     (click)="showTooltip2()"
+                     (mouseleave)="tooltip2.hide()"
+                     [matTooltip]="tooltipMessage2"
                      [matTooltipPosition]="'above'"
-                     [matTooltipHideDelay]="1000"
+                     [matTooltipHideDelay]="0"
                      [matTooltipShowDelay]="0"
                      matTooltipTouchGestures="auto"
-                     #tooltip="matTooltip">
+                     [matTooltipDisabled]="tooltipVisible2"
+                     #tooltip2="matTooltip">
                   <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
                       d="M17.8408 14.3219V17.3219C17.8408 21.3219 16.2408 22.9219 12.2408 22.9219H8.44082C4.44082 22.9219 2.84082 21.3219 2.84082 17.3219V13.5219C2.84082 9.52188 4.44082 7.92188 8.44082 7.92188H11.4408"
@@ -266,6 +268,10 @@
       class="d-inline-block">{{'Waiting for' | translate}} {{generalService.gameInit?.numberOfPlayers - generalService.players?.length}}
       {{'of' | translate}} {{generalService.gameInit?.numberOfPlayers }} {{'players to join the game...' | translate}}
     </mat-label>
+    <app-countdown-timer
+      [style]="generalService.isMobileView ? 'position: absolute;top: -12px;inset-inline-end: 25px;' : 'position: absolute;top: 3px;inset-inline-end: 25px;'"
+      [duration]="generalService.gameInit?.waitingTimeSeconds"
+      (countdownFinished)="openWaitingModal()"></app-countdown-timer>
   </div>
 </div>
 
@@ -1167,8 +1173,9 @@ generalService.gameStep == 3 ? sendRateAnswer(true) : sendRateQuestions(true)">
                     [ngClass]="generalService.userObj?.preferedLanguage?.code != 'fa' ? 'exo-font' : 'peyda-font'">{{answer?.answerer?.firstName}} {{answer?.answerer?.lastName}}</span>
                     <br>
                     <br>
-                    <mat-label [ngClass]="generalService.userObj?.preferedLanguage?.code != 'fa' ? 'exo-font' : 'peyda-font'"
-                               class="font-size-14 weight-400">{{answer?.answer}}</mat-label>
+                    <mat-label
+                      [ngClass]="generalService.userObj?.preferedLanguage?.code != 'fa' ? 'exo-font' : 'peyda-font'"
+                      class="font-size-14 weight-400">{{answer?.answer}}</mat-label>
                     <br>
                     <br>
                     <img src="assets/images/score.png" width="16"/>

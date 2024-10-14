@@ -1,0 +1,15 @@
+<div class="font-size-14 weight-700 mt-2 ms-2">{{'Time Finished'}}</div>
+<div mat-dialog-content class="m-2">
+  <mat-label
+    style="font-size: 16px; font-weight: 600">{{'Time has been ended!' | translate}}</mat-label>
+  <br>
+  <mat-label
+    style="font-size: 14px; font-weight: 500">{{'Unfortunately time has been finished and not enough players joined the game! do you want to keep waiting?' | translate}}</mat-label>
+  <br>
+</div>
+<div mat-dialog-actions class="float-end" style="margin: 0 auto">
+  <button style="width: 134px" mat-raised-button color="primary"
+          (click)="resetTimer()">{{'Keep Waiting' | translate}}</button>
+  <button style="width: 134px" mat-raised-button color="primary"
+          (click)="gotoHome()">{{'Exit Game' | translate}}</button>
+</div>

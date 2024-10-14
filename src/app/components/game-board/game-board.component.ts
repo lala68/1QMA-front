@@ -33,6 +33,8 @@ import translate from "translate";
 export class GameBoardComponent implements OnInit, OnDestroy {
   @ViewChild('answerTextArea') answerTextArea: any;
   @ViewChild(CountdownTimerComponent) countdownTimer: any;
+  @ViewChild('tooltip1') tooltip1!: any;
+  @ViewChild('tooltip2') tooltip2!: any;
   loading: boolean = false;
   data: any;
   users: any;
@@ -56,6 +58,10 @@ export class GameBoardComponent implements OnInit, OnDestroy {
   isDropped: boolean = false;
   isDroppedQuestion: boolean = false;
   myRank: any;
+  tooltipVisible1 = false;  // Control whether the tooltip is visible
+  tooltipMessage1 = 'Click to copy!';
+  tooltipVisible2 = false;  // Control whether the tooltip is visible
+  tooltipMessage2 = 'Click to copy!';
 
   @HostListener('window:beforeunload', ['$event'])
   unloadNotification($event: any): void {
@@ -202,6 +208,34 @@ export class GameBoardComponent implements OnInit, OnDestroy {
   //   const confirmationMessage = 'Are you sure you want to leave?';
   //   event.returnValue = confirmationMessage; // This will trigger the confirmation dialog in some browsers
   // }
+
+  showTooltip1() {
+    this.tooltip1.show();
+    // this.tooltipVisible = true;  // Set tooltip visibility to true
+    this.tooltipMessage1 = 'Copied!';
+    // Hide tooltip after 2 seconds
+    setTimeout(() => {
+      this.tooltip1.hide();
+      setTimeout(() => {
+        this.tooltipMessage1 = 'Click to copy!';
+      }, 500);
+      // this.tooltipVisible = false;  // Reset tooltip visibility
+    }, 1000);
+  }
+
+  showTooltip2() {
+    this.tooltip2.show();
+    // this.tooltipVisible = true;  // Set tooltip visibility to true
+    this.tooltipMessage2 = 'Copied!';
+    // Hide tooltip after 2 seconds
+    setTimeout(() => {
+      this.tooltip2.hide();
+      setTimeout(() => {
+        this.tooltipMessage2 = 'Click to copy!';
+      }, 500);
+      // this.tooltipVisible = false;  // Reset tooltip visibility
+    }, 1000);
+  }
 
 
   openModal() {
@@ -672,6 +706,20 @@ export class GameBoardComponent implements OnInit, OnDestroy {
   // restartCountdown() {
   //   this.countdownTimer.startCountdown();
   // }
+
+  async openWaitingModal() {
+    const dialogRef = this.dialog.open(WaitingModal, {
+      width: '500px',
+      disableClose: true
+    });
+    dialogRef.afterClosed().subscribe(async result => {
+      if (result == 'close') {
+        // this.backToCheckpoint = true;
+      } else if (result == 'keep') {
+        this.countdownTimer.resetTimer(0);
+      }
+    });
+  }
 
   async sendAnswer(): Promise<any> {
     await this.ngZone.run(async () => {
@@ -1181,5 +1229,44 @@ export class Score {
       horizontalPosition: 'end',
       panelClass: title == 'Success' ? 'app-notification-success' : 'app-notification-error'
     });
+  }
+}
+
+@Component({
+  selector: 'waiting-modal',
+  templateUrl: 'waiting-modal.html',
+  standalone: true,
+  imports: [MaterialModule, CommonModule, TranslateModule],
+  providers: [CountdownTimerComponent]
+})
+
+export class WaitingModal {
+
+  constructor(public dialogRef: MatDialogRef<WaitingModal>, private generalService: GeneralService,
+              private router: Router) {
+  }
+
+  async resetTimer() {
+    this.dialogRef.close('keep');
+  }
+
+  async gotoHome() {
+    this.generalService.startingGame = false;
+    this.generalService.players = [];
+    this.generalService.gameInit = '';
+    this.generalService.gameStep = 1;
+    this.generalService.createdGameData = '';
+    this.generalService.gameQuestion = '';
+    this.generalService.specificQuestionAnswers = '';
+    this.generalService.gameAnswerGeneral = '';
+    this.generalService.editingAnswer = true;
+    this.generalService.isGameCancel = false;
+    this.generalService.allQuestions = [];
+    this.generalService.gameResult = '';
+    this.generalService.rateAnswers = [];
+    this.generalService.rateQuestions = [];
+    this.generalService.invitedPlayersArray = [];
+    this.dialogRef.close();
+    await this.router.navigate(['/dashboard']);
   }
 }
