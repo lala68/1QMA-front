@@ -117,6 +117,25 @@ export class CountdownTimerComponent implements OnInit, OnDestroy {
     this.startCountdown();
   }
 
+  resetTimerTutorial(duration: any): void {
+    // Fetch new duration from the service, or use the current value
+    const newDuration = duration;
+
+    // Check if the new duration is valid
+    if (newDuration) {
+      this.countdownDuration = parseInt(newDuration, 10); // Parse as integer
+    } else {
+      // If no new duration, fall back to the existing countdown duration
+      this.countdownDuration = this.countdownDuration || 60; // Default to 60 if no duration
+    }
+
+    // Clear the previous countdown and reset the state
+    this.clearCountdown();
+
+    // Restart the countdown with the new duration
+    this.startCountdown();
+  }
+
 
   clearCountdown(): void {
     if (this.countdownTimeout) {

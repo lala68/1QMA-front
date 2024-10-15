@@ -24,6 +24,7 @@ export class GeneralService implements OnInit {
   token: any;
   currentRout: any;
   startingGame: any = false;
+  startingGameTutorial: any = false;
   socket: any;
   players: any = [];
   gameInit: any;

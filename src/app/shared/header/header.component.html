@@ -2,7 +2,7 @@
   <img src="https://api.staging.1qma.games/images/logo.png" class="cursor-pointer" width="100" [routerLink]="'/dashboard'">
   <span class="example-spacer"></span>
   <!--  <div *ngIf="!generalService?.startingGame">-->
-  <button mat-icon-button *ngIf="generalService?.hasCompletedSignup && !generalService?.startingGame"
+  <button mat-icon-button *ngIf="generalService?.hasCompletedSignup && (!generalService?.startingGame && !generalService?.startingGameTutorial)"
           [routerLink]="'/settings'">
     <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
@@ -14,7 +14,7 @@
     </svg>
   </button>
   <button mat-icon-button [matMenuTriggerFor]="menuGift"
-          *ngIf="generalService?.hasCompletedSignup && !generalService?.startingGame">
+          *ngIf="generalService?.hasCompletedSignup && (!generalService?.startingGame && !generalService?.startingGameTutorial)">
     <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
         d="M20.8711 10.2402H4.87109V18.2402C4.87109 21.2402 5.87109 22.2402 8.87109 22.2402H16.8711C19.8711 22.2402 20.8711 21.2402 20.8711 18.2402V10.2402Z"
@@ -33,7 +33,7 @@
         stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
   </button>
-  <button mat-icon-button *ngIf="generalService?.hasCompletedSignup && !generalService?.startingGame"
+  <button mat-icon-button *ngIf="generalService?.hasCompletedSignup && (!generalService?.startingGame && !generalService?.startingGameTutorial)"
           [matMenuTriggerFor]="menuNotif" [matBadge]="generalService.newNotif ? 1 : ''" matBadgePosition="after"
           (click)="generalService.newNotif = false">
     <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -51,17 +51,17 @@
 
   <div style="height: 30px;"
        [style]="generalService.isMobileView ? '': 'border-inline-end: 1px solid #E8E2E0'"
-       *ngIf="!generalService?.startingGame && generalService?.userId"></div>
-  <button mat-icon-button *ngIf="authService?.isLoggedIn && !generalService?.startingGame" [matMenuTriggerFor]="menu">
+       *ngIf="(!generalService?.startingGame && !generalService?.startingGameTutorial) && generalService?.userId"></div>
+  <button mat-icon-button *ngIf="authService?.isLoggedIn && (!generalService?.startingGame && !generalService?.startingGameTutorial)" [matMenuTriggerFor]="menu">
     <mat-icon>person</mat-icon>
   </button>
   <div style="height: 30px;"
        [style]="generalService.isMobileView ? 'margin-inline-end: 0;' : 'margin-inline-end: 15px;  border-inline-end: 1px solid #E8E2E0'"
-       *ngIf="!generalService?.startingGame && generalService?.userId"></div>
+       *ngIf="(!generalService?.startingGame && !generalService?.startingGameTutorial) && generalService?.userId"></div>
 
   <mat-menu #menu="matMenu">
     <button [routerLink]="'/account-info'" style="border-bottom: 1px solid #E8E2E0" mat-menu-item
-            *ngIf="generalService?.hasCompletedSignup && !generalService?.startingGame">
+            *ngIf="generalService?.hasCompletedSignup && (!generalService?.startingGame && !generalService?.startingGameTutorial)">
       <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path
           d="M13.0009 11.1102C12.9009 11.1002 12.7809 11.1002 12.6709 11.1102C10.2909 11.0302 8.40088 9.08023 8.40088 6.68023C8.40088 4.23023 10.3809 2.24023 12.8409 2.24023C15.2909 2.24023 17.2809 4.23023 17.2809 6.68023C17.2709 9.08023 15.3809 11.0302 13.0009 11.1102Z"
@@ -140,7 +140,7 @@
   </mat-menu>
   <div class="desktopViewHeader">
     <button mat-stroked-button color="primary" class="me-2 radius" style="border: 1px solid #0B6FEA" id="addQuestion"
-            *ngIf="generalService?.hasCompletedSignup && !generalService?.startingGame" (click)="openAddQuestion()">
+            *ngIf="generalService?.hasCompletedSignup && (!generalService?.startingGame && !generalService?.startingGameTutorial)" (click)="openAddQuestion()">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M6 12H18" stroke="#0B6FEA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
         <path d="M12 18V6" stroke="#0B6FEA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -149,7 +149,7 @@
       Add question
     </button>
     <button mat-flat-button color="primary" [routerLink]="['/games/find-game']" id="find"
-            *ngIf="generalService?.hasCompletedSignup && !generalService?.startingGame">
+            *ngIf="generalService?.hasCompletedSignup && (!generalService?.startingGame && !generalService?.startingGameTutorial)">
       <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path
           d="M12.2246 21.2402C17.4713 21.2402 21.7246 16.9869 21.7246 11.7402C21.7246 6.49353 17.4713 2.24023 12.2246 2.24023C6.9779 2.24023 2.72461 6.49353 2.72461 11.7402C2.72461 16.9869 6.9779 21.2402 12.2246 21.2402Z"
@@ -160,7 +160,7 @@
       Find game
     </button>
     <button mat-flat-button class="ms-2" color="primary" [routerLink]="['/games/create-game']" id="create"
-            *ngIf="generalService?.hasCompletedSignup && !generalService?.startingGame">
+            *ngIf="generalService?.hasCompletedSignup && (!generalService?.startingGame && !generalService?.startingGameTutorial)">
       <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path
           d="M16.6226 2.58691H8.62256C4.62256 2.58691 2.62256 4.58691 2.62256 8.58691V21.5869C2.62256 22.1369 3.07256 22.5869 3.62256 22.5869H16.6226C20.6226 22.5869 22.6226 20.5869 22.6226 16.5869V8.58691C22.6226 4.58691 20.6226 2.58691 16.6226 2.58691Z"
@@ -176,7 +176,7 @@
   </div>
   <!--  </div>-->
   <!--   && generalService?.startingGame-->
-  <div *ngIf="generalService?.hasCompletedSignup && generalService?.startingGame">
+  <div *ngIf="generalService?.hasCompletedSignup &&  (generalService?.startingGame || generalService?.startingGameTutorial)">
     <mat-chip class="me-2 connected-chip" style="background: white; border: 1px solid #E8E2E0"
               *ngIf="!generalService.disconnectedModal">
       <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">

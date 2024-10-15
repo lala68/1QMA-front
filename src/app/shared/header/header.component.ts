@@ -230,9 +230,10 @@ export class ExitGame {
   }
 
   async exitGame(): Promise<void> {
-    const data = await this.gameService.exitGame(this.generalService?.createdGameData?.game?.gameId);
+    const data = await this.gameService.exitGame(this.generalService?.startingGame ? this.generalService?.createdGameData?.game?.gameId : this.generalService?.createdGameData?._id);
     if (data.status === 1) {
       this.generalService.startingGame = false;
+      this.generalService.startingGameTutorial = false;
       this.generalService.players = [];
       this.generalService.gameInit = '';
       this.generalService.gameStep = 1;

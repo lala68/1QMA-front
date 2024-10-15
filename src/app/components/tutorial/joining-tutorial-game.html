@@ -1,0 +1,120 @@
+<div class="font-size-14 weight-700 p-2 border-bottom">
+  <!--  <img src="assets/images/add.svg" (click)="closeModal()" width="24">-->
+  <svg (click)="closeModal()" width="24" height="24" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M13.4819 21.4023L21.9672 12.9171" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
+          stroke-linejoin="round"/>
+    <path d="M21.9672 21.4032L13.4819 12.918" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
+          stroke-linejoin="round"/>
+  </svg>
+  &nbsp;{{'Joining Game' | translate}}
+</div>
+<div mat-dialog-content [class]="{'': !generalService.isMobileView, 'p-1': generalService.isMobileView}">
+  <mat-card class="shadow-none">
+    <mat-card-header>
+      <mat-card-title
+        class="font-size-14 weight-600">{{'Players waiting for you! Join the game:' | translate}}</mat-card-title>
+    </mat-card-header>
+  </mat-card>
+  <div [class]="{'d-inline-flex': !generalService.isMobileView, 'd-block': generalService.isMobileView}">
+    <mat-card class="shadow-none">
+      <mat-card-header>
+        <img mat-card-avatar
+             [src]="data?.data?.game?.creator?.profilePicture ? data?.data?.game?.creator?.profilePicture?.startsWith('http') ? data?.data?.game?.creator?.profilePicture : configService.url(data?.data?.game?.creator?.profilePicture) : 'assets/images/frame.png'"
+             width="35" height="35">
+        <mat-card-title
+          class="font-size-10 weight-500 mt-2 text-gray pe-0">{{'Created by...' | translate}}
+        </mat-card-title>
+        <mat-card-subtitle class="font-size-14 weight-500">
+          Admin
+        </mat-card-subtitle>
+      </mat-card-header>
+    </mat-card>
+    <div class="w-100" [class]="{'d-flex': !generalService.isMobileView, 'd-inline-flex': generalService.isMobileView}">
+      <mat-card class="shadow-none">
+        <mat-card-header>
+          <img mat-card-avatar [src]="'https://api.staging.1qma.games/' + data?.data?.icon" width="35"
+               height="35">
+          <mat-card-title
+            class="font-size-14 weight-500 mt-2">{{data?.data?.name}}
+          </mat-card-title>
+        </mat-card-header>
+      </mat-card>
+      <mat-card class="shadow-none">
+        <mat-card-header>
+          <img mat-card-avatar src="assets/images/normal-game.png"
+               width="35"
+               height="35">
+          <mat-card-title
+            class="font-size-14 weight-500 mt-2">Normal
+          </mat-card-title>
+        </mat-card-header>
+      </mat-card>
+    </div>
+  </div>
+
+  <br>
+  <br>
+  <form #f="ngForm" [formGroup]="questionForm" autocomplete="off">
+    <div class="d-flex">
+      <!--      <img src="assets/images/message-question.svg" width="24">-->
+      <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M17.8408 18.5899H13.8408L9.39081 21.5499C8.73081 21.9899 7.84082 21.5199 7.84082 20.7199V18.5899C4.84082 18.5899 2.84082 16.5899 2.84082 13.5899V7.58984C2.84082 4.58984 4.84082 2.58984 7.84082 2.58984H17.8408C20.8408 2.58984 22.8408 4.58984 22.8408 7.58984V13.5899C22.8408 16.5899 20.8408 18.5899 17.8408 18.5899Z"
+          stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+        <path
+          d="M12.8406 11.5205V11.3105C12.8406 10.6305 13.2607 10.2705 13.6807 9.98053C14.0907 9.70053 14.5006 9.34054 14.5006 8.68054C14.5006 7.76054 13.7606 7.02051 12.8406 7.02051C11.9206 7.02051 11.1807 7.76054 11.1807 8.68054"
+          stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M12.8363 13.9102H12.8453" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
+              stroke-linejoin="round"/>
+      </svg>
+
+      &nbsp;<div class="font-size-14 weight-600">{{'My Question' | translate}}:</div>
+      <div class="font-size-14 weight-600 cursor-pointer" (click)="openImportFromLib()"
+           style="text-align: right; flex: 1; color: #0B6FEA"><i class="bi bi-plus"></i>
+        {{'Import from library' | translate}}
+      </div>
+    </div>
+    <div class="textarea-container">
+      <textarea [formControlName]="'question'" (ngModelChange)="updateWordCount()"></textarea>
+      <div class="word-counter">{{ wordCount }} {{'Words' | translate}}</div>
+    </div>
+
+    <div>
+      <div class="d-flex">
+        <!--        <img src="assets/images/clipboard-text.svg" width="24">-->
+        <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M7.9917 12.3604H14.9917" stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10"
+                stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M7.9917 16.3604H12.3717" stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10"
+                stroke-linecap="round" stroke-linejoin="round"/>
+          <path
+            d="M9.9917 6.16016H13.9917C15.9917 6.16016 15.9917 5.16016 15.9917 4.16016C15.9917 2.16016 14.9917 2.16016 13.9917 2.16016H9.9917C8.9917 2.16016 7.9917 2.16016 7.9917 4.16016C7.9917 6.16016 8.9917 6.16016 9.9917 6.16016Z"
+            stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+          <path
+            d="M15.9917 4.17969C19.3217 4.35969 20.9917 5.58969 20.9917 10.1597V16.1597C20.9917 20.1597 19.9917 22.1597 14.9917 22.1597H8.9917C3.9917 22.1597 2.9917 20.1597 2.9917 16.1597V10.1597C2.9917 5.59969 4.6617 4.35969 7.9917 4.17969"
+            stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+
+        &nbsp;<div class="font-size-14 weight-600">{{'My Answer' | translate}}:</div>
+      </div>
+      <div class="textarea-container">
+        <textarea [formControlName]="'answer'" (ngModelChange)="updateWordCountAnswer()"></textarea>
+        <div class="word-counter">{{ wordCountAnswer }} {{'Words' | translate}}</div>
+      </div>
+    </div>
+  </form>
+  <br>
+  <br>
+  <div class="copy-referrer position-relative p-0">
+    <div style="height: 60px" [class]="{'d-flex': !generalService.isMobileView, 'd-block': generalService.isMobileView}">
+      <button mat-raised-button color="primary"
+              [class]="{'next-step-game-joining': !generalService.isMobileView, 'next-step-game-joining-mobile': generalService.isMobileView}"
+              [disabled]="questionForm.invalid || loading"
+              (click)="joinGame()">
+        {{'Play and join game' | translate}}
+        <i *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'" class="bi bi-arrow-right"></i>
+        <i *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" class="bi bi-arrow-left"></i>
+      </button>
+    </div>
+  </div>
+</div>

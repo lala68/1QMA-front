@@ -26,6 +26,7 @@ import {GiftHistoryComponent} from "../components/gift-history/gift-history.comp
 import {ReportBugComponent} from "../components/report-bug/report-bug.component";
 import {PrivacyComponent} from "../components/privacy/privacy.component";
 import {MoreComponent} from "../components/more/more.component";
+import {TutorialComponent} from "../components/tutorial/tutorial.component";
 
 export const routes: Routes = [
   {path: 'login', component: LoginComponent, canActivate: [AuthRedirectGuard]},
@@ -39,6 +40,7 @@ export const routes: Routes = [
   {path: 'games/:id', component: GamesComponent, canActivate: [authGuard]},
   {path: 'trivia-hub', component: TriviaHubComponent, canActivate: [authGuard]},
   {path: 'shop', component: ShopComponent, canActivate: [authGuard]},
+  {path: 'tutorial', component: TutorialComponent, canActivate: [authGuard]},
   {path: 'report-bug', component: ReportBugComponent, canActivate: [authGuard]},
   {path: 'more', component: MoreComponent},
   {path: 'faq', component: FaqComponent},
