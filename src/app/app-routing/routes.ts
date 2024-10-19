@@ -25,8 +25,8 @@ import {TermsComponent} from "../components/terms/terms.component";
 import {GiftHistoryComponent} from "../components/gift-history/gift-history.component";
 import {ReportBugComponent} from "../components/report-bug/report-bug.component";
 import {PrivacyComponent} from "../components/privacy/privacy.component";
-import {MoreComponent} from "../components/more/more.component";
 import {TutorialComponent} from "../components/tutorial/tutorial.component";
+import {QuestionDetailComponent} from "../components/question-detail/question-detail.component";
 
 export const routes: Routes = [
   {path: 'login', component: LoginComponent, canActivate: [AuthRedirectGuard]},
@@ -42,7 +42,6 @@ export const routes: Routes = [
   {path: 'shop', component: ShopComponent, canActivate: [authGuard]},
   {path: 'tutorial', component: TutorialComponent, canActivate: [authGuard]},
   {path: 'report-bug', component: ReportBugComponent, canActivate: [authGuard]},
-  {path: 'more', component: MoreComponent},
   {path: 'faq', component: FaqComponent},
   {path: 'terms', component: TermsComponent},
   {path: 'privacy', component: PrivacyComponent},
@@ -55,6 +54,7 @@ export const routes: Routes = [
   {path: 'settings', component: SettingsComponent, canActivate: [authGuard]},
   {path: 'account-info', component: AccountInfoComponent, canActivate: [authGuard]},
   {path: 'user-detail', component: UserDetailComponent, canActivate: [authGuard]},
+  {path: 'question-detail', component: QuestionDetailComponent, canActivate: [authGuard]},
   {path: 'social/callback', component: SocialCallbackComponent},
   {path: '', redirectTo: '/dashboard', pathMatch: 'full'},
 ];

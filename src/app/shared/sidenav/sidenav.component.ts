@@ -3,8 +3,10 @@ import {GeneralService} from "../../services/general/general.service";
 import {ConfigService} from "../../services/config/config.service";
 import {IntroJsService} from "../../services/introJs/intro-js.service";
 import {BreakpointObserver, Breakpoints} from "@angular/cdk/layout";
-import {AddQuestion} from "../header/header.component";
-import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
+import {AddQuestion, ExitGame} from "../header/header.component";
+import {MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
+import {Router} from "@angular/router";
+import {ProcessHTTPMsgService} from "../../services/proccessHttpMsg/process-httpmsg.service";
 
 
 @Component({
@@ -16,7 +18,8 @@ export class SidenavComponent implements OnInit {
   isFabOpen = false;
 
   constructor(private intro: IntroJsService, private observer: BreakpointObserver, public dialog: MatDialog,
-              public generalService: GeneralService, public configService: ConfigService) {
+              public generalService: GeneralService, public configService: ConfigService,
+              private router: Router) {
   }
 
   ngOnInit(): void {
@@ -81,7 +84,7 @@ export class SidenavComponent implements OnInit {
       dialogConfig.width = '100vw';
       dialogConfig.maxWidth = '100vw';
       dialogConfig.height = 'auto'; // You can specify the height if needed
-      dialogConfig.position = { bottom: '0px' };
+      dialogConfig.position = {bottom: '0px'};
       dialogConfig.panelClass = 'mobile-dialog'; // Add custom class for mobile
     } else {
       dialogConfig.width = '700px'; // Full size for desktop or larger screens
@@ -92,5 +95,42 @@ export class SidenavComponent implements OnInit {
       if (result == 'success') {
       }
     });
+  }
+
+  gotoMore() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.width = '100vw';
+    dialogConfig.maxWidth = '100vw';
+    dialogConfig.height = '100vh'; // You can specify the height if needed
+    dialogConfig.position = {bottom: '0px'};
+    dialogConfig.panelClass = 'mobile-dialog'; // Add custom class for mobile
+    const dialogRef = this.dialog.open(MoreMobile, dialogConfig);
+    dialogRef.afterClosed().subscribe(async result => {
+      if (result == 'success') {
+      }
+    });
+  }
+}
+
+@Component({
+  selector: 'more-mobile',
+  templateUrl: 'more-mobile.html',
+  // standalone: true,
+  // imports: [TranslateModule, CommonModule, SharedModule, MatMenuModule, FormsModule, RouterModule, ReactiveFormsModule,]
+})
+
+export class MoreMobile {
+
+  constructor(
+    public dialogRef: MatDialogRef<ExitGame>,
+    public generalService: GeneralService,
+    private router: Router,
+    private processHTTPMsgService: ProcessHTTPMsgService,
+    public configService: ConfigService
+  ) {
+  }
+
+  async closeModal() {
+    this.dialogRef.close();
   }
 }

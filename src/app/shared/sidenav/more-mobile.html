@@ -1,0 +1,51 @@
+<div class="font-size-14 weight-700 p-2 border-bottom">
+  <svg (click)="closeModal()" width="24" height="24" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M13.4819 21.4023L21.9672 12.9171" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
+          stroke-linejoin="round"/>
+    <path d="M21.9672 21.4032L13.4819 12.918" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
+          stroke-linejoin="round"/>
+  </svg>
+  &nbsp;{{'More' | translate}}
+</div>
+<div mat-dialog-content>
+  <mat-list-item class="position-relative border-bottom" [routerLink]="'/settings'" (click)="closeModal()">
+    <mat-label>{{'Setting' | translate}}</mat-label>
+    <mat-icon style="position: absolute; right: 5px" *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'">
+      chevron_right
+    </mat-icon> <!-- Right angle at the end -->
+    <mat-icon style="position: absolute; left: 5px" *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'">
+      chevron_left
+    </mat-icon> <!-- Right angle at the end -->
+  </mat-list-item>
+
+  <mat-list-item class="position-relative border-bottom" [routerLink]="'/report-bug'" (click)="closeModal()">
+    <mat-label>{{'Report Bug' | translate}}</mat-label>
+    <mat-icon style="position: absolute; right: 5px" *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'">
+      chevron_right
+    </mat-icon> <!-- Right angle at the end -->
+    <mat-icon style="position: absolute; left: 5px" *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'">
+      chevron_left
+    </mat-icon> <!-- Right angle at the end -->
+  </mat-list-item>
+
+  <mat-list-item class="position-relative border-bottom" [routerLink]="'/terms'" (click)="closeModal()">
+    <mat-label>{{'Term Of Use' | translate}}</mat-label>
+    <mat-icon style="position: absolute; right: 5px" *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'">
+      chevron_right
+    </mat-icon> <!-- Right angle at the end -->
+    <mat-icon style="position: absolute; left: 5px" *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'">
+      chevron_left
+    </mat-icon> <!-- Right angle at the end -->
+  </mat-list-item>
+
+  <mat-list-item class="position-relative border-bottom" [routerLink]="'/faq'" (click)="closeModal()">
+    <mat-label>{{'FAQ' | translate}}</mat-label>
+    <mat-icon style="position: absolute; right: 5px" *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'">
+      chevron_right
+    </mat-icon> <!-- Right angle at the end -->
+    <mat-icon style="position: absolute; left: 5px" *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'">
+      chevron_left
+    </mat-icon> <!-- Right angle at the end -->
+  </mat-list-item>
+</div>
+

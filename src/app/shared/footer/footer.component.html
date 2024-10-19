@@ -18,8 +18,8 @@
       </li>
       <li class="p-2 ul-li-footer">
         <label>
-          <a [routerLink]="'/tutorial'" class="nav-link pointer">
-            Tutorials
+          <a class="nav-link pointer">
+            Careers
           </a>
         </label>
       </li>
@@ -32,10 +32,10 @@
           </a>
         </label>
       </li>
-      <li class="p-2 ul-li-footer">
+      <li class="p-2 ul-li-footer" *ngIf="generalService?.hasCompletedSignup">
         <label>
-          <a class="nav-link pointer">
-            Careers
+          <a [routerLink]="'/tutorial'" class="nav-link pointer">
+            Tutorials
           </a>
         </label>
       </li>

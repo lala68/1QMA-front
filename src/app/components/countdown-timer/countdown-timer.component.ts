@@ -143,5 +143,4 @@ export class CountdownTimerComponent implements OnInit, OnDestroy {
       this.countdownTimeout = null; // Reset the reference
     }
   }
-
 }

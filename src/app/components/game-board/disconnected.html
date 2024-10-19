@@ -10,6 +10,10 @@
   <br>
 </div>
 <div mat-dialog-actions style="margin: 1rem auto;">
-  <button style="width: 200px; border: 1px solid #0B6FEA" mat-stroked-button color="primary" (click)="gotoHome()">{{'Exit Game' | translate}}
+  <button style="width: 200px; border: 1px solid #0B6FEA" mat-stroked-button color="primary" [disabled]="disable"
+          (click)="gotoHome()">
+    <app-countdown-timer *ngIf="disable" [duration]="10" (countdownFinished)="finishedDisconnectTimer()"></app-countdown-timer>
+    {{'Exit Game' | translate}}
   </button>
+
 </div>

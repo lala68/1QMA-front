@@ -20,6 +20,9 @@
              width="35" height="35">
         <mat-card-title
           class="card-title-profile-dashboard mt-2">{{user?.firstName + ' ' + user?.lastName }}</mat-card-title>
+        <mat-card-subtitle class="d-flex align-items-center font-size-12 weight-500 pt-1">
+          <small>{{'created at: ' | translate}}{{user?.created_at | date}}</small>
+        </mat-card-subtitle>
       </mat-card-header>
     </mat-card>
   </div>

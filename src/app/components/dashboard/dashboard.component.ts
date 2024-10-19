@@ -66,6 +66,9 @@ export class DashboardComponent implements OnInit {
               private router: Router, public dialog: MatDialog, private _snackBar: MatSnackBar, private sideNavComponent: SidenavComponent,
               private gameService: GamesService, private intro: IntroJsService, private headerComponent: HeaderComponent) {
     this.generalService.currentRout = '/dashboard';
+    this.generalService.selectedTabIndexParentInTrivia = 0;
+    this.generalService.selectedTabIndexQuestionChildInTrivia = 0;
+    this.generalService.selectedTabIndexGameChildInTrivia = 0;
   }
 
   async ngOnInit() {
@@ -235,7 +238,8 @@ export class DashboardComponent implements OnInit {
   }
 
   async gotoQuestionDetail(item: any) {
-    await this.router.navigate(['trivia-hub'], {state: {question: item}});
+    // await this.router.navigate(['trivia-hub'], {state: {question: item}});
+    await this.router.navigate(['question-detail'], {queryParams: {item: item}});
   }
 
   async getQuestionsFromFriendsLatestGames() {

@@ -62,6 +62,7 @@ export class TutorialComponent {
               private gameBoardComponent: GameBoardComponent, private processHTTPMsgService: ProcessHTTPMsgService) {
     //numberOfSubmitted maybe remove it
     this.submittedAnswer.numberOfSubmitted = 1;
+    this.generalService.currentRout = '';
   }
 
   async ngOnInit() {
@@ -96,6 +97,7 @@ export class TutorialComponent {
 
   async handleGameStep(): Promise<void> {
     console.log(this.gameStep)
+    this.generalService.specificQuestionAnswers = '';
     if (this.gameStep == 2) {
       this.finishedTimerRatingQuestions = false;
       this.finishedTimerRatingAnswer = false;

@@ -7,7 +7,7 @@ import {AuthService} from "./services/auth/auth.service";
 import {ClientService} from "./services/client/client.service";
 import {Preferences} from "@capacitor/preferences";
 import {Location} from "@angular/common";
-import {MatDialog} from "@angular/material/dialog";
+import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {SnackbarContentComponent} from "./components/snackbar-content/snackbar-content.component";
 import {io} from "socket.io-client";
@@ -21,6 +21,7 @@ import {ProcessHTTPMsgService} from "./services/proccessHttpMsg/process-httpmsg.
 import {SignupComponent} from "./components/signup/signup.component";
 import {ShopService} from "./services/shop.service";
 import {NotificationModalComponent} from "./components/notification-modal/notification-modal.component";
+import {VersionCheckService} from "./services/versionCheck/version-check.service";
 
 register();
 
@@ -39,7 +40,10 @@ export class AppComponent implements OnInit {
               private clientService: ClientService, private route: ActivatedRoute, private location: Location,
               private processHTTPMsgService: ProcessHTTPMsgService, private signupComponent: SignupComponent,
               private gameComponent: GamesComponent, private gameService: GamesService,
-              private loader: LoaderService, private shopService: ShopService) {
+              private loader: LoaderService, private shopService: ShopService, private versionCheckService: VersionCheckService) {
+    // Force light mode
+    const html = document.documentElement;
+    html.style.setProperty('color-scheme', 'light');
   }
 
   ngOnInit(): void {
@@ -64,12 +68,24 @@ export class AppComponent implements OnInit {
       });
 
       this.generalService.socket.on("notification:modal", (arg: any) => {
-        console.log(arg)
-        // alert(JSON.stringify(arg))
-        this.dialog.open(NotificationModalComponent, {
-          data: arg,
-          width: '500px',
-          disableClose: true
+        const dialogConfig = new MatDialogConfig();
+        if (this.generalService.isMobileView) { // Assuming mobile devices are <= 768px
+          dialogConfig.width = '100vw';
+          dialogConfig.maxWidth = '100vw';
+          dialogConfig.height = 'auto'; // You can specify the height if needed
+          dialogConfig.position = {bottom: '0px'};
+          dialogConfig.panelClass = 'mobile-dialog'; // Add custom class for mobile
+          dialogConfig.data = arg;
+          dialogConfig.disableClose = true;
+        } else {
+          dialogConfig.width = '500px'; // Full size for desktop or larger screens
+          dialogConfig.data = arg;
+          dialogConfig.disableClose = true;
+        }
+        const dialogRef = this.dialog.open(NotificationModalComponent, dialogConfig);
+        dialogRef.afterClosed().subscribe(async result => {
+          if (result == 'success') {
+          }
         });
       });
 
@@ -109,7 +125,11 @@ export class AppComponent implements OnInit {
                     return this.processHTTPMsgService.handleError(error);
                   });
                   // await this.generalService.useGoogleTranslate();
-                  await this.router.navigate(['/dashboard']);
+                  if (user.data.hasSeenIntros.tutorial) {
+                    await this.router.navigate(['/dashboard']);
+                  } else {
+                    await this.router.navigate(['/tutorial']);
+                  }
                 } else if (!user.data.hasCompletedSignup && user.data.emailVerified) {
                   this.authService.registerInit().then(res => {
                     if (res.status == 1) {
@@ -133,19 +153,21 @@ export class AppComponent implements OnInit {
             return;
           } else {
             if (invitation_id) {
-              this.authService.registerInvitationLink(invitation_id).then(data => {
-                if (data.status == 1) {
-                  this.generalService.userId = data.data._id;
-                  this.router.navigate(['/signup-refer-email'], {
-                    state: {
-                      email: data.data.email,
-                      invitationId: invitation_id
-                    }
-                  });
-                } else {
-                  this.openDialog(data.message, 'Error');
-                }
-              })
+              if (!this.generalService.userId) {
+                this.authService.registerInvitationLink(invitation_id).then(data => {
+                  if (data.status == 1) {
+                    this.generalService.userId = data.data._id;
+                    this.router.navigate(['/signup-refer-email'], {
+                      state: {
+                        email: data.data.email,
+                        invitationId: invitation_id
+                      }
+                    });
+                  } else {
+                    this.openDialog(data.message, 'Error');
+                  }
+                })
+              }
             } else {
               if (this.generalService.userId) {
                 this.clientService.clientInit().then(async data => {
@@ -157,6 +179,7 @@ export class AppComponent implements OnInit {
                   await Preferences.remove({key: 'account'});
                   await Preferences.set({key: 'account', value: JSON.stringify(data.data.user)});
                   //
+                  this.versionCheckService.checkForUpdate();
                   if (this.generalService.userId && !this.generalService.hasCompletedSignup && this.generalService.emailVerified) {
                     this.authService.getUserDetails(this.generalService.userId).then(async user => {
                       await Preferences.remove({key: 'account'});
@@ -174,7 +197,11 @@ export class AppComponent implements OnInit {
                             return this.processHTTPMsgService.handleError(error);
                           });
                           // await this.generalService.useGoogleTranslate();
-                          await this.router.navigate(['/dashboard']);
+                          if (user.data.hasSeenIntros.tutorial) {
+                            await this.router.navigate(['/dashboard']);
+                          } else {
+                            await this.router.navigate(['/tutorial']);
+                          }
                         } else if (!this.generalService.hasCompletedSignup && this.generalService.emailVerified) {
                           this.authService.registerInit().then(res => {
                             if (res.status == 1) {
@@ -225,11 +252,15 @@ export class AppComponent implements OnInit {
                     }, error => {
                       return this.processHTTPMsgService.handleError(error);
                     });
-                    this.router.navigate([(this.router.url === ('/login') || this.router.url === ('/signup') || this.router.url === ('/forget-password')
-                      || this.router.url === ('/wizard') || this.router.url === ('/signup-social') || this.router.url === ('/signup-refer-email')
-                      || this.router.url === ('/social/callback')) ? '/dashboard' : this.location.path()]);
-                    // await this.generalService.useGoogleTranslate();
-                    this.generalService.currentRout = this.router.url;
+                    if (this.generalService.userObj.hasSeenIntros?.tutorial) {
+                      this.router.navigate([(this.router.url === ('/login') || this.router.url === ('/signup') || this.router.url === ('/forget-password')
+                        || this.router.url === ('/wizard') || this.router.url === ('/signup-social') || this.router.url === ('/signup-refer-email')
+                        || this.router.url === ('/social/callback')) ? '/dashboard' : this.location.path()]);
+                      // await this.generalService.useGoogleTranslate();
+                      this.generalService.currentRout = this.router.url;
+                    } else {
+                      await this.router.navigate(['/tutorial']);
+                    }
                   }
                 });
               } else {

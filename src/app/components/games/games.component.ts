@@ -90,6 +90,9 @@ export class GamesComponent implements OnInit {
               private _formBuilder: FormBuilder, private router: Router, public dialog: MatDialog, private _snackBar: MatSnackBar,
               private route: ActivatedRoute, private intro: IntroJsService, private gameBoardComponent: GameBoardComponent, private processHTTPMsgService: ProcessHTTPMsgService) {
     this.generalService.currentRout = '/games/overview';
+    this.generalService.selectedTabIndexParentInTrivia = 0;
+    this.generalService.selectedTabIndexQuestionChildInTrivia = 0;
+    this.generalService.selectedTabIndexGameChildInTrivia = 0;
   }
 
   async ngOnInit() {

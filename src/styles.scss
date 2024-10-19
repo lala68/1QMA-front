@@ -70,6 +70,12 @@
   src: url('./assets/fonts/Pinar-DS1-Regular.ttf') format('truetype');
 }
 
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: light;
+  }
+}
+
 body.english-font {
   font-family: 'Exo', sans-serif; /* Fallback to sans-serif */
 }
@@ -502,6 +508,14 @@ input[type="tel"] {
   border: 1px solid #E8E2E0;
   padding: 10px;
   border-radius: 6px;
+}
+
+.copy-referrer-joining {
+  background: #F9F7F7;
+  border: 1px solid #E8E2E0;
+  padding: 10px;
+  border-top-right-radius: 6px;
+  border-top-left-radius: 6px;
 }
 
 .textarea-container {

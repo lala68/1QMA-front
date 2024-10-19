@@ -13,7 +13,7 @@
         stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
   </button>
-  <button mat-icon-button [matMenuTriggerFor]="menuGift"
+  <button mat-icon-button [matMenuTriggerFor]="!generalService.isMobileView ? menuGift : null" (click)="generalService.isMobileView && openGiftModal()"
           *ngIf="generalService?.hasCompletedSignup && (!generalService?.startingGame && !generalService?.startingGameTutorial)">
     <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
@@ -34,8 +34,8 @@
     </svg>
   </button>
   <button mat-icon-button *ngIf="generalService?.hasCompletedSignup && (!generalService?.startingGame && !generalService?.startingGameTutorial)"
-          [matMenuTriggerFor]="menuNotif" [matBadge]="generalService.newNotif ? 1 : ''" matBadgePosition="after"
-          (click)="generalService.newNotif = false">
+          [matMenuTriggerFor]="!generalService.isMobileView ? menuNotif : null" [matBadge]="generalService.newNotif ? 1 : ''" matBadgePosition="after"
+          (click)="generalService.newNotif = false; generalService.isMobileView && openNotifModal()">
     <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
         d="M12.0982 3.15039C8.78821 3.15039 6.09821 5.84039 6.09821 9.15039V12.0404C6.09821 12.6504 5.83821 13.5804 5.52821 14.1004L4.37821 16.0104C3.66821 17.1904 4.15821 18.5004 5.45821 18.9404C9.76821 20.3804 14.4182 20.3804 18.7282 18.9404C19.9382 18.5404 20.4682 17.1104 19.8082 16.0104L18.6582 14.1004C18.3582 13.5804 18.0982 12.6504 18.0982 12.0404V9.15039C18.0982 5.85039 15.3982 3.15039 12.0982 3.15039Z"
@@ -52,7 +52,8 @@
   <div style="height: 30px;"
        [style]="generalService.isMobileView ? '': 'border-inline-end: 1px solid #E8E2E0'"
        *ngIf="(!generalService?.startingGame && !generalService?.startingGameTutorial) && generalService?.userId"></div>
-  <button mat-icon-button *ngIf="authService?.isLoggedIn && (!generalService?.startingGame && !generalService?.startingGameTutorial)" [matMenuTriggerFor]="menu">
+  <button mat-icon-button *ngIf="authService?.isLoggedIn && (!generalService?.startingGame && !generalService?.startingGameTutorial)"
+          [matMenuTriggerFor]="!generalService.isMobileView ? menu : null" (click)="generalService.isMobileView && openAccountModal()">
     <mat-icon>person</mat-icon>
   </button>
   <div style="height: 30px;"
@@ -70,7 +71,7 @@
           d="M8.00104 14.8002C5.58104 16.4202 5.58104 19.0602 8.00104 20.6702C10.751 22.5102 15.261 22.5102 18.011 20.6702C20.431 19.0502 20.431 16.4102 18.011 14.8002C15.271 12.9702 10.761 12.9702 8.00104 14.8002Z"
           stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
-      <span class="ms-3">Account Detail</span>
+      <span class="ms-3">{{'Account Detail' | translate}}</span>
     </button>
     <button mat-menu-item (click)="logout()">
       <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -82,7 +83,7 @@
         <path d="M5.8417 8.89062L2.4917 12.2406L5.8417 15.5906" stroke="#292D32" stroke-width="1.5"
               stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
-      <span class="ms-3">Sign Out</span>
+      <span class="ms-3">{{'Sign Out' | translate}}</span>
     </button>
   </mat-menu>
 

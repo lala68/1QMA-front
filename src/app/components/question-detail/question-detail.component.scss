@@ -1,0 +1,92 @@
+.answer-button {
+  background: #0B6FEA !important;
+  color: white !important;
+}
+
+.bordered-card {
+  //max-width: 247px;
+  min-width: 15vw;
+  margin: 10px 5px;
+  border: 1px solid #BFAEAA !important;
+  border-radius: 10px;
+  padding: .5rem;
+}
+
+.bordered-card-mobile {
+  //max-width: 247px;
+  min-width: 100%;
+  margin: 10px 5px 10px 0;
+  border: 1px solid #BFAEAA !important;
+  border-radius: 10px;
+  padding: .5rem;
+}
+
+.game-button {
+  background: #0B6FEA !important;
+  width: 100% !important;
+  color: white !important;
+}
+
+
+.container-accordion {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.container-accordion-item {
+  flex: 1 1 50%; /* Flex-grow: 1, Flex-shrink: 1, Flex-basis: 50% */
+  padding: 20px;
+  box-sizing: border-box; /* Ensures padding and border are included in the width calculation */
+}
+
+.container-accordion-item-mobile {
+  flex: 1 1 100%; /* Flex-grow: 1, Flex-shrink: 1, Flex-basis: 50% */
+  padding: 10px;
+  box-sizing: border-box; /* Ensures padding and border are included in the width calculation */
+}
+
+#google_translate_element {
+  display: none;
+}
+
+.custom-position-0 {
+  top: 15px;
+  inset-inline-start: 0;
+  z-index: 1;
+}
+
+.custom-position-1 {
+  top: 15px;
+  inset-inline-start: 15px;
+  z-index: 10;
+}
+
+.custom-position-2 {
+  top: 15px;
+  inset-inline-start: 30px;
+  z-index: 100;
+}
+
+.custom-position-3 {
+  top: 15px;
+  inset-inline-start: 45px;
+  z-index: 1000;
+}
+
+.custom-position-4 {
+  top: 15px;
+  inset-inline-start: 60px;
+  z-index: 10000;
+}
+
+.custom-position-5 {
+  top: 15px;
+  inset-inline-start: 75px;
+  z-index: 10000;
+}
+
+.custom-position-6 {
+  top: 15px;
+  inset-inline-start: 90px;
+  z-index: 10000;
+}

@@ -1,0 +1,360 @@
+<br>
+<div style="display: ruby-text;">
+  <mat-spinner *ngIf="loading" [diameter]="30"></mat-spinner>
+</div>
+<div *ngIf="!loading">
+  <div class="card border-0">
+    <div class="w-100 d-flex">
+      <mat-card class="shadow-none">
+        <mat-card-header>
+          <img *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'" src="assets/images/arrow-left.svg"
+               width="24" height="24" (click)="goBack()"
+               style="position: absolute; inset-inline-start: 10px; top: 0; bottom: 0; margin: auto;">
+          <img *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" src="assets/images/arrow-right-1.svg"
+               width="24" height="24" (click)="goBack()"
+               style="position: absolute; inset-inline-start: 10px; top: 0; bottom: 0; margin: auto;">
+          <div class="ms-2" style="height: 46px"></div>
+          <mat-label class="font-size-16 weight-600 ms-4">{{'Question Detail' | translate}}</mat-label>
+        </mat-card-header>
+      </mat-card>
+    </div>
+  </div>
+  <br>
+  <div class="card border-0">
+    <mat-card class="shadow-none radius">
+      <mat-card-content>
+        <div class="m-2 d-inline-block"
+             [class]="{'p-4': !generalService.isMobileView, 'p-1': generalService.isMobileView}" style="width: 100%">
+          <div class="d-flex align-items-center">
+            <div class="d-flex white-card position-relative p-1"
+                 [class]="{'w-25': !generalService.isMobileView, 'w-60': generalService.isMobileView}"
+                 [style]="!generalService.isMobileView ? 'background: #F9F7F7' : ''">
+              <img class="avatar-bordered"
+                   [src]="performance?.question?.user?.profilePicture ? performance?.question?.user?.profilePicture?.startsWith('http') ? questionDetail?.question?.user?.profilePicture : configService.url(questionDetail?.question?.user?.profilePicture) : 'assets/images/frame.png'"
+                   (error)="handleImageError($event)"
+                   width="42" height="42">
+              <mat-label class="font-size-13 weight-500"
+                         style="margin: auto 10px">{{performance?.question?.user?.firstName}} {{performance?.question?.user?.lastName}}</mat-label>
+              <mat-label *ngIf="!generalService.isMobileView" class="font-size-12 weight-500 position-absolute"
+                         style="inset-inline-end: 10px; margin: 10px auto">
+                {{performance?.question?.createdAt | daysAgo}}
+              </mat-label>
+            </div>
+            <div class="position-absolute"
+                 [style]="!generalService.isMobileView ? 'top: 50px; inset-inline-end: 50px' : 'inset-inline-end: 0px'">
+              <div class="p-1" style="width: fit-content">
+                <img
+                  [src]="configService.url(performance?.question?.category?.icon)"
+                  width="16">
+                <mat-label class="font-size-12 weight-600"
+                           style="margin: auto 5px">{{performance?.question?.category?.name}}</mat-label>
+              </div>
+            </div>
+          </div>
+          <br>
+          <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M17.8408 18.5899H13.8408L9.39081 21.5499C8.73081 21.9899 7.84082 21.5199 7.84082 20.7199V18.5899C4.84082 18.5899 2.84082 16.5899 2.84082 13.5899V7.58984C2.84082 4.58984 4.84082 2.58984 7.84082 2.58984H17.8408C20.8408 2.58984 22.8408 4.58984 22.8408 7.58984V13.5899C22.8408 16.5899 20.8408 18.5899 17.8408 18.5899Z"
+              stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+              stroke-linejoin="round"/>
+            <path
+              d="M12.8406 11.5205V11.3105C12.8406 10.6305 13.2607 10.2705 13.6807 9.98053C14.0907 9.70053 14.5006 9.34054 14.5006 8.68054C14.5006 7.76054 13.7606 7.02051 12.8406 7.02051C11.9206 7.02051 11.1807 7.76054 11.1807 8.68054"
+              stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M12.8363 13.9102H12.8453" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
+                  stroke-linejoin="round"/>
+          </svg>
+          {{'Question' | translate}}:
+          <br>
+          <br>
+          <div class="font-size-14 weight-700">
+            {{performance?.question?.question}}
+          </div>
+          <br>
+          <mat-card-actions class="position-relative align-items-center"
+                            [class]="{'d-flex': !generalService.isMobileView, 'd-block': generalService.isMobileView}">
+            <div class="bottom-0 d-flex align-items-center"
+                 [class]="{'w-50 position-absolute': !generalService.isMobileView, 'w-100': generalService.isMobileView}">
+              <svg *ngIf="performance?.question?.liked" (click)="addLike(performance?.question)" width="17" height="17"
+                   viewBox="0 0 25 25"
+                   fill="#0B6FEA"
+                   xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M8.10205 18.5106L11.2021 20.9106C11.6021 21.3106 12.5021 21.5106 13.1021 21.5106H16.9021C18.1021 21.5106 19.4021 20.6106 19.7021 19.4106L22.1021 12.1106C22.6021 10.7106 21.7021 9.51061 20.2021 9.51061H16.2021C15.6021 9.51061 15.1021 9.01061 15.2021 8.31061L15.7021 5.11061C15.9021 4.21061 15.3021 3.21061 14.4021 2.91061C13.6021 2.61061 12.6021 3.01061 12.2021 3.61061L8.10205 9.71061"
+                  stroke="#0B6FEA" stroke-width="1.5" stroke-miterlimit="10"/>
+                <path
+                  d="M3.00195 18.5105V8.71055C3.00195 7.31055 3.60195 6.81055 5.00195 6.81055H6.00195C7.40195 6.81055 8.00195 7.31055 8.00195 8.71055V18.5105C8.00195 19.9105 7.40195 20.4105 6.00195 20.4105H5.00195C3.60195 20.4105 3.00195 19.9105 3.00195 18.5105Z"
+                  stroke="#0B6FEA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <svg *ngIf="!performance?.question?.liked" (click)="addLike(performance?.question)" width="17" height="17"
+                   viewBox="0 0 25 25"
+                   fill="none"
+                   xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M8.10205 18.5106L11.2021 20.9106C11.6021 21.3106 12.5021 21.5106 13.1021 21.5106H16.9021C18.1021 21.5106 19.4021 20.6106 19.7021 19.4106L22.1021 12.1106C22.6021 10.7106 21.7021 9.51061 20.2021 9.51061H16.2021C15.6021 9.51061 15.1021 9.01061 15.2021 8.31061L15.7021 5.11061C15.9021 4.21061 15.3021 3.21061 14.4021 2.91061C13.6021 2.61061 12.6021 3.01061 12.2021 3.61061L8.10205 9.71061"
+                  stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10"/>
+                <path
+                  d="M3.00195 18.5105V8.71055C3.00195 7.31055 3.60195 6.81055 5.00195 6.81055H6.00195C7.40195 6.81055 8.00195 7.31055 8.00195 8.71055V18.5105C8.00195 19.9105 7.40195 20.4105 6.00195 20.4105H5.00195C3.60195 20.4105 3.00195 19.9105 3.00195 18.5105Z"
+                  stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <mat-label [class]="{'link-text': performance?.question?.liked}">{{performance?.question?.likes}}</mat-label>
+              &nbsp;&nbsp;&nbsp;
+              <svg (click)="disLike(performance?.question)" *ngIf="performance?.question?.disliked" width="17" height="17"
+                   viewBox="0 0 25 25"
+                   fill="#0B6FEA"
+                   xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M17.4211 5.81055L14.3211 3.41055C13.9211 3.01055 13.0211 2.81055 12.4211 2.81055H8.6211C7.4211 2.81055 6.1211 3.71055 5.8211 4.91055L3.4211 12.2105C2.9211 13.6105 3.8211 14.8105 5.3211 14.8105H9.3211C9.9211 14.8105 10.4211 15.3105 10.3211 16.0105L9.8211 19.2105C9.6211 20.1105 10.2211 21.1105 11.1211 21.4105C11.9211 21.7105 12.9211 21.3105 13.3211 20.7105L17.4211 14.6105"
+                  stroke="#0B6FEA" stroke-width="1.5" stroke-miterlimit="10"/>
+                <path
+                  d="M22.521 5.81016V15.6102C22.521 17.0102 21.921 17.5102 20.521 17.5102H19.521C18.121 17.5102 17.521 17.0102 17.521 15.6102V5.81016C17.521 4.41016 18.121 3.91016 19.521 3.91016H20.521C21.921 3.91016 22.521 4.41016 22.521 5.81016Z"
+                  stroke="#0B6FEA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <svg (click)="disLike(performance?.question)" *ngIf="!performance?.question?.disliked" width="17" height="17"
+                   viewBox="0 0 25 25"
+                   fill="none"
+                   xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M17.4211 5.81055L14.3211 3.41055C13.9211 3.01055 13.0211 2.81055 12.4211 2.81055H8.6211C7.4211 2.81055 6.1211 3.71055 5.8211 4.91055L3.4211 12.2105C2.9211 13.6105 3.8211 14.8105 5.3211 14.8105H9.3211C9.9211 14.8105 10.4211 15.3105 10.3211 16.0105L9.8211 19.2105C9.6211 20.1105 10.2211 21.1105 11.1211 21.4105C11.9211 21.7105 12.9211 21.3105 13.3211 20.7105L17.4211 14.6105"
+                  stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10"/>
+                <path
+                  d="M22.521 5.81016V15.6102C22.521 17.0102 21.921 17.5102 20.521 17.5102H19.521C18.121 17.5102 17.521 17.0102 17.521 15.6102V5.81016C17.521 4.41016 18.121 3.91016 19.521 3.91016H20.521C21.921 3.91016 22.521 4.41016 22.521 5.81016Z"
+                  stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <mat-label [class]="{'link-text': performance?.disliked}">{{performance?.question?.dislikes}}</mat-label>
+              &nbsp;&nbsp;&nbsp;
+              <div class="d-inline-flex">
+                <!--                <star-rating show-half-stars="true" [starType]="'svg'" [rating]="questionDetail?.avgRate" [readOnly]="true"></star-rating>-->
+                <ng-template #t let-fill="fill">
+                  <i class="bi-star-fill">
+                    @if (fill > 0) {
+                    <i class="bi-star-fill filled" [style.width.%]="fill"></i>
+                    }
+                  </i>
+                </ng-template>
+
+                <ngb-rating [(rate)]="performance?.question.avgRate" [starTemplate]="t" [readonly]="true" [max]="5"/>
+              </div>
+              <div class="d-inline-flex text-gray">
+                <mat-label *ngIf="performance?.question?.avgRate">{{performance?.question?.avgRate | number}}</mat-label>
+                <mat-label *ngIf="performance?.question?.answers">({{performance?.question?.answers}})</mat-label>
+              </div>
+              &nbsp;&nbsp;&nbsp;
+              <svg (click)="addBookmark(performance?.question)" *ngIf="!performance?.question?.bookmarked" width="25" height="25"
+                   viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14.8477 11.4648H9.84766" stroke="#828282" stroke-width="1.2" stroke-miterlimit="10"
+                      stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12.3477 9.0249V14.0249" stroke="#828282" stroke-width="1.2" stroke-miterlimit="10"
+                      stroke-linecap="round" stroke-linejoin="round"/>
+                <path
+                  d="M17.168 2.81494H7.52797C5.39797 2.81494 3.66797 4.55494 3.66797 6.67494V20.7649C3.66797 22.5649 4.95797 23.3249 6.53797 22.4549L11.418 19.7449C11.938 19.4549 12.778 19.4549 13.288 19.7449L18.168 22.4549C19.748 23.3349 21.038 22.5749 21.038 20.7649V6.67494C21.028 4.55494 19.298 2.81494 17.168 2.81494Z"
+                  stroke="#828282" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+
+              <svg (click)="removeBookmark(performance?.question)" *ngIf="performance.question?.bookmarked" width="25" height="25"
+                   viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M17.2188 2.81494H7.57875C5.44875 2.81494 3.71875 4.55494 3.71875 6.67494V20.7649C3.71875 22.5649 5.00875 23.3249 6.58875 22.4549L11.4688 19.7449C11.9888 19.4549 12.8287 19.4549 13.3387 19.7449L18.2188 22.4549C19.7987 23.3349 21.0888 22.5749 21.0888 20.7649V6.67494C21.0788 4.55494 19.3488 2.81494 17.2188 2.81494ZM14.8988 12.2149H9.89875C9.48875 12.2149 9.14875 11.8749 9.14875 11.4649C9.14875 11.0549 9.48875 10.7149 9.89875 10.7149H14.8988C15.3088 10.7149 15.6488 11.0549 15.6488 11.4649C15.6488 11.8749 15.3088 12.2149 14.8988 12.2149Z"
+                  fill="#2C2523"/>
+              </svg>
+              <div class="position-absolute bottom-0" style="inset-inline-end: 0" *ngIf="!generalService.isMobileView">
+                <mat-label>{{performance?.question?.createdAt | date}}</mat-label>
+              </div>
+            </div>
+
+            <div class="bottom-0" style="inset-inline-end: 0"
+                 [class]="{'w-50 position-absolute text-end': !generalService.isMobileView, 'w-100': generalService.isMobileView}">
+              <div class="d-inline-flex justify-content-between align-items-center m-1">
+                <div class="p-1 d-flex align-items-center" style="width: fit-content">
+                  <img src="assets/images/score.png"
+                       width="16">
+                  <mat-label class="font-size-12 weight-600"
+                             style="margin: auto 5px">{{performance?.question?.score | parsInt}}
+                    <mat-label class="font-size-12 weight-600 text-gray">{{'Score' | translate}}</mat-label>
+                  </mat-label>
+                </div>
+              </div>
+              <div class="d-inline-flex justify-content-between align-items-center m-1">
+                <div class="p-1 d-flex align-items-center" style="width: fit-content">
+                  <img src="assets/images/plays.png"
+                       width="16">
+                  <mat-label class="font-size-12 weight-600"
+                             style="margin: auto 5px">{{performance?.question?.plays | parsInt}}
+                    <mat-label class="font-size-12 weight-600 text-gray">{{'Plays' | translate}}</mat-label>
+                  </mat-label>
+                </div>
+              </div>
+              <div class="d-inline-flex justify-content-between align-items-center m-1">
+                <div class="p-1 d-flex align-items-center" style="width: fit-content">
+                  <img src="assets/images/answer-questions.png"
+                       width="16">
+                  <mat-label class="font-size-12 weight-600"
+                             style="margin: auto 5px">{{performance?.question?.answers | parsInt}}
+                    <mat-label class="font-size-12 weight-600 text-gray">{{'Answers' | translate}}</mat-label>
+                  </mat-label>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="generalService.isMobileView"
+                 [class]="{'position-absolute': !generalService.isMobileView, '': generalService.isMobileView}">
+              <mat-label>{{performance?.question?.createdAt | date}}</mat-label>
+            </div>
+          </mat-card-actions>
+          <br>
+          <br>
+          <div *ngIf="questionDetail">
+            <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M7.9917 12.3604H14.9917" stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M7.9917 16.3604H12.3717" stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+              <path
+                d="M9.9917 6.16016H13.9917C15.9917 6.16016 15.9917 5.16016 15.9917 4.16016C15.9917 2.16016 14.9917 2.16016 13.9917 2.16016H9.9917C8.9917 2.16016 7.9917 2.16016 7.9917 4.16016C7.9917 6.16016 8.9917 6.16016 9.9917 6.16016Z"
+                stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                stroke-linejoin="round"/>
+              <path
+                d="M15.9917 4.17969C19.3217 4.35969 20.9917 5.58969 20.9917 10.1597V16.1597C20.9917 20.1597 19.9917 22.1597 14.9917 22.1597H8.9917C3.9917 22.1597 2.9917 20.1597 2.9917 16.1597V10.1597C2.9917 5.59969 4.6617 4.35969 7.9917 4.17969"
+                stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                stroke-linejoin="round"/>
+            </svg>
+            {{'Answer' | translate}}:
+            <br>
+            <br>
+            <div class="font-size-14 weight-700">
+              {{questionDetail?.answer}}
+            </div>
+          </div>
+          <br>
+        </div>
+
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <br>
+  <mat-label *ngIf="performance?.performance" class="font-size-16 weight-600 ms-4">{{'Performance in games' | translate}}</mat-label>
+  <br>
+  <br>
+  <div *ngFor="let perf of performance?.performance">
+    <div class="card border-0">
+      <mat-card class="shadow-none radius">
+        <mat-card-content>
+          <div class="d-inline-block" style="width: 98%"
+               [class]="{'p-4': !generalService.isMobileView, 'p-1': generalService.isMobileView}">
+            <div class="d-flex border-bottom position-relative pb-4">
+              <div class="white-card p-2 m-1 d-flex align-items-center"
+                   style="background: #F9F7F7">{{perf?.endedAt | daysAgo}}</div>
+              <div class="white-card p-2 m-1 d-flex align-items-center" style="background: #F9F7F7">
+                <img src="assets/images/score.png" width="16" height="16">
+                <mat-label class="font-size-14 weight-700"
+                           style="color: #585858">{{perf?.question?.rate | parsInt}} </mat-label>
+                {{'Question Score' | translate}}
+              </div>
+              <div class="position-absolute end-10 cursor-pointer" style="color: #0B6FEA;"
+                   [class]="{'bottom-4': !generalService.isMobileView, 'bottom-0': generalService.isMobileView}"
+                   (click)="gotoResult(perf._id)">
+                {{'Game Detail' | translate}}&nbsp;
+                <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M9.53223 20.4084L16.0522 13.8884C16.8222 13.1184 16.8222 11.8584 16.0522 11.0884L9.53223 4.56836"
+                    stroke="#0B6FEA" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                    stroke-linejoin="round"/>
+                </svg>
+              </div>
+            </div>
+            <div class="container-accordion">
+              <div
+                [class]="{'container-accordion-item': !generalService.isMobileView, 'container-accordion-item-mobile': generalService.isMobileView}"
+                *ngFor="let answer of perf?.question?.answers">
+                <img class="avatar-bordered bg-white"
+                     [src]="answer?.player?.profilePicture ? answer?.player?.profilePicture?.startsWith('http') ? answer?.player?.profilePicture : configService.url(answer?.player?.profilePicture) : 'assets/images/frame.png'"
+                     (error)="handleImageError($event)"
+                     width="40" height="40">
+                &nbsp;<span
+                class="font-size-14 weight-700 pe-2"
+                [ngClass]="generalService.userObj?.preferedLanguage?.code != 'fa' ? 'exo-font' : 'peyda-font'">{{answer?.player?.firstName}} {{answer?.player?.lastName}}</span>
+                <br>
+                <br>
+                <mat-label class="font-size-14 weight-400"
+                           [ngClass]="generalService.userObj?.preferedLanguage?.code != 'fa' ? 'exo-font' : 'peyda-font'"
+                >{{answer?.answer}}</mat-label>
+                <br>
+                <br>
+                <mat-card-actions class="position-relative">
+                  <div class="position-absolute bottom-0 d-flex align-items-center"
+                       style="width: fit-content; inset-inline-end: 0">
+                    <img src="assets/images/score.png" width="16" height="16">
+                    &nbsp;<mat-label class="font-size-14 weight-500 vertical-middle">{{answer?.rate | parsInt}} Score
+                  </mat-label>
+                  </div>
+                  <div class="position-absolute bottom-0 d-flex align-items-center">
+<!--                    <svg *ngIf="answer?.liked" (click)="addLike(answer)" width="17" height="17" viewBox="0 0 25 25"-->
+<!--                         fill="#0B6FEA"-->
+<!--                         xmlns="http://www.w3.org/2000/svg">-->
+<!--                      <path-->
+<!--                        d="M8.10205 18.5106L11.2021 20.9106C11.6021 21.3106 12.5021 21.5106 13.1021 21.5106H16.9021C18.1021 21.5106 19.4021 20.6106 19.7021 19.4106L22.1021 12.1106C22.6021 10.7106 21.7021 9.51061 20.2021 9.51061H16.2021C15.6021 9.51061 15.1021 9.01061 15.2021 8.31061L15.7021 5.11061C15.9021 4.21061 15.3021 3.21061 14.4021 2.91061C13.6021 2.61061 12.6021 3.01061 12.2021 3.61061L8.10205 9.71061"-->
+<!--                        stroke="#0B6FEA" stroke-width="1.5" stroke-miterlimit="10"/>-->
+<!--                      <path-->
+<!--                        d="M3.00195 18.5105V8.71055C3.00195 7.31055 3.60195 6.81055 5.00195 6.81055H6.00195C7.40195 6.81055 8.00195 7.31055 8.00195 8.71055V18.5105C8.00195 19.9105 7.40195 20.4105 6.00195 20.4105H5.00195C3.60195 20.4105 3.00195 19.9105 3.00195 18.5105Z"-->
+<!--                        stroke="#0B6FEA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>-->
+<!--                    </svg>-->
+<!--                    <svg *ngIf="!answer?.liked" (click)="addLike(answer)" width="17" height="17" viewBox="0 0 25 25"-->
+<!--                         fill="none"-->
+<!--                         xmlns="http://www.w3.org/2000/svg">-->
+<!--                      <path-->
+<!--                        d="M8.10205 18.5106L11.2021 20.9106C11.6021 21.3106 12.5021 21.5106 13.1021 21.5106H16.9021C18.1021 21.5106 19.4021 20.6106 19.7021 19.4106L22.1021 12.1106C22.6021 10.7106 21.7021 9.51061 20.2021 9.51061H16.2021C15.6021 9.51061 15.1021 9.01061 15.2021 8.31061L15.7021 5.11061C15.9021 4.21061 15.3021 3.21061 14.4021 2.91061C13.6021 2.61061 12.6021 3.01061 12.2021 3.61061L8.10205 9.71061"-->
+<!--                        stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10"/>-->
+<!--                      <path-->
+<!--                        d="M3.00195 18.5105V8.71055C3.00195 7.31055 3.60195 6.81055 5.00195 6.81055H6.00195C7.40195 6.81055 8.00195 7.31055 8.00195 8.71055V18.5105C8.00195 19.9105 7.40195 20.4105 6.00195 20.4105H5.00195C3.60195 20.4105 3.00195 19.9105 3.00195 18.5105Z"-->
+<!--                        stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>-->
+<!--                    </svg>-->
+<!--                    <mat-label [class]="{'link-text': answer?.liked}">{{answer?.likes}}</mat-label>-->
+<!--                    &nbsp;&nbsp;&nbsp;-->
+<!--                    <svg (click)="disLike(answer)" *ngIf="answer?.disliked" width="17" height="17" viewBox="0 0 25 25"-->
+<!--                         fill="#0B6FEA"-->
+<!--                         xmlns="http://www.w3.org/2000/svg">-->
+<!--                      <path-->
+<!--                        d="M17.4211 5.81055L14.3211 3.41055C13.9211 3.01055 13.0211 2.81055 12.4211 2.81055H8.6211C7.4211 2.81055 6.1211 3.71055 5.8211 4.91055L3.4211 12.2105C2.9211 13.6105 3.8211 14.8105 5.3211 14.8105H9.3211C9.9211 14.8105 10.4211 15.3105 10.3211 16.0105L9.8211 19.2105C9.6211 20.1105 10.2211 21.1105 11.1211 21.4105C11.9211 21.7105 12.9211 21.3105 13.3211 20.7105L17.4211 14.6105"-->
+<!--                        stroke="#0B6FEA" stroke-width="1.5" stroke-miterlimit="10"/>-->
+<!--                      <path-->
+<!--                        d="M22.521 5.81016V15.6102C22.521 17.0102 21.921 17.5102 20.521 17.5102H19.521C18.121 17.5102 17.521 17.0102 17.521 15.6102V5.81016C17.521 4.41016 18.121 3.91016 19.521 3.91016H20.521C21.921 3.91016 22.521 4.41016 22.521 5.81016Z"-->
+<!--                        stroke="#0B6FEA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>-->
+<!--                    </svg>-->
+<!--                    <svg (click)="disLike(answer)" *ngIf="!answer?.disliked" width="17" height="17" viewBox="0 0 25 25"-->
+<!--                         fill="none"-->
+<!--                         xmlns="http://www.w3.org/2000/svg">-->
+<!--                      <path-->
+<!--                        d="M17.4211 5.81055L14.3211 3.41055C13.9211 3.01055 13.0211 2.81055 12.4211 2.81055H8.6211C7.4211 2.81055 6.1211 3.71055 5.8211 4.91055L3.4211 12.2105C2.9211 13.6105 3.8211 14.8105 5.3211 14.8105H9.3211C9.9211 14.8105 10.4211 15.3105 10.3211 16.0105L9.8211 19.2105C9.6211 20.1105 10.2211 21.1105 11.1211 21.4105C11.9211 21.7105 12.9211 21.3105 13.3211 20.7105L17.4211 14.6105"-->
+<!--                        stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10"/>-->
+<!--                      <path-->
+<!--                        d="M22.521 5.81016V15.6102C22.521 17.0102 21.921 17.5102 20.521 17.5102H19.521C18.121 17.5102 17.521 17.0102 17.521 15.6102V5.81016C17.521 4.41016 18.121 3.91016 19.521 3.91016H20.521C21.921 3.91016 22.521 4.41016 22.521 5.81016Z"-->
+<!--                        stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>-->
+<!--                    </svg>-->
+<!--                    <mat-label [class]="{'link-text': answer?.disliked}">{{answer?.dislikes}}</mat-label>-->
+<!--                    &nbsp;&nbsp;&nbsp;-->
+                    <div class="d-inline-flex">
+                      <!--                      <star-rating show-half-stars="true" [starType]="'svg'" [rating]="answer?.avgRate" [readOnly]="true"></star-rating>-->
+                      <ng-template #t let-fill="fill">
+                        <i class="bi-star-fill">
+                          @if (fill > 0) {
+                          <i class="bi-star-fill filled" [style.width.%]="fill"></i>
+                          }
+                        </i>
+                      </ng-template>
+
+                      <ngb-rating [(rate)]="answer.avgRate" [starTemplate]="t" [readonly]="true" [max]="5"/>
+                    </div>
+                    <div class="d-inline-flex text-gray">
+                      <mat-label *ngIf="answer?.avgRate">{{answer?.avgRate | number}}</mat-label>
+                      <mat-label *ngIf="answer?.answers">({{answer?.answers}})</mat-label>
+                    </div>
+                  </div>
+                </mat-card-actions>
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <br>
+  </div>
+  <br>
+</div>

@@ -8,7 +8,7 @@
   </svg>
   &nbsp;{{'Joining Game' | translate}}
 </div>
-<div mat-dialog-content [class]="{'': !generalService.isMobileView, 'p-1': generalService.isMobileView}">
+<div mat-dialog-content style="padding-bottom: 0" [class]="{'': !generalService.isMobileView, 'p-1': generalService.isMobileView}">
   <mat-card class="shadow-none">
     <mat-card-header>
       <mat-card-title
@@ -108,7 +108,8 @@
   </form>
   <br>
   <br>
-  <div class="copy-referrer position-relative p-0">
+<!--  <div class="copy-referrer position-relative p-0">-->
+  <div class="copy-referrer-joining position-sticky bottom-0 p-0 bg-white">
     <div [class]="{'d-flex': !generalService.isMobileView, 'd-block': generalService.isMobileView}">
       <div class="w-100"
            [class]="{'d-flex': !generalService.isMobileView, 'd-inline-flex': generalService.isMobileView}">

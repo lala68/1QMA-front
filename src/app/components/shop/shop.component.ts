@@ -41,6 +41,9 @@ export class ShopComponent implements OnInit {
   constructor(public generalService: GeneralService, private processHTTPMsgService: ProcessHTTPMsgService, private router: Router,
               private shopService: ShopService, private _snackBar: MatSnackBar, private intro: IntroJsService,) {
     this.generalService.currentRout = '/shop';
+    this.generalService.selectedTabIndexParentInTrivia = 0;
+    this.generalService.selectedTabIndexQuestionChildInTrivia = 0;
+    this.generalService.selectedTabIndexGameChildInTrivia = 0;
   }
 
   async ngOnInit() {

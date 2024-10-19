@@ -2,9 +2,9 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {GeneralService} from "../../services/general/general.service";
 import {AuthService} from "../../services/auth/auth.service";
 import {Preferences} from "@capacitor/preferences";
-import {Router} from "@angular/router";
+import {Router, RouterModule} from "@angular/router";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
-import {FormBuilder, FormControl, Validators} from "@angular/forms";
+import {FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {ClientService} from "../../services/client/client.service";
 import {GamesComponent} from "../../components/games/games.component";
 import {GamesService} from "../../services/games/games.service";
@@ -14,6 +14,12 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {DaysAgoPipe} from "../../pipes/days-ago.pipe";
 import {IntroJsService} from "../../services/introJs/intro-js.service";
 import {ProcessHTTPMsgService} from "../../services/proccessHttpMsg/process-httpmsg.service";
+import {TranslateModule} from "@ngx-translate/core";
+import {CommonModule} from "@angular/common";
+import {SharedModule} from "../shared.module";
+import {ConfigService} from "../../services/config/config.service";
+import {MatMenuModule} from "@angular/material/menu";
+import {MoreMobile} from "../sidenav/sidenav.component";
 
 @Component({
   selector: 'app-header',
@@ -93,9 +99,17 @@ export class HeaderComponent implements OnInit {
   }
 
   async displayExitGameModal() {
-    const dialogRef = this.dialog.open(ExitGame, {
-      width: '500px'
-    });
+    const dialogConfig = new MatDialogConfig();
+    if (this.generalService.isMobileView) { // Assuming mobile devices are <= 768px
+      dialogConfig.width = '100vw';
+      dialogConfig.maxWidth = '100vw';
+      dialogConfig.height = 'auto'; // You can specify the height if needed
+      dialogConfig.position = {bottom: '0px'};
+      dialogConfig.panelClass = 'mobile-dialog'; // Add custom class for mobile
+    } else {
+      dialogConfig.width = '500px'; // Full size for desktop or larger screens
+    }
+    const dialogRef = this.dialog.open(ExitGame, dialogConfig);
     dialogRef.afterClosed().subscribe(async result => {
       if (result == 'success') {
       }
@@ -138,6 +152,51 @@ export class HeaderComponent implements OnInit {
       }
     ];
     await this.intro.showHelp('dashboard', steps);
+  }
+
+  async openAccountModal() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.width = '100vw';
+    dialogConfig.maxWidth = '100vw';
+    dialogConfig.height = 'auto'; // You can specify the height if needed
+    dialogConfig.position = {bottom: '0px'};
+    dialogConfig.panelClass = 'mobile-dialog'; // Add custom class for mobile
+
+    const dialogRef = this.dialog.open(AccountMobile, dialogConfig);
+    dialogRef.afterClosed().subscribe(async result => {
+      if (result == 'success') {
+      }
+    });
+  }
+
+  async openGiftModal() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.width = '100vw';
+    dialogConfig.maxWidth = '100vw';
+    dialogConfig.height = 'auto'; // You can specify the height if needed
+    dialogConfig.position = {bottom: '0px'};
+    dialogConfig.panelClass = 'mobile-dialog'; // Add custom class for mobile
+
+    const dialogRef = this.dialog.open(GiftMobile, dialogConfig);
+    dialogRef.afterClosed().subscribe(async result => {
+      if (result == 'success') {
+      }
+    });
+  }
+
+  async openNotifModal() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.width = '100vw';
+    dialogConfig.maxWidth = '100vw';
+    dialogConfig.height = 'auto'; // You can specify the height if needed
+    dialogConfig.position = {bottom: '0px'};
+    dialogConfig.panelClass = 'mobile-dialog'; // Add custom class for mobile
+
+    const dialogRef = this.dialog.open(NotificationMobile, dialogConfig);
+    dialogRef.afterClosed().subscribe(async result => {
+      if (result == 'success') {
+      }
+    });
   }
 }
 
@@ -253,6 +312,116 @@ export class ExitGame {
     }
   }
 }
+
+
+@Component({
+  selector: 'account-mobile',
+  templateUrl: 'account-mobile.html',
+  // standalone: true,
+  // imports: [TranslateModule, CommonModule, SharedModule, MatMenuModule, FormsModule, RouterModule, ReactiveFormsModule,]
+})
+
+export class AccountMobile {
+
+  constructor(
+    public dialogRef: MatDialogRef<ExitGame>,
+    public generalService: GeneralService,
+    private router: Router,
+    private processHTTPMsgService: ProcessHTTPMsgService,
+    private authService: AuthService,
+    private gameService: GamesService,
+    private _snackBar: MatSnackBar,
+    public configService: ConfigService
+  ) {
+  }
+
+  async closeModal() {
+    this.dialogRef.close();
+  }
+
+  async logout() {
+    this.authService.signout().then(async data => {
+      if (data.status == 1) {
+        await Preferences.clear();
+        this.authService.isLoggedIn = false;
+        this.generalService.userId = '';
+        this.generalService.userObj = '';
+        this.generalService.emailVerified = false;
+        this.generalService.hasCompletedSignup = false;
+        await this.router.navigate(['/login']);
+      } else {
+        this.openDialog(JSON.stringify(data.message), 'Error');
+      }
+    }, error => {
+      return this.processHTTPMsgService.handleError(error);
+    })
+  }
+
+  openDialog(message: any, title: any) {
+    this._snackBar.openFromComponent(SnackbarContentComponent, {
+      data: {
+        title: title,
+        message: message
+      },
+      duration: 3000,
+      verticalPosition: 'top',
+      horizontalPosition: 'end',
+      panelClass: title == 'Success' ? 'app-notification-success' : 'app-notification-error'
+    });
+  }
+
+
+}
+
+@Component({
+  selector: 'notification-mobile',
+  templateUrl: 'notification-mobile.html',
+  // standalone: true,
+  // imports: [TranslateModule, CommonModule, SharedModule, MatMenuModule, FormsModule, RouterModule, ReactiveFormsModule,]
+})
+
+export class NotificationMobile {
+
+  constructor(
+    public dialogRef: MatDialogRef<ExitGame>,
+    public generalService: GeneralService,
+    private router: Router,
+    private processHTTPMsgService: ProcessHTTPMsgService,
+    public configService: ConfigService
+  ) {
+  }
+
+  async closeModal() {
+    this.dialogRef.close();
+  }
+}
+
+@Component({
+  selector: 'gift-mobile',
+  templateUrl: 'gift-mobile.html',
+  // standalone: true,
+  // imports: [TranslateModule, CommonModule, SharedModule, MatMenuModule, FormsModule, RouterModule, ReactiveFormsModule,]
+})
+
+export class GiftMobile {
+
+  constructor(
+    public dialogRef: MatDialogRef<ExitGame>,
+    public generalService: GeneralService,
+    private router: Router,
+    private processHTTPMsgService: ProcessHTTPMsgService,
+    public configService: ConfigService
+  ) {
+  }
+
+  async closeModal() {
+    this.dialogRef.close();
+  }
+}
+
+
+
+
 
 
 

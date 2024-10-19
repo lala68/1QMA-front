@@ -66,6 +66,9 @@
           <path d="M3.07861 22.4883H21.0786" stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10"
                 stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
+        <mat-card-subtitle class="position-absolute" style="top: 30px; inset-inline-end: 0;">
+          <small>{{'created at: ' | translate}}{{generalService.userObj?.created_at | date}}</small>
+        </mat-card-subtitle>
 
         <mat-card-header class="pe-1 ps-1 border-bottom">
           <!--          <div mat-card-avatar class="avatar-header-image-profile-dashboard"></div>-->
@@ -532,7 +535,7 @@
     <br>
     <div class="font-size-14 weight-600 pt-2">&nbsp;{{'Invited Friends' | translate}}</div>
 
-    <mat-list>
+    <mat-list style="max-height: 200px; overflow: scroll;">
       <mat-list-item *ngFor="let invite of generalService.userObj?.invitations">
         <div matListItemIcon style="background: #D9D9D9; border-radius: 50px; width: 40px; height: 40px; margin: 20px">
           <img src="assets/images/frame.png" width="35" style="padding-inline-start: 5px">
@@ -605,7 +608,8 @@
   </div>
   <br>
   <div class="d-block w-100">
-    <div *ngFor="let item of questionsFromFriendsLatestGames" class="gray-card p-4 m-2 d-inline-block"
+    <div *ngFor="let item of questionsFromFriendsLatestGames" class="gray-card m-2 d-inline-block"
+         [class]="{'p-4': !generalService.isMobileView, 'p-2': generalService.isMobileView}"
          [style]="generalService.isMobileView ? 'width: 98%' : 'width: 48%'">
       <div class="d-flex white-card position-relative p-1">
         <img class="avatar-bordered"

@@ -8,7 +8,7 @@
   </svg>
   &nbsp;{{'Add question and answer' | translate}}
 </div>
-<div mat-dialog-content>
+<div mat-dialog-content style="padding-bottom: 0">
   <form #f="ngForm" [formGroup]="questionForm" autocomplete="off">
     <div class="d-flex">
 <!--      <img src="assets/images/message-question.svg" width="24">-->
@@ -63,10 +63,10 @@
       </mat-card-content>
     </mat-card>
   </form>
-  <div class="mt-4 text-center">
+  <div class="mt-4 text-center position-sticky bottom-0 bg-white">
     <button mat-raised-button color="primary" type="submit"
             [disabled]="questionForm.invalid"
-            class="w-75 p-4" style="margin: 0 auto" (click)="submit()">
+            class="w-75 p-4" style="margin: 10px auto;" (click)="submit()">
       <span>{{'Add' | translate}}</span>
     </button>
   </div>

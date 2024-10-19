@@ -1,0 +1,103 @@
+<div class="font-size-14 weight-700 p-2 border-bottom">
+  <svg (click)="closeModal()" width="24" height="24" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M13.4819 21.4023L21.9672 12.9171" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
+          stroke-linejoin="round"/>
+    <path d="M21.9672 21.4032L13.4819 12.918" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
+          stroke-linejoin="round"/>
+  </svg>
+  &nbsp;{{'User Account' | translate}}
+</div>
+<div mat-dialog-content>
+  <mat-card class="sidebar-user-detail" appearance="outlined" id="userAccount"
+            style="border-radius: 5px; background: #E8E2E0">
+    <mat-card-header class="p-3 align-items-center">
+      <!--            <div mat-card-avatar class="avatar-header-image"></div>-->
+      <img mat-card-avatar class="avatar-bordered mb-0"
+           [src]="generalService.userObj.profilePicture ? generalService.userObj.profilePicture?.startsWith('http') ? generalService.userObj?.profilePicture : configService.url(generalService.userObj?.profilePicture) : 'assets/images/frame.png'"
+           width="35" height="35">
+      <mat-card-title>{{generalService.userObj.firstName + ' ' + generalService.userObj.lastName }}</mat-card-title>
+      <mat-card-subtitle class="d-flex align-items-center mt-1 pe-0">
+        <img src="assets/images/coin-bronze.png"
+             width="15">&nbsp;<span>{{generalService.userObj?.assets?.coins?.bronze}}</span>&nbsp;
+        <img src="assets/images/coin-silver.png"
+             width="15">&nbsp;<span>{{generalService.userObj?.assets?.coins?.silver}}</span>&nbsp;
+        <img src="assets/images/coin-gold.png"
+             width="15">&nbsp;<span>{{generalService.userObj?.assets?.coins?.gold}}</span>
+      </mat-card-subtitle>
+    </mat-card-header>
+  </mat-card>
+
+  <mat-list-item class="position-relative border-bottom" [routerLink]="'/account-info'" (click)="closeModal()">
+    <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M13.0009 11.1102C12.9009 11.1002 12.7809 11.1002 12.6709 11.1102C10.2909 11.0302 8.40088 9.08023 8.40088 6.68023C8.40088 4.23023 10.3809 2.24023 12.8409 2.24023C15.2909 2.24023 17.2809 4.23023 17.2809 6.68023C17.2709 9.08023 15.3809 11.0302 13.0009 11.1102Z"
+        stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path
+        d="M8.00104 14.8002C5.58104 16.4202 5.58104 19.0602 8.00104 20.6702C10.751 22.5102 15.261 22.5102 18.011 20.6702C20.431 19.0502 20.431 16.4102 18.011 14.8002C15.271 12.9702 10.761 12.9702 8.00104 14.8002Z"
+        stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    &nbsp;
+    <mat-label>{{'Account Detail' | translate}}</mat-label>
+    <mat-icon style="position: absolute; right: 5px" *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'">
+      chevron_right
+    </mat-icon> <!-- Right angle at the end -->
+    <mat-icon style="position: absolute; left: 5px" *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'">
+      chevron_left
+    </mat-icon> <!-- Right angle at the end -->
+  </mat-list-item>
+
+  <mat-list-item class="position-relative border-bottom" [routerLink]="'/transactions'"
+                 (click)="closeModal()">
+    <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M15.172 16.3916H10.172" stroke="#2C2523" stroke-width="1.3" stroke-miterlimit="10" stroke-linecap="round"
+            stroke-linejoin="round"/>
+      <path
+        d="M13.5702 2.91169L13.5402 2.98169L10.6402 9.71169H7.79024C7.11024 9.71169 6.46024 9.85169 5.87024 10.1017L7.62024 5.92169L7.66024 5.82169L7.73024 5.66169C7.75024 5.60169 7.77024 5.54169 7.80024 5.49169C9.11024 2.46169 10.5902 1.77169 13.5702 2.91169Z"
+        stroke="#2C2523" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+      <path
+        d="M18.9603 9.91162C18.5103 9.77162 18.0303 9.71162 17.5503 9.71162H10.6403L13.5403 2.98162L13.5703 2.91162C13.7203 2.96162 13.8603 3.03162 14.0103 3.09162L16.2203 4.02162C17.4503 4.53162 18.3103 5.06162 18.8303 5.70162C18.9303 5.82162 19.0103 5.93162 19.0803 6.06162C19.1703 6.20162 19.2403 6.34162 19.2803 6.49162C19.3203 6.58162 19.3503 6.67162 19.3703 6.75162C19.6403 7.59162 19.4803 8.62162 18.9603 9.91162Z"
+        stroke="#2C2523" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+      <path
+        d="M22.432 14.5919V16.5419C22.432 16.7419 22.422 16.9419 22.412 17.1419C22.222 20.6319 20.272 22.3919 16.572 22.3919H8.772C8.532 22.3919 8.292 22.3719 8.062 22.3419C4.882 22.1319 3.182 20.4319 2.972 17.2519C2.942 17.0219 2.922 16.7819 2.922 16.5419V14.5919C2.922 12.5819 4.142 10.8519 5.882 10.1019C6.482 9.85191 7.122 9.71191 7.802 9.71191H17.562C18.052 9.71191 18.532 9.78191 18.972 9.91191C20.962 10.5219 22.432 12.3819 22.432 14.5919Z"
+        stroke="#2C2523" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path
+        d="M7.62028 5.92163L5.87028 10.1016C4.13028 10.8516 2.91028 12.5816 2.91028 14.5916V11.6616C2.91028 8.82163 4.93028 6.45163 7.62028 5.92163Z"
+        stroke="#2C2523" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path
+        d="M22.4289 11.6612V14.5912C22.4289 12.3912 20.9689 10.5212 18.9689 9.92121C19.4889 8.62121 19.6389 7.60121 19.3889 6.75121C19.3689 6.66121 19.3389 6.57121 19.2989 6.49121C21.1589 7.45121 22.4289 9.42121 22.4289 11.6612Z"
+        stroke="#2C2523" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    &nbsp;
+    <mat-label>{{'Financial History' | translate}}</mat-label>
+    <mat-icon style="position: absolute; right: 5px" *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'">
+      chevron_right
+    </mat-icon> <!-- Right angle at the end -->
+    <mat-icon style="position: absolute; left: 5px" *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'">
+      chevron_left
+    </mat-icon> <!-- Right angle at the end -->
+  </mat-list-item>
+
+  <mat-list-item class="position-relative" (click)="logout(); closeModal()">
+    <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M8.8916 7.80047C9.2016 4.20047 11.0516 2.73047 15.1016 2.73047H15.2316C19.7016 2.73047 21.4916 4.52047 21.4916 8.99047V15.5105C21.4916 19.9805 19.7016 21.7705 15.2316 21.7705H15.1016C11.0816 21.7705 9.2316 20.3205 8.9016 16.7805"
+        stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M14.9918 12.2402H3.61182" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
+            stroke-linejoin="round"/>
+      <path d="M5.8417 8.89062L2.4917 12.2406L5.8417 15.5906" stroke="#292D32" stroke-width="1.5"
+            stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    &nbsp;
+    <mat-label>{{'Sign Out' | translate}}</mat-label>
+    <mat-icon style="position: absolute; right: 5px" *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'">
+      chevron_right
+    </mat-icon> <!-- Right angle at the end -->
+    <mat-icon style="position: absolute; left: 5px" *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'">
+      chevron_left
+    </mat-icon> <!-- Right angle at the end -->
+  </mat-list-item>
+</div>
+
+<!--<div mat-dialog-actions class="m-2">-->
+<!-- -->
+<!--</div>-->

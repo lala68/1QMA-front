@@ -11,7 +11,7 @@ import {GamesService} from "../../services/games/games.service";
 import {CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray} from "@angular/cdk/drag-drop";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {ConfigService} from "../../services/config/config.service";
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
 import {MaterialModule} from "../../shared/material/material.module";
 import {TimeDifferencePipe} from "../../pipes/time-difference.pipe";
 import {SnackbarContentComponent} from "../snackbar-content/snackbar-content.component";
@@ -19,6 +19,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {HttpClient} from "@angular/common/http";
 import {ParsIntPipe} from "../../pipes/pars-int.pipe";
 import translate from "translate";
+import {ExitGame} from "../../shared/header/header.component";
 
 @Component({
   selector: 'app-game-board',
@@ -275,6 +276,9 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     console.log("finishedTimerRatingAnswer" + this.finishedTimerRatingAnswer);
     console.log("finishedTimerRatingQuestions" + this.finishedTimerRatingQuestions);
     console.log("gameStep" + this.generalService.gameStep);
+    //maybe
+    this.generalService.specificQuestionAnswers = '';
+
     if (this.generalService.gameStep == 2) {
       // this.generalService.wordCountAnswer = 100;
       this.finishedTimerRatingQuestions = false;
@@ -961,11 +965,22 @@ export class GameBoardComponent implements OnInit, OnDestroy {
   }
 
   openScoreModal(score: any, totalScore: any) {
-    const dialogRef = this.dialog.open(Score, {
-      data: {score, totalScore},
-      width: '600px',
-      disableClose: true
-    });
+    const dialogConfig = new MatDialogConfig();
+    if (this.generalService.isMobileView) { // Assuming mobile devices are <= 768px
+      dialogConfig.width = '100vw';
+      dialogConfig.maxWidth = '100vw';
+      dialogConfig.height = 'auto'; // You can specify the height if needed
+      dialogConfig.position = {bottom: '0px'};
+      dialogConfig.panelClass = 'mobile-dialog'; // Add custom class for mobile
+      dialogConfig.data = {score, totalScore};
+      dialogConfig.disableClose = true;
+    } else {
+      dialogConfig.width = '600px'; // Full size for desktop or larger screens
+      dialogConfig.data = {score, totalScore};
+      dialogConfig.disableClose = true;
+
+    }
+    const dialogRef = this.dialog.open(Score, dialogConfig);
     dialogRef.afterClosed().subscribe(async result => {
       if (result == 'close') {
         // this.backToCheckpoint = true;
@@ -1034,10 +1049,12 @@ export class CancelGame {
   selector: 'disconnected',
   templateUrl: 'disconnected.html',
   standalone: true,
-  imports: [MaterialModule, CommonModule, TranslateModule]
+  imports: [MaterialModule, CommonModule, TranslateModule, CountdownTimerComponent],
+  providers: [CountdownTimerComponent]
 })
 
 export class Disconnected {
+  disable: boolean = true;
 
   constructor(public dialogRef: MatDialogRef<Disconnected>, private generalService: GeneralService,
               private router: Router) {
@@ -1061,6 +1078,10 @@ export class Disconnected {
     this.generalService.invitedPlayersArray = [];
     this.dialogRef.close();
     await this.router.navigate(['/dashboard']);
+  }
+
+  finishedDisconnectTimer() {
+    this.disable = false;
   }
 }
 

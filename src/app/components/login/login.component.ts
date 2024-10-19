@@ -56,20 +56,37 @@ export class LoginComponent {
             }
           })
         } else if (this.generalService.userId && this.generalService.hasCompletedSignup) {
-          await this.router.navigate(['/dashboard']);
-          this.clientService.clientInit().then(async res => {
-            if (res.status == 1) {
-              this.generalService.clientInit = res.data;
-              await Preferences.remove({key: 'account'});
-              await Preferences.set({key: 'account', value: JSON.stringify(res.data.user)});
-              this.generalService.currentRout = '/dashboard';
-            }
-          });
-          this.gameService.gameInit().then(data => {
-            if (data.status == 1) {
-              this.generalService.gameInit = data.data;
-            }
-          });
+          if (this.generalService.userObj.hasSeenIntros.tutorial) {
+            await this.router.navigate(['/dashboard']);
+            this.clientService.clientInit().then(async res => {
+              if (res.status == 1) {
+                this.generalService.clientInit = res.data;
+                await Preferences.remove({key: 'account'});
+                await Preferences.set({key: 'account', value: JSON.stringify(res.data.user)});
+                this.generalService.currentRout = '/dashboard';
+              }
+            });
+            this.gameService.gameInit().then(data => {
+              if (data.status == 1) {
+                this.generalService.gameInit = data.data;
+              }
+            });
+          } else {
+            await this.router.navigate(['/tutorial']);
+            this.clientService.clientInit().then(async res => {
+              if (res.status == 1) {
+                this.generalService.clientInit = res.data;
+                await Preferences.remove({key: 'account'});
+                await Preferences.set({key: 'account', value: JSON.stringify(res.data.user)});
+                this.generalService.currentRout = '';
+              }
+            });
+            this.gameService.gameInit().then(data => {
+              if (data.status == 1) {
+                this.generalService.gameInit = data.data;
+              }
+            });
+          }
         }
       } else if (data?.status == -1) {
         this.openDialog(JSON.stringify(data.message), 'Error');
@@ -88,12 +105,6 @@ export class LoginComponent {
       horizontalPosition: 'end',
       panelClass: title == 'Success' ? 'app-notification-success' : 'app-notification-error'
     });
-  }
-
-  async gotoDashboard() {
-    // await this.router.navigate(['signup'], {state: {email: 'test@test.com'}});
-    this.generalService.currentRout = '/dashboard';
-    await this.router.navigate(['/dashboard']);
   }
 
 }

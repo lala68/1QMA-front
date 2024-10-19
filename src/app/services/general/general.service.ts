@@ -49,6 +49,9 @@ export class GeneralService implements OnInit {
   wordCountAnswer: number = 100;
   isMobileView: boolean = false;
   direction: any = 'ltr';
+  selectedTabIndexParentInTrivia: any = 0;
+  selectedTabIndexQuestionChildInTrivia: any = 0;
+  selectedTabIndexGameChildInTrivia: any = 0;
 
   constructor(private http: HttpClient, private _snackBar: MatSnackBar, private router: Router) {
   }

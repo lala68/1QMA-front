@@ -16,6 +16,8 @@ import {MaterialModule} from "../../shared/material/material.module";
 import {GamesService} from "../../services/games/games.service";
 import {ProcessHTTPMsgService} from "../../services/proccessHttpMsg/process-httpmsg.service";
 import {Subject, takeUntil} from "rxjs";
+import {ImageCropperComponent, ImageCroppedEvent, LoadedImage, ImageCropperModule} from 'ngx-image-cropper';
+
 
 @Component({
   selector: 'app-account-info',
@@ -74,7 +76,7 @@ export class AccountInfoComponent {
 
   private filterCountries() {
     const search = this.countryFilterCtrl.value ? this.countryFilterCtrl.value.toLowerCase() : '';
-    this.filteredCountries  = this.generalService.countryListEng
+    this.filteredCountries = this.generalService.countryListEng
       .filter((country: any) => country.name.toLowerCase().includes(search));
   }
 
@@ -102,7 +104,7 @@ export class AccountInfoComponent {
       dialogConfig.width = '100vw';
       dialogConfig.maxWidth = '100vw';
       dialogConfig.height = 'auto'; // You can specify the height if needed
-      dialogConfig.position = { bottom: '0px' };
+      dialogConfig.position = {bottom: '0px'};
       dialogConfig.panelClass = 'mobile-dialog'; // Add custom class for mobile
     } else {
       dialogConfig.width = '700px'; // Full size for desktop or larger screens
@@ -148,7 +150,8 @@ export class AccountInfoComponent {
   selector: 'profile-picture',
   templateUrl: 'profile-picture.html',
   standalone: true,
-  imports: [MaterialModule, CommonModule, FormsModule, ReactiveFormsModule, SharedModule, TranslateModule],
+  imports: [MaterialModule, CommonModule, FormsModule, ReactiveFormsModule, SharedModule, TranslateModule,
+    ImageCropperModule],
 })
 
 export class ProfilePicture {
@@ -159,6 +162,9 @@ export class ProfilePicture {
   fileToUpload: any;
   imageName: any = 'avatar-1';
   selectedAvatar: any = [];
+  imageChangedEvent: any = '';
+  croppedImage: any = '';
+  croppedImageBlob: any;
 
   constructor(public dialogRef: MatDialogRef<ProfilePicture>, public configService: ConfigService,
               private clientService: ClientService,
@@ -175,29 +181,72 @@ export class ProfilePicture {
     e.click();
   }
 
-  async imageProfileInput(event: any) {
-    this.fileToUpload = event.target.files[0];
-    const maxSize = 2 * 1024 * 1024; // 2 MB in bytes
-
-    // Allowed MIME types
+  imageProfileInput(event: any) {
+    const maxSize = 2 * 1024 * 1024;
     const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/svg'];
 
+    const file = event.target.files[0];
+    if (!file) return;
+
     // Check file size
-    if (this.fileToUpload.size > maxSize) {
+    if (file.size > maxSize) {
       this.openDialog('maximum size is 2M.', 'Error');
       return;
     }
 
     // Check file type
-    if (!allowedTypes.includes(this.fileToUpload.type)) {
-      this.openDialog('Allowed format file is png,jpeg, webp and svg.', 'Error');
+    if (!allowedTypes.includes(file.type)) {
+      this.openDialog('Allowed format file is png, jpeg, webp, and svg.', 'Error');
       return;
     }
 
-    // Proceed with the upload
-    await this.uploadImg();
+    // Set the event for the cropper
+    this.imageChangedEvent = event;
   }
 
+  // Handle cropped image
+  // Handle cropped image
+  onImageCropped(event: ImageCroppedEvent) {
+    this.croppedImage = event.base64; // Get the cropped image as base64
+    this.croppedImageBlob = event.blob; // Get the blob of the cropped image
+  }
+
+
+  // Perform cropping and upload
+// Perform cropping and upload
+  async cropImage() {
+    if (!this.croppedImageBlob) {
+      this.openDialog('No image selected.', 'Error');
+      return;
+    }
+
+    // Use the blob directly for the file upload
+    const fileName = 'cropped-profile-image.png';
+    this.fileToUpload = new File([this.croppedImageBlob], fileName, {type: 'image/png'});
+
+    await this.uploadImg(); // Proceed with upload
+  }
+
+
+  base64ToFile(base64: string, filename: string): File {
+    const arr = base64.split(',');
+    const match = arr[0].match(/:(.*?);/); // Safely handle the match result
+
+    // Ensure mime is extracted only if match is successful
+    const mime = match ? match[1] : '';
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+
+    return new File([u8arr], filename, {type: mime});
+  }
+
+
+  // Upload image logic remains the same
   async uploadImg() {
     this.loadingUpload = true;
     this.clientService.postProfilePicture(this.fileToUpload).then(async data => {
@@ -208,11 +257,12 @@ export class ProfilePicture {
         await this.generalService.getUserData();
         this.openDialog(data.message, 'Success');
         await this.closeModal();
+        window.location.reload();
       }
     }, error => {
       this.loadingUpload = false;
       this.openDialog(JSON.stringify(error.error), 'Error');
-    })
+    });
   }
 
   openDialog(message: any, title: any) {
@@ -236,9 +286,11 @@ export class ProfilePicture {
       if (response.status == 1) {
         await Preferences.remove({key: 'account'});
         await Preferences.set({key: 'account', value: JSON.stringify(response.data)});
+        this.generalService.userObj = response.data;
         await this.generalService.getUserData();
         this.openDialog(response.message, 'Success');
         await this.closeModal();
+        window.location.reload();
       }
     }, error => {
       this.loadingUpload = false;

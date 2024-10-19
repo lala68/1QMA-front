@@ -7,7 +7,10 @@
   </svg>
   &nbsp;{{'Profile picture' | translate}}
 </div>
-<div mat-dialog-content [style]="generalService.isMobileView ? 'padding: 5px 0 5px 5px;' : ''">
+<div style="display: table; margin: 20px auto">
+  <mat-spinner *ngIf="loadingUpload" [diameter]="30"></mat-spinner>
+</div>
+<div *ngIf="!loadingUpload" mat-dialog-content [style]="generalService.isMobileView ? 'padding: 5px 0 5px 5px;' : ''">
   <div class=" border-bottom w-100 pb-3 position-relative"
        [class]="{'d-inline-flex': !generalService.isMobileView, 'd-block': generalService.isMobileView}">
     <div>
@@ -24,9 +27,24 @@
               style="border: 1px solid #0B6FEA; width: 148px; height: 47px; margin: auto">
         Upload Image
       </button>
-      <input #FileSelectInputDialog type="file" (change)="imageProfileInput($event)" hidden/>
-
+      <input type="file" #FileSelectInputDialog (change)="imageProfileInput($event)" accept="image/*" hidden>
     </div>
+  </div>
+  <!-- Image cropper modal -->
+  <div *ngIf="imageChangedEvent">
+    <image-cropper
+      [imageChangedEvent]="imageChangedEvent"
+      [aspectRatio]="1/1"
+      [maintainAspectRatio]="true"
+      format="png"
+      (imageCropped)="onImageCropped($event)">
+    </image-cropper>
+    <button mat-raised-button color="primary" [disabled]="loadingUpload"
+            [style]="generalService.isMobileView ? 'width: 100%' : 'width: 386px;'"
+            (click)="cropImage()"
+            style="height: 58px; display: block; margin: 0 auto">
+      {{'Save' | translate}}
+    </button>
   </div>
   <br>
   <div>
@@ -43,7 +61,8 @@
 
   <button mat-raised-button color="primary" [disabled]="loadingUpload"
           [style]="generalService.isMobileView ? 'width: 100%' : 'width: 386px;'"
-          (click)="uploadImageFromAssets()" style="height: 58px; display: block; margin: 0 auto">
+          (click)="uploadImageFromAssets()"
+          style="height: 58px; display: block; margin: 0 auto">
     {{'Save' | translate}}
   </button>
   <br>

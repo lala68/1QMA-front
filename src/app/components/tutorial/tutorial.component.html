@@ -103,7 +103,7 @@
        class="d-inline-block card border-0 text-center font-size-14 weight-800 pt-3 w-100">
     <mat-spinner class="d-inline-block" [diameter]="20"></mat-spinner> &nbsp;
     <mat-label
-      class="d-inline-block">{{'Waiting for' | translate}} {{tutorialInit?.numberOfPlayers - generalService.players?.length}}
+      class="d-inline-block">{{'Waiting for' | translate}} 1
       {{'of' | translate}} {{tutorialInit?.numberOfPlayers }} {{'players to join the game...' | translate}}
     </mat-label>
     <app-countdown-timer
@@ -455,7 +455,7 @@
           </div>
         </div>
         <mat-label class="d-inline-block"
-                   style="margin-inline-start: 90px;">{{'Waiting for' | translate}} {{(submittedAnswer?.numberOfPlayers ? submittedAnswer?.numberOfPlayers : generalService.gameInit?.numberOfPlayers) - submittedAnswer?.numberOfSubmitted}}
+                   style="margin-inline-start: 90px;">{{'Waiting for' | translate}} 1
           {{'of' | translate}} {{(submittedAnswer?.numberOfPlayers ? submittedAnswer?.numberOfPlayers : generalService.gameInit?.numberOfPlayers) }}
           {{'players...' | translate}}
         </mat-label>
