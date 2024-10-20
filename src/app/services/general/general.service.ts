@@ -44,6 +44,7 @@ export class GeneralService implements OnInit {
   notifList: any;
   newNotif: boolean = false;
   disconnectedModal: any = '';
+  waitingModal: any = '';
   rateAnswers: { answer_id: string, rate: string }[] = [];
   rateQuestions: { question_id: string, rate: string }[] = [];
   cityFilterCtrl = new FormControl();

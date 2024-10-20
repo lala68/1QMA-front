@@ -28,6 +28,7 @@ import translate from "translate";
 import {IntroJsService} from "../../services/introJs/intro-js.service";
 import introJs from "intro.js";
 import {Subscription} from "rxjs";
+import {franc} from "franc";
 
 @Component({
   selector: 'app-games',
@@ -261,16 +262,17 @@ export class GamesComponent implements OnInit {
       const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
       console.log("start game" + ' ' + `[${timeString}]  `);
       this.generalService.gameStep = 2;
+      if (this.generalService.waitingModal) {
+        this.generalService.waitingModal.close();
+        this.generalService.waitingModal = '';
+      }
       this.gameBoardComponent.handleGameStep();
+      console.log(this.generalService.selectedTranslatedLanguage)
       this.gameService.getGameQuestionBasedOnStep(this.generalService?.createdGameData?.game?.gameId, 1).then(async resQue => {
         this.generalService.gameQuestion = resQue?.data;
-        // this.generalService.gameQuestion.question = await translate(this.generalService.gameQuestion.question,
-        //   {
-        //     to: this.generalService?.userObj?.preferedLanguage == '0' ? 'en' :
-        //       this.generalService.userObj?.preferedLanguage == '1' ? 'de' : 'fa',
-        //     from: this.generalService.gameQuestion.language
-        //   }
-        // );
+        this.generalService.gameQuestion.question = await this.detectAndTranslate(resQue?.data.question,
+          this.generalService.selectedTranslatedLanguage);
+
         this.updateWordCountAnswerGame();
         if (resQue?.data?.myAnswer) {
           this.generalService.gameAnswerGeneral = resQue?.data?.myAnswer;
@@ -330,6 +332,20 @@ export class GamesComponent implements OnInit {
   isSelectedGameType(item: any): boolean {
     return this.selectedGameType.some((game: any) => game === item);
   }
+
+  async detectAndTranslate(question: string, targetLanguage: string) {
+    // Detect the language using franc (returns ISO 639-3 format)
+    const detectedLangISO6393 = franc(question);
+    console.log((detectedLangISO6393))
+
+    // Perform the translation
+    const translatedText = await translate(question, {
+      from: detectedLangISO6393 == 'pes' || detectedLangISO6393 == 'prs' ? 'fa' : detectedLangISO6393,  // Detected language
+      to: targetLanguage,         // Target language
+    });
+    return translatedText;
+  }
+
 
   selectGameType(item: any) {
     this.selectedGameType = [];
@@ -434,6 +450,7 @@ export class GamesComponent implements OnInit {
 
   selectTranslatedLang(id: any) {
     this.generalService.selectedTranslatedLanguage = id;
+    console.log(id)
   }
 
   joinToGame(code: any = this.gameCode) {
@@ -459,6 +476,8 @@ export class GamesComponent implements OnInit {
         console.log(this.generalService?.createdGameData)
         this.gameService.getGameQuestionBasedOnStep(this.generalService?.createdGameData?.game?.gameId, 1).then(async resQue => {
           this.generalService.gameQuestion = resQue?.data;
+          this.generalService.gameQuestion.question = await this.detectAndTranslate(resQue?.data.question,
+            this.generalService.selectedTranslatedLanguage);
           // this.generalService.gameQuestion.question = await translate(this.generalService.gameQuestion.question,
           //   {
           //     to: this.generalService?.userObj?.preferedLanguage == '0' ? 'en' :

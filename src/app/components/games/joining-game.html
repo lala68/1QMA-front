@@ -8,7 +8,8 @@
   </svg>
   &nbsp;{{'Joining Game' | translate}}
 </div>
-<div mat-dialog-content style="padding-bottom: 0" [class]="{'': !generalService.isMobileView, 'p-1': generalService.isMobileView}">
+<div mat-dialog-content style="padding-bottom: 0"
+     [class]="{'': !generalService.isMobileView, 'p-1': generalService.isMobileView}">
   <mat-card class="shadow-none">
     <mat-card-header>
       <mat-card-title
@@ -105,26 +106,26 @@
         <div class="word-counter">{{ wordCountAnswer }} {{'Words' | translate}}</div>
       </div>
     </div>
-<!--    <div class="d-flex align-items-center">-->
-<!--      <mat-slide-toggle labelPosition="before"-->
-<!--                        (change)="onToggleActiveTranslate($event)">{{'I want to translate questions and answers' | translate}}</mat-slide-toggle>-->
-<!--      <mat-label *ngIf="generalService.toggleValueTranslate"-->
-<!--                 class="ps-2 pe-2">{{'to' | translate}}</mat-label>-->
-<!--      <mat-form-field *ngIf="generalService.toggleValueTranslate" appearance="fill"-->
-<!--                      class="custom-form-field"-->
-<!--                      [class]="{'w-25': !generalService.isMobileView, 'w-50': generalService.isMobileView}">-->
-<!--        <mat-label>{{'Language' | translate}}</mat-label>-->
-<!--        <mat-select (selectionChange)="selectTranslatedLang($event.value)">-->
-<!--          <mat-option *ngFor="let lang of generalService?.clientInit?.languages"-->
-<!--                      [value]="lang._id">{{lang.title}}</mat-option>-->
-<!--        </mat-select>-->
-<!--      </mat-form-field>-->
-<!--    </div>-->
+    <div class="d-flex align-items-center">
+      <mat-slide-toggle labelPosition="before"
+                        (change)="onToggleActiveTranslate($event)">{{'I want to translate questions and answers' | translate}}</mat-slide-toggle>
+      <mat-label *ngIf="generalService.toggleValueTranslate"
+                 class="ps-2 pe-2">{{'to' | translate}}</mat-label>
+      <mat-form-field *ngIf="generalService.toggleValueTranslate" appearance="fill"
+                      class="custom-form-field"
+                      [class]="{'w-25': !generalService.isMobileView, 'w-50': generalService.isMobileView}">
+        <mat-label>{{'Language' | translate}}</mat-label>
+        <mat-select (selectionChange)="selectTranslatedLang($event.value)">
+          <mat-option *ngFor="let lang of generalService?.clientInit?.languages"
+                      [value]="lang.code">{{lang.title}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
   </form>
   <br>
   <br>
-<!--  <div class="copy-referrer position-relative p-0">-->
-  <div class="copy-referrer-joining position-sticky bottom-0 p-0 bg-white">
+  <!--  <div class="copy-referrer position-relative p-0">-->
+  <div class="copy-referrer-joining position-sticky bottom-0 p-0 bg-white border-0">
     <div [class]="{'d-flex': !generalService.isMobileView, 'd-block': generalService.isMobileView}">
       <div class="w-100"
            [class]="{'d-flex': !generalService.isMobileView, 'd-inline-flex': generalService.isMobileView}">
