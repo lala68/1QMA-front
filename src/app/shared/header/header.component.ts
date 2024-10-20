@@ -20,6 +20,8 @@ import {SharedModule} from "../shared.module";
 import {ConfigService} from "../../services/config/config.service";
 import {MatMenuModule} from "@angular/material/menu";
 import {MoreMobile} from "../sidenav/sidenav.component";
+import {TutorialComponent} from "../../components/tutorial/tutorial.component";
+import {TutorialService} from "../../services/tutorial/tutorial.service";
 
 @Component({
   selector: 'app-header',
@@ -118,9 +120,11 @@ export class HeaderComponent implements OnInit {
 
   async gotoHome() {
     this.generalService.startingGame = false;
+    this.generalService.startingGameTutorial = false;
     this.generalService.players = [];
     this.generalService.gameInit = '';
     this.generalService.gameStep = 1;
+    this.generalService.gameTutorialStep = 1;
     this.generalService.createdGameData = '';
     this.generalService.gameQuestion = '';
     this.generalService.specificQuestionAnswers = '';
@@ -280,7 +284,8 @@ export class ExitGame {
     public dialogRef: MatDialogRef<ExitGame>,
     private generalService: GeneralService,
     private router: Router,
-    private gameService: GamesService
+    private gameService: GamesService,
+    private tutorialService: TutorialService
   ) {
   }
 
@@ -289,27 +294,54 @@ export class ExitGame {
   }
 
   async exitGame(): Promise<void> {
-    const data = await this.gameService.exitGame(this.generalService?.startingGame ? this.generalService?.createdGameData?.game?.gameId : this.generalService?.createdGameData?._id);
-    if (data.status === 1) {
-      this.generalService.startingGame = false;
-      this.generalService.startingGameTutorial = false;
-      this.generalService.players = [];
-      this.generalService.gameInit = '';
-      this.generalService.gameStep = 1;
-      this.generalService.createdGameData = '';
-      this.generalService.gameQuestion = '';
-      this.generalService.specificQuestionAnswers = '';
-      this.generalService.gameAnswerGeneral = '';
-      this.generalService.editingAnswer = true;
-      this.generalService.isGameCancel = false;
-      this.generalService.allQuestions = [];
-      this.generalService.gameResult = '';
-      this.generalService.rateAnswers = [];
-      this.generalService.rateQuestions = [];
-      this.generalService.invitedPlayersArray = [];
-      this.dialogRef.close(true);
-      await this.router.navigate(['/dashboard']);
+    if(this.generalService.startingGame){
+      const data = await this.gameService.exitGame(this.generalService?.startingGame ? this.generalService?.createdGameData?.game?.gameId : this.generalService?.createdGameData?._id);
+      if (data.status === 1) {
+        this.generalService.startingGame = false;
+        this.generalService.startingGameTutorial = false;
+        this.generalService.players = [];
+        this.generalService.gameInit = '';
+        this.generalService.gameStep = 1;
+        this.generalService.gameTutorialStep = 1;
+        this.generalService.createdGameData = '';
+        this.generalService.gameQuestion = '';
+        this.generalService.specificQuestionAnswers = '';
+        this.generalService.gameAnswerGeneral = '';
+        this.generalService.editingAnswer = true;
+        this.generalService.isGameCancel = false;
+        this.generalService.allQuestions = [];
+        this.generalService.gameResult = '';
+        this.generalService.rateAnswers = [];
+        this.generalService.rateQuestions = [];
+        this.generalService.invitedPlayersArray = [];
+        this.dialogRef.close(true);
+        await this.router.navigate(['/dashboard']);
+      }
+    } else if(this.generalService.startingGameTutorial){
+      const data = await this.tutorialService.exitTutorialGame(this.generalService?.startingGame ? this.generalService?.createdGameData?.game?.gameId : this.generalService?.createdGameData?._id);
+      if (data.status === 1) {
+        this.generalService.startingGame = false;
+        this.generalService.startingGameTutorial = false;
+        this.generalService.players = [];
+        this.generalService.gameInit = '';
+        this.generalService.gameStep = 1;
+        this.generalService.gameTutorialStep = 1;
+        this.generalService.createdGameData = '';
+        this.generalService.gameQuestion = '';
+        this.generalService.specificQuestionAnswers = '';
+        this.generalService.gameAnswerGeneral = '';
+        this.generalService.editingAnswer = true;
+        this.generalService.isGameCancel = false;
+        this.generalService.allQuestions = [];
+        this.generalService.gameResult = '';
+        this.generalService.rateAnswers = [];
+        this.generalService.rateQuestions = [];
+        this.generalService.invitedPlayersArray = [];
+        this.dialogRef.close(true);
+        await this.router.navigate(['/dashboard']);
+      }
     }
+
   }
 }
 

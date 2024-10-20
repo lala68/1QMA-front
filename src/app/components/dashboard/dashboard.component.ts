@@ -219,7 +219,7 @@ export class DashboardComponent implements OnInit {
   changeTopQuestions() {
     this.loadingContent = true;
     this.clientService.getMyOrAllQuestions(this.selectedTabTopQuestionsIndex == 0 ? 'private' : 'public',
-      this.selectedCategory[0] ? this.selectedCategory[0]._id : '', 5, 1).then(data => {
+      this.selectedCategory ? this.selectedCategory : '', 5, 1).then(data => {
       this.loadingContent = false;
       this.topQuestions = data.data;
     }, error => {
@@ -231,15 +231,16 @@ export class DashboardComponent implements OnInit {
     return this.selectedCategory.some((category: any) => category._id === item._id);
   }
 
-  async selectCatTopQuestion(item: any) {
+  async selectCatTopQuestion(id: any) {
+    console.log(id)
     this.selectedCategory = [];
-    this.selectedCategory.push(item);
+    this.selectedCategory.push(id);
     await this.changeTopQuestions();
   }
 
   async gotoQuestionDetail(item: any) {
     // await this.router.navigate(['trivia-hub'], {state: {question: item}});
-    await this.router.navigate(['question-detail'], {queryParams: {item: item}});
+    await this.router.navigate(['question-detail'], {queryParams: {id: item._id}});
   }
 
   async getQuestionsFromFriendsLatestGames() {

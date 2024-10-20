@@ -330,24 +330,36 @@
       </mat-card-header>
       <br>
       <div class="d-flex overflow-scroll">
-        <div class="m-2 d-inline-flex shadow-none cursor-pointer p-2"
-             (click)="selectCatTopQuestion('')"
-             [class]="{'mat-card-pref-selected': isSelected(''), 'mat-card-pref': !isSelected('')}">
-          <div class="text-center w-100" style="padding-top: 8px">
-            <mat-label class="font-size-14 weight-600">{{ 'all categories' | translate }}</mat-label>
-          </div>
-        </div>
-        <div *ngFor="let cat of generalService.clientInit?.categories"
-             class="m-2 d-inline-flex shadow-none cursor-pointer p-2"
-             (click)="selectCatTopQuestion(cat)"
-             [class]="{'mat-card-pref-selected': isSelected(cat), 'mat-card-pref': !isSelected(cat)}">
-          <div class="text-start">
-            <img [src]="'https://api.staging.1qma.games/' + cat?.icon" width="35">
-            <mat-label>{{ cat?.name }}</mat-label>
-          </div>
-        </div>
+<!--        <div class="m-2 d-inline-flex shadow-none cursor-pointer p-2"-->
+<!--             (click)="selectCatTopQuestion('')"-->
+<!--             [class]="{'mat-card-pref-selected': isSelected(''), 'mat-card-pref': !isSelected('')}">-->
+<!--          <div class="text-center w-100" style="padding-top: 8px">-->
+<!--            <mat-label class="font-size-14 weight-600">{{ 'all categories' | translate }}</mat-label>-->
+<!--          </div>-->
+<!--        </div>-->
+        <!--        <div *ngFor="let cat of generalService.clientInit?.categories"-->
+        <!--             class="m-2 d-inline-flex shadow-none cursor-pointer p-2"-->
+        <!--             (click)="selectCatTopQuestion(cat)"-->
+        <!--             [class]="{'mat-card-pref-selected': isSelected(cat), 'mat-card-pref': !isSelected(cat)}">-->
+        <!--          <div class="text-start">-->
+        <!--            <img [src]="'https://api.staging.1qma.games/' + cat?.icon" width="35">-->
+        <!--            <mat-label>{{ cat?.name }}</mat-label>-->
+        <!--          </div>-->
+        <!--        </div>-->
+        <mat-form-field appearance="fill" class="custom-form-field"
+                        [class]="{'w-50': !generalService.isMobileView, 'w-100': generalService.isMobileView}">
+          <mat-label>{{ 'Category' | translate }}</mat-label>
+          <mat-select (selectionChange)="selectCatTopQuestion($event.value)">
+            <mat-option [value]="''">
+              {{ 'all categories' | translate }}
+            </mat-option>
+            <mat-option *ngFor="let cat of generalService.clientInit?.categories" [value]="cat._id">
+              <img [src]="'https://api.staging.1qma.games/' + cat?.icon" width="20" height="20">
+              {{ cat?.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
-      <br>
       <div *ngIf="!generalService.isMobileView">
         <mat-grid-list cols="12" rowHeight="50px" class="gray-card" [dir]="generalService.direction">
           <mat-grid-tile class="result-grid" [colspan]="1">

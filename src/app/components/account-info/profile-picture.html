@@ -7,8 +7,8 @@
   </svg>
   &nbsp;{{'Profile picture' | translate}}
 </div>
-<div style="display: table; margin: 20px auto">
-  <mat-spinner *ngIf="loadingUpload" [diameter]="30"></mat-spinner>
+<div style="display: table; margin: 20px auto" *ngIf="loadingUpload">
+  <mat-spinner [diameter]="30"></mat-spinner>
 </div>
 <div *ngIf="!loadingUpload" mat-dialog-content [style]="generalService.isMobileView ? 'padding: 5px 0 5px 5px;' : ''">
   <div class=" border-bottom w-100 pb-3 position-relative"
@@ -32,7 +32,7 @@
   </div>
   <!-- Image cropper modal -->
   <div *ngIf="imageChangedEvent">
-    <image-cropper
+    <image-cropper style="width: 200px; height: 200px; margin: 0 auto"
       [imageChangedEvent]="imageChangedEvent"
       [aspectRatio]="1/1"
       [maintainAspectRatio]="true"

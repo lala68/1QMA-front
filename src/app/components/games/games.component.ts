@@ -238,6 +238,8 @@ export class GamesComponent implements OnInit {
     this.selectedGameType = [];
     this.createGameStep = 1;
     this.findFriendStep = 1;
+    this.questionForm.reset();
+
   }
 
   async chooseRandomCategory() {
@@ -334,19 +336,19 @@ export class GamesComponent implements OnInit {
     return this.selectedCategory.some((category: any) => category._id === item._id);
   }
 
-  selectCat(item: any) {
+  selectCat(id: any) {
     this.selectedCategory = [];
-    this.selectedCategory.push(item);
+    this.selectedCategory.push(id);
   }
 
   isSelectedLive(item: any): boolean {
     return this.selectedCategoryLive.some((category: any) => category._id === item._id);
   }
 
-  async selectCatLive(item: any) {
+  async selectCatLive(id: any) {
     this.page = 1;
     this.selectedCategoryLive = [];
-    this.selectedCategoryLive.push(item);
+    this.selectedCategoryLive.push(id);
     await this.getLives();
   }
 
@@ -354,15 +356,15 @@ export class GamesComponent implements OnInit {
     return this.selectedCategory.some((category: any) => category._id === item._id);
   }
 
-  async selectCatLiveSurvival(item: any) {
+  async selectCatLiveSurvival(id: any) {
     this.page = 1;
     this.selectedCategory = [];
-    this.selectedCategory.push(item);
+    this.selectedCategory.push(id);
     await this.getLiveSurvival();
   }
 
   async getLiveSurvival() {
-    this.gameService.getLiveSurvival(this.selectedCategory[0] ? this.selectedCategory[0]._id : '').then(data => {
+    this.gameService.getLiveSurvival(this.selectedCategory ? this.selectedCategory : '').then(data => {
       if (data.status == 1)
         this.liveSurvival = data.data;
     }, error => {
@@ -371,7 +373,7 @@ export class GamesComponent implements OnInit {
   }
 
   async getLives() {
-    this.gameService.getLiveGames(this.selectedCategoryLive[0] ? this.selectedCategoryLive[0]._id : '').then(data => {
+    this.gameService.getLiveGames(this.selectedCategoryLive ? this.selectedCategoryLive : '').then(data => {
       if (data.status == 1)
         this.liveGames = data.data;
     }, error => {

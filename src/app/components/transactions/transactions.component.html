@@ -86,7 +86,13 @@
             <mat-label class="font-size-14 weight-700">{{'New Balance' | translate}}:</mat-label>
           </mat-grid-tile>
           <mat-grid-tile class="result-grid-transaction" [colspan]="5">
-            <mat-label class="font-size-14 weight-700">430 Gold Coin</mat-label>
+            <mat-label class="font-size-14 weight-700 d-flex align-items-center"><img
+              src="assets/images/coin-bronze.png" width="15">&nbsp;{{item?.newCoinBalance?.bronze}}
+              &nbsp;&nbsp;<img src="assets/images/coin-silver.png"
+                               width="15">&nbsp;{{item?.newCoinBalance?.silver}}
+              &nbsp;&nbsp; <img src="assets/images/coin-gold.png"
+                                width="15">&nbsp;{{item?.newCoinBalance?.gold}}
+            </mat-label>
           </mat-grid-tile>
         </mat-grid-list>
         <mat-grid-list cols="12" rowHeight="40px" [dir]="generalService.direction" *ngIf="generalService.isMobileView">

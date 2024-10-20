@@ -112,7 +112,8 @@
                     </mat-label>
                   </mat-grid-tile>
                   <mat-grid-tile [colspan]="1" (click)="gotoResult(res?.gameId)">
-                    <svg *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'" width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'" width="25" height="25"
+                         viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path
                         d="M9.53223 20.4084L16.0522 13.8884C16.8222 13.1184 16.8222 11.8584 16.0522 11.0884L9.53223 4.56836"
                         stroke="#0B6FEA" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
@@ -120,9 +121,10 @@
                     </svg>
                     <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg"
                          *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'">
-                      <path d="M9.2439 11.2694L5.43766 7.75383C4.98816 7.33865 4.98816 6.65926 5.43766 6.24408L9.2439 2.72852"
-                            stroke="#0B6FEA" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
-                            stroke-linejoin="round"/>
+                      <path
+                        d="M9.2439 11.2694L5.43766 7.75383C4.98816 7.33865 4.98816 6.65926 5.43766 6.24408L9.2439 2.72852"
+                        stroke="#0B6FEA" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                        stroke-linejoin="round"/>
                     </svg>
                   </mat-grid-tile>
                 </mat-grid-list>
@@ -202,7 +204,8 @@
                     </mat-label>
                   </mat-grid-tile>
                   <mat-grid-tile [colspan]="1" (click)="gotoResult(res?.gameId)">
-                    <svg *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'" width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'" width="25" height="25"
+                         viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path
                         d="M9.53223 20.4084L16.0522 13.8884C16.8222 13.1184 16.8222 11.8584 16.0522 11.0884L9.53223 4.56836"
                         stroke="#0B6FEA" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
@@ -210,9 +213,10 @@
                     </svg>
                     <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg"
                          *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'">
-                      <path d="M9.2439 11.2694L5.43766 7.75383C4.98816 7.33865 4.98816 6.65926 5.43766 6.24408L9.2439 2.72852"
-                            stroke="#0B6FEA" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
-                            stroke-linejoin="round"/>
+                      <path
+                        d="M9.2439 11.2694L5.43766 7.75383C4.98816 7.33865 4.98816 6.65926 5.43766 6.24408L9.2439 2.72852"
+                        stroke="#0B6FEA" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                        stroke-linejoin="round"/>
                     </svg>
                   </mat-grid-tile>
                 </mat-grid-list>
@@ -234,22 +238,35 @@
               </mat-card-subtitle>
             </mat-card-header>
             <div class="d-flex overflow-scroll">
-              <div class="m-2 d-inline-flex shadow-none cursor-pointer p-3"
-                   (click)="selectCatLive('')"
-                   [class]="{'mat-card-pref-selected': isSelectedLive(''), 'mat-card-pref': !isSelectedLive('')}">
-                <div class="text-center w-100" style="padding-top: 8px">
-                  <mat-label class="font-size-14 weight-600">{{ 'all categories' }}</mat-label>
-                </div>
-              </div>
-              <div *ngFor="let cat of generalService?.clientInit?.categories"
-                   class="m-2 d-inline-flex shadow-none cursor-pointer p-2"
-                   (click)="selectCatLive(cat)"
-                   [class]="{'mat-card-pref-selected': isSelectedLive(cat), 'mat-card-pref': !isSelectedLive(cat)}">
-                <div style="text-align: start;">
-                  <img [src]="'https://api.staging.1qma.games/' + cat?.icon" width="35">
-                  <mat-label>{{ cat?.name }}</mat-label>
-                </div>
-              </div>
+              <!--              <div class="m-2 d-inline-flex shadow-none cursor-pointer p-3"-->
+              <!--                   (click)="selectCatLive('')"-->
+              <!--                   [class]="{'mat-card-pref-selected': isSelectedLive(''), 'mat-card-pref': !isSelectedLive('')}">-->
+              <!--                <div class="text-center w-100" style="padding-top: 8px">-->
+              <!--                  <mat-label class="font-size-14 weight-600">{{ 'all categories' }}</mat-label>-->
+              <!--                </div>-->
+              <!--              </div>-->
+              <!--              <div *ngFor="let cat of generalService?.clientInit?.categories"-->
+              <!--                   class="m-2 d-inline-flex shadow-none cursor-pointer p-2"-->
+              <!--                   (click)="selectCatLive(cat)"-->
+              <!--                   [class]="{'mat-card-pref-selected': isSelectedLive(cat), 'mat-card-pref': !isSelectedLive(cat)}">-->
+              <!--                <div style="text-align: start;">-->
+              <!--                  <img [src]="'https://api.staging.1qma.games/' + cat?.icon" width="35">-->
+              <!--                  <mat-label>{{ cat?.name }}</mat-label>-->
+              <!--                </div>-->
+              <!--              </div>-->
+              <mat-form-field appearance="fill" class="custom-form-field ms-3"
+                              [class]="{'w-50': !generalService.isMobileView, 'w-100': generalService.isMobileView}">
+                <mat-label>{{ 'Category' | translate }}</mat-label>
+                <mat-select (selectionChange)="selectCatLive($event.value)">
+                  <mat-option [value]="''">
+                    {{ 'all categories' | translate }}
+                  </mat-option>
+                  <mat-option *ngFor="let cat of generalService.clientInit?.categories" [value]="cat._id">
+                    <img [src]="'https://api.staging.1qma.games/' + cat?.icon" width="20" height="20">
+                    {{ cat?.name }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
             </div>
             <mat-card-content class="d-flex overflow-scroll">
               <mat-card *ngFor="let liveGame of liveGames"
@@ -405,7 +422,8 @@
           <mat-card class="shadow-none w-100">
             <mat-card-header id="survival">
               <img mat-card-avatar src="assets/images/survival-game.png" width="45" height="45">
-              <mat-card-title class="font-size-16 weight-600">{{'Survival' | translate}} {{scoreboardSurvival?.survivalTitle}}</mat-card-title>
+              <mat-card-title
+                class="font-size-16 weight-600">{{'Survival' | translate}} {{scoreboardSurvival?.survivalTitle}}</mat-card-title>
               <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
                 {{'See and join survival games' | translate}}
               </mat-card-subtitle>
@@ -490,23 +508,36 @@
                   <br>
                   <br>
                   <div class="d-flex overflow-scroll mb-2">
-                    <div class="ms-2 me-2 d-inline-flex shadow-none cursor-pointer p-3"
-                         (click)="selectCatLiveSurvival('')"
-                         [class]="{'mat-card-pref-small-selected': isSelectedLiveSurvival(''), 'mat-card-pref-small': !isSelectedLiveSurvival('')}">
-                      <div class="text-center w-100 d-flex align-items-center">
-                        <mat-label
-                          class="font-size-10 weight-600">{{ 'all categories' }}</mat-label>
-                      </div>
-                    </div>
-                    <div *ngFor="let cat of generalService?.clientInit?.categories"
-                         class="ms-2 me-2 d-inline-flex shadow-none cursor-pointer p-2"
-                         (click)="selectCatLiveSurvival(cat)"
-                         [class]="{'mat-card-pref-small-selected': isSelectedLiveSurvival(cat), 'mat-card-pref-small': !isSelectedLiveSurvival(cat)}">
-                      <div class="d-flex align-items-center">
-                        <img [src]="'https://api.staging.1qma.games/' + cat?.icon" width="15">
-                        <mat-label class="font-size-10 weight-600">{{ cat?.name }}</mat-label>
-                      </div>
-                    </div>
+                    <!--                    <div class="ms-2 me-2 d-inline-flex shadow-none cursor-pointer p-3"-->
+                    <!--                         (click)="selectCatLiveSurvival('')"-->
+                    <!--                         [class]="{'mat-card-pref-small-selected': isSelectedLiveSurvival(''), 'mat-card-pref-small': !isSelectedLiveSurvival('')}">-->
+                    <!--                      <div class="text-center w-100 d-flex align-items-center">-->
+                    <!--                        <mat-label-->
+                    <!--                          class="font-size-10 weight-600">{{ 'all categories' }}</mat-label>-->
+                    <!--                      </div>-->
+                    <!--                    </div>-->
+                    <!--                    <div *ngFor="let cat of generalService?.clientInit?.categories"-->
+                    <!--                         class="ms-2 me-2 d-inline-flex shadow-none cursor-pointer p-2"-->
+                    <!--                         (click)="selectCatLiveSurvival(cat)"-->
+                    <!--                         [class]="{'mat-card-pref-small-selected': isSelectedLiveSurvival(cat), 'mat-card-pref-small': !isSelectedLiveSurvival(cat)}">-->
+                    <!--                      <div class="d-flex align-items-center">-->
+                    <!--                        <img [src]="'https://api.staging.1qma.games/' + cat?.icon" width="15">-->
+                    <!--                        <mat-label class="font-size-10 weight-600">{{ cat?.name }}</mat-label>-->
+                    <!--                      </div>-->
+                    <!--                    </div>-->
+                    <mat-form-field appearance="fill" class="custom-form-field"
+                                    [class]="{'w-50': !generalService.isMobileView, 'w-100': generalService.isMobileView}">
+                      <mat-label>{{ 'Category' | translate }}</mat-label>
+                      <mat-select (selectionChange)="selectCatLiveSurvival($event.value)">
+                        <mat-option [value]="''">
+                          {{ 'all categories' | translate }}
+                        </mat-option>
+                        <mat-option *ngFor="let cat of generalService.clientInit?.categories" [value]="cat._id">
+                          <img [src]="'https://api.staging.1qma.games/' + cat?.icon" width="20" height="20">
+                          {{ cat?.name }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
                   </div>
                   <mat-grid-list *ngFor="let res of liveSurvival;let i=index"
                                  [dir]="generalService.direction"
@@ -540,7 +571,8 @@
                       </div>
                     </mat-grid-tile>
                     <mat-grid-tile [colspan]="1" (click)="joinToGame(res?.code)">
-                      <svg *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'" width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <svg *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'" width="25" height="25"
+                           viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
                           d="M9.53223 20.4084L16.0522 13.8884C16.8222 13.1184 16.8222 11.8584 16.0522 11.0884L9.53223 4.56836"
                           stroke="#0B6FEA" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
@@ -548,9 +580,10 @@
                       </svg>
                       <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg"
                            *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'">
-                        <path d="M9.2439 11.2694L5.43766 7.75383C4.98816 7.33865 4.98816 6.65926 5.43766 6.24408L9.2439 2.72852"
-                              stroke="#0B6FEA" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
-                              stroke-linejoin="round"/>
+                        <path
+                          d="M9.2439 11.2694L5.43766 7.75383C4.98816 7.33865 4.98816 6.65926 5.43766 6.24408L9.2439 2.72852"
+                          stroke="#0B6FEA" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                          stroke-linejoin="round"/>
                       </svg>
                     </mat-grid-tile>
                   </mat-grid-list>
@@ -568,7 +601,7 @@
                       <img style="border: 1px solid #E8E2E0;border-radius: 50px; background: white;"
                            [src]="res?.creator?.profilePicture ? res?.creator?.profilePicture?.startsWith('http') ? res?.creator?.profilePicture : configService.url(res?.creator?.profilePicture) : 'assets/images/frame.png'"
                            (error)="handleImageError($event)" width="40">&nbsp;&nbsp;
-                           (error)="handleImageError($event)" width="40">&nbsp;&nbsp;
+                      (error)="handleImageError($event)" width="40">&nbsp;&nbsp;
                       <mat-label>{{res?.creator?.firstName}} {{res?.creator?.lastName}}</mat-label>
                     </mat-grid-tile>
                     <mat-grid-tile class="result-grid" [colspan]="3">
@@ -588,7 +621,8 @@
                       </div>
                     </mat-grid-tile>
                     <mat-grid-tile [colspan]="1" (click)="gotoResult(res?._id)">
-                      <svg *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'" width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <svg *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'" width="25" height="25"
+                           viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
                           d="M9.53223 20.4084L16.0522 13.8884C16.8222 13.1184 16.8222 11.8584 16.0522 11.0884L9.53223 4.56836"
                           stroke="#0B6FEA" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
@@ -596,9 +630,10 @@
                       </svg>
                       <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg"
                            *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'">
-                        <path d="M9.2439 11.2694L5.43766 7.75383C4.98816 7.33865 4.98816 6.65926 5.43766 6.24408L9.2439 2.72852"
-                              stroke="#0B6FEA" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
-                              stroke-linejoin="round"/>
+                        <path
+                          d="M9.2439 11.2694L5.43766 7.75383C4.98816 7.33865 4.98816 6.65926 5.43766 6.24408L9.2439 2.72852"
+                          stroke="#0B6FEA" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                          stroke-linejoin="round"/>
                       </svg>
                     </mat-grid-tile>
                   </mat-grid-list>
@@ -637,8 +672,8 @@
                   [class]="{'next-step-game': !generalService.isMobileView, 'next-step-game-mobile': generalService.isMobileView}"
                   (click)="gotoStepTwo(0)">
             {{'Create Game' | translate}}
-            <i  *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'" class="bi bi-arrow-right"></i>
-            <i  *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" class="bi bi-arrow-left"></i>
+            <i *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'" class="bi bi-arrow-right"></i>
+            <i *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" class="bi bi-arrow-left"></i>
           </button>
         </mat-card>
         <mat-card class="shadow-none"
@@ -657,7 +692,7 @@
                   (click)="gotoStepTwo(1)">
             {{'Create Game' | translate}}
             <i *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'" class="bi bi-arrow-right"></i>
-            <i  *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" class="bi bi-arrow-left"></i>
+            <i *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" class="bi bi-arrow-left"></i>
           </button>
         </mat-card>
         <mat-card class="shadow-none"
@@ -675,7 +710,7 @@
                   (click)="gotoStepTwo(2)">
             {{'Create Game' | translate}}
             <i *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'" class="bi bi-arrow-right"></i>
-            <i  *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" class="bi bi-arrow-left"></i>
+            <i *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" class="bi bi-arrow-left"></i>
           </button>
         </mat-card>
         <mat-card class="shadow-none"
@@ -693,7 +728,7 @@
                   (click)="gotoStepTwo(3)">
             {{'Create Game' | translate}}
             <i *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'" class="bi bi-arrow-right"></i>
-            <i  *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" class="bi bi-arrow-left"></i>
+            <i *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" class="bi bi-arrow-left"></i>
           </button>
         </mat-card>
         <br>
@@ -719,10 +754,12 @@
               </mat-card-subtitle>
             </mat-card-header>
             <mat-card-header *ngIf="selectedGameMode == 1">
-              <img  *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'" src="assets/images/arrow-left.svg" width="24" height="24"
+              <img *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'" src="assets/images/arrow-left.svg"
+                   width="24" height="24"
                    (click)="resetData(); createGameStep =1"
                    style="position: absolute; inset-inline-start: 10px; top: 0; bottom: 0; margin: auto;">
-              <img  *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" src="assets/images/arrow-right-1.svg" width="24" height="24"
+              <img *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" src="assets/images/arrow-right-1.svg"
+                   width="24" height="24"
                    (click)="resetData(); createGameStep =1"
                    style="position: absolute; inset-inline-start: 10px; top: 0; bottom: 0; margin: auto;">
               <img mat-card-avatar src="assets/images/Account-type.png" width="42" height="42" class="ms-4">
@@ -734,10 +771,12 @@
               </mat-card-subtitle>
             </mat-card-header>
             <mat-card-header *ngIf="selectedGameMode == 2">
-              <img  *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'" src="assets/images/arrow-left.svg" width="24" height="24"
+              <img *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'" src="assets/images/arrow-left.svg"
+                   width="24" height="24"
                    (click)="resetData(); createGameStep =1"
                    style="position: absolute; inset-inline-start: 10px; top: 0; bottom: 0; margin: auto;">
-              <img  *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" src="assets/images/arrow-right-1.svg" width="24" height="24"
+              <img *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" src="assets/images/arrow-right-1.svg"
+                   width="24" height="24"
                    (click)="resetData(); createGameStep =1"
                    style="position: absolute; inset-inline-start: 10px; top: 0; bottom: 0; margin: auto;">
               <img mat-card-avatar src="assets/images/players.png" width="42" height="42" class="ms-4">
@@ -749,10 +788,12 @@
               </mat-card-subtitle>
             </mat-card-header>
             <mat-card-header *ngIf="selectedGameMode == 3">
-              <img  *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'" src="assets/images/arrow-left.svg" width="24" height="24"
+              <img *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'" src="assets/images/arrow-left.svg"
+                   width="24" height="24"
                    (click)="resetData(); createGameStep =1"
                    style="position: absolute; inset-inline-start: 10px; top: 0; bottom: 0; margin: auto;">
-              <img  *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" src="assets/images/arrow-right-1.svg" width="24" height="24"
+              <img *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" src="assets/images/arrow-right-1.svg"
+                   width="24" height="24"
                    (click)="resetData(); createGameStep =1"
                    style="position: absolute; inset-inline-start: 10px; top: 0; bottom: 0; margin: auto;">
               <img mat-card-avatar class="ms-4" src="assets/images/players.png" width="36" height="36">
@@ -828,22 +869,37 @@
 
       <div class="card border-0" *ngIf="createGameStep == 2 && (selectedGameMode == 1 || selectedGameMode ==3)">
         <div class="w-100 d-flex">
-          <mat-card class="shadow-none">
+          <mat-card class="shadow-none w-100">
             <mat-card-header class="m-3">
               <mat-card-title class="font-size-16 weight-700">{{'Game Category' | translate}}</mat-card-title>
               <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
                 {{'Choose game category' | translate}}
               </mat-card-subtitle>
             </mat-card-header>
-            <mat-card-content>
-              <mat-card *ngFor="let cat of generalService?.gameInit?.categories"
-                        class="m-2 d-inline-block shadow-none cursor-pointer"
-                        (click)="selectCat(cat)"
-                        [class]="{'mat-card-pref-selected': isSelected(cat), 'mat-card-pref': !isSelected(cat)}">
-                <mat-card-content style="text-align: start; padding: 16px 5px">
-                  <img [src]="'https://api.staging.1qma.games/' + cat?.icon" width="35">
-                  <mat-label>{{ cat.name }}</mat-label>
-                </mat-card-content>
+            <mat-card-content class="w-100">
+              <!--              <mat-card *ngFor="let cat of generalService?.gameInit?.categories"-->
+              <!--                        class="m-2 d-inline-block shadow-none cursor-pointer"-->
+              <!--                        (click)="selectCat(cat)"-->
+              <!--                        [class]="{'mat-card-pref-selected': isSelected(cat), 'mat-card-pref': !isSelected(cat)}">-->
+              <!--                <mat-card-content style="text-align: start; padding: 16px 5px">-->
+              <!--                  <img [src]="'https://api.staging.1qma.games/' + cat?.icon" width="35">-->
+              <!--                  <mat-label>{{ cat.name }}</mat-label>-->
+              <!--                </mat-card-content>-->
+              <!--              </mat-card>-->
+              <mat-card class="m-2 d-inline-block shadow-none cursor-pointer w-100">
+                <mat-form-field appearance="fill" class="custom-form-field"
+                                [class]="{'w-50': !generalService.isMobileView, 'w-100': generalService.isMobileView}">
+                  <mat-label>{{ 'Category' | translate }}</mat-label>
+                  <mat-select (selectionChange)="selectCat($event.value)">
+                    <mat-option [value]="''">
+                      {{ 'all categories' | translate }}
+                    </mat-option>
+                    <mat-option *ngFor="let cat of generalService.gameInit?.categories" [value]="cat._id">
+                      <img [src]="'https://api.staging.1qma.games/' + cat?.icon" width="20" height="20">
+                      {{ cat?.name }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
               </mat-card>
             </mat-card-content>
           </mat-card>
@@ -1022,7 +1078,7 @@
                   (click)="startingGame()">
             {{'Create Game' | translate}}
             <i *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'" class="bi bi-arrow-right"></i>
-            <i  *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" class="bi bi-arrow-left"></i>
+            <i *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" class="bi bi-arrow-left"></i>
           </button>
         </mat-card>
       </div>
@@ -1090,10 +1146,12 @@
         <div class="w-100 d-flex">
           <mat-card class="shadow-none">
             <mat-card-header>
-              <img  *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'" src="assets/images/arrow-left.svg" width="24" height="24"
+              <img *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'" src="assets/images/arrow-left.svg"
+                   width="24" height="24"
                    (click)="findFriendStep =1"
                    style="position: absolute; inset-inline-start: 10px; top: 0; bottom: 0; margin: auto;">
-              <img  *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" src="assets/images/arrow-right-1.svg" width="24" height="24"
+              <img *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" src="assets/images/arrow-right-1.svg"
+                   width="24" height="24"
                    (click)="findFriendStep =1"
                    style="position: absolute; inset-inline-start: 10px; top: 0; bottom: 0; margin: auto;">
               <img mat-card-avatar src="assets/images/find-user-game.png" width="46" height="46" class="ms-4">

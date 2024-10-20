@@ -68,6 +68,7 @@ export class AppComponent implements OnInit {
       });
 
       this.generalService.socket.on("notification:modal", (arg: any) => {
+        console.log(arg)
         const dialogConfig = new MatDialogConfig();
         if (this.generalService.isMobileView) { // Assuming mobile devices are <= 768px
           dialogConfig.width = '100vw';

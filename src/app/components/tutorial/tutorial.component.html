@@ -1,7 +1,7 @@
 <br>
 <br *ngIf="generalService?.startingGameTutorial">
 <br *ngIf="generalService?.startingGameTutorial">
-<div *ngIf="gameStep == 1">
+<div *ngIf="generalService.gameTutorialStep == 1 && generalService.startingGameTutorial">
   <div class="card border-0" *ngIf="!loading">
     <mat-card class="shadow-none radius">
       <mat-card-header
@@ -113,7 +113,7 @@
   </div>
 </div>
 
-<div *ngIf="gameStep == 2">
+<div *ngIf="generalService.gameTutorialStep == 2">
   <div class="card border-0">
     <mat-card class="shadow-none radius">
       <mat-card-header
@@ -217,7 +217,7 @@
   </div>
 </div>
 
-<div *ngIf="gameStep == 3">
+<div *ngIf="generalService.gameTutorialStep == 3">
   <div class="card border-0">
     <mat-card class="shadow-none radius">
       <mat-card-header
@@ -343,7 +343,7 @@
   </div>
 </div>
 
-<div *ngIf="gameStep == 4">
+<div *ngIf="generalService.gameTutorialStep == 4">
   <div class="card border-0">
     <mat-card class="shadow-none radius">
       <mat-card-header
@@ -440,7 +440,7 @@
 
 <div class="card border-0" style="margin: 20px auto 20px; width: 100%"
      [class]="{'p-4': !generalService.isMobileView, 'p-2': generalService.isMobileView}"
-     *ngIf="gameStep != 1 && gameStep != 5">
+     *ngIf="generalService.gameTutorialStep != 1 && generalService.gameTutorialStep != 5">
   <footer>
     <div style=" display: flex; justify-content: space-between; align-items: center;"
          *ngIf="generalService.startingGameTutorial"
@@ -464,13 +464,13 @@
         <app-countdown-timer
           [style]="generalService.isMobileView ? 'position: absolute;top: -12px;inset-inline-end: 25px;' : ''"
           [duration]="tutorialInit?.eachStepDurationSeconds"
-          (countdownFinished)="gameStep == 2 ? handleCountdownSendAnswerFinished() :
-                              gameStep == 3 ? handleCountdownRatingAnswerFinished() : handleCountdownRatingQuestionsFinished()"></app-countdown-timer>
+          (countdownFinished)="generalService.gameTutorialStep == 2 ? handleCountdownSendAnswerFinished() :
+                              generalService.gameTutorialStep == 3 ? handleCountdownRatingAnswerFinished() : handleCountdownRatingQuestionsFinished()"></app-countdown-timer>
         <button mat-raised-button color="primary" class="next-step ms-3" *ngIf="!generalService.isMobileView"
-                [disabled]="gameStep == 2 ?  sendAnswerDisable:
-gameStep == 3 ? sendRateAnswerDisable : sendRateQuestionsDisable"
-                (click)="gameStep == 2 ?  sendAnswer():
-gameStep == 3 ? sendRateAnswer(true) : sendRateQuestions(true)">
+                [disabled]="generalService.gameTutorialStep == 2 ?  sendAnswerDisable:
+generalService.gameTutorialStep == 3 ? sendRateAnswerDisable : sendRateQuestionsDisable"
+                (click)="generalService.gameTutorialStep == 2 ?  sendAnswer():
+generalService.gameTutorialStep == 3 ? sendRateAnswer(true) : sendRateQuestions(true)">
           {{'Next' | translate}}
           <i *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'" class="bi bi-arrow-right"></i>
           <i *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" class="bi bi-arrow-left"></i>
@@ -479,25 +479,27 @@ gameStep == 3 ? sendRateAnswer(true) : sendRateQuestions(true)">
     </div>
     <button mat-raised-button color="primary" class="w-100"
             *ngIf="generalService.isMobileView && generalService.startingGameTutorial"
-            [disabled]="gameStep == 2 ?  sendAnswerDisable:
-gameStep == 3 ? sendRateAnswerDisable : sendRateQuestionsDisable"
-            (click)="gameStep == 2 ?  sendAnswer():
-gameStep == 3 ? sendRateAnswer(true) : sendRateQuestions(true)">
+            [disabled]="generalService.gameTutorialStep == 2 ?  sendAnswerDisable:
+generalService.gameTutorialStep == 3 ? sendRateAnswerDisable : sendRateQuestionsDisable"
+            (click)="generalService.gameTutorialStep == 2 ?  sendAnswer():
+generalService.gameTutorialStep == 3 ? sendRateAnswer(true) : sendRateQuestions(true)">
       {{'Next' | translate}}
       <i *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'" class="bi bi-arrow-right"></i>
       <i *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" class="bi bi-arrow-left"></i>
     </button>
-    <div style="margin: 0 auto; width: 100%; text-align: center">
-      <button mat-raised-button color="primary" class="w-40" *ngIf="!generalService.startingGameTutorial"
-              (click)="startTutorial()">
-        {{'Start Tutorial' | translate}}
-      </button>
-    </div>
   </footer>
 </div>
 
+<div class="card border-0" style="margin: 20px auto; width: 100%; text-align: center; padding: 20px"
+     *ngIf="!generalService?.startingGameTutorial">
+  <button mat-raised-button color="primary" class="w-40" *ngIf="!generalService.startingGameTutorial"
+          (click)="startTutorial()" style="margin: 0 auto">
+    {{'Start Tutorial' | translate}}
+  </button>
+</div>
+
 <!--result-->
-<div *ngIf="gameStep == 5">
+<div *ngIf="generalService.gameTutorialStep == 5">
   <div class="card border-0">
     <mat-card class="shadow-none radius">
       <mat-card-header

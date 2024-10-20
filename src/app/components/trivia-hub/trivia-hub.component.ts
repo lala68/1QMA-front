@@ -81,7 +81,7 @@ export class TriviaHubComponent implements OnInit {
       this.library = [];
       this.libraryQuestions = [];
       this.loadingContent = true;
-      this.clientService.getUserQuestions(this.selectedCategory[0] ? this.selectedCategory[0]._id : '', this.generalService.selectedTabIndexQuestionChildInTrivia == 0
+      this.clientService.getUserQuestions(this.selectedCategory ? this.selectedCategory : '', this.generalService.selectedTabIndexQuestionChildInTrivia == 0
         ? 'trivia'
         : this.generalService.selectedTabIndexQuestionChildInTrivia == 1
           ? 'private'
@@ -208,23 +208,23 @@ export class TriviaHubComponent implements OnInit {
     return this.selectedCategory.some((category: any) => category._id === item._id);
   }
 
-  async selectCat(item: any) {
+  async selectCat(id: any) {
     this.page = 1;
     this.selectedCategory = [];
-    this.selectedCategory.push(item);
+    this.selectedCategory.push(id);
     await this.ngOnInit();
   }
 
-  async selectCatGame(item: any) {
+  async selectCatGame(id: any) {
     this.selectedCategory = [];
-    this.selectedCategory.push(item);
+    this.selectedCategory.push(id);
     await this.changeGames();
   }
 
   async changeGames() {
     this.loadingContent = true;
     this.gameService.getAllOrMyGames(this.generalService.selectedTabIndexGameChildInTrivia == 0 ? '' : 'private',
-      this.selectedCategory[0] ? this.selectedCategory[0]._id : '', 10, 1, this.selectedSortOptionGame).then(data => {
+      this.selectedCategory ? this.selectedCategory : '', 10, 1, this.selectedSortOptionGame).then(data => {
       this.loadingContent = false;
       this.gameData = data.data;
     }, error => {

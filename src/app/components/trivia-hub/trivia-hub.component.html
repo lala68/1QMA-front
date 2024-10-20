@@ -25,25 +25,38 @@
             <br>
             <!--  private-->
             <div class="d-flex overflow-scroll">
-              <div class="m-2 d-inline-flex shadow-none cursor-pointer p-2"
-                   (click)="selectCat('')"
-                   [class]="{'mat-card-pref-selected': isSelected(''), 'mat-card-pref': !isSelected('')}">
-                <div class="text-center w-100" style="padding-top: 8px">
-                  <mat-label class="font-size-14 weight-600">{{ 'all categories' }}</mat-label>
-                </div>
-              </div>
-              <div *ngFor="let cat of generalService?.clientInit?.categories"
-                   class="m-2 d-inline-flex shadow-none cursor-pointer p-2"
-                   (click)="selectCat(cat)"
-                   [class]="{'mat-card-pref-selected': isSelected(cat), 'mat-card-pref': !isSelected(cat)}">
-                <div class="text-start">
-                  <img [src]="'https://api.staging.1qma.games/' + cat?.icon" width="35">
-                  <mat-label>{{ cat?.name }}</mat-label>
-                </div>
-              </div>
+<!--              <div class="m-2 d-inline-flex shadow-none cursor-pointer p-2"-->
+<!--                   (click)="selectCat('')"-->
+<!--                   [class]="{'mat-card-pref-selected': isSelected(''), 'mat-card-pref': !isSelected('')}">-->
+<!--                <div class="text-center w-100" style="padding-top: 8px">-->
+<!--                  <mat-label class="font-size-14 weight-600">{{ 'all categories' }}</mat-label>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              <div *ngFor="let cat of generalService?.clientInit?.categories"-->
+<!--                   class="m-2 d-inline-flex shadow-none cursor-pointer p-2"-->
+<!--                   (click)="selectCat(cat)"-->
+<!--                   [class]="{'mat-card-pref-selected': isSelected(cat), 'mat-card-pref': !isSelected(cat)}">-->
+<!--                <div class="text-start">-->
+<!--                  <img [src]="'https://api.staging.1qma.games/' + cat?.icon" width="35">-->
+<!--                  <mat-label>{{ cat?.name }}</mat-label>-->
+<!--                </div>-->
+<!--              </div>-->
+              <mat-form-field appearance="fill" class="custom-form-field m-2"
+                              [class]="{'w-50': !generalService.isMobileView, 'w-100': generalService.isMobileView}">
+                <mat-label>{{ 'Category' | translate }}</mat-label>
+                <mat-select (selectionChange)="selectCat($event.value)">
+                  <mat-option [value]="''">
+                    {{ 'all categories' | translate }}
+                  </mat-option>
+                  <mat-option *ngFor="let cat of generalService.clientInit?.categories" [value]="cat._id">
+                    <img [src]="'https://api.staging.1qma.games/' + cat?.icon" width="20" height="20">
+                    {{ cat?.name }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
             </div>
             <mat-card-content *ngIf="generalService.selectedTabIndexQuestionChildInTrivia == 0" class="ps-0">
-              <div style="display: ruby-text;">
+              <div style="display: block;">
                 <mat-spinner *ngIf="loadingContent" [diameter]="30"></mat-spinner>
               </div>
               <div class="position-relative">
@@ -240,7 +253,7 @@
 
             <!--  public-->
             <mat-card-content *ngIf="generalService.selectedTabIndexQuestionChildInTrivia == 1" class="ps-0">
-              <div style="display: ruby-text;">
+              <div style="display: block;">
                 <mat-spinner *ngIf="loadingContent" [diameter]="30"></mat-spinner>
               </div>
               <div class="position-relative">
@@ -412,7 +425,7 @@
 
             <!--  bookmark-->
             <mat-card-content *ngIf="generalService.selectedTabIndexQuestionChildInTrivia == 2" class="ps-0">
-              <div style="display: ruby-text;">
+              <div style="display: block;">
                 <mat-spinner *ngIf="loadingContent" [diameter]="30"></mat-spinner>
               </div>
               <div class="position-relative">
@@ -606,25 +619,38 @@
             </mat-card-header>
             <br>
             <div class="d-flex overflow-scroll">
-              <div class="m-2 d-inline-flex shadow-none cursor-pointer p-2"
-                   (click)="selectCatGame('')"
-                   [class]="{'mat-card-pref-selected': isSelected(''), 'mat-card-pref': !isSelected('')}">
-                <div class="text-center w-100" style="padding-top: 8px">
-                  <mat-label class="font-size-14 weight-600">{{ 'all categories' }}</mat-label>
-                </div>
-              </div>
-              <div *ngFor="let cat of generalService?.clientInit?.categories"
-                   class="m-2 d-inline-flex shadow-none cursor-pointer p-2"
-                   (click)="selectCatGame(cat)"
-                   [class]="{'mat-card-pref-selected': isSelected(cat), 'mat-card-pref': !isSelected(cat)}">
-                <div class="text-start">
-                  <img [src]="'https://api.staging.1qma.games/' + cat?.icon" width="35">
-                  <mat-label>{{ cat?.name }}</mat-label>
-                </div>
-              </div>
+<!--              <div class="m-2 d-inline-flex shadow-none cursor-pointer p-2"-->
+<!--                   (click)="selectCatGame('')"-->
+<!--                   [class]="{'mat-card-pref-selected': isSelected(''), 'mat-card-pref': !isSelected('')}">-->
+<!--                <div class="text-center w-100" style="padding-top: 8px">-->
+<!--                  <mat-label class="font-size-14 weight-600">{{ 'all categories' }}</mat-label>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              <div *ngFor="let cat of generalService?.clientInit?.categories"-->
+<!--                   class="m-2 d-inline-flex shadow-none cursor-pointer p-2"-->
+<!--                   (click)="selectCatGame(cat)"-->
+<!--                   [class]="{'mat-card-pref-selected': isSelected(cat), 'mat-card-pref': !isSelected(cat)}">-->
+<!--                <div class="text-start">-->
+<!--                  <img [src]="'https://api.staging.1qma.games/' + cat?.icon" width="35">-->
+<!--                  <mat-label>{{ cat?.name }}</mat-label>-->
+<!--                </div>-->
+<!--              </div>-->
+              <mat-form-field appearance="fill" class="custom-form-field m-2"
+                              [class]="{'w-50': !generalService.isMobileView, 'w-100': generalService.isMobileView}">
+                <mat-label>{{ 'Category' | translate }}</mat-label>
+                <mat-select (selectionChange)="selectCatGame($event.value)">
+                  <mat-option [value]="''">
+                    {{ 'all categories' | translate }}
+                  </mat-option>
+                  <mat-option *ngFor="let cat of generalService.clientInit?.categories" [value]="cat._id">
+                    <img [src]="'https://api.staging.1qma.games/' + cat?.icon" width="20" height="20">
+                    {{ cat?.name }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
             </div>
             <mat-card-content *ngIf="generalService.selectedTabIndexGameChildInTrivia == 0">
-              <div style="display: ruby-text;">
+              <div style="display: block;">
                 <mat-spinner *ngIf="loadingContent" [diameter]="30"></mat-spinner>
               </div>
               <div>
@@ -710,7 +736,7 @@
             </mat-card-content>
 
             <mat-card-content *ngIf="generalService.selectedTabIndexGameChildInTrivia == 1">
-              <div style="display: ruby-text;">
+              <div style="display: block;">
                 <mat-spinner *ngIf="loadingContent" [diameter]="30"></mat-spinner>
               </div>
               <div class="position-relative" *ngIf="gameData?.length > 0">

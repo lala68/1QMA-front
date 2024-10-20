@@ -54,7 +54,6 @@ export class TutorialComponent {
   isDroppedQuestion: boolean = false;
   myRank: any;
   tutorialInit: any;
-  gameStep: any;
 
   constructor(public generalService: GeneralService, private router: Router, private tutorialService: TutorialService,
               public configService: ConfigService, private ngZone: NgZone, private _snackBar: MatSnackBar,
@@ -90,23 +89,22 @@ export class TutorialComponent {
     const dialogRef = this.dialog.open(JoiningTutorialGame, dialogConfig);
     dialogRef.afterClosed().subscribe(async result => {
       if (result == 'success') {
-        this.gameStep = 1;
+        this.generalService.gameTutorialStep = 1;
       }
     });
   }
 
   async handleGameStep(): Promise<void> {
-    console.log(this.gameStep)
     this.generalService.specificQuestionAnswers = '';
-    if (this.gameStep == 2) {
+    if (this.generalService.gameTutorialStep == 2) {
       this.finishedTimerRatingQuestions = false;
       this.finishedTimerRatingAnswer = false;
       await this.waitForConditionsAnswer(); // Wait for conditions to be met
-    } else if (this.gameStep == 3) {
+    } else if (this.generalService.gameTutorialStep == 3) {
       this.finishedTimerAnswer = false;
       this.finishedTimerRatingQuestions = false;
       await this.waitForConditionsRatingAnswer(); // Wait for conditions to be met
-    } else if (this.gameStep == 4) {
+    } else if (this.generalService.gameTutorialStep == 4) {
       this.finishedTimerAnswer = false;
       this.finishedTimerRatingAnswer = false;
       await this.waitForConditionsRatingQuestions(); // Wait for conditions to be met
@@ -114,7 +112,7 @@ export class TutorialComponent {
 
     // Ensure visibility check or NgZone handling here if necessary
     await this.ngZone.run(async () => {
-      switch (this.gameStep) {
+      switch (this.generalService.gameTutorialStep) {
         case 2:
           await this.stepTwoLogic();
           break;
@@ -125,7 +123,7 @@ export class TutorialComponent {
           await this.stepFourLogic();
           break;
         default:
-          console.warn(`Unknown game step: ${this.gameStep}`);
+          console.warn(`Unknown game step: ${this.generalService.gameTutorialStep}`);
       }
       if (this.submittedAnswer)
         // this.submittedAnswer.numberOfSubmitted = 0;
@@ -139,7 +137,7 @@ export class TutorialComponent {
       //new method  comment waitForConditionNextStepAnswer
       await this.waitForConditionNextStepAnswer();
       // console.log('waitForConditionNextStepAnswer');
-      this.gameStep = 3;
+      this.generalService.gameTutorialStep = 3;
       this.finishedTimerAnswer = false;
       const data = await this.tutorialService.getAllTutorialAnswersOfSpecificQuestion(
         this.generalService.createdGameData._id,
@@ -168,7 +166,7 @@ export class TutorialComponent {
         // }
         // console.log(this.finishedTimerRatingAnswer)
         await this.waitForConditionNextStepRatingAnswer();
-        this.gameStep = 2;
+        this.generalService.gameTutorialStep = 2;
         this.finishedTimerRatingAnswer = false;
       } else if (resQue.status === -2) {
         const resQue = await this.tutorialService.getTutorialQuestionsOfGame(
@@ -176,7 +174,7 @@ export class TutorialComponent {
         );
         console.log(this.finishedTimerRatingQuestions)
         await this.waitForConditionNextStepRatingAnswer();
-        this.gameStep = 4;
+        this.generalService.gameTutorialStep = 4;
         this.generalService.allQuestions = resQue.data;
         this.updateRatesQuestions(this.generalService.rateQuestions.length !== 0);
       }
@@ -288,7 +286,7 @@ export class TutorialComponent {
       }
     } else {
       this.generalService.gameAnswerGeneral = '';
-      this.gameStep = 3;
+      this.generalService.gameTutorialStep = 3;
       this.countdownTimer.resetTimer(3);
       this.nextStepTriggeredAnswer = false;
       this.nextStepTriggeredRatingAnswer = false;
@@ -324,7 +322,7 @@ export class TutorialComponent {
       }
     } else {
       if (this.generalService.gameQuestion?.step == this.generalService.gameInit?.numberOfPlayers) {
-        this.gameStep = 4;
+        this.generalService.gameTutorialStep = 4;
         this.countdownTimer.resetTimer(4);
         const resQue = await this.tutorialService.getTutorialQuestionsOfGame(
           this.generalService.createdGameData._id
@@ -332,7 +330,7 @@ export class TutorialComponent {
         this.generalService.allQuestions = resQue.data;
         this.updateRatesQuestions(this.generalService.rateQuestions.length !== 0);
       } else {
-        this.gameStep = 2;
+        this.generalService.gameTutorialStep = 2;
         this.countdownTimer.resetTimer(2);
         this.nextStepTriggeredAnswer = false;
         this.nextStepTriggeredRatingAnswer = false;
@@ -364,7 +362,7 @@ export class TutorialComponent {
       await this.sendRateQuestions();
       this.sendRateQuestionsDisable = true;
     } else {
-      this.gameStep = 5;
+      this.generalService.gameTutorialStep = 5;
       await this.getGameResult();
     }
   }
@@ -538,7 +536,7 @@ export class TutorialComponent {
   startTutorialGame() {
     this.tutorialService.gameTutorialStart(this.generalService.createdGameData?.Category?._id, this.generalService.createdGameData?._id).then(data => {
       if (data.status == 1) {
-        this.gameStep = 2;
+        this.generalService.gameTutorialStep = 2;
         setTimeout(() => {
           this.tutorialService.getTutorialGameQuestionBasedOnStep(this.generalService.createdGameData?._id, 1).then(async resQue => {
             this.generalService.gameQuestion = resQue?.data;

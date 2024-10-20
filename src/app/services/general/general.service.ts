@@ -29,6 +29,7 @@ export class GeneralService implements OnInit {
   players: any = [];
   gameInit: any;
   gameStep: any = 1;
+  gameTutorialStep: any = 1;
   createdGameData: any;
   gameQuestion: any = '';
   specificQuestionAnswers: any;
