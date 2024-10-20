@@ -253,6 +253,10 @@ export class GamesComponent implements OnInit {
     this.generalService.players = [];
 
     this.generalService.socket.on("start game", (arg: any) => {
+      if (this.generalService.disconnectedModal) {
+        this.generalService.disconnectedModal.close();
+        this.generalService.disconnectedModal = '';
+      }
       const now = new Date();
       const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
       console.log("start game" + ' ' + `[${timeString}]  `);
@@ -419,6 +423,17 @@ export class GamesComponent implements OnInit {
 
   updateWordCountAnswerGame() {
     this.generalService.wordCountAnswer = this.questionForm.controls.answer.value ? (this.generalService.gameInit?.answerWordsLimitation - this.questionForm.controls.answer.value.trim().split(/\s+/).length) : this.generalService.gameInit?.answerWordsLimitation;
+  }
+
+  onToggleActiveTranslate(event: any) {
+    this.generalService.toggleValueTranslate = event.checked ? 1 : 0;
+    if (!this.generalService.toggleValueTranslate) {
+      this.generalService.selectedTranslatedLanguage = null;
+    }
+  }
+
+  selectTranslatedLang(id: any) {
+    this.generalService.selectedTranslatedLanguage = id;
   }
 
   joinToGame(code: any = this.gameCode) {
@@ -635,7 +650,7 @@ export class JoiningGame {
       dialogConfig.width = '100vw';
       dialogConfig.maxWidth = '100vw';
       dialogConfig.height = 'auto'; // You can specify the height if needed
-      dialogConfig.position = { bottom: '0px' };
+      dialogConfig.position = {bottom: '0px'};
       dialogConfig.panelClass = 'mobile-dialog'; // Add custom class for mobile
       dialogConfig.data = {category: [this.data?.data?.game?.category], type: this.data.data.game.gameType.id};
     } else {
@@ -690,6 +705,17 @@ export class JoiningGame {
 
   updateWordCountAnswer() {
     this.wordCountAnswer = this.questionForm.controls.answer.value ? ((this.generalService.gameInit?.answerWordsLimitation) - this.questionForm.controls.answer.value.trim().split(/\s+/).length) : this.generalService.gameInit?.answerWordsLimitation;
+  }
+
+  onToggleActiveTranslate(event: any) {
+    this.generalService.toggleValueTranslate = event.checked ? 1 : 0;
+    if (!this.generalService.toggleValueTranslate) {
+      this.generalService.selectedTranslatedLanguage = null;
+    }
+  }
+
+  selectTranslatedLang(id: any) {
+    this.generalService.selectedTranslatedLanguage = id;
   }
 
   openDialog(message: any, title: any) {

@@ -240,9 +240,9 @@ export class AddQuestion {
     return this.selectedCategory.some((category: any) => category._id === item._id);
   }
 
-  selectCat(item: any) {
+  selectCat(id: any) {
     this.selectedCategory = [];
-    this.selectedCategory.push(item);
+    this.selectedCategory.push(id);
   }
 
   async submit() {
@@ -294,7 +294,7 @@ export class ExitGame {
   }
 
   async exitGame(): Promise<void> {
-    if(this.generalService.startingGame){
+    if (this.generalService.startingGame) {
       const data = await this.gameService.exitGame(this.generalService?.startingGame ? this.generalService?.createdGameData?.game?.gameId : this.generalService?.createdGameData?._id);
       if (data.status === 1) {
         this.generalService.startingGame = false;
@@ -317,7 +317,7 @@ export class ExitGame {
         this.dialogRef.close(true);
         await this.router.navigate(['/dashboard']);
       }
-    } else if(this.generalService.startingGameTutorial){
+    } else if (this.generalService.startingGameTutorial) {
       const data = await this.tutorialService.exitTutorialGame(this.generalService?.startingGame ? this.generalService?.createdGameData?.game?.gameId : this.generalService?.createdGameData?._id);
       if (data.status === 1) {
         this.generalService.startingGame = false;

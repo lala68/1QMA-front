@@ -32,6 +32,8 @@ export class GeneralService implements OnInit {
   gameTutorialStep: any = 1;
   createdGameData: any;
   gameQuestion: any = '';
+  toggleValueTranslate: any;
+  selectedTranslatedLanguage: any;
   specificQuestionAnswers: any;
   gameAnswerGeneral: any;
   editingAnswer: boolean = true;

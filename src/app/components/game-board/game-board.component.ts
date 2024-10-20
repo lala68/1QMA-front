@@ -121,6 +121,10 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     });
 
     this.generalService.socket.on("next step", (arg: any) => {
+      if (this.generalService.disconnectedModal) {
+        this.generalService.disconnectedModal.close();
+        this.generalService.disconnectedModal = '';
+      }
       const now = new Date();
       const timeString = now.toLocaleTimeString();
       console.log("next step" + ' ' + `[${timeString}]  `);
@@ -159,6 +163,10 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     });
 
     this.generalService.socket.on("submit answer", (arg: any) => {
+      if (this.generalService.disconnectedModal) {
+        this.generalService.disconnectedModal.close();
+        this.generalService.disconnectedModal = '';
+      }
       const now = new Date();
       const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
       console.log("submit answer" + ' ' + `[${timeString}]  `);
@@ -167,6 +175,10 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     });
 
     this.generalService.socket.on("player left", (arg: any) => {
+      if (this.generalService.disconnectedModal) {
+        this.generalService.disconnectedModal.close();
+        this.generalService.disconnectedModal = '';
+      }
       const now = new Date();
       const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
       console.log("player left" + ' ' + `[${timeString}]  `);
