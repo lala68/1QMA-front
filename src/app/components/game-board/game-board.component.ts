@@ -21,6 +21,7 @@ import {ParsIntPipe} from "../../pipes/pars-int.pipe";
 import translate from "translate";
 import {ExitGame} from "../../shared/header/header.component";
 import {franc} from "franc";
+import iso6391 from "iso-639-1";
 
 @Component({
   selector: 'app-game-board',
@@ -389,7 +390,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
         await this.waitForConditionNextStepRatingAnswer();
         this.generalService.gameStep = 4;
         this.generalService.allQuestions = resQue.data;
-        for (const question of this.generalService.allQuestions.questions) {
+        for (const question of this.generalService.allQuestions) {
           question.question = await this.detectAndTranslate(question.question, this.generalService.selectedTranslatedLanguage);
         }
         this.updateRatesQuestions(this.generalService.rateQuestions.length !== 0);
@@ -715,11 +716,12 @@ export class GameBoardComponent implements OnInit, OnDestroy {
   async detectAndTranslate(question: string, targetLanguage: string) {
     // Detect the language using franc (returns ISO 639-3 format)
     const detectedLangISO6393 = franc(question);
-    console.log((detectedLangISO6393))
+    console.log((detectedLangISO6393));
+    const detectedLangISO6391 = iso6391.getCode(detectedLangISO6393);
 
     // Perform the translation
     const translatedText = await translate(question, {
-      from: detectedLangISO6393 == 'pes' || detectedLangISO6393 == 'prs' ? 'fa' : detectedLangISO6393,  // Detected language
+      from: detectedLangISO6391,  // Detected language
       to: targetLanguage,         // Target language
     });
     return translatedText;

@@ -29,6 +29,7 @@ import {IntroJsService} from "../../services/introJs/intro-js.service";
 import introJs from "intro.js";
 import {Subscription} from "rxjs";
 import {franc} from "franc";
+import iso6391 from 'iso-639-1';  // Should work now
 
 @Component({
   selector: 'app-games',
@@ -336,11 +337,12 @@ export class GamesComponent implements OnInit {
   async detectAndTranslate(question: string, targetLanguage: string) {
     // Detect the language using franc (returns ISO 639-3 format)
     const detectedLangISO6393 = franc(question);
-    console.log((detectedLangISO6393))
+    console.log((detectedLangISO6393));
+    const detectedLangISO6391 = iso6391.getCode(detectedLangISO6393);
 
     // Perform the translation
     const translatedText = await translate(question, {
-      from: detectedLangISO6393 == 'pes' || detectedLangISO6393 == 'prs' ? 'fa' : detectedLangISO6393,  // Detected language
+      from: detectedLangISO6391,  // Detected language
       to: targetLanguage,         // Target language
     });
     return translatedText;

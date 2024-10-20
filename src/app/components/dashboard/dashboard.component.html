@@ -66,10 +66,6 @@
           <path d="M3.07861 22.4883H21.0786" stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10"
                 stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-        <mat-card-subtitle class="position-absolute" style="top: 30px; inset-inline-end: 0;">
-          <small>{{'created at: ' | translate}}{{generalService.userObj?.created_at | date}}</small>
-        </mat-card-subtitle>
-
         <mat-card-header class="pe-1 ps-1 border-bottom">
           <!--          <div mat-card-avatar class="avatar-header-image-profile-dashboard"></div>-->
           <img mat-card-avatar class="avatar-bordered"
@@ -80,6 +76,9 @@
             class="font-size-14 weight-700">{{generalService.userObj?.firstName + ' ' + generalService.userObj?.lastName }}</mat-card-title>
           <mat-card-subtitle class="d-flex align-items-center font-size-12 weight-500 pt-1">
             {{generalService.userObj?.anonymousName}}
+          </mat-card-subtitle>
+          <mat-card-subtitle>
+            <small>{{'created at: ' | translate}}{{generalService.userObj?.created_at | date}}</small>
           </mat-card-subtitle>
         </mat-card-header>
         <mat-card-header class="pe-1 ps-1 border-bottom position-relative">
