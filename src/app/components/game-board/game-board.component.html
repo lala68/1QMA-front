@@ -471,7 +471,8 @@
             <div
               style="position: absolute; inset-inline-start: 30px; top: 0; bottom: 0; width: 2px; background-color: #EDF9FF;"></div>
             <!-- Vertical line -->
-            <div cdkDropList (cdkDropListDropped)="drop($event)" class="example-list">
+            <div cdkDropList (cdkDropListDropped)="drop($event)" class="example-list"
+                 [cdkDropListDisabled]="isDropListDisabled">
               <!--              generalService?.specificQuestionAnswers?.answers-->
               <div *ngFor="let answer of generalService?.specificQuestionAnswers?.answers; let i = index"
                    class="example-box">
@@ -709,7 +710,7 @@ generalService.gameStep == 3 ? sendRateAnswer(true) : sendRateQuestions(true)">
           <mat-spinner *ngIf="loading" [diameter]="30"></mat-spinner>
         </div>
         <div *ngIf="!loading">
-          <div class="d-inline-flex">
+          <div [class]="{'d-flex': !generalService.isMobileView, 'd-block': generalService.isMobileView}">
             <div class="gray-card creator">
               <img class="avatar-bordered bg-white"
                    [src]="generalService.gameResult?.creator?.profilePicture ? generalService.gameResult?.creator?.profilePicture?.startsWith('http') ? generalService.gameResult?.creator?.profilePicture : configService.url(generalService.gameResult?.creator?.profilePicture) : 'assets/images/frame.png'"
@@ -729,19 +730,17 @@ generalService.gameStep == 3 ? sendRateAnswer(true) : sendRateQuestions(true)">
                         stroke-linejoin="round"/>
                 </svg>
               </div>
-              <button style="height: 40px !important;" mat-raised-button color="primary" class="next-step ms-3"
-                      [routerLink]="'/report-bug'">
+              <button style="height: 40px !important;" mat-raised-button color="primary" class="next-step ms-3" (click)="gotoReportPage()">
                 {{'Report bug' | translate}}
               </button>
               <button style="height: 40px !important;" mat-raised-button color="primary" class="next-step ms-3"
                       (click)="newGame()">
                 {{'New Game' | translate}}
               </button>
-
             </div>
           </div>
           <br>
-          <mat-divider class="mt-3"></mat-divider>
+          <mat-divider [class]="{'mt-3': !generalService.isMobileView, 'mt-5': generalService.isMobileView}"></mat-divider>
           <br>
           <div class="w-100  text-center"
                [class]="{'d-inline-flex': !generalService.isMobileView, 'd-block': generalService.isMobileView}">
@@ -1174,12 +1173,10 @@ generalService.gameStep == 3 ? sendRateAnswer(true) : sendRateQuestions(true)">
                          [src]="answer?.answerer?.profilePicture ? answer?.answerer?.profilePicture?.startsWith('http') ? answer?.answerer?.profilePicture : configService.url(answer?.answerer?.profilePicture) : 'assets/images/frame.png'"
                          width="40" height="40">
                     &nbsp;<span
-                    class="font-size-14 weight-700 pe-2"
-                    [ngClass]="generalService.userObj?.preferedLanguage?.code != 'fa' ? 'exo-font' : 'peyda-font'">{{answer?.answerer?.firstName}} {{answer?.answerer?.lastName}}</span>
+                    class="font-size-14 weight-700 pe-2">{{answer?.answerer?.firstName}} {{answer?.answerer?.lastName}}</span>
                     <br>
                     <br>
                     <mat-label
-                      [ngClass]="generalService.userObj?.preferedLanguage?.code != 'fa' ? 'exo-font' : 'peyda-font'"
                       class="font-size-14 weight-400">{{answer?.answer}}</mat-label>
                     <br>
                     <br>

@@ -90,7 +90,6 @@ export class GeneralService implements OnInit {
         this.userId = this.userObj._id;
       }
     }
-    console.log(this.userObj)
   }
 
   async getItem(key: string): Promise<any> {

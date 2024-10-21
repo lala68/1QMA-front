@@ -782,11 +782,10 @@ generalService.gameTutorialStep == 3 ? sendRateAnswer(true) : sendRateQuestions(
                          width="40" height="40">
                     &nbsp;<span
                     class="font-size-14 weight-700 pe-2"
-                    [ngClass]="generalService.userObj?.preferedLanguage?.code != 'fa' ? 'exo-font' : 'peyda-font'">{{answer?.answerer?.firstName}} {{answer?.answerer?.lastName}}</span>
+                  >{{answer?.answerer?.firstName}} {{answer?.answerer?.lastName}}</span>
                     <br>
                     <br>
                     <mat-label
-                      [ngClass]="generalService.userObj?.preferedLanguage?.code != 'fa' ? 'exo-font' : 'peyda-font'"
                       class="font-size-14 weight-400">{{answer?.answer}}</mat-label>
                     <br>
                     <br>

@@ -83,23 +83,31 @@
                         [class]="{'w-50': !generalService.isMobileView, 'w-100': generalService.isMobileView}">
           <mat-label>{{'Country' | translate}}</mat-label>
           <mat-select [formControlName]="'country'">
-            <ngx-mat-select-search [formControl]="countryFilterCtrl" placeholderLabel="{{'Search Country' | translate}}"
-                                   noEntriesFoundLabel="No countries found">
-            </ngx-mat-select-search>
+            <mat-option>
+              <ngx-mat-select-search [formControl]="countryFilterCtrl"
+                                     placeholderLabel="{{'Search Country' | translate}}"
+                                     noEntriesFoundLabel="{{'No countries found' | translate}}">
+              </ngx-mat-select-search>
+            </mat-option>
             <mat-option *ngFor="let country of filteredCountries"
                         [value]="country.name"
-                        (onSelectionChange)="generalService.getCitiesBasedOnCountry(country.code)">{{country.name}}</mat-option>
+                        (onSelectionChange)="generalService.getCitiesBasedOnCountry(country.code)">
+              {{country.name}}
+            </mat-option>
           </mat-select>
         </mat-form-field>
+
         <span *ngIf="!generalService.isMobileView">&nbsp;&nbsp;</span>
         <mat-form-field class="custom-form-field" appearance="fill"
                         [class]="{'w-50': !generalService.isMobileView, 'w-100': generalService.isMobileView}">
           <mat-label>{{'City' | translate}}</mat-label>
           <mat-select [formControlName]="'city'">
-            <ngx-mat-select-search [formControl]="generalService.cityFilterCtrl"
-                                   placeholderLabel="{{'Search City' | translate}}"
-                                   noEntriesFoundLabel="No cities found">
-            </ngx-mat-select-search>
+            <mat-option>
+              <ngx-mat-select-search [formControl]="generalService.cityFilterCtrl"
+                                     placeholderLabel="{{'Search City' | translate}}"
+                                     noEntriesFoundLabel="No cities found">
+              </ngx-mat-select-search>
+            </mat-option>
             <mat-option *ngFor="let cty of generalService?.filteredCities" [value]="cty">{{cty}}</mat-option>
           </mat-select>
         </mat-form-field>
@@ -142,7 +150,8 @@
             <mat-label
               class="font-size-16 weight-400">{{'Description' | translate}}</mat-label>
           </div>
-          <div class="position-absolute link-text" style="inset-inline-end: 16px; top: 40%">{{'Change Plan' | translate}}</div>
+          <div class="position-absolute link-text"
+               style="inset-inline-end: 16px; top: 40%">{{'Change Plan' | translate}}</div>
         </div>
       </div>
       <br>
@@ -154,5 +163,18 @@
       <!--    {{error}}-->
       <!--  </div>-->
     </form>
+  </div>
+</div>
+<br>
+<br>
+<div [class]="{'d-inline-flex': !generalService.isMobileView, 'd-block': generalService.isMobileView}" *ngIf="!loading">
+  <div class="card border-0"
+       [class]="{'p-4': !generalService.isMobileView, 'p-2': generalService.isMobileView}"
+       [style]="generalService.isMobileView ? 'width: 100%' : 'width: 850px; margin-inline-start: 220px'"
+       *ngIf="generalService.userObj">
+    <mat-label class="font-size-14 weight-700">{{'Deactivate Account' | translate}}</mat-label>
+    <mat-slide-toggle labelPosition="before" [(ngModel)]="isAccountDeactivated"
+                      (change)="openDialogDeactivate('0','0',$event)">{{'Deactivate my account' | translate}}</mat-slide-toggle>
+
   </div>
 </div>

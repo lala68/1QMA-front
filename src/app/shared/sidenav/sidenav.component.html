@@ -1,35 +1,35 @@
 <main class="bg-light">
   <app-header></app-header>
-  <mat-toolbar class="mobileviewFooterButtonstoolbarNav" style="z-index: 10"
+  <mat-toolbar class="mobileviewFooterButtonstoolbarNav" style="z-index: 10; height: 70px"
                *ngIf="generalService.userId && generalService.hasCompletedSignup && (!generalService?.startingGame && !generalService?.startingGameTutorial)">
     <button mat-flat-button [routerLink]="['/dashboard']" id="dashboard"
             [class]="generalService.currentRout == '/dashboard' ? 'mat-list-item-selected' : ''"
-            routerLinkActive="active-link" class="w-20 mt-3" style="margin-top: 2px !important; height: 52px;">
+            routerLinkActive="active-link" class="w-20 mt-3" style="margin-top: 2px !important; height: 70px;">
       <img matListItemIcon src="assets/images/home.png" width="25">
       <span class="d-block">Dashboard</span>
     </button>
     <!--    <button mat-flat-button [routerLink]="['/game-board']" id="games"-->
     <button mat-flat-button [routerLink]="['/games/overview']" id="games"
             [class]="generalService.currentRout == '/games/overview' ? 'mat-list-item-selected' : ''"
-            routerLinkActive="active-link" class="w-25 mt-3" style="margin-top: 2px !important; height: 52px;">
+            routerLinkActive="active-link" class="w-25 mt-3" style="margin-top: 2px !important; height: 70px;">
       <img matListItemIcon src="assets/images/game.png" width="25">
       <span class="d-block">Games</span>
     </button>
     <button mat-flat-button [routerLink]="['/trivia-hub']" id="trivia"
             [class]="generalService.currentRout == '/trivia-hub' ? 'mat-list-item-selected' : ''"
-            routerLinkActive="active-link" class="w-20 mt-3" style="margin-top: 2px !important; height: 52px;">
+            routerLinkActive="active-link" class="w-20 mt-3" style="margin-top: 2px !important; height: 70px;">
       <img matListItemIcon src="assets/images/book-side.png" width="25">
       <span class="d-block">Trivia Hub</span>
     </button>
     <button mat-flat-button [routerLink]="['/shop']" id="shop"
             [class]="generalService.currentRout == '/shop' ? 'mat-list-item-selected' : ''"
-            routerLinkActive="active-link" class="w-20 mt-3" style="margin-top: 2px !important; height: 52px;">
+            routerLinkActive="active-link" class="w-20 mt-3" style="margin-top: 2px !important; height: 70px;">
       <img matListItemIcon src="assets/images/shop.png" width="25">
       <span class="d-block">Shop</span>
     </button>
     <button mat-flat-button (click)="gotoMore()"
             [class]="generalService.currentRout == '/more' ? 'mat-list-item-selected' : ''"
-            routerLinkActive="active-link" class="w-20 mt-3" style="margin-top: 2px !important; height: 52px;">
+            routerLinkActive="active-link" class="w-20 mt-3" style="margin-top: 2px !important; height: 70px;">
       <img matListItemIcon src="assets/images/icon-more.png" width="25">
       <span class="d-block">More</span>
     </button>
@@ -41,7 +41,7 @@
       <!--    <mat-drawer class="bg-transparent border-0" mode="side" opened s>-->
       <div class="dashboard-sidebar">
         <mat-card class="sidebar-user-detail" appearance="outlined" id="userAccount">
-          <mat-card-header class="p-3 align-items-center">
+          <mat-card-header class="p-3 align-items-center" [routerLink]="'/account-info'">
             <!--            <div mat-card-avatar class="avatar-header-image"></div>-->
             <img mat-card-avatar class="avatar-bordered mb-0"
                  [src]="generalService.userObj.profilePicture ? generalService.userObj.profilePicture?.startsWith('http') ? generalService.userObj?.profilePicture : configService.url(generalService.userObj?.profilePicture) : 'assets/images/frame.png'"
@@ -66,8 +66,8 @@
             </mat-list-item>
             <mat-list-item [routerLink]="['/games/overview']" id="games"
                            [class]="generalService.currentRout == '/games/overview' ? 'mat-list-item-selected' : ''">
-<!--                                                      <mat-list-item [routerLink]="['/game-board']"-->
-<!--                                                                     [class]="generalService.currentRout == '/games/overview' ? 'mat-list-item-selected' : ''">-->
+              <!--                    <mat-list-item [routerLink]="['/game-board']"-->
+              <!--                    [class]="generalService.currentRout == '/games/overview' ? 'mat-list-item-selected' : ''">-->
               <img matListItemIcon src="assets/images/game.png" width="25">
               <span class="font-size-14 weight-600" matListItemTitle>{{'Games' | translate}}</span>
             </mat-list-item>
@@ -141,6 +141,7 @@
     </mat-drawer-content>
   </mat-drawer-container>
 
-  <app-footer *ngIf="generalService.hasCompletedSignup && (!generalService?.startingGame && !generalService?.startingGameTutorial)"></app-footer>
+  <app-footer
+    *ngIf="generalService.hasCompletedSignup && (!generalService?.startingGame && !generalService?.startingGameTutorial)"></app-footer>
 
 </main>

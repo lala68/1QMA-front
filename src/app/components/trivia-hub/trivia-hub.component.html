@@ -112,8 +112,8 @@
                       <img src="assets/images/score.png"
                            width="16">
                       <mat-label class="font-size-12 weight-600"
-                                 style="margin: auto 5px">{{item?.score | parsInt}}
-                        <mat-label class="font-size-12 weight-600 text-gray">Score</mat-label>
+                                 style="margin: auto 5px">{{item?.score ? item?.score : 0 | parsInt}}
+                        <mat-label class="font-size-12 weight-600 text-gray">{{'Score' | translate}}</mat-label>
                       </mat-label>
                     </div>
                   </div>
@@ -122,8 +122,8 @@
                       <img src="assets/images/plays.png"
                            width="16">
                       <mat-label class="font-size-12 weight-600"
-                                 style="margin: auto 5px">{{item?.plays | parsInt}}
-                        <mat-label class="font-size-12 weight-600 text-gray">Plays</mat-label>
+                                 style="margin: auto 5px">{{item?.plays ? item?.plays : 0 | parsInt}}
+                        <mat-label class="font-size-12 weight-600 text-gray">{{'Plays' | translate}}</mat-label>
                       </mat-label>
                     </div>
                   </div>
@@ -132,8 +132,8 @@
                       <img src="assets/images/answer-questions.png"
                            width="16">
                       <mat-label class="font-size-12 weight-600"
-                                 style="margin: auto 5px">{{item?.answers | parsInt}}
-                        <mat-label class="font-size-12 weight-600 text-gray">Answers</mat-label>
+                                 style="margin: auto 5px">{{item?.answers ? item?.answers : 0 | parsInt}}
+                        <mat-label class="font-size-12 weight-600 text-gray">{{'Answers' | translate}}</mat-label>
                       </mat-label>
                     </div>
                   </div>

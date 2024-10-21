@@ -239,7 +239,7 @@ export class AppComponent implements OnInit {
                     //
                     // if (item && item.value) {
                     //   this.generalService.font = item.value;
-                    this.generalService.onFontSelect(this.generalService.userObj?.preferedFont);
+                    // this.generalService.onFontSelect(this.generalService.userObj?.preferedFont);
                     // } else {
                     //   console.log('No font value found');
                     // }

@@ -1,5 +1,4 @@
 export const environment = {
   baseUrl : 'https://api.staging.1qma.games/',
-  version: '1.0.2',
-
+  version: '1.0.3',
 };

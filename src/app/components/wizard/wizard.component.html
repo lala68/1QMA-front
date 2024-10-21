@@ -106,12 +106,17 @@
               <mat-form-field class="custom-form-field w-50" appearance="fill">
                 <mat-label>{{'Country' | translate}}</mat-label>
                 <mat-select [formControlName]="'country'">
-                  <ngx-mat-select-search [formControl]="countryFilterCtrl" placeholderLabel="{{'Search Country' | translate}}"
-                                         noEntriesFoundLabel="No countries found">
-                  </ngx-mat-select-search>
-                  <mat-option *ngFor="let country of filteredCountries"
-                              [value]="country.name"
-                              (onSelectionChange)="generalService.getCitiesBasedOnCountry(country.code)">{{country.name}}</mat-option>
+                  <mat-option>
+                    <ngx-mat-select-search [formControl]="countryFilterCtrl"
+                                           placeholderLabel="{{'Search Country' | translate}}"
+                                           noEntriesFoundLabel="No countries found">
+                    </ngx-mat-select-search>
+                  </mat-option>
+                  <mat-option>
+                    <mat-option *ngFor="let country of filteredCountries"
+                                [value]="country.name"
+                                (onSelectionChange)="generalService.getCitiesBasedOnCountry(country.code)">{{country.name}}</mat-option>
+                  </mat-option>
                 </mat-select>
               </mat-form-field>&nbsp;&nbsp;
 
@@ -169,7 +174,8 @@
           </div>
         </div>
         <br><br>
-        <swiper-container #swiper [config]="config" effect="coverflow" pagination="true" navigation="true" style="height: 250px">
+        <swiper-container #swiper [config]="config" effect="coverflow" pagination="true" navigation="true"
+                          style="height: 250px">
           <ng-container *ngFor="let slide of generalService?.initData?.furtherQuestions; let i=index">
             <swiper-slide>
               <div *ngIf="slide?.type == 'text' " class="ps-5 pe-5">
@@ -260,8 +266,9 @@
                       [style]="generalService.isMobileView ? 'width: 100%' : 'width: 192px' "
                       width="192" height="124" frameborder="0" allowfullscreen></iframe>
 
-              <div [class]="{'position-absolute': !generalService.isMobileView, 'position-relative': generalService.isMobileView}"
-                   [style]="!generalService.isMobileView ? 'left: 200px; top: 0px' : 'left: 0; '">
+              <div
+                [class]="{'position-absolute': !generalService.isMobileView, 'position-relative': generalService.isMobileView}"
+                [style]="!generalService.isMobileView ? 'left: 200px; top: 0px' : 'left: 0; '">
                 <img src="assets/images/normal-game.png" *ngIf="item?.gameType.includes('Normal')" width="22"
                      height="22">
                 <img src="assets/images/survival-game.png" *ngIf="item?.gameType.includes('Survival')"

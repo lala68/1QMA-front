@@ -292,8 +292,13 @@
 
           <mat-card-title class="font-size-12 weight-600"
                           style="color: #585858">{{'My Balance' | translate}}</mat-card-title>
-          <mat-card-subtitle class="font-size-14 weight-600 mt-2">
-            {{generalService.userObj?.assets?.coins?.bronze}} {{'Bronze' | translate}}
+          <mat-card-subtitle>
+            <img src="assets/images/coin-bronze.png"
+                 width="15">&nbsp;<span>{{generalService.userObj?.assets?.coins?.bronze}}</span>&nbsp;
+            <img src="assets/images/coin-silver.png"
+                 width="15">&nbsp;<span>{{generalService.userObj?.assets?.coins?.silver}}</span>&nbsp;
+            <img src="assets/images/coin-gold.png"
+                 width="15">&nbsp;<span>{{generalService.userObj?.assets?.coins?.gold}}</span>
           </mat-card-subtitle>
         </mat-card-header>
         <button mat-raised-button color="primary" class="next-step-shop" [disabled]="!selected"

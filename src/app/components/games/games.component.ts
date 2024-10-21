@@ -80,6 +80,8 @@ export class GamesComponent implements OnInit {
   friendsRecentSurvival: any;
   liveSurvival: any;
   questionId: any;
+  maxAnswersRatesLength: any = 0;
+  longestAnswerRateIndex: any = 0;
   scoreboards = [
     {time: '3 Days Ago', level: 'Normal', subject: 'Environment', score: 345, rank: 2},
     {time: '2 Weeks Ago', level: 'Normal', subject: 'Art', score: 345, rank: 1},
@@ -105,7 +107,6 @@ export class GamesComponent implements OnInit {
       }
     });
 
-    console.log(this.generalService.gameInit)
     this.wordCountAnswer = this.generalService.gameInit?.answerWordsLimitation;
     this.route.paramMap.subscribe(params => {
       console.log(params.get('id'))
@@ -116,6 +117,14 @@ export class GamesComponent implements OnInit {
     this.gameService.getMyScoreboard().then(data => {
       if (data.status == 1) {
         this.myScoreboard = data.data;
+
+        this.myScoreboard.forEach((item: any, index: any) => {
+          const answersRatesLength = item.result.answersRates.length;
+          if (answersRatesLength >this.maxAnswersRatesLength) {
+            this.maxAnswersRatesLength = answersRatesLength;
+            this.longestAnswerRateIndex = index;
+          }
+        });
         this.loading = false;
       }
     }, error => {

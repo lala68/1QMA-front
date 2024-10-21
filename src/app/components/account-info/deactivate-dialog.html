@@ -1,0 +1,15 @@
+<h1 mat-dialog-title>{{'Deactivate Account ?' | translate}}</h1>
+<div mat-dialog-content>
+  All actions will be removed.
+  <mat-form-field appearance="outline" class="w-100 mt-5">
+    <mat-label>Deactivate</mat-label>
+    <input matInput placeholder="Type DEACTIVATE" type="text" [(ngModel)]="deactivateInput" required>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button style="padding: .5rem 1rem; margin-left: 10px" class="btn btn-sm w-100 mb-1" color="warn" mat-raised-button
+          [disabled]="deactivateInput !== 'DEACTIVATE'" [mat-dialog-close]="deactivateInput" cdkFocusInitial>
+    <span style="color: white !important;">Deactivate</span>
+  </button>
+  <button mat-button style="padding: .5rem 1rem" [mat-dialog-close]="'cancel'" class="btn btn-close btn-sm w-100" mat-dialog-close>Cancel</button>
+</div>

@@ -17,6 +17,7 @@ import {GamesService} from "../../services/games/games.service";
 import {ProcessHTTPMsgService} from "../../services/proccessHttpMsg/process-httpmsg.service";
 import {Subject, takeUntil} from "rxjs";
 import {ImageCropperComponent, ImageCroppedEvent, LoadedImage, ImageCropperModule} from 'ngx-image-cropper';
+import {AuthService} from "../../services/auth/auth.service";
 
 
 @Component({
@@ -35,10 +36,11 @@ export class AccountInfoComponent {
   countryFilterCtrl = new FormControl();
   filteredCountries: any[] = [];
   private _onDestroy = new Subject<void>();
+  isAccountDeactivated = false;  // Initial state
 
   constructor(private clientService: ClientService, private _formBuilder: FormBuilder, private _snackBar: MatSnackBar,
               public generalService: GeneralService, public dialog: MatDialog, public configService: ConfigService,
-              private processHTTPMsgService: ProcessHTTPMsgService) {
+              private processHTTPMsgService: ProcessHTTPMsgService, private authService: AuthService) {
     this.generalService.currentRout = '';
   }
 
@@ -114,6 +116,34 @@ export class AccountInfoComponent {
       if (result == 'success') {
       }
     });
+  }
+
+  openDialogDeactivate(enterAnimationDuration: string, exitAnimationDuration: string, event: any): void {
+    const dialogRef = this.dialog.open(DeactivateDialog, {
+      width: '350px',
+      enterAnimationDuration,
+      exitAnimationDuration,
+    });
+    dialogRef.afterClosed().subscribe(async result => {
+      if (result) {
+        if (result === 'DEACTIVATE') {
+          await this.onToggleAccountActivate(event);
+          dialogRef.close();
+        } else {
+          this.isAccountDeactivated = false;  // Initial state
+        }
+      }
+    });
+  }
+
+
+  async onToggleAccountActivate(event: any) {
+    this.authService.deactivateAccount(event.checked).then(data => {
+      if (data.status == 1) {
+        this.openDialog(data.message, 'Success');
+        this.authService.forceToLoginAgain();
+      }
+    })
   }
 
   openDialog(message: any, title: any) {
@@ -307,5 +337,18 @@ export class ProfilePicture {
   isSelectedAvatar(item: any): boolean {
     return this.selectedAvatar.some((game: any) => game === item);
   }
+}
 
+@Component({
+  selector: 'deactivate-dialog',
+  templateUrl: 'deactivate-dialog.html',
+  standalone: true,
+  imports: [MaterialModule, CommonModule, FormsModule, TranslateModule],
+})
+
+export class DeactivateDialog {
+  deactivateInput: any;
+
+  constructor(public dialogRef: MatDialogRef<DeactivateDialog>) {
+  }
 }

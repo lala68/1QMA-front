@@ -150,7 +150,7 @@
                   stroke="#828282" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
 
-              <svg (click)="removeBookmark(performance?.question)" *ngIf="performance.question?.bookmarked" width="25" height="25"
+              <svg (click)="removeBookmark(performance?.question)" *ngIf="performance?.question?.bookmarked" width="25" height="25"
                    viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                   d="M17.2188 2.81494H7.57875C5.44875 2.81494 3.71875 4.55494 3.71875 6.67494V20.7649C3.71875 22.5649 5.00875 23.3249 6.58875 22.4549L11.4688 19.7449C11.9888 19.4549 12.8287 19.4549 13.3387 19.7449L18.2188 22.4549C19.7987 23.3349 21.0888 22.5749 21.0888 20.7649V6.67494C21.0788 4.55494 19.3488 2.81494 17.2188 2.81494ZM14.8988 12.2149H9.89875C9.48875 12.2149 9.14875 11.8749 9.14875 11.4649C9.14875 11.0549 9.48875 10.7149 9.89875 10.7149H14.8988C15.3088 10.7149 15.6488 11.0549 15.6488 11.4649C15.6488 11.8749 15.3088 12.2149 14.8988 12.2149Z"
@@ -268,13 +268,14 @@
                      [src]="answer?.player?.profilePicture ? answer?.player?.profilePicture?.startsWith('http') ? answer?.player?.profilePicture : configService.url(answer?.player?.profilePicture) : 'assets/images/frame.png'"
                      (error)="handleImageError($event)"
                      width="40" height="40">
+<!--                [ngClass]="generalService.userObj?.preferedLanguage?.code != 'fa' ? 'exo-font' : 'peyda-font'"-->
                 &nbsp;<span
                 class="font-size-14 weight-700 pe-2"
-                [ngClass]="generalService.userObj?.preferedLanguage?.code != 'fa' ? 'exo-font' : 'peyda-font'">{{answer?.player?.firstName}} {{answer?.player?.lastName}}</span>
+              >{{answer?.player?.firstName}} {{answer?.player?.lastName}}</span>
                 <br>
                 <br>
+<!--                [ngClass]="generalService.userObj?.preferedLanguage?.code != 'fa' ? 'exo-font' : 'peyda-font'"-->
                 <mat-label class="font-size-14 weight-400"
-                           [ngClass]="generalService.userObj?.preferedLanguage?.code != 'fa' ? 'exo-font' : 'peyda-font'"
                 >{{answer?.answer}}</mat-label>
                 <br>
                 <br>

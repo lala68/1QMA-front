@@ -472,6 +472,22 @@ export class AuthService {
     }
   }
 
+  async deactivateAccount(data: any): Promise<any> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    })
+    try {
+      const response = this.http.post<any>(this.config.url('auth/deactivate'), {id: this.generalService.userId}, {
+        headers: headers,
+        withCredentials: true
+      }).toPromise();
+      return response;
+    } catch (error) {
+      // Use ProcessHTTPMsgService to handle the error
+      return this.processHTTPMsgService.handleError(error);
+    }
+  }
+
   async forceToLoginAgain() {
     await Preferences.clear();
     this.isLoggedIn = false;

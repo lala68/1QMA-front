@@ -65,6 +65,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
   tooltipMessage1 = 'Click to copy!';
   tooltipVisible2 = false;  // Control whether the tooltip is visible
   tooltipMessage2 = 'Click to copy!';
+  isDropListDisabled: boolean = false;
 
   @HostListener('window:beforeunload', ['$event'])
   unloadNotification($event: any): void {
@@ -272,6 +273,29 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     event.stopPropagation();
   }
 
+  async gotoReportPage() {
+    this.generalService.startingGame = false;
+    this.generalService.startingGameTutorial = false;
+    this.generalService.players = [];
+    this.generalService.gameInit = '';
+    this.generalService.gameStep = 1;
+    this.generalService.gameTutorialStep = 1;
+    this.generalService.createdGameData = '';
+    this.generalService.gameQuestion = '';
+    this.generalService.specificQuestionAnswers = '';
+    this.generalService.gameAnswerGeneral = '';
+    this.generalService.editingAnswer = true;
+    this.generalService.isGameCancel = false;
+    this.generalService.allQuestions = [];
+    this.generalService.gameResult = '';
+    this.generalService.rateAnswers = [];
+    this.generalService.rateQuestions = [];
+    this.generalService.invitedPlayersArray = [];
+    this.submittedAnswer = null;
+    await this.router.navigate(['/report-bug']);
+
+  }
+
   async openShareModal(type: any, data: any) {
     // const dialogRef = this.dialog.open(ShareGame, {
     //   data: {type: type, result: data},
@@ -296,6 +320,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     console.log("gameStep" + this.generalService.gameStep);
     //maybe
     this.generalService.specificQuestionAnswers = '';
+    this.isDropListDisabled = false;
 
     if (this.generalService.gameStep == 2) {
       // this.generalService.wordCountAnswer = 100;
@@ -824,6 +849,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
 
   async sendRateAnswer(dropped: any = false): Promise<any> {
     await this.ngZone.run(async () => {
+      this.isDropListDisabled = true;
       this.sendRateAnswerDisable = true;
       this.sendAnswerDisable = false;
       this.numberOfDisconnectingInGameSteps = 0;
@@ -845,6 +871,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
   async sendRateQuestions(dropped: any = false): Promise<any> {
     this.sendRateQuestionsDisable = true;
     this.sendRateAnswerDisable = false;
+    this.isDropListDisabled = true;
     this.numberOfDisconnectingInGameSteps = 0;
     if (!dropped && this.isDroppedQuestion) {
       await this.updateRatesQuestions(true);

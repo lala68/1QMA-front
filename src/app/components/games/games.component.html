@@ -27,7 +27,7 @@
               </div>
               <br>
               <div *ngIf="!generalService.isMobileView">
-                <mat-grid-list [cols]="myScoreboard[0]?.result?.answersRates?.length + 10" rowHeight="30px"
+                <mat-grid-list [cols]="maxAnswersRatesLength + 10" rowHeight="30px"
                                [dir]="generalService.direction">
                   <mat-grid-tile class="result-grid" [colspan]="2">
                     <mat-label class="font-size-14 weight-700">{{'Played' | translate}}</mat-label>
@@ -39,11 +39,11 @@
                     <mat-label class="font-size-14 weight-700">{{'Category' | translate}}</mat-label>
                   </mat-grid-tile>
                   <mat-grid-tile class="result-grid"
-                                 [colspan]="(myScoreboard[0]?.result?.answersRates?.length + 10) - (10 + (myScoreboard[0]?.result?.answersRates?.length))">
+                                 [colspan]="(maxAnswersRatesLength + 10) - (10 + (maxAnswersRatesLength))">
                     <mat-label></mat-label>
                   </mat-grid-tile>
                   <mat-grid-tile
-                    *ngFor="let col of myScoreboard[0]?.result?.answersRates; let i=index"
+                    *ngFor="let col of myScoreboard[longestAnswerRateIndex]?.result?.answersRates; let i=index"
                     [colspan]="1">
                     <mat-label class="font-size-14 weight-700">A{{i + 1}}</mat-label>
                   </mat-grid-tile>
@@ -61,7 +61,7 @@
                   </mat-grid-tile>
                 </mat-grid-list>
                 <mat-grid-list *ngFor="let res of myScoreboard;let i=index"
-                               [cols]="myScoreboard[0]?.result?.answersRates?.length + 10" rowHeight="50px"
+                               [cols]="maxAnswersRatesLength + 10" rowHeight="50px"
                                [dir]="generalService.direction"
                                class="gray-card mb-2">
                   <mat-grid-tile class="result-grid" [colspan]="2">
@@ -81,7 +81,7 @@
                     </div>
                   </mat-grid-tile>
                   <mat-grid-tile
-                    [colspan]="(myScoreboard[0]?.result?.answersRates?.length + 10) - (10 + res?.result?.answersRates?.length)">
+                    [colspan]="(maxAnswersRatesLength + 10) - (10 + res?.result?.answersRates?.length)">
                     <mat-label></mat-label>
                   </mat-grid-tile>
                   <mat-grid-tile
@@ -111,7 +111,7 @@
                       </mat-label>
                     </mat-label>
                   </mat-grid-tile>
-                  <mat-grid-tile [colspan]="1" (click)="gotoResult(res?.gameId)">
+                  <mat-grid-tile [colspan]="1" (click)="gotoResult(res?.gameId)" class="cursor-pointer">
                     <svg *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'" width="25" height="25"
                          viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path
@@ -131,13 +131,13 @@
               </div>
               <!--              Mobile view -->
               <div *ngIf="generalService.isMobileView">
-                <mat-grid-list [cols]="myScoreboard[0]?.result?.answersRates?.length + 8" rowHeight="30px"
+                <mat-grid-list [cols]="maxAnswersRatesLength + 8" rowHeight="30px"
                                [dir]="generalService.direction">
                   <mat-grid-tile class="result-grid" [colspan]="4">
                     <mat-label class="font-size-14 weight-700">{{'Scoreboard' | translate}}</mat-label>
                   </mat-grid-tile>
                   <mat-grid-tile
-                    *ngFor="let col of myScoreboard[0]?.result?.answersRates; let i=index"
+                    *ngFor="let col of myScoreboard[longestAnswerRateIndex]?.result?.answersRates; let i=index"
                     [colspan]="1">
                     <mat-label class="font-size-14 weight-700">A{{i + 1}}</mat-label>
                   </mat-grid-tile>
@@ -157,7 +157,7 @@
 
 
                 <mat-grid-list *ngFor="let res of myScoreboard;let i=index"
-                               [cols]="myScoreboard[0]?.result?.answersRates?.length + 8" rowHeight="100px"
+                               [cols]="maxAnswersRatesLength + 8" rowHeight="100px"
                                class="gray-card mb-2" style="height: 150px" [dir]="generalService.direction">
                   <mat-grid-tile class="result-grid-mobile" [colspan]="4">
                     <mat-label>{{res?.endedAt | daysAgo}}</mat-label>
@@ -173,7 +173,7 @@
                   </mat-grid-tile>
 
                   <mat-grid-tile
-                    [colspan]="(myScoreboard[0]?.result?.answersRates?.length + 8) - (8 + res?.result?.answersRates?.length)">
+                    [colspan]="(maxAnswersRatesLength + 8) - (8 + res?.result?.answersRates?.length)">
                     <mat-label></mat-label>
                   </mat-grid-tile>
                   <mat-grid-tile
@@ -968,7 +968,7 @@
                   </div>
                 </div>
                 <br>
-                <div class="d-flex align-items-center">
+                <div class="align-items-center" [class]="{'d-flex': !generalService.isMobileView, 'd-block': generalService.isMobileView}">
                   <mat-slide-toggle labelPosition="before"
                                     (change)="onToggleActiveTranslate($event)">{{'Auto-translate questions and answers' | translate}}</mat-slide-toggle>
                   <mat-label *ngIf="generalService.toggleValueTranslate"
@@ -1080,8 +1080,13 @@
 
             <mat-card-title class="font-size-12 weight-600"
                             style="color: #585858;">{{'My Balance' | translate}}</mat-card-title>
-            <mat-card-subtitle class="font-size-14 weight-600 mt-2">
-              {{generalService.userObj?.assets?.coins?.bronze}} {{'Bronze' | translate}}
+            <mat-card-subtitle>
+              <img src="assets/images/coin-bronze.png"
+                   width="15">&nbsp;<span>{{generalService.userObj?.assets?.coins?.bronze}}</span>&nbsp;
+              <img src="assets/images/coin-silver.png"
+                   width="15">&nbsp;<span>{{generalService.userObj?.assets?.coins?.silver}}</span>&nbsp;
+              <img src="assets/images/coin-gold.png"
+                   width="15">&nbsp;<span>{{generalService.userObj?.assets?.coins?.gold}}</span>
             </mat-card-subtitle>
           </mat-card-header>
           <button mat-raised-button color="primary" class="next-step-game"
