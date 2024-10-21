@@ -254,19 +254,22 @@
               <!--                  <mat-label>{{ cat?.name }}</mat-label>-->
               <!--                </div>-->
               <!--              </div>-->
-              <mat-form-field appearance="fill" class="custom-form-field ms-3"
-                              [class]="{'w-50': !generalService.isMobileView, 'w-100': generalService.isMobileView}">
-                <mat-label>{{ 'Category' | translate }}</mat-label>
-                <mat-select (selectionChange)="selectCatLive($event.value)">
-                  <mat-option [value]="''">
-                    {{ 'all categories' | translate }}
-                  </mat-option>
-                  <mat-option *ngFor="let cat of generalService.clientInit?.categories" [value]="cat._id">
-                    <img [src]="'https://api.staging.1qma.games/' + cat?.icon" width="20" height="20">
-                    {{ cat?.name }}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
+              <div class="ms-4 w-100 d-inline-flex align-items-center">
+                <mat-label style="margin-bottom: 20px">{{ 'Category' | translate }}:&nbsp;</mat-label>
+                <mat-form-field appearance="fill" class="custom-form-field"
+                                [class]="{'w-25': !generalService.isMobileView, 'w-100': generalService.isMobileView}">
+                  <!--          <mat-label>{{ 'Category' | translate }}</mat-label>-->
+                  <mat-select (selectionChange)="selectCatLive($event.value)">
+                    <mat-option [value]="''">
+                      {{ 'all categories' | translate }}
+                    </mat-option>
+                    <mat-option *ngFor="let cat of generalService.clientInit?.categories" [value]="cat._id">
+                      <img [src]="'https://api.staging.1qma.games/' + cat?.icon" width="20" height="20">
+                      {{ cat?.name }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
             </div>
             <mat-card-content class="d-flex overflow-scroll">
               <mat-card *ngFor="let liveGame of liveGames"
@@ -525,19 +528,22 @@
                     <!--                        <mat-label class="font-size-10 weight-600">{{ cat?.name }}</mat-label>-->
                     <!--                      </div>-->
                     <!--                    </div>-->
-                    <mat-form-field appearance="fill" class="custom-form-field"
-                                    [class]="{'w-50': !generalService.isMobileView, 'w-100': generalService.isMobileView}">
-                      <mat-label>{{ 'Category' | translate }}</mat-label>
-                      <mat-select (selectionChange)="selectCatLiveSurvival($event.value)">
-                        <mat-option [value]="''">
-                          {{ 'all categories' | translate }}
-                        </mat-option>
-                        <mat-option *ngFor="let cat of generalService.clientInit?.categories" [value]="cat._id">
-                          <img [src]="'https://api.staging.1qma.games/' + cat?.icon" width="20" height="20">
-                          {{ cat?.name }}
-                        </mat-option>
-                      </mat-select>
-                    </mat-form-field>
+                    <div class="w-100 d-inline-flex align-items-center">
+                      <mat-label style="margin-bottom: 20px">{{ 'Category' | translate }}:&nbsp;</mat-label>
+                      <mat-form-field appearance="fill" class="custom-form-field"
+                                      [class]="{'w-50': !generalService.isMobileView, 'w-100': generalService.isMobileView}">
+                        <!--          <mat-label>{{ 'Category' | translate }}</mat-label>-->
+                        <mat-select (selectionChange)="selectCatLiveSurvival($event.value)">
+                          <mat-option [value]="''">
+                            {{ 'all categories' | translate }}
+                          </mat-option>
+                          <mat-option *ngFor="let cat of generalService.clientInit?.categories" [value]="cat._id">
+                            <img [src]="'https://api.staging.1qma.games/' + cat?.icon" width="20" height="20">
+                            {{ cat?.name }}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
                   </div>
                   <mat-grid-list *ngFor="let res of liveSurvival;let i=index"
                                  [dir]="generalService.direction"
@@ -887,16 +893,19 @@
               <!--                </mat-card-content>-->
               <!--              </mat-card>-->
               <mat-card class="m-2 d-inline-block shadow-none cursor-pointer w-100">
-                <mat-form-field appearance="fill" class="custom-form-field"
-                                [class]="{'w-50': !generalService.isMobileView, 'w-100': generalService.isMobileView}">
-                  <mat-label>{{ 'Category' | translate }}</mat-label>
-                  <mat-select (selectionChange)="selectCat($event.value)">
-                    <mat-option *ngFor="let cat of generalService.gameInit?.categories" [value]="cat._id">
-                      <img [src]="'https://api.staging.1qma.games/' + cat?.icon" width="20" height="20">
-                      {{ cat?.name }}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
+                <div class="w-100 d-inline-flex align-items-center">
+                  <mat-label style="margin-bottom: 20px">{{ 'Category' | translate }}:&nbsp;</mat-label>
+                  <mat-form-field appearance="fill" class="custom-form-field"
+                                  [class]="{'w-25': !generalService.isMobileView, 'w-100': generalService.isMobileView}">
+                    <!--          <mat-label>{{ 'Category' | translate }}</mat-label>-->
+                    <mat-select (selectionChange)="selectCat($event.value)">
+                      <mat-option *ngFor="let cat of generalService.gameInit?.categories" [value]="cat._id">
+                        <img [src]="'https://api.staging.1qma.games/' + cat?.icon" width="20" height="20">
+                        {{ cat?.name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
               </mat-card>
             </mat-card-content>
           </mat-card>

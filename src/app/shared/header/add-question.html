@@ -63,16 +63,19 @@
 <!--      </mat-card-content>-->
 <!--    </mat-card>-->
     <mat-card class="m-2 d-inline-block shadow-none cursor-pointer w-100">
-      <mat-form-field appearance="fill" class="custom-form-field"
-                      [class]="{'w-50': !generalService.isMobileView, 'w-100': generalService.isMobileView}">
-        <mat-label>{{ 'Category' | translate }}</mat-label>
-        <mat-select (selectionChange)="selectCat($event.value)">
-          <mat-option *ngFor="let cat of generalService.gameInit?.categories" [value]="cat._id">
-            <img [src]="'https://api.staging.1qma.games/' + cat?.icon" width="20" height="20">
-            {{ cat?.name }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+      <div class="w-100 d-inline-flex align-items-center">
+        <mat-label style="margin-bottom: 20px">{{ 'Category' | translate }}:&nbsp;</mat-label>
+        <mat-form-field appearance="fill" class="custom-form-field"
+                        [class]="{'w-40': !generalService.isMobileView, 'w-100': generalService.isMobileView}">
+          <!--          <mat-label>{{ 'Category' | translate }}</mat-label>-->
+          <mat-select (selectionChange)="selectCat($event.value)">
+            <mat-option *ngFor="let cat of generalService.clientInit?.categories" [value]="cat._id">
+              <img [src]="'https://api.staging.1qma.games/' + cat?.icon" width="20" height="20">
+              {{ cat?.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
     </mat-card>
   </form>
   <div class="mt-4 text-center position-sticky bottom-0 bg-white">
