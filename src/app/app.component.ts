@@ -51,17 +51,15 @@ export class AppComponent implements OnInit {
     this.starter().then(async (data) => {
       this.generalService.socket = io('https://api.staging.1qma.games', {withCredentials: true});
       this.generalService.socket.on("connect", () => {
-        const now = new Date();
-        const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
-        console.log("connect" + ' ' + `[${timeString}]`);
         if (this.generalService.disconnectedModal) {
           this.generalService.disconnectedModal.close();
           this.generalService.disconnectedModal = '';
         }
+        console.log('Socket connected');
       });
 
       this.generalService.socket.on("notification", (arg: any) => {
-        console.log(arg)
+        console.log("notification" + arg)
         if (this.generalService.disconnectedModal) {
           this.generalService.disconnectedModal.close();
           this.generalService.disconnectedModal = '';

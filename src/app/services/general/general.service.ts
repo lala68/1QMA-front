@@ -56,6 +56,7 @@ export class GeneralService implements OnInit {
   selectedTabIndexParentInTrivia: any = 0;
   selectedTabIndexQuestionChildInTrivia: any = 0;
   selectedTabIndexGameChildInTrivia: any = 0;
+  keepAliveInterval: any;
 
   constructor(private http: HttpClient, private _snackBar: MatSnackBar, private router: Router) {
   }

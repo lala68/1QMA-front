@@ -256,7 +256,7 @@ export class GamesComponent implements OnInit {
   async chooseRandomCategory() {
     const randomIndex = Math.floor(Math.random() * this.generalService.clientInit.categories.length);
     const randomItem = this.generalService.clientInit.categories[randomIndex];
-    this.selectedCategory.push(randomItem);
+    this.selectedCategory = (randomItem);
   }
 
   async startingGame() {
@@ -798,7 +798,7 @@ export class ImportFromLibrary implements OnInit {
     if (!this.search || this.search.length > 2) {
       this.library = [];
       this.loading = true;
-      this.clientService.getUserQuestions(this.data.category[0]._id, this.selectedTabIndex == 0
+      this.clientService.getUserQuestions(this.data.category._id, this.selectedTabIndex == 0
         ? 'private'
         : this.selectedTabIndex == 1
           ? 'public'

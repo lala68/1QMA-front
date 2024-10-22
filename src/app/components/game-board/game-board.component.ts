@@ -22,6 +22,7 @@ import translate from "translate";
 import {ExitGame} from "../../shared/header/header.component";
 import {franc} from "franc";
 import iso6391 from "iso-639-1";
+import {io} from "socket.io-client";
 
 @Component({
   selector: 'app-game-board',
@@ -223,12 +224,61 @@ export class GameBoardComponent implements OnInit, OnDestroy {
           width: '500px',
           disableClose: true
         });
+        this.stopKeepAlive();
+        this.reconnect(); // Attempt to reconnect
       }
     });
-    // window.addEventListener('beforeunload', this.beforeUnloadHandler);
-
   }
 
+  reconnect() {
+    setTimeout(() => {
+      this.connect();
+    }, 1000); // Try to reconnect after 1 second
+  }
+
+  connect() {
+    this.generalService.socket = io('https://api.staging.1qma.games', {
+      reconnection: true,
+      timeout: 5000,
+      withCredentials: true
+    });
+
+    // Listen for connection and disconnection events
+    this.generalService.socket.on('connect', () => {
+      if (this.generalService.disconnectedModal) {
+        this.generalService.disconnectedModal.close();
+        this.generalService.disconnectedModal = '';
+      }
+      console.log('Socket connected');
+      this.startKeepAlive();
+    });
+
+    this.generalService.socket.on('disconnect', () => {
+      console.log('disconnect');
+      if (this.generalService?.startingGame) {
+        this.generalService.disconnectedModal = this.dialog.open(Disconnected, {
+          width: '500px',
+          disableClose: true
+        });
+        this.stopKeepAlive();
+        this.reconnect(); // Attempt to reconnect
+      }
+    });
+  }
+
+  startKeepAlive() {
+    this.generalService.keepAliveInterval = setInterval(() => {
+      if (this.generalService.socket.connected) {
+        console.log('Sending ping...');
+        this.generalService.socket.emit('ping'); // Send a ping message to the server
+      }
+    }, 1000); // Send ping every 30 seconds
+  }
+
+
+  stopKeepAlive() {
+    clearInterval(this.generalService.keepAliveInterval);
+  }
   // @HostListener('window:beforeunload', ['$event'])
   // beforeUnloadHandler(event: BeforeUnloadEvent): void {
   //   // Custom logic before the page unloads
@@ -298,6 +348,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     this.generalService.rateAnswers = [];
     this.generalService.rateQuestions = [];
     this.generalService.invitedPlayersArray = [];
+    clearInterval(this.generalService.keepAliveInterval);
     this.submittedAnswer = null;
     await this.router.navigate(['/report-bug']);
 
@@ -937,6 +988,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     this.generalService.rateAnswers = [];
     this.generalService.rateQuestions = [];
     this.generalService.invitedPlayersArray = [];
+    clearInterval(this.generalService.keepAliveInterval);
     this.submittedAnswer = null;
     await this.router.navigate(['/games/create-game']);
   }
@@ -1080,6 +1132,7 @@ export class CancelGame {
     this.generalService.rateAnswers = [];
     this.generalService.rateQuestions = [];
     this.generalService.invitedPlayersArray = [];
+    clearInterval(this.generalService.keepAliveInterval);
     this.dialogRef.close();
     await this.router.navigate(['/dashboard']);
   }
@@ -1119,6 +1172,7 @@ export class Disconnected {
     this.generalService.rateAnswers = [];
     this.generalService.rateQuestions = [];
     this.generalService.invitedPlayersArray = [];
+    clearInterval(this.generalService.keepAliveInterval);
     this.dialogRef.close();
     await this.router.navigate(['/dashboard']);
   }
@@ -1161,6 +1215,7 @@ export class ForceExitGame {
     this.generalService.rateAnswers = [];
     this.generalService.rateQuestions = [];
     this.generalService.invitedPlayersArray = [];
+    clearInterval(this.generalService.keepAliveInterval);
     // this.dialogRef.close();
     await this.router.navigate(['/dashboard']);
   }
@@ -1335,6 +1390,7 @@ export class WaitingModal {
       this.generalService.rateAnswers = [];
       this.generalService.rateQuestions = [];
       this.generalService.invitedPlayersArray = [];
+      clearInterval(this.generalService.keepAliveInterval);
       this.dialogRef.close(true);
       await this.router.navigate(['/dashboard']);
     }

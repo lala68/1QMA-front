@@ -863,8 +863,8 @@
             <mat-card-content>
               <mat-card class="m-2 d-inline-block shadow-none mat-card-pref">
                 <mat-card-content style="text-align: start; padding: 16px 5px">
-                  <img [src]="'https://api.staging.1qma.games/' + selectedCategory[0]?.icon" width="35">
-                  <mat-label>{{ selectedCategory[0].name }}</mat-label>
+                  <img [src]="'https://api.staging.1qma.games/' + selectedCategory?.icon" width="35">
+                  <mat-label>{{ selectedCategory.name }}</mat-label>
                 </mat-card-content>
               </mat-card>
             </mat-card-content>
@@ -941,7 +941,7 @@
                   </svg>
 
                   &nbsp;<div class="font-size-14 weight-600">{{'My Question' | translate}}:</div>
-                  <div class="font-size-14 weight-600 cursor-pointer" *ngIf="selectedCategory?.length>0"
+                  <div class="font-size-14 weight-600 cursor-pointer" *ngIf="selectedCategory"
                        (click)="openImportFromLib()"
                        style="text-align: end; flex: 1; color: #0B6FEA"><i class="bi bi-plus"></i>
                     {{'Import from library' | translate}}
@@ -1100,7 +1100,7 @@
           </mat-card-header>
           <button mat-raised-button color="primary" class="next-step-game"
                   [disabled]="loadingCreateGame || !questionForm.valid || !selectedGameMode.toString() || !selectedGameType[0] ||
-                   ((selectedGameMode == 1 || selectedGameMode ==3) && !selectedCategory[0]) ||
+                   ((selectedGameMode == 1 || selectedGameMode ==3) && !selectedCategory) ||
                     ((selectedGameMode == 2 || selectedGameMode ==3) && generalService.invitedPlayersArray?.length !== (generalService.gameInit?.numberOfPlayers -1))"
                   (click)="startingGame()">
             {{'Create Game' | translate}}
