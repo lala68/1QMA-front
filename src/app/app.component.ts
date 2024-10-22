@@ -22,6 +22,7 @@ import {SignupComponent} from "./components/signup/signup.component";
 import {ShopService} from "./services/shop.service";
 import {NotificationModalComponent} from "./components/notification-modal/notification-modal.component";
 import {VersionCheckService} from "./services/versionCheck/version-check.service";
+import {Platform} from "@angular/cdk/platform";
 
 register();
 
@@ -39,7 +40,7 @@ export class AppComponent implements OnInit {
               private generalService: GeneralService, private authService: AuthService, public dialog: MatDialog,
               private clientService: ClientService, private route: ActivatedRoute, private location: Location,
               private processHTTPMsgService: ProcessHTTPMsgService, private signupComponent: SignupComponent,
-              private gameComponent: GamesComponent, private gameService: GamesService,
+              private gameComponent: GamesComponent, private gameService: GamesService, private platform: Platform,
               private loader: LoaderService, private shopService: ShopService, private versionCheckService: VersionCheckService) {
     // Force light mode
     const html = document.documentElement;
@@ -61,6 +62,10 @@ export class AppComponent implements OnInit {
 
       this.generalService.socket.on("notification", (arg: any) => {
         console.log(arg)
+        if (this.generalService.disconnectedModal) {
+          this.generalService.disconnectedModal.close();
+          this.generalService.disconnectedModal = '';
+        }
         this.generalService.newNotif = true;
         this.shopService.getNotifications(1, 3).then(data => {
           this.generalService.notifList = data.data;
@@ -69,6 +74,10 @@ export class AppComponent implements OnInit {
 
       this.generalService.socket.on("notification:modal", (arg: any) => {
         console.log(arg)
+        if (this.generalService.disconnectedModal) {
+          this.generalService.disconnectedModal.close();
+          this.generalService.disconnectedModal = '';
+        }
         const dialogConfig = new MatDialogConfig();
         if (this.generalService.isMobileView) { // Assuming mobile devices are <= 768px
           dialogConfig.width = '100vw';

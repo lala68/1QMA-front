@@ -46,7 +46,7 @@
                 <mat-form-field appearance="fill" class="custom-form-field"
                                 [class]="{'w-25': !generalService.isMobileView, 'w-100': generalService.isMobileView}">
                   <!--          <mat-label>{{ 'Category' | translate }}</mat-label>-->
-                  <mat-select (selectionChange)="selectCat($event.value)">
+                  <mat-select [(value)]="selectedCategory" (selectionChange)="selectCat($event.value)">
                     <mat-option [value]="''">
                       {{ 'all categories' | translate }}
                     </mat-option>
@@ -643,7 +643,7 @@
                 <mat-form-field appearance="fill" class="custom-form-field"
                                 [class]="{'w-25': !generalService.isMobileView, 'w-100': generalService.isMobileView}">
                   <!--          <mat-label>{{ 'Category' | translate }}</mat-label>-->
-                  <mat-select (selectionChange)="selectCatGame($event.value)">
+                  <mat-select [(value)]="selectedCategory" (selectionChange)="selectCatGame($event.value)">
                     <mat-option [value]="''">
                       {{ 'all categories' | translate }}
                     </mat-option>

@@ -46,8 +46,8 @@ export class GamesComponent implements OnInit {
   createGameStep: any = 1;
   selectedGameMode: any;
   selectedGameType: any = [];
-  selectedCategory: any = [];
-  selectedCategoryLive: any = [];
+  selectedCategory: any = '';
+  selectedCategoryLive: any = '';
   inviteForm = this._formBuilder.group({
     email: new FormControl({
       value: '',
@@ -378,8 +378,8 @@ export class GamesComponent implements OnInit {
 
   async selectCatLive(id: any) {
     this.page = 1;
-    this.selectedCategoryLive = [];
-    this.selectedCategoryLive.push(id);
+    this.selectedCategoryLive = id;
+    // this.selectedCategoryLive.push(id);
     await this.getLives();
   }
 
@@ -389,8 +389,8 @@ export class GamesComponent implements OnInit {
 
   async selectCatLiveSurvival(id: any) {
     this.page = 1;
-    this.selectedCategory = [];
-    this.selectedCategory.push(id);
+    this.selectedCategory = id;
+    // this.selectedCategory.push(id);
     await this.getLiveSurvival();
   }
 
@@ -471,6 +471,10 @@ export class GamesComponent implements OnInit {
       const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
       console.log("player added" + ' ' + `[${timeString}]  `);
       console.log(this.generalService.players);
+      if (this.generalService.disconnectedModal) {
+        this.generalService.disconnectedModal.close();
+        this.generalService.disconnectedModal = '';
+      }
       if (!this.generalService.players.some((player: any) => player.email === arg.email)) {
         this.generalService.players.push(arg);
       }
@@ -482,6 +486,10 @@ export class GamesComponent implements OnInit {
       const now = new Date();
       const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
       console.log("start game" + ' ' + `[${timeString}]  `);
+      if (this.generalService.disconnectedModal) {
+        this.generalService.disconnectedModal.close();
+        this.generalService.disconnectedModal = '';
+      }
       this.generalService.gameStep = 2;
       setTimeout(() => {
         console.log(this.generalService?.createdGameData)

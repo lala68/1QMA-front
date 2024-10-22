@@ -48,7 +48,7 @@ export class TriviaHubComponent implements OnInit {
   libraryQuestions: any = [];
   gameData: any = [];
   search: any = '';
-  selectedCategory: any = [''];
+  selectedCategory: any = '';
   questionStep: any = 1;
   loadingMore: boolean = false;
   page: any = 1;
@@ -210,14 +210,14 @@ export class TriviaHubComponent implements OnInit {
 
   async selectCat(id: any) {
     this.page = 1;
-    this.selectedCategory = [];
-    this.selectedCategory.push(id);
+    this.selectedCategory = id;
+    // this.selectedCategory.push(id);
     await this.ngOnInit();
   }
 
   async selectCatGame(id: any) {
-    this.selectedCategory = [];
-    this.selectedCategory.push(id);
+    this.selectedCategory = id;
+    // this.selectedCategory.push(id);
     await this.changeGames();
   }
 

@@ -21,6 +21,7 @@ export class FaqComponent implements OnInit {
 
   constructor(public generalService: GeneralService, private clientService: ClientService,
               private processHTTPMsgService: ProcessHTTPMsgService, private _snackBar: MatSnackBar) {
+    this.generalService.currentRout = '';
   }
 
   ngOnInit() {

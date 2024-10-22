@@ -350,7 +350,7 @@
           <mat-form-field appearance="fill" class="custom-form-field"
                           [class]="{'w-25': !generalService.isMobileView, 'w-100': generalService.isMobileView}">
             <!--          <mat-label>{{ 'Category' | translate }}</mat-label>-->
-            <mat-select (selectionChange)="selectCatTopQuestion($event.value)">
+            <mat-select [(value)]="selectedCategory" (selectionChange)="selectCatTopQuestion($event.value)">
               <mat-option [value]="''">
                 {{ 'all categories' | translate }}
               </mat-option>

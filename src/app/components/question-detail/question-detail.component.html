@@ -168,7 +168,7 @@
                   <img src="assets/images/score.png"
                        width="16">
                   <mat-label class="font-size-12 weight-600"
-                             style="margin: auto 5px">{{performance?.question?.score | parsInt}}
+                             style="margin: auto 5px">{{performance?.question?.score ? performance?.question?.score : 0 | parsInt}}
                     <mat-label class="font-size-12 weight-600 text-gray">{{'Score' | translate}}</mat-label>
                   </mat-label>
                 </div>
@@ -178,7 +178,7 @@
                   <img src="assets/images/plays.png"
                        width="16">
                   <mat-label class="font-size-12 weight-600"
-                             style="margin: auto 5px">{{performance?.question?.plays | parsInt}}
+                             style="margin: auto 5px">{{performance?.question?.plays ? performance?.question?.plays : 0 | parsInt}}
                     <mat-label class="font-size-12 weight-600 text-gray">{{'Plays' | translate}}</mat-label>
                   </mat-label>
                 </div>
@@ -188,7 +188,7 @@
                   <img src="assets/images/answer-questions.png"
                        width="16">
                   <mat-label class="font-size-12 weight-600"
-                             style="margin: auto 5px">{{performance?.question?.answers | parsInt}}
+                             style="margin: auto 5px">{{performance?.question?.answers ? performance?.question?.answers : 0 | parsInt}}
                     <mat-label class="font-size-12 weight-600 text-gray">{{'Answers' | translate}}</mat-label>
                   </mat-label>
                 </div>
@@ -275,9 +275,8 @@
                 <br>
                 <br>
 <!--                [ngClass]="generalService.userObj?.preferedLanguage?.code != 'fa' ? 'exo-font' : 'peyda-font'"-->
-                <mat-label class="font-size-14 weight-400"
-                >{{answer?.answer}}</mat-label>
-                <br>
+                <div class="font-size-14 weight-400" style="min-height: 150px"
+                >{{answer?.answer}}</div>
                 <br>
                 <mat-card-actions class="position-relative">
                   <div class="position-absolute bottom-0 d-flex align-items-center"

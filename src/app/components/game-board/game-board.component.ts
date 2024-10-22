@@ -115,6 +115,10 @@ export class GameBoardComponent implements OnInit, OnDestroy {
       // if (!this.generalService.players.some((player: any) => player.email === arg.email)) {
       //   this.generalService.players.push(arg);
       // }
+      if (this.generalService.disconnectedModal) {
+        this.generalService.disconnectedModal.close();
+        this.generalService.disconnectedModal = '';
+      }
       if (!this.generalService.players.some((player: any) => player.email === arg.email) &&
         !this.generalService.invitedPlayersArray.some((player: any) => player.email === arg.email)) {
         this.generalService.players.push(arg);
@@ -191,6 +195,10 @@ export class GameBoardComponent implements OnInit, OnDestroy {
       const now = new Date();
       const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
       console.log("cancel game" + ' ' + `[${timeString}]  `);
+      if (this.generalService.disconnectedModal) {
+        this.generalService.disconnectedModal.close();
+        this.generalService.disconnectedModal = '';
+      }
       if (!this.generalService.isGameCancel) {
         this.generalService.isGameCancel = true;
         const dialogRef = this.dialog.open(CancelGame, {
@@ -205,6 +213,10 @@ export class GameBoardComponent implements OnInit, OnDestroy {
       const now = new Date();
       const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
       console.log("end game" + ' ' + `[${timeString}]  `);
+      if (this.generalService.disconnectedModal) {
+        this.generalService.disconnectedModal.close();
+        this.generalService.disconnectedModal = '';
+      }
       this.generalService.gameStep = 5;
       this.getGameResult();
     });
@@ -296,12 +308,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
 
   }
 
-  async openShareModal(type: any, data: any) {
-    // const dialogRef = this.dialog.open(ShareGame, {
-    //   data: {type: type, result: data},
-    //   width: '500px',
-    //   disableClose: true
-    // });
+  async openShareModalQR(type: any, data: any) {
     const base64url = data
     const blob = await (await fetch(base64url)).blob();
     const file = new File([blob], '1qma.png', {type: blob.type});
@@ -310,7 +317,12 @@ export class GameBoardComponent implements OnInit, OnDestroy {
       text: data,
       files: [file],
     })
-    // this.dialogRef.close();
+  }
+  async openShareModal(type: any, data: any) {
+    this.generalService.share({
+      title: 'Hello! Welcome to 1QMA Games!',
+      text: data,
+    })
   }
 
   async handleGameStep(): Promise<void> {

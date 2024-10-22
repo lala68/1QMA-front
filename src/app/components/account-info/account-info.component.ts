@@ -123,6 +123,7 @@ export class AccountInfoComponent {
       width: '350px',
       enterAnimationDuration,
       exitAnimationDuration,
+      disableClose: true
     });
     dialogRef.afterClosed().subscribe(async result => {
       if (result) {

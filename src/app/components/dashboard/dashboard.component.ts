@@ -51,7 +51,7 @@ export class DashboardComponent implements OnInit {
   remainingDays: any;
   selectedTabTopQuestionsIndex: any = 0;
   topQuestions: any;
-  selectedCategory: any = [''];
+  selectedCategory: any = '';
   questionsFromFriendsLatestGames: any = [];
   loadingMore: boolean = false;
   page: any = 1;
@@ -233,8 +233,8 @@ export class DashboardComponent implements OnInit {
 
   async selectCatTopQuestion(id: any) {
     console.log(id)
-    this.selectedCategory = [];
-    this.selectedCategory.push(id);
+    this.selectedCategory = id;
+    // this.selectedCategory.push(id);
     await this.changeTopQuestions();
   }
 

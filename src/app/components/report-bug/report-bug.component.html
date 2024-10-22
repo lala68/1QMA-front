@@ -19,9 +19,9 @@
               [class]="{'w-60': !generalService.isMobileView, 'w-100': generalService.isMobileView}">
       <mat-card-header>
         <img mat-card-avatar src="assets/images/Megaphone.png" width="73" height="73"/>
-        <mat-card-title class="font-size-16 weight-600">Encounter an issue?</mat-card-title>
+        <mat-card-title class="font-size-16 weight-600">{{'Encounter an issue?' | translate}}</mat-card-title>
         <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
-          Report us the bug and we will get back to you as soon a possible.
+          {{'Report us the bug and we will get back to you as soon a possible.' | translate}}
         </mat-card-subtitle>
       </mat-card-header>
       <br>
@@ -51,7 +51,7 @@
           <div class="textarea-container">
             <textarea [formControlName]="'description'"
                       [(ngModel)]="reportForm.controls.description.value"
-                      (ngModelChange)="updateWordCount()" rows="6" placeholder="Bug description"></textarea>
+                      (ngModelChange)="updateWordCount()" rows="6" placeholder="{{'Bug description' | translate}}"></textarea>
             <div class="word-counter">{{ wordCount }} {{'Words' | translate}}</div>
           </div>
           <br>
