@@ -475,10 +475,14 @@ export class GamesComponent implements OnInit {
         this.generalService.disconnectedModal.close();
         this.generalService.disconnectedModal = '';
       }
-      if (!this.generalService.players.some((player: any) => player.email === arg.email)) {
+      // if (!this.generalService.players.some((player: any) => player.email === arg.email)) {
+      //   this.generalService.players.push(arg);
+      // }
+      if (!this.generalService.players.some((player: any) => player.email === arg.email) &&
+        !this.generalService.invitedPlayersArray.some((player: any) => player.email === arg.email)) {
         this.generalService.players.push(arg);
       }
-      // this.generalService.players.push(arg);
+
       this.gameBoardComponent.removeFromInvited(arg.email);
     });
 

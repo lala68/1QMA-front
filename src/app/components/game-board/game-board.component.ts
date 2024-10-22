@@ -40,7 +40,6 @@ export class GameBoardComponent implements OnInit, OnDestroy {
   @ViewChild('tooltip2') tooltip2!: any;
   loading: boolean = false;
   data: any;
-  users: any;
   invitedUser: any;
   filteredEmails: any = [];
   sendAnswerDisable: boolean = false;
@@ -88,7 +87,6 @@ export class GameBoardComponent implements OnInit, OnDestroy {
               private countdownTimerComponent: CountdownTimerComponent, public dialog: MatDialog,
               private http: HttpClient) {
     this.data = this.router.getCurrentNavigation()?.extras?.state?.['data'];
-    this.users = this.router.getCurrentNavigation()?.extras?.state?.['users'];
     //numberOfSubmitted maybe remove it
     this.submittedAnswer.numberOfSubmitted = 1;
   }
@@ -104,13 +102,10 @@ export class GameBoardComponent implements OnInit, OnDestroy {
       )
     );
     console.log(this.data)
-    console.log(this.data?.game?.gameInviteList)
     console.log(this.generalService.invitedPlayersArray)
-    this.removeFromInvited(this.generalService.userObj?.email);
-    this.generalService.socket.on("player added", (arg: any) => {
-      const now = new Date();
-      const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
-      console.log("player added" + ' ' + `[${timeString}]  `);
+    await this.removeFromInvited(this.generalService.userObj?.email);
+    this.generalService.socket.on("player added", async (arg: any) => {
+      console.log("player added " + arg);
       console.log(this.generalService.players);
       // if (!this.generalService.players.some((player: any) => player.email === arg.email)) {
       //   this.generalService.players.push(arg);
@@ -124,7 +119,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
         this.generalService.players.push(arg);
       }
 
-      this.removeFromInvited(arg.email);
+      await this.removeFromInvited(arg.email);
     });
 
     this.generalService.socket.on("next step", (arg: any) => {
@@ -318,6 +313,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
       files: [file],
     })
   }
+
   async openShareModal(type: any, data: any) {
     this.generalService.share({
       title: 'Hello! Welcome to 1QMA Games!',
@@ -914,12 +910,12 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     })
   }
 
-  removeFromInvited(email: any) {
+  async removeFromInvited(email: any) {
     const index = this.generalService.invitedPlayersArray.findIndex((data: any) => data === email);
     if (index !== -1) {
       // Remove the item from the array
       this.generalService.invitedPlayersArray.splice(index, 1);
-      console.log(this.generalService.invitedPlayersArray)
+      console.log('removeFromInvited' + this.generalService.invitedPlayersArray)
     }
   }
 
