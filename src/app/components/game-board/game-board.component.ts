@@ -279,6 +279,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
   stopKeepAlive() {
     clearInterval(this.generalService.keepAliveInterval);
   }
+
   // @HostListener('window:beforeunload', ['$event'])
   // beforeUnloadHandler(event: BeforeUnloadEvent): void {
   //   // Custom logic before the page unloads
@@ -437,8 +438,10 @@ export class GameBoardComponent implements OnInit, OnDestroy {
 
       if (data.status === 1) {
         this.generalService.specificQuestionAnswers = data.data;
-        for (const answer of this.generalService.specificQuestionAnswers.answers) {
-          answer.answer = await this.detectAndTranslate(answer.answer, this.generalService.selectedTranslatedLanguage);
+        if (this.generalService.selectedTranslatedLanguage) {
+          for (const answer of this.generalService.specificQuestionAnswers.answers) {
+            answer.answer = await this.detectAndTranslate(answer.answer, this.generalService.selectedTranslatedLanguage);
+          }
         }
         this.updateRates(this.generalService.rateAnswers.length !== 0);
       }
@@ -454,8 +457,10 @@ export class GameBoardComponent implements OnInit, OnDestroy {
 
       if (resQue.status === 1) {
         this.generalService.gameQuestion = resQue.data;
-        this.generalService.gameQuestion.question = await this.detectAndTranslate(resQue?.data.question,
-          this.generalService.selectedTranslatedLanguage);
+        if (this.generalService.selectedTranslatedLanguage) {
+          this.generalService.gameQuestion.question = await this.detectAndTranslate(resQue?.data.question,
+            this.generalService.selectedTranslatedLanguage);
+        }
 
         this.generalService.gameAnswerGeneral = resQue.data.myAnswer || '';
         this.generalService.editingAnswer = !!resQue.data.myAnswer;
@@ -474,8 +479,10 @@ export class GameBoardComponent implements OnInit, OnDestroy {
         await this.waitForConditionNextStepRatingAnswer();
         this.generalService.gameStep = 4;
         this.generalService.allQuestions = resQue.data;
-        for (const question of this.generalService.allQuestions) {
-          question.question = await this.detectAndTranslate(question.question, this.generalService.selectedTranslatedLanguage);
+        if (this.generalService.selectedTranslatedLanguage) {
+          for (const question of this.generalService.allQuestions) {
+            question.question = await this.detectAndTranslate(question.question, this.generalService.selectedTranslatedLanguage);
+          }
         }
         this.updateRatesQuestions(this.generalService.rateQuestions.length !== 0);
       }
@@ -558,11 +565,13 @@ export class GameBoardComponent implements OnInit, OnDestroy {
   async getGameResult() {
     this.gameService.getGameResult(this.generalService.createdGameData.game.gameId).then(async data => {
         this.generalService.gameResult = data.data;
-        for (const question of this.generalService.gameResult.result.details) {
-          question.question = await this.detectAndTranslate(question.question,
-            this.generalService.selectedTranslatedLanguage);
-          for (const answer of question.answers) {
-            answer.answer = await this.detectAndTranslate(answer.answer, this.generalService.selectedTranslatedLanguage);
+        if (this.generalService.selectedTranslatedLanguage) {
+          for (const question of this.generalService.gameResult.result.details) {
+            question.question = await this.detectAndTranslate(question.question,
+              this.generalService.selectedTranslatedLanguage);
+            for (const answer of question.answers) {
+              answer.answer = await this.detectAndTranslate(answer.answer, this.generalService.selectedTranslatedLanguage);
+            }
           }
         }
         this.generalService.gameResult.result.scoreboard.filter((item: any, index: any) => {
@@ -714,9 +723,11 @@ export class GameBoardComponent implements OnInit, OnDestroy {
           this.generalService.createdGameData.game.gameId
         );
         this.generalService.allQuestions = resQue.data;
-        for (const question of this.generalService.allQuestions.questions) {
-          question.question = await this.detectAndTranslate(question.question,
-            this.generalService.selectedTranslatedLanguage);
+        if (this.generalService.selectedTranslatedLanguage) {
+          for (const question of this.generalService.allQuestions.questions) {
+            question.question = await this.detectAndTranslate(question.question,
+              this.generalService.selectedTranslatedLanguage);
+          }
         }
         this.updateRatesQuestions(this.generalService.rateQuestions.length !== 0);
       } else {
@@ -743,8 +754,10 @@ export class GameBoardComponent implements OnInit, OnDestroy {
         );
         if (resQue.status === 1) {
           this.generalService.gameQuestion = resQue.data;
-          this.generalService.gameQuestion.question = await this.detectAndTranslate(this.generalService.gameQuestion.question,
-            this.generalService.selectedTranslatedLanguage);
+          if (this.generalService.selectedTranslatedLanguage) {
+            this.generalService.gameQuestion.question = await this.detectAndTranslate(this.generalService.gameQuestion.question,
+              this.generalService.selectedTranslatedLanguage);
+          }
           this.generalService.gameAnswerGeneral = resQue.data.myAnswer || '';
           this.generalService.editingAnswer = !!resQue.data.myAnswer;
           // if(resQue.data.myAnswer){

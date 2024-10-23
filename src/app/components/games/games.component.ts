@@ -82,11 +82,6 @@ export class GamesComponent implements OnInit {
   questionId: any;
   maxAnswersRatesLength: any = 0;
   longestAnswerRateIndex: any = 0;
-  scoreboards = [
-    {time: '3 Days Ago', level: 'Normal', subject: 'Environment', score: 345, rank: 2},
-    {time: '2 Weeks Ago', level: 'Normal', subject: 'Art', score: 345, rank: 1},
-    {time: '3 Weeks Ago', level: 'Normal', subject: 'Social Science', score: 345, rank: 4}
-  ];
   private routerSubscription: any;
   private introInProgress: boolean = false; // Track whether the intro is showing
 
@@ -120,7 +115,7 @@ export class GamesComponent implements OnInit {
 
         this.myScoreboard.forEach((item: any, index: any) => {
           const answersRatesLength = item.result.answersRates.length;
-          if (answersRatesLength >this.maxAnswersRatesLength) {
+          if (answersRatesLength > this.maxAnswersRatesLength) {
             this.maxAnswersRatesLength = answersRatesLength;
             this.longestAnswerRateIndex = index;
           }
@@ -280,9 +275,10 @@ export class GamesComponent implements OnInit {
       console.log(this.generalService.selectedTranslatedLanguage)
       this.gameService.getGameQuestionBasedOnStep(this.generalService?.createdGameData?.game?.gameId, 1).then(async resQue => {
         this.generalService.gameQuestion = resQue?.data;
-        this.generalService.gameQuestion.question = await this.detectAndTranslate(resQue?.data.question,
-          this.generalService.selectedTranslatedLanguage);
-
+        if (this.generalService.selectedTranslatedLanguage) {
+          this.generalService.gameQuestion.question = await this.detectAndTranslate(resQue?.data.question,
+            this.generalService.selectedTranslatedLanguage);
+        }
         this.updateWordCountAnswerGame();
         if (resQue?.data?.myAnswer) {
           this.generalService.gameAnswerGeneral = resQue?.data?.myAnswer;
@@ -466,7 +462,7 @@ export class GamesComponent implements OnInit {
 
   joinToGame(code: any = this.gameCode) {
     this.generalService.socket = io('https://api.staging.1qma.games', {withCredentials: true});
-    this.generalService.socket.on("player added", (arg: any) => {
+    this.generalService.socket.on("player added", async (arg: any) => {
       const now = new Date();
       const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
       console.log("player added" + ' ' + `[${timeString}]  `);
@@ -483,7 +479,7 @@ export class GamesComponent implements OnInit {
         this.generalService.players.push(arg);
       }
 
-      this.gameBoardComponent.removeFromInvited(arg.email);
+      await this.gameBoardComponent.removeFromInvited(arg.email);
     });
 
     this.generalService.socket.on("start game", (arg: any) => {
