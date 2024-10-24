@@ -3,6 +3,7 @@ import introJs from "intro.js";
 import {Preferences} from "@capacitor/preferences";
 import {ClientService} from "../client/client.service";
 import {GeneralService} from "../general/general.service";
+import {NavigationEnd, Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,13 @@ import {GeneralService} from "../general/general.service";
 export class IntroJsService {
   displayIntro: boolean = true;
 
-  constructor(private clientService: ClientService, private generalService: GeneralService) {
+  constructor(private clientService: ClientService, private generalService: GeneralService,
+              private router: Router) {
+    // this.router.events.subscribe((event) => {
+    //   if (event instanceof NavigationEnd) {
+    //     introJs().exit(true);
+    //   }
+    // });
   }
 
   async showHelp(selector: any, steps: any) {
@@ -33,18 +40,22 @@ export class IntroJsService {
           // Resolve the promise when the intro completes or exits
           intro.oncomplete(() => {
             // Preferences.set({key: 'intro_' + selector, value: JSON.stringify(true)});
-            this.clientService.postIntro(selector).then(data => {
-
+            this.clientService.postIntro(selector).then(async data => {
+              await Preferences.remove({key: 'account'});
+              await Preferences.set({key: 'account', value: JSON.stringify(data.data)});
+              await this.generalService.getUserData();
             })
             resolve();
           }).onexit(() => {
             // Preferences.set({key: 'intro_' + selector, value: JSON.stringify(true)});
-            this.clientService.postIntro(selector).then(data => {
-
+            this.clientService.postIntro(selector).then(async data => {
+              await Preferences.remove({key: 'account'});
+              await Preferences.set({key: 'account', value: JSON.stringify(data.data)});
+              await this.generalService.getUserData();
             })
             resolve();
           });
-        }, 1000);
+        }, 100);
       });
     }
   }

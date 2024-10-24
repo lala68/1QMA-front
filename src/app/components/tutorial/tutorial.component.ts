@@ -591,9 +591,9 @@ export class JoiningTutorialGame {
       dialogConfig.height = 'auto'; // You can specify the height if needed
       dialogConfig.position = {bottom: '0px'};
       dialogConfig.panelClass = 'mobile-dialog'; // Add custom class for mobile
-      dialogConfig.data = {category: [this.data?.data], type: 'Normal'};
+      dialogConfig.data = {category: this.data?.data?._id, type: 'Normal'};
     } else {
-      dialogConfig.data = {category: [this.data?.data], type: 'Normal'};
+      dialogConfig.data = {category: this.data?.data?._id, type: 'Normal'};
       dialogConfig.width = '700px'; // Full size for desktop or larger screens
     }
     const dialogRef = this.dialog.open(ImportFromLibrary, dialogConfig);

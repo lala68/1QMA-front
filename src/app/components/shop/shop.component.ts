@@ -94,7 +94,7 @@ export class ShopComponent implements OnInit {
         intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
         position: 'bottom',
       }, {
-        element: '#features',
+        element: '#bundles',
         intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
         position: 'bottom',
       }

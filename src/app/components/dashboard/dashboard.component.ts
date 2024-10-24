@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {SharedModule} from "../../shared/shared.module";
 import {ClientService} from "../../services/client/client.service";
@@ -35,7 +35,7 @@ import {Preferences} from "@capacitor/preferences";
   styleUrl: './dashboard.component.scss',
   providers: [HeaderComponent]
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
   @ViewChild('tooltip') tooltip!: any;
   loading$ = this.loader.isLoading$;
   loading: boolean = true;
@@ -90,7 +90,7 @@ export class DashboardComponent implements OnInit {
       this.generalService.clientInit &&
       this.generalService.clientInit.user &&
       this.generalService.clientInit.user.hasSeenIntros &&
-      !this.generalService.clientInit.user.hasSeenIntros.dashboard
+      (!this.generalService.clientInit.user.hasSeenIntros.dashboard)
     ) {
       await this.showIntro(); // Wait for showIntro to finish
     }
@@ -103,6 +103,7 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnDestroy() {
+    console.log(222)
     introJs().exit(true);
   }
 
@@ -307,34 +308,37 @@ export class DashboardComponent implements OnInit {
   }
 
   async showIntro() {
-    const steps = [
-      {
-        element: '#accountOverview',
-        intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
-        position: 'bottom',
-      }, {
-        element: '#topQuestions',
-        intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
-        position: 'bottom',
-      }, {
-        element: '#InviteFriends',
-        intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
-        position: 'bottom',
-      }, {
-        element: '#charity',
-        intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
-        position: 'bottom',
-      }, {
-        element: '#questionsFromFriends',
-        intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
-        position: 'bottom',
+    if (this.router.url === '/dashboard') {
+      const steps = [
+        {
+          element: '#accountOverview',
+          intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+          position: 'bottom',
+        }, {
+          element: '#topQuestions',
+          intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+          position: 'bottom',
+        }, {
+          element: '#InviteFriends',
+          intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+          position: 'bottom',
+        }, {
+          element: '#charity',
+          intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+          position: 'bottom',
+        }
+        // {
+        //   element: '#questionsFromFriends',
+        //   intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+        //   position: 'bottom',
+        // }
+      ];
+      this.introInProgress = true; // Mark the intro as in progress
+      try {
+        await this.intro.showHelp('dashboard', steps);
+      } finally {
+        this.introInProgress = false; // Reset the flag once the intro is done
       }
-    ];
-    this.introInProgress = true; // Mark the intro as in progress
-    try {
-      await this.intro.showHelp('dashboard', steps);
-    } finally {
-      this.introInProgress = false; // Reset the flag once the intro is done
     }
   }
 }

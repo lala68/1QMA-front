@@ -95,9 +95,12 @@ export class TriviaHubComponent implements OnInit {
         if (
           this.generalService.clientInit &&
           this.generalService.clientInit.user &&
-          !this.generalService.clientInit.user.hasSeenIntros
+          this.generalService.clientInit.user.hasSeenIntros &&
+          !this.generalService.clientInit.user.hasSeenIntros.triviaHub
         ) {
+          setTimeout(async() => {
           await this.showIntro(); // Wait for showIntro to finish
+          }, 1000);
         }
       }, error => {
         return this.processHTTPMsgService.handleError(error);
@@ -125,55 +128,49 @@ export class TriviaHubComponent implements OnInit {
   }
 
   async showIntro() {
-    const tabLabel0 = document.querySelector('#mat-tab-label-0-0');
-    const tabLabel1 = document.querySelector('#mat-tab-label-4-0');
-    const tabLabel2 = document.querySelector('#mat-tab-label-8-0');
-    const tabLabel3 = document.querySelector('#mat-tab-label-12-0');
-    const tabLabel4 = document.querySelector('#mat-tab-label-16-0');
-    // Use the first one that exists
-    const targetElement1 = tabLabel0 || tabLabel1 || tabLabel2 || tabLabel3 || tabLabel4; // If tabLabel0 doesn't exist, use tabLabel1
+    if (this.router.url === '/trivia-hub') {
+      // Use querySelectorAll to get all tabs, then pick the ones you need
+      const tabElements = document.querySelectorAll('div[role="tab"]');
 
-    const tabLabel5 = document.querySelector('#mat-tab-label-0-1');
-    const tabLabel6 = document.querySelector('#mat-tab-label-4-1');
-    const tabLabel7 = document.querySelector('#mat-tab-label-8-1');
-    const tabLabel8 = document.querySelector('#mat-tab-label-12-1');
-    const tabLabel9 = document.querySelector('#mat-tab-label-16-1');
-    // Use the first one that exists
-    const targetElement2 = tabLabel5 || tabLabel6 || tabLabel7 || tabLabel8 || tabLabel9; // If tabLabel0 doesn't exist, use tabLabel1
-
-    const tabLabel10 = document.querySelector('#mat-tab-label-1-0');
-    const tabLabel11 = document.querySelector('#mat-tab-label-5-0');
-    const tabLabel12 = document.querySelector('#mat-tab-label-9-0');
-    const tabLabel13 = document.querySelector('#mat-tab-label-13-0');
-    const tabLabel14 = document.querySelector('#mat-tab-label-17-0');
-    // Use the first one that exists
-    const targetElement3 = tabLabel10 || tabLabel11 || tabLabel12 || tabLabel13 || tabLabel14; // If tabLabel0 doesn't exist, use tabLabel1
-
-
-    const steps = [
-      {
-        element: targetElement1,
-        intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
-        position: 'bottom',
-      },
-      {
-        element: targetElement2,
-        intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
-        position: 'bottom',
-      }, {
-        element: targetElement3,
-        intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
-        position: 'bottom',
+      if (!tabElements.length) {
+        console.warn('No tabs found');
+        return;
       }
-    ];
+      // Assuming you want the first three tabs for the intro steps
+      const targetElements = [
+        tabElements[0],  // First tab
+        tabElements[1],  // Second tab
+        tabElements[2]   // Third tab
+      ];
 
-    this.introInProgress = true; // Mark the intro as in progress
-    try {
-      await this.intro.showHelp('triviaHub', steps);
-    } finally {
-      this.introInProgress = false; // Reset the flag once the intro is done
+      // Construct the steps dynamically
+      const steps = [
+        {
+          element: targetElements[0],
+          intro: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.',
+          position: 'bottom',
+        },
+        {
+          element: targetElements[1],
+          intro: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.',
+          position: 'bottom',
+        },
+        {
+          element: targetElements[2],
+          intro: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.',
+          position: 'bottom',
+        }
+      ].filter(step => step.element); // Filter out steps without a valid element
+
+      this.introInProgress = true; // Mark the intro as in progress
+      try {
+        await this.intro.showHelp('triviaHub', steps);
+      } finally {
+        this.introInProgress = false; // Reset the flag once the intro is done
+      }
     }
   }
+
 
   async changeQuestions() {
     if (!this.search || this.search.length > 2) {

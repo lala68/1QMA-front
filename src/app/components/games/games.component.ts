@@ -187,38 +187,40 @@ export class GamesComponent implements OnInit {
   }
 
   async showIntro() {
-    const steps = [
-      {
-        element: '#scoreboard',
-        intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
-        position: 'bottom',
-      }, {
-        element: '#live',
-        intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
-        position: 'bottom',
-      }, {
-        element: '#friendsRecent',
-        intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
-        position: 'bottom',
-      }, {
-        element: '#survival',
-        intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
-        position: 'bottom',
-      }, {
-        element: '#liveSurvival',
-        intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
-        position: 'bottom',
-      }, {
-        element: '#friendsSurvival',
-        intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
-        position: 'bottom',
+    if (this.router.url === '/games') {
+      const steps = [
+        {
+          element: '#scoreboard',
+          intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+          position: 'bottom',
+        }, {
+          element: '#live',
+          intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+          position: 'bottom',
+        }, {
+          element: '#friendsRecent',
+          intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+          position: 'bottom',
+        }, {
+          element: '#survival',
+          intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+          position: 'bottom',
+        }, {
+          element: '#liveSurvival',
+          intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+          position: 'bottom',
+        }, {
+          element: '#friendsSurvival',
+          intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+          position: 'bottom',
+        }
+      ];
+      this.introInProgress = true; // Mark the intro as in progress
+      try {
+        await this.intro.showHelp('games', steps);
+      } finally {
+        this.introInProgress = false; // Reset the flag once the intro is done
       }
-    ];
-    this.introInProgress = true; // Mark the intro as in progress
-    try {
-      await this.intro.showHelp('games', steps);
-    } finally {
-      this.introInProgress = false; // Reset the flag once the intro is done
     }
   }
 
@@ -621,9 +623,15 @@ export class GamesComponent implements OnInit {
       dialogConfig.height = 'auto'; // You can specify the height if needed
       dialogConfig.position = {bottom: '0px'};
       dialogConfig.panelClass = 'mobile-dialog'; // Add custom class for mobile
-      dialogConfig.data = {category: this.selectedCategory?._id ? this.selectedCategory?._id : this.selectedCategory, type: this.selectedGameType}
+      dialogConfig.data = {
+        category: this.selectedCategory?._id ? this.selectedCategory?._id : this.selectedCategory,
+        type: this.selectedGameType
+      }
     } else {
-      dialogConfig.data = {category: this.selectedCategory?._id ? this.selectedCategory?._id : this.selectedCategory, type: this.selectedGameType}
+      dialogConfig.data = {
+        category: this.selectedCategory?._id ? this.selectedCategory?._id : this.selectedCategory,
+        type: this.selectedGameType
+      }
       dialogConfig.width = '700px'; // Full size for desktop or larger screens
     }
     const dialogRef = this.dialog.open(ImportFromLibrary, dialogConfig);

@@ -10,7 +10,7 @@
 <div [class]="{'d-inline-flex': !generalService.isMobileView, 'd-block': generalService.isMobileView}" *ngIf="!loading">
   <div class="card border-0 text-center mb-2"
        [class]="{'w-20': !generalService.isMobileView, 'w-100 p-2': generalService.isMobileView}"
-       [style]="generalService.isMobileView ? 'margin-inline-end: 0' : 'margin-inline-end: 1rem; padding: 2rem'"
+       [style]="generalService.isMobileView ? 'margin-inline-end: 0' : 'margin-inline-end: 1rem; padding: 2rem; max-width: 200px;min-width: 200px;'"
        style="height: 200px" *ngIf="generalService.userObj">
     <div style="margin: 0 auto">
       <mat-spinner *ngIf="loadingUpload" [diameter]="30"></mat-spinner>
@@ -32,7 +32,7 @@
     </div>
   </div>
   <div class="card border-0"
-       [style]="generalService.isMobileView ? 'width: 100%' : 'width: 870'"
+       [style]="generalService.isMobileView ? 'width: 100%' : 'width: 850; max-width: 850px; min-width: 850px'"
        [class]="{'p-4': !generalService.isMobileView, 'p-2': generalService.isMobileView}"
        *ngIf="generalService.userObj">
     <mat-label class="font-size-14 weight-700">{{'Personal information' | translate}}</mat-label>
@@ -167,14 +167,19 @@
 </div>
 <br>
 <br>
-<div [class]="{'d-inline-flex': !generalService.isMobileView, 'd-block': generalService.isMobileView}" *ngIf="!loading">
+<div class="w-100" [class]="{'d-inline-flex': !generalService.isMobileView, 'd-block': generalService.isMobileView}"
+     *ngIf="!loading">
+  <div class="border-0 text-center mb-2"
+       [class]="{'w-20': !generalService.isMobileView, 'w-100 p-2': generalService.isMobileView}"
+       [style]="generalService.isMobileView ? 'margin-inline-end: 0' : 'margin-inline-end: 1rem; padding: 2rem; max-width: 200px; min-width: 200px'"
+       *ngIf="generalService.userObj">
+  </div>
   <div class="card border-0"
+       [style]="generalService.isMobileView ? 'width: 100%' : 'width: 850px; max-width: 850px; min-width: 850px'"
        [class]="{'p-4': !generalService.isMobileView, 'p-2': generalService.isMobileView}"
-       [style]="generalService.isMobileView ? 'width: 100%' : 'width: 850px; margin-inline-start: 220px'"
        *ngIf="generalService.userObj">
     <mat-label class="font-size-14 weight-700">{{'Deactivate Account' | translate}}</mat-label>
     <mat-slide-toggle labelPosition="before" [(ngModel)]="isAccountDeactivated"
                       (change)="openDialogDeactivate('0','0',$event)">{{'Deactivate my account' | translate}}</mat-slide-toggle>
-
   </div>
 </div>
