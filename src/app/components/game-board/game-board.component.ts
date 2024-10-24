@@ -656,8 +656,13 @@ export class GameBoardComponent implements OnInit, OnDestroy {
 
       if (data.status === 1) {
         this.generalService.specificQuestionAnswers = data.data;
-        for (const answer of this.generalService.specificQuestionAnswers.answers) {
-          answer.answer = await translate(answer.answer, this.generalService.selectedTranslatedLanguage);
+        // for (const answer of this.generalService.specificQuestionAnswers.answers) {
+        //   answer.answer = await translate(answer.answer, this.generalService.selectedTranslatedLanguage);
+        // }
+        if (this.generalService.selectedTranslatedLanguage) {
+          for (const answer of this.generalService.specificQuestionAnswers.answers) {
+            answer.answer = await this.detectAndTranslate(answer.answer, this.generalService.selectedTranslatedLanguage);
+          }
         }
         this.updateRates(this.generalService.rateAnswers.length !== 0);
       }
