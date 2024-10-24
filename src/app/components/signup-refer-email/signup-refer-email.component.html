@@ -71,22 +71,21 @@
         <br><br>
         <mat-form-field appearance="fill" class="custom-form-field w-100" [hideRequiredMarker]="true">
           <mat-label>{{'Verification Code' | translate}}</mat-label>
-          <input matInput placeholder="Verification Code" type="text" [formControlName]="'verificationCode'" required>
+          <input matInput placeholder="Verification Code" type="text" [formControlName]="'verificationCode'" autocomplete="off" required>
         </mat-form-field>
         <mat-form-field appearance="fill" class="custom-form-field w-100" [hideRequiredMarker]="true">
           <mat-label>{{'New password' | translate}}</mat-label>
           <div class="d-inline-flex w-100">
             <input matInput placeholder="New password" [type]="hide ? 'password' : 'text'"
-                   [formControlName]="'password'" required>
+                   [formControlName]="'password'" autocomplete="new-password" required>
             <i (click)="hide = !hide" [class]="hide? 'bi-eye-slash' : 'bi-eye'"></i>
           </div>
-
         </mat-form-field>
         <mat-form-field appearance="fill" class="custom-form-field w-100 mb-2" [hideRequiredMarker]="true">
           <mat-label>{{'Retype new password' | translate}}</mat-label>
           <div class="d-inline-flex w-100">
             <input matInput placeholder="Retype new password" [type]="hideCopy ? 'password' : 'text'"
-                   [formControlName]="'passwordConfirmation'" required>
+                   [formControlName]="'passwordConfirmation'" autocomplete="new-password" required>
             <i (click)="hideCopy = !hideCopy" [class]="hideCopy? 'bi-eye-slash' : 'bi-eye'"></i>
           </div>
         </mat-form-field>

@@ -103,7 +103,6 @@ export class AppComponent implements OnInit {
           console.log(params);
           const invitation_id = params['id'];
           const status = params['status'];
-          // alert('status: ' + status)
           const user_id = params['user_id'];
           // alert('user_id: ' + user_id)
           const message = params['message'];

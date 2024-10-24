@@ -239,7 +239,7 @@ export class GamesComponent implements OnInit {
   }
 
   resetData() {
-    this.selectedCategory = [];
+    this.selectedCategory = '';
     this.selectedGameMode = '';
     this.selectedGameType = [];
     this.createGameStep = 1;
@@ -364,8 +364,9 @@ export class GamesComponent implements OnInit {
   }
 
   selectCat(id: any) {
-    this.selectedCategory = [];
-    this.selectedCategory.push(id);
+    this.selectedCategory = '';
+    // this.selectedCategory.push(id);
+    this.selectedCategory = id;
   }
 
   isSelectedLive(item: any): boolean {
@@ -620,9 +621,9 @@ export class GamesComponent implements OnInit {
       dialogConfig.height = 'auto'; // You can specify the height if needed
       dialogConfig.position = {bottom: '0px'};
       dialogConfig.panelClass = 'mobile-dialog'; // Add custom class for mobile
-      dialogConfig.data = {category: this.selectedCategory, type: this.selectedGameType}
+      dialogConfig.data = {category: this.selectedCategory?._id ? this.selectedCategory?._id : this.selectedCategory, type: this.selectedGameType}
     } else {
-      dialogConfig.data = {category: this.selectedCategory, type: this.selectedGameType}
+      dialogConfig.data = {category: this.selectedCategory?._id ? this.selectedCategory?._id : this.selectedCategory, type: this.selectedGameType}
       dialogConfig.width = '700px'; // Full size for desktop or larger screens
     }
     const dialogRef = this.dialog.open(ImportFromLibrary, dialogConfig);
@@ -794,7 +795,7 @@ export class ImportFromLibrary implements OnInit {
     if (!this.search || this.search.length > 2) {
       this.library = [];
       this.loading = true;
-      this.clientService.getUserQuestions(this.data.category._id, this.selectedTabIndex == 0
+      this.clientService.getUserQuestions(this.data.category, this.selectedTabIndex == 0
         ? 'private'
         : this.selectedTabIndex == 1
           ? 'public'
