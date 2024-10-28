@@ -37,30 +37,40 @@ export class SidenavComponent implements OnInit {
   }
 
   async showIntro() {
-    const steps = [
-      {
-        element: '#userAccount',
-        intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
-        position: 'bottom',
-      }, {
-        element: '#dashboard',
-        intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
-        position: 'bottom',
-      }, {
-        element: '#games',
-        intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
-        position: 'bottom',
-      }, {
-        element: '#trivia',
-        intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
-        position: 'bottom',
-      }, {
-        element: '#shop',
-        intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
-        position: 'bottom',
+    if (this.router.url === '/dashboard') {
+      const steps = [
+        {
+          element: '#userAccount',
+          intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+          position: 'bottom',
+        }, {
+          element: '#dashboard',
+          intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+          position: 'bottom',
+        }, {
+          element: '#games',
+          intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+          position: 'bottom',
+        }, {
+          element: '#trivia',
+          intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+          position: 'bottom',
+        }, {
+          element: '#shop',
+          intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+          position: 'bottom',
+        }
+      ];
+      // Filter out steps where the element does not exist in the DOM
+      const availableSteps = steps.filter(step =>
+        document.querySelector(step.element) !== null
+      );
+
+      // Proceed with the intro only if there are valid steps
+      if (availableSteps.length > 0) {
+        await this.intro.showHelp('dashboard', availableSteps);
       }
-    ];
-    await this.intro.showHelp('dashboard', steps);
+    }
   }
 
   toggleFab() {

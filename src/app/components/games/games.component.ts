@@ -104,15 +104,31 @@ export class GamesComponent implements OnInit {
 
     this.wordCountAnswer = this.generalService.gameInit?.answerWordsLimitation;
     this.route.paramMap.subscribe(params => {
-      console.log(params.get('id'))
-
+      console.log(params.get('id'));
       this.selectedTabIndex = params.get('id') || '';
     });
 
-    this.gameService.getMyScoreboard().then(data => {
-      if (data.status == 1) {
-        this.myScoreboard = data.data;
+    try {
+      // Use Promise.all to ensure all async data fetching is complete before marking loading as false
+      const [
+        scoreboardData,
+        liveGamesData,
+        friendsGamesData,
+        scoreboardSurvivalData,
+        liveSurvivalData,
+        friendsRecentSurvivalData
+      ] = await Promise.all([
+        this.gameService.getMyScoreboard(),
+        this.gameService.getLiveGames(),
+        this.gameService.getFriendsRecentGames(),
+        this.gameService.getScoreboardSurvival(),
+        this.gameService.getLiveSurvival(),
+        this.gameService.getFriendsRecentSurvival()
+      ]);
 
+      // Handle scoreboard data
+      if (scoreboardData.status === 1) {
+        this.myScoreboard = scoreboardData.data;
         this.myScoreboard.forEach((item: any, index: any) => {
           const answersRatesLength = item.result.answersRates.length;
           if (answersRatesLength > this.maxAnswersRatesLength) {
@@ -120,59 +136,47 @@ export class GamesComponent implements OnInit {
             this.longestAnswerRateIndex = index;
           }
         });
-        this.loading = false;
       }
-    }, error => {
-      return this.processHTTPMsgService.handleError(error);
-    });
-    //
-    this.gameService.getLiveGames().then(data => {
-      if (data.status == 1)
-        this.liveGames = data.data;
-    }, error => {
-      return this.processHTTPMsgService.handleError(error);
-    });
-    //
-    this.gameService.getFriendsRecentGames().then(data => {
-      if (data.status == 1)
-        this.friendsGames = data.data;
-    }, error => {
-      return this.processHTTPMsgService.handleError(error);
-    });
-    //
-    this.gameService.getScoreboardSurvival().then(data => {
-      if (data.status == 1)
-        this.scoreboardSurvival = data.data;
-    }, error => {
-      return this.processHTTPMsgService.handleError(error);
-    });
-    //
-    this.gameService.getLiveSurvival().then(data => {
-      if (data.status == 1)
-        this.liveSurvival = data.data;
-    }, error => {
-      return this.processHTTPMsgService.handleError(error);
-    });
-    //
-    this.gameService.getFriendsRecentSurvival().then(data => {
-      if (data.status == 1)
-        this.friendsRecentSurvival = data.data;
-    }, error => {
-      return this.processHTTPMsgService.handleError(error);
-    });
 
-    await this.waitForClientInit();
+      // Assign other data
+      if (liveGamesData.status === 1) this.liveGames = liveGamesData.data;
+      if (friendsGamesData.status === 1) this.friendsGames = friendsGamesData.data;
+      if (scoreboardSurvivalData.status === 1) this.scoreboardSurvival = scoreboardSurvivalData.data;
+      if (liveSurvivalData.status === 1) this.liveSurvival = liveSurvivalData.data;
+      if (friendsRecentSurvivalData.status === 1) this.friendsRecentSurvival = friendsRecentSurvivalData.data;
 
-    // After clientInit is ready, check the value
-    if (
-      this.generalService.clientInit &&
-      this.generalService.clientInit.user &&
-      this.generalService.clientInit.user.hasSeenIntros &&
-      !this.generalService.clientInit.user.hasSeenIntros.games
-    ) {
-      await this.showIntro(); // Wait for showIntro to finish
+    } catch (error) {
+      // Handle errors
+      await this.processHTTPMsgService.handleError(error);
+    } finally {
+      // Set loading to false after all async calls are resolved
+      this.loading = false;
+
+      // Wait for client initialization and check DOM elements before showing intro
+      await this.waitForClientInit();
+
+      // Define intro steps
+      const steps = this.getIntroSteps();
+
+      // Wait for elements to be available in the DOM
+      const availableSteps = await this.waitForElements(steps);
+
+      // Show intro if conditions are met
+      if (
+        this.generalService.clientInit &&
+        this.generalService.clientInit.user &&
+        this.generalService.clientInit.user.hasSeenIntros &&
+        !this.generalService.clientInit.user.hasSeenIntros.games &&
+        availableSteps.length > 0
+      ) {
+        await this.showIntro(); // Wait for showIntro to finish
+      } else {
+        console.warn('Intro not shown: conditions not met or no available steps.');
+      }
     }
   }
+
+
 
   async waitForClientInit() {
     while (!this.generalService.clientInit?.user?.hasSeenIntros) {
@@ -191,40 +195,107 @@ export class GamesComponent implements OnInit {
       const steps = [
         {
           element: '#scoreboard',
-          intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+          intro: 'This section shows your overall score and ranking in the game.',
           position: 'bottom',
-        }, {
+        },
+        {
           element: '#live',
-          intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+          intro: 'Join live games here and compete with others in real-time.',
           position: 'bottom',
-        }, {
+        },
+        {
           element: '#friendsRecent',
-          intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+          intro: 'Check out the recent games played by your friends.',
           position: 'bottom',
-        }, {
+        },
+        {
           element: '#survival',
-          intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+          intro: 'See how you rank in survival mode against other players.',
           position: 'bottom',
-        }, {
+        },
+        {
           element: '#liveSurvival',
-          intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+          intro: 'Participate in live survival games and show your skills.',
           position: 'bottom',
-        }, {
+        },
+        {
           element: '#friendsSurvival',
-          intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+          intro: 'Keep track of your friends’ performance in survival games.',
           position: 'bottom',
         }
       ];
-      // Filter out steps where the element does not exist in the DOM
-      const availableSteps = steps.filter(step =>
-        document.querySelector(step.element) !== null
-      );
+
+      const availableSteps = this.getAvailableSteps(steps);
+
+      console.log(availableSteps);
 
       // Proceed with the intro only if there are valid steps
       if (availableSteps.length > 0) {
-        await this.intro.showHelp('games', availableSteps);
+        try {
+          await this.intro.showHelp('games', availableSteps);
+        } catch (error) {
+          console.error('Error showing intro:', error);
+          // Handle the error appropriately, e.g., show an alert to the user
+        }
+      } else {
+        console.warn('No available steps for the intro.');
+        // Optionally, you could notify the user that no intro will be shown
       }
     }
+  }
+
+  getIntroSteps() {
+    return [
+      {
+        element: '#scoreboard',
+        intro: 'This section shows your overall score and ranking in the game.',
+        position: 'bottom',
+      },
+      {
+        element: '#live',
+        intro: 'Join live games here and compete with others in real-time.',
+        position: 'bottom',
+      },
+      {
+        element: '#friendsRecent',
+        intro: 'Check out the recent games played by your friends.',
+        position: 'bottom',
+      },
+      {
+        element: '#survival',
+        intro: 'See how you rank in survival mode against other players.',
+        position: 'bottom',
+      },
+      {
+        element: '#liveSurvival',
+        intro: 'Participate in live survival games and show your skills.',
+        position: 'bottom',
+      },
+      {
+        element: '#friendsSurvival',
+        intro: 'Keep track of your friends’ performance in survival games.',
+        position: 'bottom',
+      }
+    ];
+  }
+
+  getAvailableSteps(steps: any[]): any[] {
+    // Filter out steps where the element does not exist in the DOM
+    return steps.filter(step => document.querySelector(step.element) !== null);
+  }
+
+// Additional function to check for elements after a delay
+  async waitForElements(steps: any[], maxAttempts: number = 5, interval: number = 500): Promise<any[]> {
+    let attempts = 0;
+    let availableSteps = this.getAvailableSteps(steps);
+
+    while (availableSteps.length === 0 && attempts < maxAttempts) {
+      await new Promise(resolve => setTimeout(resolve, interval));
+      availableSteps = this.getAvailableSteps(steps);
+      attempts++;
+    }
+
+    return availableSteps;
   }
 
   // Method to destroy or cancel the intro
