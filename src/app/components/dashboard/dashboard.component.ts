@@ -92,6 +92,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.generalService.clientInit.user.hasSeenIntros &&
       (!this.generalService.clientInit.user.hasSeenIntros.dashboard)
     ) {
+      await this.sideNavComponent.showIntro();
+      await this.headerComponent.showIntro();
       await this.showIntro(); // Wait for showIntro to finish
     }
   }
@@ -103,15 +105,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    console.log(222)
     introJs().exit(true);
   }
 
   destroyIntro() {
-    if (this.introInProgress) {
-      introJs().exit(true); // Assuming 'cancel()' is a method from the intro library to stop the intro
-      this.introInProgress = false; // Reset the flag
-    }
+    // if (this.introInProgress) {
+    introJs().exit(true); // Assuming 'cancel()' is a method from the intro library to stop the intro
+    //   this.introInProgress = false; // Reset the flag
+    // }
   }
 
 
@@ -309,36 +310,45 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   async showIntro() {
     if (this.router.url === '/dashboard') {
+      // Define steps with selectors for elements that might not always be present
       const steps = [
         {
           element: '#accountOverview',
-          intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+          intro: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.',
           position: 'bottom',
-        }, {
+        },
+        {
           element: '#topQuestions',
-          intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+          intro: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.',
           position: 'bottom',
-        }, {
+        },
+        {
           element: '#InviteFriends',
-          intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+          intro: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.',
           position: 'bottom',
-        }, {
+        },
+        {
           element: '#charity',
-          intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+          intro: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.',
+          position: 'bottom',
+        },
+        {
+          element: '#questionsFromFriends',
+          intro: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.',
           position: 'bottom',
         }
-        // {
-        //   element: '#questionsFromFriends',
-        //   intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
-        //   position: 'bottom',
-        // }
       ];
-      this.introInProgress = true; // Mark the intro as in progress
-      try {
-        await this.intro.showHelp('dashboard', steps);
-      } finally {
-        this.introInProgress = false; // Reset the flag once the intro is done
+
+      // Filter out steps where the element does not exist in the DOM
+      const availableSteps = steps.filter(step =>
+        document.querySelector(step.element) !== null
+      );
+
+      // Proceed with the intro only if there are valid steps
+      if (availableSteps.length > 0) {
+        await this.intro.showHelp('dashboard', availableSteps);
       }
     }
+
   }
 }

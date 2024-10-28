@@ -76,7 +76,6 @@ export class ShopComponent implements OnInit {
   }
 
   destroyIntro() {
-    console.log(1111111)
     if (this.introInProgress) {
       introJs().exit(true); // Assuming 'cancel()' is a method from the intro library to stop the intro
       this.introInProgress = false; // Reset the flag
@@ -84,26 +83,31 @@ export class ShopComponent implements OnInit {
   }
 
   async showIntro() {
-    const steps = [
-      {
-        element: '#features',
-        intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
-        position: 'bottom',
-      }, {
-        element: '#assets',
-        intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
-        position: 'bottom',
-      }, {
-        element: '#bundles',
-        intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
-        position: 'bottom',
+    if (this.router.url === '/shop') {
+      const steps = [
+        {
+          element: '#features',
+          intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+          position: 'bottom',
+        }, {
+          element: '#assets',
+          intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+          position: 'bottom',
+        }, {
+          element: '#bundles',
+          intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+          position: 'bottom',
+        }
+      ];
+      // Filter out steps where the element does not exist in the DOM
+      const availableSteps = steps.filter(step =>
+        document.querySelector(step.element) !== null
+      );
+
+      // Proceed with the intro only if there are valid steps
+      if (availableSteps.length > 0) {
+        await this.intro.showHelp('shop', availableSteps);
       }
-    ];
-    this.introInProgress = true; // Mark the intro as in progress
-    try {
-      await this.intro.showHelp('shop', steps);
-    } finally {
-      this.introInProgress = false; // Reset the flag once the intro is done
     }
   }
 

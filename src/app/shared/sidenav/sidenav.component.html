@@ -2,26 +2,26 @@
   <app-header></app-header>
   <mat-toolbar class="mobileviewFooterButtonstoolbarNav" style="z-index: 10; height: 70px"
                *ngIf="generalService.userId && generalService.hasCompletedSignup && (!generalService.startingGame && !generalService.startingGameTutorial)">
-    <button mat-flat-button [routerLink]="['/dashboard']" id="dashboard"
+    <button mat-flat-button [routerLink]="['/dashboard']"
             [class]="generalService.currentRout == '/dashboard' ? 'mat-list-item-selected' : ''"
             routerLinkActive="active-link" class="w-20 mt-3" style="margin-top: 2px !important; height: 70px;">
       <img matListItemIcon src="assets/images/home.png" width="25">
       <span class="d-block">Dashboard</span>
     </button>
     <!--    <button mat-flat-button [routerLink]="['/game-board']" id="games"-->
-    <button mat-flat-button [routerLink]="['/games/overview']" id="games"
+    <button mat-flat-button [routerLink]="['/games/overview']"
             [class]="generalService.currentRout == '/games/overview' ? 'mat-list-item-selected' : ''"
             routerLinkActive="active-link" class="w-25 mt-3" style="margin-top: 2px !important; height: 70px;">
       <img matListItemIcon src="assets/images/game.png" width="25">
       <span class="d-block">Games</span>
     </button>
-    <button mat-flat-button [routerLink]="['/trivia-hub']" id="trivia"
+    <button mat-flat-button [routerLink]="['/trivia-hub']"
             [class]="generalService.currentRout == '/trivia-hub' ? 'mat-list-item-selected' : ''"
             routerLinkActive="active-link" class="w-20 mt-3" style="margin-top: 2px !important; height: 70px;">
       <img matListItemIcon src="assets/images/book-side.png" width="25">
       <span class="d-block">Trivia Hub</span>
     </button>
-    <button mat-flat-button [routerLink]="['/shop']" id="shop"
+    <button mat-flat-button [routerLink]="['/shop']"
             [class]="generalService.currentRout == '/shop' ? 'mat-list-item-selected' : ''"
             routerLinkActive="active-link" class="w-20 mt-3" style="margin-top: 2px !important; height: 70px;">
       <img matListItemIcon src="assets/images/shop.png" width="25">

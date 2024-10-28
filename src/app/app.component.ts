@@ -131,6 +131,7 @@ export class AppComponent implements OnInit {
                   }, error => {
                     return this.processHTTPMsgService.handleError(error);
                   });
+                  alert(1)
                   // await this.generalService.useGoogleTranslate();
                   if (user.data.hasSeenIntros.tutorial) {
                     await this.router.navigate(['/dashboard']);
@@ -203,6 +204,7 @@ export class AppComponent implements OnInit {
                           }, error => {
                             return this.processHTTPMsgService.handleError(error);
                           });
+                          alert(2)
                           // await this.generalService.useGoogleTranslate();
                           if (user.data.hasSeenIntros.tutorial) {
                             await this.router.navigate(['/dashboard']);
@@ -259,15 +261,15 @@ export class AppComponent implements OnInit {
                     }, error => {
                       return this.processHTTPMsgService.handleError(error);
                     });
-                    if (this.generalService.userObj.hasSeenIntros?.tutorial) {
+                    // if (this.generalService.userObj.hasSeenIntros?.tutorial) {
                       this.router.navigate([(this.router.url === ('/login') || this.router.url === ('/signup') || this.router.url === ('/forget-password')
                         || this.router.url === ('/wizard') || this.router.url === ('/signup-social') || this.router.url === ('/signup-refer-email')
                         || this.router.url === ('/social/callback')) ? '/dashboard' : this.location.path()]);
                       // await this.generalService.useGoogleTranslate();
                       this.generalService.currentRout = this.router.url;
-                    } else {
-                      await this.router.navigate(['/tutorial']);
-                    }
+                    // } else {
+                    //   await this.router.navigate(['/tutorial']);
+                    // }
                   }
                 });
               } else {

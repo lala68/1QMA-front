@@ -129,48 +129,40 @@ export class TriviaHubComponent implements OnInit {
 
   async showIntro() {
     if (this.router.url === '/trivia-hub') {
-      // Use querySelectorAll to get all tabs, then pick the ones you need
+      // Select all tab elements
       const tabElements = document.querySelectorAll('div[role="tab"]');
 
-      if (!tabElements.length) {
-        console.warn('No tabs found');
+      // Check if there are enough tabs for the intro steps
+      if (tabElements.length === 0) {
+        console.warn('No tabs found for the intro.');
         return;
       }
-      // Assuming you want the first three tabs for the intro steps
-      const targetElements = [
-        tabElements[0],  // First tab
-        tabElements[1],  // Second tab
-        tabElements[2]   // Third tab
-      ];
 
-      // Construct the steps dynamically
-      const steps = [
-        {
-          element: targetElements[0],
-          intro: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.',
-          position: 'bottom',
-        },
-        {
-          element: targetElements[1],
-          intro: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.',
-          position: 'bottom',
-        },
-        {
-          element: targetElements[2],
-          intro: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.',
-          position: 'bottom',
+      // Dynamically create steps for each tab element found
+      const steps = Array.from(tabElements).map((tabElement, index) => ({
+        element: tabElement,
+        intro: `Step for tab ${index + 1}: Lorem ipsum dolor sit amet, consectetur adipiscing elit.`,
+        position: 'bottom'
+      }));
+
+      // Filter out steps where the element does not exist in the DOM
+      const availableSteps = steps.filter(step =>
+        document.contains(step.element)
+      );
+
+      // Proceed with the intro only if there are valid steps
+      if (availableSteps.length > 0) {
+        this.introInProgress = true;
+        try {
+          await this.intro.showHelp('triviaHub', availableSteps);
+        } finally {
+          this.introInProgress = false; // Reset flag after intro
         }
-      ].filter(step => step.element); // Filter out steps without a valid element
-
-      this.introInProgress = true; // Mark the intro as in progress
-      try {
-        await this.intro.showHelp('triviaHub', steps);
-      } finally {
-        this.introInProgress = false; // Reset the flag once the intro is done
+      } else {
+        console.warn('No valid elements found for the intro steps.');
       }
     }
   }
-
 
   async changeQuestions() {
     if (!this.search || this.search.length > 2) {

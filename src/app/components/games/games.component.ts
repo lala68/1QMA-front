@@ -187,7 +187,7 @@ export class GamesComponent implements OnInit {
   }
 
   async showIntro() {
-    if (this.router.url === '/games') {
+    if (this.router.url === '/games/overview') {
       const steps = [
         {
           element: '#scoreboard',
@@ -215,11 +215,14 @@ export class GamesComponent implements OnInit {
           position: 'bottom',
         }
       ];
-      this.introInProgress = true; // Mark the intro as in progress
-      try {
-        await this.intro.showHelp('games', steps);
-      } finally {
-        this.introInProgress = false; // Reset the flag once the intro is done
+      // Filter out steps where the element does not exist in the DOM
+      const availableSteps = steps.filter(step =>
+        document.querySelector(step.element) !== null
+      );
+
+      // Proceed with the intro only if there are valid steps
+      if (availableSteps.length > 0) {
+        await this.intro.showHelp('games', availableSteps);
       }
     }
   }
