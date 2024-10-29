@@ -154,7 +154,7 @@ export class TriviaHubComponent implements OnInit {
       if (availableSteps.length > 0) {
         this.introInProgress = true;
         try {
-          await this.intro.showHelp('triviaHub', availableSteps);
+          await this.intro.showHelp('triviaHub', availableSteps, 'triviaHub');
         } finally {
           this.introInProgress = false; // Reset flag after intro
         }

@@ -68,7 +68,7 @@ export class SidenavComponent implements OnInit {
 
       // Proceed with the intro only if there are valid steps
       if (availableSteps.length > 0) {
-        await this.intro.showHelp('dashboard', availableSteps);
+        await this.intro.showHelp('dashboard', availableSteps, 'side');
       }
     }
   }

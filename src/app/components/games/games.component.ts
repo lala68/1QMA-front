@@ -232,7 +232,7 @@ export class GamesComponent implements OnInit {
       // Proceed with the intro only if there are valid steps
       if (availableSteps.length > 0) {
         try {
-          await this.intro.showHelp('games', availableSteps);
+          await this.intro.showHelp('games', availableSteps, 'games');
         } catch (error) {
           console.error('Error showing intro:', error);
           // Handle the error appropriately, e.g., show an alert to the user

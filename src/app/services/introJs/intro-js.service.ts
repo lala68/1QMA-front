@@ -20,11 +20,11 @@ export class IntroJsService {
     // });
   }
 
-  async showHelp(selector: any, steps: any) {
+  async showHelp(selector: any, steps: any, from: any) {
     introJs().exit(true); // Ensure no previous intro is running
     // const introStatus = await Preferences.get({key: 'intro_' + selector});
-    const introStatus = this.generalService.clientInit?.user?.hasSeenIntros?.[selector]
-
+    const introStatus = this.generalService.clientInit?.user?.hasSeenIntros?.[selector];
+    console.log(introStatus)
     if (!introStatus && this.displayIntro) {
       return new Promise<void>((resolve) => {
         setTimeout(() => {
@@ -40,21 +40,25 @@ export class IntroJsService {
           // Resolve the promise when the intro completes or exits
           intro.oncomplete(() => {
             // Preferences.set({key: 'intro_' + selector, value: JSON.stringify(true)});
-            this.clientService.postIntro(selector).then(async data => {
-              await this.generalService.getUserData();
-              await Preferences.remove({key: 'account'});
-              await Preferences.set({key: 'account', value: JSON.stringify(data.data)});
-              this.generalService.clientInit.user = data.data;
-            })
+            if (from != 'side' && from != 'header') {
+              this.clientService.postIntro(selector).then(async data => {
+                await this.generalService.getUserData();
+                await Preferences.remove({key: 'account'});
+                await Preferences.set({key: 'account', value: JSON.stringify(data.data)});
+                this.generalService.clientInit.user = data.data;
+              })
+            }
             resolve();
           }).onexit(() => {
             // Preferences.set({key: 'intro_' + selector, value: JSON.stringify(true)});
-            this.clientService.postIntro(selector).then(async data => {
-              this.generalService.clientInit.user = data.data;
-              await Preferences.remove({key: 'account'});
-              await Preferences.set({key: 'account', value: JSON.stringify(data.data)});
-              await this.generalService.getUserData();
-            })
+            if (from != 'side' && from != 'header') {
+              this.clientService.postIntro(selector).then(async data => {
+                this.generalService.clientInit.user = data.data;
+                await Preferences.remove({key: 'account'});
+                await Preferences.set({key: 'account', value: JSON.stringify(data.data)});
+                await this.generalService.getUserData();
+              })
+            }
             resolve();
           });
         }, 100);
