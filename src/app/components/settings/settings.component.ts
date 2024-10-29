@@ -24,6 +24,8 @@ export class SettingsComponent implements OnInit {
     language: [''],
     font: [''],
     defaultHomePage: [''],
+    playAnonymously: [false],
+    anonymousName: [''],
   });
   loading: boolean = false;
   availableFonts: string[] = ['Rokh', 'Exo', 'Anjoman', 'Daal', 'Damavand', 'Dana', 'Farhang', 'Irancell', 'IRANSans',
@@ -41,6 +43,8 @@ export class SettingsComponent implements OnInit {
       language: [this.generalService.userObj?.preferedLanguage ? this.generalService.userObj?.preferedLanguage?._id : '0'],
       font: [this.generalService.userObj?.preferedFont ? this.generalService.userObj?.preferedFont : 'Exo'],
       defaultHomePage: [this.generalService.userObj?.defaultHomePage ? this.generalService.userObj?.defaultHomePage : '/dashboard'],
+      playAnonymously: [this.generalService.userObj?.playAnonymously ? this.generalService.userObj?.playAnonymously : false],
+      anonymousName: [this.generalService.userObj?.anonymousName ? this.generalService.userObj?.anonymousName : ''],
     });
   }
 
@@ -50,6 +54,9 @@ export class SettingsComponent implements OnInit {
 
   async updateSettings() {
     this.loading = true;
+    if (!this.settingsForm.controls.playAnonymously) {
+      this.settingsForm.controls.anonymousName.setValue(this.generalService.userObj?.anonymousName);
+    }
     this.clientService.updateSettings(this.settingsForm.value, this.generalService.userId).then(async data => {
       if (data.status == 1) {
         await Preferences.remove({key: 'account'});

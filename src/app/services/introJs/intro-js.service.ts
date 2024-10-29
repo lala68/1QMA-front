@@ -41,14 +41,16 @@ export class IntroJsService {
           intro.oncomplete(() => {
             // Preferences.set({key: 'intro_' + selector, value: JSON.stringify(true)});
             this.clientService.postIntro(selector).then(async data => {
+              await this.generalService.getUserData();
               await Preferences.remove({key: 'account'});
               await Preferences.set({key: 'account', value: JSON.stringify(data.data)});
-              await this.generalService.getUserData();
+              this.generalService.clientInit.user = data.data;
             })
             resolve();
           }).onexit(() => {
             // Preferences.set({key: 'intro_' + selector, value: JSON.stringify(true)});
             this.clientService.postIntro(selector).then(async data => {
+              this.generalService.clientInit.user = data.data;
               await Preferences.remove({key: 'account'});
               await Preferences.set({key: 'account', value: JSON.stringify(data.data)});
               await this.generalService.getUserData();

@@ -31,7 +31,18 @@
         <mat-option *ngFor="let font of availableFonts" [value]="font">{{font}}</mat-option>
       </mat-select>
     </mat-form-field>
-
+    <br>
+    <mat-slide-toggle labelPosition="before"
+                      [formControlName]="'playAnonymously'">{{'Play Anonymously' | translate}}</mat-slide-toggle>
+    <br>
+    <br>
+    <mat-form-field *ngIf="settingsForm.controls.playAnonymously.value" appearance="fill"
+                    class="custom-form-field"
+                    [class]="{'w-50': !generalService.isMobileView, 'w-100': generalService.isMobileView}"
+                    [hideRequiredMarker]="true">
+      <mat-label>{{'Anonymous Name' | translate}}</mat-label>
+      <input matInput placeholder="{{'Anonymous Name' | translate}}" type="text" [formControlName]="'anonymousName'">
+    </mat-form-field>
 
     <br><br><br>
     <button mat-raised-button color="primary" type="submit" [disabled]="loading"

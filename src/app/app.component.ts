@@ -131,10 +131,14 @@ export class AppComponent implements OnInit {
                   }, error => {
                     return this.processHTTPMsgService.handleError(error);
                   });
-                  alert(1)
                   // await this.generalService.useGoogleTranslate();
                   if (user.data.hasSeenIntros.tutorial) {
-                    await this.router.navigate(['/dashboard']);
+                    if (user.data?.defaultHomePage == '/games') {
+                      await this.router.navigate(['/games/overview']);
+                    } else {
+                      await this.router.navigate([user.data?.defaultHomePage]);
+                      this.generalService.currentRout = user.data?.defaultHomePage;
+                    }
                   } else {
                     await this.router.navigate(['/tutorial']);
                   }
@@ -204,10 +208,14 @@ export class AppComponent implements OnInit {
                           }, error => {
                             return this.processHTTPMsgService.handleError(error);
                           });
-                          alert(2)
                           // await this.generalService.useGoogleTranslate();
                           if (user.data.hasSeenIntros.tutorial) {
-                            await this.router.navigate(['/dashboard']);
+                            if (user.data?.defaultHomePage == '/games') {
+                              await this.router.navigate(['/games/overview']);
+                            } else {
+                              await this.router.navigate([user.data?.defaultHomePage]);
+                              this.generalService.currentRout = user.data?.defaultHomePage;
+                            }
                           } else {
                             await this.router.navigate(['/tutorial']);
                           }
@@ -262,11 +270,11 @@ export class AppComponent implements OnInit {
                       return this.processHTTPMsgService.handleError(error);
                     });
                     // if (this.generalService.userObj.hasSeenIntros?.tutorial) {
-                      this.router.navigate([(this.router.url === ('/login') || this.router.url === ('/signup') || this.router.url === ('/forget-password')
-                        || this.router.url === ('/wizard') || this.router.url === ('/signup-social') || this.router.url === ('/signup-refer-email')
-                        || this.router.url === ('/social/callback')) ? '/dashboard' : this.location.path()]);
-                      // await this.generalService.useGoogleTranslate();
-                      this.generalService.currentRout = this.router.url;
+                    this.router.navigate([(this.router.url === ('/login') || this.router.url === ('/signup') || this.router.url === ('/forget-password')
+                      || this.router.url === ('/wizard') || this.router.url === ('/signup-social') || this.router.url === ('/signup-refer-email')
+                      || this.router.url === ('/social/callback')) ? '/dashboard' : this.location.path()]);
+                    // await this.generalService.useGoogleTranslate();
+                    this.generalService.currentRout = this.router.url;
                     // } else {
                     //   await this.router.navigate(['/tutorial']);
                     // }

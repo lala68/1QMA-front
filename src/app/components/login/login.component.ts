@@ -57,13 +57,18 @@ export class LoginComponent {
           })
         } else if (this.generalService.userId && this.generalService.hasCompletedSignup) {
           if (this.generalService.userObj.hasSeenIntros.tutorial) {
-            await this.router.navigate(['/dashboard']);
+            if (this.generalService.userObj?.defaultHomePage == '/games') {
+              await this.router.navigate(['/games/overview']);
+              this.generalService.currentRout = '/games/overview';
+            } else {
+              await this.router.navigate([this.generalService.userObj?.defaultHomePage]);
+              this.generalService.currentRout = this.generalService.userObj?.defaultHomePage;
+            }
             this.clientService.clientInit().then(async res => {
               if (res.status == 1) {
                 this.generalService.clientInit = res.data;
                 await Preferences.remove({key: 'account'});
                 await Preferences.set({key: 'account', value: JSON.stringify(res.data.user)});
-                this.generalService.currentRout = '/dashboard';
               }
             });
             this.gameService.gameInit().then(data => {
