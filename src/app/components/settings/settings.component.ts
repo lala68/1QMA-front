@@ -72,9 +72,11 @@ export class SettingsComponent implements OnInit {
         this.loading = false;
         this.openDialog(data.message, 'Success');
       } else {
+        this.loading = false;
         this.openDialog(JSON.stringify(data.message), 'Error');
       }
     }, error => {
+      this.loading = false;
       return this.processHTTPMsgService.handleError(error);
     });
   }

@@ -816,15 +816,27 @@ export class GameBoardComponent implements OnInit, OnDestroy {
   }
 
   async detectAndTranslate(question: string, targetLanguage: string) {
-    // Detect the language using franc (returns ISO 639-3 format)
     const detectedLangISO6393 = franc(question);
-    console.log((detectedLangISO6393));
-    const detectedLangISO6391 = iso6391.getCode(detectedLangISO6393);
+    console.log(detectedLangISO6393);  // This should log 'prs' for Dari Persian
 
-    // Perform the translation
+    let detectedLangISO6391 = iso6391.getCode(detectedLangISO6393);
+    if (!detectedLangISO6391) {
+      if (detectedLangISO6393 === 'prs' || detectedLangISO6393 === 'fas' || detectedLangISO6393 === 'pes' ||
+        detectedLangISO6393 === 'und' && /[\u0600-\u06FF]/.test(question)) {
+        detectedLangISO6391 = 'fa';  // Map Dari and Persian to 'fa'
+      } else {
+        console.warn(`Detected language (${detectedLangISO6393}) has no ISO 639-1 equivalent. Defaulting to 'en'.`);
+        detectedLangISO6391 = 'fa';  // Fallback to English or another default
+      }
+    }
+
+    console.log(detectedLangISO6391);
+    console.log(targetLanguage);
+
+// Perform the translation
     const translatedText = await translate(question, {
-      from: detectedLangISO6391,  // Detected language
-      to: targetLanguage,         // Target language
+      from: detectedLangISO6391,
+      to: targetLanguage,
     });
     return translatedText;
   }

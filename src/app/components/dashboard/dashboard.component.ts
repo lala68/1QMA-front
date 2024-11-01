@@ -6,7 +6,7 @@ import {FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators} 
 import {GeneralService} from "../../services/general/general.service";
 import {NavigationStart, Router, RouterModule} from "@angular/router";
 import {NgxMatIntlTelInputComponent} from "ngx-mat-intl-tel-input";
-import {TranslateModule} from "@ngx-translate/core";
+import {TranslateModule, TranslateService} from "@ngx-translate/core";
 import {ConfigService} from "../../services/config/config.service";
 import {ClipboardModule} from "@angular/cdk/clipboard";
 import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
@@ -64,7 +64,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   constructor(private clientService: ClientService, private _formBuilder: FormBuilder, private processHTTPMsgService: ProcessHTTPMsgService,
               public generalService: GeneralService, public configService: ConfigService, private loader: LoaderService,
               private router: Router, public dialog: MatDialog, private _snackBar: MatSnackBar, private sideNavComponent: SidenavComponent,
-              private gameService: GamesService, private intro: IntroJsService, private headerComponent: HeaderComponent) {
+              private gameService: GamesService, private intro: IntroJsService,
+              private headerComponent: HeaderComponent, private translate: TranslateService) {
     this.generalService.currentRout = '/dashboard';
     this.generalService.selectedTabIndexParentInTrivia = 0;
     this.generalService.selectedTabIndexQuestionChildInTrivia = 0;
@@ -314,27 +315,27 @@ export class DashboardComponent implements OnInit, OnDestroy {
       const steps = [
         {
           element: '#accountOverview',
-          intro: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.',
+          intro: this.translate.instant('account-overview-dashboard-section-intro'),
           position: 'bottom',
         },
         {
           element: '#topQuestions',
-          intro: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.',
+          intro: this.translate.instant('top-question-dashboard-section-intro'),
           position: 'bottom',
         },
         {
           element: '#InviteFriends',
-          intro: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.',
+          intro: this.translate.instant('invite-friends-dashboard-section-intro'),
           position: 'bottom',
         },
         {
           element: '#charity',
-          intro: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.',
+          intro: this.translate.instant('charity-dashboard-section-intro'),
           position: 'bottom',
         },
         {
           element: '#questionsFromFriends',
-          intro: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.',
+          intro: this.translate.instant('questions-from-friends-dashboard-section-intro'),
           position: 'bottom',
         }
       ];

@@ -3,7 +3,7 @@ import {CommonModule} from "@angular/common";
 import {SharedModule} from "../../shared/shared.module";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NavigationStart, Router, RouterModule} from "@angular/router";
-import {TranslateModule} from "@ngx-translate/core";
+import {TranslateModule, TranslateService} from "@ngx-translate/core";
 import {DaysAgoPipe} from "../../pipes/days-ago.pipe";
 import {ParsIntPipe} from "../../pipes/pars-int.pipe";
 import {ProcessHTTPMsgService} from "../../services/proccessHttpMsg/process-httpmsg.service";
@@ -39,7 +39,8 @@ export class ShopComponent implements OnInit {
   private introInProgress: boolean = false; // Track whether the intro is showing
 
   constructor(public generalService: GeneralService, private processHTTPMsgService: ProcessHTTPMsgService, private router: Router,
-              private shopService: ShopService, private _snackBar: MatSnackBar, private intro: IntroJsService,) {
+              private shopService: ShopService, private _snackBar: MatSnackBar, private intro: IntroJsService,
+              private translate: TranslateService) {
     this.generalService.currentRout = '/shop';
     this.generalService.selectedTabIndexParentInTrivia = 0;
     this.generalService.selectedTabIndexQuestionChildInTrivia = 0;
@@ -87,15 +88,15 @@ export class ShopComponent implements OnInit {
       const steps = [
         {
           element: '#features',
-          intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+          intro: this.translate.instant('features-shop-section-intro'),
           position: 'bottom',
         }, {
           element: '#assets',
-          intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+          intro: this.translate.instant('assets-shop-section-intro'),
           position: 'bottom',
         }, {
           element: '#bundles',
-          intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+          intro: this.translate.instant('bundles-shop-section-intro'),
           position: 'bottom',
         }
       ];

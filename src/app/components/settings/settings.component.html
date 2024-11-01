@@ -41,7 +41,7 @@
                     [class]="{'w-50': !generalService.isMobileView, 'w-100': generalService.isMobileView}"
                     [hideRequiredMarker]="true">
       <mat-label>{{'Anonymous Name' | translate}}</mat-label>
-      <input matInput placeholder="{{'Anonymous Name' | translate}}" type="text" [formControlName]="'anonymousName'">
+      <input matInput placeholder="{{'Anonymous Name' | translate}}" maxlength="12" type="text" [formControlName]="'anonymousName'">
     </mat-form-field>
 
     <br><br><br>

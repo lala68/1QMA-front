@@ -7,6 +7,7 @@ import {AddQuestion, ExitGame} from "../header/header.component";
 import {MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
 import {Router} from "@angular/router";
 import {ProcessHTTPMsgService} from "../../services/proccessHttpMsg/process-httpmsg.service";
+import {TranslateService} from "@ngx-translate/core";
 
 
 @Component({
@@ -19,7 +20,7 @@ export class SidenavComponent implements OnInit {
 
   constructor(private intro: IntroJsService, private observer: BreakpointObserver, public dialog: MatDialog,
               public generalService: GeneralService, public configService: ConfigService,
-              private router: Router) {
+              private router: Router, private translate: TranslateService) {
   }
 
   ngOnInit(): void {
@@ -41,23 +42,23 @@ export class SidenavComponent implements OnInit {
       const steps = [
         {
           element: '#userAccount',
-          intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+          intro: this.translate.instant('side-menu-user-assets-intro'),
           position: 'bottom',
         }, {
           element: '#dashboard',
-          intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+          intro: this.translate.instant('side-menu-dashboard-intro'),
           position: 'bottom',
         }, {
           element: '#games',
-          intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+          intro: this.translate.instant('side-menu-games-intro'),
           position: 'bottom',
         }, {
           element: '#trivia',
-          intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+          intro: this.translate.instant('side-menu-trivia-hub-intro'),
           position: 'bottom',
         }, {
           element: '#shop',
-          intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+          intro: this.translate.instant('side-menu-shop-intro'),
           position: 'bottom',
         }
       ];

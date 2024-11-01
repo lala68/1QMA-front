@@ -9,7 +9,7 @@ import {
   Validators
 } from "@angular/forms";
 import {ActivatedRoute, NavigationStart, Router, RouterModule} from "@angular/router";
-import {TranslateModule} from "@ngx-translate/core";
+import {TranslateModule, TranslateService} from "@ngx-translate/core";
 import {GeneralService} from "../../services/general/general.service";
 import {GamesService} from "../../services/games/games.service";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
@@ -87,7 +87,8 @@ export class GamesComponent implements OnInit {
 
   constructor(public generalService: GeneralService, private gameService: GamesService, public configService: ConfigService,
               private _formBuilder: FormBuilder, private router: Router, public dialog: MatDialog, private _snackBar: MatSnackBar,
-              private route: ActivatedRoute, private intro: IntroJsService, private gameBoardComponent: GameBoardComponent, private processHTTPMsgService: ProcessHTTPMsgService) {
+              private route: ActivatedRoute, private intro: IntroJsService, private gameBoardComponent: GameBoardComponent,
+              private processHTTPMsgService: ProcessHTTPMsgService, private translate: TranslateService) {
     this.generalService.currentRout = '/games/overview';
     this.generalService.selectedTabIndexParentInTrivia = 0;
     this.generalService.selectedTabIndexQuestionChildInTrivia = 0;
@@ -177,7 +178,6 @@ export class GamesComponent implements OnInit {
   }
 
 
-
   async waitForClientInit() {
     while (!this.generalService.clientInit?.user?.hasSeenIntros) {
       await new Promise(resolve => setTimeout(resolve, 1000)); // Check every 100ms
@@ -195,32 +195,32 @@ export class GamesComponent implements OnInit {
       const steps = [
         {
           element: '#scoreboard',
-          intro: 'This section shows your overall score and ranking in the game.',
+          intro: this.translate.instant('scoreboard-games-section-intro'),
           position: 'bottom',
         },
         {
           element: '#live',
-          intro: 'Join live games here and compete with others in real-time.',
+          intro: this.translate.instant('live-games-section-intro'),
           position: 'bottom',
         },
         {
           element: '#friendsRecent',
-          intro: 'Check out the recent games played by your friends.',
+          intro: this.translate.instant('friends-recent-games-section-intro'),
           position: 'bottom',
         },
         {
           element: '#survival',
-          intro: 'See how you rank in survival mode against other players.',
+          intro: this.translate.instant('survival-games-section-intro'),
           position: 'bottom',
         },
         {
           element: '#liveSurvival',
-          intro: 'Participate in live survival games and show your skills.',
+          intro: this.translate.instant('live-survival-games-section-intro'),
           position: 'bottom',
         },
         {
           element: '#friendsSurvival',
-          intro: 'Keep track of your friends’ performance in survival games.',
+          intro: this.translate.instant('friends-survival-games-section-intro'),
           position: 'bottom',
         }
       ];
@@ -248,32 +248,32 @@ export class GamesComponent implements OnInit {
     return [
       {
         element: '#scoreboard',
-        intro: 'This section shows your overall score and ranking in the game.',
+        intro: this.translate.instant('scoreboard-games-section-intro'),
         position: 'bottom',
       },
       {
         element: '#live',
-        intro: 'Join live games here and compete with others in real-time.',
+        intro: this.translate.instant('live-games-section-intro'),
         position: 'bottom',
       },
       {
         element: '#friendsRecent',
-        intro: 'Check out the recent games played by your friends.',
+        intro: this.translate.instant('friends-recent-games-section-intro'),
         position: 'bottom',
       },
       {
         element: '#survival',
-        intro: 'See how you rank in survival mode against other players.',
+        intro: this.translate.instant('survival-games-section-intro'),
         position: 'bottom',
       },
       {
         element: '#liveSurvival',
-        intro: 'Participate in live survival games and show your skills.',
+        intro: this.translate.instant('live-survival-games-section-intro'),
         position: 'bottom',
       },
       {
         element: '#friendsSurvival',
-        intro: 'Keep track of your friends’ performance in survival games.',
+        intro: this.translate.instant('friends-survival-games-section-intro'),
         position: 'bottom',
       }
     ];
@@ -352,6 +352,8 @@ export class GamesComponent implements OnInit {
       this.gameService.getGameQuestionBasedOnStep(this.generalService?.createdGameData?.game?.gameId, 1).then(async resQue => {
         this.generalService.gameQuestion = resQue?.data;
         if (this.generalService.selectedTranslatedLanguage) {
+          console.log(resQue?.data.question)
+          console.log(this.generalService.selectedTranslatedLanguage)
           this.generalService.gameQuestion.question = await this.detectAndTranslate(resQue?.data.question,
             this.generalService.selectedTranslatedLanguage);
         }
@@ -416,15 +418,27 @@ export class GamesComponent implements OnInit {
   }
 
   async detectAndTranslate(question: string, targetLanguage: string) {
-    // Detect the language using franc (returns ISO 639-3 format)
     const detectedLangISO6393 = franc(question);
-    console.log((detectedLangISO6393));
-    const detectedLangISO6391 = iso6391.getCode(detectedLangISO6393);
+    console.log(detectedLangISO6393);  // This should log 'prs' for Dari Persian
 
-    // Perform the translation
+    let detectedLangISO6391 = iso6391.getCode(detectedLangISO6393);
+    if (!detectedLangISO6391) {
+      if (detectedLangISO6393 === 'prs' || detectedLangISO6393 === 'fas' || detectedLangISO6393 === 'pes' ||
+        detectedLangISO6393 === 'und' && /[\u0600-\u06FF]/.test(question)) {
+        detectedLangISO6391 = 'fa';  // Map Dari and Persian to 'fa'
+      } else {
+        console.warn(`Detected language (${detectedLangISO6393}) has no ISO 639-1 equivalent. Defaulting to 'en'.`);
+        detectedLangISO6391 = 'fa';  // Fallback to English or another default
+      }
+    }
+
+    console.log(detectedLangISO6391);
+    console.log(targetLanguage);
+
+// Perform the translation
     const translatedText = await translate(question, {
-      from: detectedLangISO6391,  // Detected language
-      to: targetLanguage,         // Target language
+      from: detectedLangISO6391,
+      to: targetLanguage,
     });
     return translatedText;
   }
@@ -773,9 +787,9 @@ export class JoiningGame {
       dialogConfig.height = 'auto'; // You can specify the height if needed
       dialogConfig.position = {bottom: '0px'};
       dialogConfig.panelClass = 'mobile-dialog'; // Add custom class for mobile
-      dialogConfig.data = {category: [this.data?.data?.game?.category], type: this.data.data.game.gameType.id};
+      dialogConfig.data = {category: [this.data?.data?.game?.category?._id], type: this.data.data.game.gameType.id};
     } else {
-      dialogConfig.data = {category: [this.data?.data?.game?.category], type: this.data.data.game.gameType.id};
+      dialogConfig.data = {category: [this.data?.data?.game?.category?._id], type: this.data.data.game.gameType.id};
       dialogConfig.width = '700px'; // Full size for desktop or larger screens
     }
     const dialogRef = this.dialog.open(ImportFromLibrary, dialogConfig);

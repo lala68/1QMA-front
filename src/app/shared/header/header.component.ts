@@ -2,26 +2,19 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {GeneralService} from "../../services/general/general.service";
 import {AuthService} from "../../services/auth/auth.service";
 import {Preferences} from "@capacitor/preferences";
-import {Router, RouterModule} from "@angular/router";
+import {Router} from "@angular/router";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
-import {FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
+import {FormBuilder, FormControl, Validators} from "@angular/forms";
 import {ClientService} from "../../services/client/client.service";
-import {GamesComponent} from "../../components/games/games.component";
 import {GamesService} from "../../services/games/games.service";
 import {ShopService} from "../../services/shop.service";
 import {SnackbarContentComponent} from "../../components/snackbar-content/snackbar-content.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {DaysAgoPipe} from "../../pipes/days-ago.pipe";
 import {IntroJsService} from "../../services/introJs/intro-js.service";
 import {ProcessHTTPMsgService} from "../../services/proccessHttpMsg/process-httpmsg.service";
-import {TranslateModule} from "@ngx-translate/core";
-import {CommonModule} from "@angular/common";
-import {SharedModule} from "../shared.module";
 import {ConfigService} from "../../services/config/config.service";
-import {MatMenuModule} from "@angular/material/menu";
-import {MoreMobile} from "../sidenav/sidenav.component";
-import {TutorialComponent} from "../../components/tutorial/tutorial.component";
 import {TutorialService} from "../../services/tutorial/tutorial.service";
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-header',
@@ -35,7 +28,8 @@ export class HeaderComponent implements OnInit {
 
   constructor(public generalService: GeneralService, public authService: AuthService, private intro: IntroJsService,
               private router: Router, public dialog: MatDialog, private shopService: ShopService,
-              private processHTTPMsgService: ProcessHTTPMsgService, private _snackBar: MatSnackBar) {
+              private processHTTPMsgService: ProcessHTTPMsgService, private _snackBar: MatSnackBar,
+              private translate: TranslateService) {
 
   }
 
@@ -144,15 +138,15 @@ export class HeaderComponent implements OnInit {
       const steps = [
         {
           element: '#create',
-          intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+          intro: this.translate.instant('header-create-game-intro'),
           position: 'bottom',
         }, {
           element: '#find',
-          intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+          intro: this.translate.instant('header-find-game-intro'),
           position: 'bottom',
         }, {
           element: '#addQuestion',
-          intro: ('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et orci eu quam convallis tincidunt quis nec magna.'),
+          intro: this.translate.instant('header-add-question-intro'),
           position: 'bottom',
         }
       ];

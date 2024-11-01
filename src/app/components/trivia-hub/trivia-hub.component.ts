@@ -5,7 +5,7 @@ import {FormsModule} from "@angular/forms";
 import {NavigationStart, Router, RouterModule} from "@angular/router";
 import {GamesService} from "../../services/games/games.service";
 import {ClientService} from "../../services/client/client.service";
-import {TranslateModule} from "@ngx-translate/core";
+import {TranslateModule, TranslateService} from "@ngx-translate/core";
 import {GeneralService} from "../../services/general/general.service";
 import {ConfigService} from "../../services/config/config.service";
 import {DaysAgoPipe} from "../../pipes/days-ago.pipe";
@@ -61,7 +61,7 @@ export class TriviaHubComponent implements OnInit {
 
   constructor(private gameService: GamesService, private clientService: ClientService,
               public generalService: GeneralService, public configService: ConfigService, private intro: IntroJsService,
-              private router: Router, private processHTTPMsgService: ProcessHTTPMsgService) {
+              private router: Router, private processHTTPMsgService: ProcessHTTPMsgService, private translate: TranslateService) {
     this.generalService.currentRout = '/trivia-hub';
     // this.question = this.router.getCurrentNavigation()?.extras?.state?.['question'];
     // if (this.question) {
@@ -141,7 +141,7 @@ export class TriviaHubComponent implements OnInit {
       // Dynamically create steps for each tab element found
       const steps = Array.from(tabElements).map((tabElement, index) => ({
         element: tabElement,
-        intro: `Step for tab ${index + 1}: Lorem ipsum dolor sit amet, consectetur adipiscing elit.`,
+        intro: this.translate.instant(`intro.step${index + 1}`),
         position: 'bottom'
       }));
 
