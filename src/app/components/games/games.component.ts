@@ -93,6 +93,10 @@ export class GamesComponent implements OnInit {
     this.generalService.selectedTabIndexParentInTrivia = 0;
     this.generalService.selectedTabIndexQuestionChildInTrivia = 0;
     this.generalService.selectedTabIndexGameChildInTrivia = 0;
+    this.generalService.invitedPlayersArray = [];
+    this.generalService.players = [];
+    this.generalService.toggleValueTranslate = '';
+    this.generalService.selectedTranslatedLanguage = '';
   }
 
   async ngOnInit() {
@@ -586,15 +590,10 @@ export class GamesComponent implements OnInit {
         console.log(this.generalService?.createdGameData)
         this.gameService.getGameQuestionBasedOnStep(this.generalService?.createdGameData?.game?.gameId, 1).then(async resQue => {
           this.generalService.gameQuestion = resQue?.data;
-          this.generalService.gameQuestion.question = await this.detectAndTranslate(resQue?.data.question,
-            this.generalService.selectedTranslatedLanguage);
-          // this.generalService.gameQuestion.question = await translate(this.generalService.gameQuestion.question,
-          //   {
-          //     to: this.generalService?.userObj?.preferedLanguage == '0' ? 'en' :
-          //       this.generalService.userObj?.preferedLanguage == '1' ? 'de' : 'fa',
-          //     from: this.generalService.gameQuestion.language
-          //   }
-          // );
+          if (this.generalService.selectedTranslatedLanguage) {
+            this.generalService.gameQuestion.question = await this.detectAndTranslate(resQue?.data.question,
+              this.generalService.selectedTranslatedLanguage);
+          }
           this.updateWordCountAnswerGame();
           if (resQue?.data?.myAnswer) {
             this.generalService.gameAnswerGeneral = resQue?.data?.myAnswer;

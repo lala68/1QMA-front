@@ -4,7 +4,7 @@
 </div>
 <mat-toolbar *ngIf="generalService.isMobileView" class="mb-3 mt-1"
              style="padding-inline-end: 0;background: transparent;">
-  <button mat-flat-button (click)="openAddQuestion()" id="addQuestion" style="height: 60px"
+  <button mat-flat-button (click)="openAddQuestion()" id="addQuestion_mobile" style="height: 60px"
           [class]="generalService.currentRout == '/shop' ? 'mat-list-item-selected' : ''"
           routerLinkActive="active-link" class="w-30 m-1">
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -13,7 +13,7 @@
     </svg>
     <span class="d-block">Add question</span>
   </button>
-  <button mat-flat-button [routerLink]="['/games/find-game']" id="find" style="height: 60px"
+  <button mat-flat-button [routerLink]="['/games/find-game']" id="find_mobile" style="height: 60px"
           [class]="generalService.currentRout == '/shop' ? 'mat-list-item-selected' : ''"
           routerLinkActive="active-link" class="w-30 m-1">
     <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -26,7 +26,7 @@
     <span class="d-block">Find game</span>
 
   </button>
-  <button mat-flat-button [routerLink]="['/games/create-game']" id="create" style="height: 60px"
+  <button mat-flat-button [routerLink]="['/games/create-game']" id="create_mobile" style="height: 60px"
           [class]="generalService.currentRout == '/shop' ? 'mat-list-item-selected' : ''"
           routerLinkActive="active-link" class="w-30 m-1">
     <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -608,7 +608,7 @@
         [bufferValue]="100"
         mode="determinate"></mat-progress-bar>
       <br>
-      <mat-label class="mt-2 font-size-12 weight-500">{{generalService.clientInit?.charityProgress}}
+      <mat-label class="mt-2 font-size-12 weight-500">{{generalService.clientInit?.charityProgress | parsInt}}
         % {{'Completed' | translate}}</mat-label>
     </div>
   </div>

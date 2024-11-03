@@ -312,33 +312,76 @@ export class DashboardComponent implements OnInit, OnDestroy {
   async showIntro() {
     if (this.router.url === '/dashboard') {
       // Define steps with selectors for elements that might not always be present
-      const steps = [
-        {
-          element: '#accountOverview',
-          intro: this.translate.instant('account-overview-dashboard-section-intro'),
-          position: 'bottom',
-        },
-        {
-          element: '#topQuestions',
-          intro: this.translate.instant('top-question-dashboard-section-intro'),
-          position: 'bottom',
-        },
-        {
-          element: '#InviteFriends',
-          intro: this.translate.instant('invite-friends-dashboard-section-intro'),
-          position: 'bottom',
-        },
-        {
-          element: '#charity',
-          intro: this.translate.instant('charity-dashboard-section-intro'),
-          position: 'bottom',
-        },
-        {
-          element: '#questionsFromFriends',
-          intro: this.translate.instant('questions-from-friends-dashboard-section-intro'),
-          position: 'bottom',
-        }
-      ];
+      if (!this.generalService.isMobileView) {
+        var steps = [
+          {
+            element: '#accountOverview',
+            intro: this.translate.instant('account-overview-dashboard-section-intro'),
+            position: 'bottom',
+          },
+          {
+            element: '#topQuestions',
+            intro: this.translate.instant('top-question-dashboard-section-intro'),
+            position: 'bottom',
+          },
+          {
+            element: '#InviteFriends',
+            intro: this.translate.instant('invite-friends-dashboard-section-intro'),
+            position: 'bottom',
+          },
+          {
+            element: '#charity',
+            intro: this.translate.instant('charity-dashboard-section-intro'),
+            position: 'bottom',
+          },
+          {
+            element: '#questionsFromFriends',
+            intro: this.translate.instant('questions-from-friends-dashboard-section-intro'),
+            position: 'bottom',
+          }
+        ];
+      } else {
+        var steps = [
+          {
+            element: '#create_mobile',
+            intro: this.translate.instant('header-create-game-intro'),
+            position: 'bottom',
+          }, {
+            element: '#find_mobile',
+            intro: this.translate.instant('header-find-game-intro'),
+            position: 'bottom',
+          }, {
+            element: '#addQuestion_mobile',
+            intro: this.translate.instant('header-add-question-intro'),
+            position: 'bottom',
+          },
+          {
+            element: '#accountOverview',
+            intro: this.translate.instant('account-overview-dashboard-section-intro'),
+            position: 'bottom',
+          },
+          {
+            element: '#topQuestions',
+            intro: this.translate.instant('top-question-dashboard-section-intro'),
+            position: 'bottom',
+          },
+          {
+            element: '#InviteFriends',
+            intro: this.translate.instant('invite-friends-dashboard-section-intro'),
+            position: 'bottom',
+          },
+          {
+            element: '#charity',
+            intro: this.translate.instant('charity-dashboard-section-intro'),
+            position: 'bottom',
+          },
+          {
+            element: '#questionsFromFriends',
+            intro: this.translate.instant('questions-from-friends-dashboard-section-intro'),
+            position: 'bottom',
+          }
+        ];
+      }
 
       // Filter out steps where the element does not exist in the DOM
       const availableSteps = steps.filter(step =>

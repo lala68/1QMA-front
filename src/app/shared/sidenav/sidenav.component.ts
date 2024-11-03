@@ -39,29 +39,52 @@ export class SidenavComponent implements OnInit {
 
   async showIntro() {
     if (this.router.url === '/dashboard') {
-      const steps = [
-        {
-          element: '#userAccount',
-          intro: this.translate.instant('side-menu-user-assets-intro'),
-          position: 'bottom',
-        }, {
-          element: '#dashboard',
-          intro: this.translate.instant('side-menu-dashboard-intro'),
-          position: 'bottom',
-        }, {
-          element: '#games',
-          intro: this.translate.instant('side-menu-games-intro'),
-          position: 'bottom',
-        }, {
-          element: '#trivia',
-          intro: this.translate.instant('side-menu-trivia-hub-intro'),
-          position: 'bottom',
-        }, {
-          element: '#shop',
-          intro: this.translate.instant('side-menu-shop-intro'),
-          position: 'bottom',
-        }
-      ];
+      if(!this.generalService.isMobileView) {
+        var steps = [
+          {
+            element: '#userAccount',
+            intro: this.translate.instant('side-menu-user-assets-intro'),
+            position: 'bottom',
+          }, {
+            element: '#dashboard',
+            intro: this.translate.instant('side-menu-dashboard-intro'),
+            position: 'bottom',
+          }, {
+            element: '#games',
+            intro: this.translate.instant('side-menu-games-intro'),
+            position: 'bottom',
+          }, {
+            element: '#trivia',
+            intro: this.translate.instant('side-menu-trivia-hub-intro'),
+            position: 'bottom',
+          }, {
+            element: '#shop',
+            intro: this.translate.instant('side-menu-shop-intro'),
+            position: 'bottom',
+          }
+        ];
+      } else {
+        var steps = [
+          {
+            element: '#dashboard_mobile',
+            intro: this.translate.instant('side-menu-dashboard-intro'),
+            position: 'bottom',
+          }, {
+            element: '#games_mobile',
+            intro: this.translate.instant('side-menu-games-intro'),
+            position: 'bottom',
+          }, {
+            element: '#trivia_mobile',
+            intro: this.translate.instant('side-menu-trivia-hub-intro'),
+            position: 'bottom',
+          }, {
+            element: '#shop_mobile',
+            intro: this.translate.instant('side-menu-shop-intro'),
+            position: 'bottom',
+          }
+        ];
+      }
+
       // Filter out steps where the element does not exist in the DOM
       const availableSteps = steps.filter(step =>
         document.querySelector(step.element) !== null

@@ -14,7 +14,7 @@ import {IntroJsService} from "../../services/introJs/intro-js.service";
 import {ProcessHTTPMsgService} from "../../services/proccessHttpMsg/process-httpmsg.service";
 import {ConfigService} from "../../services/config/config.service";
 import {TutorialService} from "../../services/tutorial/tutorial.service";
-import { TranslateService } from '@ngx-translate/core';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-header',
@@ -135,29 +135,31 @@ export class HeaderComponent implements OnInit {
 
   async showIntro() {
     if (this.router.url === '/dashboard') {
-      const steps = [
-        {
-          element: '#create',
-          intro: this.translate.instant('header-create-game-intro'),
-          position: 'bottom',
-        }, {
-          element: '#find',
-          intro: this.translate.instant('header-find-game-intro'),
-          position: 'bottom',
-        }, {
-          element: '#addQuestion',
-          intro: this.translate.instant('header-add-question-intro'),
-          position: 'bottom',
-        }
-      ];
-      // Filter out steps where the element does not exist in the DOM
-      const availableSteps = steps.filter(step =>
-        document.querySelector(step.element) !== null
-      );
+      if (!this.generalService.isMobileView) {
+        const steps = [
+          {
+            element: '#create',
+            intro: this.translate.instant('header-create-game-intro'),
+            position: 'bottom',
+          }, {
+            element: '#find',
+            intro: this.translate.instant('header-find-game-intro'),
+            position: 'bottom',
+          }, {
+            element: '#addQuestion',
+            intro: this.translate.instant('header-add-question-intro'),
+            position: 'bottom',
+          }
+        ];
+        // Filter out steps where the element does not exist in the DOM
+        const availableSteps = steps.filter(step =>
+          document.querySelector(step.element) !== null
+        );
 
-      // Proceed with the intro only if there are valid steps
-      if (availableSteps.length > 0) {
-        await this.intro.showHelp('dashboard', availableSteps, 'header');
+        // Proceed with the intro only if there are valid steps
+        if (availableSteps.length > 0) {
+          await this.intro.showHelp('dashboard', availableSteps, 'header');
+        }
       }
     }
   }
