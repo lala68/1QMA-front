@@ -23,6 +23,16 @@ import {ExitGame} from "../../shared/header/header.component";
 import {franc} from "franc";
 import iso6391 from "iso-639-1";
 import {io} from "socket.io-client";
+type SupportedLanguages =
+  'eng' | // English
+  'deu' | // German
+  'prs' | // Dari
+  'fas' | // Persian (Farsi)
+  'pes' | // Persian (alternate code)
+  'por' | // Portuguese
+  'hnj' | // Hmong
+  'sco' | // Scots
+  'uig';  // Uighur
 
 @Component({
   selector: 'app-game-board',
@@ -66,6 +76,17 @@ export class GameBoardComponent implements OnInit, OnDestroy {
   tooltipVisible2 = false;  // Control whether the tooltip is visible
   tooltipMessage2 = 'Click to copy!';
   isDropListDisabled: boolean = false;
+  private supportedLangs: Record<SupportedLanguages, string> = {
+    'eng': 'en',
+    'deu': 'de',
+    'prs': 'fa',
+    'fas': 'fa',
+    'pes': 'fa',
+    'por': 'en',  // Portuguese detected as English
+    'hnj': 'en',  // Hmong detected as English
+    'sco': 'en',  // Scots detected as English
+    'uig': 'en'   // Uighur detected as English
+  };
 
   @HostListener('window:beforeunload', ['$event'])
   unloadNotification($event: any): void {
@@ -111,9 +132,10 @@ export class GameBoardComponent implements OnInit, OnDestroy {
       // if (!this.generalService.players.some((player: any) => player.email === arg.email)) {
       //   this.generalService.players.push(arg);
       // }
-      if (this.generalService.disconnectedModal) {
+      if (this.generalService.disconnectedModal || this.generalService.isDisconnectedModal) {
         this.generalService.disconnectedModal.close();
         this.generalService.disconnectedModal = '';
+        this.generalService.isDisconnectedModal = false;
       }
       if (!this.generalService.players.some((player: any) => player.email === arg.email) &&
         !this.generalService.invitedPlayersArray.some((player: any) => player.email === arg.email)) {
@@ -124,9 +146,10 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     });
 
     this.generalService.socket.on("next step", (arg: any) => {
-      if (this.generalService.disconnectedModal) {
+      if (this.generalService.disconnectedModal || this.generalService.isDisconnectedModal) {
         this.generalService.disconnectedModal.close();
         this.generalService.disconnectedModal = '';
+        this.generalService.isDisconnectedModal = false;
       }
       const now = new Date();
       const timeString = now.toLocaleTimeString();
@@ -166,9 +189,10 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     });
 
     this.generalService.socket.on("submit answer", (arg: any) => {
-      if (this.generalService.disconnectedModal) {
+      if (this.generalService.disconnectedModal || this.generalService.isDisconnectedModal) {
         this.generalService.disconnectedModal.close();
         this.generalService.disconnectedModal = '';
+        this.generalService.isDisconnectedModal = false;
       }
       const now = new Date();
       const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
@@ -178,9 +202,10 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     });
 
     this.generalService.socket.on("player left", (arg: any) => {
-      if (this.generalService.disconnectedModal) {
+      if (this.generalService.disconnectedModal || this.generalService.isDisconnectedModal) {
         this.generalService.disconnectedModal.close();
         this.generalService.disconnectedModal = '';
+        this.generalService.isDisconnectedModal = false;
       }
       const now = new Date();
       const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
@@ -191,9 +216,10 @@ export class GameBoardComponent implements OnInit, OnDestroy {
       const now = new Date();
       const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
       console.log("cancel game" + ' ' + `[${timeString}]  `);
-      if (this.generalService.disconnectedModal) {
+      if (this.generalService.disconnectedModal || this.generalService.isDisconnectedModal) {
         this.generalService.disconnectedModal.close();
         this.generalService.disconnectedModal = '';
+        this.generalService.isDisconnectedModal = false;
       }
       if (!this.generalService.isGameCancel) {
         this.generalService.isGameCancel = true;
@@ -209,9 +235,10 @@ export class GameBoardComponent implements OnInit, OnDestroy {
       const now = new Date();
       const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
       console.log("end game" + ' ' + `[${timeString}]  `);
-      if (this.generalService.disconnectedModal) {
+      if (this.generalService.disconnectedModal || this.generalService.isDisconnectedModal) {
         this.generalService.disconnectedModal.close();
         this.generalService.disconnectedModal = '';
+        this.generalService.isDisconnectedModal = false;
       }
       this.generalService.gameStep = 5;
       this.getGameResult();
@@ -245,9 +272,10 @@ export class GameBoardComponent implements OnInit, OnDestroy {
 
     // Listen for connection and disconnection events
     this.generalService.socket.on('connect', () => {
-      if (this.generalService.disconnectedModal) {
+      if (this.generalService.disconnectedModal || this.generalService.isDisconnectedModal) {
         this.generalService.disconnectedModal.close();
         this.generalService.disconnectedModal = '';
+        this.generalService.isDisconnectedModal = false;
       }
       console.log('Socket connected');
       this.startKeepAlive();
@@ -438,7 +466,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
 
       if (data.status === 1) {
         this.generalService.specificQuestionAnswers = data.data;
-        if (this.generalService.selectedTranslatedLanguage) {
+        if (this.generalService.selectedTranslatedLanguage && this.generalService.selectedTranslatedLanguage != '') {
           for (const answer of this.generalService.specificQuestionAnswers.answers) {
             answer.answer = await this.detectAndTranslate(answer.answer, this.generalService.selectedTranslatedLanguage);
           }
@@ -457,7 +485,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
 
       if (resQue.status === 1) {
         this.generalService.gameQuestion = resQue.data;
-        if (this.generalService.selectedTranslatedLanguage) {
+        if (this.generalService.selectedTranslatedLanguage && this.generalService.selectedTranslatedLanguage != '') {
           this.generalService.gameQuestion.question = await this.detectAndTranslate(resQue?.data.question,
             this.generalService.selectedTranslatedLanguage);
         }
@@ -479,7 +507,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
         await this.waitForConditionNextStepRatingAnswer();
         this.generalService.gameStep = 4;
         this.generalService.allQuestions = resQue.data;
-        if (this.generalService.selectedTranslatedLanguage) {
+        if (this.generalService.selectedTranslatedLanguage && this.generalService.selectedTranslatedLanguage != '') {
           for (const question of this.generalService.allQuestions) {
             question.question = await this.detectAndTranslate(question.question, this.generalService.selectedTranslatedLanguage);
           }
@@ -565,7 +593,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
   async getGameResult() {
     this.gameService.getGameResult(this.generalService.createdGameData.game.gameId).then(async data => {
         this.generalService.gameResult = data.data;
-        if (this.generalService.selectedTranslatedLanguage) {
+        if (this.generalService.selectedTranslatedLanguage && this.generalService.selectedTranslatedLanguage != '') {
           for (const question of this.generalService.gameResult.result.details) {
             question.question = await this.detectAndTranslate(question.question,
               this.generalService.selectedTranslatedLanguage);
@@ -659,7 +687,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
         // for (const answer of this.generalService.specificQuestionAnswers.answers) {
         //   answer.answer = await translate(answer.answer, this.generalService.selectedTranslatedLanguage);
         // }
-        if (this.generalService.selectedTranslatedLanguage) {
+        if (this.generalService.selectedTranslatedLanguage && this.generalService.selectedTranslatedLanguage != '') {
           for (const answer of this.generalService.specificQuestionAnswers.answers) {
             answer.answer = await this.detectAndTranslate(answer.answer, this.generalService.selectedTranslatedLanguage);
           }
@@ -728,7 +756,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
           this.generalService.createdGameData.game.gameId
         );
         this.generalService.allQuestions = resQue.data;
-        if (this.generalService.selectedTranslatedLanguage) {
+        if (this.generalService.selectedTranslatedLanguage && this.generalService.selectedTranslatedLanguage != '') {
           for (const question of this.generalService.allQuestions.questions) {
             question.question = await this.detectAndTranslate(question.question,
               this.generalService.selectedTranslatedLanguage);
@@ -759,7 +787,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
         );
         if (resQue.status === 1) {
           this.generalService.gameQuestion = resQue.data;
-          if (this.generalService.selectedTranslatedLanguage) {
+          if (this.generalService.selectedTranslatedLanguage && this.generalService.selectedTranslatedLanguage != '') {
             this.generalService.gameQuestion.question = await this.detectAndTranslate(this.generalService.gameQuestion.question,
               this.generalService.selectedTranslatedLanguage);
           }
@@ -815,30 +843,28 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     });
   }
 
-  async detectAndTranslate(question: string, targetLanguage: string) {
-    const detectedLangISO6393 = franc(question);
-    console.log(detectedLangISO6393);  // This should log 'prs' for Dari Persian
+  async detectAndTranslate(question: string, targetLanguage: string): Promise<string> {
+    // Use franc to detect the primary language
+    const detectedLangISO6393: string = franc(question);
+    console.log(`Primary detected language (ISO 639-3): ${detectedLangISO6393}`);
 
-    let detectedLangISO6391 = iso6391.getCode(detectedLangISO6393);
-    if (!detectedLangISO6391) {
-      if (detectedLangISO6393 === 'prs' || detectedLangISO6393 === 'fas' || detectedLangISO6393 === 'pes' ||
-        detectedLangISO6393 === 'und' && /[\u0600-\u06FF]/.test(question)) {
-        detectedLangISO6391 = 'fa';  // Map Dari and Persian to 'fa'
-      } else {
-        console.warn(`Detected language (${detectedLangISO6393}) has no ISO 639-1 equivalent. Defaulting to 'en'.`);
-        detectedLangISO6391 = 'fa';  // Fallback to English or another default
-      }
+    // Map the detected language to the ISO 639-1 code or default to English
+    let detectedLangISO6391 = this.supportedLangs[detectedLangISO6393 as SupportedLanguages] || 'en';
+
+    console.log(`ISO 639-1 code used for translation: ${detectedLangISO6391}`);
+    console.log(`Target language for translation: ${targetLanguage}`);
+
+    // Perform the translation
+    try {
+      const translatedText = await translate(question, {
+        from: detectedLangISO6391,
+        to: targetLanguage,
+      });
+      return translatedText;
+    } catch (error) {
+      console.error('Translation error:', error);
+      throw new Error('Translation failed.');
     }
-
-    console.log(detectedLangISO6391);
-    console.log(targetLanguage);
-
-// Perform the translation
-    const translatedText = await translate(question, {
-      from: detectedLangISO6391,
-      to: targetLanguage,
-    });
-    return translatedText;
   }
 
   async sendAnswer(): Promise<any> {
@@ -1182,6 +1208,7 @@ export class Disconnected {
 
   constructor(public dialogRef: MatDialogRef<Disconnected>, private generalService: GeneralService,
               private router: Router) {
+    this.generalService.isDisconnectedModal = true;
   }
 
   async gotoHome() {

@@ -42,7 +42,7 @@
           <img width="32" height="32" class="avatar-bordered bg-white"
                [src]="player?.profilePicture ? player?.profilePicture?.startsWith('http') ? player?.profilePicture : configService.url(player?.profilePicture) : 'assets/images/frame.png'"
           />
-          <mat-label class="font-size-14 weight-500 m-auto">{{player?.email}}</mat-label>
+          <mat-label class="font-size-14 weight-500 m-auto">&nbsp;{{player?.email}}</mat-label>
           <div class="d-inline-flex position-absolute end-10" style="top: 10px">
             <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
@@ -208,7 +208,7 @@
               <textarea #answerTextArea
                         [(ngModel)]="generalService.gameAnswerGeneral"
                         (ngModelChange)="updateWordCountAnswer()"></textarea>
-              <div class="word-counter">{{ tutorialInit?.wordCountAnswer }} {{'Words' | translate}}</div>
+              <div class="word-counter">{{ wordCountAnswer | number }} {{'Words' | translate}}</div>
             </div>
           </div>
         </div>
@@ -492,7 +492,7 @@ generalService.gameTutorialStep == 3 ? sendRateAnswer(true) : sendRateQuestions(
 
 <div class="card border-0" style="margin: 20px auto; width: 100%; text-align: center; padding: 20px"
      *ngIf="!generalService?.startingGameTutorial">
-  <button mat-raised-button color="primary" class="w-40" *ngIf="!generalService.startingGameTutorial"
+  <button mat-raised-button color="primary" class="w-50" *ngIf="!generalService.startingGameTutorial"
           (click)="startTutorial()" style="margin: 0 auto">
     {{'Start Tutorial' | translate}}
   </button>

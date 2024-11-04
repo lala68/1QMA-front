@@ -32,7 +32,7 @@
     </div>
   </div>
   <div class="card border-0"
-       [style]="generalService.isMobileView ? 'width: 100%' : 'width: 850; max-width: 850px; min-width: 850px'"
+       [style]="generalService.isMobileView ? 'width: 100%' : 'width: 850; max-width: 850px;'"
        [class]="{'p-4': !generalService.isMobileView, 'p-2': generalService.isMobileView}"
        *ngIf="generalService.userObj">
     <mat-label class="font-size-14 weight-700">{{'Personal information' | translate}}</mat-label>
@@ -112,6 +112,21 @@
           </mat-select>
         </mat-form-field>
       </div>
+      <div class="d-block">
+        <mat-slide-toggle labelPosition="before"
+                          class="w-100"
+                          [formControlName]="'playAnonymously'">{{'Play Anonymously' | translate}}</mat-slide-toggle>
+        <br>
+        <br>
+        <mat-form-field *ngIf="form.controls?.['playAnonymously']?.value" appearance="fill"
+                        class="custom-form-field"
+                        [class]="{'w-50': !generalService.isMobileView, 'w-100': generalService.isMobileView}"
+                        [hideRequiredMarker]="true">
+          <mat-label>{{'Anonymous Name' | translate}}</mat-label>
+          <input matInput placeholder="{{'Anonymous Name' | translate}}" maxlength="12" type="text"
+                 [formControlName]="'anonymousName'">
+        </mat-form-field>
+      </div>
       <br>
       <br>
       <mat-label class="font-size-14 weight-700">Change Password</mat-label>
@@ -175,7 +190,7 @@
        *ngIf="generalService.userObj">
   </div>
   <div class="card border-0"
-       [style]="generalService.isMobileView ? 'width: 100%' : 'width: 850px; max-width: 850px; min-width: 850px'"
+       [style]="generalService.isMobileView ? 'width: 100%' : 'width: 850px'"
        [class]="{'p-4': !generalService.isMobileView, 'p-2': generalService.isMobileView}"
        *ngIf="generalService.userObj">
     <mat-label class="font-size-14 weight-700">{{'Deactivate Account' | translate}}</mat-label>

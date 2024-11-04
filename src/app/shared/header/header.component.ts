@@ -223,8 +223,8 @@ export class AddQuestion {
     question: new FormControl('', [Validators.required]),
     answer: new FormControl('', []),
   });
-  wordCount: number = 100;
-  wordCountAnswer: number = 100;
+  wordCount: number;
+  wordCountAnswer: number;
   selectedCategory: any = [];
   displayAnswer: boolean = false;
 
@@ -232,14 +232,16 @@ export class AddQuestion {
               @Inject(MAT_DIALOG_DATA) public data: any, private authService: AuthService,
               public generalService: GeneralService, private clientService: ClientService,
               public dialog: MatDialog, private _snackBar: MatSnackBar) {
+    this.wordCount = this.generalService.clientInit.answerWordsLimitation;
+    this.wordCountAnswer = this.generalService.clientInit.answerWordsLimitation;
   }
 
   updateWordCount() {
-    this.wordCount = this.questionForm.controls.question.value ? (100 - this.questionForm.controls.question.value.trim().split(/\s+/).length) : 100;
+    this.wordCount = this.questionForm.controls.question.value ? (this.generalService.clientInit.answerWordsLimitation - this.questionForm.controls.question.value.trim().split(/\s+/).length) : this.generalService.clientInit.answerWordsLimitation;
   }
 
   updateWordCountAnswer() {
-    this.wordCountAnswer = this.questionForm.controls.answer.value ? (100 - this.questionForm.controls.answer.value.trim().split(/\s+/).length) : 100;
+    this.wordCountAnswer = this.questionForm.controls.answer.value ? (this.generalService.clientInit.answerWordsLimitation - this.questionForm.controls.answer.value.trim().split(/\s+/).length) : this.generalService.clientInit.answerWordsLimitation;
   }
 
   isSelected(item: any): boolean {

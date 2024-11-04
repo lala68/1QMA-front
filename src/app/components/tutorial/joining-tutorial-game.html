@@ -76,7 +76,7 @@
     </div>
     <div class="textarea-container">
       <textarea [formControlName]="'question'" (ngModelChange)="updateWordCount()"></textarea>
-      <div class="word-counter">{{ wordCount }} {{'Words' | translate}}</div>
+      <div class="word-counter">{{ wordCount | number }} {{'Words' | translate}}</div>
     </div>
 
     <div>
@@ -99,7 +99,7 @@
       </div>
       <div class="textarea-container">
         <textarea [formControlName]="'answer'" (ngModelChange)="updateWordCountAnswer()"></textarea>
-        <div class="word-counter">{{ wordCountAnswer }} {{'Words' | translate}}</div>
+        <div class="word-counter">{{ wordCountAnswer | number }} {{'Words' | translate}}</div>
       </div>
     </div>
   </form>

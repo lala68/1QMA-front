@@ -135,7 +135,8 @@
             </div>
           </div>
           <mat-progress-bar [style]="generalService.isMobileView ? 'width: 250px' : 'width: 320px;'"
-                            style="border-radius: 10px; display: inline-table; position: absolute; bottom: 0; inset-inline-start: 40px"
+                            style="border-radius: 10px; display: inline-table;clip-path: inset(0 round 10px 10px 10px 10px);
+                             position: absolute; bottom: 0; inset-inline-start: 40px"
                             color="primary"
                             [value]="((generalService.userObj?.statistics?.totalXP - generalService.userObj?.statistics?.currentLevelXP) / (generalService.userObj?.statistics?.xpNeededForNextLevel - generalService.userObj?.statistics?.currentLevelXP)) * 100"
                             [bufferValue]="100"
@@ -602,7 +603,10 @@
         > {{generalService.userObj?.preferedCharity?.activity?.title}}</mat-label>
       <br>
       <mat-progress-bar
-        style="width: 50%; border-radius: 10px; display: inline-table;"
+        style="width: 100%; border-radius: 10px; display: inline-table;
+    --mdc-linear-progress-active-indicator-color: black;
+    --mdc-linear-progress-track-color: rgba(00, 00, 00, 0.25);
+clip-path: inset(0 round 10px 10px 10px 10px);"
         color="primary"
         [value]="generalService.clientInit?.charityProgress"
         [bufferValue]="100"

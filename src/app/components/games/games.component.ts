@@ -31,6 +31,17 @@ import {Subscription} from "rxjs";
 import {franc} from "franc";
 import iso6391 from 'iso-639-1';  // Should work now
 
+type SupportedLanguages =
+  'eng' | // English
+  'deu' | // German
+  'prs' | // Dari
+  'fas' | // Persian (Farsi)
+  'pes' | // Persian (alternate code)
+  'por' | // Portuguese
+  'hnj' | // Hmong
+  'sco' | // Scots
+  'uig';  // Uighur
+
 @Component({
   selector: 'app-games',
   standalone: true,
@@ -54,8 +65,8 @@ export class GamesComponent implements OnInit {
       disabled: this.generalService.invitedPlayersArray?.length === this.generalService.gameInit?.numberOfPlayers
     }, [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]),
   });
-  wordCount: number = 100;
-  wordCountAnswer: number = 100;
+  wordCount: number;
+  wordCountAnswer: number;
   questionForm = this._formBuilder.group({
     question: new FormControl('', [Validators.required]),
     answer: new FormControl('', [Validators.required]),
@@ -84,6 +95,17 @@ export class GamesComponent implements OnInit {
   longestAnswerRateIndex: any = 0;
   private routerSubscription: any;
   private introInProgress: boolean = false; // Track whether the intro is showing
+  private supportedLangs: Record<SupportedLanguages, string> = {
+    'eng': 'en',
+    'deu': 'de',
+    'prs': 'fa',
+    'fas': 'fa',
+    'pes': 'fa',
+    'por': 'en',  // Portuguese detected as English
+    'hnj': 'en',  // Hmong detected as English
+    'sco': 'en',  // Scots detected as English
+    'uig': 'en'   // Uighur detected as English
+  };
 
   constructor(public generalService: GeneralService, private gameService: GamesService, public configService: ConfigService,
               private _formBuilder: FormBuilder, private router: Router, public dialog: MatDialog, private _snackBar: MatSnackBar,
@@ -97,6 +119,8 @@ export class GamesComponent implements OnInit {
     this.generalService.players = [];
     this.generalService.toggleValueTranslate = '';
     this.generalService.selectedTranslatedLanguage = '';
+    this.wordCount = this.generalService.gameInit?.answerWordsLimitation;
+    this.wordCountAnswer = this.generalService.gameInit?.answerWordsLimitation;
   }
 
   async ngOnInit() {
@@ -339,9 +363,10 @@ export class GamesComponent implements OnInit {
     this.generalService.players = [];
 
     this.generalService.socket.on("start game", (arg: any) => {
-      if (this.generalService.disconnectedModal) {
+      if (this.generalService.disconnectedModal || this.generalService.isDisconnectedModal) {
         this.generalService.disconnectedModal.close();
         this.generalService.disconnectedModal = '';
+        this.generalService.isDisconnectedModal = false;
       }
       const now = new Date();
       const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
@@ -355,7 +380,7 @@ export class GamesComponent implements OnInit {
       console.log(this.generalService.selectedTranslatedLanguage)
       this.gameService.getGameQuestionBasedOnStep(this.generalService?.createdGameData?.game?.gameId, 1).then(async resQue => {
         this.generalService.gameQuestion = resQue?.data;
-        if (this.generalService.selectedTranslatedLanguage) {
+        if (this.generalService.selectedTranslatedLanguage && this.generalService.selectedTranslatedLanguage != '') {
           console.log(resQue?.data.question)
           console.log(this.generalService.selectedTranslatedLanguage)
           this.generalService.gameQuestion.question = await this.detectAndTranslate(resQue?.data.question,
@@ -421,32 +446,29 @@ export class GamesComponent implements OnInit {
     return this.selectedGameType.some((game: any) => game === item);
   }
 
-  async detectAndTranslate(question: string, targetLanguage: string) {
-    const detectedLangISO6393 = franc(question);
-    console.log(detectedLangISO6393);  // This should log 'prs' for Dari Persian
+  async detectAndTranslate(question: string, targetLanguage: string): Promise<string> {
+    // Use franc to detect the primary language
+    const detectedLangISO6393: string = franc(question);
+    console.log(`Primary detected language (ISO 639-3): ${detectedLangISO6393}`);
 
-    let detectedLangISO6391 = iso6391.getCode(detectedLangISO6393);
-    if (!detectedLangISO6391) {
-      if (detectedLangISO6393 === 'prs' || detectedLangISO6393 === 'fas' || detectedLangISO6393 === 'pes' ||
-        detectedLangISO6393 === 'und' && /[\u0600-\u06FF]/.test(question)) {
-        detectedLangISO6391 = 'fa';  // Map Dari and Persian to 'fa'
-      } else {
-        console.warn(`Detected language (${detectedLangISO6393}) has no ISO 639-1 equivalent. Defaulting to 'en'.`);
-        detectedLangISO6391 = 'fa';  // Fallback to English or another default
-      }
+    // Map the detected language to the ISO 639-1 code or default to English
+    let detectedLangISO6391 = this.supportedLangs[detectedLangISO6393 as SupportedLanguages] || 'en';
+
+    console.log(`ISO 639-1 code used for translation: ${detectedLangISO6391}`);
+    console.log(`Target language for translation: ${targetLanguage}`);
+
+    // Perform the translation
+    try {
+      const translatedText = await translate(question, {
+        from: detectedLangISO6391,
+        to: targetLanguage,
+      });
+      return translatedText;
+    } catch (error) {
+      console.error('Translation error:', error);
+      throw new Error('Translation failed.');
     }
-
-    console.log(detectedLangISO6391);
-    console.log(targetLanguage);
-
-// Perform the translation
-    const translatedText = await translate(question, {
-      from: detectedLangISO6391,
-      to: targetLanguage,
-    });
-    return translatedText;
   }
-
 
   selectGameType(item: any) {
     this.selectedGameType = [];
@@ -531,7 +553,7 @@ export class GamesComponent implements OnInit {
   }
 
   updateWordCount() {
-    this.wordCount = this.questionForm.controls.question.value ? (100 - this.questionForm.controls.question.value.trim().split(/\s+/).length) : 100;
+    this.wordCount = this.questionForm.controls.question.value ? (this.generalService.gameInit.answerWordsLimitation - this.questionForm.controls.question.value.trim().split(/\s+/).length) : this.generalService.gameInit.answerWordsLimitation;
   }
 
   updateWordCountAnswer() {
@@ -546,7 +568,7 @@ export class GamesComponent implements OnInit {
   onToggleActiveTranslate(event: any) {
     this.generalService.toggleValueTranslate = event.checked ? 1 : 0;
     if (!this.generalService.toggleValueTranslate) {
-      this.generalService.selectedTranslatedLanguage = null;
+      this.generalService.selectedTranslatedLanguage = '';
     }
   }
 
@@ -562,9 +584,10 @@ export class GamesComponent implements OnInit {
       const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
       console.log("player added" + ' ' + `[${timeString}]  `);
       console.log(this.generalService.players);
-      if (this.generalService.disconnectedModal) {
+      if (this.generalService.disconnectedModal || this.generalService.isDisconnectedModal) {
         this.generalService.disconnectedModal.close();
         this.generalService.disconnectedModal = '';
+        this.generalService.isDisconnectedModal = false;
       }
       // if (!this.generalService.players.some((player: any) => player.email === arg.email)) {
       //   this.generalService.players.push(arg);
@@ -581,16 +604,17 @@ export class GamesComponent implements OnInit {
       const now = new Date();
       const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
       console.log("start game" + ' ' + `[${timeString}]  `);
-      if (this.generalService.disconnectedModal) {
+      if (this.generalService.disconnectedModal || this.generalService.isDisconnectedModal) {
         this.generalService.disconnectedModal.close();
         this.generalService.disconnectedModal = '';
+        this.generalService.isDisconnectedModal = false;
       }
       this.generalService.gameStep = 2;
       setTimeout(() => {
         console.log(this.generalService?.createdGameData)
         this.gameService.getGameQuestionBasedOnStep(this.generalService?.createdGameData?.game?.gameId, 1).then(async resQue => {
           this.generalService.gameQuestion = resQue?.data;
-          if (this.generalService.selectedTranslatedLanguage) {
+          if (this.generalService.selectedTranslatedLanguage && this.generalService.selectedTranslatedLanguage != '') {
             this.generalService.gameQuestion.question = await this.detectAndTranslate(resQue?.data.question,
               this.generalService.selectedTranslatedLanguage);
           }
@@ -762,14 +786,16 @@ export class JoiningGame {
     question: new FormControl('', [Validators.required]),
     answer: new FormControl('', [Validators.required]),
   });
-  wordCount: number = 100;
-  wordCountAnswer: number = 100;
+  wordCount: number;
+  wordCountAnswer: number;
   loading: boolean = false;
   questionId: any;
 
   constructor(private _formBuilder: FormBuilder, public dialogRef: MatDialogRef<JoiningGame>, public configService: ConfigService,
               public dialog: MatDialog, private gameService: GamesService, public generalService: GeneralService,
               @Inject(MAT_DIALOG_DATA) public data: any, private router: Router, private _snackBar: MatSnackBar) {
+    this.wordCount = this.generalService.gameInit.answerWordsLimitation;
+    this.wordCountAnswer = this.generalService.gameInit.answerWordsLimitation;
   }
 
   async closeModal() {
@@ -834,7 +860,7 @@ export class JoiningGame {
   }
 
   updateWordCount() {
-    this.wordCount = this.questionForm.controls.question.value ? (100 - this.questionForm.controls.question.value.trim().split(/\s+/).length) : 100;
+    this.wordCount = this.questionForm.controls.question.value ? (this.generalService.gameInit.answerWordsLimitation - this.questionForm.controls.question.value.trim().split(/\s+/).length) : this.generalService.gameInit.answerWordsLimitation;
   }
 
   updateWordCountAnswer() {
@@ -844,7 +870,7 @@ export class JoiningGame {
   onToggleActiveTranslate(event: any) {
     this.generalService.toggleValueTranslate = event.checked ? 1 : 0;
     if (!this.generalService.toggleValueTranslate) {
-      this.generalService.selectedTranslatedLanguage = null;
+      this.generalService.selectedTranslatedLanguage = '';
     }
   }
 

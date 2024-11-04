@@ -51,18 +51,20 @@ export class AppComponent implements OnInit {
     this.starter().then(async (data) => {
       this.generalService.socket = io('https://api.staging.1qma.games', {withCredentials: true});
       this.generalService.socket.on("connect", () => {
-        if (this.generalService.disconnectedModal) {
+        if (this.generalService.disconnectedModal || this.generalService.isDisconnectedModal) {
           this.generalService.disconnectedModal.close();
           this.generalService.disconnectedModal = '';
+          this.generalService.isDisconnectedModal = false;
         }
         console.log('Socket connected');
       });
 
       this.generalService.socket.on("notification", (arg: any) => {
         console.log("notification" + arg)
-        if (this.generalService.disconnectedModal) {
+        if (this.generalService.disconnectedModal || this.generalService.isDisconnectedModal) {
           this.generalService.disconnectedModal.close();
           this.generalService.disconnectedModal = '';
+          this.generalService.isDisconnectedModal = false;
         }
         this.generalService.newNotif = true;
         this.shopService.getNotifications(1, 3).then(data => {
@@ -72,9 +74,10 @@ export class AppComponent implements OnInit {
 
       this.generalService.socket.on("notification:modal", (arg: any) => {
         console.log(arg)
-        if (this.generalService.disconnectedModal) {
+        if (this.generalService.disconnectedModal || this.generalService.isDisconnectedModal) {
           this.generalService.disconnectedModal.close();
           this.generalService.disconnectedModal = '';
+          this.generalService.isDisconnectedModal = false;
         }
         const dialogConfig = new MatDialogConfig();
         if (this.generalService.isMobileView) { // Assuming mobile devices are <= 768px

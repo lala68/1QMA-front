@@ -33,7 +33,7 @@ export class GeneralService implements OnInit {
   createdGameData: any;
   gameQuestion: any = '';
   toggleValueTranslate: any;
-  selectedTranslatedLanguage: any;
+  selectedTranslatedLanguage: any = '';
   specificQuestionAnswers: any;
   gameAnswerGeneral: any;
   editingAnswer: boolean = true;
@@ -57,6 +57,7 @@ export class GeneralService implements OnInit {
   selectedTabIndexQuestionChildInTrivia: any = 0;
   selectedTabIndexGameChildInTrivia: any = 0;
   keepAliveInterval: any;
+  isDisconnectedModal: boolean = false;
 
   constructor(private http: HttpClient, private _snackBar: MatSnackBar, private router: Router) {
   }

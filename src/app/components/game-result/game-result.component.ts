@@ -39,24 +39,10 @@ export class GameResultComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
-    // this.generalService.useGoogleTranslate();
     this.gameService.getGameResult(this.gameId).then(async data => {
       this.loading = false;
       if (data.status == 1) {
         this.gameResult = data.data;
-        // for (const question of this.gameResult.result.details) {
-        //   question.question = await translate(question.question,
-        //     {
-        //       to: this.generalService?.userObj?.preferedLanguage == '0' ? 'en' :
-        //         this.generalService.userObj?.preferedLanguage == '1' ? 'de' : 'fa', from: question.language
-        //     });
-        //   for (const answer of question.answers) {
-        //     answer.answer = await translate(answer.answer, {
-        //       to: this.generalService?.userObj?.preferedLanguage == '0' ? 'en' :
-        //         this.generalService.userObj?.preferedLanguage == '1' ? 'de' : 'fa', from: answer.language
-        //     });
-        //   }
-        // }
       }
     }, error => {
       return this.processHTTPMsgService.handleError(error);

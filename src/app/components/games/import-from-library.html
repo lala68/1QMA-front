@@ -10,7 +10,7 @@
 </div>
 <div mat-dialog-content [style]="generalService.isMobileView ? 'padding : 10px' : ''">
   <div class="gray-card">
-    <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" class="tab-group-library"
+    <mat-tab-group mat-stretch-tabs="true" mat-align-tabs="start" class="responsive-tabs-library"
                    [(selectedIndex)]="selectedTabIndex" (selectedTabChange)="ngOnInit()">
       <mat-tab label="Private Library">
       </mat-tab>

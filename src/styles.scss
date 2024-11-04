@@ -657,7 +657,34 @@ input[type="tel"] {
   }
 }
 
-.tab-group-trivia .tab-group-library {
+//.tab-group-trivia .tab-group-library {
+//  margin: 0 auto;
+//
+//  .mat-mdc-tab.mdc-tab--active {
+//    background-color: transparent !important;
+//    border-bottom: 1px solid var(--bs-primary) !important;
+//    min-width: 170px;
+//    border-radius: 0;
+//    --mat-tab-header-active-label-text-color: var(--bs-primary) !important;
+//    --mat-tab-header-active-focus-label-text-color: var(--bs-primary) !important;
+//    --mat-tab-header-active-hover-label-text-color: var(--bs-primary) !important;
+//    --mdc-tab-indicator-active-indicator-color: var(--bs-primary) !important;
+//    --mdc-tab-indicator-active-focus-indicator-color: var(--bs-primary) !important;
+//    --mdc-tab-indicator-active-hover-indicator-color: var(--bs-primary) !important;
+//  }
+//
+//  mat-tab-header {
+//    .mat-mdc-tab-label-container {
+//      .mat-mdc-tab-list {
+//        background: transparent !important;
+//        margin: 0 auto;
+//        max-width: 600px !important;
+//      }
+//    }
+//  }
+//}
+
+.responsive-tabs-library {
   margin: 0 auto;
 
   .mat-mdc-tab.mdc-tab--active {
@@ -682,6 +709,28 @@ input[type="tel"] {
       }
     }
   }
+}
+
+/* Apply this to make the tab group scrollable */
+.responsive-tabs-library .mat-tab-labels {
+  overflow-x: auto; /* Enable horizontal scrolling */
+  display: flex;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+}
+
+.responsive-tabs-library .mat-tab-label {
+  flex-shrink: 0; /* Prevent the tab labels from shrinking */
+}
+
+/* Optional: Customize scrollbars (for webkit-based browsers) */
+.responsive-tabs-library .mat-tab-labels::-webkit-scrollbar {
+  height: 8px;
+}
+
+.responsive-tabs-library .mat-tab-labels::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
 }
 
 .tab-top-questions {
@@ -1073,6 +1122,19 @@ input[type="tel"] {
     display: contents;
   }
 
+  .copyright {
+    height: 20px;
+    text-align: center;
+    background: #fff;
+    //position: absolute;
+    inset-inline-start: 0;
+    bottom: 0;
+    inset-inline-end: 0;
+    border-top: 1px solid #F2EFEE;
+    padding-top: 5px;
+    margin-bottom: 100px;
+  }
+
   .ul-li-footer {
     width: 50%;
   }
@@ -1082,7 +1144,7 @@ input[type="tel"] {
     //height: 80px;
     display: block;
     margin-top: 35px;
-    margin-bottom: 50px;
+    margin-bottom: 30px;
   }
 
   .wizard-card-subheader {
@@ -1208,6 +1270,33 @@ input[type="tel"] {
     width: 100%;
     margin: 55px 0 10px;
     //margin: 15px 0;
+  }
+
+  .responsive-tabs-library {
+    margin: 0 auto;
+
+    .mat-mdc-tab.mdc-tab--active {
+      background-color: transparent !important;
+      border-bottom: 1px solid var(--bs-primary) !important;
+      min-width: 170px;
+      border-radius: 0;
+      --mat-tab-header-active-label-text-color: var(--bs-primary) !important;
+      --mat-tab-header-active-focus-label-text-color: var(--bs-primary) !important;
+      --mat-tab-header-active-hover-label-text-color: var(--bs-primary) !important;
+      --mdc-tab-indicator-active-indicator-color: var(--bs-primary) !important;
+      --mdc-tab-indicator-active-focus-indicator-color: var(--bs-primary) !important;
+      --mdc-tab-indicator-active-hover-indicator-color: var(--bs-primary) !important;
+    }
+
+    mat-tab-header {
+      .mat-mdc-tab-label-container {
+        .mat-mdc-tab-list {
+          background: transparent !important;
+          margin: 0 auto;
+          max-width: 300px !important;
+        }
+      }
+    }
   }
 
 }

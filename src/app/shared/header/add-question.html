@@ -31,6 +31,12 @@
       <div class="font-size-14 weight-600">Add Answer</div>
     </div>
 
+    <div class="link-text text-start mb-3 d-inline-flex cursor-pointer" *ngIf="displayAnswer"
+         (click)="displayAnswer = !displayAnswer; this.questionForm.controls.answer.setValue('')">
+      <i class="bi bi-dash"></i>
+      <div class="font-size-14 weight-600">Close Answer</div>
+    </div>
+
     <div *ngIf="displayAnswer">
       <div class="d-flex">
 <!--        <img src="assets/images/clipboard-text.svg" width="24">-->

@@ -69,6 +69,8 @@ export class AccountInfoComponent {
       country: [this.generalService.userObj?.country ? this.generalService.userObj?.country : '', [Validators.required]],
       education: [this.generalService.userObj?.education ? this.generalService.userObj?.education?._id : '', [Validators.required]],
       city: [this.generalService.userObj?.city ? this.generalService.userObj?.city : '', [Validators.required]],
+      playAnonymously: [this.generalService.userObj?.playAnonymously ? this.generalService.userObj?.playAnonymously : false],
+      anonymousName: [this.generalService.userObj?.anonymousName ? this.generalService.userObj?.anonymousName : ''],
       currentPassword: ['', []],
       password: ['', []],
       passwordConfirmation: ['', []],

@@ -3,7 +3,7 @@
   <mat-spinner *ngIf="loading" [diameter]="30"></mat-spinner>
 </div>
 <div *ngIf="!loading && questionStep == 1">
-  <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" class="tab-group-trivia"
+  <mat-tab-group mat-stretch-tabs="true" mat-align-tabs="start" class="tab-group-trivia"
                  [(selectedIndex)]="generalService.selectedTabIndexParentInTrivia" (selectedTabChange)="questionOrGame()">
     <mat-tab label="Questions">
       <div class="card border-0">
@@ -11,7 +11,7 @@
           <mat-card class="shadow-none p-2" style="width: 100%">
             <mat-card-header>
               <div>
-                <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" class="tab-group-library"
+                <mat-tab-group mat-stretch-tabs="true" mat-align-tabs="start" class="responsive-tabs-library"
                                [(selectedIndex)]="generalService.selectedTabIndexQuestionChildInTrivia" (selectedTabChange)="changeQuestions()">
                   <mat-tab label="All Questions">
                   </mat-tab>
@@ -611,7 +611,7 @@
           <mat-card class="shadow-none p-2" style="width: 100%">
             <mat-card-header>
               <div>
-                <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" class="tab-group-library"
+                <mat-tab-group mat-stretch-tabs="true" mat-align-tabs="start" class="responsive-tabs-library"
                                [(selectedIndex)]="generalService.selectedTabIndexGameChildInTrivia" (selectedTabChange)="changeGames()">
                   <mat-tab label="All Games">
                   </mat-tab>

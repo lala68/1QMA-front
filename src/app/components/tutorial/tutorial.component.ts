@@ -54,6 +54,7 @@ export class TutorialComponent {
   isDroppedQuestion: boolean = false;
   myRank: any;
   tutorialInit: any;
+  wordCountAnswer: any;
 
   constructor(public generalService: GeneralService, private router: Router, private tutorialService: TutorialService,
               public configService: ConfigService, private ngZone: NgZone, private _snackBar: MatSnackBar,
@@ -62,6 +63,7 @@ export class TutorialComponent {
     //numberOfSubmitted maybe remove it
     this.submittedAnswer.numberOfSubmitted = 1;
     this.generalService.currentRout = '';
+    this.wordCountAnswer = this.tutorialInit?.answerWordsLimitation;
   }
 
   async ngOnInit() {
@@ -81,9 +83,17 @@ export class TutorialComponent {
       dialogConfig.height = 'auto'; // You can specify the height if needed
       dialogConfig.position = {bottom: '0px'};
       dialogConfig.panelClass = 'mobile-dialog'; // Add custom class for mobile
-      dialogConfig.data = {data: this.tutorialInit.category, gameCode: ''}
+      dialogConfig.data = {
+        data: this.tutorialInit.category,
+        gameCode: '',
+        wordLimitation: this.tutorialInit?.answerWordsLimitation
+      }
     } else {
-      dialogConfig.data = {data: this.tutorialInit.category, gameCode: ''}
+      dialogConfig.data = {
+        data: this.tutorialInit.category,
+        gameCode: '',
+        wordLimitation: this.tutorialInit?.answerWordsLimitation
+      }
       dialogConfig.width = '700px'; // Full size for desktop or larger screens
     }
     const dialogRef = this.dialog.open(JoiningTutorialGame, dialogConfig);
@@ -530,7 +540,7 @@ export class TutorialComponent {
   }
 
   updateWordCountAnswer() {
-    this.tutorialInit.wordCountAnswer = this.generalService?.gameAnswerGeneral ? ((this.tutorialInit?.answerWordsLimitation) - this.generalService?.gameAnswerGeneral.trim().split(/\s+/).length) : this.tutorialInit?.answerWordsLimitation;
+    this.wordCountAnswer = this.generalService?.gameAnswerGeneral ? ((this.tutorialInit?.answerWordsLimitation) - this.generalService?.gameAnswerGeneral.trim().split(/\s+/).length) : this.tutorialInit?.answerWordsLimitation;
   }
 
   startTutorialGame() {
@@ -541,9 +551,9 @@ export class TutorialComponent {
           this.tutorialService.getTutorialGameQuestionBasedOnStep(this.generalService.createdGameData?._id, 1).then(async resQue => {
             this.generalService.gameQuestion = resQue?.data;
             console.log(this.generalService.gameQuestion)
-            this.updateWordCountAnswer();
             if (resQue?.data?.myAnswer) {
               this.generalService.gameAnswerGeneral = resQue?.data?.myAnswer;
+              this.updateWordCountAnswer();
             }
           }, error => {
             return this.processHTTPMsgService.handleError(error);
@@ -567,8 +577,8 @@ export class JoiningTutorialGame {
     question: new FormControl('', [Validators.required]),
     answer: new FormControl('', [Validators.required]),
   });
-  wordCount: number = 100;
-  wordCountAnswer: number = 100;
+  wordCount: number;
+  wordCountAnswer: number;
   loading: boolean = false;
   questionId: any;
 
@@ -576,6 +586,8 @@ export class JoiningTutorialGame {
               public dialog: MatDialog, private gameService: GamesService, public generalService: GeneralService,
               @Inject(MAT_DIALOG_DATA) public data: any, private router: Router, private _snackBar: MatSnackBar,
               private tutorialService: TutorialService) {
+    this.wordCount = this.data.wordLimitation;
+    this.wordCountAnswer = this.data.wordLimitation;
   }
 
   async closeModal() {
@@ -632,11 +644,11 @@ export class JoiningTutorialGame {
   }
 
   updateWordCount() {
-    this.wordCount = this.questionForm.controls.question.value ? (100 - this.questionForm.controls.question.value.trim().split(/\s+/).length) : 100;
+    this.wordCount = this.questionForm.controls.question.value ? (this.data.wordLimitation - this.questionForm.controls.question.value.trim().split(/\s+/).length) : this.data.wordLimitation;
   }
 
   updateWordCountAnswer() {
-    this.wordCountAnswer = this.questionForm.controls.answer.value ? ((this.generalService.gameInit?.answerWordsLimitation) - this.questionForm.controls.answer.value.trim().split(/\s+/).length) : this.generalService.gameInit?.answerWordsLimitation;
+    this.wordCountAnswer = this.questionForm.controls.answer.value ? ((this.data.wordLimitation) - this.questionForm.controls.answer.value.trim().split(/\s+/).length) : this.data.wordLimitation;
   }
 
   openDialog(message: any, title: any) {

@@ -983,7 +983,7 @@
                   <mat-label *ngIf="generalService.toggleValueTranslate"
                              class="ps-2 pe-2">{{'to' | translate}}</mat-label>
                   <mat-form-field *ngIf="generalService.toggleValueTranslate" appearance="fill"
-                                  class="custom-form-field"
+                                  class="custom-form-field" style="padding-top: 20px"
                                   [class]="{'w-25': !generalService.isMobileView, 'w-50': generalService.isMobileView}">
                     <mat-label>{{'Language' | translate}}</mat-label>
                     <mat-select (selectionChange)="selectTranslatedLang($event.value)">
