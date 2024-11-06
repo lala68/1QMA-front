@@ -9,7 +9,7 @@
         <img mat-card-avatar src="assets/images/live.png" width="63" height="63">
         <mat-card-title class="font-size-16 weight-600">{{'Waiting Room' | translate}}</mat-card-title>
         <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
-          {{'Possible description for title' | translate}}
+          {{'Possible-description-title-waiting-room' | translate}}
         </mat-card-subtitle>
         <mat-card-subtitle *ngIf="generalService.isMobileView">
           <mat-chip mat-raised-button color="primary" class="chip-header-category">
@@ -284,7 +284,7 @@
         <img mat-card-avatar src="assets/images/answer-questions.png" width="63" height="63">
         <mat-card-title class="font-size-16 weight-600">{{'Answer Questions' | translate}}</mat-card-title>
         <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
-          {{'Possible description for title' | translate}}
+          {{'Possible-description-title-answer-gameboard' | translate}}
         </mat-card-subtitle>
         <mat-card-subtitle *ngIf="generalService.isMobileView">
           <mat-chip mat-raised-button color="primary" class="chip-header-category">
@@ -393,7 +393,7 @@
         <img mat-card-avatar src="assets/images/answer-questions.png" width="63" height="63">
         <mat-card-title class="font-size-16 weight-600">{{'Rate Answers' | translate}}</mat-card-title>
         <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
-          {{'Possible description for title' | translate}}
+          {{'Possible-description-title-rate-answer-gameboard' | translate}}
         </mat-card-subtitle>
         <mat-card-subtitle *ngIf="generalService.isMobileView">
           <mat-chip mat-raised-button color="primary" class="chip-header-category">
@@ -522,7 +522,7 @@
         <img mat-card-avatar src="assets/images/answer-questions.png" width="63" height="63">
         <mat-card-title class="font-size-16 weight-600">{{'Rate Questions' | translate}}</mat-card-title>
         <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
-          {{'Possible description for title' | translate}}
+          {{'Possible-description-title-rate-question-gameboard' | translate}}
         </mat-card-subtitle>
         <mat-card-subtitle *ngIf="generalService.isMobileView">
           <mat-chip mat-raised-button color="primary" class="chip-header-category">
@@ -680,7 +680,7 @@ generalService.gameStep == 3 ? sendRateAnswer(true) : sendRateQuestions(true)">
         <img mat-card-avatar src="assets/images/result.png" width="63" height="63">
         <mat-card-title class="font-size-16 weight-600">{{'Result' | translate}}</mat-card-title>
         <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
-          {{'Possible description for title' | translate}}
+          {{'Possible-description-title-result-gameboard' | translate}}
         </mat-card-subtitle>
         <mat-card-subtitle *ngIf="generalService.isMobileView">
           <mat-chip mat-raised-button color="primary" class="chip-header-category">
@@ -1201,7 +1201,7 @@ generalService.gameStep == 3 ? sendRateAnswer(true) : sendRateQuestions(true)">
                     class="font-size-14 weight-700 pe-2">{{answer?.answerer?.firstName}} {{answer?.answerer?.lastName}}</span>
                     <br>
                     <br>
-                    <div [style]="!generalService.isMobileView ? 'min-height: 150px' : ''"
+                    <div [style]="!generalService.isMobileView ? 'min-height: 120px' : ''"
                          class="font-size-14 weight-400">{{answer?.answer}}</div>
                     <br>
                     <img src="assets/images/score.png" width="16"/>

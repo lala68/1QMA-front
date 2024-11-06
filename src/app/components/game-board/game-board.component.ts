@@ -23,6 +23,7 @@ import {ExitGame} from "../../shared/header/header.component";
 import {franc} from "franc";
 import iso6391 from "iso-639-1";
 import {io} from "socket.io-client";
+import {error} from "@angular/compiler-cli/src/transformers/util";
 
 type SupportedLanguages =
   'eng' | // English
@@ -1218,27 +1219,49 @@ export class Disconnected {
   }
 
   async gotoHome() {
-    await this.gameService.exitGame(this.generalService?.startingGame ? this.generalService?.createdGameData?.game?.gameId : this.generalService?.createdGameData?._id);
-    this.generalService.startingGame = false;
-    this.generalService.startingGameTutorial = false;
-    this.generalService.players = [];
-    this.generalService.gameInit = '';
-    this.generalService.gameStep = 1;
-    this.generalService.gameTutorialStep = 1;
-    this.generalService.createdGameData = '';
-    this.generalService.gameQuestion = '';
-    this.generalService.specificQuestionAnswers = '';
-    this.generalService.gameAnswerGeneral = '';
-    this.generalService.editingAnswer = true;
-    this.generalService.isGameCancel = false;
-    this.generalService.allQuestions = [];
-    this.generalService.gameResult = '';
-    this.generalService.rateAnswers = [];
-    this.generalService.rateQuestions = [];
-    this.generalService.invitedPlayersArray = [];
-    clearInterval(this.generalService.keepAliveInterval);
-    this.dialogRef.close();
-    await this.router.navigate(['/dashboard']);
+    this.gameService.exitGame(this.generalService?.startingGame ? this.generalService?.createdGameData?.game?.gameId : this.generalService?.createdGameData?._id).then(data => {
+      this.generalService.startingGame = false;
+      this.generalService.startingGameTutorial = false;
+      this.generalService.players = [];
+      this.generalService.gameInit = '';
+      this.generalService.gameStep = 1;
+      this.generalService.gameTutorialStep = 1;
+      this.generalService.createdGameData = '';
+      this.generalService.gameQuestion = '';
+      this.generalService.specificQuestionAnswers = '';
+      this.generalService.gameAnswerGeneral = '';
+      this.generalService.editingAnswer = true;
+      this.generalService.isGameCancel = false;
+      this.generalService.allQuestions = [];
+      this.generalService.gameResult = '';
+      this.generalService.rateAnswers = [];
+      this.generalService.rateQuestions = [];
+      this.generalService.invitedPlayersArray = [];
+      clearInterval(this.generalService.keepAliveInterval);
+      this.dialogRef.close();
+      this.router.navigate(['/dashboard']);
+    }, error => {
+      this.generalService.startingGame = false;
+      this.generalService.startingGameTutorial = false;
+      this.generalService.players = [];
+      this.generalService.gameInit = '';
+      this.generalService.gameStep = 1;
+      this.generalService.gameTutorialStep = 1;
+      this.generalService.createdGameData = '';
+      this.generalService.gameQuestion = '';
+      this.generalService.specificQuestionAnswers = '';
+      this.generalService.gameAnswerGeneral = '';
+      this.generalService.editingAnswer = true;
+      this.generalService.isGameCancel = false;
+      this.generalService.allQuestions = [];
+      this.generalService.gameResult = '';
+      this.generalService.rateAnswers = [];
+      this.generalService.rateQuestions = [];
+      this.generalService.invitedPlayersArray = [];
+      clearInterval(this.generalService.keepAliveInterval);
+      this.dialogRef.close();
+      this.router.navigate(['/dashboard']);
+    });
   }
 
   finishedDisconnectTimer() {
