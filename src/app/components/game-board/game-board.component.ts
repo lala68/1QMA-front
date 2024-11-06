@@ -23,6 +23,7 @@ import {ExitGame} from "../../shared/header/header.component";
 import {franc} from "franc";
 import iso6391 from "iso-639-1";
 import {io} from "socket.io-client";
+
 type SupportedLanguages =
   'eng' | // English
   'deu' | // German
@@ -845,26 +846,31 @@ export class GameBoardComponent implements OnInit, OnDestroy {
 
   async detectAndTranslate(question: string, targetLanguage: string): Promise<string> {
     // Use franc to detect the primary language
-    const detectedLangISO6393: string = franc(question);
-    console.log(`Primary detected language (ISO 639-3): ${detectedLangISO6393}`);
+    if (question) {
+      const detectedLangISO6393: string = franc(question);
+      console.log(`Primary detected language (ISO 639-3): ${detectedLangISO6393}`);
 
-    // Map the detected language to the ISO 639-1 code or default to English
-    let detectedLangISO6391 = this.supportedLangs[detectedLangISO6393 as SupportedLanguages] || 'en';
+      // Map the detected language to the ISO 639-1 code or default to English
+      let detectedLangISO6391 = this.supportedLangs[detectedLangISO6393 as SupportedLanguages] || 'en';
 
-    console.log(`ISO 639-1 code used for translation: ${detectedLangISO6391}`);
-    console.log(`Target language for translation: ${targetLanguage}`);
+      console.log(`ISO 639-1 code used for translation: ${detectedLangISO6391}`);
+      console.log(`Target language for translation: ${targetLanguage}`);
 
-    // Perform the translation
-    try {
-      const translatedText = await translate(question, {
-        from: detectedLangISO6391,
-        to: targetLanguage,
-      });
-      return translatedText;
-    } catch (error) {
-      console.error('Translation error:', error);
-      throw new Error('Translation failed.');
+      // Perform the translation
+      try {
+        const translatedText = await translate(question, {
+          from: detectedLangISO6391,
+          to: targetLanguage,
+        });
+        return translatedText;
+      } catch (error) {
+        console.error('Translation error:', error);
+        throw new Error('Translation failed.');
+      }
+    } else {
+      return '';
     }
+
   }
 
   async sendAnswer(): Promise<any> {
