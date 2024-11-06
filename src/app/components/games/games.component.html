@@ -1034,7 +1034,7 @@
                  [src]="ivt?.profilePicture ? ivt?.profilePicture?.startsWith('http') ? ivt?.profilePicture : configService.url(ivt?.profilePicture) : 'assets/images/frame.png'"
                  (error)="handleImageError($event)"
                  width="32" height="32"/>
-            <mat-label class="font-size-14 weight-500 m-auto">{{ivt}}</mat-label>
+            <mat-label class="font-size-14 weight-500 m-auto">&nbsp;{{ivt}}</mat-label>
             &nbsp;&nbsp;
             <!--            <img src="assets/images/add.svg" *ngIf="ivt !== generalService.userObj?.email"-->
             <!--                             (click)="removeInvite(ivt)"/>-->

@@ -247,7 +247,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
 
     this.generalService.socket.on("disconnect", () => {
       console.log('disconnect');
-      if (this.generalService?.startingGame) {
+      if (this.generalService?.startingGame && (!this.generalService.isDisconnectedModal)) {
         this.generalService.disconnectedModal = this.dialog.open(Disconnected, {
           width: '500px',
           disableClose: true
@@ -1213,11 +1213,12 @@ export class Disconnected {
   disable: boolean = true;
 
   constructor(public dialogRef: MatDialogRef<Disconnected>, private generalService: GeneralService,
-              private router: Router) {
+              private router: Router, private gameService: GamesService) {
     this.generalService.isDisconnectedModal = true;
   }
 
   async gotoHome() {
+    await this.gameService.exitGame(this.generalService?.startingGame ? this.generalService?.createdGameData?.game?.gameId : this.generalService?.createdGameData?._id);
     this.generalService.startingGame = false;
     this.generalService.startingGameTutorial = false;
     this.generalService.players = [];
