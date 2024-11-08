@@ -5,7 +5,7 @@
 <div *ngIf="!loading">
   <mat-tab-group mat-stretch-tabs="true" mat-align-tabs="start" class="responsive-tabs"
                  [selectedIndex]="getSelectedTabIndex()" (selectedIndexChange)="onTabIndexChange($event)">
-    <mat-tab label="Overview">
+    <mat-tab label="{{'Overview' | translate}}">
       <div class="card border-0">
         <div class="w-100 d-flex">
           <mat-card class="shadow-none w-100">
@@ -375,10 +375,10 @@
                       <mat-card-subtitle class="ps-0 d-flex" style="text-align: start;">
                         <img src="assets/images/rank.png" width="16"><span
                         class="font-size-14 weight-700">1 </span><span
-                        class="font-size-14 weight-500"> Rank</span>
+                        class="font-size-14 weight-500"> {{'Rank' | translate}}</span>
                         &nbsp;&nbsp;<img src="assets/images/score.png" width="16"><span
                         class="font-size-14 weight-700">{{fg?.result?.scoreboard[0]?.totalScore | parsInt}} </span><span
-                        class="font-size-14 weight-500"> Score</span>
+                        class="font-size-14 weight-500"> {{'Score' | translate}}</span>
                       </mat-card-subtitle>
                     </mat-card-header>
                   </mat-card>
@@ -651,7 +651,7 @@
         </div>
       </div>
     </mat-tab>
-    <mat-tab label="Create New Game">
+    <mat-tab label="{{'Create New Game' | translate}}">
       <div class="card border-0" *ngIf="createGameStep == 1">
         <div class="w-100 d-flex">
           <mat-card class="shadow-none">
@@ -1110,7 +1110,7 @@
         </mat-card>
       </div>
     </mat-tab>
-    <mat-tab label="Find Game">
+    <mat-tab label="{{'Find Game' | translate}}">
       <div class="card border-0" *ngIf="findFriendStep == 1">
         <div class="w-100 d-flex">
           <mat-card class="shadow-none">

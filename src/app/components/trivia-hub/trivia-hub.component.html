@@ -5,7 +5,7 @@
 <div *ngIf="!loading && questionStep == 1">
   <mat-tab-group mat-stretch-tabs="true" mat-align-tabs="start" class="tab-group-trivia"
                  [(selectedIndex)]="generalService.selectedTabIndexParentInTrivia" (selectedTabChange)="questionOrGame()">
-    <mat-tab label="Questions">
+    <mat-tab label="{{'Questions' | translate}}">
       <div class="card border-0">
         <div class="w-100 d-flex">
           <mat-card class="shadow-none p-2" style="width: 100%">
@@ -13,11 +13,11 @@
               <div>
                 <mat-tab-group mat-stretch-tabs="true" mat-align-tabs="start" class="responsive-tabs-library"
                                [(selectedIndex)]="generalService.selectedTabIndexQuestionChildInTrivia" (selectedTabChange)="changeQuestions()">
-                  <mat-tab label="All Questions">
+                  <mat-tab label="{{'All Questions' | translate}}">
                   </mat-tab>
-                  <mat-tab label="My Questions">
+                  <mat-tab label="{{'My Questions' | translate}}">
                   </mat-tab>
-                  <mat-tab label="Bookmarked">
+                  <mat-tab label="{{'Bookmarked' | translate}}">
                   </mat-tab>
                 </mat-tab-group>
               </div>
@@ -74,16 +74,16 @@
                 </button>
                 <mat-menu #menuSortQuestion="matMenu">
                   <div mat-menu-item class="p-2 border-bottom" (click)="onSelect('oldest')">
-                    <mat-label>oldest</mat-label>
+                    <mat-label>{{'oldest' | translate}}</mat-label>
                   </div>
                   <div mat-menu-item class="p-2 border-bottom" (click)="onSelect('newest')">
-                    <mat-label>newest</mat-label>
+                    <mat-label>{{'newest' | translate}}</mat-label>
                   </div>
                   <div mat-menu-item class="p-2 border-bottom" (click)="onSelect('highest')">
-                    <mat-label>highest rate</mat-label>
+                    <mat-label>{{'highest rate' | translate}}</mat-label>
                   </div>
                   <div mat-menu-item class="p-2" (click)="onSelect('lowest')">
-                    <mat-label>lowest rate</mat-label>
+                    <mat-label>{{'lowest rate' | translate}}</mat-label>
                   </div>
                 </mat-menu>
               </div>
@@ -605,7 +605,7 @@
       </div>
     </mat-tab>
 
-    <mat-tab label="Games">
+    <mat-tab label="{{'Games' | translate}}">
       <div class="card border-0">
         <div class="w-100 d-flex">
           <mat-card class="shadow-none p-2" style="width: 100%">
@@ -613,9 +613,9 @@
               <div>
                 <mat-tab-group mat-stretch-tabs="true" mat-align-tabs="start" class="responsive-tabs-library"
                                [(selectedIndex)]="generalService.selectedTabIndexGameChildInTrivia" (selectedTabChange)="changeGames()">
-                  <mat-tab label="All Games">
+                  <mat-tab label="{{'All Games' | translate}}">
                   </mat-tab>
-                  <mat-tab label="My Games">
+                  <mat-tab label="{{'My Games' | translate}}">
                   </mat-tab>
                 </mat-tab-group>
               </div>
@@ -669,10 +669,10 @@
                   </button>
                   <mat-menu #menuSortGame="matMenu">
                     <div mat-menu-item class="p-2 border-bottom" (click)="onSelectGameSort('oldest')">
-                      <mat-label>oldest</mat-label>
+                      <mat-label>{{'oldest' | translate}}</mat-label>
                     </div>
                     <div mat-menu-item class="p-2" (click)="onSelectGameSort('newest')">
-                      <mat-label>newest</mat-label>
+                      <mat-label>{{'newest' | translate}}</mat-label>
                     </div>
                   </mat-menu>
                 </div>
@@ -698,7 +698,7 @@
                              (error)="handleImageError($event)"
                              width="33" height="33" class="avatar-bordered bg-white mb-0">
                         <mat-card-title
-                          class="font-size-10 weight-500 text-start p-1 text-gray">Created by:
+                          class="font-size-10 weight-500 text-start p-1 text-gray">{{'Created By' | translate}}:
                         </mat-card-title>
                         <mat-card-subtitle class="font-size-14 weight-500 text-start p-1" style="color: #2C2523">
                           {{endedGame?.creator?.firstName}} {{endedGame?.creator?.lastName}}
@@ -730,7 +730,7 @@
                   </div>
                   <br>
                   <span
-                    class="font-size-11 weight-500 text-start">{{endedGame?.players?.length}} {{'player' | translate}}</span>
+                    class="font-size-11 weight-500 text-start">{{endedGame?.players?.length}} {{'Player' | translate}}</span>
                   <br>
                   <mat-card-actions>
                     <button mat-raised-button class="game-button"
@@ -754,10 +754,10 @@
                 </button>
                 <mat-menu #menuSortGame="matMenu">
                   <div mat-menu-item class="p-2 border-bottom" (click)="onSelectGameSort('oldest')">
-                    <mat-label>oldest</mat-label>
+                    <mat-label>{{'oldest' | translate}}</mat-label>
                   </div>
                   <div mat-menu-item class="p-2" (click)="onSelectGameSort('newest')">
-                    <mat-label>newest</mat-label>
+                    <mat-label>{{'newest' | translate}}</mat-label>
                   </div>
                 </mat-menu>
               </div>

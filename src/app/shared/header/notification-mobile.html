@@ -28,6 +28,6 @@
     <mat-label class="text-gray">{{item?.createdAt | date}}</mat-label>
   </div>
   <button mat-flat-button [routerLink]="['/notification']" (click)="closeModal()" color="primary" class="w-100">
-    <span>See All</span>
+    <span>{{'See All' | translate}}</span>
   </button>
 </div>

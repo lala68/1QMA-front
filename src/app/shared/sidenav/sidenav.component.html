@@ -6,32 +6,32 @@
             [class]="generalService.currentRout == '/dashboard' ? 'mat-list-item-selected' : ''"
             routerLinkActive="active-link" class="w-20 mt-3" style="margin-top: 2px !important; height: 70px;">
       <img matListItemIcon src="assets/images/home.png" width="25">
-      <span class="d-block">Dashboard</span>
+      <span class="d-block">{{'Dashboard' | translate}}</span>
     </button>
     <!--    <button mat-flat-button [routerLink]="['/game-board']" id="games"-->
     <button mat-flat-button [routerLink]="['/games/overview']" id="games_mobile"
             [class]="generalService.currentRout == '/games/overview' ? 'mat-list-item-selected' : ''"
             routerLinkActive="active-link" class="w-25 mt-3" style="margin-top: 2px !important; height: 70px;">
       <img matListItemIcon src="assets/images/game.png" width="25">
-      <span class="d-block">Games</span>
+      <span class="d-block">{{'Games' | translate}}</span>
     </button>
     <button mat-flat-button [routerLink]="['/trivia-hub']" id="trivia_mobile"
             [class]="generalService.currentRout == '/trivia-hub' ? 'mat-list-item-selected' : ''"
             routerLinkActive="active-link" class="w-20 mt-3" style="margin-top: 2px !important; height: 70px;">
       <img matListItemIcon src="assets/images/book-side.png" width="25">
-      <span class="d-block">Trivia Hub</span>
+      <span class="d-block">{{'Trivia Hub' | translate}}</span>
     </button>
     <button mat-flat-button [routerLink]="['/shop']" id="shop_mobile"
             [class]="generalService.currentRout == '/shop' ? 'mat-list-item-selected' : ''"
             routerLinkActive="active-link" class="w-20 mt-3" style="margin-top: 2px !important; height: 70px;">
       <img matListItemIcon src="assets/images/shop.png" width="25">
-      <span class="d-block">Shop</span>
+      <span class="d-block">{{'Shop' | translate}}</span>
     </button>
     <button mat-flat-button (click)="gotoMore()"
             [class]="generalService.currentRout == '/more' ? 'mat-list-item-selected' : ''"
             routerLinkActive="active-link" class="w-20 mt-3" style="margin-top: 2px !important; height: 70px;">
       <img matListItemIcon src="assets/images/icon-more.png" width="25">
-      <span class="d-block">More</span>
+      <span class="d-block">{{'More' | translate}}</span>
     </button>
   </mat-toolbar>
   <mat-drawer-container style="min-height: 100vh">
@@ -104,7 +104,7 @@
               <path d="M6 12H18" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
               <path d="M12 18V6" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-            <mat-label>Add Question</mat-label>
+            <mat-label>{{'Add question' | translate}}</mat-label>
           </button>
           <button (click)="toggleFab()" [routerLink]="['/games/find-game']" mat-mini-fab
                   style="width: 140px; background: white; direction: rtl; border-radius: 4px">
@@ -115,7 +115,7 @@
               <path d="M22.7246 22.2402L20.7246 20.2402" stroke="#000" stroke-width="1.5" stroke-linecap="round"
                     stroke-linejoin="round"/>
             </svg>
-            <mat-label>{{'Find Game' | translate}}</mat-label>
+            <mat-label>{{'Find game' | translate}}</mat-label>
           </button>
           <button (click)="toggleFab()" [routerLink]="['/games/create-game']" mat-mini-fab
                   style="width: 140px; background: white; direction: rtl; border-radius: 4px">
@@ -129,7 +129,7 @@
               <path d="M12.7925 9.16699C13.2325 10.737 14.4625 11.977 16.0425 12.417" stroke="#fff" stroke-width="1.5"
                     stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-            <mat-label>Create Game</mat-label>
+            <mat-label>{{'Create game' | translate}}</mat-label>
           </button>
         </div>
         <!-- Main FAB Button -->

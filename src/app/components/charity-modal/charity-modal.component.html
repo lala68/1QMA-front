@@ -15,17 +15,17 @@
   </div>
   <br>
   <mat-label class="font-size-14 weight-500 text-light-color text-start">
-    We allocate a portion of our income to support various charitable causes.
+    {{'We-allocate-portion-income' | translate}}
   </mat-label>
   <br>
   <mat-label class="font-size-14 weight-500 text-light-color text-start">
-    Select the category closest to your heart and know that your choice directly contributes to positive change.
+    {{'Select-category-closest-heart' | translate}}
   </mat-label>
   <br>
   <br>
   <div *ngIf="!selectedCharity">
     <mat-label class="font-size-14 weight-600 text-start">
-      Which category would you like to participate in?
+      {{'Which category would you like to participate in?' | translate}}
     </mat-label>
     <br>
     <mat-card *ngFor="let chr of generalService.clientInit?.charityCategories"
@@ -40,7 +40,7 @@
 
   <div *ngIf="selectedCharity">
     <mat-label class="font-size-14 weight-600 text-start">
-      Selected Category
+      {{'Selected Category' | translate}}
     </mat-label>
     <br>
     <mat-card class="mt-2 me-1 d-inline-block shadow-none mat-card-pref-selected">
@@ -52,7 +52,7 @@
     <br>
     <br>
     <mat-label class="font-size-14 weight-600 text-start">
-      Now choose the activity you like
+      {{'Now choose the activity you like' | translate}}
     </mat-label>
     <br>
     <mat-card *ngFor="let activity of selectedCharity?.activities"

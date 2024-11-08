@@ -134,11 +134,11 @@ export class GameBoardComponent implements OnInit, OnDestroy {
       // if (!this.generalService.players.some((player: any) => player.email === arg.email)) {
       //   this.generalService.players.push(arg);
       // }
-      if (this.generalService.disconnectedModal || this.generalService.isDisconnectedModal) {
-        this.generalService.disconnectedModal.close();
-        this.generalService.disconnectedModal = '';
-        this.generalService.isDisconnectedModal = false;
-      }
+      // if (this.generalService.disconnectedModal || this.generalService.isDisconnectedModal) {
+      //   this.generalService.disconnectedModal.close();
+      //   this.generalService.disconnectedModal = '';
+      //   this.generalService.isDisconnectedModal = false;
+      // }
       if (!this.generalService.players.some((player: any) => player.email === arg.email) &&
         !this.generalService.invitedPlayersArray.some((player: any) => player.email === arg.email)) {
         this.generalService.players.push(arg);
@@ -148,11 +148,11 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     });
 
     this.generalService.socket.on("next step", (arg: any) => {
-      if (this.generalService.disconnectedModal || this.generalService.isDisconnectedModal) {
-        this.generalService.disconnectedModal.close();
-        this.generalService.disconnectedModal = '';
-        this.generalService.isDisconnectedModal = false;
-      }
+      // if (this.generalService.disconnectedModal || this.generalService.isDisconnectedModal) {
+      //   this.generalService.disconnectedModal.close();
+      //   this.generalService.disconnectedModal = '';
+      //   this.generalService.isDisconnectedModal = false;
+      // }
       const now = new Date();
       const timeString = now.toLocaleTimeString();
       console.log("next step" + ' ' + `[${timeString}]  `);
@@ -191,11 +191,11 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     });
 
     this.generalService.socket.on("submit answer", (arg: any) => {
-      if (this.generalService.disconnectedModal || this.generalService.isDisconnectedModal) {
-        this.generalService.disconnectedModal.close();
-        this.generalService.disconnectedModal = '';
-        this.generalService.isDisconnectedModal = false;
-      }
+      // if (this.generalService.disconnectedModal || this.generalService.isDisconnectedModal) {
+      //   this.generalService.disconnectedModal.close();
+      //   this.generalService.disconnectedModal = '';
+      //   this.generalService.isDisconnectedModal = false;
+      // }
       const now = new Date();
       const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
       console.log("submit answer" + ' ' + `[${timeString}]  `);
@@ -204,11 +204,11 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     });
 
     this.generalService.socket.on("player left", (arg: any) => {
-      if (this.generalService.disconnectedModal || this.generalService.isDisconnectedModal) {
-        this.generalService.disconnectedModal.close();
-        this.generalService.disconnectedModal = '';
-        this.generalService.isDisconnectedModal = false;
-      }
+      // if (this.generalService.disconnectedModal || this.generalService.isDisconnectedModal) {
+      //   this.generalService.disconnectedModal.close();
+      //   this.generalService.disconnectedModal = '';
+      //   this.generalService.isDisconnectedModal = false;
+      // }
       const now = new Date();
       const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
       console.log("player left" + ' ' + `[${timeString}]  `);
@@ -218,11 +218,11 @@ export class GameBoardComponent implements OnInit, OnDestroy {
       const now = new Date();
       const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
       console.log("cancel game" + ' ' + `[${timeString}]  `);
-      if (this.generalService.disconnectedModal || this.generalService.isDisconnectedModal) {
-        this.generalService.disconnectedModal.close();
-        this.generalService.disconnectedModal = '';
-        this.generalService.isDisconnectedModal = false;
-      }
+      // if (this.generalService.disconnectedModal || this.generalService.isDisconnectedModal) {
+      //   this.generalService.disconnectedModal.close();
+      //   this.generalService.disconnectedModal = '';
+      //   this.generalService.isDisconnectedModal = false;
+      // }
       if (!this.generalService.isGameCancel) {
         this.generalService.isGameCancel = true;
         const dialogRef = this.dialog.open(CancelGame, {
@@ -237,25 +237,25 @@ export class GameBoardComponent implements OnInit, OnDestroy {
       const now = new Date();
       const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
       console.log("end game" + ' ' + `[${timeString}]  `);
-      if (this.generalService.disconnectedModal || this.generalService.isDisconnectedModal) {
-        this.generalService.disconnectedModal.close();
-        this.generalService.disconnectedModal = '';
-        this.generalService.isDisconnectedModal = false;
-      }
+      // if (this.generalService.disconnectedModal || this.generalService.isDisconnectedModal) {
+      //   this.generalService.disconnectedModal.close();
+      //   this.generalService.disconnectedModal = '';
+      //   this.generalService.isDisconnectedModal = false;
+      // }
       this.generalService.gameStep = 5;
       this.getGameResult();
     });
 
     this.generalService.socket.on("disconnect", () => {
       console.log('disconnect');
-      if (this.generalService?.startingGame && (!this.generalService.isDisconnectedModal)) {
-        this.generalService.disconnectedModal = this.dialog.open(Disconnected, {
-          width: '500px',
-          disableClose: true
-        });
-        this.stopKeepAlive();
-        this.reconnect(); // Attempt to reconnect
-      }
+      // if (this.generalService?.startingGame && (!this.generalService.isDisconnectedModal)) {
+      //   this.generalService.disconnectedModal = this.dialog.open(Disconnected, {
+      //     width: '500px',
+      //     disableClose: true
+      //   });
+      //   this.stopKeepAlive();
+      //   this.reconnect(); // Attempt to reconnect
+      // }
     });
   }
 
@@ -274,11 +274,11 @@ export class GameBoardComponent implements OnInit, OnDestroy {
 
     // Listen for connection and disconnection events
     this.generalService.socket.on('connect', () => {
-      if (this.generalService.disconnectedModal || this.generalService.isDisconnectedModal) {
-        this.generalService.disconnectedModal.close();
-        this.generalService.disconnectedModal = '';
-        this.generalService.isDisconnectedModal = false;
-      }
+      // if (this.generalService.disconnectedModal || this.generalService.isDisconnectedModal) {
+      //   this.generalService.disconnectedModal.close();
+      //   this.generalService.disconnectedModal = '';
+      //   this.generalService.isDisconnectedModal = false;
+      // }
       console.log('Socket connected');
       this.startKeepAlive();
     });

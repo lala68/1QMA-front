@@ -25,7 +25,7 @@
          [class]="{'d-inline-flex': !generalService.isMobileView, 'd-flex': generalService.isMobileView}">
       <button mat-stroked-button color="primary" class="radius" (click)="openAddFilesDialog()"
               style="border: 1px solid #0B6FEA; width: 148px; height: 47px; margin: auto">
-        Upload Image
+        {{'Upload Image' | translate}}
       </button>
       <input type="file" #FileSelectInputDialog (change)="imageProfileInput($event)" accept="image/*" hidden>
     </div>
@@ -50,7 +50,7 @@
   <div>
     <br>
     <div class="font-size-14 weight-500">
-      Choose From Gallery
+      {{'Choose From Gallery' | translate}}
     </div>
     <div *ngFor="let pic of [].constructor(12); let i = index" (click)="selectAvatar(i+1)"
          [class]="{'avatar-selected': isSelectedAvatar(i+1), 'avatar': !isSelectedAvatar(i+1)}">

@@ -115,7 +115,7 @@
       <div class="w-100 d-flex">
         <mat-card class="shadow-none w-100">
           <mat-card-header id="bundles">
-            <mat-card-title class="font-size-16 weight-600">{{'Bundle' | translate}}</mat-card-title>
+            <mat-card-title class="font-size-16 weight-600">{{'Bundles' | translate}}</mat-card-title>
             <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
               {{'Possible-description-title-bundles-shop' | translate}}
             </mat-card-subtitle>
@@ -135,7 +135,7 @@
               </div>
               <mat-card-header style="margin: 0 auto; display: block">
                 <mat-card-title class="font-size-14 weight-600">{{item?.details[0]?.count}} {{item?.details[0]?.title}}
-                  + {{item?.details[1]?.count}} {{item?.details[1]?.title}} Coin
+                  + {{item?.details[1]?.count}} {{item?.details[1]?.title}} {{'Coin' | translate}}
                 </mat-card-title>
                 <mat-card-subtitle class="font-size-14 weight-500">
                   {{item?.realPrice}} $
@@ -208,9 +208,9 @@
                 {{detail?.realPrice}} $
               </mat-label>
               <div *ngIf="detail?.coinPrice" class="d-inline-flex">
-                <mat-label class="p-1 font-size-14 weight-600" style="color: #585858"> OR</mat-label>
+                <mat-label class="p-1 font-size-14 weight-600" style="color: #585858"> {{'OR' | translate}}</mat-label>
                 <mat-label
-                  class="font-size-16 weight-600">{{detail?.coinPrice?.price}} {{detail?.coinPrice?.coin}} Coin
+                  class="font-size-16 weight-600">{{detail?.coinPrice?.price}} {{detail?.coinPrice?.coin}} {{'Coin' | translate}}
                 </mat-label>
               </div>
             </div>
@@ -219,7 +219,7 @@
             </mat-label>
             <div class="border-bottom mb-3 pt-3"></div>
             <mat-label class="pt-3 font-size-14 weight-700">
-              Choose payment method:
+              {{'Choose payment method' | translate}}:
             </mat-label>
             <div class="mt-3 mb-3">
               <button mat-stroked-button class="m-2" style="border-radius: 10px; height: 56px"
@@ -236,7 +236,7 @@
                     d="M18.8965 8.47324V13.4732C18.8965 16.5932 15.9865 18.8232 12.3965 18.8232C8.80648 18.8232 5.89648 16.5932 5.89648 13.4732V8.47324C5.89648 5.35324 8.80648 2.82324 12.3965 2.82324C14.1965 2.82324 15.8165 3.45324 16.9965 4.47324C18.1665 5.50324 18.8965 6.91324 18.8965 8.47324Z"
                     stroke="#2C2523" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
-                Pay with coin credit
+                {{'Pay with coin credit' | translate}}
               </button>
 
               <button mat-stroked-button class="m-2" style="border-radius: 10px; height: 56px"
@@ -253,7 +253,7 @@
                     d="M6.83648 4.32812H17.9465C21.5065 4.32812 22.3965 5.20812 22.3965 8.71812V16.9281C22.3965 20.4381 21.5065 21.3181 17.9565 21.3181H6.83648C3.28648 21.3281 2.39648 20.4481 2.39648 16.9381V8.71812C2.39648 5.20812 3.28648 4.32812 6.83648 4.32812Z"
                     stroke="#2C2523" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
-                Pay with credit card
+                {{'Pay with credit card' | translate}}
               </button>
 
             </div>
@@ -322,8 +322,7 @@
             {{'Your item has been purchased successfully' | translate}}
           </mat-label>
           <br><br>
-          <mat-label class="font-size-16 weight-600">Purchased
-            Item: {{detail?.coinPrice?.price}} {{detail?.coinPrice?.coin}} Coin
+          <mat-label class="font-size-16 weight-600">{{'Purchased Item' | translate}}: {{detail?.coinPrice?.price}} {{detail?.coinPrice?.coin}} {{'Coin' | translate}}
           </mat-label>
           <br><br>
           <button mat-raised-button color="primary"

@@ -11,7 +11,7 @@
       <path d="M6 12H18" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
       <path d="M12 18V6" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
-    <span class="d-block">Add question</span>
+    <span class="d-block">{{'Add question' | translate}}</span>
   </button>
   <button mat-flat-button [routerLink]="['/games/find-game']" id="find_mobile" style="height: 60px"
           [class]="generalService.currentRout == '/shop' ? 'mat-list-item-selected' : ''"
@@ -23,7 +23,7 @@
       <path d="M22.7246 22.2402L20.7246 20.2402" stroke="#000" stroke-width="1.5" stroke-linecap="round"
             stroke-linejoin="round"/>
     </svg>
-    <span class="d-block">Find game</span>
+    <span class="d-block">{{'Find game' | translate}}</span>
 
   </button>
   <button mat-flat-button [routerLink]="['/games/create-game']" id="create_mobile" style="height: 60px"
@@ -284,7 +284,7 @@
       <mat-card class="shadow-none">
         <mat-card-header class="pe-1 ps-1 position-relative d-flex align-items-center">
           <mat-card-title class="card-title-profile-dashboard"
-                          [style]="generalService.isMobileView ? '' : 'width: 120px'">Coins:
+                          [style]="generalService.isMobileView ? '' : 'width: 120px'">{{'Coins' | translate}}:
           </mat-card-title>
           <mat-card-subtitle>
             <img src="assets/images/coin-bronze.png"
@@ -321,9 +321,9 @@
         <div>
           <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" class="tab-top-questions"
                          [(selectedIndex)]="selectedTabTopQuestionsIndex" (selectedTabChange)="changeTopQuestions()">
-            <mat-tab label="My Top Questions">
+            <mat-tab label="{{'My Top Questions' | translate}}">
             </mat-tab>
-            <mat-tab label="All Top Questions">
+            <mat-tab label="{{'All Top Questions' | translate}}">
             </mat-tab>
           </mat-tab-group>
         </div>
@@ -505,7 +505,7 @@
          [cdkCopyToClipboard]="generalService.userObj?.referCode"
          (click)="showTooltip()"
          (mouseleave)="tooltip.hide()">
-      <div class="d-inline text-start">Referral Code</div>
+      <div class="d-inline text-start">{{'Referral Code' | translate}}</div>
       <div class="d-inline text-end position-absolute"
            style="inset-inline-end: 10px"
            [matTooltip]="tooltipMessage"
@@ -540,7 +540,7 @@
                   stroke-linejoin="round"/>
           </svg>
           {{generalService.userObj?.maxInvites - generalService.userObj?.invitations.length}}
-          / {{generalService.userObj?.maxInvites}} Left Invitations
+          / {{generalService.userObj?.maxInvites}} {{'Left Invitations' | translate}}
         </mat-card-title>
         <div [routerLink]="['/shop']"
              class="link-text font-size-14 weight-500 position-absolute cursor-pointer"
@@ -574,7 +574,7 @@
         <img mat-card-avatar src="assets/images/charity.png"
              width="64" height="56"/>
         <mat-card-title
-          class="font-size-14 weight-600 pb-2">{{'Play Game,' | translate}}</mat-card-title>
+          class="font-size-14 weight-600 pb-2">{{'Play Game' | translate}},</mat-card-title>
         <mat-card-subtitle
           class="font-size-14 weight-600 pb-2 text-black">{{'Make A Difference!' | translate}}
         </mat-card-subtitle>
@@ -582,22 +582,22 @@
     </mat-card>
     <br>
     <mat-label class="text-light-color">
-      By playing our game, you're not just having fun—you're making a difference.
+      {{'By-playing-you-making-difference' | translate}}
     </mat-label>
     <br>
     <mat-label class="text-light-color">
-      We allocate a portion of our income to support various charitable causes.
+      {{'We-allocate-portion-income' | translate}}
     </mat-label>
     <br>
     <mat-label class="text-light-color" *ngIf="!generalService.userObj?.preferedCharity">
-      Select the category closest to your heart and know that your choice directly contributes to positive change.
+      {{'Select-category-closest-heart' | translate}}
     </mat-label>
     <button *ngIf="!generalService.userObj?.preferedCharity" mat-raised-button (click)="openCharityModal()"
             class="charity-button mt-4 start-10 w-40">{{'Choose Category' | translate}}
     </button>
     <div *ngIf="generalService.userObj?.preferedCharity" class="copy-referrer cursor-pointer"
          (click)="openCharityModal()">
-      <mat-label class="text-light-color">You are participated in:</mat-label>
+      <mat-label class="text-light-color">{{'You are participated in' | translate}}:</mat-label>
       <br>
       <mat-label class="font-size-14 weight-700">{{generalService.userObj?.preferedCharity?.charity?.title}}
         > {{generalService.userObj?.preferedCharity?.activity?.title}}</mat-label>

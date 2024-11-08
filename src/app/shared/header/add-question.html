@@ -18,23 +18,23 @@
         <path d="M12.8363 13.9102H12.8453" stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
 
-      &nbsp;<div class="font-size-14 weight-600">Question:</div>
+      &nbsp;<div class="font-size-14 weight-600">{{'Question' | translate}}:</div>
     </div>
     <div class="textarea-container">
       <textarea [formControlName]="'question'" (ngModelChange)="updateWordCount()"></textarea>
-      <div class="word-counter">{{ wordCount }} Words</div>
+      <div class="word-counter">{{ wordCount }} {{'Words' | translate}}</div>
     </div>
 
     <div class="link-text text-start mb-3 d-inline-flex cursor-pointer" *ngIf="!displayAnswer"
          (click)="displayAnswer = !displayAnswer">
       <i class="bi bi-plus"></i>
-      <div class="font-size-14 weight-600">Add Answer</div>
+      <div class="font-size-14 weight-600">{{'Add Answer' | translate}}</div>
     </div>
 
     <div class="link-text text-start mb-3 d-inline-flex cursor-pointer" *ngIf="displayAnswer"
          (click)="displayAnswer = !displayAnswer; this.questionForm.controls.answer.setValue('')">
       <i class="bi bi-dash"></i>
-      <div class="font-size-14 weight-600">Close Answer</div>
+      <div class="font-size-14 weight-600">{{'Close Answer' | translate}}</div>
     </div>
 
     <div *ngIf="displayAnswer">
@@ -47,17 +47,17 @@
           <path d="M15.9917 4.17969C19.3217 4.35969 20.9917 5.58969 20.9917 10.1597V16.1597C20.9917 20.1597 19.9917 22.1597 14.9917 22.1597H8.9917C3.9917 22.1597 2.9917 20.1597 2.9917 16.1597V10.1597C2.9917 5.59969 4.6617 4.35969 7.9917 4.17969" stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
 
-        &nbsp;<div class="font-size-14 weight-600">Answer:</div>
+        &nbsp;<div class="font-size-14 weight-600">{{'Answer' | translate}}:</div>
       </div>
       <div class="textarea-container">
         <textarea [formControlName]="'answer'" (ngModelChange)="updateWordCountAnswer()"></textarea>
-        <div class="word-counter">{{ wordCountAnswer }} Words</div>
+        <div class="word-counter">{{ wordCountAnswer }} {{'Words' | translate}}</div>
       </div>
     </div>
 
 
     <div class="d-flex">
-      &nbsp;<div class="font-size-14 weight-600">Select Category:</div>
+      &nbsp;<div class="font-size-14 weight-600">{{'Select Category' | translate}}:</div>
     </div>
 <!--    <mat-card *ngFor="let cat of generalService?.clientInit?.categories"-->
 <!--              class="m-1 d-inline-block cursor-pointer shadow-none"-->

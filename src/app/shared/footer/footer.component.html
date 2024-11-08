@@ -1,6 +1,6 @@
 <div class="footer">
   <img src="https://api.staging.1qma.games/images/logo.png" width="110" class="footer-logo">
-  <div class="weight-500 sponsor-title-footer">Sponsors:</div>
+  <div class="weight-500 sponsor-title-footer">{{'Sponsors' | translate}}:</div>
   <div class="sponsors">
     <button *ngFor="let sponsor of generalService.initData ? generalService.initData?.sponsors : generalService.clientInit?.sponsors" (click)="gotoSponsorLink(sponsor.link)"
             class="sponsor-button border-0">
@@ -12,14 +12,14 @@
       <li class="p-2 ul-li-footer">
         <label>
           <a [routerLink]="'/privacy'" class="nav-link pointer">
-            Privacy and policy
+            {{'Privacy and policy' | translate}}
           </a>
         </label>
       </li>
       <li class="p-2 ul-li-footer">
         <label>
           <a class="nav-link pointer">
-            Careers
+            {{'Careers' | translate}}
           </a>
         </label>
       </li>
@@ -28,14 +28,14 @@
       <li class="p-2 ul-li-footer">
         <label>
           <a [routerLink]="'/terms'" class="nav-link pointer">
-            Terms Of Services
+            {{'Terms Of Services' | translate}}
           </a>
         </label>
       </li>
       <li class="p-2 ul-li-footer" *ngIf="generalService?.hasCompletedSignup">
         <label>
           <a [routerLink]="'/tutorial'" class="nav-link pointer">
-            Tutorials
+            {{'Tutorials' | translate}}
           </a>
         </label>
       </li>
@@ -44,7 +44,7 @@
       <li class="p-2 ul-li-footer">
         <label>
           <a [routerLink]="'/faq'" class="nav-link pointer">
-            FAQ
+            {{'FAQ' | translate}}
           </a>
         </label>
       </li>
@@ -52,7 +52,7 @@
       <li class="p-2 ul-li-footer" *ngIf="generalService?.hasCompletedSignup">
         <label>
           <a [routerLink]="'/report-bug'" class="nav-link pointer">
-            Report a bug
+            {{'Report a bug' | translate}}
           </a>
         </label>
       </li>

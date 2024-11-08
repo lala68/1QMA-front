@@ -363,11 +363,11 @@ export class GamesComponent implements OnInit {
     this.generalService.players = [];
 
     this.generalService.socket.on("start game", (arg: any) => {
-      if (this.generalService.disconnectedModal || this.generalService.isDisconnectedModal) {
-        this.generalService.disconnectedModal.close();
-        this.generalService.disconnectedModal = '';
-        this.generalService.isDisconnectedModal = false;
-      }
+      // if (this.generalService.disconnectedModal || this.generalService.isDisconnectedModal) {
+      //   this.generalService.disconnectedModal.close();
+      //   this.generalService.disconnectedModal = '';
+      //   this.generalService.isDisconnectedModal = false;
+      // }
       const now = new Date();
       const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
       console.log("start game" + ' ' + `[${timeString}]  `);
@@ -584,11 +584,11 @@ export class GamesComponent implements OnInit {
       const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
       console.log("player added" + ' ' + `[${timeString}]  `);
       console.log(this.generalService.players);
-      if (this.generalService.disconnectedModal || this.generalService.isDisconnectedModal) {
-        this.generalService.disconnectedModal.close();
-        this.generalService.disconnectedModal = '';
-        this.generalService.isDisconnectedModal = false;
-      }
+      // if (this.generalService.disconnectedModal || this.generalService.isDisconnectedModal) {
+      //   this.generalService.disconnectedModal.close();
+      //   this.generalService.disconnectedModal = '';
+      //   this.generalService.isDisconnectedModal = false;
+      // }
       // if (!this.generalService.players.some((player: any) => player.email === arg.email)) {
       //   this.generalService.players.push(arg);
       // }
@@ -604,11 +604,11 @@ export class GamesComponent implements OnInit {
       const now = new Date();
       const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
       console.log("start game" + ' ' + `[${timeString}]  `);
-      if (this.generalService.disconnectedModal || this.generalService.isDisconnectedModal) {
-        this.generalService.disconnectedModal.close();
-        this.generalService.disconnectedModal = '';
-        this.generalService.isDisconnectedModal = false;
-      }
+      // if (this.generalService.disconnectedModal || this.generalService.isDisconnectedModal) {
+      //   this.generalService.disconnectedModal.close();
+      //   this.generalService.disconnectedModal = '';
+      //   this.generalService.isDisconnectedModal = false;
+      // }
       this.generalService.gameStep = 2;
       setTimeout(() => {
         console.log(this.generalService?.createdGameData)

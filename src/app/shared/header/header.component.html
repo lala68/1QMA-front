@@ -108,7 +108,7 @@
       <mat-label class="text-gray">{{item?.createdAt | date}}</mat-label>
     </div>
     <button mat-flat-button [routerLink]="['/notification']" color="primary" class="w-100">
-      <span>See All</span>
+      <span>{{'See All' | translate}}</span>
     </button>
   </mat-menu>
 
@@ -136,7 +136,7 @@
 <!--      <mat-label class="text-gray">5hrs ago</mat-label>-->
 <!--    </div>-->
     <button mat-flat-button [routerLink]="['/gift-history']" color="primary" class="w-100">
-      <span>See All</span>
+      <span>{{'See All' | translate}}</span>
     </button>
   </mat-menu>
   <div class="desktopViewHeader">
@@ -147,7 +147,7 @@
         <path d="M12 18V6" stroke="#0B6FEA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
 
-      Add question
+      {{'Add question' | translate}}
     </button>
     <button mat-flat-button color="primary" [routerLink]="['/games/find-game']" id="find"
             *ngIf="generalService?.hasCompletedSignup && (!generalService?.startingGame && !generalService?.startingGameTutorial)">
@@ -158,7 +158,7 @@
         <path d="M22.7246 22.2402L20.7246 20.2402" stroke="#fff" stroke-width="1.5" stroke-linecap="round"
               stroke-linejoin="round"/>
       </svg>
-      Find game
+      {{'Find game' | translate}}
     </button>
     <button mat-flat-button class="ms-2" color="primary" [routerLink]="['/games/create-game']" id="create"
             *ngIf="generalService?.hasCompletedSignup && (!generalService?.startingGame && !generalService?.startingGameTutorial)">
@@ -172,7 +172,7 @@
         <path d="M12.7925 9.16699C13.2325 10.737 14.4625 11.977 16.0425 12.417" stroke="#fff" stroke-width="1.5"
               stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
-      Create game
+      {{'Create game' | translate}}
     </button>
   </div>
   <!--  </div>-->
@@ -187,19 +187,19 @@
         <path d="M8.47461 12.5868L11.3046 15.4168L16.9746 9.75684" stroke="#43a047" stroke-width="1.5"
               stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
-      Connected
+      {{'Connected' | translate}}
     </mat-chip>
     <button mat-stroked-button style="border: 1px solid #0B6FEA" class="ms-2" color="primary"
             *ngIf="(generalService.startingGame && generalService.gameStep != 5
             || generalService.startingGameTutorial && generalService.gameTutorialStep != 5)"
             (click)="displayExitGameModal()">
-      Exit Game
+      {{'Exit Game' | translate}}
     </button>
     <button mat-stroked-button style="border: 1px solid #0B6FEA" class="ms-2" color="primary"
             *ngIf="(generalService.startingGame && generalService.gameStep == 5
             || generalService.startingGameTutorial && generalService.gameTutorialStep == 5)"
             (click)="gotoHome()">
-      Go to home
+      {{'Go to home' | translate}}
     </button>
   </div>
 
