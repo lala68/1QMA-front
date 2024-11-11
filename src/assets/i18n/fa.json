@@ -365,5 +365,17 @@
   "Sign Out": "خروج",
   "Font": "فونت",
   "Notification History": "تاریخچه اعلان‌ها",
-  "Gift History": "تاریخچه هدایا"
+  "Gift History": "تاریخچه هدایا",
+  "Choose Category" : "Choose Category",
+  "Type": "Type",
+  "New Balance": "New Balance",
+  "Description": "Description",
+  "Amount": "Amount",
+  "Public Library": "Public Library",
+  "Private Library": "Private Library",
+  "Careers": "Careers",
+  "Add": "Add",
+  "Submit": "Submit",
+  "Bug Sub-Category": "Bug Sub-Category",
+  "Topic By Me": "Topic By Me"
 }
