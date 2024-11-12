@@ -256,7 +256,7 @@
         </div>
         <div style="height: 52px; margin: 0px auto 20px"
              class="card border-0 text-center weight-600 pt-3">
-          Sponsored by: Company name
+          {{'Sponsored by' | translate}}: Company name
         </div>
       </mat-card-content>
     </mat-card>
@@ -334,7 +334,7 @@
               <mat-label class="ps-3">{{generalService.gameQuestion ? generalService.gameQuestion?.step : 1}}
                 / {{generalService.gameInit?.numberOfPlayers}}</mat-label>
             </div>
-            <div class="gray-card p-3" style="margin: 0 0 0 20px; width: 88%">
+            <div class="gray-card p-3" style="margin: 0; width: 88%; margin-inline-start: 20px">
               <div class="d-inline-flex">
                 <img src="assets/images/frame.png" width="24"/>
                 <mat-label class="font-size-13  weight-500">
@@ -443,7 +443,7 @@
               <mat-label class="ps-3">{{generalService.gameQuestion ? generalService.gameQuestion?.step : 1}}
                 / {{generalService.gameInit?.numberOfPlayers}}</mat-label>
             </div>
-            <div class="gray-card p-3" style="margin: 0 0 0 20px; width: 88%">
+            <div class="gray-card p-3" style="margin: 0; width: 88%; margin-inline-start: 20px">
               <div class="d-inline-flex">
                 <img src="assets/images/frame.png" width="24"/>
                 <mat-label class="font-size-13  weight-500">
@@ -631,7 +631,7 @@
         <mat-label class="d-inline-block"
                    style="margin-inline-start: 90px;">{{'Waiting for' | translate}} {{(submittedAnswer?.numberOfPlayers ? submittedAnswer?.numberOfPlayers : generalService.gameInit?.numberOfPlayers) - submittedAnswer?.numberOfSubmitted}}
           {{'of' | translate}} {{(submittedAnswer?.numberOfPlayers ? submittedAnswer?.numberOfPlayers : generalService.gameInit?.numberOfPlayers) }}
-          {{'players...' | translate}}
+          {{'Players' | translate}}...
         </mat-label>
       </div>
       <div class="next-button">

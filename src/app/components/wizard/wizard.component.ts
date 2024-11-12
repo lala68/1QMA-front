@@ -14,7 +14,7 @@ import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, V
 import {Router, RouterModule} from "@angular/router";
 import {MatStepper} from "@angular/material/stepper";
 import {QuestionTypesComponent} from "../question-types/question-types.component";
-import {TranslateModule} from "@ngx-translate/core";
+import {TranslateModule, TranslateService} from "@ngx-translate/core";
 import {GeneralService} from "../../services/general/general.service";
 import {AuthService} from "../../services/auth/auth.service";
 import {Preferences} from "@capacitor/preferences";
@@ -83,7 +83,7 @@ export class WizardComponent implements OnInit {
   filteredCountries: any[] = [];
   private _onDestroy = new Subject<void>();
 
-  constructor(private _formBuilder: FormBuilder, private router: Router,
+  constructor(private _formBuilder: FormBuilder, private router: Router, private translateService: TranslateService,
               public generalService: GeneralService, public authService: AuthService, public dialog: MatDialog,) {
     if (this.generalService.userObj?.preferedCategories) {
       // this.selectedType = this.generalService.userObj?.accountType;
@@ -106,6 +106,11 @@ export class WizardComponent implements OnInit {
     //////
 
     await this.generalService?.getUserData();
+    await this.translateService.use(this.generalService.userObj?.preferedLanguage?.code).toPromise(); // If using ngx-translate
+    document.documentElement.dir = this.generalService.userObj?.preferedLanguage?.code != 'fa' ? 'ltr' : 'rtl';
+    this.generalService.direction = document.documentElement.dir;
+    const bootstrapRTL = document.getElementById('bootstrapRTL') as HTMLLinkElement;
+    bootstrapRTL.disabled = document.documentElement.dir !== 'rtl';
     this.generalService.countryListEng = await this.generalService.getCountries();
     // Load the initial country list
     this.filteredCountries = await this.generalService.getCountries();
@@ -177,6 +182,11 @@ export class WizardComponent implements OnInit {
         await Preferences.remove({key: 'account'});
         await Preferences.set({key: 'account', value: JSON.stringify(data.data)});
         await this.generalService.getUserData();
+        await this.translateService.use(this.generalService.userObj?.preferedLanguage?.code).toPromise(); // If using ngx-translate
+        document.documentElement.dir = this.generalService.userObj?.preferedLanguage?.code != 'fa' ? 'ltr' : 'rtl';
+        this.generalService.direction = document.documentElement.dir;
+        const bootstrapRTL = document.getElementById('bootstrapRTL') as HTMLLinkElement;
+        bootstrapRTL.disabled = document.documentElement.dir !== 'rtl';
         setTimeout(async () => {
           this.form = this._formBuilder.group({
             firstName: [this.generalService.userObj?.firstName ? this.generalService.userObj?.firstName : '', [Validators.required]],

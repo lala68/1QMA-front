@@ -78,6 +78,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.destroyIntro(); // Destroy the intro if the page is changing
       }
     });
+
     await this.generalService.getUserData();
     await this.getGameInit();
     this.calculateRemainingDays();
@@ -85,14 +86,22 @@ export class DashboardComponent implements OnInit, OnDestroy {
     await this.getQuestionsFromFriendsLatestGames();
     this.loading = false;
     await this.waitForClientInit();
+
+    // Set up translation and direction
+    await this.translate.use(this.generalService.userObj?.preferedLanguage?.code).toPromise(); // Ensures language change is complete
+    document.documentElement.dir = this.generalService.userObj?.preferedLanguage?.code !== 'fa' ? 'ltr' : 'rtl';
+    this.generalService.direction = document.documentElement.dir;
+
+    const bootstrapRTL = document.getElementById('bootstrapRTL') as HTMLLinkElement;
+    bootstrapRTL.disabled = document.documentElement.dir !== 'rtl';
     this.generalService.onFontSelect(this.generalService.userObj?.preferedFont);
 
-    // After clientInit is ready, check the value
+    // Start the intro steps only after clientInit and translations are ready
     if (
       this.generalService.clientInit &&
       this.generalService.clientInit.user &&
       this.generalService.clientInit.user.hasSeenIntros &&
-      (!this.generalService.clientInit.user.hasSeenIntros.dashboard)
+      !this.generalService.clientInit.user.hasSeenIntros.dashboard
     ) {
       await this.sideNavComponent.showIntro();
       await this.headerComponent.showIntro();

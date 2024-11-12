@@ -366,7 +366,7 @@
   "Font": "فونت",
   "Notification History": "تاریخچه اعلان‌ها",
   "Gift History": "تاریخچه هدایا",
-  "Choose Category": "Choose Category",
+  "Choose Category": "انتخاب دسته",
   "Type": "نوع",
   "New Balance": "مانده جدید",
   "Description": "توضیحات",
@@ -377,5 +377,11 @@
   "Add": "افزودن",
   "Submit": "ثبت",
   "Bug Sub-Category": "زیر دسته بندی",
-  "Topic By Me": "موضوع را خودم انتخاب می کنم"
+  "Topic By Me": "موضوع را خودم انتخاب می کنم",
+  "Your account has been created successful.Now you can start playing games.": "Your account has been created successful.Now you can start playing games.",
+  "Search City": "Search City",
+  "Lets play a game": "Lets play a game",
+  "Done": "Done",
+  "Sponsored by": "Sponsored by",
+  "Import Question": "Import Question"
 }

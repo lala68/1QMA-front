@@ -4,6 +4,7 @@ import {Preferences} from "@capacitor/preferences";
 import {ClientService} from "../client/client.service";
 import {GeneralService} from "../general/general.service";
 import {NavigationEnd, Router} from "@angular/router";
+import {TranslateService} from "@ngx-translate/core";
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class IntroJsService {
   displayIntro: boolean = true;
 
   constructor(private clientService: ClientService, private generalService: GeneralService,
-              private router: Router) {
+              private router: Router, private translate: TranslateService) {
     // this.router.events.subscribe((event) => {
     //   if (event instanceof NavigationEnd) {
     //     introJs().exit(true);
@@ -33,6 +34,9 @@ export class IntroJsService {
             steps,
             exitOnOverlayClick: true,
             exitOnEsc: true,
+            prevLabel: this.translate.instant('Back'),
+            nextLabel: this.translate.instant('Next'),
+            doneLabel: this.translate.instant('Done')
           });
 
           intro.start();

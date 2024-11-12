@@ -104,7 +104,7 @@ export class AppComponent implements OnInit {
         this.route.queryParams.subscribe(async params => {
           await this.generalService.getUserData();
           console.log(params);
-          if(this.generalService.userObj){
+          if (this.generalService.userObj) {
             this.generalService.onFontSelect(this.generalService.userObj?.preferedFont);
           }
           const invitation_id = params['id'];
@@ -167,6 +167,10 @@ export class AppComponent implements OnInit {
             });
           } else if (status == -1) {
             // alert('status == -1')
+            const currentPath = this.router.url;
+            if (currentPath.includes('signup-refer-email') || currentPath.includes('signup')) {
+              this.router.navigate(['/signup']);
+            }
             this.openDialog(JSON.stringify(message), 'Error');
             return;
           } else {
@@ -249,7 +253,7 @@ export class AppComponent implements OnInit {
                     // this.clientService.clientInit().then(async data => {
                     //   this.generalService.clientInit = data.data;
                     //   this.generalService.userObj = (data.data.user);
-                    this.translateService.setDefaultLang(this.generalService.userObj?.preferedLanguage?.code);
+                    await this.translateService.setDefaultLang(this.generalService.userObj?.preferedLanguage?.code);
                     document.documentElement.dir = this.generalService.userObj?.preferedLanguage?.code != 'fa' ? 'ltr' : 'rtl';
                     this.generalService.direction = document.documentElement.dir;
                     const bootstrapRTL = document.getElementById('bootstrapRTL') as HTMLLinkElement;
@@ -276,16 +280,16 @@ export class AppComponent implements OnInit {
                     }, error => {
                       return this.processHTTPMsgService.handleError(error);
                     });
-                    // if (this.generalService.userObj.hasSeenIntros?.tutorial) {
-                    this.router.navigate([(this.router.url === ('/login') || this.router.url === ('/signup') || this.router.url === ('/forget-password')
-                      || this.router.url === ('/wizard') || this.router.url === ('/signup-social') || this.router.url === ('/signup-refer-email')
-                      || this.router.url === ('/social/callback')) ? '/dashboard' : this.location.path()]);
-                    // await this.generalService.useGoogleTranslate();
-                    this.generalService.currentRout = this.router.url;
-                    // this.generalService.onFontSelect(this.generalService.userObj?.preferedFont);
-                    // } else {
-                    //   await this.router.navigate(['/tutorial']);
-                    // }
+                    if (this.generalService.userObj.hasSeenIntros?.tutorial) {
+                      this.router.navigate([(this.router.url === ('/login') || this.router.url === ('/signup') || this.router.url === ('/forget-password')
+                        || this.router.url === ('/wizard') || this.router.url === ('/signup-social') || this.router.url === ('/signup-refer-email')
+                        || this.router.url === ('/social/callback')) ? '/dashboard' : this.location.path()]);
+                      // await this.generalService.useGoogleTranslate();
+                      this.generalService.currentRout = this.router.url;
+                      // this.generalService.onFontSelect(this.generalService.userObj?.preferedFont);
+                    } else {
+                      await this.router.navigate(['/tutorial']);
+                    }
                   }
                 });
               } else {

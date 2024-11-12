@@ -93,7 +93,7 @@
         </div>
         <div style="height: 52px; margin: 0px auto 10px"
              class="card border-0 text-center weight-600 pt-3">
-          Sponsored by: Company name
+          {{'Sponsored by' | translate}}: Company name
         </div>
       </mat-card-content>
     </mat-card>
@@ -154,7 +154,7 @@
           <div class="w-100"
                [class]="{'d-inline-flex': !generalService.isMobileView, 'd-block': generalService.isMobileView}">
             <div class="gray-card p-2"
-                 [style]="generalService.isMobileView ? 'width: 100px; height: 40px; margin: 0 20px 16px' : 'width: 100px; height: 40px; margin: 0 auto'">
+                 [style]="generalService.isMobileView ? 'width: 102px; height: 40px; margin: 0 20px 16px' : 'width: 102px; height: 40px; margin: 0 auto'">
               <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                   d="M17.8408 18.5899H13.8408L9.39081 21.5499C8.73081 21.9899 7.84082 21.5199 7.84082 20.7199V18.5899C4.84082 18.5899 2.84082 16.5899 2.84082 13.5899V7.58984C2.84082 4.58984 4.84082 2.58984 7.84082 2.58984H17.8408C20.8408 2.58984 22.8408 4.58984 22.8408 7.58984V13.5899C22.8408 16.5899 20.8408 18.5899 17.8408 18.5899Z"
@@ -169,7 +169,7 @@
               <mat-label class="ps-3">{{generalService.gameQuestion ? generalService.gameQuestion?.step : 1}}
                 / {{tutorialInit?.numberOfPlayers}}</mat-label>
             </div>
-            <div class="gray-card p-3" style="margin: 0 0 0 20px; width: 88%">
+            <div class="gray-card p-3" style="margin: 0; width: 88%; margin-inline-start: 20px">
               <div class="d-inline-flex">
                 <img src="assets/images/frame.png" width="24"/>
                 <mat-label class="font-size-13  weight-500">
@@ -258,7 +258,7 @@
           <div class="w-100"
                [class]="{'d-inline-flex': !generalService.isMobileView, 'd-block': generalService.isMobileView}">
             <div class="gray-card p-2"
-                 [style]="generalService.isMobileView ? 'width: 100px; height: 40px; margin: 0 20px 16px' : 'width: 100px; height: 40px; margin: 0 auto'">
+                 [style]="generalService.isMobileView ? 'width: 102px; height: 40px; margin: 0 20px 16px' : 'width: 102px; height: 40px; margin: 0 auto'">
               <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                   d="M17.8408 18.5899H13.8408L9.39081 21.5499C8.73081 21.9899 7.84082 21.5199 7.84082 20.7199V18.5899C4.84082 18.5899 2.84082 16.5899 2.84082 13.5899V7.58984C2.84082 4.58984 4.84082 2.58984 7.84082 2.58984H17.8408C20.8408 2.58984 22.8408 4.58984 22.8408 7.58984V13.5899C22.8408 16.5899 20.8408 18.5899 17.8408 18.5899Z"
@@ -273,7 +273,7 @@
               <mat-label class="ps-3">{{generalService.gameQuestion ? generalService.gameQuestion?.step : 1}}
                 / {{tutorialInit?.numberOfPlayers}}</mat-label>
             </div>
-            <div class="gray-card p-3" style="margin: 0 0 0 20px; width: 88%">
+            <div class="gray-card p-3" style="margin: 0; width: 88%; margin-inline-start: 20px">
               <div class="d-inline-flex">
                 <img src="assets/images/frame.png" width="24"/>
                 <mat-label class="font-size-13  weight-500">
@@ -457,7 +457,7 @@
         <mat-label class="d-inline-block"
                    style="margin-inline-start: 90px;">{{'Waiting for' | translate}} 1
           {{'of' | translate}} {{tutorialInit?.numberOfPlayers}}
-          {{'players...' | translate}}
+          {{'Players' | translate}}...
         </mat-label>
       </div>
       <div class="next-button">
