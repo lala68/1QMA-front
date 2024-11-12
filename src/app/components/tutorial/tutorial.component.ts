@@ -524,6 +524,7 @@ export class TutorialComponent {
     this.generalService.players = [];
     this.generalService.gameInit = '';
     this.generalService.gameStep = 1;
+    this.generalService.gameTutorialStep = 1;
     this.generalService.createdGameData = '';
     this.generalService.gameQuestion = '';
     this.generalService.specificQuestionAnswers = '';

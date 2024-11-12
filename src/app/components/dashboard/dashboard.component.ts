@@ -85,6 +85,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     await this.getQuestionsFromFriendsLatestGames();
     this.loading = false;
     await this.waitForClientInit();
+    this.generalService.onFontSelect(this.generalService.userObj?.preferedFont);
 
     // After clientInit is ready, check the value
     if (

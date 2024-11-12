@@ -104,6 +104,9 @@ export class AppComponent implements OnInit {
         this.route.queryParams.subscribe(async params => {
           await this.generalService.getUserData();
           console.log(params);
+          if(this.generalService.userObj){
+            this.generalService.onFontSelect(this.generalService.userObj?.preferedFont);
+          }
           const invitation_id = params['id'];
           const status = params['status'];
           const user_id = params['user_id'];
@@ -259,6 +262,7 @@ export class AppComponent implements OnInit {
                     // if (item && item.value) {
                     //   this.generalService.font = item.value;
                     // this.generalService.onFontSelect(this.generalService.userObj?.preferedFont);
+                    // console.log(this.generalService.userObj?.preferedFont)
                     // } else {
                     //   console.log('No font value found');
                     // }
@@ -278,6 +282,7 @@ export class AppComponent implements OnInit {
                       || this.router.url === ('/social/callback')) ? '/dashboard' : this.location.path()]);
                     // await this.generalService.useGoogleTranslate();
                     this.generalService.currentRout = this.router.url;
+                    // this.generalService.onFontSelect(this.generalService.userObj?.preferedFont);
                     // } else {
                     //   await this.router.navigate(['/tutorial']);
                     // }

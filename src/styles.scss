@@ -10,10 +10,7 @@
   font-size: 14px;
 }
 
-@font-face {
-  font-family: 'Exo';
-  src: url('./assets/fonts/Exo2-Regular.ttf') format('truetype');
-}
+
 
 @font-face {
   font-family: 'Rokh';
@@ -28,6 +25,11 @@
 @font-face {
   font-family: 'Daal';
   src: url('./assets/fonts/DaalRegular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Exo';
+  src: url('./assets/fonts/Exo2-Regular.ttf') format('truetype');
 }
 
 @font-face {
@@ -76,20 +78,8 @@
   }
 }
 
-body.english-font {
-  font-family: 'Exo', sans-serif; /* Fallback to sans-serif */
-}
-
-body.farsi-font {
-  font-family: 'Rokh', sans-serif; /* Fallback to sans-serif */
-}
-
 body.exo-font {
-  font-family: 'Exo', sans-serif; /* Fallback to sans-serif */
-}
-
-.exo-font {
-  font-family: 'Exo', sans-serif !important; /* Fallback to sans-serif */
+  font-family: 'Exo', 'Daal', sans-serif; /* Fallback to sans-serif */
 }
 
 body.rokh-font {
@@ -132,9 +122,9 @@ body.peyda-font {
   font-family: 'Peyda', sans-serif; /* Fallback to sans-serif */
 }
 
-.peyda-font {
-  font-family: 'Peyda', sans-serif !important; /* Fallback to sans-serif */
-}
+//.peyda-font {
+//  font-family: 'Peyda', sans-serif !important; /* Fallback to sans-serif */
+//}
 
 body.pinar-font {
   font-family: 'Pinar', sans-serif; /* Fallback to sans-serif */

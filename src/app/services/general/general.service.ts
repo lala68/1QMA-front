@@ -273,7 +273,7 @@ export class GeneralService implements OnInit {
         body.classList.add('pinar-font'); // Apply Farsi font
         break;
       default:
-        body.classList.add('english-font'); // Default to English font
+        // body.classList.add('english-font'); // Default to English font
     }
   }
 }

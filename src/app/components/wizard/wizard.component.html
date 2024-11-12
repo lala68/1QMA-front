@@ -357,16 +357,16 @@
                 (click)="submitPref()" class="next-step">{{'Next Step' | translate}}
           <i class="bi bi-arrow-right"></i>
         </button>
-        <button mat-raised-button color="primary" *ngIf="stepper?.selectedIndex == 3"
-                [disabled]="loading || answers.length != generalService.initData?.furtherQuestions?.length"
-                (click)="submitAnswers()" class="next-step">{{'Next Step' | translate}}
-          <i class="bi bi-arrow-right"></i>
-        </button>
-        <button mat-raised-button color="primary" *ngIf="stepper?.selectedIndex == 4" [disabled]="loadingAccountType"
+<!--        <button mat-raised-button color="primary" *ngIf="stepper?.selectedIndex == 3"-->
+<!--                [disabled]="loading || answers.length != generalService.initData?.furtherQuestions?.length"-->
+<!--                (click)="submitAnswers()" class="next-step">{{'Next Step' | translate}}-->
+<!--          <i class="bi bi-arrow-right"></i>-->
+<!--        </button>-->
+        <button mat-raised-button color="primary" *ngIf="stepper?.selectedIndex == 3" [disabled]="loadingAccountType"
                 (click)="submitAccountType()" class="next-step">{{'Next Step' | translate}}
           <i class="bi bi-arrow-right"></i>
         </button>
-        <button mat-raised-button color="primary" *ngIf="stepper?.selectedIndex == 5"
+        <button mat-raised-button color="primary" *ngIf="stepper?.selectedIndex == 4"
                 (click)="stepper?.next()" class="next-step">{{'Next Step' | translate}}
           <i class="bi bi-arrow-right"></i>
         </button>
