@@ -169,7 +169,7 @@ export class AppComponent implements OnInit {
             // alert('status == -1')
             const currentPath = this.router.url;
             if (currentPath.includes('signup-refer-email') || currentPath.includes('signup')) {
-              this.router.navigate(['/signup']);
+              this.router.navigate(['/login']);
             }
             this.openDialog(JSON.stringify(message), 'Error');
             return;
