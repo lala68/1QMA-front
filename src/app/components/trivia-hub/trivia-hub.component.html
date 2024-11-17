@@ -69,7 +69,7 @@
                 <button [matMenuTriggerFor]="menuSortQuestion" *ngIf="library?.total"
                         class="font-size-14 weight-600 position-absolute end-10 top-0 border-0 bg-transparent d-flex align-items-center"
                         style="width: fit-content">
-                  {{selectedSortOption == 'highest' ? 'highest rate' : selectedSortOption == 'lowest' ? 'lowest rate' : selectedSortOption }}
+                  {{selectedSortOption == 'highest' ? ('highest rate' | translate) : selectedSortOption == 'lowest' ? ('lowest rate' | translate) : selectedSortOption | translate }}
                   <i class="bi bi-chevron-down color-black" style="padding: 10px"></i>
                 </button>
                 <mat-menu #menuSortQuestion="matMenu">
@@ -266,21 +266,21 @@
                 <button [matMenuTriggerFor]="menuSortQuestion" *ngIf="library?.total"
                         class="font-size-14 weight-600 position-absolute end-10 top-0 border-0 bg-transparent d-flex align-items-center"
                         style="width: fit-content">
-                  {{selectedSortOption == 'highest' ? 'highest rate' : selectedSortOption == 'lowest' ? 'lowest rate' : selectedSortOption }}
+                  {{selectedSortOption == 'highest' ? ('highest rate' | translate) : selectedSortOption == 'lowest' ? ('lowest rate' | translate) : selectedSortOption | translate}}
                   <i class="bi bi-chevron-down color-black" style="padding: 10px"></i>
                 </button>
                 <mat-menu #menuSortQuestion="matMenu">
                   <div mat-menu-item class="p-2 border-bottom" (click)="onSelect('oldest')">
-                    <mat-label>oldest</mat-label>
+                    <mat-label>{{'oldest' | translate}}</mat-label>
                   </div>
                   <div mat-menu-item class="p-2 border-bottom" (click)="onSelect('newest')">
-                    <mat-label>newest</mat-label>
+                    <mat-label>{{'newest' | translate}}</mat-label>
                   </div>
                   <div mat-menu-item class="p-2 border-bottom" (click)="onSelect('highest')">
-                    <mat-label>highest</mat-label>
+                    <mat-label>{{'highest rate' | translate}}</mat-label>
                   </div>
                   <div mat-menu-item class="p-2" (click)="onSelect('lowest')">
-                    <mat-label>lowest</mat-label>
+                    <mat-label>{{'lowest rate' | translate}}</mat-label>
                   </div>
                 </mat-menu>
               </div>
@@ -438,21 +438,21 @@
                 <button [matMenuTriggerFor]="menuSortQuestion"
                         class="font-size-14 weight-600 position-absolute end-10 top-0 border-0 bg-transparent d-flex align-items-center"
                         style="width: fit-content">
-                  {{selectedSortOption == 'highest' ? 'highest rate' : selectedSortOption == 'lowest' ? 'lowest rate' : selectedSortOption }}
+                  {{selectedSortOption == 'highest' ? ('highest rate' | translate) : selectedSortOption == 'lowest' ? ('lowest rate' | translate) : selectedSortOption | translate}}
                   <i class="bi bi-chevron-down color-black" style="padding: 10px"></i>
                 </button>
                 <mat-menu #menuSortQuestion="matMenu">
                   <div mat-menu-item class="p-2 border-bottom" (click)="onSelect('oldest')">
-                    <mat-label>oldest</mat-label>
+                    <mat-label>{{'oldest' | translate}}</mat-label>
                   </div>
                   <div mat-menu-item class="p-2 border-bottom" (click)="onSelect('newest')">
-                    <mat-label>newest</mat-label>
+                    <mat-label>{{'newest' | translate}}</mat-label>
                   </div>
                   <div mat-menu-item class="p-2 border-bottom" (click)="onSelect('highest')">
-                    <mat-label>highest</mat-label>
+                    <mat-label>{{'highest rate' | translate}}</mat-label>
                   </div>
                   <div mat-menu-item class="p-2" (click)="onSelect('lowest')">
-                    <mat-label>lowest</mat-label>
+                    <mat-label>{{'lowest rate' | translate}}</mat-label>
                   </div>
                 </mat-menu>
               </div>

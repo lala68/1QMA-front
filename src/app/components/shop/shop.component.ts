@@ -130,8 +130,10 @@ export class ShopComponent implements OnInit {
   }
 
   async showAll(type: any) {
+    console.log(type)
     this.step = 2;
-    this.shopType = type == 'feature' ? 'features' : 'asset' ? 'assets' : 'bundles';
+    this.shopType = type === 'feature' ? 'Features' : type === 'asset' ? 'Assets' : 'Bundles';
+    console.log(this.shopType)
     this.shopService.getShops(type, this.page, this.limit).then(data => {
       this.allData = data.data;
     })

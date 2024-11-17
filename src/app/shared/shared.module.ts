@@ -21,7 +21,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
     NotificationMobile, GiftMobile, MoreMobile
   ],
   imports: [
-    CommonModule, MaterialModule, RouterModule, TranslateModule, FormsModule, ReactiveFormsModule
+    CommonModule, MaterialModule, RouterModule, TranslateModule, FormsModule, ReactiveFormsModule,
   ],
   exports: [
     MaterialModule, SidenavComponent, HeaderComponent, FooterComponent, RouterModule

@@ -19,7 +19,7 @@
   </mat-list-item>
 
   <mat-list-item class="position-relative border-bottom" [routerLink]="'/report-bug'" (click)="closeModal()">
-    <mat-label>{{'Report Bug' | translate}}</mat-label>
+    <mat-label>{{'Report a bug' | translate}}</mat-label>
     <mat-icon style="position: absolute; right: 5px" *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'">
       chevron_right
     </mat-icon> <!-- Right angle at the end -->
@@ -29,7 +29,7 @@
   </mat-list-item>
 
   <mat-list-item class="position-relative border-bottom" [routerLink]="'/terms'" (click)="closeModal()">
-    <mat-label>{{'Term Of Use' | translate}}</mat-label>
+    <mat-label>{{'Terms Of Use' | translate}}</mat-label>
     <mat-icon style="position: absolute; right: 5px" *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'">
       chevron_right
     </mat-icon> <!-- Right angle at the end -->

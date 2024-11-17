@@ -45,12 +45,15 @@ export class HeaderComponent implements OnInit {
   async logout() {
     this.authService.signout().then(async data => {
       if (data.status == 1) {
+        await this.translate.use('en');
         await Preferences.clear();
         this.authService.isLoggedIn = false;
         this.generalService.userId = '';
         this.generalService.userObj = '';
         this.generalService.emailVerified = false;
         this.generalService.hasCompletedSignup = false;
+        document.documentElement.dir = 'ltr';
+        this.generalService.direction = document.documentElement.dir;
         await this.router.navigate(['/login']);
       } else {
         this.openDialog(JSON.stringify(data.message), 'Error');

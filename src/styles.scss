@@ -142,7 +142,7 @@ mat-tab-group, .mat-mdc-tab, .mdc-list-item__primary-text, mat-list-option, mat-
 .container-accordion, .container-accordion-item-mobile, .mat-expansion-panel-content, form,
 .mat-stepper-vertical, .mat-stepper-horizontal, .mat-mdc-form-field, .mat-mdc-select,
 .mdc-text-field--filled .mdc-floating-label, [role=button], .mat-mdc-menu-content,
-.mat-mdc-menu-content .mat-mdc-menu-item .mat-mdc-menu-item-text, .mdc-label, body *:not(#content-to-translate *),
+.mat-mdc-menu-content .mat-mdc-menu-item .mat-mdc-menu-item-text, .mdc-label, body *:not(#content-to-translate *):not(mat-icon),
 .mat-mdc-slide-toggle .mdc-switch:enabled+.mdc-label, label, mat-slide-toggle, .custom-font{
   font-family: inherit !important; /* Ensure Material components inherit the font from body */
 }
@@ -153,6 +153,10 @@ mat-tab-group, .mat-mdc-tab, .mdc-list-item__primary-text, mat-list-option, mat-
   //font-weight: bold; /* Bolder text */
   //text-align: center; /* Center the text */
   //margin: 0; /* Remove default margin */
+}
+
+ngb-rating {
+  direction: ltr !important;
 }
 
 span.mat-mdc-list-item-unscoped-content.mdc-list-item__primary-text {

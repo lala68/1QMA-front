@@ -6,18 +6,18 @@
     <div class="text-center mb-5">
       <img src="https://api.staging.1qma.games/images/logo.png" width="128" height="98">
       <br>
-      <div style="font-size: 16px; font-weight: 700">{{'Login to your 1QMA account' | translate}}</div>
+      <div style="font-size: 16px; font-weight: 700">{{'Login to your 1QMA account'}}</div>
     </div>
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" autocomplete="off">
       <mat-form-field appearance="fill" class="custom-form-field w-100" [hideRequiredMarker]="true">
-        <mat-label>{{'Email' | translate}}</mat-label>
-        <input matInput placeholder="{{'Enter your email' | translate}}" type="email" name="username"
+        <mat-label>{{'Email'}}</mat-label>
+        <input matInput placeholder="{{'Enter your email'}}" type="email" name="username"
                [formControlName]="'email'">
       </mat-form-field>
       <mat-form-field appearance="fill" class="custom-form-field w-100" [hideRequiredMarker]="true">
-        <mat-label>{{'Password' | translate}}</mat-label>
+        <mat-label>{{'Password'}}</mat-label>
         <div class="d-inline-flex w-100">
-          <input matInput placeholder="{{'Enter your password' | translate}}" [type]="hide ? 'password' : 'text'"
+          <input matInput placeholder="{{'Enter your password'}}" [type]="hide ? 'password' : 'text'"
                  name="password"
                  [formControlName]="'password'" required>
           <i (click)="hide = !hide" [class]="hide? 'bi-eye-slash' : 'bi-eye'"></i>
@@ -25,12 +25,12 @@
       </mat-form-field>
       <button mat-raised-button color="primary" type="submit" [disabled]="!loginForm.valid || loading"
               class="w-100 p-4">
-        <span>{{'Login' | translate}}</span>
+        <span>{{'Login'}}</span>
       </button>
       <br>
     </form>
     <div class="text-end link text-decoration-none mt-3 mb-3"
-         [routerLink]="['/forget-password']">{{'Forgot Password' | translate}}</div>
+         [routerLink]="['/forget-password']">{{'Forgot Password'}}</div>
     <div class="mediaAccounts radius">
       <a [href]="config.url('/auth/google?reason=login')" class="social-button-div border-0"><img
         src="assets/images/google.png"
@@ -53,9 +53,9 @@
     <br>
     <br>
     <div class="text-center" [routerLink]="['/signup']">
-      <div class="d-inline-flex font-size-14 weight-600">{{'Don\'t have an account?' | translate}}
+      <div class="d-inline-flex font-size-14 weight-600">{{'Don\'t have an account?'}}
         <div class="link text-decoration-none font-size-14 weight-600 cursor-pointer">
-          &nbsp; {{'Sign Up' | translate}}</div>
+          &nbsp; {{'Sign Up'}}</div>
       </div>
     </div>
   </div>

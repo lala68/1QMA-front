@@ -45,10 +45,10 @@
                   <mat-grid-tile
                     *ngFor="let col of myScoreboard[longestAnswerRateIndex]?.result?.answersRates; let i=index"
                     [colspan]="1">
-                    <mat-label class="font-size-14 weight-700">A{{i + 1}}</mat-label>
+                    <mat-label class="font-size-14 weight-700">{{'A' | translate}}{{i + 1}}</mat-label>
                   </mat-grid-tile>
                   <mat-grid-tile [colspan]="1">
-                    <mat-label class="font-size-14 weight-700">Q</mat-label>
+                    <mat-label class="font-size-14 weight-700">{{'Q' | translate}}</mat-label>
                   </mat-grid-tile>
                   <mat-grid-tile [colspan]="1">
                     <mat-label class="font-size-14 weight-700">{{'Score' | translate}}</mat-label>
@@ -139,10 +139,10 @@
                   <mat-grid-tile
                     *ngFor="let col of myScoreboard[longestAnswerRateIndex]?.result?.answersRates; let i=index"
                     [colspan]="1">
-                    <mat-label class="font-size-14 weight-700">A{{i + 1}}</mat-label>
+                    <mat-label class="font-size-14 weight-700">{{'A' | translate}}{{i + 1}}</mat-label>
                   </mat-grid-tile>
                   <mat-grid-tile [colspan]="1">
-                    <mat-label class="font-size-14 weight-700">Q</mat-label>
+                    <mat-label class="font-size-14 weight-700">{{'Q' | translate}}</mat-label>
                   </mat-grid-tile>
                   <mat-grid-tile [colspan]="1">
                     <mat-label class="font-size-14 weight-700">{{'Scr' | translate}}</mat-label>

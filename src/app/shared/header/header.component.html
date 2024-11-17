@@ -62,6 +62,7 @@
 
   <mat-menu #menu="matMenu">
     <button [routerLink]="'/account-info'" style="border-bottom: 1px solid #E8E2E0" mat-menu-item
+            [style]="generalService.userObj?.preferedLanguage?.code == 'fa' ? 'direction: rtl': 'direction: ltr'"
             *ngIf="generalService?.hasCompletedSignup && (!generalService?.startingGame && !generalService?.startingGameTutorial)">
       <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path
@@ -73,7 +74,8 @@
       </svg>
       <span class="ms-3">{{'Account Detail' | translate}}</span>
     </button>
-    <button mat-menu-item (click)="logout()">
+    <button mat-menu-item (click)="logout()"
+            [style]="generalService.userObj?.preferedLanguage?.code == 'fa' ? 'direction: rtl': ''">
       <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path
           d="M8.8916 7.80047C9.2016 4.20047 11.0516 2.73047 15.1016 2.73047H15.2316C19.7016 2.73047 21.4916 4.52047 21.4916 8.99047V15.5105C21.4916 19.9805 19.7016 21.7705 15.2316 21.7705H15.1016C11.0816 21.7705 9.2316 20.3205 8.9016 16.7805"

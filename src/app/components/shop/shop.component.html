@@ -12,7 +12,8 @@
              style="position: absolute; inset-inline-start: 10px; top: 0; bottom: 0; margin: auto;" (click)="step = 1">
 
         <div class="ms-2" style="height: 46px"></div>
-        <mat-label class="font-size-16 weight-600 ms-4">{{shopType}}</mat-label>
+        <mat-label class="font-size-16 weight-600 ms-4">{{shopType | translate}}</mat-label>
+
       </mat-card-header>
     </mat-card>
   </div>
@@ -159,7 +160,7 @@
         <div class="w-100 d-flex">
           <mat-card class="shadow-none w-100">
             <mat-card-header>
-              <mat-card-title class="font-size-16 weight-600">{{shopType}}</mat-card-title>
+              <mat-card-title class="font-size-16 weight-600">{{shopType | translate}}</mat-card-title>
               <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
                 {{'Possible-Description-title-see-all-shop' | translate}}
               </mat-card-subtitle>
