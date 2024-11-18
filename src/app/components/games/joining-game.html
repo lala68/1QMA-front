@@ -1,4 +1,5 @@
-<div class="font-size-14 weight-700 p-2 border-bottom">
+<div class="font-size-14 weight-700 p-2 border-bottom"
+     [style]="generalService.userObj?.preferedLanguage?.code == 'fa' ? 'direction: rtl': 'direction: ltr'">
   <!--  <img src="assets/images/add.svg" (click)="closeModal()" width="24">-->
   <svg (click)="closeModal()" width="24" height="24" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M13.4819 21.4023L21.9672 12.9171" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
@@ -9,6 +10,7 @@
   &nbsp;{{'Joining Game' | translate}}
 </div>
 <div mat-dialog-content style="padding-bottom: 0"
+     [style]="generalService.userObj?.preferedLanguage?.code == 'fa' ? 'direction: rtl': 'direction: ltr'"
      [class]="{'': !generalService.isMobileView, 'p-1': generalService.isMobileView}">
   <mat-card class="shadow-none">
     <mat-card-header>
@@ -74,7 +76,7 @@
 
       &nbsp;<div class="font-size-14 weight-600">{{'My Question' | translate}}:</div>
       <div class="font-size-14 weight-600 cursor-pointer" (click)="openImportFromLib()"
-           style="text-align: right; flex: 1; color: #0B6FEA"><i class="bi bi-plus"></i>
+           style="text-align: end; flex: 1; color: #0B6FEA"><i class="bi bi-plus"></i>
         {{'Import from library' | translate}}
       </div>
     </div>

@@ -93,7 +93,8 @@
         </div>
         <div style="height: 52px; margin: 0px auto 10px"
              class="card border-0 text-center weight-600 pt-3">
-          {{'Sponsored by' | translate}}: Company name
+          {{'Sponsored by' | translate}}
+          : {{generalService.initData ? generalService.initData?.sponsors[0]?.name : generalService.clientInit?.sponsors[0]?.name}}
         </div>
       </mat-card-content>
     </mat-card>
@@ -206,6 +207,8 @@
             </div>
             <div class="textarea-container">
               <textarea #answerTextArea
+                        (copy)="disableCopyPaste($event)"
+                        (paste)="disableCopyPaste($event)"
                         [(ngModel)]="generalService.gameAnswerGeneral"
                         (ngModelChange)="updateWordCountAnswer()"></textarea>
               <div class="word-counter">{{ wordCountAnswer | number }} {{'Words' | translate}}</div>
@@ -583,13 +586,14 @@ generalService.gameTutorialStep == 3 ? sendRateAnswer(true) : sendRateQuestions(
             </div>
             <div [class]="{'w-60': !generalService.isMobileView, 'w-100': generalService.isMobileView}">
               <mat-card class="position-relative d-inline-flex text-start shadow-none">
-                <mat-card-header>
+                <mat-card-header
+                  [style]="generalService.userObj?.preferedLanguage?.code == 'fa' ? 'text-align: right': 'text-align: left'">
                   <div class="position-relative" style="width: 100px">
                     <img src="assets/images/score.png"
                          width="28" height="28">&nbsp;
                     <div class="font-size-14 weight-800 position-absolute green-color"
                          style="padding-inline-start: 5px; inset-inline-start: 30px; top: -5px;">
-                      +10
+                      +{{generalService.gameResult?.statistics?.score | parsInt}}
                     </div>
                     <mat-label class="position-absolute font-size-14 weight-500"
                                style="padding-inline-start: 5px;inset-inline-start: 30px; bottom: -5px;  color: #828282">
@@ -601,7 +605,7 @@ generalService.gameTutorialStep == 3 ? sendRateAnswer(true) : sendRateQuestions(
                          width="28" height="28">&nbsp;
                     <div class="font-size-14 weight-800 position-absolute green-color"
                          style="padding-inline-start: 5px; inset-inline-start: 30px; top: -5px;">
-                      +10
+                      +{{generalService.gameResult?.statistics?.xp | parsInt}}
                     </div>
                     <mat-label class="position-absolute font-size-14 weight-500"
                                style="padding-inline-start: 5px;inset-inline-start: 30px; bottom: -5px;  color: #828282">
@@ -613,7 +617,7 @@ generalService.gameTutorialStep == 3 ? sendRateAnswer(true) : sendRateQuestions(
                          width="28" height="28">&nbsp;
                     <div class="font-size-14 weight-800 position-absolute green-color"
                          style="padding-inline-start: 5px; inset-inline-start: 30px; top: -5px;">
-                      +3
+                      +{{generalService.gameResult?.statistics?.reward?.bronze}}
                     </div>
                     <mat-label class="position-absolute font-size-14 weight-500"
                                style="padding-inline-start: 5px;inset-inline-start: 30px; bottom: -5px; color: #828282">
@@ -628,11 +632,11 @@ generalService.gameTutorialStep == 3 ? sendRateAnswer(true) : sendRateQuestions(
                    style="height: 80px; background-color: #EDF9FF">
                 <div style="position: absolute; top: 10px;inset-inline-start: 10px; width: 100%;">
                   <div class="font-size-14 weight-600 position-absolute start-0">
-                    {{'Level' | translate}}: 2
+                    {{'Level' | translate}}: {{generalService.gameResult?.statistics?.level}}
                   </div>
                   <div
                     class="font-size-12 weight-600 position-absolute"
-                    style="inset-inline-end: 20px">10
+                    style="inset-inline-end: 20px">{{generalService.gameResult?.statistics?.xpNeededForNextLevel - generalService.gameResult?.statistics?.totalXP | parsInt}}
                     {{'XP till next level' | translate}}
                   </div>
                 </div>
@@ -640,12 +644,12 @@ generalService.gameTutorialStep == 3 ? sendRateAnswer(true) : sendRateQuestions(
                   [style]="generalService.isMobileView ? 'width: 250px' : 'width: 320px;'"
                   style="border-radius: 10px; inset-inline-start: 15px; display: inline-table; position: absolute; top: 40px;"
                   color="primary"
-                  [value]="(11 / 20) * 100"
+                  [value]="((generalService.gameResult?.statistics?.totalXP - generalService.gameResult?.statistics?.currentLevelXP) / (generalService.gameResult?.statistics?.xpNeededForNextLevel - generalService.gameResult?.statistics?.currentLevelXP)) * 100"
                   [bufferValue]="100"
                   mode="determinate"></mat-progress-bar>
                 <div
                   class="font-size-14 weight-600 position-absolute bottom-10" style="inset-inline-start: 10px">
-                  {{'Total XP' | translate}}: 10
+                  {{'Total XP' | translate}}: {{generalService.gameResult?.statistics?.totalXP | parsInt}}
                 </div>
               </div>
             </div>
@@ -663,10 +667,10 @@ generalService.gameTutorialStep == 3 ? sendRateAnswer(true) : sendRateQuestions(
             <mat-grid-tile class="result-grid"
                            *ngFor="let col of generalService.gameResult?.result?.scoreboard; let i=index"
                            [colspan]="1">
-              <mat-label class="font-size-12 weight-700">A{{i + 1}}</mat-label>
+              <mat-label class="font-size-12 weight-700">{{'A' | translate}}{{i + 1}}</mat-label>
             </mat-grid-tile>
             <mat-grid-tile class="result-grid" [colspan]="1">
-              <mat-label class="font-size-12 weight-700">Q</mat-label>
+              <mat-label class="font-size-12 weight-700">{{'Q' | translate}}</mat-label>
             </mat-grid-tile>
             <mat-grid-tile class="result-grid" [colspan]="1">
               <mat-label class="font-size-12 weight-700">{{'Total' | translate}}</mat-label>
@@ -733,7 +737,8 @@ generalService.gameTutorialStep == 3 ? sendRateAnswer(true) : sendRateQuestions(
                       stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
               <mat-label
-                class="font-size-14 weight-600">{{generalService.gameResult?.startedAt | timeDifference:generalService.gameResult?.endedAt }}</mat-label>
+                class="font-size-14 weight-600"
+                style="direction: ltr">{{generalService.gameResult?.startedAt | timeDifference:generalService.gameResult?.endedAt }}</mat-label>
             </div>
           </div>
           <br>
@@ -758,7 +763,7 @@ generalService.gameTutorialStep == 3 ? sendRateAnswer(true) : sendRateQuestions(
                       <mat-card-subtitle class="font-size-14 weight-600 pb-2">{{question?.question}}
                       </mat-card-subtitle>
                       <mat-card-subtitle>
-                        <img src="assets/images/score.png" width="16"/>
+                        <img src="assets/images/score.png" width="16" height="16"/>
                         &nbsp; {{question?.rate | parsInt}} {{'Score' | translate}}
                       </mat-card-subtitle>
                     </mat-card-header>
@@ -789,7 +794,7 @@ generalService.gameTutorialStep == 3 ? sendRateAnswer(true) : sendRateQuestions(
                       class="font-size-14 weight-400">{{answer?.answer}}</mat-label>
                     <br>
                     <br>
-                    <img src="assets/images/score.png" width="16"/>
+                    <img src="assets/images/score.png" width="16" height="16"/>
                     &nbsp; {{answer?.rate | parsInt}} {{'Score' | translate}}
                   </div>
                 </div>

@@ -55,7 +55,7 @@ export class ForgetPasswordComponent {
     if (this.type == 'email') {
       this.authService.forgetPasswordEmail(this.emailFormControl.value).then(data => {
         this.loading = false;
-        console.log(data?.message)
+        // console.log(data?.message)
         if (data?.status == 1) {
           this.step = 3;
           this.message = data?.message;

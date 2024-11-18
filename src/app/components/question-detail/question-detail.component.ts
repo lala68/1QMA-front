@@ -13,12 +13,13 @@ import {TranslateModule} from "@ngx-translate/core";
 import {DaysAgoPipe} from "../../pipes/days-ago.pipe";
 import {ParsIntPipe} from "../../pipes/pars-int.pipe";
 import {NgbRatingModule} from "@ng-bootstrap/ng-bootstrap";
+import {ShamsiDatePipe} from "../../pipes/shamsi-date.pipe";
 
 @Component({
   selector: 'app-question-detail',
   standalone: true,
   imports: [CommonModule, SharedModule, FormsModule, RouterModule, TranslateModule, DaysAgoPipe, ParsIntPipe,
-    NgbRatingModule],
+    NgbRatingModule, ShamsiDatePipe],
   templateUrl: './question-detail.component.html',
   styleUrl: './question-detail.component.scss',
   styles: `

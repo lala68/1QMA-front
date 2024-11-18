@@ -248,7 +248,7 @@ export class WizardComponent implements OnInit {
     // Update the validity of the password field
     await this.form.get('password')?.updateValueAndValidity();
     this.loadingUserData = false;
-    console.log(this.generalService.userObj)
+    // console.log(this.generalService.userObj)
   }
 
   countryChangedEvent(event: any) {
@@ -258,7 +258,7 @@ export class WizardComponent implements OnInit {
   openVerificationModal() {
     this.loading = true;
     this.error = '';
-    console.log(this.form.value)
+    // console.log(this.form.value)
     this.authService.updateProfile(this.form.value, this.generalService.userId).then(async data => {
       this.loading = false;
       if (data?.status == 1) {
@@ -279,7 +279,7 @@ export class WizardComponent implements OnInit {
   openDialogVerification(enterAnimationDuration: string, exitAnimationDuration: string): void {
     const dialogConfig = new MatDialogConfig();
     // Check if it's mobile
-    console.log(this.form.get('mobile')?.value)
+    // console.log(this.form.get('mobile')?.value)
     if (this.generalService.isMobileView) { // Assuming mobile devices are <= 768px
       dialogConfig.width = '100vw';
       dialogConfig.maxWidth = '100vw';
@@ -450,7 +450,7 @@ export class VerificationDialog {
 
   constructor(public dialogRef: MatDialogRef<VerificationDialog>, private _formBuilder: FormBuilder,
               @Inject(MAT_DIALOG_DATA) public data: any, private authService: AuthService, public generalService: GeneralService) {
-    console.log(data)
+    // console.log(data)
     this.verifyFormEmail.controls.email.setValue(data?.email);
     this.verifyFormMobile.controls.mobile.setValue(data?.phone);
   }

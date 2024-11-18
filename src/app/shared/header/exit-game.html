@@ -1,4 +1,5 @@
-<div class="font-size-14 weight-700 p-2 border-bottom">
+<div class="font-size-14 weight-700 p-2 border-bottom"
+     [style]="generalService.userObj?.preferedLanguage?.code == 'fa' ? 'direction: rtl': 'direction: ltr'">
   <svg (click)="cancel()" width="24" height="24" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M13.4819 21.4023L21.9672 12.9171" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
           stroke-linejoin="round"/>

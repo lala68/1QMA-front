@@ -61,7 +61,8 @@
             <mat-label class="font-size-14 weight-700">{{item?.type}}</mat-label>
           </mat-grid-tile>
           <mat-grid-tile class="result-grid-transaction text-end" [colspan]="generalService.isMobileView ? 0 : 2">
-            <mat-label class="font-size-14 weight-700">{{item?.createdAt | date}}</mat-label>
+            <mat-label *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'" class="font-size-14 weight-700">{{item?.createdAt | date}}</mat-label>
+            <mat-label *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" class="font-size-14 weight-700">{{item?.createdAt | shamsiDate}}</mat-label>
           </mat-grid-tile>
         </mat-grid-list>
         <mat-grid-list cols="12" rowHeight="40px" [dir]="generalService.direction">
@@ -97,7 +98,8 @@
         </mat-grid-list>
         <mat-grid-list cols="12" rowHeight="40px" [dir]="generalService.direction" *ngIf="generalService.isMobileView">
           <mat-grid-tile class="result-grid-transaction text-gray" [colspan]="5">
-            <mat-label class="font-size-14 weight-700">{{item?.createdAt | date}}</mat-label>
+            <mat-label class="font-size-14 weight-700" *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'">{{item?.createdAt | date}}</mat-label>
+            <mat-label class="font-size-14 weight-700" *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'">{{item?.createdAt | shamsiDate}}</mat-label>
           </mat-grid-tile>
         </mat-grid-list>
       </mat-card>

@@ -312,14 +312,14 @@ export class TriviaHubComponent implements OnInit {
   onSelect(option: string): void {
 
     this.selectedSortOption = option;
-    console.log('Selected option:', this.selectedSortOption);
+    // console.log('Selected option:', this.selectedSortOption);
     this.changeQuestions();
     // You can also perform any additional logic here based on the selected option.
   }
 
   onSelectGameSort(option: string): void {
     this.selectedSortOptionGame = option;
-    console.log('Selected option:', this.selectedSortOption);
+    // console.log('Selected option:', this.selectedSortOption);
     this.changeGames();
     // You can also perform any additional logic here based on the selected option.
   }

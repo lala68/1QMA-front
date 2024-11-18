@@ -98,7 +98,7 @@ export class CountdownTimerComponent implements OnInit, OnDestroy {
 
   resetTimer(step: any): void {
     // Fetch new duration from the service, or use the current value
-    console.log(step)
+    // console.log(step)
     const newDuration = step == 0 ? this.generalService.gameInit?.waitingTimeSeconds : step == 2 ? this.generalService.gameInit?.eachStepDurationSeconds :
       step == 3 ? this.generalService.gameInit?.rateAnswersDurationSeconds : this.generalService.gameInit?.rateQuestionsDurationSeconds;
 

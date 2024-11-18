@@ -1,4 +1,5 @@
-<div class="font-size-14 weight-700 p-2 border-bottom">
+<div class="font-size-14 weight-700 p-2 border-bottom"
+     [style]="generalService.userObj?.preferedLanguage?.code == 'fa' ? 'direction: rtl': 'direction: ltr'">
   <svg (click)="closeModal()" width="24" height="24" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M13.4819 21.4023L21.9672 12.9171" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
           stroke-linejoin="round"/>
@@ -10,7 +11,8 @@
 <div style="display: table; margin: 20px auto" *ngIf="loadingUpload">
   <mat-spinner [diameter]="30"></mat-spinner>
 </div>
-<div *ngIf="!loadingUpload" mat-dialog-content [style]="generalService.isMobileView ? 'padding: 5px 0 5px 5px;' : ''">
+<div *ngIf="!loadingUpload" mat-dialog-content [style]="generalService.isMobileView ? 'padding: 5px 0 5px 5px;' : ''"
+     [style]="generalService.userObj?.preferedLanguage?.code == 'fa' ? 'direction: rtl': 'direction: ltr'">
   <div class=" border-bottom w-100 pb-3 position-relative"
        [class]="{'d-inline-flex': !generalService.isMobileView, 'd-block': generalService.isMobileView}">
     <div>

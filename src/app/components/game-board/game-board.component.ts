@@ -125,12 +125,12 @@ export class GameBoardComponent implements OnInit, OnDestroy {
         (player: any) => player.email === invitedPlayer.email
       )
     );
-    console.log(this.data)
-    console.log(this.generalService.invitedPlayersArray)
+    // console.log(this.data)
+    // console.log(this.generalService.invitedPlayersArray)
     await this.removeFromInvited(this.generalService.userObj?.email);
     this.generalService.socket.on("player added", async (arg: any) => {
-      console.log("player added " + arg);
-      console.log(this.generalService.players);
+      // console.log("player added " + arg);
+      // console.log(this.generalService.players);
       // if (!this.generalService.players.some((player: any) => player.email === arg.email)) {
       //   this.generalService.players.push(arg);
       // }
@@ -155,7 +155,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
       // }
       const now = new Date();
       const timeString = now.toLocaleTimeString();
-      console.log("next step" + ' ' + `[${timeString}]  `);
+      // console.log("next step" + ' ' + `[${timeString}]  `);
       if (this.generalService.gameStep == 2) {
         this.nextStepTriggeredAnswer = true;
         this.nextStepTriggeredRatingAnswer = false;
@@ -175,7 +175,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
         this.finishedTimerRatingQuestions = false;
         this.sendAnswerDisable = false;
         this.isDropped = false;
-        console.log(this.generalService?.gameQuestion)
+        // console.log(this.generalService?.gameQuestion)
         this.countdownTimer.resetTimer(this.generalService.gameInit?.numberOfPlayers == parseInt(this.generalService.gameQuestion?.step) ? 4 : 2);
       } else if (this.generalService.gameStep == 4) {
         this.nextStepTriggeredAnswer = false;
@@ -198,8 +198,8 @@ export class GameBoardComponent implements OnInit, OnDestroy {
       // }
       const now = new Date();
       const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
-      console.log("submit answer" + ' ' + `[${timeString}]  `);
-      console.log(arg);
+      // console.log("submit answer" + ' ' + `[${timeString}]  `);
+      // console.log(arg);
       this.submittedAnswer = arg;
     });
 
@@ -211,13 +211,13 @@ export class GameBoardComponent implements OnInit, OnDestroy {
       // }
       const now = new Date();
       const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
-      console.log("player left" + ' ' + `[${timeString}]  `);
+      // console.log("player left" + ' ' + `[${timeString}]  `);
     });
 
     this.generalService.socket.on("cancel game", (arg: any) => {
       const now = new Date();
       const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
-      console.log("cancel game" + ' ' + `[${timeString}]  `);
+      // console.log("cancel game" + ' ' + `[${timeString}]  `);
       // if (this.generalService.disconnectedModal || this.generalService.isDisconnectedModal) {
       //   this.generalService.disconnectedModal.close();
       //   this.generalService.disconnectedModal = '';
@@ -236,7 +236,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     this.generalService.socket.on("end game", (arg: any) => {
       const now = new Date();
       const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
-      console.log("end game" + ' ' + `[${timeString}]  `);
+      // console.log("end game" + ' ' + `[${timeString}]  `);
       // if (this.generalService.disconnectedModal || this.generalService.isDisconnectedModal) {
       //   this.generalService.disconnectedModal.close();
       //   this.generalService.disconnectedModal = '';
@@ -247,7 +247,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     });
 
     this.generalService.socket.on("disconnect", () => {
-      console.log('disconnect');
+      // console.log('disconnect');
       // if (this.generalService?.startingGame && (!this.generalService.isDisconnectedModal)) {
       //   this.generalService.disconnectedModal = this.dialog.open(Disconnected, {
       //     width: '500px',
@@ -279,12 +279,12 @@ export class GameBoardComponent implements OnInit, OnDestroy {
       //   this.generalService.disconnectedModal = '';
       //   this.generalService.isDisconnectedModal = false;
       // }
-      console.log('Socket connected');
+      // console.log('Socket connected');
       this.startKeepAlive();
     });
 
     this.generalService.socket.on('disconnect', () => {
-      console.log('disconnect');
+      // console.log('disconnect');
       if (this.generalService?.startingGame) {
         this.generalService.disconnectedModal = this.dialog.open(Disconnected, {
           width: '500px',
@@ -299,7 +299,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
   startKeepAlive() {
     this.generalService.keepAliveInterval = setInterval(() => {
       if (this.generalService.socket.connected) {
-        console.log('Sending ping...');
+        // console.log('Sending ping...');
         this.generalService.socket.emit('ping'); // Send a ping message to the server
       }
     }, 1000); // Send ping every 30 seconds
@@ -404,10 +404,10 @@ export class GameBoardComponent implements OnInit, OnDestroy {
   }
 
   async handleGameStep(): Promise<void> {
-    console.log("finishedTimerAnswer" + this.finishedTimerAnswer);
-    console.log("finishedTimerRatingAnswer" + this.finishedTimerRatingAnswer);
-    console.log("finishedTimerRatingQuestions" + this.finishedTimerRatingQuestions);
-    console.log("gameStep" + this.generalService.gameStep);
+    // console.log("finishedTimerAnswer" + this.finishedTimerAnswer);
+    // console.log("finishedTimerRatingAnswer" + this.finishedTimerRatingAnswer);
+    // console.log("finishedTimerRatingQuestions" + this.finishedTimerRatingQuestions);
+    // console.log("gameStep" + this.generalService.gameStep);
     //maybe
     this.generalService.specificQuestionAnswers = '';
     this.isDropListDisabled = false;
@@ -416,18 +416,15 @@ export class GameBoardComponent implements OnInit, OnDestroy {
       // this.generalService.wordCountAnswer = 100;
       this.finishedTimerRatingQuestions = false;
       this.finishedTimerRatingAnswer = false;
-      // console.log(this.finishedTimerAnswer)
       await this.waitForConditionsAnswer(); // Wait for conditions to be met
     } else if (this.generalService.gameStep == 3) {
       this.finishedTimerAnswer = false;
       this.finishedTimerRatingQuestions = false;
       this.nextStepTriggeredAnswer = false;
-      // console.log(this.finishedTimerRatingAnswer)
       await this.waitForConditionsRatingAnswer(); // Wait for conditions to be met
     } else if (this.generalService.gameStep == 4) {
       this.finishedTimerAnswer = false;
       this.finishedTimerRatingAnswer = false;
-      // console.log(this.finishedTimerRatingQuestions)
       await this.waitForConditionsRatingQuestions(); // Wait for conditions to be met
     }
 
@@ -454,10 +451,8 @@ export class GameBoardComponent implements OnInit, OnDestroy {
 
   private async stepTwoLogic(): Promise<void> {
     await this.ngZone.run(async () => {
-      // console.log(this.finishedTimerAnswer)
       //new method  comment waitForConditionNextStepAnswer
       await this.waitForConditionNextStepAnswer();
-      // console.log('waitForConditionNextStepAnswer');
       this.generalService.gameAnswerGeneral = '';
       this.generalService.gameStep = 3;
       this.finishedTimerAnswer = false;
@@ -497,7 +492,6 @@ export class GameBoardComponent implements OnInit, OnDestroy {
         // if(resQue.data.myAnswer){
         this.updateWordCountAnswer();
         // }
-        // console.log(this.finishedTimerRatingAnswer)
         await this.waitForConditionNextStepRatingAnswer();
         this.generalService.gameStep = 2;
         this.finishedTimerRatingAnswer = false;
@@ -505,7 +499,6 @@ export class GameBoardComponent implements OnInit, OnDestroy {
         const resQue = await this.gameService.getQuestionsOfGame(
           this.generalService.createdGameData.game.gameId
         );
-        // console.log(this.finishedTimerRatingQuestions)
         await this.waitForConditionNextStepRatingAnswer();
         this.generalService.gameStep = 4;
         this.generalService.allQuestions = resQue.data;
@@ -624,8 +617,6 @@ export class GameBoardComponent implements OnInit, OnDestroy {
   async handleCountdownSendAnswerFinished() {
     const now = new Date();
     const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
-    console.log("finishedTimer" + ' ' + `[${timeString}]  `);
-    console.log("this.generalService.disconnectedModal" + this.generalService.disconnectedModal);
     this.finishedTimerAnswer = true;
     if (this.generalService.disconnectedModal == '') {
       if (!this.sendAnswerDisable) {
@@ -633,7 +624,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
         await this.sendAnswer();
         this.sendAnswerDisable = true;
       } else {
-        console.log("elseeeeee");
+        // console.log("elseeeeee");
         //   this.generalService.gameAnswerGeneral = '';
         //   this.generalService.gameStep = 3;
         //   this.nextStepTriggeredAnswer = false;
@@ -703,7 +694,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
   async handleCountdownRatingAnswerFinished() {
     const now = new Date();
     const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
-    console.log("finishedTimer" + ' ' + `[${timeString}]  `);
+    // console.log("finishedTimer" + ' ' + `[${timeString}]  `);
     this.finishedTimerRatingAnswer = true;
     if (this.generalService.disconnectedModal == '') {
       if (!this.sendRateAnswerDisable) {
@@ -711,7 +702,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
         await this.sendRateAnswer(false);
         this.sendRateAnswerDisable = true;
       } else {
-        console.log("elseeeeee");
+        // console.log("elseeeeee");
         /* // maybe
         // await this.sendRateAnswer(false);
          //*/
@@ -806,7 +797,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
   async handleCountdownRatingQuestionsFinished() {
     const now = new Date();
     const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
-    console.log("finishedTimer" + ' ' + `[${timeString}]  `);
+    // console.log("finishedTimer" + ' ' + `[${timeString}]  `);
     this.finishedTimerRatingQuestions = true;
     if (!this.sendRateQuestionsDisable) {
       // this.countdownTimer.resetTimer(2);
@@ -823,7 +814,6 @@ export class GameBoardComponent implements OnInit, OnDestroy {
       }
       this.generalService.gameStep = 5;
       await this.getGameResult();
-      // console.log("elseeeeee")
     }
   }
 
@@ -849,13 +839,13 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     // Use franc to detect the primary language
     if (question) {
       const detectedLangISO6393: string = franc(question);
-      console.log(`Primary detected language (ISO 639-3): ${detectedLangISO6393}`);
+      // console.log(`Primary detected language (ISO 639-3): ${detectedLangISO6393}`);
 
       // Map the detected language to the ISO 639-1 code or default to English
       let detectedLangISO6391 = this.supportedLangs[detectedLangISO6393 as SupportedLanguages] || 'en';
 
-      console.log(`ISO 639-1 code used for translation: ${detectedLangISO6391}`);
-      console.log(`Target language for translation: ${targetLanguage}`);
+      // console.log(`ISO 639-1 code used for translation: ${detectedLangISO6391}`);
+      // console.log(`Target language for translation: ${targetLanguage}`);
 
       // Perform the translation
       try {
@@ -1029,7 +1019,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     if (index !== -1) {
       // Remove the item from the array
       this.generalService.invitedPlayersArray.splice(index, 1);
-      console.log('removeFromInvited' + this.generalService.invitedPlayersArray)
+      // console.log('removeFromInvited' + this.generalService.invitedPlayersArray)
     }
   }
 
@@ -1082,7 +1072,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
   }
 
   addUserToPlayers() {
-    console.log(this.invitedUser);
+    // console.log(this.invitedUser);
     this.gameService.invitePlayer(this.generalService.createdGameData.game.gameId, this.invitedUser).then(data => {
       if (data.status == 1) {
         this.generalService.invitedPlayersArray.push(this.invitedUser);

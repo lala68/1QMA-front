@@ -133,7 +133,7 @@ export class GamesComponent implements OnInit {
 
     this.wordCountAnswer = this.generalService.gameInit?.answerWordsLimitation;
     this.route.paramMap.subscribe(params => {
-      console.log(params.get('id'));
+      // console.log(params.get('id'));
       this.selectedTabIndex = params.get('id') || '';
     });
 
@@ -255,7 +255,7 @@ export class GamesComponent implements OnInit {
 
       const availableSteps = this.getAvailableSteps(steps);
 
-      console.log(availableSteps);
+      // console.log(availableSteps);
 
       // Proceed with the intro only if there are valid steps
       if (availableSteps.length > 0) {
@@ -370,19 +370,19 @@ export class GamesComponent implements OnInit {
       // }
       const now = new Date();
       const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
-      console.log("start game" + ' ' + `[${timeString}]  `);
+      // console.log("start game" + ' ' + `[${timeString}]  `);
       this.generalService.gameStep = 2;
       if (this.generalService.waitingModal) {
         this.generalService.waitingModal.close();
         this.generalService.waitingModal = '';
       }
       this.gameBoardComponent.handleGameStep();
-      console.log(this.generalService.selectedTranslatedLanguage)
+      // console.log(this.generalService.selectedTranslatedLanguage)
       this.gameService.getGameQuestionBasedOnStep(this.generalService?.createdGameData?.game?.gameId, 1).then(async resQue => {
         this.generalService.gameQuestion = resQue?.data;
         if (this.generalService.selectedTranslatedLanguage && this.generalService.selectedTranslatedLanguage != '') {
-          console.log(resQue?.data.question)
-          console.log(this.generalService.selectedTranslatedLanguage)
+          // console.log(resQue?.data.question)
+          // console.log(this.generalService.selectedTranslatedLanguage)
           this.generalService.gameQuestion.question = await this.detectAndTranslate(resQue?.data.question,
             this.generalService.selectedTranslatedLanguage);
         }
@@ -449,13 +449,13 @@ export class GamesComponent implements OnInit {
   async detectAndTranslate(question: string, targetLanguage: string): Promise<string> {
     // Use franc to detect the primary language
     const detectedLangISO6393: string = franc(question);
-    console.log(`Primary detected language (ISO 639-3): ${detectedLangISO6393}`);
+    // console.log(`Primary detected language (ISO 639-3): ${detectedLangISO6393}`);
 
     // Map the detected language to the ISO 639-1 code or default to English
     let detectedLangISO6391 = this.supportedLangs[detectedLangISO6393 as SupportedLanguages] || 'en';
 
-    console.log(`ISO 639-1 code used for translation: ${detectedLangISO6391}`);
-    console.log(`Target language for translation: ${targetLanguage}`);
+    // console.log(`ISO 639-1 code used for translation: ${detectedLangISO6391}`);
+    // console.log(`Target language for translation: ${targetLanguage}`);
 
     // Perform the translation
     try {
@@ -540,7 +540,7 @@ export class GamesComponent implements OnInit {
       }
 
     }
-    console.log(this.generalService.invitedPlayersArray)
+    // console.log(this.generalService.invitedPlayersArray)
   }
 
   removeInvite(item: any) {
@@ -574,7 +574,6 @@ export class GamesComponent implements OnInit {
 
   selectTranslatedLang(id: any) {
     this.generalService.selectedTranslatedLanguage = id;
-    console.log(id)
   }
 
   joinToGame(code: any = this.gameCode) {
@@ -582,8 +581,8 @@ export class GamesComponent implements OnInit {
     this.generalService.socket.on("player added", async (arg: any) => {
       const now = new Date();
       const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
-      console.log("player added" + ' ' + `[${timeString}]  `);
-      console.log(this.generalService.players);
+      // console.log("player added" + ' ' + `[${timeString}]  `);
+      // console.log(this.generalService.players);
       // if (this.generalService.disconnectedModal || this.generalService.isDisconnectedModal) {
       //   this.generalService.disconnectedModal.close();
       //   this.generalService.disconnectedModal = '';
@@ -603,7 +602,7 @@ export class GamesComponent implements OnInit {
     this.generalService.socket.on("start game", (arg: any) => {
       const now = new Date();
       const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
-      console.log("start game" + ' ' + `[${timeString}]  `);
+      // console.log("start game" + ' ' + `[${timeString}]  `);
       // if (this.generalService.disconnectedModal || this.generalService.isDisconnectedModal) {
       //   this.generalService.disconnectedModal.close();
       //   this.generalService.disconnectedModal = '';
@@ -611,7 +610,7 @@ export class GamesComponent implements OnInit {
       // }
       this.generalService.gameStep = 2;
       setTimeout(() => {
-        console.log(this.generalService?.createdGameData)
+        // console.log(this.generalService?.createdGameData)
         this.gameService.getGameQuestionBasedOnStep(this.generalService?.createdGameData?.game?.gameId, 1).then(async resQue => {
           this.generalService.gameQuestion = resQue?.data;
           if (this.generalService.selectedTranslatedLanguage && this.generalService.selectedTranslatedLanguage != '') {
@@ -705,7 +704,7 @@ export class GamesComponent implements OnInit {
         this.findFriendGameData.endedGames = [...this.findFriendGameData.endedGames, ...data.data.endedGames];
         this.noMoreItems = data.data.endedGames?.length < 10;
 
-        console.log(this.findFriendGameData?.endedGames)
+        // console.log(this.findFriendGameData?.endedGames)
       } else {
         this.openDialog(JSON.stringify(data.message), 'Error');
       }
@@ -747,7 +746,7 @@ export class GamesComponent implements OnInit {
     }
     const dialogRef = this.dialog.open(ImportFromLibrary, dialogConfig);
     dialogRef.afterClosed().subscribe(async result => {
-      console.log(result)
+      // console.log(result)
       if (result) {
         if (result.data?.id) {
           this.questionId = result.data?.id;
@@ -803,7 +802,7 @@ export class JoiningGame {
   }
 
   openImportFromLib() {
-    console.log(this.data);
+    // console.log(this.data);
     const dialogConfig = new MatDialogConfig();
     // Check if it's mobile
     if (this.generalService.isMobileView) { // Assuming mobile devices are <= 768px
@@ -819,7 +818,7 @@ export class JoiningGame {
     }
     const dialogRef = this.dialog.open(ImportFromLibrary, dialogConfig);
     dialogRef.afterClosed().subscribe(async result => {
-      console.log(result)
+      // console.log(result)
       if (result) {
         if (result.data?.id) {
           this.questionId = result.data?.id;

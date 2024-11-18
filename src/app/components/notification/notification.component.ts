@@ -10,12 +10,13 @@ import {ProcessHTTPMsgService} from "../../services/proccessHttpMsg/process-http
 import {ShopService} from "../../services/shop.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {GamesComponent} from "../games/games.component";
+import {ShamsiDatePipe} from "../../pipes/shamsi-date.pipe";
 
 @Component({
   selector: 'app-notification',
   standalone: true,
   imports: [CommonModule, SharedModule, FormsModule, RouterModule, ReactiveFormsModule,
-    TranslateModule, DaysAgoPipe],
+    TranslateModule, DaysAgoPipe, ShamsiDatePipe],
   templateUrl: './notification.component.html',
   styleUrl: './notification.component.scss'
 })

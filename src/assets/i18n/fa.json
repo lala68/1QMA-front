@@ -70,7 +70,7 @@
   "Account Overview": "مرور حساب",
   "Account": "حساب کاربری",
   "Days Left": "روز باقی‌مانده",
-  "Renew Automatically": "تجدید خودکار",
+  "Renew Automatically": "تمدید خودکار",
   "Referred By": "معرفی شده توسط",
   "Level": "سطح",
   "Find and join games created by others": "بازی‌های ساخته شده توسط دیگران را پیدا کرده و به آن‌ها بپیوندید",
@@ -81,7 +81,7 @@
   "List of user games:": "لیست بازی‌های کاربر:",
   "Games by:": "بازی‌های توسط:",
   "Ongoing Games": "بازی‌های در حال اجرا",
-  "Created by...": "ایجاد شده توسط...",
+  "Created by": "ایجاد شده توسط",
   "Setting": "تنظیمات",
   "Score": "امتیاز",
   "Join with Code": "پیوستن با کد",
@@ -369,5 +369,8 @@
   "A": "ج",
   "Q": "س",
   "Scr": "ام",
-  "Rnk": "رت"
+  "Rnk": "رت",
+  "ID": "کد",
+  "Copyright" : "حق کپی",
+  "All rights reserved" : "محفوظ می باشد"
 }

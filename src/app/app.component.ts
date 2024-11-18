@@ -56,11 +56,11 @@ export class AppComponent implements OnInit {
         //   this.generalService.disconnectedModal = '';
         //   this.generalService.isDisconnectedModal = false;
         // }
-        console.log('Socket connected');
+        // console.log('Socket connected');
       });
 
       this.generalService.socket.on("notification", (arg: any) => {
-        console.log("notification" + arg)
+        // console.log("notification" + arg)
         // if (this.generalService.disconnectedModal || this.generalService.isDisconnectedModal) {
         //   this.generalService.disconnectedModal.close();
         //   this.generalService.disconnectedModal = '';
@@ -73,7 +73,7 @@ export class AppComponent implements OnInit {
       });
 
       this.generalService.socket.on("notification:modal", (arg: any) => {
-        console.log(arg)
+        // console.log(arg)
         // if (this.generalService.disconnectedModal || this.generalService.isDisconnectedModal) {
         //   this.generalService.disconnectedModal.close();
         //   this.generalService.disconnectedModal = '';
@@ -103,7 +103,7 @@ export class AppComponent implements OnInit {
       setTimeout(() => {
         this.route.queryParams.subscribe(async params => {
           await this.generalService.getUserData();
-          console.log(params);
+          // console.log(params);
           if (this.generalService.userObj) {
             this.generalService.onFontSelect(this.generalService.userObj?.preferedFont);
           }

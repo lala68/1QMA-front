@@ -78,7 +78,8 @@
             {{generalService.userObj?.anonymousName}}
           </mat-card-subtitle>
           <mat-card-subtitle>
-            <small>{{'created at' | translate}}: {{generalService.userObj?.created_at | date}}</small>
+            <small *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'">{{'created at' | translate}}: {{generalService.userObj?.created_at | date}}</small>
+            <small *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'">{{'created at' | translate}}: {{generalService.userObj?.created_at | shamsiDate}}</small>
           </mat-card-subtitle>
         </mat-card-header>
         <mat-card-header class="pe-1 ps-1 border-bottom position-relative">
@@ -557,7 +558,8 @@
           <img src="assets/images/frame.png" width="35" style="padding-inline-start: 5px">
         </div>
         <div matListItemTitle>{{invite?.email}}</div>
-        <div matListItemLine>{{invite?.createdAt | date}}</div>
+        <div matListItemLine *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'">{{invite?.createdAt | date}}</div>
+        <div matListItemLine *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'">{{invite?.createdAt | shamsiDate}}</div>
       </mat-list-item>
     </mat-list>
   </div>

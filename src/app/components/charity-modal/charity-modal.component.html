@@ -1,4 +1,5 @@
-<div class="font-size-14 weight-700 p-2 border-bottom">
+<div class="font-size-14 weight-700 p-2 border-bottom"
+     [style]="generalService.userObj?.preferedLanguage?.code == 'fa' ? 'direction: rtl': 'direction: ltr'">
   <svg (click)="cancel()" width="24" height="24" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M13.4819 21.4023L21.9672 12.9171" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
           stroke-linejoin="round"/>
@@ -8,7 +9,8 @@
   &nbsp;{{'Choose charity category' | translate}}
 </div>
 <div mat-dialog-content class="mt-0"
-     [class]="{'m-3': !generalService.isMobileView, 'm-1': generalService.isMobileView}">
+     [class]="{'m-3': !generalService.isMobileView, 'm-1': generalService.isMobileView}"
+     [style]="generalService.userObj?.preferedLanguage?.code == 'fa' ? 'direction: rtl': 'direction: ltr'">
   <div class="charity-header">
     <img src="assets/images/charity.png" width="64" height="56"/>
     <mat-label class="font-size-16 weight-600 ms-3">{{'Play Game' | translate}}
@@ -32,7 +34,8 @@
     <mat-card *ngFor="let chr of generalService.clientInit?.charityCategories"
               class="mt-2 me-1 d-inline-block shadow-none mat-card-pref"
               (click)="selectCharity(chr)">
-      <mat-card-content class="text-start" style="padding: 16px 5px">
+      <mat-card-content style="padding: 16px 5px"
+                        [style]="generalService.userObj?.preferedLanguage?.code == 'fa' ? 'text-align: right': 'text-align: left'">
         <img [src]="'https://api.staging.1qma.games/' + chr?.icon" width="35">
         <mat-label>{{ chr.title }}</mat-label>
       </mat-card-content>
@@ -45,7 +48,8 @@
     </mat-label>
     <br>
     <mat-card class="mt-2 me-1 d-inline-block shadow-none mat-card-pref-selected">
-      <mat-card-content class="text-start" (click)="selectedCharity = ''" style="padding: 16px 5px">
+      <mat-card-content (click)="selectedCharity = ''" style="padding: 16px 5px"
+                        [style]="generalService.userObj?.preferedLanguage?.code == 'fa' ? 'text-align: right': 'text-align: left'">
         <img [src]="'https://api.staging.1qma.games/' + selectedCharity?.icon" width="35">
         <mat-label>{{ selectedCharity.title }}</mat-label>
       </mat-card-content>

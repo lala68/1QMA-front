@@ -233,8 +233,8 @@ export class GeneralService implements OnInit {
   onFontSelect(font: any) {
     const body = document.body;
     body.classList.remove('english-font', 'farsi-font', 'exo-font', 'rokh-font'
-      , 'anjoman-font', 'daal-font', 'damavand-font', 'dana-font', 'farhang-font', 'irancell-font',
-      'IRANSans-font', 'kohinoor-font', 'peyda-font', 'pinar-font'); // Remove previous font classes
+      , 'anjoman-font', 'anjoman-font-en', 'daal-font', 'damavand-font', 'dana-font', 'dana-font-en', 'farhang-font', 'irancell-font',
+      'IRANSans-font' , 'IRANSans-font-en', 'kohinoor-font', 'peyda-font', 'pinar-font'); // Remove previous font classes
     switch (font) {
       case 'Exo':
         body.classList.add('exo-font'); // Apply English font
@@ -243,7 +243,7 @@ export class GeneralService implements OnInit {
         body.classList.add('rokh-font'); // Apply Farsi font
         break;
       case 'Anjoman':
-        body.classList.add('anjoman-font'); // Apply Farsi font
+        this.userObj?.preferedLanguage?.code == 'fa' ? body.classList.add('anjoman-font') : body.classList.add('anjoman-font-en'); // Apply Farsi font
         break;
       case 'Daal':
         body.classList.add('daal-font'); // Apply Farsi font
@@ -252,7 +252,7 @@ export class GeneralService implements OnInit {
         body.classList.add('damavand-font'); // Apply Farsi font
         break;
       case 'Dana':
-        body.classList.add('dana-font'); // Apply Farsi font
+        this.userObj?.preferedLanguage?.code == 'fa' ? body.classList.add('dana-font') : body.classList.add('dana-font-en'); // Apply Farsi font
         break;
       case 'Farhang':
         body.classList.add('farhang-font'); // Apply Farsi font
@@ -261,7 +261,7 @@ export class GeneralService implements OnInit {
         body.classList.add('irancell-font'); // Apply Farsi font
         break;
       case 'IRANSans':
-        body.classList.add('IRANSans-font'); // Apply Farsi font
+        this.userObj?.preferedLanguage?.code == 'fa' ? body.classList.add('IRANSans-font') : body.classList.add('IRANSans-font-en'); // Apply Farsi font
         break;
       case 'Kohinoor':
         body.classList.add('kohinoor-font'); // Apply Farsi font
@@ -273,7 +273,7 @@ export class GeneralService implements OnInit {
         body.classList.add('pinar-font'); // Apply Farsi font
         break;
       default:
-        // body.classList.add('english-font'); // Default to English font
+      // body.classList.add('english-font'); // Default to English font
     }
   }
 }

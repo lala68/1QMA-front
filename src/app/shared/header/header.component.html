@@ -107,7 +107,8 @@
       <br>
       <mat-label> {{item?.message}}</mat-label>
       <br>
-      <mat-label class="text-gray">{{item?.createdAt | date}}</mat-label>
+      <mat-label class="text-gray" *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'">{{item?.createdAt | date}}</mat-label>
+      <mat-label class="text-gray" *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'">{{item?.createdAt | shamsiDate}}</mat-label>
     </div>
     <button mat-flat-button [routerLink]="['/notification']" color="primary" class="w-100">
       <span>{{'See All' | translate}}</span>

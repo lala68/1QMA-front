@@ -14,14 +14,15 @@ import {
 import {FooterComponent} from "./footer/footer.component";
 import {TranslateModule} from "@ngx-translate/core";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {ShamsiDatePipe} from "../pipes/shamsi-date.pipe";
 
 @NgModule({
-  declarations: [
-    SidenavComponent, HeaderComponent, FooterComponent, AddQuestion, ExitGame, AccountMobile,
-    NotificationMobile, GiftMobile, MoreMobile
-  ],
+    declarations: [
+        SidenavComponent, HeaderComponent, FooterComponent, AddQuestion, ExitGame, AccountMobile,
+        NotificationMobile, GiftMobile, MoreMobile
+    ],
   imports: [
-    CommonModule, MaterialModule, RouterModule, TranslateModule, FormsModule, ReactiveFormsModule,
+    CommonModule, MaterialModule, RouterModule, TranslateModule, FormsModule, ReactiveFormsModule, ShamsiDatePipe
   ],
   exports: [
     MaterialModule, SidenavComponent, HeaderComponent, FooterComponent, RouterModule

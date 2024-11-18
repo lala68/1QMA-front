@@ -32,7 +32,7 @@ export class SidenavComponent implements OnInit {
   ngAfterViewInit() {
     this.observer.observe(["(max-width: 800px)"])
       .subscribe(result => {
-        console.log(result)
+        // console.log(result)
         this.generalService.isMobileView = result.matches;
       });
   }

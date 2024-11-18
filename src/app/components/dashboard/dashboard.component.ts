@@ -25,12 +25,13 @@ import {SidenavComponent} from "../../shared/sidenav/sidenav.component";
 import {JoiningGame} from "../games/games.component";
 import introJs from "intro.js";
 import {Preferences} from "@capacitor/preferences";
+import {ShamsiDatePipe} from "../../pipes/shamsi-date.pipe";
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
   imports: [CommonModule, SharedModule, FormsModule, RouterModule, ReactiveFormsModule, NgxMatIntlTelInputComponent,
-    TranslateModule, ClipboardModule, ParsIntPipe, DaysAgoPipe],
+    TranslateModule, ClipboardModule, ParsIntPipe, DaysAgoPipe, ShamsiDatePipe],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
   providers: [HeaderComponent]
@@ -245,7 +246,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   async selectCatTopQuestion(id: any) {
-    console.log(id)
+    // console.log(id)
     this.selectedCategory = id;
     // this.selectedCategory.push(id);
     await this.changeTopQuestions();

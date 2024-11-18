@@ -391,7 +391,6 @@ export class AuthService {
 
   async isAuthenticated(): Promise<boolean> {
     const user = await Preferences.get({key: 'account'});
-    // console.log(user)
     if (user.value != null) {
       try {
         var testIfJson = JSON.parse(user.value);

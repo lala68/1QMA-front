@@ -113,7 +113,7 @@
                   <div *ngIf="item?.score" class="d-inline-flex justify-content-between align-items-center m-1">
                     <div class="white-card p-1 d-flex align-items-center" style="width: fit-content">
                       <img src="assets/images/score.png"
-                           width="16">
+                           width="16" height="16">
                       <mat-label class="font-size-12 weight-600"
                                  style="margin: auto 5px">{{item?.score ? item?.score : 0 | parsInt}}
                         <mat-label class="font-size-12 weight-600 text-gray">{{'Score' | translate}}</mat-label>
@@ -316,7 +316,7 @@
                   &nbsp;&nbsp;
                   <div *ngIf="item?.score" class="white-card p-1 d-flex align-items-center"
                        style="width: fit-content">
-                    <img src="assets/images/score.png" width="16">
+                    <img src="assets/images/score.png" width="16" height="16">
                     <mat-label class="font-size-12 weight-600" style="margin: auto 10px">{{item?.score | parsInt}} <span
                       class="text-gray">{{'Score' | translate}}</span>
                     </mat-label>
@@ -480,7 +480,7 @@
                 <div *ngIf="item?.score" class="d-inline-flex justify-content-between align-items-center m-1">
                   <div class="white-card p-1 d-flex align-items-center" style="width: fit-content">
                     <img src="assets/images/score.png"
-                         width="16">
+                         width="16" height="16">
                     <mat-label class="font-size-12 weight-600"
                                style="margin: auto 5px">{{item?.score | parsInt}}
                       <mat-label class="font-size-12 weight-600 text-gray">Score</mat-label>
@@ -791,7 +791,7 @@
                             <img src="assets/images/rank.png" width="16"><span
                             class="font-size-14 weight-700">{{i + 1}} </span><span
                             class="font-size-14 weight-500"> {{'Rank' | translate}}</span>
-                            <img src="assets/images/score.png" width="16"><span
+                            <img src="assets/images/score.png" width="16" height="16"><span
                             class="font-size-14 weight-700">{{scoreboard?.totalScore | parsInt}} </span><span
                             class="font-size-14 weight-500"> {{'Score' | translate}}</span>
                           </div>

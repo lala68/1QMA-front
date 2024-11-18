@@ -143,10 +143,8 @@ export class TutorialComponent {
 
   private async stepTwoLogic(): Promise<void> {
     await this.ngZone.run(async () => {
-      // console.log(this.finishedTimerAnswer)
       //new method  comment waitForConditionNextStepAnswer
       await this.waitForConditionNextStepAnswer();
-      // console.log('waitForConditionNextStepAnswer');
       this.generalService.gameTutorialStep = 3;
       this.finishedTimerAnswer = false;
       const data = await this.tutorialService.getAllTutorialAnswersOfSpecificQuestion(
@@ -174,7 +172,6 @@ export class TutorialComponent {
         // if(resQue.data.myAnswer){
         this.updateWordCountAnswer();
         // }
-        // console.log(this.finishedTimerRatingAnswer)
         await this.waitForConditionNextStepRatingAnswer();
         this.generalService.gameTutorialStep = 2;
         this.finishedTimerRatingAnswer = false;
@@ -182,7 +179,6 @@ export class TutorialComponent {
         const resQue = await this.tutorialService.getTutorialQuestionsOfGame(
           this.generalService.createdGameData._id
         );
-        console.log(this.finishedTimerRatingQuestions)
         await this.waitForConditionNextStepRatingAnswer();
         this.generalService.gameTutorialStep = 4;
         this.generalService.allQuestions = resQue.data;
@@ -192,8 +188,6 @@ export class TutorialComponent {
   }
 
   private async stepFourLogic(): Promise<void> {
-    console.log(this.finishedTimerRatingQuestions)
-    console.log(this.nextStepTriggeredRatingQuestions)
     await this.ngZone.run(async () => {
       await this.waitForConditionNextStepQuestions()
     });
@@ -283,8 +277,6 @@ export class TutorialComponent {
   async handleCountdownSendAnswerFinished() {
     const now = new Date();
     const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
-    console.log("finishedTimer" + ' ' + `[${timeString}]  `);
-    console.log("this.generalService.disconnectedModal" + this.generalService.disconnectedModal);
     this.finishedTimerAnswer = true;
     if (this.generalService.disconnectedModal == '') {
       if (!this.sendAnswerDisable) {
@@ -292,7 +284,6 @@ export class TutorialComponent {
         await this.sendAnswer();
         this.sendAnswerDisable = true;
       } else {
-        console.log("elseeeeee");
       }
     } else {
       this.generalService.gameAnswerGeneral = '';
@@ -320,7 +311,6 @@ export class TutorialComponent {
   async handleCountdownRatingAnswerFinished() {
     const now = new Date();
     const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
-    console.log("finishedTimer" + ' ' + `[${timeString}]  `);
     this.finishedTimerRatingAnswer = true;
     if (this.generalService.disconnectedModal == '') {
       if (!this.sendRateAnswerDisable) {
@@ -328,7 +318,6 @@ export class TutorialComponent {
         await this.sendRateAnswer(false);
         this.sendRateAnswerDisable = true;
       } else {
-        console.log("elseeeeee");
       }
     } else {
       if (this.generalService.gameQuestion?.step == this.generalService.gameInit?.numberOfPlayers) {
@@ -366,7 +355,6 @@ export class TutorialComponent {
   async handleCountdownRatingQuestionsFinished() {
     const now = new Date();
     const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
-    console.log("finishedTimer" + ' ' + `[${timeString}]  `);
     this.finishedTimerRatingQuestions = true;
     if (!this.sendRateQuestionsDisable) {
       await this.sendRateQuestions();
@@ -551,7 +539,6 @@ export class TutorialComponent {
         setTimeout(() => {
           this.tutorialService.getTutorialGameQuestionBasedOnStep(this.generalService.createdGameData?._id, 1).then(async resQue => {
             this.generalService.gameQuestion = resQue?.data;
-            console.log(this.generalService.gameQuestion)
             if (resQue?.data?.myAnswer) {
               this.generalService.gameAnswerGeneral = resQue?.data?.myAnswer;
               this.updateWordCountAnswer();
@@ -563,6 +550,10 @@ export class TutorialComponent {
         this.handleGameStep()
       }
     })
+  }
+
+  disableCopyPaste(event: ClipboardEvent) {
+    event.preventDefault();
   }
 }
 
@@ -611,7 +602,6 @@ export class JoiningTutorialGame {
     }
     const dialogRef = this.dialog.open(ImportFromLibrary, dialogConfig);
     dialogRef.afterClosed().subscribe(async result => {
-      console.log(result)
       if (result) {
         if (result.data?.id) {
           this.questionId = result.data?.id;

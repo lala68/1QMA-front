@@ -37,8 +37,11 @@
             {{item?.message}}
           </mat-card-subtitle>
         </mat-card-header>
-        <mat-label [class]="{'date': !generalService.isMobileView, 'date-mobile': generalService.isMobileView}">
+        <mat-label *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'" [class]="{'date': !generalService.isMobileView, 'date-mobile': generalService.isMobileView}">
           {{item?.createdAt | date}}
+        </mat-label>
+        <mat-label *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" [class]="{'date': !generalService.isMobileView, 'date-mobile': generalService.isMobileView}">
+          {{item?.createdAt | shamsiDate}}
         </mat-label>
       </mat-card>
     </div>

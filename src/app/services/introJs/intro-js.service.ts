@@ -25,7 +25,7 @@ export class IntroJsService {
     introJs().exit(true); // Ensure no previous intro is running
     // const introStatus = await Preferences.get({key: 'intro_' + selector});
     const introStatus = this.generalService.clientInit?.user?.hasSeenIntros?.[selector];
-    console.log(introStatus)
+    // console.log(introStatus)
     if (!introStatus && this.displayIntro) {
       return new Promise<void>((resolve) => {
         setTimeout(() => {

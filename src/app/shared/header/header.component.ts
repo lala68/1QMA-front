@@ -293,7 +293,7 @@ export class ExitGame {
 
   constructor(
     public dialogRef: MatDialogRef<ExitGame>,
-    private generalService: GeneralService,
+    public generalService: GeneralService,
     private router: Router,
     private gameService: GamesService,
     private tutorialService: TutorialService

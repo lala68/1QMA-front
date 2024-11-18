@@ -7,7 +7,8 @@
       <img [src]="'https://api.staging.1qma.games/' + sponsor.icon" width="45" height="45"/>
     </button>
   </div>
-  <div class="parent-ul-li-footer">
+  <div class="parent-ul-li-footer"
+       [style]="generalService.userObj?.preferedLanguage?.code != 'fa' ? 'text-align: left' : 'text-align: right'">
     <ul class="pe-1 d-flex mb-0">
       <li class="p-2 ul-li-footer">
         <label>
@@ -59,6 +60,6 @@
     </ul>
   </div>
   <div class="copyright">
-    Copyright ©  2024 - 1QMA - All rights reserved
+    {{'Copyright' | translate}} © {{currentGregorianYear}} - 1QMA - {{'All rights reserved' | translate}}
   </div>
 </div>

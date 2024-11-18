@@ -9,11 +9,12 @@ import {GeneralService} from "../../services/general/general.service";
 import {ParsIntPipe} from "../../pipes/pars-int.pipe";
 import {ProcessHTTPMsgService} from "../../services/proccessHttpMsg/process-httpmsg.service";
 import {DaysAgoPipe} from "../../pipes/days-ago.pipe";
+import {ShamsiDatePipe} from "../../pipes/shamsi-date.pipe";
 
 @Component({
   selector: 'app-user-detail',
   standalone: true,
-  imports: [CommonModule, SharedModule, RouterModule, TranslateModule, ParsIntPipe, DaysAgoPipe],
+  imports: [CommonModule, SharedModule, RouterModule, TranslateModule, ParsIntPipe, DaysAgoPipe, ShamsiDatePipe],
   templateUrl: './user-detail.component.html',
   styleUrl: './user-detail.component.scss'
 })

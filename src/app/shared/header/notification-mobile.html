@@ -1,4 +1,5 @@
-<div class="font-size-14 weight-700 p-2 border-bottom">
+<div class="font-size-14 weight-700 p-2 border-bottom"
+     [style]="generalService.userObj?.preferedLanguage?.code == 'fa' ? 'direction: rtl': 'direction: ltr'">
   <svg (click)="closeModal()" width="24" height="24" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M13.4819 21.4023L21.9672 12.9171" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
           stroke-linejoin="round"/>
@@ -25,7 +26,8 @@
     <br>
     <mat-label> {{item?.message}}</mat-label>
     <br>
-    <mat-label class="text-gray">{{item?.createdAt | date}}</mat-label>
+    <mat-label class="text-gray" *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'">{{item?.createdAt | date}}</mat-label>
+    <mat-label class="text-gray" *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'">{{item?.createdAt | shamsiDate}}</mat-label>
   </div>
   <button mat-flat-button [routerLink]="['/notification']" (click)="closeModal()" color="primary" class="w-100">
     <span>{{'See All' | translate}}</span>

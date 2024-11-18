@@ -18,7 +18,12 @@
 
 @font-face {
   font-family: 'Anjoman';
-  src: url('./assets/fonts/Anjoman-Medium.ttf') format('truetype');
+  src: url('./assets/fonts/AnjomanFaNum-Black.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Anjoman-en';
+  src: url('./assets/fonts/Anjoman-Black.ttf') format('truetype');
 }
 
 @font-face {
@@ -38,6 +43,11 @@
 
 @font-face {
   font-family: 'Dana';
+  src: url('./assets/fonts/Dana-FaNum-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Dana-en';
   src: url('./assets/fonts/Dana-Regular.ttf') format('truetype');
 }
 
@@ -53,6 +63,11 @@
 
 @font-face {
   font-family: 'IRANSans';
+  src: url('./assets/fonts/Dana-FaNum-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'IRANSans-en';
   src: url('./assets/fonts/IRANSans_Medium.ttf') format('truetype');
 }
 
@@ -68,7 +83,7 @@
 
 @font-face {
   font-family: 'Pinar';
-  src: url('./assets/fonts/Pinar-DS1-Regular.ttf') format('truetype');
+  src: url('./assets/fonts/Pinar-DS4-FD-Regular.ttf') format('truetype');
 }
 
 @media (prefers-color-scheme: dark) {
@@ -89,6 +104,10 @@ body.anjoman-font {
   font-family: 'Anjoman', sans-serif; /* Fallback to sans-serif */
 }
 
+body.anjoman-font-en {
+  font-family: 'Anjoman-en', sans-serif; /* Fallback to sans-serif */
+}
+
 body.daal-font {
   font-family: 'Daal', sans-serif; /* Fallback to sans-serif */
 }
@@ -101,6 +120,10 @@ body.dana-font {
   font-family: 'Dana', sans-serif; /* Fallback to sans-serif */
 }
 
+body.dana-font-en {
+  font-family: 'Dana-en', sans-serif; /* Fallback to sans-serif */
+}
+
 body.farhang-font {
   font-family: 'Farhang', sans-serif; /* Fallback to sans-serif */
 }
@@ -111,6 +134,10 @@ body.irancell-font {
 
 body.IRANSans-font {
   font-family: 'IRANSans', sans-serif; /* Fallback to sans-serif */
+}
+
+body.IRANSans-font-en {
+  font-family: 'IRANSans-en', sans-serif; /* Fallback to sans-serif */
 }
 
 body.kohinoor-font {
@@ -143,7 +170,7 @@ mat-tab-group, .mat-mdc-tab, .mdc-list-item__primary-text, mat-list-option, mat-
 .mat-stepper-vertical, .mat-stepper-horizontal, .mat-mdc-form-field, .mat-mdc-select,
 .mdc-text-field--filled .mdc-floating-label, [role=button], .mat-mdc-menu-content,
 .mat-mdc-menu-content .mat-mdc-menu-item .mat-mdc-menu-item-text, .mdc-label, body *:not(#content-to-translate *):not(mat-icon),
-.mat-mdc-slide-toggle .mdc-switch:enabled+.mdc-label, label, mat-slide-toggle, .custom-font{
+.mat-mdc-slide-toggle .mdc-switch:enabled + .mdc-label, label, mat-slide-toggle, .custom-font {
   font-family: inherit !important; /* Ensure Material components inherit the font from body */
 }
 
@@ -297,9 +324,10 @@ input:not(.country-search) {
   background-color: #fff;
   //height: 135px;
   align-items: center;
-  padding: 15px;
+  padding: 15px 25px;
   font-size: 14px;
   font-weight: 500;
+  text-align: center;
 }
 
 .bottom-10 {
@@ -425,7 +453,7 @@ input:not(.country-search) {
 .sponsors {
   position: absolute;
   top: 40px;
-  inset-inline-start: 40%;
+  inset-inline-start: 47%;
 }
 
 .sponsor-button {
@@ -544,7 +572,7 @@ input[type="tel"] {
 
   .word-counter {
     margin-top: 5px;
-    text-align: right;
+    text-align: end;
     font-size: 12px;
     font-weight: 500;
     color: #828282;
@@ -943,7 +971,7 @@ input[type="tel"] {
 }
 
 .ul-li-footer {
-  width: 15%;
+  width: 16%;
 }
 
 .parent-ul-li-footer {
@@ -1034,6 +1062,10 @@ input[type="tel"] {
 .mat-badge-after .mat-badge-content {
   inset-inline-start: 35px !important;
   top: 10px;
+}
+
+app-countdown-timer {
+  direction: ltr !important;
 }
 
 .mobileviewFooterButtonstoolbarNav {
@@ -1144,7 +1176,7 @@ input[type="tel"] {
   }
 
   .ul-li-footer {
-    width: 50%;
+    width: 55%;
   }
 
   .parent-ul-li-footer {
@@ -1153,6 +1185,7 @@ input[type="tel"] {
     display: block;
     margin-top: 35px;
     margin-bottom: 30px;
+    text-align: start;
   }
 
   .wizard-card-subheader {
@@ -1304,6 +1337,18 @@ input[type="tel"] {
           max-width: 300px !important;
         }
       }
+    }
+  }
+
+  .responsive-tabs {
+    mat-tab-header {
+      direction: ltr;
+    }
+  }
+
+  .responsive-tabs-library {
+    mat-tab-header {
+      direction: ltr;
     }
   }
 

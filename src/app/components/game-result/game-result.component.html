@@ -40,7 +40,8 @@
             <br>
             <br>
             <mat-label class="font-size-14 weight-500" style="color: #585858">{{'Played On' | translate}}:</mat-label>
-            &nbsp;&nbsp;<mat-label class="font-size-14 weight-500">{{gameResult?.startedAt | date}}</mat-label>
+            &nbsp;&nbsp;<mat-label class="font-size-14 weight-500" *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'">{{gameResult?.startedAt | date}}</mat-label>
+            &nbsp;&nbsp;<mat-label class="font-size-14 weight-500" *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'">{{gameResult?.startedAt | shamsiDate}}</mat-label>
           </div>
           <div class="w-30">
             <div color="primary" class="gray-card category">
@@ -156,7 +157,8 @@
             <br>
             <br>
             <mat-label class="font-size-14 weight-500" style="color: #585858">{{'Played On' | translate}}:</mat-label>
-            &nbsp;&nbsp;<mat-label class="font-size-14 weight-500">{{gameResult?.startedAt | date}}</mat-label>
+            &nbsp;&nbsp;<mat-label class="font-size-14 weight-500" *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'">{{gameResult?.startedAt | date}}</mat-label>
+            &nbsp;&nbsp;<mat-label class="font-size-14 weight-500" *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'">{{gameResult?.startedAt | shamsiDate}}</mat-label>
           </div>
         </div>
         <br>
@@ -173,13 +175,13 @@
           <mat-grid-tile class="result-grid"
                          *ngFor="let col of gameResult?.result?.scoreboard; let i=index"
                          [colspan]="1">
-            <mat-label class="font-size-12 weight-700">A{{i + 1}}</mat-label>
+            <mat-label class="font-size-12 weight-700">{{'A' | translate}}{{i + 1}}</mat-label>
           </mat-grid-tile>
           <mat-grid-tile class="result-grid" [colspan]="1">
-            <mat-label class="font-size-12 weight-700">Q</mat-label>
+            <mat-label class="font-size-12 weight-700">{{'Q' | translate}}</mat-label>
           </mat-grid-tile>
           <mat-grid-tile class="result-grid" [colspan]="1">
-            <mat-label class="font-size-12 weight-700">Total</mat-label>
+            <mat-label class="font-size-12 weight-700">{{'Total' | translate}}</mat-label>
           </mat-grid-tile>
         </mat-grid-list>
         <!--generalService.gameResult?.result?.scoreboard-->
@@ -271,7 +273,7 @@
                       class="font-size-14 weight-600 pb-2">{{(question.question)}}
                     </mat-card-subtitle>
                     <mat-card-subtitle class="d-flex">
-                      <img src="assets/images/score.png" width="16"/>
+                      <img src="assets/images/score.png" width="16" height="16"/>
                       &nbsp; {{question?.rate | parsInt}} {{'Score' | translate}}
                     </mat-card-subtitle>
                   </mat-card-header>
@@ -300,7 +302,7 @@
                   <div [style]="!generalService.isMobileView ? 'min-height: 120px' : ''"
                              class="font-size-14 weight-400">{{(answer.answer)}}</div>
                   <br>
-                  <img src="assets/images/score.png" width="16"/>
+                  <img src="assets/images/score.png" width="16" height="16"/>
                   &nbsp; {{answer?.rate | parsInt}} {{'Score' | translate}}
                 </div>
               </div>

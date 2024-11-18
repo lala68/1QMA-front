@@ -81,7 +81,7 @@
   "List of user games:": "List of user games:",
   "Games by:": "Games by:",
   "Ongoing Games": "Ongoing Games",
-  "Created by...": "Created by...",
+  "Created by": "Created by",
   "Setting": "Setting",
   "Score": "Score",
   "Join with Code": "Join with Code",
@@ -369,5 +369,8 @@
   "A" : "A",
   "Q" : "Q",
   "Scr" : "Scr",
-  "Rnk" : "Rnk"
+  "Rnk" : "Rnk",
+  "ID": "ID",
+  "Copyright" : "Copyright",
+  "All rights reserved" : "All rights reserved"
 }

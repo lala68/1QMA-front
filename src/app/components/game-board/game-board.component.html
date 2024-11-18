@@ -256,7 +256,7 @@
         </div>
         <div style="height: 52px; margin: 0px auto 20px"
              class="card border-0 text-center weight-600 pt-3">
-          {{'Sponsored by' | translate}}: Company name
+          {{'Sponsored by' | translate}}: {{generalService.initData ? generalService.initData?.sponsors[0]?.name : generalService.clientInit?.sponsors[0]?.name}}
         </div>
       </mat-card-content>
     </mat-card>
@@ -793,7 +793,7 @@ generalService.gameStep == 3 ? sendRateAnswer(true) : sendRateQuestions(true)">
             </div>
             <div [class]="{'w-60': !generalService.isMobileView, 'w-100': generalService.isMobileView}">
               <mat-card class="position-relative d-inline-flex text-start shadow-none">
-                <mat-card-header>
+                <mat-card-header [style]="generalService.userObj?.preferedLanguage?.code == 'fa' ? 'text-align: right': 'text-align: left'">
                   <div class="position-relative" style="width: 100px">
                     <img src="assets/images/score.png"
                          width="28" height="28">&nbsp;
@@ -1145,7 +1145,7 @@ generalService.gameStep == 3 ? sendRateAnswer(true) : sendRateQuestions(true)">
                       stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
               <mat-label
-                class="font-size-14 weight-600">{{generalService.gameResult?.startedAt | timeDifference:generalService.gameResult?.endedAt }}</mat-label>
+                class="font-size-14 weight-600" style="direction: ltr">{{generalService.gameResult?.startedAt | timeDifference:generalService.gameResult?.endedAt }}</mat-label>
             </div>
           </div>
           <br>
@@ -1170,7 +1170,7 @@ generalService.gameStep == 3 ? sendRateAnswer(true) : sendRateQuestions(true)">
                       <mat-card-subtitle class="font-size-14 weight-600 pb-2">{{question?.question}}
                       </mat-card-subtitle>
                       <mat-card-subtitle>
-                        <img src="assets/images/score.png" width="16"/>
+                        <img src="assets/images/score.png" width="16" height="16"/>
                         &nbsp; {{question?.rate | parsInt}} {{'Score' | translate}}
                       </mat-card-subtitle>
                     </mat-card-header>
@@ -1204,7 +1204,7 @@ generalService.gameStep == 3 ? sendRateAnswer(true) : sendRateQuestions(true)">
                     <div [style]="!generalService.isMobileView ? 'min-height: 120px' : ''"
                          class="font-size-14 weight-400">{{answer?.answer}}</div>
                     <br>
-                    <img src="assets/images/score.png" width="16"/>
+                    <img src="assets/images/score.png" width="16" height="16"/>
                     &nbsp; {{answer?.rate | parsInt}} {{'Score' | translate}}
                   </div>
                 </div>

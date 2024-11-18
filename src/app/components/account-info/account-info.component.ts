@@ -315,7 +315,7 @@ export class ProfilePicture {
     this.loadingUpload = true;
     const imagePath = 'assets/images/' + this.imageName + '.png';
     this.clientService.uploadImage(imagePath).subscribe(async response => {
-      console.log(response)
+      // console.log(response)
       if (response.status == 1) {
         await Preferences.remove({key: 'account'});
         await Preferences.set({key: 'account', value: JSON.stringify(response.data)});
