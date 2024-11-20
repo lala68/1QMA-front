@@ -18,16 +18,16 @@ import {ShamsiDatePipe} from "../pipes/shamsi-date.pipe";
 
 @NgModule({
     declarations: [
-        SidenavComponent, HeaderComponent, FooterComponent, AddQuestion, ExitGame, AccountMobile,
-        NotificationMobile, GiftMobile, MoreMobile
+        SidenavComponent, HeaderComponent, FooterComponent, AddQuestion, ExitGame, AccountMobile, GiftMobile, MoreMobile
     ],
   imports: [
-    CommonModule, MaterialModule, RouterModule, TranslateModule, FormsModule, ReactiveFormsModule, ShamsiDatePipe
+    CommonModule, MaterialModule, RouterModule, TranslateModule, FormsModule, ReactiveFormsModule,
+
   ],
   exports: [
     MaterialModule, SidenavComponent, HeaderComponent, FooterComponent, RouterModule
   ],
-  providers: []
+  providers: [ShamsiDatePipe]
 })
 export class SharedModule {
 }

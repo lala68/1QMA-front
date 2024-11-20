@@ -9,12 +9,13 @@ import {GeneralService} from "../../services/general/general.service";
 import {ProcessHTTPMsgService} from "../../services/proccessHttpMsg/process-httpmsg.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {ClientService} from "../../services/client/client.service";
+import {ShamsiDatePipe} from "../../pipes/shamsi-date.pipe";
 
 @Component({
   selector: 'app-transactions',
   standalone: true,
   imports: [CommonModule, SharedModule, FormsModule, RouterModule, ReactiveFormsModule,
-    TranslateModule, DaysAgoPipe],
+    TranslateModule, DaysAgoPipe, ShamsiDatePipe],
   templateUrl: './transactions.component.html',
   styleUrl: './transactions.component.scss'
 })
