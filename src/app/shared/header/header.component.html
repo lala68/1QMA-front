@@ -1,27 +1,12 @@
 <mat-toolbar class="header">
-  <img
-    src="https://api.1qma.games/images/logo.png"
-    class="cursor-pointer"
-    width="100"
-    [routerLink]="'/dashboard'"
-  />
+  <img src="https://api.staging.1qma.games/images/logo.png" class="cursor-pointer" width="100"
+       [routerLink]="'/dashboard'">
   <span class="example-spacer"></span>
   <!--  <div *ngIf="!generalService?.startingGame">-->
-  <button
-    mat-icon-button
-    *ngIf="
-      generalService?.hasCompletedSignup &&
-      !generalService?.startingGame && !generalService?.startingGameTutorial
-    "
-    [routerLink]="'/settings'"
-  >
-    <svg
-      width="25"
-      height="25"
-      viewBox="0 0 25 25"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
+  <button mat-icon-button
+          *ngIf="generalService?.hasCompletedSignup && (!generalService?.startingGame && !generalService?.startingGameTutorial)"
+          [routerLink]="'/settings'">
+    <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
         d="M12.6221 15.2393C14.2789 15.2393 15.6221 13.8961 15.6221 12.2393C15.6221 10.5824 14.2789 9.23926 12.6221 9.23926C10.9652 9.23926 9.62207 10.5824 9.62207 12.2393C9.62207 13.8961 10.9652 15.2393 12.6221 15.2393Z"
         stroke="#292D32"
@@ -40,22 +25,10 @@
       />
     </svg>
   </button>
-  <button
-    mat-icon-button
-    [matMenuTriggerFor]="!generalService.isMobileView ? menuGift : null"
-    (click)="generalService.isMobileView && openGiftModal()"
-    *ngIf="
-      generalService?.hasCompletedSignup &&
-      !generalService?.startingGame && !generalService?.startingGameTutorial
-    "
-  >
-    <svg
-      width="25"
-      height="25"
-      viewBox="0 0 25 25"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
+  <button mat-icon-button [matMenuTriggerFor]="!generalService.isMobileView ? menuGift : null"
+          (click)="generalService.isMobileView && openGiftModal()"
+          *ngIf="generalService?.hasCompletedSignup && (!generalService?.startingGame && !generalService?.startingGameTutorial)">
+    <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
         d="M20.8711 10.2402H4.87109V18.2402C4.87109 21.2402 5.87109 22.2402 8.87109 22.2402H16.8711C19.8711 22.2402 20.8711 21.2402 20.8711 18.2402V10.2402Z"
         stroke="#292D32"
@@ -98,27 +71,12 @@
       />
     </svg>
   </button>
-  <button
-    mat-icon-button
-    *ngIf="
-      generalService?.hasCompletedSignup &&
-      !generalService?.startingGame && !generalService?.startingGameTutorial
-    "
-    [matMenuTriggerFor]="!generalService.isMobileView ? menuNotif : null"
-    [matBadge]="generalService.newNotif ? 1 : ''"
-    matBadgePosition="after"
-    (click)="
-      generalService.newNotif = false;
-      generalService.isMobileView && openNotifModal()
-    "
-  >
-    <svg
-      width="25"
-      height="25"
-      viewBox="0 0 25 25"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
+  <button mat-icon-button
+          *ngIf="generalService?.hasCompletedSignup && (!generalService?.startingGame && !generalService?.startingGameTutorial)"
+          [matMenuTriggerFor]="!generalService.isMobileView ? menuNotif : null"
+          [matBadge]="generalService.newNotif ? 1 : ''" matBadgePosition="after"
+          (click)="generalService.newNotif = false; generalService.isMobileView && openNotifModal()">
+    <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
         d="M12.0982 3.15039C8.78821 3.15039 6.09821 5.84039 6.09821 9.15039V12.0404C6.09821 12.6504 5.83821 13.5804 5.52821 14.1004L4.37821 16.0104C3.66821 17.1904 4.15821 18.5004 5.45821 18.9404C9.76821 20.3804 14.4182 20.3804 18.7282 18.9404C19.9382 18.5404 20.4682 17.1104 19.8082 16.0104L18.6582 14.1004C18.3582 13.5804 18.0982 12.6504 18.0982 12.0404V9.15039C18.0982 5.85039 15.3982 3.15039 12.0982 3.15039Z"
         stroke="#292D32"
@@ -143,26 +101,13 @@
     </svg>
   </button>
 
-  <div
-    style="height: 30px"
-    [style]="
-      generalService.isMobileView ? '' : 'border-inline-end: 1px solid #E8E2E0'
-    "
-    *ngIf="
-      !generalService?.startingGame &&
-      !generalService?.startingGameTutorial &&
-      generalService?.userId
-    "
-  ></div>
-  <button
-    mat-icon-button
-    *ngIf="
-      authService?.isLoggedIn &&
-      !generalService?.startingGame && !generalService?.startingGameTutorial
-    "
-    [matMenuTriggerFor]="!generalService.isMobileView ? menu : null"
-    (click)="generalService.isMobileView && openAccountModal()"
-  >
+  <div style="height: 30px;"
+       [style]="generalService.isMobileView ? '': 'border-inline-end: 1px solid #E8E2E0'"
+       *ngIf="(!generalService?.startingGame && !generalService?.startingGameTutorial) && generalService?.userId"></div>
+  <button mat-icon-button
+          *ngIf="authService?.isLoggedIn && (!generalService?.startingGame && !generalService?.startingGameTutorial)"
+          [matMenuTriggerFor]="!generalService.isMobileView ? menu : null"
+          (click)="generalService.isMobileView && openAccountModal()">
     <mat-icon>person</mat-icon>
   </button>
   <div
@@ -296,20 +241,13 @@
           stroke-miterlimit="10"
         />
       </svg>
-      <mat-label>&nbsp;{{ item?.title }}</mat-label>
-      <br />
-      <mat-label> {{ item?.message }}</mat-label>
-      <br />
-      <mat-label
-        class="text-gray"
-        *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'"
-        >{{ item?.createdAt | date }}</mat-label
-      >
-      <mat-label
-        class="text-gray"
-        *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'"
-        >{{ item?.createdAt | shamsiDate }}</mat-label
-      >
+      <mat-label>&nbsp;{{item?.title}}</mat-label>
+      <br>
+      <mat-label> {{item?.message}}</mat-label>
+      <br>
+      <mat-label class="text-gray"
+                 *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'">{{item?.createdAt | date}}</mat-label>
+      <mat-label class="text-gray" *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'"></mat-label>
     </div>
     <button
       mat-flat-button
@@ -344,49 +282,17 @@
     <!--      <br>-->
     <!--      <mat-label class="text-gray">5hrs ago</mat-label>-->
     <!--    </div>-->
-    <button
-      mat-flat-button
-      [routerLink]="['/gift-history']"
-      color="primary"
-      class="w-100"
-    >
-      <span>{{ "See All" | translate }}</span>
+    <button mat-flat-button [routerLink]="['/gift-history']" color="primary" class="w-100">
+      <span>{{'See All' | translate}}</span>
     </button>
   </mat-menu>
   <div class="desktopViewHeader">
-    <button
-      mat-stroked-button
-      color="primary"
-      class="me-2 radius"
-      style="border: 1px solid #0b6fea"
-      id="addQuestion"
-      *ngIf="
-        generalService?.hasCompletedSignup &&
-        !generalService?.startingGame && !generalService?.startingGameTutorial
-      "
-      (click)="openAddQuestion()"
-    >
-      <svg
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M6 12H18"
-          stroke="#0B6FEA"
-          stroke-width="1.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        />
-        <path
-          d="M12 18V6"
-          stroke="#0B6FEA"
-          stroke-width="1.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        />
+    <button mat-stroked-button color="primary" class="me-2 radius" style="border: 1px solid #0B6FEA" id="addQuestion"
+            *ngIf="generalService?.hasCompletedSignup && (!generalService?.startingGame && !generalService?.startingGameTutorial)"
+            (click)="openAddQuestion()">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6 12H18" stroke="#0B6FEA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M12 18V6" stroke="#0B6FEA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
 
       {{ "Add question" | translate }}
@@ -473,23 +379,10 @@
   <!--  </div>-->
   <!--   && generalService?.startingGame-->
   <div
-    *ngIf="
-      generalService?.hasCompletedSignup &&
-      (generalService?.startingGame || generalService?.startingGameTutorial)
-    "
-  >
-    <mat-chip
-      class="me-2 connected-chip"
-      style="background: white; border: 1px solid #e8e2e0"
-      *ngIf="!generalService.disconnectedModal"
-    >
-      <svg
-        width="25"
-        height="25"
-        viewBox="0 0 25 25"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
+    *ngIf="generalService?.hasCompletedSignup &&  (generalService?.startingGame || generalService?.startingGameTutorial)">
+    <mat-chip class="me-2 connected-chip" style="background: white; border: 1px solid #E8E2E0"
+              *ngIf="!generalService.disconnectedModal">
+      <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path
           d="M12.7246 22.5869C18.2246 22.5869 22.7246 18.0869 22.7246 12.5869C22.7246 7.08691 18.2246 2.58691 12.7246 2.58691C7.22461 2.58691 2.72461 7.08691 2.72461 12.5869C2.72461 18.0869 7.22461 22.5869 12.7246 22.5869Z"
           stroke="#43a047"

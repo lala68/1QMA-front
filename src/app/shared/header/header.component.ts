@@ -2,9 +2,9 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {GeneralService} from "../../services/general/general.service";
 import {AuthService} from "../../services/auth/auth.service";
 import {Preferences} from "@capacitor/preferences";
-import {Router} from "@angular/router";
+import {Router, RouterModule} from "@angular/router";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
-import {FormBuilder, FormControl, Validators} from "@angular/forms";
+import {FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {ClientService} from "../../services/client/client.service";
 import {GamesService} from "../../services/games/games.service";
 import {ShopService} from "../../services/shop.service";
@@ -14,7 +14,11 @@ import {IntroJsService} from "../../services/introJs/intro-js.service";
 import {ProcessHTTPMsgService} from "../../services/proccessHttpMsg/process-httpmsg.service";
 import {ConfigService} from "../../services/config/config.service";
 import {TutorialService} from "../../services/tutorial/tutorial.service";
-import {TranslateService} from '@ngx-translate/core';
+import {TranslateModule, TranslateService} from '@ngx-translate/core';
+import {CommonModule} from "@angular/common";
+import {SharedModule} from "../shared.module";
+import {MatMenuModule} from "@angular/material/menu";
+import {ShamsiDatePipe} from "../../pipes/shamsi-date.pipe";
 
 @Component({
   selector: 'app-header',
@@ -419,8 +423,9 @@ export class AccountMobile {
 @Component({
   selector: 'notification-mobile',
   templateUrl: 'notification-mobile.html',
-  // standalone: true,
-  // imports: [TranslateModule, CommonModule, SharedModule, MatMenuModule, FormsModule, RouterModule, ReactiveFormsModule,]
+  standalone: true,
+  imports: [TranslateModule, CommonModule, SharedModule, MatMenuModule, FormsModule,
+    RouterModule, ReactiveFormsModule, ShamsiDatePipe]
 })
 
 export class NotificationMobile {
