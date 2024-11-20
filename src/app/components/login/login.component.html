@@ -1,66 +1,119 @@
 <div class="w-100">
-  <br>
-  <br>
-  <br>
-  <div class="card p-4 pb-3 border-0 login-card" [style]="generalService.isMobileView ? 'margin-top: 20px' : ''">
+  <br />
+  <br />
+  <br />
+  <div
+    class="card p-4 pb-3 border-0 login-card"
+    [style]="generalService.isMobileView ? 'margin-top: 20px' : ''"
+  >
     <div class="text-center mb-5">
-      <img src="https://api.staging.1qma.games/images/logo.png" width="128" height="98">
-      <br>
-      <div style="font-size: 16px; font-weight: 700">{{'Login to your 1QMA account'}}</div>
+      <img
+        src="https://api.1qma.games/images/logo.png"
+        width="128"
+        height="98"
+      />
+      <br />
+      <div style="font-size: 16px; font-weight: 700">
+        {{ "Login to your 1QMA account" }}
+      </div>
     </div>
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" autocomplete="off">
-      <mat-form-field appearance="fill" class="custom-form-field w-100" [hideRequiredMarker]="true">
-        <mat-label>{{'Email'}}</mat-label>
-        <input matInput placeholder="{{'Enter your email'}}" type="email" name="username"
-               [formControlName]="'email'">
+      <mat-form-field
+        appearance="fill"
+        class="custom-form-field w-100"
+        [hideRequiredMarker]="true"
+      >
+        <mat-label>{{ "Email" }}</mat-label>
+        <input
+          matInput
+          placeholder="{{ 'Enter your email' }}"
+          type="email"
+          name="username"
+          [formControlName]="'email'"
+        />
       </mat-form-field>
-      <mat-form-field appearance="fill" class="custom-form-field w-100" [hideRequiredMarker]="true">
-        <mat-label>{{'Password'}}</mat-label>
+      <mat-form-field
+        appearance="fill"
+        class="custom-form-field w-100"
+        [hideRequiredMarker]="true"
+      >
+        <mat-label>{{ "Password" }}</mat-label>
         <div class="d-inline-flex w-100">
-          <input matInput placeholder="{{'Enter your password'}}" [type]="hide ? 'password' : 'text'"
-                 name="password"
-                 [formControlName]="'password'" required>
-          <i (click)="hide = !hide" [class]="hide? 'bi-eye-slash' : 'bi-eye'"></i>
+          <input
+            matInput
+            placeholder="{{ 'Enter your password' }}"
+            [type]="hide ? 'password' : 'text'"
+            name="password"
+            [formControlName]="'password'"
+            required
+          />
+          <i
+            (click)="hide = !hide"
+            [class]="hide ? 'bi-eye-slash' : 'bi-eye'"
+          ></i>
         </div>
       </mat-form-field>
-      <button mat-raised-button color="primary" type="submit" [disabled]="!loginForm.valid || loading"
-              class="w-100 p-4">
-        <span>{{'Login'}}</span>
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        [disabled]="!loginForm.valid || loading"
+        class="w-100 p-4"
+      >
+        <span>{{ "Login" }}</span>
       </button>
-      <br>
+      <br />
     </form>
-    <div class="text-end link text-decoration-none mt-3 mb-3"
-         [routerLink]="['/forget-password']">{{'Forgot Password'}}</div>
-    <div class="mediaAccounts radius">
-      <a [href]="config.url('/auth/google?reason=login')" class="social-button-div border-0"><img
-        src="assets/images/google.png"
-        style="margin-top: 6px"
-        width="23"/></a>
-      <a [href]="config.url('/auth/facebook?reason=login')" class="social-button-div border-0"><img
-        src="assets/images/facebook.png"
-        style="margin-top: 6px"
-        width="23"/></a>
-      <a [href]="config.url('/auth/apple?reason=login')" class="social-button-div border-0"><img
-        src="assets/images/apple.png"
-        style="margin-top: 6px"
-        width="23"/></a>
-      <a [href]="config.url('/auth/x?reason=login')" class="social-button-div border-0"><img
-        src="assets/images/x-media.png"
-        style="margin-top: 6px"
-        width="23"/></a>
+    <div
+      class="text-end link text-decoration-none mt-3 mb-3"
+      [routerLink]="['/forget-password']"
+    >
+      {{ "Forgot Password" }}
     </div>
-    <br>
-    <br>
-    <br>
+    <div class="mediaAccounts radius">
+      <a
+        [href]="config.url('/auth/google?reason=login')"
+        class="social-button-div border-0"
+        ><img src="assets/images/google.png" style="margin-top: 6px" width="23"
+      /></a>
+      <a
+        [href]="config.url('/auth/facebook?reason=login')"
+        class="social-button-div border-0"
+        ><img
+          src="assets/images/facebook.png"
+          style="margin-top: 6px"
+          width="23"
+      /></a>
+      <a
+        [href]="config.url('/auth/apple?reason=login')"
+        class="social-button-div border-0"
+        ><img src="assets/images/apple.png" style="margin-top: 6px" width="23"
+      /></a>
+      <a
+        [href]="config.url('/auth/x?reason=login')"
+        class="social-button-div border-0"
+        ><img
+          src="assets/images/x-media.png"
+          style="margin-top: 6px"
+          width="23"
+      /></a>
+    </div>
+    <br />
+    <br />
+    <br />
     <div class="text-center" [routerLink]="['/signup']">
-      <div class="d-inline-flex font-size-14 weight-600">{{'Don\'t have an account?'}}
-        <div class="link text-decoration-none font-size-14 weight-600 cursor-pointer">
-          &nbsp; {{'Sign Up'}}</div>
+      <div class="d-inline-flex font-size-14 weight-600">
+        {{ "Don't have an account?" }}
+        <div
+          class="link text-decoration-none font-size-14 weight-600 cursor-pointer"
+        >
+          &nbsp; {{ "Sign Up" }}
+        </div>
       </div>
     </div>
   </div>
   <div class="card border-0 text-center weight-600 pt-3 sponsor-card">
-    Sponsored by: {{generalService.initData?.sponsors[0]?.name}}
+    Sponsored by: {{ generalService.initData?.sponsors[0]?.name }}
   </div>
 </div>
 <app-footer></app-footer>

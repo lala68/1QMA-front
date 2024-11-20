@@ -1,707 +1,1425 @@
-<br>
-<div style="display: ruby-text;">
+<br />
+<div style="display: ruby-text">
   <mat-spinner *ngIf="loading" [diameter]="30"></mat-spinner>
 </div>
 <div *ngIf="!loading && questionStep == 1">
-  <mat-tab-group mat-stretch-tabs="true" mat-align-tabs="start" class="tab-group-trivia"
-                 [(selectedIndex)]="generalService.selectedTabIndexParentInTrivia" (selectedTabChange)="questionOrGame()">
-    <mat-tab label="{{'Questions' | translate}}">
+  <mat-tab-group
+    mat-stretch-tabs="true"
+    mat-align-tabs="start"
+    class="tab-group-trivia"
+    [(selectedIndex)]="generalService.selectedTabIndexParentInTrivia"
+    (selectedTabChange)="questionOrGame()"
+  >
+    <mat-tab label="{{ 'Questions' | translate }}">
       <div class="card border-0">
         <div class="w-100 d-flex">
           <mat-card class="shadow-none p-2" style="width: 100%">
             <mat-card-header>
               <div>
-                <mat-tab-group mat-stretch-tabs="true" mat-align-tabs="start" class="responsive-tabs-library"
-                               [(selectedIndex)]="generalService.selectedTabIndexQuestionChildInTrivia" (selectedTabChange)="changeQuestions()">
-                  <mat-tab label="{{'All Questions' | translate}}">
-                  </mat-tab>
-                  <mat-tab label="{{'My Questions' | translate}}">
-                  </mat-tab>
-                  <mat-tab label="{{'Bookmarked' | translate}}">
-                  </mat-tab>
+                <mat-tab-group
+                  mat-stretch-tabs="true"
+                  mat-align-tabs="start"
+                  class="responsive-tabs-library"
+                  [(selectedIndex)]="
+                    generalService.selectedTabIndexQuestionChildInTrivia
+                  "
+                  (selectedTabChange)="changeQuestions()"
+                >
+                  <mat-tab label="{{ 'All Questions' | translate }}"> </mat-tab>
+                  <mat-tab label="{{ 'My Questions' | translate }}"> </mat-tab>
+                  <mat-tab label="{{ 'Bookmarked' | translate }}"> </mat-tab>
                 </mat-tab-group>
               </div>
             </mat-card-header>
-            <br>
+            <br />
             <!--  private-->
             <div class="d-flex overflow-scroll">
-<!--              <div class="m-2 d-inline-flex shadow-none cursor-pointer p-2"-->
-<!--                   (click)="selectCat('')"-->
-<!--                   [class]="{'mat-card-pref-selected': isSelected(''), 'mat-card-pref': !isSelected('')}">-->
-<!--                <div class="text-center w-100" style="padding-top: 8px">-->
-<!--                  <mat-label class="font-size-14 weight-600">{{ 'all categories' }}</mat-label>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--              <div *ngFor="let cat of generalService?.clientInit?.categories"-->
-<!--                   class="m-2 d-inline-flex shadow-none cursor-pointer p-2"-->
-<!--                   (click)="selectCat(cat)"-->
-<!--                   [class]="{'mat-card-pref-selected': isSelected(cat), 'mat-card-pref': !isSelected(cat)}">-->
-<!--                <div class="text-start">-->
-<!--                  <img [src]="'https://api.staging.1qma.games/' + cat?.icon" width="35">-->
-<!--                  <mat-label>{{ cat?.name }}</mat-label>-->
-<!--                </div>-->
-<!--              </div>-->
+              <!--              <div class="m-2 d-inline-flex shadow-none cursor-pointer p-2"-->
+              <!--                   (click)="selectCat('')"-->
+              <!--                   [class]="{'mat-card-pref-selected': isSelected(''), 'mat-card-pref': !isSelected('')}">-->
+              <!--                <div class="text-center w-100" style="padding-top: 8px">-->
+              <!--                  <mat-label class="font-size-14 weight-600">{{ 'all categories' }}</mat-label>-->
+              <!--                </div>-->
+              <!--              </div>-->
+              <!--              <div *ngFor="let cat of generalService?.clientInit?.categories"-->
+              <!--                   class="m-2 d-inline-flex shadow-none cursor-pointer p-2"-->
+              <!--                   (click)="selectCat(cat)"-->
+              <!--                   [class]="{'mat-card-pref-selected': isSelected(cat), 'mat-card-pref': !isSelected(cat)}">-->
+              <!--                <div class="text-start">-->
+              <!--                  <img [src]="'https://api.1qma.games/' + cat?.icon" width="35">-->
+              <!--                  <mat-label>{{ cat?.name }}</mat-label>-->
+              <!--                </div>-->
+              <!--              </div>-->
               <div class="ms-4 w-100 d-inline-flex align-items-center">
-                <mat-label style="margin-bottom: 20px">{{ 'Category' | translate }}:&nbsp;</mat-label>
-                <mat-form-field appearance="fill" class="custom-form-field"
-                                [class]="{'w-25': !generalService.isMobileView, 'w-100': generalService.isMobileView}">
+                <mat-label style="margin-bottom: 20px"
+                  >{{ "Category" | translate }}:&nbsp;</mat-label
+                >
+                <mat-form-field
+                  appearance="fill"
+                  class="custom-form-field"
+                  [class]="{
+                    'w-25': !generalService.isMobileView,
+                    'w-100': generalService.isMobileView
+                  }"
+                >
                   <!--          <mat-label>{{ 'Category' | translate }}</mat-label>-->
-                  <mat-select [(value)]="selectedCategory" (selectionChange)="selectCat($event.value)">
+                  <mat-select
+                    [(value)]="selectedCategory"
+                    (selectionChange)="selectCat($event.value)"
+                  >
                     <mat-option [value]="''">
-                      {{ 'all categories' | translate }}
+                      {{ "all categories" | translate }}
                     </mat-option>
-                    <mat-option *ngFor="let cat of generalService.clientInit?.categories" [value]="cat._id">
-                      <img [src]="'https://api.staging.1qma.games/' + cat?.icon" width="20" height="20">
+                    <mat-option
+                      *ngFor="let cat of generalService.clientInit?.categories"
+                      [value]="cat._id"
+                    >
+                      <img
+                        [src]="'https://api.1qma.games/' + cat?.icon"
+                        width="20"
+                        height="20"
+                      />
                       {{ cat?.name }}
                     </mat-option>
                   </mat-select>
                 </mat-form-field>
               </div>
             </div>
-            <mat-card-content *ngIf="generalService.selectedTabIndexQuestionChildInTrivia == 0" class="ps-0">
-              <div style="display: block;">
-                <mat-spinner *ngIf="loadingContent" [diameter]="30"></mat-spinner>
+            <mat-card-content
+              *ngIf="generalService.selectedTabIndexQuestionChildInTrivia == 0"
+              class="ps-0"
+            >
+              <div style="display: block">
+                <mat-spinner
+                  *ngIf="loadingContent"
+                  [diameter]="30"
+                ></mat-spinner>
               </div>
               <div class="position-relative">
-                <div class="border-0 pt-3 ps-4 font-size-14 weight-600" *ngIf="library?.total">
-                  {{library?.total}} {{'Questions' | translate}}
+                <div
+                  class="border-0 pt-3 ps-4 font-size-14 weight-600"
+                  *ngIf="library?.total"
+                >
+                  {{ library?.total }} {{ "Questions" | translate }}
                 </div>
-                <button [matMenuTriggerFor]="menuSortQuestion" *ngIf="library?.total"
-                        class="font-size-14 weight-600 position-absolute end-10 top-0 border-0 bg-transparent d-flex align-items-center"
-                        style="width: fit-content">
-                  {{selectedSortOption == 'highest' ? ('highest rate' | translate) : selectedSortOption == 'lowest' ? ('lowest rate' | translate) : selectedSortOption | translate }}
-                  <i class="bi bi-chevron-down color-black" style="padding: 10px"></i>
+                <button
+                  [matMenuTriggerFor]="menuSortQuestion"
+                  *ngIf="library?.total"
+                  class="font-size-14 weight-600 position-absolute end-10 top-0 border-0 bg-transparent d-flex align-items-center"
+                  style="width: fit-content"
+                >
+                  {{
+                    selectedSortOption == "highest"
+                      ? ("highest rate" | translate)
+                      : selectedSortOption == "lowest"
+                      ? ("lowest rate" | translate)
+                      : (selectedSortOption | translate)
+                  }}
+                  <i
+                    class="bi bi-chevron-down color-black"
+                    style="padding: 10px"
+                  ></i>
                 </button>
                 <mat-menu #menuSortQuestion="matMenu">
-                  <div mat-menu-item class="p-2 border-bottom" (click)="onSelect('oldest')">
-                    <mat-label>{{'oldest' | translate}}</mat-label>
+                  <div
+                    mat-menu-item
+                    class="p-2 border-bottom"
+                    (click)="onSelect('oldest')"
+                  >
+                    <mat-label>{{ "oldest" | translate }}</mat-label>
                   </div>
-                  <div mat-menu-item class="p-2 border-bottom" (click)="onSelect('newest')">
-                    <mat-label>{{'newest' | translate}}</mat-label>
+                  <div
+                    mat-menu-item
+                    class="p-2 border-bottom"
+                    (click)="onSelect('newest')"
+                  >
+                    <mat-label>{{ "newest" | translate }}</mat-label>
                   </div>
-                  <div mat-menu-item class="p-2 border-bottom" (click)="onSelect('highest')">
-                    <mat-label>{{'highest rate' | translate}}</mat-label>
+                  <div
+                    mat-menu-item
+                    class="p-2 border-bottom"
+                    (click)="onSelect('highest')"
+                  >
+                    <mat-label>{{ "highest rate" | translate }}</mat-label>
                   </div>
                   <div mat-menu-item class="p-2" (click)="onSelect('lowest')">
-                    <mat-label>{{'lowest rate' | translate}}</mat-label>
+                    <mat-label>{{ "lowest rate" | translate }}</mat-label>
                   </div>
                 </mat-menu>
               </div>
-              <br>
+              <br />
 
-              <div *ngFor="let item of libraryQuestions" class="gray-card m-2 d-inline-block"
-                   [class]="{'p-4': !generalService.isMobileView, 'p-1': generalService.isMobileView}"
-                   [style]="generalService.isMobileView ? 'width : 100%' : 'width : 48%'">
+              <div
+                *ngFor="let item of libraryQuestions"
+                class="gray-card m-2 d-inline-block"
+                [class]="{
+                  'p-4': !generalService.isMobileView,
+                  'p-1': generalService.isMobileView
+                }"
+                [style]="
+                  generalService.isMobileView ? 'width : 100%' : 'width : 48%'
+                "
+              >
                 <div class="d-flex white-card position-relative m-2">
-                  <img class="avatar-bordered"
-                       [src]="item?.user?.profilePicture ? item?.user?.profilePicture?.startsWith('http') ? item?.user?.profilePicture : configService.url(item?.user?.profilePicture) : 'assets/images/frame.png'"
-                       (error)="handleImageError($event)"
-                       width="42" height="42">
-                  <mat-label class="font-size-13 weight-500"
-                             style="margin: auto 10px">{{item?.user?.firstName}} {{item?.user?.lastName}}</mat-label>
-                  <mat-label class="font-size-12 weight-500 position-absolute"
-                             style="inset-inline-end: 10px; margin: 10px auto">
-                    {{item?.createdAt | daysAgo}}
+                  <img
+                    class="avatar-bordered"
+                    [src]="
+                      item?.user?.profilePicture
+                        ? item?.user?.profilePicture?.startsWith('http')
+                          ? item?.user?.profilePicture
+                          : configService.url(item?.user?.profilePicture)
+                        : 'assets/images/frame.png'
+                    "
+                    (error)="handleImageError($event)"
+                    width="42"
+                    height="42"
+                  />
+                  <mat-label
+                    class="font-size-13 weight-500"
+                    style="margin: auto 10px"
+                    >{{ item?.user?.firstName }}
+                    {{ item?.user?.lastName }}</mat-label
+                  >
+                  <mat-label
+                    class="font-size-12 weight-500 position-absolute"
+                    style="inset-inline-end: 10px; margin: 10px auto"
+                  >
+                    {{ item?.createdAt | daysAgo }}
                   </mat-label>
                 </div>
-                <br>
-                <div class="font-size-14 weight-700" style="min-height: 80px; max-height: 80px">
-                  {{item?.question}}
+                <br />
+                <div
+                  class="font-size-14 weight-700"
+                  style="min-height: 80px; max-height: 80px"
+                >
+                  {{ item?.question }}
                 </div>
-                <br>
+                <br />
                 <div style="min-height: 50px; max-height: 50px">
-                  <div *ngIf="item?.score" class="d-inline-flex justify-content-between align-items-center m-1">
-                    <div class="white-card p-1 d-flex align-items-center" style="width: fit-content">
-                      <img src="assets/images/score.png"
-                           width="16" height="16">
-                      <mat-label class="font-size-12 weight-600"
-                                 style="margin: auto 5px">{{item?.score ? item?.score : 0 | parsInt}}
-                        <mat-label class="font-size-12 weight-600 text-gray">{{'Score' | translate}}</mat-label>
+                  <div
+                    *ngIf="item?.score"
+                    class="d-inline-flex justify-content-between align-items-center m-1"
+                  >
+                    <div
+                      class="white-card p-1 d-flex align-items-center"
+                      style="width: fit-content"
+                    >
+                      <img
+                        src="assets/images/score.png"
+                        width="16"
+                        height="16"
+                      />
+                      <mat-label
+                        class="font-size-12 weight-600"
+                        style="margin: auto 5px"
+                        >{{ item?.score ? item?.score : (0 | parsInt) }}
+                        <mat-label class="font-size-12 weight-600 text-gray">{{
+                          "Score" | translate
+                        }}</mat-label>
                       </mat-label>
                     </div>
                   </div>
-                  <div class="d-inline-flex justify-content-between align-items-center m-1">
-                    <div class="white-card p-1 d-flex align-items-center" style="width: fit-content">
-                      <img src="assets/images/plays.png"
-                           width="16">
-                      <mat-label class="font-size-12 weight-600"
-                                 style="margin: auto 5px">{{item?.plays ? item?.plays : 0 | parsInt}}
-                        <mat-label class="font-size-12 weight-600 text-gray">{{'Plays' | translate}}</mat-label>
+                  <div
+                    class="d-inline-flex justify-content-between align-items-center m-1"
+                  >
+                    <div
+                      class="white-card p-1 d-flex align-items-center"
+                      style="width: fit-content"
+                    >
+                      <img src="assets/images/plays.png" width="16" />
+                      <mat-label
+                        class="font-size-12 weight-600"
+                        style="margin: auto 5px"
+                        >{{ item?.plays ? item?.plays : (0 | parsInt) }}
+                        <mat-label class="font-size-12 weight-600 text-gray">{{
+                          "Plays" | translate
+                        }}</mat-label>
                       </mat-label>
                     </div>
                   </div>
-                  <div class="d-inline-flex justify-content-between align-items-center m-1">
-                    <div class="white-card p-1 d-flex align-items-center" style="width: fit-content">
-                      <img src="assets/images/answer-questions.png"
-                           width="16">
-                      <mat-label class="font-size-12 weight-600"
-                                 style="margin: auto 5px">{{item?.answers ? item?.answers : 0 | parsInt}}
-                        <mat-label class="font-size-12 weight-600 text-gray">{{'Answers' | translate}}</mat-label>
+                  <div
+                    class="d-inline-flex justify-content-between align-items-center m-1"
+                  >
+                    <div
+                      class="white-card p-1 d-flex align-items-center"
+                      style="width: fit-content"
+                    >
+                      <img
+                        src="assets/images/answer-questions.png"
+                        width="16"
+                      />
+                      <mat-label
+                        class="font-size-12 weight-600"
+                        style="margin: auto 5px"
+                        >{{ item?.answers ? item?.answers : (0 | parsInt) }}
+                        <mat-label class="font-size-12 weight-600 text-gray">{{
+                          "Answers" | translate
+                        }}</mat-label>
                       </mat-label>
                     </div>
                   </div>
-                  <div class="d-inline-flex justify-content-between align-items-center m-1">
-                    <div class="white-card p-1 d-flex align-items-center" style="width: fit-content">
+                  <div
+                    class="d-inline-flex justify-content-between align-items-center m-1"
+                  >
+                    <div
+                      class="white-card p-1 d-flex align-items-center"
+                      style="width: fit-content"
+                    >
                       <img
                         [src]="configService.url(item?.category?.icon)"
-                        width="16">
-                      <mat-label class="font-size-12 weight-600"
-                                 style="margin: auto 5px">{{item?.category?.name}}</mat-label>
+                        width="16"
+                      />
+                      <mat-label
+                        class="font-size-12 weight-600"
+                        style="margin: auto 5px"
+                        >{{ item?.category?.name }}</mat-label
+                      >
                     </div>
                   </div>
                 </div>
 
-                <br>
-                <mat-card-actions class="position-relative d-flex align-items-center pb-0 pt-3">
-                  <button *ngIf="!generalService.isMobileView" mat-raised-button (click)="gotoAnswer(item)"
-                          class="answer-button position-absolute end-10 bottom-0">{{'Answer' | translate}}
+                <br />
+                <mat-card-actions
+                  class="position-relative d-flex align-items-center pb-0 pt-3"
+                >
+                  <button
+                    *ngIf="!generalService.isMobileView"
+                    mat-raised-button
+                    (click)="gotoAnswer(item)"
+                    class="answer-button position-absolute end-10 bottom-0"
+                  >
+                    {{ "Answer" | translate }}
                   </button>
-                  <div class="position-absolute bottom-0" style="display: contents">
-                    <svg *ngIf="item?.liked" (click)="addLike(item)" width="17" height="17" viewBox="0 0 25 25"
-                         fill="#0B6FEA"
-                         xmlns="http://www.w3.org/2000/svg">
+                  <div
+                    class="position-absolute bottom-0"
+                    style="display: contents"
+                  >
+                    <svg
+                      *ngIf="item?.liked"
+                      (click)="addLike(item)"
+                      width="17"
+                      height="17"
+                      viewBox="0 0 25 25"
+                      fill="#0B6FEA"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
                       <path
                         d="M8.10205 18.5106L11.2021 20.9106C11.6021 21.3106 12.5021 21.5106 13.1021 21.5106H16.9021C18.1021 21.5106 19.4021 20.6106 19.7021 19.4106L22.1021 12.1106C22.6021 10.7106 21.7021 9.51061 20.2021 9.51061H16.2021C15.6021 9.51061 15.1021 9.01061 15.2021 8.31061L15.7021 5.11061C15.9021 4.21061 15.3021 3.21061 14.4021 2.91061C13.6021 2.61061 12.6021 3.01061 12.2021 3.61061L8.10205 9.71061"
-                        stroke="#0B6FEA" stroke-width="1.5" stroke-miterlimit="10"/>
+                        stroke="#0B6FEA"
+                        stroke-width="1.5"
+                        stroke-miterlimit="10"
+                      />
                       <path
                         d="M3.00195 18.5105V8.71055C3.00195 7.31055 3.60195 6.81055 5.00195 6.81055H6.00195C7.40195 6.81055 8.00195 7.31055 8.00195 8.71055V18.5105C8.00195 19.9105 7.40195 20.4105 6.00195 20.4105H5.00195C3.60195 20.4105 3.00195 19.9105 3.00195 18.5105Z"
-                        stroke="#0B6FEA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        stroke="#0B6FEA"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
                     </svg>
-                    <svg *ngIf="!item?.liked" (click)="addLike(item)" width="17" height="17" viewBox="0 0 25 25"
-                         fill="none"
-                         xmlns="http://www.w3.org/2000/svg">
+                    <svg
+                      *ngIf="!item?.liked"
+                      (click)="addLike(item)"
+                      width="17"
+                      height="17"
+                      viewBox="0 0 25 25"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
                       <path
                         d="M8.10205 18.5106L11.2021 20.9106C11.6021 21.3106 12.5021 21.5106 13.1021 21.5106H16.9021C18.1021 21.5106 19.4021 20.6106 19.7021 19.4106L22.1021 12.1106C22.6021 10.7106 21.7021 9.51061 20.2021 9.51061H16.2021C15.6021 9.51061 15.1021 9.01061 15.2021 8.31061L15.7021 5.11061C15.9021 4.21061 15.3021 3.21061 14.4021 2.91061C13.6021 2.61061 12.6021 3.01061 12.2021 3.61061L8.10205 9.71061"
-                        stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10"/>
+                        stroke="#292D32"
+                        stroke-width="1.5"
+                        stroke-miterlimit="10"
+                      />
                       <path
                         d="M3.00195 18.5105V8.71055C3.00195 7.31055 3.60195 6.81055 5.00195 6.81055H6.00195C7.40195 6.81055 8.00195 7.31055 8.00195 8.71055V18.5105C8.00195 19.9105 7.40195 20.4105 6.00195 20.4105H5.00195C3.60195 20.4105 3.00195 19.9105 3.00195 18.5105Z"
-                        stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        stroke="#292D32"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
                     </svg>
-                    <mat-label [class]="{'link-text': item?.liked}">{{item?.likes}}</mat-label>
+                    <mat-label [class]="{ 'link-text': item?.liked }">{{
+                      item?.likes
+                    }}</mat-label>
                     &nbsp;&nbsp;&nbsp;
-                    <svg (click)="disLike(item)" *ngIf="item?.disliked" width="17" height="17" viewBox="0 0 25 25"
-                         fill="#0B6FEA"
-                         xmlns="http://www.w3.org/2000/svg">
+                    <svg
+                      (click)="disLike(item)"
+                      *ngIf="item?.disliked"
+                      width="17"
+                      height="17"
+                      viewBox="0 0 25 25"
+                      fill="#0B6FEA"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
                       <path
                         d="M17.4211 5.81055L14.3211 3.41055C13.9211 3.01055 13.0211 2.81055 12.4211 2.81055H8.6211C7.4211 2.81055 6.1211 3.71055 5.8211 4.91055L3.4211 12.2105C2.9211 13.6105 3.8211 14.8105 5.3211 14.8105H9.3211C9.9211 14.8105 10.4211 15.3105 10.3211 16.0105L9.8211 19.2105C9.6211 20.1105 10.2211 21.1105 11.1211 21.4105C11.9211 21.7105 12.9211 21.3105 13.3211 20.7105L17.4211 14.6105"
-                        stroke="#0B6FEA" stroke-width="1.5" stroke-miterlimit="10"/>
+                        stroke="#0B6FEA"
+                        stroke-width="1.5"
+                        stroke-miterlimit="10"
+                      />
                       <path
                         d="M22.521 5.81016V15.6102C22.521 17.0102 21.921 17.5102 20.521 17.5102H19.521C18.121 17.5102 17.521 17.0102 17.521 15.6102V5.81016C17.521 4.41016 18.121 3.91016 19.521 3.91016H20.521C21.921 3.91016 22.521 4.41016 22.521 5.81016Z"
-                        stroke="#0B6FEA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        stroke="#0B6FEA"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
                     </svg>
-                    <svg (click)="disLike(item)" *ngIf="!item?.disliked" width="17" height="17" viewBox="0 0 25 25"
-                         fill="none"
-                         xmlns="http://www.w3.org/2000/svg">
+                    <svg
+                      (click)="disLike(item)"
+                      *ngIf="!item?.disliked"
+                      width="17"
+                      height="17"
+                      viewBox="0 0 25 25"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
                       <path
                         d="M17.4211 5.81055L14.3211 3.41055C13.9211 3.01055 13.0211 2.81055 12.4211 2.81055H8.6211C7.4211 2.81055 6.1211 3.71055 5.8211 4.91055L3.4211 12.2105C2.9211 13.6105 3.8211 14.8105 5.3211 14.8105H9.3211C9.9211 14.8105 10.4211 15.3105 10.3211 16.0105L9.8211 19.2105C9.6211 20.1105 10.2211 21.1105 11.1211 21.4105C11.9211 21.7105 12.9211 21.3105 13.3211 20.7105L17.4211 14.6105"
-                        stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10"/>
+                        stroke="#292D32"
+                        stroke-width="1.5"
+                        stroke-miterlimit="10"
+                      />
                       <path
                         d="M22.521 5.81016V15.6102C22.521 17.0102 21.921 17.5102 20.521 17.5102H19.521C18.121 17.5102 17.521 17.0102 17.521 15.6102V5.81016C17.521 4.41016 18.121 3.91016 19.521 3.91016H20.521C21.921 3.91016 22.521 4.41016 22.521 5.81016Z"
-                        stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        stroke="#292D32"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
                     </svg>
-                    <mat-label [class]="{'link-text': item?.disliked}">{{item?.dislikes}}</mat-label>
+                    <mat-label [class]="{ 'link-text': item?.disliked }">{{
+                      item?.dislikes
+                    }}</mat-label>
                     &nbsp;&nbsp;&nbsp;
                     <div class="d-inline-flex">
                       <!--                      <star-rating [starType]="'svg'" [rating]="item?.avgRate" [readOnly]="true"></star-rating>-->
                       <ng-template #t let-fill="fill">
                         <i class="bi-star-fill">
                           @if (fill > 0) {
-                          <i class="bi-star-fill filled" [style.width.%]="fill"></i>
+                          <i
+                            class="bi-star-fill filled"
+                            [style.width.%]="fill"
+                          ></i>
                           }
                         </i>
                       </ng-template>
 
-                      <ngb-rating [(rate)]="item.avgRate" [starTemplate]="t" [readonly]="true" [max]="5"/>
+                      <ngb-rating
+                        [(rate)]="item.avgRate"
+                        [starTemplate]="t"
+                        [readonly]="true"
+                        [max]="5"
+                      />
                     </div>
                     <div class="d-inline-flex text-gray">
-                      <mat-label *ngIf="item?.avgRate">{{item?.avgRate | number}}</mat-label>
-                      <mat-label *ngIf="item?.answers">({{item?.answers}})</mat-label>
+                      <mat-label *ngIf="item?.avgRate">{{
+                        item?.avgRate | number
+                      }}</mat-label>
+                      <mat-label *ngIf="item?.answers"
+                        >({{ item?.answers }})</mat-label
+                      >
                     </div>
                     &nbsp;&nbsp;&nbsp;
-                    <svg (click)="addBookmark(item)" *ngIf="!item?.bookmarked" width="25" height="25"
-                         viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M14.8477 11.4648H9.84766" stroke="#828282" stroke-width="1.2" stroke-miterlimit="10"
-                            stroke-linecap="round" stroke-linejoin="round"/>
-                      <path d="M12.3477 9.0249V14.0249" stroke="#828282" stroke-width="1.2" stroke-miterlimit="10"
-                            stroke-linecap="round" stroke-linejoin="round"/>
+                    <svg
+                      (click)="addBookmark(item)"
+                      *ngIf="!item?.bookmarked"
+                      width="25"
+                      height="25"
+                      viewBox="0 0 25 25"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M14.8477 11.4648H9.84766"
+                        stroke="#828282"
+                        stroke-width="1.2"
+                        stroke-miterlimit="10"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M12.3477 9.0249V14.0249"
+                        stroke="#828282"
+                        stroke-width="1.2"
+                        stroke-miterlimit="10"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
                       <path
                         d="M17.168 2.81494H7.52797C5.39797 2.81494 3.66797 4.55494 3.66797 6.67494V20.7649C3.66797 22.5649 4.95797 23.3249 6.53797 22.4549L11.418 19.7449C11.938 19.4549 12.778 19.4549 13.288 19.7449L18.168 22.4549C19.748 23.3349 21.038 22.5749 21.038 20.7649V6.67494C21.028 4.55494 19.298 2.81494 17.168 2.81494Z"
-                        stroke="#828282" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                        stroke="#828282"
+                        stroke-width="1.2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
                     </svg>
 
-                    <svg (click)="removeBookmark(item)" *ngIf="item?.bookmarked" width="25" height="25"
-                         viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg
+                      (click)="removeBookmark(item)"
+                      *ngIf="item?.bookmarked"
+                      width="25"
+                      height="25"
+                      viewBox="0 0 25 25"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
                       <path
                         d="M17.2188 2.81494H7.57875C5.44875 2.81494 3.71875 4.55494 3.71875 6.67494V20.7649C3.71875 22.5649 5.00875 23.3249 6.58875 22.4549L11.4688 19.7449C11.9888 19.4549 12.8287 19.4549 13.3387 19.7449L18.2188 22.4549C19.7987 23.3349 21.0888 22.5749 21.0888 20.7649V6.67494C21.0788 4.55494 19.3488 2.81494 17.2188 2.81494ZM14.8988 12.2149H9.89875C9.48875 12.2149 9.14875 11.8749 9.14875 11.4649C9.14875 11.0549 9.48875 10.7149 9.89875 10.7149H14.8988C15.3088 10.7149 15.6488 11.0549 15.6488 11.4649C15.6488 11.8749 15.3088 12.2149 14.8988 12.2149Z"
-                        fill="#2C2523"/>
+                        fill="#2C2523"
+                      />
                     </svg>
                   </div>
                 </mat-card-actions>
                 <mat-card-actions *ngIf="generalService.isMobileView">
-                  <button mat-raised-button (click)="gotoAnswer(item)"
-                          class="answer-button w-100">{{'Answer' | translate}}
+                  <button
+                    mat-raised-button
+                    (click)="gotoAnswer(item)"
+                    class="answer-button w-100"
+                  >
+                    {{ "Answer" | translate }}
                   </button>
                 </mat-card-actions>
               </div>
-              <div style="margin: 20px auto; text-align: center" *ngIf="libraryQuestions?.length > 0">
-                <button mat-stroked-button color="primary" type="submit" *ngIf="!loadingMore && !noMoreItems"
-                        class="p-4s ms-2 blue-button" (click)="showMore()"
-                        style="min-width: 150px; border: 1px solid #0B6FEA">
-                  <span>{{'More' | translate}}</span>
+              <div
+                style="margin: 20px auto; text-align: center"
+                *ngIf="libraryQuestions?.length > 0"
+              >
+                <button
+                  mat-stroked-button
+                  color="primary"
+                  type="submit"
+                  *ngIf="!loadingMore && !noMoreItems"
+                  class="p-4s ms-2 blue-button"
+                  (click)="showMore()"
+                  style="min-width: 150px; border: 1px solid #0b6fea"
+                >
+                  <span>{{ "More" | translate }}</span>
                 </button>
-                <mat-spinner style="margin: 0 auto; display: block; text-align: center" *ngIf="loadingMore"
-                             [diameter]="20"></mat-spinner>
+                <mat-spinner
+                  style="margin: 0 auto; display: block; text-align: center"
+                  *ngIf="loadingMore"
+                  [diameter]="20"
+                ></mat-spinner>
               </div>
             </mat-card-content>
 
             <!--  public-->
-            <mat-card-content *ngIf="generalService.selectedTabIndexQuestionChildInTrivia == 1" class="ps-0">
-              <div style="display: block;">
-                <mat-spinner *ngIf="loadingContent" [diameter]="30"></mat-spinner>
+            <mat-card-content
+              *ngIf="generalService.selectedTabIndexQuestionChildInTrivia == 1"
+              class="ps-0"
+            >
+              <div style="display: block">
+                <mat-spinner
+                  *ngIf="loadingContent"
+                  [diameter]="30"
+                ></mat-spinner>
               </div>
               <div class="position-relative">
-                <div class="border-0 pt-4 ps-4 font-size-14 weight-600" *ngIf="library?.total">
-                  {{library?.total}} {{'Questions' | translate}}
+                <div
+                  class="border-0 pt-4 ps-4 font-size-14 weight-600"
+                  *ngIf="library?.total"
+                >
+                  {{ library?.total }} {{ "Questions" | translate }}
                 </div>
-                <button [matMenuTriggerFor]="menuSortQuestion" *ngIf="library?.total"
-                        class="font-size-14 weight-600 position-absolute end-10 top-0 border-0 bg-transparent d-flex align-items-center"
-                        style="width: fit-content">
-                  {{selectedSortOption == 'highest' ? ('highest rate' | translate) : selectedSortOption == 'lowest' ? ('lowest rate' | translate) : selectedSortOption | translate}}
-                  <i class="bi bi-chevron-down color-black" style="padding: 10px"></i>
+                <button
+                  [matMenuTriggerFor]="menuSortQuestion"
+                  *ngIf="library?.total"
+                  class="font-size-14 weight-600 position-absolute end-10 top-0 border-0 bg-transparent d-flex align-items-center"
+                  style="width: fit-content"
+                >
+                  {{
+                    selectedSortOption == "highest"
+                      ? ("highest rate" | translate)
+                      : selectedSortOption == "lowest"
+                      ? ("lowest rate" | translate)
+                      : (selectedSortOption | translate)
+                  }}
+                  <i
+                    class="bi bi-chevron-down color-black"
+                    style="padding: 10px"
+                  ></i>
                 </button>
                 <mat-menu #menuSortQuestion="matMenu">
-                  <div mat-menu-item class="p-2 border-bottom" (click)="onSelect('oldest')">
-                    <mat-label>{{'oldest' | translate}}</mat-label>
+                  <div
+                    mat-menu-item
+                    class="p-2 border-bottom"
+                    (click)="onSelect('oldest')"
+                  >
+                    <mat-label>{{ "oldest" | translate }}</mat-label>
                   </div>
-                  <div mat-menu-item class="p-2 border-bottom" (click)="onSelect('newest')">
-                    <mat-label>{{'newest' | translate}}</mat-label>
+                  <div
+                    mat-menu-item
+                    class="p-2 border-bottom"
+                    (click)="onSelect('newest')"
+                  >
+                    <mat-label>{{ "newest" | translate }}</mat-label>
                   </div>
-                  <div mat-menu-item class="p-2 border-bottom" (click)="onSelect('highest')">
-                    <mat-label>{{'highest rate' | translate}}</mat-label>
+                  <div
+                    mat-menu-item
+                    class="p-2 border-bottom"
+                    (click)="onSelect('highest')"
+                  >
+                    <mat-label>{{ "highest rate" | translate }}</mat-label>
                   </div>
                   <div mat-menu-item class="p-2" (click)="onSelect('lowest')">
-                    <mat-label>{{'lowest rate' | translate}}</mat-label>
+                    <mat-label>{{ "lowest rate" | translate }}</mat-label>
                   </div>
                 </mat-menu>
               </div>
-              <br>
-              <div *ngFor="let item of libraryQuestions" class="gray-card m-2 d-inline-block"
-                   [class]="{'p-4': !generalService.isMobileView, 'p-1': generalService.isMobileView}"
-                   [style]="generalService.isMobileView ? 'width : 100%' : 'width : 48%'">
+              <br />
+              <div
+                *ngFor="let item of libraryQuestions"
+                class="gray-card m-2 d-inline-block"
+                [class]="{
+                  'p-4': !generalService.isMobileView,
+                  'p-1': generalService.isMobileView
+                }"
+                [style]="
+                  generalService.isMobileView ? 'width : 100%' : 'width : 48%'
+                "
+              >
                 <div class="d-flex white-card position-relative m-2">
-                  <img class="avatar-bordered"
-                       [src]="item?.user?.profilePicture ? item?.user?.profilePicture?.startsWith('http') ? item?.user?.profilePicture : configService.url(item?.user?.profilePicture) : 'assets/images/frame.png'"
-                       (error)="handleImageError($event)"
-                       width="42" height="42">
-                  <mat-label class="font-size-13 weight-500"
-                             style="margin: auto 10px">{{item?.user?.firstName}} {{item?.user?.lastName}}</mat-label>
-                  <mat-label class="font-size-12 weight-500 position-absolute"
-                             style="inset-inline-end: 10px; margin: 10px auto">
-                    {{item?.createdAt | daysAgo}}
+                  <img
+                    class="avatar-bordered"
+                    [src]="
+                      item?.user?.profilePicture
+                        ? item?.user?.profilePicture?.startsWith('http')
+                          ? item?.user?.profilePicture
+                          : configService.url(item?.user?.profilePicture)
+                        : 'assets/images/frame.png'
+                    "
+                    (error)="handleImageError($event)"
+                    width="42"
+                    height="42"
+                  />
+                  <mat-label
+                    class="font-size-13 weight-500"
+                    style="margin: auto 10px"
+                    >{{ item?.user?.firstName }}
+                    {{ item?.user?.lastName }}</mat-label
+                  >
+                  <mat-label
+                    class="font-size-12 weight-500 position-absolute"
+                    style="inset-inline-end: 10px; margin: 10px auto"
+                  >
+                    {{ item?.createdAt | daysAgo }}
                   </mat-label>
                 </div>
-                <br>
+                <br />
                 <div class="font-size-14 weight-700" style="min-height: 80px">
-                  {{item?.question}}
+                  {{ item?.question }}
                 </div>
-                <br>
+                <br />
                 <div class="d-inline-flex">
-                  <div class="white-card p-1 d-flex align-items-center" style="width: fit-content">
+                  <div
+                    class="white-card p-1 d-flex align-items-center"
+                    style="width: fit-content"
+                  >
                     <img
                       [src]="configService.url(item.category?.icon)"
-                      width="16">
-                    <mat-label class="font-size-12 weight-600"
-                               style="margin: auto 5px">{{item?.category?.name}}</mat-label>
+                      width="16"
+                    />
+                    <mat-label
+                      class="font-size-12 weight-600"
+                      style="margin: auto 5px"
+                      >{{ item?.category?.name }}</mat-label
+                    >
                   </div>
                   &nbsp;&nbsp;
-                  <div *ngIf="item?.score" class="white-card p-1 d-flex align-items-center"
-                       style="width: fit-content">
-                    <img src="assets/images/score.png" width="16" height="16">
-                    <mat-label class="font-size-12 weight-600" style="margin: auto 10px">{{item?.score | parsInt}} <span
-                      class="text-gray">{{'Score' | translate}}</span>
+                  <div
+                    *ngIf="item?.score"
+                    class="white-card p-1 d-flex align-items-center"
+                    style="width: fit-content"
+                  >
+                    <img src="assets/images/score.png" width="16" height="16" />
+                    <mat-label
+                      class="font-size-12 weight-600"
+                      style="margin: auto 10px"
+                      >{{ item?.score | parsInt }}
+                      <span class="text-gray">{{ "Score" | translate }}</span>
                     </mat-label>
                   </div>
                 </div>
-                <br>
-                <br>
-                <mat-card-actions class="position-relative d-flex align-items-center pb-0 pt-3">
-                  <button mat-raised-button (click)="gotoAnswer(item)" *ngIf="!generalService.isMobileView"
-                          class="answer-button position-absolute end-10 bottom-0">{{'Answer' | translate}}
+                <br />
+                <br />
+                <mat-card-actions
+                  class="position-relative d-flex align-items-center pb-0 pt-3"
+                >
+                  <button
+                    mat-raised-button
+                    (click)="gotoAnswer(item)"
+                    *ngIf="!generalService.isMobileView"
+                    class="answer-button position-absolute end-10 bottom-0"
+                  >
+                    {{ "Answer" | translate }}
                   </button>
-                  <div class="position-absolute bottom-0" style="display: contents">
-                    <svg *ngIf="item?.liked" (click)="addLike(item)" width="17" height="17" viewBox="0 0 25 25"
-                         fill="#0B6FEA"
-                         xmlns="http://www.w3.org/2000/svg">
+                  <div
+                    class="position-absolute bottom-0"
+                    style="display: contents"
+                  >
+                    <svg
+                      *ngIf="item?.liked"
+                      (click)="addLike(item)"
+                      width="17"
+                      height="17"
+                      viewBox="0 0 25 25"
+                      fill="#0B6FEA"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
                       <path
                         d="M8.10205 18.5106L11.2021 20.9106C11.6021 21.3106 12.5021 21.5106 13.1021 21.5106H16.9021C18.1021 21.5106 19.4021 20.6106 19.7021 19.4106L22.1021 12.1106C22.6021 10.7106 21.7021 9.51061 20.2021 9.51061H16.2021C15.6021 9.51061 15.1021 9.01061 15.2021 8.31061L15.7021 5.11061C15.9021 4.21061 15.3021 3.21061 14.4021 2.91061C13.6021 2.61061 12.6021 3.01061 12.2021 3.61061L8.10205 9.71061"
-                        stroke="#0B6FEA" stroke-width="1.5" stroke-miterlimit="10"/>
+                        stroke="#0B6FEA"
+                        stroke-width="1.5"
+                        stroke-miterlimit="10"
+                      />
                       <path
                         d="M3.00195 18.5105V8.71055C3.00195 7.31055 3.60195 6.81055 5.00195 6.81055H6.00195C7.40195 6.81055 8.00195 7.31055 8.00195 8.71055V18.5105C8.00195 19.9105 7.40195 20.4105 6.00195 20.4105H5.00195C3.60195 20.4105 3.00195 19.9105 3.00195 18.5105Z"
-                        stroke="#0B6FEA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        stroke="#0B6FEA"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
                     </svg>
-                    <svg *ngIf="!item?.liked" (click)="addLike(item)" width="17" height="17" viewBox="0 0 25 25"
-                         fill="none"
-                         xmlns="http://www.w3.org/2000/svg">
+                    <svg
+                      *ngIf="!item?.liked"
+                      (click)="addLike(item)"
+                      width="17"
+                      height="17"
+                      viewBox="0 0 25 25"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
                       <path
                         d="M8.10205 18.5106L11.2021 20.9106C11.6021 21.3106 12.5021 21.5106 13.1021 21.5106H16.9021C18.1021 21.5106 19.4021 20.6106 19.7021 19.4106L22.1021 12.1106C22.6021 10.7106 21.7021 9.51061 20.2021 9.51061H16.2021C15.6021 9.51061 15.1021 9.01061 15.2021 8.31061L15.7021 5.11061C15.9021 4.21061 15.3021 3.21061 14.4021 2.91061C13.6021 2.61061 12.6021 3.01061 12.2021 3.61061L8.10205 9.71061"
-                        stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10"/>
+                        stroke="#292D32"
+                        stroke-width="1.5"
+                        stroke-miterlimit="10"
+                      />
                       <path
                         d="M3.00195 18.5105V8.71055C3.00195 7.31055 3.60195 6.81055 5.00195 6.81055H6.00195C7.40195 6.81055 8.00195 7.31055 8.00195 8.71055V18.5105C8.00195 19.9105 7.40195 20.4105 6.00195 20.4105H5.00195C3.60195 20.4105 3.00195 19.9105 3.00195 18.5105Z"
-                        stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        stroke="#292D32"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
                     </svg>
-                    <mat-label [class]="{'link-text': item?.liked}">{{item?.likes}}</mat-label>
+                    <mat-label [class]="{ 'link-text': item?.liked }">{{
+                      item?.likes
+                    }}</mat-label>
                     &nbsp;&nbsp;&nbsp;
-                    <svg (click)="disLike(item)" *ngIf="item?.disliked" width="17" height="17" viewBox="0 0 25 25"
-                         fill="#0B6FEA"
-                         xmlns="http://www.w3.org/2000/svg">
+                    <svg
+                      (click)="disLike(item)"
+                      *ngIf="item?.disliked"
+                      width="17"
+                      height="17"
+                      viewBox="0 0 25 25"
+                      fill="#0B6FEA"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
                       <path
                         d="M17.4211 5.81055L14.3211 3.41055C13.9211 3.01055 13.0211 2.81055 12.4211 2.81055H8.6211C7.4211 2.81055 6.1211 3.71055 5.8211 4.91055L3.4211 12.2105C2.9211 13.6105 3.8211 14.8105 5.3211 14.8105H9.3211C9.9211 14.8105 10.4211 15.3105 10.3211 16.0105L9.8211 19.2105C9.6211 20.1105 10.2211 21.1105 11.1211 21.4105C11.9211 21.7105 12.9211 21.3105 13.3211 20.7105L17.4211 14.6105"
-                        stroke="#0B6FEA" stroke-width="1.5" stroke-miterlimit="10"/>
+                        stroke="#0B6FEA"
+                        stroke-width="1.5"
+                        stroke-miterlimit="10"
+                      />
                       <path
                         d="M22.521 5.81016V15.6102C22.521 17.0102 21.921 17.5102 20.521 17.5102H19.521C18.121 17.5102 17.521 17.0102 17.521 15.6102V5.81016C17.521 4.41016 18.121 3.91016 19.521 3.91016H20.521C21.921 3.91016 22.521 4.41016 22.521 5.81016Z"
-                        stroke="#0B6FEA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        stroke="#0B6FEA"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
                     </svg>
-                    <svg (click)="disLike(item)" *ngIf="!item?.disliked" width="17" height="17" viewBox="0 0 25 25"
-                         fill="none"
-                         xmlns="http://www.w3.org/2000/svg">
+                    <svg
+                      (click)="disLike(item)"
+                      *ngIf="!item?.disliked"
+                      width="17"
+                      height="17"
+                      viewBox="0 0 25 25"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
                       <path
                         d="M17.4211 5.81055L14.3211 3.41055C13.9211 3.01055 13.0211 2.81055 12.4211 2.81055H8.6211C7.4211 2.81055 6.1211 3.71055 5.8211 4.91055L3.4211 12.2105C2.9211 13.6105 3.8211 14.8105 5.3211 14.8105H9.3211C9.9211 14.8105 10.4211 15.3105 10.3211 16.0105L9.8211 19.2105C9.6211 20.1105 10.2211 21.1105 11.1211 21.4105C11.9211 21.7105 12.9211 21.3105 13.3211 20.7105L17.4211 14.6105"
-                        stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10"/>
+                        stroke="#292D32"
+                        stroke-width="1.5"
+                        stroke-miterlimit="10"
+                      />
                       <path
                         d="M22.521 5.81016V15.6102C22.521 17.0102 21.921 17.5102 20.521 17.5102H19.521C18.121 17.5102 17.521 17.0102 17.521 15.6102V5.81016C17.521 4.41016 18.121 3.91016 19.521 3.91016H20.521C21.921 3.91016 22.521 4.41016 22.521 5.81016Z"
-                        stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        stroke="#292D32"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
                     </svg>
-                    <mat-label [class]="{'link-text': item?.disliked}">{{item?.dislikes}}</mat-label>
+                    <mat-label [class]="{ 'link-text': item?.disliked }">{{
+                      item?.dislikes
+                    }}</mat-label>
                     &nbsp;&nbsp;&nbsp;
                     <div class="d-inline-flex">
                       <!--                      <star-rating show-half-stars="true" [starType]="'svg'" [readOnly]="true" [rating]="item?.avgRate"></star-rating>-->
                       <ng-template #t let-fill="fill">
                         <i class="bi-star-fill">
                           @if (fill > 0) {
-                          <i class="bi-star-fill filled" [style.width.%]="fill"></i>
+                          <i
+                            class="bi-star-fill filled"
+                            [style.width.%]="fill"
+                          ></i>
                           }
                         </i>
                       </ng-template>
 
-                      <ngb-rating [(rate)]="item.avgRate" [starTemplate]="t" [readonly]="true" [max]="5"/>
+                      <ngb-rating
+                        [(rate)]="item.avgRate"
+                        [starTemplate]="t"
+                        [readonly]="true"
+                        [max]="5"
+                      />
                     </div>
                     <div class="d-inline-flex text-gray">
-                      <mat-label *ngIf="item?.avgRate">{{item?.avgRate | number}}</mat-label>
-                      <mat-label *ngIf="item?.answers">({{item?.answers}})</mat-label>
+                      <mat-label *ngIf="item?.avgRate">{{
+                        item?.avgRate | number
+                      }}</mat-label>
+                      <mat-label *ngIf="item?.answers"
+                        >({{ item?.answers }})</mat-label
+                      >
                     </div>
                     &nbsp;&nbsp;&nbsp;
-                    <svg (click)="addBookmark(item)" *ngIf="!item?.bookmarked" width="25" height="25"
-                         viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M14.8477 11.4648H9.84766" stroke="#828282" stroke-width="1.2" stroke-miterlimit="10"
-                            stroke-linecap="round" stroke-linejoin="round"/>
-                      <path d="M12.3477 9.0249V14.0249" stroke="#828282" stroke-width="1.2" stroke-miterlimit="10"
-                            stroke-linecap="round" stroke-linejoin="round"/>
+                    <svg
+                      (click)="addBookmark(item)"
+                      *ngIf="!item?.bookmarked"
+                      width="25"
+                      height="25"
+                      viewBox="0 0 25 25"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M14.8477 11.4648H9.84766"
+                        stroke="#828282"
+                        stroke-width="1.2"
+                        stroke-miterlimit="10"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M12.3477 9.0249V14.0249"
+                        stroke="#828282"
+                        stroke-width="1.2"
+                        stroke-miterlimit="10"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
                       <path
                         d="M17.168 2.81494H7.52797C5.39797 2.81494 3.66797 4.55494 3.66797 6.67494V20.7649C3.66797 22.5649 4.95797 23.3249 6.53797 22.4549L11.418 19.7449C11.938 19.4549 12.778 19.4549 13.288 19.7449L18.168 22.4549C19.748 23.3349 21.038 22.5749 21.038 20.7649V6.67494C21.028 4.55494 19.298 2.81494 17.168 2.81494Z"
-                        stroke="#828282" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                        stroke="#828282"
+                        stroke-width="1.2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
                     </svg>
 
-                    <svg (click)="removeBookmark(item)" *ngIf="item?.bookmarked" width="25" height="25"
-                         viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg
+                      (click)="removeBookmark(item)"
+                      *ngIf="item?.bookmarked"
+                      width="25"
+                      height="25"
+                      viewBox="0 0 25 25"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
                       <path
                         d="M17.2188 2.81494H7.57875C5.44875 2.81494 3.71875 4.55494 3.71875 6.67494V20.7649C3.71875 22.5649 5.00875 23.3249 6.58875 22.4549L11.4688 19.7449C11.9888 19.4549 12.8287 19.4549 13.3387 19.7449L18.2188 22.4549C19.7987 23.3349 21.0888 22.5749 21.0888 20.7649V6.67494C21.0788 4.55494 19.3488 2.81494 17.2188 2.81494ZM14.8988 12.2149H9.89875C9.48875 12.2149 9.14875 11.8749 9.14875 11.4649C9.14875 11.0549 9.48875 10.7149 9.89875 10.7149H14.8988C15.3088 10.7149 15.6488 11.0549 15.6488 11.4649C15.6488 11.8749 15.3088 12.2149 14.8988 12.2149Z"
-                        fill="#2C2523"/>
+                        fill="#2C2523"
+                      />
                     </svg>
                   </div>
                 </mat-card-actions>
                 <mat-card-actions *ngIf="generalService.isMobileView">
-                  <button mat-raised-button (click)="gotoAnswer(item)"
-                          class="answer-button w-100">{{'Answer' | translate}}
+                  <button
+                    mat-raised-button
+                    (click)="gotoAnswer(item)"
+                    class="answer-button w-100"
+                  >
+                    {{ "Answer" | translate }}
                   </button>
                 </mat-card-actions>
               </div>
-              <div style="margin: 20px auto; text-align: center" *ngIf="libraryQuestions?.length > 0">
-                <button mat-stroked-button color="primary" type="submit" *ngIf="!loadingMore && !noMoreItems"
-                        class="p-4s ms-2 blue-button" (click)="showMore()"
-                        style="min-width: 150px; border: 1px solid #0B6FEA">
-                  <span>{{'More' | translate}}</span>
+              <div
+                style="margin: 20px auto; text-align: center"
+                *ngIf="libraryQuestions?.length > 0"
+              >
+                <button
+                  mat-stroked-button
+                  color="primary"
+                  type="submit"
+                  *ngIf="!loadingMore && !noMoreItems"
+                  class="p-4s ms-2 blue-button"
+                  (click)="showMore()"
+                  style="min-width: 150px; border: 1px solid #0b6fea"
+                >
+                  <span>{{ "More" | translate }}</span>
                 </button>
-                <mat-spinner style="margin: 0 auto; display: block; text-align: center" *ngIf="loadingMore"
-                             [diameter]="20"></mat-spinner>
+                <mat-spinner
+                  style="margin: 0 auto; display: block; text-align: center"
+                  *ngIf="loadingMore"
+                  [diameter]="20"
+                ></mat-spinner>
               </div>
             </mat-card-content>
 
             <!--  bookmark-->
-            <mat-card-content *ngIf="generalService.selectedTabIndexQuestionChildInTrivia == 2" class="ps-0">
-              <div style="display: block;">
-                <mat-spinner *ngIf="loadingContent" [diameter]="30"></mat-spinner>
+            <mat-card-content
+              *ngIf="generalService.selectedTabIndexQuestionChildInTrivia == 2"
+              class="ps-0"
+            >
+              <div style="display: block">
+                <mat-spinner
+                  *ngIf="loadingContent"
+                  [diameter]="30"
+                ></mat-spinner>
               </div>
               <div class="position-relative">
-                <div class="border-0 pt-4 ps-4 font-size-14 weight-600" *ngIf="library?.total">
-                  {{library?.total}} {{'Questions' | translate}}
+                <div
+                  class="border-0 pt-4 ps-4 font-size-14 weight-600"
+                  *ngIf="library?.total"
+                >
+                  {{ library?.total }} {{ "Questions" | translate }}
                 </div>
-                <button [matMenuTriggerFor]="menuSortQuestion"
-                        class="font-size-14 weight-600 position-absolute end-10 top-0 border-0 bg-transparent d-flex align-items-center"
-                        style="width: fit-content">
-                  {{selectedSortOption == 'highest' ? ('highest rate' | translate) : selectedSortOption == 'lowest' ? ('lowest rate' | translate) : selectedSortOption | translate}}
-                  <i class="bi bi-chevron-down color-black" style="padding: 10px"></i>
+                <button
+                  [matMenuTriggerFor]="menuSortQuestion"
+                  class="font-size-14 weight-600 position-absolute end-10 top-0 border-0 bg-transparent d-flex align-items-center"
+                  style="width: fit-content"
+                >
+                  {{
+                    selectedSortOption == "highest"
+                      ? ("highest rate" | translate)
+                      : selectedSortOption == "lowest"
+                      ? ("lowest rate" | translate)
+                      : (selectedSortOption | translate)
+                  }}
+                  <i
+                    class="bi bi-chevron-down color-black"
+                    style="padding: 10px"
+                  ></i>
                 </button>
                 <mat-menu #menuSortQuestion="matMenu">
-                  <div mat-menu-item class="p-2 border-bottom" (click)="onSelect('oldest')">
-                    <mat-label>{{'oldest' | translate}}</mat-label>
+                  <div
+                    mat-menu-item
+                    class="p-2 border-bottom"
+                    (click)="onSelect('oldest')"
+                  >
+                    <mat-label>{{ "oldest" | translate }}</mat-label>
                   </div>
-                  <div mat-menu-item class="p-2 border-bottom" (click)="onSelect('newest')">
-                    <mat-label>{{'newest' | translate}}</mat-label>
+                  <div
+                    mat-menu-item
+                    class="p-2 border-bottom"
+                    (click)="onSelect('newest')"
+                  >
+                    <mat-label>{{ "newest" | translate }}</mat-label>
                   </div>
-                  <div mat-menu-item class="p-2 border-bottom" (click)="onSelect('highest')">
-                    <mat-label>{{'highest rate' | translate}}</mat-label>
+                  <div
+                    mat-menu-item
+                    class="p-2 border-bottom"
+                    (click)="onSelect('highest')"
+                  >
+                    <mat-label>{{ "highest rate" | translate }}</mat-label>
                   </div>
                   <div mat-menu-item class="p-2" (click)="onSelect('lowest')">
-                    <mat-label>{{'lowest rate' | translate}}</mat-label>
+                    <mat-label>{{ "lowest rate" | translate }}</mat-label>
                   </div>
                 </mat-menu>
               </div>
-              <br>
-              <div *ngFor="let item of libraryQuestions" class="gray-card m-2 d-inline-block"
-                   [class]="{'p-4': !generalService.isMobileView, 'p-1': generalService.isMobileView}"
-                   [style]="generalService.isMobileView ? 'width : 100%' : 'width : 48%'">
+              <br />
+              <div
+                *ngFor="let item of libraryQuestions"
+                class="gray-card m-2 d-inline-block"
+                [class]="{
+                  'p-4': !generalService.isMobileView,
+                  'p-1': generalService.isMobileView
+                }"
+                [style]="
+                  generalService.isMobileView ? 'width : 100%' : 'width : 48%'
+                "
+              >
                 <div class="d-flex white-card position-relative m-2">
-                  <img class="avatar-bordered"
-                       [src]="item?.user?.profilePicture ? item?.user?.profilePicture?.startsWith('http') ? item?.user?.profilePicture : configService.url(item?.user?.profilePicture) : 'assets/images/frame.png'"
-                       (error)="handleImageError($event)"
-                       width="42" height="42">
-                  <mat-label class="font-size-13 weight-500"
-                             style="margin: auto 10px">{{item?.user?.firstName}} {{item?.user?.lastName}}</mat-label>
-                  <mat-label class="font-size-12 weight-500 position-absolute"
-                             style="inset-inline-end: 10px; margin: 10px auto">
-                    {{item?.createdAt | daysAgo}}
+                  <img
+                    class="avatar-bordered"
+                    [src]="
+                      item?.user?.profilePicture
+                        ? item?.user?.profilePicture?.startsWith('http')
+                          ? item?.user?.profilePicture
+                          : configService.url(item?.user?.profilePicture)
+                        : 'assets/images/frame.png'
+                    "
+                    (error)="handleImageError($event)"
+                    width="42"
+                    height="42"
+                  />
+                  <mat-label
+                    class="font-size-13 weight-500"
+                    style="margin: auto 10px"
+                    >{{ item?.user?.firstName }}
+                    {{ item?.user?.lastName }}</mat-label
+                  >
+                  <mat-label
+                    class="font-size-12 weight-500 position-absolute"
+                    style="inset-inline-end: 10px; margin: 10px auto"
+                  >
+                    {{ item?.createdAt | daysAgo }}
                   </mat-label>
                 </div>
-                <br>
+                <br />
                 <div class="font-size-14 weight-700" style="min-height: 80px">
-                  {{item?.question}}
+                  {{ item?.question }}
                 </div>
-                <br>
-                <div *ngIf="item?.score" class="d-inline-flex justify-content-between align-items-center m-1">
-                  <div class="white-card p-1 d-flex align-items-center" style="width: fit-content">
-                    <img src="assets/images/score.png"
-                         width="16" height="16">
-                    <mat-label class="font-size-12 weight-600"
-                               style="margin: auto 5px">{{item?.score | parsInt}}
-                      <mat-label class="font-size-12 weight-600 text-gray">Score</mat-label>
+                <br />
+                <div
+                  *ngIf="item?.score"
+                  class="d-inline-flex justify-content-between align-items-center m-1"
+                >
+                  <div
+                    class="white-card p-1 d-flex align-items-center"
+                    style="width: fit-content"
+                  >
+                    <img src="assets/images/score.png" width="16" height="16" />
+                    <mat-label
+                      class="font-size-12 weight-600"
+                      style="margin: auto 5px"
+                      >{{ item?.score | parsInt }}
+                      <mat-label class="font-size-12 weight-600 text-gray"
+                        >Score</mat-label
+                      >
                     </mat-label>
                   </div>
                 </div>
-                <div class="d-inline-flex justify-content-between align-items-center m-1">
-                  <div class="white-card p-1 d-flex align-items-center" style="width: fit-content">
+                <div
+                  class="d-inline-flex justify-content-between align-items-center m-1"
+                >
+                  <div
+                    class="white-card p-1 d-flex align-items-center"
+                    style="width: fit-content"
+                  >
                     <img
                       [src]="configService.url(item.category?.icon)"
-                      width="16">
-                    <mat-label class="font-size-12 weight-600"
-                               style="margin: auto 5px">{{item?.category?.name}}</mat-label>
+                      width="16"
+                    />
+                    <mat-label
+                      class="font-size-12 weight-600"
+                      style="margin: auto 5px"
+                      >{{ item?.category?.name }}</mat-label
+                    >
                   </div>
                 </div>
-                <br>
-                <mat-card-actions class="position-relative d-flex align-items-center pb-0 pt-3">
-                  <button mat-raised-button (click)="gotoAnswer(item)" *ngIf="!generalService.isMobileView"
-                          class="answer-button position-absolute end-10 bottom-0">{{'Answer' | translate}}
+                <br />
+                <mat-card-actions
+                  class="position-relative d-flex align-items-center pb-0 pt-3"
+                >
+                  <button
+                    mat-raised-button
+                    (click)="gotoAnswer(item)"
+                    *ngIf="!generalService.isMobileView"
+                    class="answer-button position-absolute end-10 bottom-0"
+                  >
+                    {{ "Answer" | translate }}
                   </button>
-                  <div class="position-absolute bottom-0" style="display: contents">
-                    <svg *ngIf="item?.liked" (click)="addLike(item)" width="17" height="17" viewBox="0 0 25 25"
-                         fill="#0B6FEA"
-                         xmlns="http://www.w3.org/2000/svg">
+                  <div
+                    class="position-absolute bottom-0"
+                    style="display: contents"
+                  >
+                    <svg
+                      *ngIf="item?.liked"
+                      (click)="addLike(item)"
+                      width="17"
+                      height="17"
+                      viewBox="0 0 25 25"
+                      fill="#0B6FEA"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
                       <path
                         d="M8.10205 18.5106L11.2021 20.9106C11.6021 21.3106 12.5021 21.5106 13.1021 21.5106H16.9021C18.1021 21.5106 19.4021 20.6106 19.7021 19.4106L22.1021 12.1106C22.6021 10.7106 21.7021 9.51061 20.2021 9.51061H16.2021C15.6021 9.51061 15.1021 9.01061 15.2021 8.31061L15.7021 5.11061C15.9021 4.21061 15.3021 3.21061 14.4021 2.91061C13.6021 2.61061 12.6021 3.01061 12.2021 3.61061L8.10205 9.71061"
-                        stroke="#0B6FEA" stroke-width="1.5" stroke-miterlimit="10"/>
+                        stroke="#0B6FEA"
+                        stroke-width="1.5"
+                        stroke-miterlimit="10"
+                      />
                       <path
                         d="M3.00195 18.5105V8.71055C3.00195 7.31055 3.60195 6.81055 5.00195 6.81055H6.00195C7.40195 6.81055 8.00195 7.31055 8.00195 8.71055V18.5105C8.00195 19.9105 7.40195 20.4105 6.00195 20.4105H5.00195C3.60195 20.4105 3.00195 19.9105 3.00195 18.5105Z"
-                        stroke="#0B6FEA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        stroke="#0B6FEA"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
                     </svg>
-                    <svg *ngIf="!item?.liked" (click)="addLike(item)" width="17" height="17" viewBox="0 0 25 25"
-                         fill="none"
-                         xmlns="http://www.w3.org/2000/svg">
+                    <svg
+                      *ngIf="!item?.liked"
+                      (click)="addLike(item)"
+                      width="17"
+                      height="17"
+                      viewBox="0 0 25 25"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
                       <path
                         d="M8.10205 18.5106L11.2021 20.9106C11.6021 21.3106 12.5021 21.5106 13.1021 21.5106H16.9021C18.1021 21.5106 19.4021 20.6106 19.7021 19.4106L22.1021 12.1106C22.6021 10.7106 21.7021 9.51061 20.2021 9.51061H16.2021C15.6021 9.51061 15.1021 9.01061 15.2021 8.31061L15.7021 5.11061C15.9021 4.21061 15.3021 3.21061 14.4021 2.91061C13.6021 2.61061 12.6021 3.01061 12.2021 3.61061L8.10205 9.71061"
-                        stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10"/>
+                        stroke="#292D32"
+                        stroke-width="1.5"
+                        stroke-miterlimit="10"
+                      />
                       <path
                         d="M3.00195 18.5105V8.71055C3.00195 7.31055 3.60195 6.81055 5.00195 6.81055H6.00195C7.40195 6.81055 8.00195 7.31055 8.00195 8.71055V18.5105C8.00195 19.9105 7.40195 20.4105 6.00195 20.4105H5.00195C3.60195 20.4105 3.00195 19.9105 3.00195 18.5105Z"
-                        stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        stroke="#292D32"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
                     </svg>
-                    <mat-label [class]="{'link-text': item?.liked}">{{item?.likes}}</mat-label>
+                    <mat-label [class]="{ 'link-text': item?.liked }">{{
+                      item?.likes
+                    }}</mat-label>
                     &nbsp;&nbsp;&nbsp;
-                    <svg (click)="disLike(item)" *ngIf="item?.disliked" width="17" height="17" viewBox="0 0 25 25"
-                         fill="#0B6FEA"
-                         xmlns="http://www.w3.org/2000/svg">
+                    <svg
+                      (click)="disLike(item)"
+                      *ngIf="item?.disliked"
+                      width="17"
+                      height="17"
+                      viewBox="0 0 25 25"
+                      fill="#0B6FEA"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
                       <path
                         d="M17.4211 5.81055L14.3211 3.41055C13.9211 3.01055 13.0211 2.81055 12.4211 2.81055H8.6211C7.4211 2.81055 6.1211 3.71055 5.8211 4.91055L3.4211 12.2105C2.9211 13.6105 3.8211 14.8105 5.3211 14.8105H9.3211C9.9211 14.8105 10.4211 15.3105 10.3211 16.0105L9.8211 19.2105C9.6211 20.1105 10.2211 21.1105 11.1211 21.4105C11.9211 21.7105 12.9211 21.3105 13.3211 20.7105L17.4211 14.6105"
-                        stroke="#0B6FEA" stroke-width="1.5" stroke-miterlimit="10"/>
+                        stroke="#0B6FEA"
+                        stroke-width="1.5"
+                        stroke-miterlimit="10"
+                      />
                       <path
                         d="M22.521 5.81016V15.6102C22.521 17.0102 21.921 17.5102 20.521 17.5102H19.521C18.121 17.5102 17.521 17.0102 17.521 15.6102V5.81016C17.521 4.41016 18.121 3.91016 19.521 3.91016H20.521C21.921 3.91016 22.521 4.41016 22.521 5.81016Z"
-                        stroke="#0B6FEA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        stroke="#0B6FEA"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
                     </svg>
-                    <svg (click)="disLike(item)" *ngIf="!item?.disliked" width="17" height="17" viewBox="0 0 25 25"
-                         fill="none"
-                         xmlns="http://www.w3.org/2000/svg">
+                    <svg
+                      (click)="disLike(item)"
+                      *ngIf="!item?.disliked"
+                      width="17"
+                      height="17"
+                      viewBox="0 0 25 25"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
                       <path
                         d="M17.4211 5.81055L14.3211 3.41055C13.9211 3.01055 13.0211 2.81055 12.4211 2.81055H8.6211C7.4211 2.81055 6.1211 3.71055 5.8211 4.91055L3.4211 12.2105C2.9211 13.6105 3.8211 14.8105 5.3211 14.8105H9.3211C9.9211 14.8105 10.4211 15.3105 10.3211 16.0105L9.8211 19.2105C9.6211 20.1105 10.2211 21.1105 11.1211 21.4105C11.9211 21.7105 12.9211 21.3105 13.3211 20.7105L17.4211 14.6105"
-                        stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10"/>
+                        stroke="#292D32"
+                        stroke-width="1.5"
+                        stroke-miterlimit="10"
+                      />
                       <path
                         d="M22.521 5.81016V15.6102C22.521 17.0102 21.921 17.5102 20.521 17.5102H19.521C18.121 17.5102 17.521 17.0102 17.521 15.6102V5.81016C17.521 4.41016 18.121 3.91016 19.521 3.91016H20.521C21.921 3.91016 22.521 4.41016 22.521 5.81016Z"
-                        stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        stroke="#292D32"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
                     </svg>
-                    <mat-label [class]="{'link-text': item?.disliked}">{{item?.dislikes}}</mat-label>
+                    <mat-label [class]="{ 'link-text': item?.disliked }">{{
+                      item?.dislikes
+                    }}</mat-label>
                     &nbsp;&nbsp;&nbsp;
                     <div class="d-inline-flex">
                       <!--                      <star-rating show-half-stars="true" [starType]="'svg'"  [readOnly]="true" [rating]="item?.avgRate"></star-rating>-->
                       <ng-template #t let-fill="fill">
                         <i class="bi-star-fill">
                           @if (fill > 0) {
-                          <i class="bi-star-fill filled" [style.width.%]="fill"></i>
+                          <i
+                            class="bi-star-fill filled"
+                            [style.width.%]="fill"
+                          ></i>
                           }
                         </i>
                       </ng-template>
 
-                      <ngb-rating [(rate)]="item.avgRate" [starTemplate]="t" [readonly]="true" [max]="5"/>
+                      <ngb-rating
+                        [(rate)]="item.avgRate"
+                        [starTemplate]="t"
+                        [readonly]="true"
+                        [max]="5"
+                      />
                     </div>
                     <div class="d-inline-flex text-gray">
-                      <mat-label *ngIf="item?.avgRate">{{item?.avgRate | number}}</mat-label>
-                      <mat-label *ngIf="item?.answers">({{item?.answers}})</mat-label>
+                      <mat-label *ngIf="item?.avgRate">{{
+                        item?.avgRate | number
+                      }}</mat-label>
+                      <mat-label *ngIf="item?.answers"
+                        >({{ item?.answers }})</mat-label
+                      >
                     </div>
                     &nbsp;&nbsp;&nbsp;
-                    <svg (click)="addBookmark(item)" *ngIf="!item?.bookmarked" width="25" height="25"
-                         viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M14.8477 11.4648H9.84766" stroke="#828282" stroke-width="1.2" stroke-miterlimit="10"
-                            stroke-linecap="round" stroke-linejoin="round"/>
-                      <path d="M12.3477 9.0249V14.0249" stroke="#828282" stroke-width="1.2" stroke-miterlimit="10"
-                            stroke-linecap="round" stroke-linejoin="round"/>
+                    <svg
+                      (click)="addBookmark(item)"
+                      *ngIf="!item?.bookmarked"
+                      width="25"
+                      height="25"
+                      viewBox="0 0 25 25"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M14.8477 11.4648H9.84766"
+                        stroke="#828282"
+                        stroke-width="1.2"
+                        stroke-miterlimit="10"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M12.3477 9.0249V14.0249"
+                        stroke="#828282"
+                        stroke-width="1.2"
+                        stroke-miterlimit="10"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
                       <path
                         d="M17.168 2.81494H7.52797C5.39797 2.81494 3.66797 4.55494 3.66797 6.67494V20.7649C3.66797 22.5649 4.95797 23.3249 6.53797 22.4549L11.418 19.7449C11.938 19.4549 12.778 19.4549 13.288 19.7449L18.168 22.4549C19.748 23.3349 21.038 22.5749 21.038 20.7649V6.67494C21.028 4.55494 19.298 2.81494 17.168 2.81494Z"
-                        stroke="#828282" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                        stroke="#828282"
+                        stroke-width="1.2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
                     </svg>
 
-                    <svg (click)="removeBookmark(item)" *ngIf="item?.bookmarked" width="25" height="25"
-                         viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg
+                      (click)="removeBookmark(item)"
+                      *ngIf="item?.bookmarked"
+                      width="25"
+                      height="25"
+                      viewBox="0 0 25 25"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
                       <path
                         d="M17.2188 2.81494H7.57875C5.44875 2.81494 3.71875 4.55494 3.71875 6.67494V20.7649C3.71875 22.5649 5.00875 23.3249 6.58875 22.4549L11.4688 19.7449C11.9888 19.4549 12.8287 19.4549 13.3387 19.7449L18.2188 22.4549C19.7987 23.3349 21.0888 22.5749 21.0888 20.7649V6.67494C21.0788 4.55494 19.3488 2.81494 17.2188 2.81494ZM14.8988 12.2149H9.89875C9.48875 12.2149 9.14875 11.8749 9.14875 11.4649C9.14875 11.0549 9.48875 10.7149 9.89875 10.7149H14.8988C15.3088 10.7149 15.6488 11.0549 15.6488 11.4649C15.6488 11.8749 15.3088 12.2149 14.8988 12.2149Z"
-                        fill="#2C2523"/>
+                        fill="#2C2523"
+                      />
                     </svg>
                   </div>
                 </mat-card-actions>
                 <mat-card-actions *ngIf="generalService.isMobileView">
-                  <button mat-raised-button (click)="gotoAnswer(item)"
-                          class="answer-button w-100">{{'Answer' | translate}}
+                  <button
+                    mat-raised-button
+                    (click)="gotoAnswer(item)"
+                    class="answer-button w-100"
+                  >
+                    {{ "Answer" | translate }}
                   </button>
                 </mat-card-actions>
-
               </div>
-              <div style="margin: 20px auto; text-align: center" *ngIf="libraryQuestions?.length > 0">
-                <button mat-stroked-button color="primary" type="submit" *ngIf="!loadingMore && !noMoreItems"
-                        class="p-4s ms-2 blue-button" (click)="showMore()"
-                        style="min-width: 150px; border: 1px solid #0B6FEA">
-                  <span>{{'More' | translate}}</span>
+              <div
+                style="margin: 20px auto; text-align: center"
+                *ngIf="libraryQuestions?.length > 0"
+              >
+                <button
+                  mat-stroked-button
+                  color="primary"
+                  type="submit"
+                  *ngIf="!loadingMore && !noMoreItems"
+                  class="p-4s ms-2 blue-button"
+                  (click)="showMore()"
+                  style="min-width: 150px; border: 1px solid #0b6fea"
+                >
+                  <span>{{ "More" | translate }}</span>
                 </button>
-                <mat-spinner style="margin: 0 auto; display: block; text-align: center" *ngIf="loadingMore"
-                             [diameter]="20"></mat-spinner>
+                <mat-spinner
+                  style="margin: 0 auto; display: block; text-align: center"
+                  *ngIf="loadingMore"
+                  [diameter]="20"
+                ></mat-spinner>
               </div>
             </mat-card-content>
-            <br>
+            <br />
           </mat-card>
         </div>
       </div>
     </mat-tab>
 
-    <mat-tab label="{{'Games' | translate}}">
+    <mat-tab label="{{ 'Games' | translate }}">
       <div class="card border-0">
         <div class="w-100 d-flex">
           <mat-card class="shadow-none p-2" style="width: 100%">
             <mat-card-header>
               <div>
-                <mat-tab-group mat-stretch-tabs="true" mat-align-tabs="start" class="responsive-tabs-library"
-                               [(selectedIndex)]="generalService.selectedTabIndexGameChildInTrivia" (selectedTabChange)="changeGames()">
-                  <mat-tab label="{{'All Games' | translate}}">
-                  </mat-tab>
-                  <mat-tab label="{{'My Games' | translate}}">
-                  </mat-tab>
+                <mat-tab-group
+                  mat-stretch-tabs="true"
+                  mat-align-tabs="start"
+                  class="responsive-tabs-library"
+                  [(selectedIndex)]="
+                    generalService.selectedTabIndexGameChildInTrivia
+                  "
+                  (selectedTabChange)="changeGames()"
+                >
+                  <mat-tab label="{{ 'All Games' | translate }}"> </mat-tab>
+                  <mat-tab label="{{ 'My Games' | translate }}"> </mat-tab>
                 </mat-tab-group>
               </div>
             </mat-card-header>
-            <br>
+            <br />
             <div class="d-flex overflow-scroll">
-<!--              <div class="m-2 d-inline-flex shadow-none cursor-pointer p-2"-->
-<!--                   (click)="selectCatGame('')"-->
-<!--                   [class]="{'mat-card-pref-selected': isSelected(''), 'mat-card-pref': !isSelected('')}">-->
-<!--                <div class="text-center w-100" style="padding-top: 8px">-->
-<!--                  <mat-label class="font-size-14 weight-600">{{ 'all categories' }}</mat-label>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--              <div *ngFor="let cat of generalService?.clientInit?.categories"-->
-<!--                   class="m-2 d-inline-flex shadow-none cursor-pointer p-2"-->
-<!--                   (click)="selectCatGame(cat)"-->
-<!--                   [class]="{'mat-card-pref-selected': isSelected(cat), 'mat-card-pref': !isSelected(cat)}">-->
-<!--                <div class="text-start">-->
-<!--                  <img [src]="'https://api.staging.1qma.games/' + cat?.icon" width="35">-->
-<!--                  <mat-label>{{ cat?.name }}</mat-label>-->
-<!--                </div>-->
-<!--              </div>-->
+              <!--              <div class="m-2 d-inline-flex shadow-none cursor-pointer p-2"-->
+              <!--                   (click)="selectCatGame('')"-->
+              <!--                   [class]="{'mat-card-pref-selected': isSelected(''), 'mat-card-pref': !isSelected('')}">-->
+              <!--                <div class="text-center w-100" style="padding-top: 8px">-->
+              <!--                  <mat-label class="font-size-14 weight-600">{{ 'all categories' }}</mat-label>-->
+              <!--                </div>-->
+              <!--              </div>-->
+              <!--              <div *ngFor="let cat of generalService?.clientInit?.categories"-->
+              <!--                   class="m-2 d-inline-flex shadow-none cursor-pointer p-2"-->
+              <!--                   (click)="selectCatGame(cat)"-->
+              <!--                   [class]="{'mat-card-pref-selected': isSelected(cat), 'mat-card-pref': !isSelected(cat)}">-->
+              <!--                <div class="text-start">-->
+              <!--                  <img [src]="'https://api.1qma.games/' + cat?.icon" width="35">-->
+              <!--                  <mat-label>{{ cat?.name }}</mat-label>-->
+              <!--                </div>-->
+              <!--              </div>-->
               <div class="ms-4 w-100 d-inline-flex align-items-center">
-                <mat-label style="margin-bottom: 20px">{{ 'Category' | translate }}:&nbsp;</mat-label>
-                <mat-form-field appearance="fill" class="custom-form-field"
-                                [class]="{'w-25': !generalService.isMobileView, 'w-100': generalService.isMobileView}">
+                <mat-label style="margin-bottom: 20px"
+                  >{{ "Category" | translate }}:&nbsp;</mat-label
+                >
+                <mat-form-field
+                  appearance="fill"
+                  class="custom-form-field"
+                  [class]="{
+                    'w-25': !generalService.isMobileView,
+                    'w-100': generalService.isMobileView
+                  }"
+                >
                   <!--          <mat-label>{{ 'Category' | translate }}</mat-label>-->
-                  <mat-select [(value)]="selectedCategory" (selectionChange)="selectCatGame($event.value)">
+                  <mat-select
+                    [(value)]="selectedCategory"
+                    (selectionChange)="selectCatGame($event.value)"
+                  >
                     <mat-option [value]="''">
-                      {{ 'all categories' | translate }}
+                      {{ "all categories" | translate }}
                     </mat-option>
-                    <mat-option *ngFor="let cat of generalService.clientInit?.categories" [value]="cat._id">
-                      <img [src]="'https://api.staging.1qma.games/' + cat?.icon" width="20" height="20">
+                    <mat-option
+                      *ngFor="let cat of generalService.clientInit?.categories"
+                      [value]="cat._id"
+                    >
+                      <img
+                        [src]="'https://api.1qma.games/' + cat?.icon"
+                        width="20"
+                        height="20"
+                      />
                       {{ cat?.name }}
                     </mat-option>
                   </mat-select>
                 </mat-form-field>
               </div>
             </div>
-            <mat-card-content *ngIf="generalService.selectedTabIndexGameChildInTrivia == 0">
-              <div style="display: block;">
-                <mat-spinner *ngIf="loadingContent" [diameter]="30"></mat-spinner>
+            <mat-card-content
+              *ngIf="generalService.selectedTabIndexGameChildInTrivia == 0"
+            >
+              <div style="display: block">
+                <mat-spinner
+                  *ngIf="loadingContent"
+                  [diameter]="30"
+                ></mat-spinner>
               </div>
               <div>
                 <div class="position-relative" *ngIf="gameData?.length > 0">
-                  <button [matMenuTriggerFor]="menuSortGame"
-                          class="font-size-14 weight-600 position-absolute end-10 top-0 border-0 bg-transparent d-flex align-items-center"
-                          style="width: fit-content">
-                    {{selectedSortOptionGame}}
-                    <i class="bib bi-chevron-down color-black" style="padding: 10px"></i>
+                  <button
+                    [matMenuTriggerFor]="menuSortGame"
+                    class="font-size-14 weight-600 position-absolute end-10 top-0 border-0 bg-transparent d-flex align-items-center"
+                    style="width: fit-content"
+                  >
+                    {{ selectedSortOptionGame }}
+                    <i
+                      class="bib bi-chevron-down color-black"
+                      style="padding: 10px"
+                    ></i>
                   </button>
                   <mat-menu #menuSortGame="matMenu">
-                    <div mat-menu-item class="p-2 border-bottom" (click)="onSelectGameSort('oldest')">
-                      <mat-label>{{'oldest' | translate}}</mat-label>
+                    <div
+                      mat-menu-item
+                      class="p-2 border-bottom"
+                      (click)="onSelectGameSort('oldest')"
+                    >
+                      <mat-label>{{ "oldest" | translate }}</mat-label>
                     </div>
-                    <div mat-menu-item class="p-2" (click)="onSelectGameSort('newest')">
-                      <mat-label>{{'newest' | translate}}</mat-label>
+                    <div
+                      mat-menu-item
+                      class="p-2"
+                      (click)="onSelectGameSort('newest')"
+                    >
+                      <mat-label>{{ "newest" | translate }}</mat-label>
                     </div>
                   </mat-menu>
                 </div>
-                <br>
-                <br>
-                <mat-card *ngFor="let endedGame of gameData"
-                          class="shadow-none text-center d-inline-block"
-                          [class]="{'bordered-card': !generalService.isMobileView, 'bordered-card-mobile': generalService.isMobileView}">
-                  <img [src]="'https://api.staging.1qma.games/' + endedGame?.category?.icon" width="50" height="50"
-                       style="margin: 0 auto">
+                <br />
+                <br />
+                <mat-card
+                  *ngFor="let endedGame of gameData"
+                  class="shadow-none text-center d-inline-block"
+                  [class]="{
+                    'bordered-card': !generalService.isMobileView,
+                    'bordered-card-mobile': generalService.isMobileView
+                  }"
+                >
+                  <img
+                    [src]="
+                      'https://api.1qma.games/' + endedGame?.category?.icon
+                    "
+                    width="50"
+                    height="50"
+                    style="margin: 0 auto"
+                  />
                   <mat-card-header style="margin: 0 auto; display: block">
-                    <mat-card-title class="font-size-14 weight-700">{{ endedGame?.category?.name }}</mat-card-title>
+                    <mat-card-title class="font-size-14 weight-700">{{
+                      endedGame?.category?.name
+                    }}</mat-card-title>
                     <mat-card-subtitle class="font-size-12 weight-500">
-                      {{endedGame?.endedAt | daysAgo}}
+                      {{ endedGame?.endedAt | daysAgo }}
                     </mat-card-subtitle>
                   </mat-card-header>
-                  <br>
-                  <mat-card-content class="d-inline-flex position-relative p-0 w-100">
+                  <br />
+                  <mat-card-content
+                    class="d-inline-flex position-relative p-0 w-100"
+                  >
                     <mat-card class="shadow-none">
                       <mat-card-header class="pe-1 ps-1">
-                        <img mat-card-avatar
-                             [src]="endedGame?.creator?.profilePicture ? endedGame?.creator?.profilePicture?.startsWith('http') ? endedGame?.creator?.profilePicture : configService.url(endedGame?.creator?.profilePicture) : 'assets/images/frame.png'"
-                             (error)="handleImageError($event)"
-                             width="33" height="33" class="avatar-bordered bg-white mb-0">
+                        <img
+                          mat-card-avatar
+                          [src]="
+                            endedGame?.creator?.profilePicture
+                              ? endedGame?.creator?.profilePicture?.startsWith(
+                                  'http'
+                                )
+                                ? endedGame?.creator?.profilePicture
+                                : configService.url(
+                                    endedGame?.creator?.profilePicture
+                                  )
+                              : 'assets/images/frame.png'
+                          "
+                          (error)="handleImageError($event)"
+                          width="33"
+                          height="33"
+                          class="avatar-bordered bg-white mb-0"
+                        />
                         <mat-card-title
-                          class="font-size-10 weight-500 text-start p-1 text-gray">{{'Created By' | translate}}:
+                          class="font-size-10 weight-500 text-start p-1 text-gray"
+                          >{{ "Created By" | translate }}:
                         </mat-card-title>
-                        <mat-card-subtitle class="font-size-14 weight-500 text-start p-1" style="color: #2C2523">
-                          {{endedGame?.creator?.firstName}} {{endedGame?.creator?.lastName}}
+                        <mat-card-subtitle
+                          class="font-size-14 weight-500 text-start p-1"
+                          style="color: #2c2523"
+                        >
+                          {{ endedGame?.creator?.firstName }}
+                          {{ endedGame?.creator?.lastName }}
                         </mat-card-subtitle>
                       </mat-card-header>
                     </mat-card>
@@ -709,91 +1427,188 @@
                   <mat-divider></mat-divider>
                   <div class="position-relative">
                     <div class="font-size-14 weight-500 p-2 text-start">
-                      <div *ngFor="let ply of endedGame?.players; let i=index" class="d-inline-block">
-                        <img mat-card-avatar
-                             [src]="ply?.profilePicture ? ply?.profilePicture?.startsWith('http') ? ply?.profilePicture : configService.url(ply?.profilePicture) : 'assets/images/frame.png'"
-                             (error)="handleImageError($event)"
-                             width="26" height="26"
-                             class="avatar-bordered bg-white mb-0 position-absolute custom-position-{{i}}">
+                      <div
+                        *ngFor="let ply of endedGame?.players; let i = index"
+                        class="d-inline-block"
+                      >
+                        <img
+                          mat-card-avatar
+                          [src]="
+                            ply?.profilePicture
+                              ? ply?.profilePicture?.startsWith('http')
+                                ? ply?.profilePicture
+                                : configService.url(ply?.profilePicture)
+                              : 'assets/images/frame.png'
+                          "
+                          (error)="handleImageError($event)"
+                          width="26"
+                          height="26"
+                          class="avatar-bordered bg-white mb-0 position-absolute custom-position-{{
+                            i
+                          }}"
+                        />
                       </div>
                     </div>
                     <div class="font-size-14 weight-500 p-2 text-end">
-                 <span class="font-size-14 weight-500 position-absolute bottom-0"
-                       style="inset-inline-end: 5px">{{endedGame?.gameType?.text}}</span>
-                      <img src="assets/images/normal-game.png" *ngIf="endedGame?.gameType?.id == 'normal'" width="22"
-                           height="22"
-                           class="mb-0 position-absolute" style="top: 25px; inset-inline-end: 55px">
-                      <img src="assets/images/survival-game.png" *ngIf="endedGame?.gameType?.id == 'survival'"
-                           width="22" height="22"
-                           class="mb-0 position-absolute" style="top: 25px; inset-inline-end: 55px">
+                      <span
+                        class="font-size-14 weight-500 position-absolute bottom-0"
+                        style="inset-inline-end: 5px"
+                        >{{ endedGame?.gameType?.text }}</span
+                      >
+                      <img
+                        src="assets/images/normal-game.png"
+                        *ngIf="endedGame?.gameType?.id == 'normal'"
+                        width="22"
+                        height="22"
+                        class="mb-0 position-absolute"
+                        style="top: 25px; inset-inline-end: 55px"
+                      />
+                      <img
+                        src="assets/images/survival-game.png"
+                        *ngIf="endedGame?.gameType?.id == 'survival'"
+                        width="22"
+                        height="22"
+                        class="mb-0 position-absolute"
+                        style="top: 25px; inset-inline-end: 55px"
+                      />
                     </div>
                   </div>
-                  <br>
-                  <span
-                    class="font-size-11 weight-500 text-start">{{endedGame?.players?.length}} {{'Player' | translate}}</span>
-                  <br>
+                  <br />
+                  <span class="font-size-11 weight-500 text-start"
+                    >{{ endedGame?.players?.length }}
+                    {{ "Player" | translate }}</span
+                  >
+                  <br />
                   <mat-card-actions>
-                    <button mat-raised-button class="game-button"
-                            (click)="gotoResult(endedGame._id)">{{'Game Detail' | translate}}
+                    <button
+                      mat-raised-button
+                      class="game-button"
+                      (click)="gotoResult(endedGame._id)"
+                    >
+                      {{ "Game Detail" | translate }}
                     </button>
                   </mat-card-actions>
                 </mat-card>
               </div>
             </mat-card-content>
 
-            <mat-card-content *ngIf="generalService.selectedTabIndexGameChildInTrivia == 1">
-              <div style="display: block;">
-                <mat-spinner *ngIf="loadingContent" [diameter]="30"></mat-spinner>
+            <mat-card-content
+              *ngIf="generalService.selectedTabIndexGameChildInTrivia == 1"
+            >
+              <div style="display: block">
+                <mat-spinner
+                  *ngIf="loadingContent"
+                  [diameter]="30"
+                ></mat-spinner>
               </div>
               <div class="position-relative" *ngIf="gameData?.length > 0">
-                <button [matMenuTriggerFor]="menuSortGame"
-                        class="font-size-14 weight-600 position-absolute end-10 top-0 border-0 bg-transparent d-flex align-items-center"
-                        style="width: fit-content">
-                  {{selectedSortOptionGame}}
-                  <i class="bib bi-chevron-down color-black" style="padding: 10px"></i>
+                <button
+                  [matMenuTriggerFor]="menuSortGame"
+                  class="font-size-14 weight-600 position-absolute end-10 top-0 border-0 bg-transparent d-flex align-items-center"
+                  style="width: fit-content"
+                >
+                  {{ selectedSortOptionGame }}
+                  <i
+                    class="bib bi-chevron-down color-black"
+                    style="padding: 10px"
+                  ></i>
                 </button>
                 <mat-menu #menuSortGame="matMenu">
-                  <div mat-menu-item class="p-2 border-bottom" (click)="onSelectGameSort('oldest')">
-                    <mat-label>{{'oldest' | translate}}</mat-label>
+                  <div
+                    mat-menu-item
+                    class="p-2 border-bottom"
+                    (click)="onSelectGameSort('oldest')"
+                  >
+                    <mat-label>{{ "oldest" | translate }}</mat-label>
                   </div>
-                  <div mat-menu-item class="p-2" (click)="onSelectGameSort('newest')">
-                    <mat-label>{{'newest' | translate}}</mat-label>
+                  <div
+                    mat-menu-item
+                    class="p-2"
+                    (click)="onSelectGameSort('newest')"
+                  >
+                    <mat-label>{{ "newest" | translate }}</mat-label>
                   </div>
                 </mat-menu>
               </div>
-              <br>
-              <br>
+              <br />
+              <br />
               <div class="">
-                <mat-card *ngFor="let endedGame of gameData"
-                          class="shadow-none text-center d-inline-block"
-                          [class]="{'bordered-card': !generalService.isMobileView, 'bordered-card-mobile': generalService.isMobileView}">
-                  <img [src]="'https://api.staging.1qma.games/' + endedGame?.category?.icon" width="50" height="50"
-                       style="margin: 0 auto">
+                <mat-card
+                  *ngFor="let endedGame of gameData"
+                  class="shadow-none text-center d-inline-block"
+                  [class]="{
+                    'bordered-card': !generalService.isMobileView,
+                    'bordered-card-mobile': generalService.isMobileView
+                  }"
+                >
+                  <img
+                    [src]="
+                      'https://api.1qma.games/' + endedGame?.category?.icon
+                    "
+                    width="50"
+                    height="50"
+                    style="margin: 0 auto"
+                  />
                   <mat-card-header style="margin: 0 auto; display: block">
-                    <mat-card-title class="font-size-14 weight-700">{{ endedGame?.category?.name }}</mat-card-title>
+                    <mat-card-title class="font-size-14 weight-700">{{
+                      endedGame?.category?.name
+                    }}</mat-card-title>
                     <mat-card-subtitle class="font-size-12 weight-500">
-                      {{endedGame?.endedAt | daysAgo}}
+                      {{ endedGame?.endedAt | daysAgo }}
                     </mat-card-subtitle>
                   </mat-card-header>
-                  <br>
+                  <br />
                   <mat-card-content class="d-inline-flex position-relative p-0">
-                    <mat-card class="shadow-none" *ngFor="let ply of endedGame?.players; let i=index">
-                      <mat-card-header class="pe-1 ps-1" *ngIf="ply?._id == generalService.userId">
-                        <img mat-card-avatar
-                             [src]="ply?.profilePicture ? ply?.profilePicture?.startsWith('http') ? ply?.profilePicture : configService.url(ply?.profilePicture) : 'assets/images/frame.png'"
-                             (error)="handleImageError($event)"
-                             width="33" height="33" class="avatar-bordered bg-white mb-0">
+                    <mat-card
+                      class="shadow-none"
+                      *ngFor="let ply of endedGame?.players; let i = index"
+                    >
+                      <mat-card-header
+                        class="pe-1 ps-1"
+                        *ngIf="ply?._id == generalService.userId"
+                      >
+                        <img
+                          mat-card-avatar
+                          [src]="
+                            ply?.profilePicture
+                              ? ply?.profilePicture?.startsWith('http')
+                                ? ply?.profilePicture
+                                : configService.url(ply?.profilePicture)
+                              : 'assets/images/frame.png'
+                          "
+                          (error)="handleImageError($event)"
+                          width="33"
+                          height="33"
+                          class="avatar-bordered bg-white mb-0"
+                        />
                         <mat-card-title
-                          class="font-size-14 weight-500 text-start">{{ply?.firstName}} {{ply?.lastName}}</mat-card-title>
-                        <mat-card-subtitle class="text-start ps-0"
-                                           *ngFor="let scoreboard of endedGame?.result?.scoreboard; let i=index">
+                          class="font-size-14 weight-500 text-start"
+                          >{{ ply?.firstName }}
+                          {{ ply?.lastName }}</mat-card-title
+                        >
+                        <mat-card-subtitle
+                          class="text-start ps-0"
+                          *ngFor="
+                            let scoreboard of endedGame?.result?.scoreboard;
+                            let i = index
+                          "
+                        >
                           <div *ngIf="scoreboard?._id == generalService.userId">
-                            <img src="assets/images/rank.png" width="16"><span
-                            class="font-size-14 weight-700">{{i + 1}} </span><span
-                            class="font-size-14 weight-500"> {{'Rank' | translate}}</span>
-                            <img src="assets/images/score.png" width="16" height="16"><span
-                            class="font-size-14 weight-700">{{scoreboard?.totalScore | parsInt}} </span><span
-                            class="font-size-14 weight-500"> {{'Score' | translate}}</span>
+                            <img src="assets/images/rank.png" width="16" /><span
+                              class="font-size-14 weight-700"
+                              >{{ i + 1 }} </span
+                            ><span class="font-size-14 weight-500">
+                              {{ "Rank" | translate }}</span
+                            >
+                            <img
+                              src="assets/images/score.png"
+                              width="16"
+                              height="16"
+                            /><span class="font-size-14 weight-700"
+                              >{{ scoreboard?.totalScore | parsInt }} </span
+                            ><span class="font-size-14 weight-500">
+                              {{ "Score" | translate }}</span
+                            >
                           </div>
                         </mat-card-subtitle>
                       </mat-card-header>
@@ -802,32 +1617,65 @@
                   <mat-divider></mat-divider>
                   <div class="position-relative">
                     <div class="font-size-14 weight-500 p-2 text-start">
-                      <div *ngFor="let ply of endedGame?.players; let i=index" class="d-inline-block">
-                        <img mat-card-avatar
-                             [src]="ply?.profilePicture ? ply?.profilePicture?.startsWith('http') ? ply?.profilePicture : configService.url(ply?.profilePicture) : 'assets/images/frame.png'"
-                             (error)="handleImageError($event)"
-                             width="26" height="26"
-                             class="bg-white avatar-bordered mb-0 position-absolute custom-position-{{i}}">
+                      <div
+                        *ngFor="let ply of endedGame?.players; let i = index"
+                        class="d-inline-block"
+                      >
+                        <img
+                          mat-card-avatar
+                          [src]="
+                            ply?.profilePicture
+                              ? ply?.profilePicture?.startsWith('http')
+                                ? ply?.profilePicture
+                                : configService.url(ply?.profilePicture)
+                              : 'assets/images/frame.png'
+                          "
+                          (error)="handleImageError($event)"
+                          width="26"
+                          height="26"
+                          class="bg-white avatar-bordered mb-0 position-absolute custom-position-{{
+                            i
+                          }}"
+                        />
                       </div>
                     </div>
                     <div class="font-size-14 weight-500 p-2 text-end">
-                 <span class="font-size-14 weight-500 position-absolute bottom-0"
-                       style="inset-inline-end: 5px">{{endedGame?.gameType?.text}}</span>
-                      <img src="assets/images/normal-game.png" *ngIf="endedGame?.gameType?.id == 'normal'" width="22"
-                           height="22"
-                           class="mb-0 position-absolute" style="top: 25px; inset-inline-end: 55px">
-                      <img src="assets/images/survival-game.png" *ngIf="endedGame?.gameType?.id == 'survival'"
-                           width="22" height="22"
-                           class="mb-0 position-absolute" style="top: 25px; inset-inline-end: 55px">
+                      <span
+                        class="font-size-14 weight-500 position-absolute bottom-0"
+                        style="inset-inline-end: 5px"
+                        >{{ endedGame?.gameType?.text }}</span
+                      >
+                      <img
+                        src="assets/images/normal-game.png"
+                        *ngIf="endedGame?.gameType?.id == 'normal'"
+                        width="22"
+                        height="22"
+                        class="mb-0 position-absolute"
+                        style="top: 25px; inset-inline-end: 55px"
+                      />
+                      <img
+                        src="assets/images/survival-game.png"
+                        *ngIf="endedGame?.gameType?.id == 'survival'"
+                        width="22"
+                        height="22"
+                        class="mb-0 position-absolute"
+                        style="top: 25px; inset-inline-end: 55px"
+                      />
                     </div>
                   </div>
-                  <br>
-                  <span
-                    class="font-size-11 weight-500 text-start">{{endedGame?.players?.length}} {{'player' | translate}}</span>
-                  <br>
+                  <br />
+                  <span class="font-size-11 weight-500 text-start"
+                    >{{ endedGame?.players?.length }}
+                    {{ "player" | translate }}</span
+                  >
+                  <br />
                   <mat-card-actions>
-                    <button mat-raised-button class="game-button"
-                            (click)="gotoResult(endedGame._id)">{{'Game Detail' | translate}}
+                    <button
+                      mat-raised-button
+                      class="game-button"
+                      (click)="gotoResult(endedGame._id)"
+                    >
+                      {{ "Game Detail" | translate }}
                     </button>
                   </mat-card-actions>
                 </mat-card>

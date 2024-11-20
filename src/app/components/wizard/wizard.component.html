@@ -1,55 +1,109 @@
 <!--<app-header></app-header>-->
-<br>
-<div class="card border-0 wizard-header"
-     [class]="{'p-3': !generalService.isMobileView, 'p-4': generalService.isMobileView}">
-  <img src="assets/images/handshake.png" width="92" height="66">
-  <div class="position-absolute text-white" style="inset-inline-start: 120px; top: 25px">
-    <div class="font-size-18 weight-700">{{'Lets get to know each other' | translate}}</div>
-    <mat-label
-      class="font-size-16 weight-400">{{'this helps us suggest you customized games you enjoy' | translate}}</mat-label>
+<br />
+<div
+  class="card border-0 wizard-header"
+  [class]="{
+    'p-3': !generalService.isMobileView,
+    'p-4': generalService.isMobileView
+  }"
+>
+  <img src="assets/images/handshake.png" width="92" height="66" />
+  <div
+    class="position-absolute text-white"
+    style="inset-inline-start: 120px; top: 25px"
+  >
+    <div class="font-size-18 weight-700">
+      {{ "Lets get to know each other" | translate }}
+    </div>
+    <mat-label class="font-size-16 weight-400">{{
+      "this helps us suggest you customized games you enjoy" | translate
+    }}</mat-label>
   </div>
 </div>
 <div class="card border-0 wizard-card-subheader" *ngIf="innerStep == 2">
   <mat-card class="shadow-none">
     <mat-card-header>
-<!--      <img src="assets/images/arrow-left.svg" width="24" height="24" (click)="innerStep = 1"-->
-<!--           style="position: absolute; inset-inline-start: 10px; top: 0; bottom: 0; margin: auto;">-->
-      <img  *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'" src="assets/images/arrow-left.svg" width="24" height="24"
-            style="position: absolute; inset-inline-start: 10px; top: 0; bottom: 0; margin: auto;" (click)="innerStep = 1">
-      <img  *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" src="assets/images/arrow-right-1.svg" width="24" height="24"
-            style="position: absolute; inset-inline-start: 10px; top: 0; bottom: 0; margin: auto;" (click)="innerStep = 1">
+      <!--      <img src="assets/images/arrow-left.svg" width="24" height="24" (click)="innerStep = 1"-->
+      <!--           style="position: absolute; inset-inline-start: 10px; top: 0; bottom: 0; margin: auto;">-->
+      <img
+        *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'"
+        src="assets/images/arrow-left.svg"
+        width="24"
+        height="24"
+        style="
+          position: absolute;
+          inset-inline-start: 10px;
+          top: 0;
+          bottom: 0;
+          margin: auto;
+        "
+        (click)="innerStep = 1"
+      />
+      <img
+        *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'"
+        src="assets/images/arrow-right-1.svg"
+        width="24"
+        height="24"
+        style="
+          position: absolute;
+          inset-inline-start: 10px;
+          top: 0;
+          bottom: 0;
+          margin: auto;
+        "
+        (click)="innerStep = 1"
+      />
 
       <div class="ms-4" style="height: 46px"></div>
-      <img src="assets/images/normal-game.png" *ngIf="innerExplanation?.gameType?.includes('Normal')" width="22"
-           height="22">
-      <img src="assets/images/survival-game.png" *ngIf="innerExplanation?.gameType?.includes('Survival')"
-           width="22" height="22">
-      <div class="font-size-14 weight-500 d-inline ps-2">{{innerExplanation?.gameType}}</div>
+      <img
+        src="assets/images/normal-game.png"
+        *ngIf="innerExplanation?.gameType?.includes('Normal')"
+        width="22"
+        height="22"
+      />
+      <img
+        src="assets/images/survival-game.png"
+        *ngIf="innerExplanation?.gameType?.includes('Survival')"
+        width="22"
+        height="22"
+      />
+      <div class="font-size-14 weight-500 d-inline ps-2">
+        {{ innerExplanation?.gameType }}
+      </div>
     </mat-card-header>
   </mat-card>
 </div>
 <div class="card p-4 border-0 wizard-card">
-  <div style="min-height: 50vh;">
+  <div style="min-height: 50vh">
     <mat-stepper linear #stepper>
       <mat-step [stepControl]="firstFormGroup">
         <form [formGroup]="firstFormGroup">
           <div class="d-flex align-items-center">
-            <img src="assets/images/book.png" width="52" height="52">
-            <div class="position-absolute" style="inset-inline-start: 90px; top: 25px">
-              <div class="font-size-18 weight-700">{{'Language' | translate}}</div>
-              <mat-label
-                class="font-size-16 weight-400">{{'Choose your preferred language to continue in' | translate}}</mat-label>
+            <img src="assets/images/book.png" width="52" height="52" />
+            <div
+              class="position-absolute"
+              style="inset-inline-start: 90px; top: 25px"
+            >
+              <div class="font-size-18 weight-700">
+                {{ "Language" | translate }}
+              </div>
+              <mat-label class="font-size-16 weight-400">{{
+                "Choose your preferred language to continue in" | translate
+              }}</mat-label>
             </div>
           </div>
-          <br><br>
+          <br /><br />
           <mat-form-field appearance="fill" class="custom-form-field">
             <mat-select [formControlName]="'language'">
-              <mat-option *ngFor="let lang of generalService.initData?.languages"
-                          [value]="lang._id">{{lang.title}}</mat-option>
+              <mat-option
+                *ngFor="let lang of generalService.initData?.languages"
+                [value]="lang._id"
+                >{{ lang.title }}</mat-option
+              >
             </mat-select>
           </mat-form-field>
           <div role="alert" style="color: #ff5722; margin: 10px 0">
-            {{error}}
+            {{ error }}
           </div>
         </form>
       </mat-step>
@@ -58,274 +112,447 @@
         <div *ngIf="!loadingUserData">
           <form class="mb-3" [formGroup]="form">
             <div class="d-inline-block">
-              <img src="assets/images/profile.png" width="50" height="50">
-              <div class="position-absolute" style="inset-inline-start: 90px; top: 25px">
-                <div class="font-size-18 weight-700">{{'Account Information' | translate}}</div>
-                <mat-label
-                  class="font-size-16 weight-400">{{'Description for this title' | translate}}</mat-label>
+              <img src="assets/images/profile.png" width="50" height="50" />
+              <div
+                class="position-absolute"
+                style="inset-inline-start: 90px; top: 25px"
+              >
+                <div class="font-size-18 weight-700">
+                  {{ "Account Information" | translate }}
+                </div>
+                <mat-label class="font-size-16 weight-400">{{
+                  "Description for this title" | translate
+                }}</mat-label>
               </div>
             </div>
-            <br>
-            <br>
-            <mat-form-field appearance="fill" class="custom-form-field w-100" [hideRequiredMarker]="true">
-              <mat-label>{{'Name' | translate}}</mat-label>
-              <input matInput placeholder="{{'First name' | translate}}" type="text" [formControlName]="'firstName'">
+            <br />
+            <br />
+            <mat-form-field
+              appearance="fill"
+              class="custom-form-field w-100"
+              [hideRequiredMarker]="true"
+            >
+              <mat-label>{{ "Name" | translate }}</mat-label>
+              <input
+                matInput
+                placeholder="{{ 'First name' | translate }}"
+                type="text"
+                [formControlName]="'firstName'"
+              />
             </mat-form-field>
-            <mat-form-field appearance="fill" class="custom-form-field w-100" [hideRequiredMarker]="true">
-              <mat-label>{{'Last Name' | translate}}</mat-label>
-              <input matInput placeholder="{{'Last Name' | translate}}" type="text" [formControlName]="'lastName'">
+            <mat-form-field
+              appearance="fill"
+              class="custom-form-field w-100"
+              [hideRequiredMarker]="true"
+            >
+              <mat-label>{{ "Last Name" | translate }}</mat-label>
+              <input
+                matInput
+                placeholder="{{ 'Last Name' | translate }}"
+                type="text"
+                [formControlName]="'lastName'"
+              />
             </mat-form-field>
-            <mat-form-field appearance="fill" class="custom-form-field w-100" [hideRequiredMarker]="true">
-              <mat-label>{{'E-mail' | translate}}</mat-label>
+            <mat-form-field
+              appearance="fill"
+              class="custom-form-field w-100"
+              [hideRequiredMarker]="true"
+            >
+              <mat-label>{{ "E-mail" | translate }}</mat-label>
               <div class="d-inline-flex w-100">
-                <input matInput placeholder="{{'email' | translate}}" type="email" [formControlName]="'email'">
-                <img src="assets/images/tick-circle.svg" width="25">
+                <input
+                  matInput
+                  placeholder="{{ 'email' | translate }}"
+                  type="email"
+                  [formControlName]="'email'"
+                />
+                <img src="assets/images/tick-circle.svg" width="25" />
               </div>
             </mat-form-field>
-            <mat-form-field appearance="fill" class="custom-form-field w-100 force-ltr">
+            <mat-form-field
+              appearance="fill"
+              class="custom-form-field w-100 force-ltr"
+            >
               <ngx-mat-intl-tel-input
                 [enablePlaceholder]="true"
                 [enableSearch]="true"
                 [preferredCountries]="['ir']"
                 name="phone"
                 (countryChanged)="countryChangedEvent($event)"
-                [formControlName]="'mobile'"></ngx-mat-intl-tel-input>
+                [formControlName]="'mobile'"
+              ></ngx-mat-intl-tel-input>
             </mat-form-field>
             <div class="d-flex">
               <mat-form-field class="custom-form-field w-50" appearance="fill">
-                <mat-label>{{'Gender' | translate}}</mat-label>
+                <mat-label>{{ "Gender" | translate }}</mat-label>
                 <mat-select [formControlName]="'gender'">
-                  <mat-option *ngFor="let gen of generalService.initData?.genders"
-                              [value]="gen._id">{{gen?.title}}</mat-option>
-                </mat-select>
-              </mat-form-field>&nbsp;&nbsp;
+                  <mat-option
+                    *ngFor="let gen of generalService.initData?.genders"
+                    [value]="gen._id"
+                    >{{ gen?.title }}</mat-option
+                  >
+                </mat-select> </mat-form-field
+              >&nbsp;&nbsp;
               <mat-form-field class="custom-form-field w-50" appearance="fill">
-                <mat-label>{{'Education' | translate}}</mat-label>
+                <mat-label>{{ "Education" | translate }}</mat-label>
                 <mat-select [formControlName]="'education'">
-                  <mat-option *ngFor="let edu of generalService.initData?.educations"
-                              [value]="edu._id">{{edu?.title}}</mat-option>
+                  <mat-option
+                    *ngFor="let edu of generalService.initData?.educations"
+                    [value]="edu._id"
+                    >{{ edu?.title }}</mat-option
+                  >
                 </mat-select>
               </mat-form-field>
             </div>
             <div class="d-flex">
               <mat-form-field class="custom-form-field w-50" appearance="fill">
-                <mat-label>{{'Country' | translate}}</mat-label>
+                <mat-label>{{ "Country" | translate }}</mat-label>
                 <mat-select [formControlName]="'country'">
                   <mat-option>
-                    <ngx-mat-select-search [formControl]="countryFilterCtrl"
-                                           placeholderLabel="{{'Search Country' | translate}}"
-                                           noEntriesFoundLabel="No countries found">
+                    <ngx-mat-select-search
+                      [formControl]="countryFilterCtrl"
+                      placeholderLabel="{{ 'Search Country' | translate }}"
+                      noEntriesFoundLabel="No countries found"
+                    >
                     </ngx-mat-select-search>
                   </mat-option>
-                  <mat-option *ngFor="let country of filteredCountries"
-                              [value]="country.name"
-                              (onSelectionChange)="generalService.getCitiesBasedOnCountry(country.code)">{{country.name}}</mat-option>
-                </mat-select>
-              </mat-form-field>&nbsp;&nbsp;
+                  <mat-option
+                    *ngFor="let country of filteredCountries"
+                    [value]="country.name"
+                    (onSelectionChange)="
+                      generalService.getCitiesBasedOnCountry(country.code)
+                    "
+                    >{{ country.name }}</mat-option
+                  >
+                </mat-select> </mat-form-field
+              >&nbsp;&nbsp;
 
               <mat-form-field class="custom-form-field w-50" appearance="fill">
-                <mat-label>{{'City' | translate}}</mat-label>
+                <mat-label>{{ "City" | translate }}</mat-label>
                 <mat-select [formControlName]="'city'">
                   <mat-option>
-                    <ngx-mat-select-search [formControl]="generalService.cityFilterCtrl"
-                                           placeholderLabel="{{'Search City' | translate}}"
-                                           noEntriesFoundLabel="No cities found">
+                    <ngx-mat-select-search
+                      [formControl]="generalService.cityFilterCtrl"
+                      placeholderLabel="{{ 'Search City' | translate }}"
+                      noEntriesFoundLabel="No cities found"
+                    >
                     </ngx-mat-select-search>
                   </mat-option>
-                  <mat-option *ngFor="let cty of generalService?.filteredCities" [value]="cty">{{cty}}</mat-option>
+                  <mat-option
+                    *ngFor="let cty of generalService?.filteredCities"
+                    [value]="cty"
+                    >{{ cty }}</mat-option
+                  >
                 </mat-select>
               </mat-form-field>
             </div>
             <div role="alert" style="color: #ff5722; margin: 10px 0">
-              {{error}}
+              {{ error }}
             </div>
           </form>
         </div>
       </mat-step>
       <mat-step>
         <div class="d-inline-block">
-          <img src="assets/images/preferences.png" width="84" height="84"
-               style="position: absolute; top: 10px; start: 10px">
-          <div class="position-absolute" style="inset-inline-start: 90px; top: 25px">
-            <div class="font-size-18 weight-700">{{'Preferences' | translate}}</div>
-            <mat-label
-              class="font-size-16 weight-400">{{'Select at least three categories' | translate}}</mat-label>
+          <img
+            src="assets/images/preferences.png"
+            width="84"
+            height="84"
+            style="position: absolute; top: 10px; start: 10px"
+          />
+          <div
+            class="position-absolute"
+            style="inset-inline-start: 90px; top: 25px"
+          >
+            <div class="font-size-18 weight-700">
+              {{ "Preferences" | translate }}
+            </div>
+            <mat-label class="font-size-16 weight-400">{{
+              "Select at least three categories" | translate
+            }}</mat-label>
           </div>
         </div>
-        <br>
-        <br>
-        <br>
-        <br>
-        <mat-card *ngFor="let cat of generalService.initData?.categories"
-                  class="m-2 d-inline-block shadow-none"
-                  (click)="selectCat(cat)"
-                  [class]="{'mat-card-pref-selected': isSelected(cat), 'mat-card-pref': !isSelected(cat)}">
+        <br />
+        <br />
+        <br />
+        <br />
+        <mat-card
+          *ngFor="let cat of generalService.initData?.categories"
+          class="m-2 d-inline-block shadow-none"
+          (click)="selectCat(cat)"
+          [class]="{
+            'mat-card-pref-selected': isSelected(cat),
+            'mat-card-pref': !isSelected(cat)
+          }"
+        >
           <mat-card-content class="text-align-start" style="padding: 16px 5px">
-            <img [src]="'https://api.staging.1qma.games/' + cat?.icon" width="35">
+            <img [src]="'https://api.1qma.games/' + cat?.icon" width="35" />
             <mat-label>{{ cat.name }}</mat-label>
           </mat-card-content>
         </mat-card>
         <div role="alert" style="color: #ff5722; margin: 10px 0">
-          {{error}}
+          {{ error }}
         </div>
       </mat-step>
-<!--      <mat-step>-->
-<!--        <div class="d-flex align-items-center">-->
-<!--          <img src="assets/images/Questions.png" width="52" height="52">-->
-<!--          <div class="position-absolute" style="left: 90px; top: 25px">-->
-<!--            <div class="font-size-18 weight-700">{{'Questions' | translate}}</div>-->
-<!--            <mat-label-->
-<!--              class="font-size-16 weight-400">{{'Please answer these questions' | translate}}</mat-label>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <br><br>-->
-<!--        <swiper-container #swiper [config]="config" effect="coverflow" pagination="true" navigation="true"-->
-<!--                          style="height: 250px">-->
-<!--          <ng-container *ngFor="let slide of generalService?.initData?.furtherQuestions; let i=index">-->
-<!--            <swiper-slide>-->
-<!--              <div *ngIf="slide?.type == 'text' " class="ps-5 pe-5">-->
-<!--                <div class="font-size-14 weight-600">{{slide?.question}}</div>-->
-<!--                <div class="textarea-container">-->
-<!--                  <textarea (input)="collectTextAnswer(slide, $event)" [placeholder]="slide?.placeholder"></textarea>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--              <div *ngIf="slide?.type == 'multiple_options'" class="ps-5 pe-5">-->
-<!--                <div class="font-size-14 weight-600">{{slide?.question}}</div>-->
-<!--                <mat-card *ngFor="let opt of slide?.options"-->
-<!--                          class="m-2 d-inline-block shadow-none"-->
-<!--                          (click)="selectQuestion(slide, opt)"-->
-<!--                          [ngClass]="{'mat-card-pref-selected': isSelectedQuestion(slide, opt), 'mat-card-pref': !isSelectedQuestion(slide, opt)}">-->
-<!--                  <mat-card-content class="text-start">-->
-<!--                    <mat-label>{{ opt }}</mat-label>-->
-<!--                  </mat-card-content>-->
-<!--                </mat-card>-->
-<!--              </div>-->
-<!--              <div *ngIf="slide?.type == 'select'" class="ps-5 pe-5">-->
-<!--                <div class="font-size-14 weight-600">{{slide?.question}}</div>-->
-<!--                <mat-form-field appearance="fill" class="custom-form-field">-->
-<!--                  <mat-select (selectionChange)="selectDropdownAnswer(slide, $event.value)">-->
-<!--                    <mat-option *ngFor="let opt of slide?.options"-->
-<!--                                [value]="opt">{{opt}}</mat-option>-->
-<!--                  </mat-select>-->
-<!--                </mat-form-field>-->
-<!--              </div>-->
-<!--              <div *ngIf="slide?.type == 'toggle'" class="ps-5 pe-5">-->
-<!--                <p>-->
-<!--                  <mat-slide-toggle labelPosition="before"-->
-<!--                                    (change)="onToggleChange(slide, $event)">{{slide?.question}}</mat-slide-toggle>-->
-<!--                </p>-->
-<!--              </div>-->
-<!--              <div role="alert" style="color: #ff5722; margin: 10px 0">-->
-<!--                {{error}}-->
-<!--              </div>-->
-<!--            </swiper-slide>-->
-<!--          </ng-container>-->
-<!--        </swiper-container>-->
-<!--      </mat-step>-->
+      <!--      <mat-step>-->
+      <!--        <div class="d-flex align-items-center">-->
+      <!--          <img src="assets/images/Questions.png" width="52" height="52">-->
+      <!--          <div class="position-absolute" style="left: 90px; top: 25px">-->
+      <!--            <div class="font-size-18 weight-700">{{'Questions' | translate}}</div>-->
+      <!--            <mat-label-->
+      <!--              class="font-size-16 weight-400">{{'Please answer these questions' | translate}}</mat-label>-->
+      <!--          </div>-->
+      <!--        </div>-->
+      <!--        <br><br>-->
+      <!--        <swiper-container #swiper [config]="config" effect="coverflow" pagination="true" navigation="true"-->
+      <!--                          style="height: 250px">-->
+      <!--          <ng-container *ngFor="let slide of generalService?.initData?.furtherQuestions; let i=index">-->
+      <!--            <swiper-slide>-->
+      <!--              <div *ngIf="slide?.type == 'text' " class="ps-5 pe-5">-->
+      <!--                <div class="font-size-14 weight-600">{{slide?.question}}</div>-->
+      <!--                <div class="textarea-container">-->
+      <!--                  <textarea (input)="collectTextAnswer(slide, $event)" [placeholder]="slide?.placeholder"></textarea>-->
+      <!--                </div>-->
+      <!--              </div>-->
+      <!--              <div *ngIf="slide?.type == 'multiple_options'" class="ps-5 pe-5">-->
+      <!--                <div class="font-size-14 weight-600">{{slide?.question}}</div>-->
+      <!--                <mat-card *ngFor="let opt of slide?.options"-->
+      <!--                          class="m-2 d-inline-block shadow-none"-->
+      <!--                          (click)="selectQuestion(slide, opt)"-->
+      <!--                          [ngClass]="{'mat-card-pref-selected': isSelectedQuestion(slide, opt), 'mat-card-pref': !isSelectedQuestion(slide, opt)}">-->
+      <!--                  <mat-card-content class="text-start">-->
+      <!--                    <mat-label>{{ opt }}</mat-label>-->
+      <!--                  </mat-card-content>-->
+      <!--                </mat-card>-->
+      <!--              </div>-->
+      <!--              <div *ngIf="slide?.type == 'select'" class="ps-5 pe-5">-->
+      <!--                <div class="font-size-14 weight-600">{{slide?.question}}</div>-->
+      <!--                <mat-form-field appearance="fill" class="custom-form-field">-->
+      <!--                  <mat-select (selectionChange)="selectDropdownAnswer(slide, $event.value)">-->
+      <!--                    <mat-option *ngFor="let opt of slide?.options"-->
+      <!--                                [value]="opt">{{opt}}</mat-option>-->
+      <!--                  </mat-select>-->
+      <!--                </mat-form-field>-->
+      <!--              </div>-->
+      <!--              <div *ngIf="slide?.type == 'toggle'" class="ps-5 pe-5">-->
+      <!--                <p>-->
+      <!--                  <mat-slide-toggle labelPosition="before"-->
+      <!--                                    (change)="onToggleChange(slide, $event)">{{slide?.question}}</mat-slide-toggle>-->
+      <!--                </p>-->
+      <!--              </div>-->
+      <!--              <div role="alert" style="color: #ff5722; margin: 10px 0">-->
+      <!--                {{error}}-->
+      <!--              </div>-->
+      <!--            </swiper-slide>-->
+      <!--          </ng-container>-->
+      <!--        </swiper-container>-->
+      <!--      </mat-step>-->
       <mat-step>
         <form [formGroup]="accountTypeForm">
           <div class="d-inline-block">
-            <img src="assets/images/Account-type.png" width="61" height="61"
-                 style="position: absolute; top: 10px; inset-inline-start: 10px">
-            <div class="position-absolute" style="inset-inline-start: 90px; top: 25px">
-              <div class="font-size-18 weight-700">{{'Account type' | translate}}</div>
-              <mat-label
-                class="font-size-16 weight-400">{{'Choose your account type' | translate}}</mat-label>
+            <img
+              src="assets/images/Account-type.png"
+              width="61"
+              height="61"
+              style="position: absolute; top: 10px; inset-inline-start: 10px"
+            />
+            <div
+              class="position-absolute"
+              style="inset-inline-start: 90px; top: 25px"
+            >
+              <div class="font-size-18 weight-700">
+                {{ "Account type" | translate }}
+              </div>
+              <mat-label class="font-size-16 weight-400">{{
+                "Choose your account type" | translate
+              }}</mat-label>
             </div>
           </div>
-          <br><br><br><br>
-          <mat-card *ngFor="let acc of generalService.initData?.accountTypes" class="m-2 d-inline-block"
-                    (click)="acc?.name == 'Basic' && selectType(acc._id)"
-                    [class]="{'mat-card-account-selected': selectedType == acc._id, 'mat-card-account': (selectedType != acc._id),
-                    'mat-card-account-disable': acc?.name != 'Basic'}">
+          <br /><br /><br /><br />
+          <mat-card
+            *ngFor="let acc of generalService.initData?.accountTypes"
+            class="m-2 d-inline-block"
+            (click)="acc?.name == 'Basic' && selectType(acc._id)"
+            [class]="{
+              'mat-card-account-selected': selectedType == acc._id,
+              'mat-card-account': selectedType != acc._id,
+              'mat-card-account-disable': acc?.name != 'Basic'
+            }"
+          >
             <mat-card-content class="text-center">
-              <img [src]="'https://api.staging.1qma.games/' + acc?.icon" width="106" height="106">
-              <br>
-              <br>
-              <mat-label class="font-size-16 weight-700">{{acc.name}}</mat-label>
+              <img
+                [src]="'https://api.1qma.games/' + acc?.icon"
+                width="106"
+                height="106"
+              />
+              <br />
+              <br />
+              <mat-label class="font-size-16 weight-700">{{
+                acc.name
+              }}</mat-label>
             </mat-card-content>
           </mat-card>
           <div role="alert" style="color: #ff5722; margin: 10px 0">
-            {{error}}
+            {{ error }}
           </div>
         </form>
       </mat-step>
       <mat-step>
         <div *ngIf="innerStep == 1">
           <div class="d-inline-block">
-            <img src="assets/images/reading.png" width="69" height="69">
-            <div class="position-absolute" style="inset-inline-start: 90px; top: 25px">
-              <div class="font-size-18 weight-700">{{'Game Explanation' | translate}}</div>
-              <mat-label
-                class="font-size-16 weight-400">{{'Road this to learn more about our game' | translate}}</mat-label>
+            <img src="assets/images/reading.png" width="69" height="69" />
+            <div
+              class="position-absolute"
+              style="inset-inline-start: 90px; top: 25px"
+            >
+              <div class="font-size-18 weight-700">
+                {{ "Game Explanation" | translate }}
+              </div>
+              <mat-label class="font-size-16 weight-400">{{
+                "Road this to learn more about our game" | translate
+              }}</mat-label>
             </div>
           </div>
-          <br><br><br>
-          <div class="position-relative w-100 mb-4"
-               [class]="{'d-inline-block': !generalService.isMobileView, 'd-block': generalService.isMobileView}"
-               *ngFor="let item of generalService?.initData?.gameExplanations">
+          <br /><br /><br />
+          <div
+            class="position-relative w-100 mb-4"
+            [class]="{
+              'd-inline-block': !generalService.isMobileView,
+              'd-block': generalService.isMobileView
+            }"
+            *ngFor="let item of generalService?.initData?.gameExplanations"
+          >
             <div (click)="gotoExplanationDetail(item)" class="pointer-event">
               <!--              https://www.youtube.com/embed/dQw4w9WgXcQ-->
-              <iframe [src]="item?.link | safeUrl"
-                      [class]="{'': !generalService.isMobileView, 'd-block': generalService.isMobileView}"
-                      [style]="generalService.isMobileView ? 'width: 100%' : 'width: 192px' "
-                      width="192" height="124" frameborder="0" allowfullscreen></iframe>
+              <iframe
+                [src]="item?.link | safeUrl"
+                [class]="{
+                  '': !generalService.isMobileView,
+                  'd-block': generalService.isMobileView
+                }"
+                [style]="
+                  generalService.isMobileView ? 'width: 100%' : 'width: 192px'
+                "
+                width="192"
+                height="124"
+                frameborder="0"
+                allowfullscreen
+              ></iframe>
 
               <div
-                [class]="{'position-absolute': !generalService.isMobileView, 'position-relative': generalService.isMobileView}"
-                [style]="!generalService.isMobileView ? 'inset-inline-start: 200px; top: 0px' : 'inset-inline-start: 0; '">
-                <img src="assets/images/normal-game.png" *ngIf="item?.gameType.includes('Normal')" width="22"
-                     height="22">
-                <img src="assets/images/survival-game.png" *ngIf="item?.gameType.includes('Survival')"
-                     width="22" height="22">
-                <div class="font-size-14 weight-600 d-inline ps-2">{{item?.gameType}}</div>
-                <br>
-                <br>
-                <mat-label
-                  class="font-size-14 weight-500">{{item?.explanation?.length > 150 ? (item?.explanation | slice:0:145) + ' ...' : item?.explanation}}
+                [class]="{
+                  'position-absolute': !generalService.isMobileView,
+                  'position-relative': generalService.isMobileView
+                }"
+                [style]="
+                  !generalService.isMobileView
+                    ? 'inset-inline-start: 200px; top: 0px'
+                    : 'inset-inline-start: 0; '
+                "
+              >
+                <img
+                  src="assets/images/normal-game.png"
+                  *ngIf="item?.gameType.includes('Normal')"
+                  width="22"
+                  height="22"
+                />
+                <img
+                  src="assets/images/survival-game.png"
+                  *ngIf="item?.gameType.includes('Survival')"
+                  width="22"
+                  height="22"
+                />
+                <div class="font-size-14 weight-600 d-inline ps-2">
+                  {{ item?.gameType }}
+                </div>
+                <br />
+                <br />
+                <mat-label class="font-size-14 weight-500"
+                  >{{
+                    item?.explanation?.length > 150
+                      ? (item?.explanation | slice : 0 : 145) + " ..."
+                      : item?.explanation
+                  }}
                 </mat-label>
-                <button mat-button color="primary" class="next-step-explanation" (click)="gotoExplanationDetail(item)">
-                  {{'Read More' | translate}}
-<!--                  <i class="bi bi-chevron-right"></i>-->
-                  <i *ngIf="!generalService.userObj || generalService.userObj?.preferedLanguage?.code != 'fa'" class="bi bi-arrow-right"></i>
-                  <i *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" class="bi bi-arrow-left"></i>
+                <button
+                  mat-button
+                  color="primary"
+                  class="next-step-explanation"
+                  (click)="gotoExplanationDetail(item)"
+                >
+                  {{ "Read More" | translate }}
+                  <!--                  <i class="bi bi-chevron-right"></i>-->
+                  <i
+                    *ngIf="
+                      !generalService.userObj ||
+                      generalService.userObj?.preferedLanguage?.code != 'fa'
+                    "
+                    class="bi bi-arrow-right"
+                  ></i>
+                  <i
+                    *ngIf="
+                      generalService.userObj?.preferedLanguage?.code == 'fa'
+                    "
+                    class="bi bi-arrow-left"
+                  ></i>
                 </button>
               </div>
             </div>
-            <br>
+            <br />
           </div>
         </div>
         <div *ngIf="innerStep == 2">
           <div class="d-inline-block position-relative w-100 mb-4">
-            <iframe width="100%" height="320px" [src]="innerExplanation?.link | safeUrl"
-                    frameborder="0"
-                    allowfullscreen></iframe>
+            <iframe
+              width="100%"
+              height="320px"
+              [src]="innerExplanation?.link | safeUrl"
+              frameborder="0"
+              allowfullscreen
+            ></iframe>
             <div class="d-flex" style="margin: 20px 0">
-              <img src="assets/images/normal-game.png" *ngIf="innerExplanation?.gameType.includes('Normal')" width="22"
-                   height="22">
-              <img src="assets/images/survival-game.png" *ngIf="innerExplanation?.gameType.includes('Survival')"
-                   width="22" height="22">
-              <div class="font-size-14 weight-600 d-inline ps-2">{{innerExplanation?.gameType}}</div>
-              <br>
+              <img
+                src="assets/images/normal-game.png"
+                *ngIf="innerExplanation?.gameType.includes('Normal')"
+                width="22"
+                height="22"
+              />
+              <img
+                src="assets/images/survival-game.png"
+                *ngIf="innerExplanation?.gameType.includes('Survival')"
+                width="22"
+                height="22"
+              />
+              <div class="font-size-14 weight-600 d-inline ps-2">
+                {{ innerExplanation?.gameType }}
+              </div>
+              <br />
             </div>
-            <mat-label
-              class="font-size-14 weight-500">{{innerExplanation?.explanation}}
+            <mat-label class="font-size-14 weight-500"
+              >{{ innerExplanation?.explanation }}
             </mat-label>
           </div>
         </div>
       </mat-step>
       <mat-step>
         <div class="d-block text-center">
-          <img src="assets/images/like.png" width="127">
-          <div class="font-size-16 weight-700">{{'Welcome' | translate}}</div>
-          <br>
+          <img src="assets/images/like.png" width="127" />
+          <div class="font-size-16 weight-700">{{ "Welcome" | translate }}</div>
+          <br />
           <mat-label class="font-size-14 weight-500" style="color: #585858">
-            {{'Your account has been created successful.Now you can start playing games.' | translate}}
+            {{
+              "Your account has been created successful.Now you can start playing games."
+                | translate
+            }}
           </mat-label>
-          <br><br>
-          <button mat-raised-button color="primary"
-                  class="w-50 p-4" [routerLink]="['/tutorial']">
-            <span>{{'Lets play a game' | translate}}</span>
+          <br /><br />
+          <button
+            mat-raised-button
+            color="primary"
+            class="w-50 p-4"
+            [routerLink]="['/tutorial']"
+          >
+            <span>{{ "Lets play a game" | translate }}</span>
           </button>
         </div>
       </mat-step>
@@ -335,59 +562,159 @@
 <div class="card p-3 border-0 wizard-card-subheader">
   <footer>
     <div class="bullet-navigation">
-      <button mat-raised-button [disabled]="stepper?.selectedIndex == 0"
-              (click)="gotoPrevStep()" class="prev-step" [class]="{'border-0': stepper?.selectedIndex == 0}">
-<!--        <i class="bi bi-arrow-left"></i>-->
-        <i *ngIf="!generalService.userObj || generalService.userObj?.preferedLanguage?.code != 'fa'" class="bi bi-arrow-left"></i>
-        <i *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" class="bi bi-arrow-right"></i>
-        {{'Previous' | translate}}
+      <button
+        mat-raised-button
+        [disabled]="stepper?.selectedIndex == 0"
+        (click)="gotoPrevStep()"
+        class="prev-step"
+        [class]="{ 'border-0': stepper?.selectedIndex == 0 }"
+      >
+        <!--        <i class="bi bi-arrow-left"></i>-->
+        <i
+          *ngIf="
+            !generalService.userObj ||
+            generalService.userObj?.preferedLanguage?.code != 'fa'
+          "
+          class="bi bi-arrow-left"
+        ></i>
+        <i
+          *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'"
+          class="bi bi-arrow-right"
+        ></i>
+        {{ "Previous" | translate }}
       </button>
       <div class="bullet-container">
-        <div *ngFor="let step of steps; let i = index" class="bullet" [class.active]="stepper.selectedIndex === i">
-          <div *ngIf="stepper.selectedIndex == i" class="stepIndex weight-600">{{stepper.selectedIndex + 1}} / 6</div>
-          <mat-progress-bar class="success-color progress-wizard" color="accent"
-                            *ngIf="stepper.selectedIndex == i"
-                            mode="determinate" [value]="getProgressValue(i)"></mat-progress-bar>
+        <div
+          *ngFor="let step of steps; let i = index"
+          class="bullet"
+          [class.active]="stepper.selectedIndex === i"
+        >
+          <div *ngIf="stepper.selectedIndex == i" class="stepIndex weight-600">
+            {{ stepper.selectedIndex + 1 }} / 6
+          </div>
+          <mat-progress-bar
+            class="success-color progress-wizard"
+            color="accent"
+            *ngIf="stepper.selectedIndex == i"
+            mode="determinate"
+            [value]="getProgressValue(i)"
+          ></mat-progress-bar>
         </div>
       </div>
       <div class="next-button">
-        <button mat-raised-button color="primary" *ngIf="stepper?.selectedIndex == 0"
-                [disabled]="!generalService.initData?.languages || loadingLanguage"
-                (click)="saveLanguage()" class="next-step">
-          {{'Next Step' | translate}}
-<!--          <i class="bi bi-arrow-right"></i>-->
-          <i *ngIf="!generalService.userObj || generalService.userObj?.preferedLanguage?.code != 'fa'" class="bi bi-arrow-right"></i>
-          <i *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" class="bi bi-arrow-left"></i>
+        <button
+          mat-raised-button
+          color="primary"
+          *ngIf="stepper?.selectedIndex == 0"
+          [disabled]="!generalService.initData?.languages || loadingLanguage"
+          (click)="saveLanguage()"
+          class="next-step"
+        >
+          {{ "Next Step" | translate }}
+          <!--          <i class="bi bi-arrow-right"></i>-->
+          <i
+            *ngIf="
+              !generalService.userObj ||
+              generalService.userObj?.preferedLanguage?.code != 'fa'
+            "
+            class="bi bi-arrow-right"
+          ></i>
+          <i
+            *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'"
+            class="bi bi-arrow-left"
+          ></i>
         </button>
-        <button mat-raised-button color="primary" *ngIf="stepper?.selectedIndex == 1" (click)="openVerificationModal()"
-                [disabled]="form.invalid || loading" class="next-step">{{'Next Step' | translate}}
-<!--          <i class="bi bi-arrow-right"></i>-->
-          <i *ngIf="!generalService.userObj || generalService.userObj?.preferedLanguage?.code != 'fa'" class="bi bi-arrow-right"></i>
-          <i *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" class="bi bi-arrow-left"></i>
+        <button
+          mat-raised-button
+          color="primary"
+          *ngIf="stepper?.selectedIndex == 1"
+          (click)="openVerificationModal()"
+          [disabled]="form.invalid || loading"
+          class="next-step"
+        >
+          {{ "Next Step" | translate }}
+          <!--          <i class="bi bi-arrow-right"></i>-->
+          <i
+            *ngIf="
+              !generalService.userObj ||
+              generalService.userObj?.preferedLanguage?.code != 'fa'
+            "
+            class="bi bi-arrow-right"
+          ></i>
+          <i
+            *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'"
+            class="bi bi-arrow-left"
+          ></i>
         </button>
-        <button mat-raised-button color="primary" *ngIf="stepper?.selectedIndex == 2"
-                [disabled]="loading || selectedCategory?.length==0"
-                (click)="submitPref()" class="next-step">{{'Next Step' | translate}}
-<!--          <i class="bi bi-arrow-right"></i>-->
-          <i *ngIf="!generalService.userObj || generalService.userObj?.preferedLanguage?.code != 'fa'" class="bi bi-arrow-right"></i>
-          <i *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" class="bi bi-arrow-left"></i>
+        <button
+          mat-raised-button
+          color="primary"
+          *ngIf="stepper?.selectedIndex == 2"
+          [disabled]="loading || selectedCategory?.length == 0"
+          (click)="submitPref()"
+          class="next-step"
+        >
+          {{ "Next Step" | translate }}
+          <!--          <i class="bi bi-arrow-right"></i>-->
+          <i
+            *ngIf="
+              !generalService.userObj ||
+              generalService.userObj?.preferedLanguage?.code != 'fa'
+            "
+            class="bi bi-arrow-right"
+          ></i>
+          <i
+            *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'"
+            class="bi bi-arrow-left"
+          ></i>
         </button>
-<!--        <button mat-raised-button color="primary" *ngIf="stepper?.selectedIndex == 3"-->
-<!--                [disabled]="loading || answers.length != generalService.initData?.furtherQuestions?.length"-->
-<!--                (click)="submitAnswers()" class="next-step">{{'Next Step' | translate}}-->
-<!--          <i class="bi bi-arrow-right"></i>-->
-<!--        </button>-->
-        <button mat-raised-button color="primary" *ngIf="stepper?.selectedIndex == 3" [disabled]="loadingAccountType"
-                (click)="submitAccountType()" class="next-step">{{'Next Step' | translate}}
-<!--          <i class="bi bi-arrow-right"></i>-->
-          <i *ngIf="!generalService.userObj || generalService.userObj?.preferedLanguage?.code != 'fa'" class="bi bi-arrow-right"></i>
-          <i *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" class="bi bi-arrow-left"></i>
+        <!--        <button mat-raised-button color="primary" *ngIf="stepper?.selectedIndex == 3"-->
+        <!--                [disabled]="loading || answers.length != generalService.initData?.furtherQuestions?.length"-->
+        <!--                (click)="submitAnswers()" class="next-step">{{'Next Step' | translate}}-->
+        <!--          <i class="bi bi-arrow-right"></i>-->
+        <!--        </button>-->
+        <button
+          mat-raised-button
+          color="primary"
+          *ngIf="stepper?.selectedIndex == 3"
+          [disabled]="loadingAccountType"
+          (click)="submitAccountType()"
+          class="next-step"
+        >
+          {{ "Next Step" | translate }}
+          <!--          <i class="bi bi-arrow-right"></i>-->
+          <i
+            *ngIf="
+              !generalService.userObj ||
+              generalService.userObj?.preferedLanguage?.code != 'fa'
+            "
+            class="bi bi-arrow-right"
+          ></i>
+          <i
+            *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'"
+            class="bi bi-arrow-left"
+          ></i>
         </button>
-        <button mat-raised-button color="primary" *ngIf="stepper?.selectedIndex == 4"
-                (click)="stepper?.next()" class="next-step">{{'Next Step' | translate}}
-<!--          <i class="bi bi-arrow-right"></i>-->
-          <i *ngIf="!generalService.userObj || generalService.userObj?.preferedLanguage?.code != 'fa'" class="bi bi-arrow-right"></i>
-          <i *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" class="bi bi-arrow-left"></i>
+        <button
+          mat-raised-button
+          color="primary"
+          *ngIf="stepper?.selectedIndex == 4"
+          (click)="stepper?.next()"
+          class="next-step"
+        >
+          {{ "Next Step" | translate }}
+          <!--          <i class="bi bi-arrow-right"></i>-->
+          <i
+            *ngIf="
+              !generalService.userObj ||
+              generalService.userObj?.preferedLanguage?.code != 'fa'
+            "
+            class="bi bi-arrow-right"
+          ></i>
+          <i
+            *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'"
+            class="bi bi-arrow-left"
+          ></i>
         </button>
       </div>
     </div>

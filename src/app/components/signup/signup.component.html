@@ -1,43 +1,89 @@
 <!--<app-header></app-header>-->
 <div class="w-100">
-  <br>
-  <br>
-  <br>
-  <div class="card p-4 pb-3 border-0 login-card" [style]="generalService.isMobileView ? 'margin-top: 20px' : ''">
-    <mat-icon class="back-btn-register" *ngIf="step !== 3" (click)="prevStep()">arrow_back_ios</mat-icon>
+  <br />
+  <br />
+  <br />
+  <div
+    class="card p-4 pb-3 border-0 login-card"
+    [style]="generalService.isMobileView ? 'margin-top: 20px' : ''"
+  >
+    <mat-icon class="back-btn-register" *ngIf="step !== 3" (click)="prevStep()"
+      >arrow_back_ios</mat-icon
+    >
     <div class="text-center mb-3">
-      <img src="https://api.staging.1qma.games/images/logo.png" width="128" height="98">
-      <br>
-      <div style="font-size: 16px; font-weight: 700">{{'Sign up for a new account'}}</div>
+      <img
+        src="https://api.1qma.games/images/logo.png"
+        width="128"
+        height="98"
+      />
+      <br />
+      <div style="font-size: 16px; font-weight: 700">
+        {{ "Sign up for a new account" }}
+      </div>
     </div>
     <div *ngIf="step === 1">
-      <form [formGroup]="signUpReferralForm" (ngSubmit)="onSubmit()" autocomplete="off" *ngIf="!email">
-        <mat-form-field appearance="fill" class="custom-form-field w-100 mb-2" [hideRequiredMarker]="true">
-          <mat-label>{{'Referral Code'}}</mat-label>
-          <input matInput placeholder="{{'Referral Code'}}" type="text" name="referral"
-                 [formControlName]="'referer'" required>
+      <form
+        [formGroup]="signUpReferralForm"
+        (ngSubmit)="onSubmit()"
+        autocomplete="off"
+        *ngIf="!email"
+      >
+        <mat-form-field
+          appearance="fill"
+          class="custom-form-field w-100 mb-2"
+          [hideRequiredMarker]="true"
+        >
+          <mat-label>{{ "Referral Code" }}</mat-label>
+          <input
+            matInput
+            placeholder="{{ 'Referral Code' }}"
+            type="text"
+            name="referral"
+            [formControlName]="'referer'"
+            required
+          />
           <!--          <mat-error>Please enter your referral code</mat-error>-->
         </mat-form-field>
         <div role="alert" style="color: #ff5722; margin: 10px 0">
-          {{error}}
+          {{ error }}
         </div>
-        <button mat-raised-button color="primary" type="submit" [disabled]="!signUpReferralForm.valid || loading"
-                class="w-100 p-4">
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [disabled]="!signUpReferralForm.valid || loading"
+          class="w-100 p-4"
+        >
           <span>Sign up</span>
         </button>
       </form>
       <div class="position-relative mt-4" *ngIf="!email">
         <div class="line"></div>
-        <div class="text-on-line">{{'or'}}</div>
+        <div class="text-on-line">{{ "or" }}</div>
       </div>
-      <br>
-      <form #f="ngForm" [formGroup]="signUpWaitListForm" (ngSubmit)="onSubmitSignUpWaitList()" autocomplete="off">
-        <mat-form-field appearance="fill" class="custom-form-field w-100 mb-2" [hideRequiredMarker]="true">
-          <mat-label>{{'E-mail Address'}}</mat-label>
+      <br />
+      <form
+        #f="ngForm"
+        [formGroup]="signUpWaitListForm"
+        (ngSubmit)="onSubmitSignUpWaitList()"
+        autocomplete="off"
+      >
+        <mat-form-field
+          appearance="fill"
+          class="custom-form-field w-100 mb-2"
+          [hideRequiredMarker]="true"
+        >
+          <mat-label>{{ "E-mail Address" }}</mat-label>
           <div class="d-inline-flex w-100">
-            <input matInput placeholder="{{'E-mail Address'}}" type="text" name="email"
-                   [formControlName]="'email'" required>
-            <img *ngIf="email" src="assets/images/tick-circle.svg" width="25">
+            <input
+              matInput
+              placeholder="{{ 'E-mail Address' }}"
+              type="text"
+              name="email"
+              [formControlName]="'email'"
+              required
+            />
+            <img *ngIf="email" src="assets/images/tick-circle.svg" width="25" />
           </div>
           <!--          <mat-error>{{'Please enter your email address' | translate}}</mat-error>-->
         </mat-form-field>
@@ -48,35 +94,57 @@
             [preferredCountries]="['ir']"
             name="phone"
             (countryChanged)="countryChangedEvent($event)"
-            [formControlName]="'mobile'"></ngx-mat-intl-tel-input>
+            [formControlName]="'mobile'"
+          ></ngx-mat-intl-tel-input>
         </mat-form-field>
         <div role="alert" style="color: #ff5722; margin: 10px 0">
-          {{errorWaitList}}
+          {{ errorWaitList }}
         </div>
-        <button mat-raised-button color="primary" type="submit" [disabled]="!signUpWaitListForm.valid || loading"
-                class="w-100 p-4">
-          <span>{{'Join the wait list'}}</span>
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [disabled]="!signUpWaitListForm.valid || loading"
+          class="w-100 p-4"
+        >
+          <span>{{ "Join the wait list" }}</span>
         </button>
-        <br>
-        <br>
+        <br />
+        <br />
       </form>
       <div class="mediaAccounts radius">
-        <a [href]="config.url('/auth/google?reason=join_to_wait_list')" class="social-button-div border-0"><img
-          src="assets/images/google.png"
-          style="margin-top: 6px"
-          width="23"/></a>
-        <a [href]="config.url('/auth/facebook?reason=join_to_wait_list')" class="social-button-div border-0"><img
-          src="assets/images/facebook.png"
-          style="margin-top: 6px"
-          width="23"/></a>
-        <a [href]="config.url('/auth/apple?reason=join_to_wait_list')" class="social-button-div border-0"><img
-          src="assets/images/apple.png"
-          style="margin-top: 6px"
-          width="23"/></a>
-        <a [href]="config.url('/auth/x?reason=join_to_wait_list')" class="social-button-div border-0"><img
-          src="assets/images/x-media.png"
-          style="margin-top: 6px"
-          width="23"/></a>
+        <a
+          [href]="config.url('/auth/google?reason=join_to_wait_list')"
+          class="social-button-div border-0"
+          ><img
+            src="assets/images/google.png"
+            style="margin-top: 6px"
+            width="23"
+        /></a>
+        <a
+          [href]="config.url('/auth/facebook?reason=join_to_wait_list')"
+          class="social-button-div border-0"
+          ><img
+            src="assets/images/facebook.png"
+            style="margin-top: 6px"
+            width="23"
+        /></a>
+        <a
+          [href]="config.url('/auth/apple?reason=join_to_wait_list')"
+          class="social-button-div border-0"
+          ><img
+            src="assets/images/apple.png"
+            style="margin-top: 6px"
+            width="23"
+        /></a>
+        <a
+          [href]="config.url('/auth/x?reason=join_to_wait_list')"
+          class="social-button-div border-0"
+          ><img
+            src="assets/images/x-media.png"
+            style="margin-top: 6px"
+            width="23"
+        /></a>
         <!--        <button class="social-button-div border-0" (click)="gotoSignup()"><img src="assets/images/facebook.png"-->
         <!--                                                                               width="23"/></button>-->
         <!--        <button class="social-button-div border-0" (click)="gotoSignup()"><img src="assets/images/apple.png"-->
@@ -84,97 +152,157 @@
         <!--        <button class="social-button-div border-0" (click)="gotoSignup()"><img src="assets/images/x-media.png"-->
         <!--        width="23"/></button>-->
       </div>
-      <br>
-      <br>
+      <br />
+      <br />
       <div class="text-center" *ngIf="!email" [routerLink]="['/login']">
-        <div class="d-inline-flex font-size-14 weight-600">{{'Have an account?'}}
-          <div class="link text-decoration-none font-size-14 weight-600">&nbsp; {{'Log in'}}</div>
+        <div class="d-inline-flex font-size-14 weight-600">
+          {{ "Have an account?" }}
+          <div class="link text-decoration-none font-size-14 weight-600">
+            &nbsp; {{ "Log in" }}
+          </div>
         </div>
       </div>
     </div>
     <div *ngIf="step === 2">
-      <br>
-      <mat-label
-        style="font-size: 14px; font-weight: 500">{{'To verify your E-mail address and phone number, please enter codes send to you:'}}</mat-label>
-      <br>
-      <br>
+      <br />
+      <mat-label style="font-size: 14px; font-weight: 500">{{
+        "To verify your E-mail address and phone number, please enter codes send to you:"
+      }}</mat-label>
+      <br />
+      <br />
       <form #f="ngForm" [formGroup]="signUpVerifyFormEmail" autocomplete="off">
-        <mat-form-field appearance="fill" class="custom-form-field w-100" [hideRequiredMarker]="true">
-          <mat-label>{{'Email Address'}}</mat-label>
+        <mat-form-field
+          appearance="fill"
+          class="custom-form-field w-100"
+          [hideRequiredMarker]="true"
+        >
+          <mat-label>{{ "Email Address" }}</mat-label>
           <div class="d-inline-flex w-100">
-            <input matInput placeholder="{{'Email Address'}}" type="text" name="text"
-                   [formControlName]="'email'" required>
-            <img src="assets/images/tick-circle.svg" width="25">
+            <input
+              matInput
+              placeholder="{{ 'Email Address' }}"
+              type="text"
+              name="text"
+              [formControlName]="'email'"
+              required
+            />
+            <img src="assets/images/tick-circle.svg" width="25" />
           </div>
         </mat-form-field>
-        <mat-form-field appearance="fill" class="custom-form-field w-100" [hideRequiredMarker]="true">
-          <mat-label>{{'Email Verification Code'}}</mat-label>
-          <input matInput placeholder="{{'Email Verification Code'}}" type="text" name="text"
-                 [formControlName]="'verificationCode'" required>
+        <mat-form-field
+          appearance="fill"
+          class="custom-form-field w-100"
+          [hideRequiredMarker]="true"
+        >
+          <mat-label>{{ "Email Verification Code" }}</mat-label>
+          <input
+            matInput
+            placeholder="{{ 'Email Verification Code' }}"
+            type="text"
+            name="text"
+            [formControlName]="'verificationCode'"
+            required
+          />
         </mat-form-field>
         <div *ngIf="!resendAbleEmail" class="w-100 d-inline-block">
           Resend in:
-          <app-countdown-timer [duration]="generalService.initData?.nextVerificationMinutes * 60"
-                               (countdownFinished)="handleCountdownFinishedEmail()"></app-countdown-timer>
+          <app-countdown-timer
+            [duration]="generalService.initData?.nextVerificationMinutes * 60"
+            (countdownFinished)="handleCountdownFinishedEmail()"
+          ></app-countdown-timer>
         </div>
-        <mat-label class="w-100 mb-2 font-size-12" style="color: #0B6FEA" *ngIf="resendAbleEmail"
-                   (click)="resendCodeEmail()">
-          {{'Resend'}}
+        <mat-label
+          class="w-100 mb-2 font-size-12"
+          style="color: #0b6fea"
+          *ngIf="resendAbleEmail"
+          (click)="resendCodeEmail()"
+        >
+          {{ "Resend" }}
         </mat-label>
       </form>
-      <br>
+      <br />
       <form #f="ngForm" [formGroup]="signUpVerifyFormMobile" autocomplete="off">
-        <mat-form-field appearance="fill" class="custom-form-field w-100"
-                        [hideRequiredMarker]="true">
-          <mat-label>{{'Phone Number'}}</mat-label>
+        <mat-form-field
+          appearance="fill"
+          class="custom-form-field w-100"
+          [hideRequiredMarker]="true"
+        >
+          <mat-label>{{ "Phone Number" }}</mat-label>
           <div class="d-inline-flex w-100">
-            <input matInput placeholder="{{'Phone Number'}}" type="text" name="text"
-                   [formControlName]="'mobile'" required>
-            <img src="assets/images/tick-circle.svg" width="25">
-          </div>
-        </mat-form-field>&nbsp;
-        <mat-form-field appearance="fill" class="custom-form-field w-100" [hideRequiredMarker]="true">
-          <mat-label>{{'Phone Verification Code'}}</mat-label>
-          <input matInput placeholder="{{'Phone Verification Code'}}" type="text" name="text"
-                 [formControlName]="'verificationCode'" required>
+            <input
+              matInput
+              placeholder="{{ 'Phone Number' }}"
+              type="text"
+              name="text"
+              [formControlName]="'mobile'"
+              required
+            />
+            <img src="assets/images/tick-circle.svg" width="25" />
+          </div> </mat-form-field
+        >&nbsp;
+        <mat-form-field
+          appearance="fill"
+          class="custom-form-field w-100"
+          [hideRequiredMarker]="true"
+        >
+          <mat-label>{{ "Phone Verification Code" }}</mat-label>
+          <input
+            matInput
+            placeholder="{{ 'Phone Verification Code' }}"
+            type="text"
+            name="text"
+            [formControlName]="'verificationCode'"
+            required
+          />
         </mat-form-field>
         <div *ngIf="!resendAblePhone" class="w-100 d-inline-block">
           Resend in:
-          <app-countdown-timer [duration]="generalService.initData?.nextVerificationMinutes * 60"
-                               (countdownFinished)="handleCountdownFinishedMobile()"></app-countdown-timer>
+          <app-countdown-timer
+            [duration]="generalService.initData?.nextVerificationMinutes * 60"
+            (countdownFinished)="handleCountdownFinishedMobile()"
+          ></app-countdown-timer>
         </div>
-        <mat-label class="w-100 mb-2 font-size-12" style="color: #0B6FEA" *ngIf="resendAblePhone"
-                   (click)="resendCodePhone()">
-          {{'Resend'}}
+        <mat-label
+          class="w-100 mb-2 font-size-12"
+          style="color: #0b6fea"
+          *ngIf="resendAblePhone"
+          (click)="resendCodePhone()"
+        >
+          {{ "Resend" }}
         </mat-label>
       </form>
       <div role="alert" style="color: #ff5722; margin: 10px 0">
-        {{error}}
+        {{ error }}
       </div>
-      <button mat-raised-button color="primary" type="submit"
-              [disabled]="loading"
-              class="w-100 p-4" (click)="onSubmitSignUpVerify()">
-        <span>{{'Verify'}}</span>
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        [disabled]="loading"
+        class="w-100 p-4"
+        (click)="onSubmitSignUpVerify()"
+      >
+        <span>{{ "Verify" }}</span>
       </button>
     </div>
 
     <div *ngIf="step === 3">
       <div class="d-block text-center">
-        <img src="assets/images/like.png" width="127">
-        <div class="font-size-16 weight-700">{{'Congratulations!'}}</div>
-        <br>
+        <img src="assets/images/like.png" width="127" />
+        <div class="font-size-16 weight-700">{{ "Congratulations!" }}</div>
+        <br />
         <mat-label class="font-size-14 weight-500" style="color: #585858">
-          {{'You\'ve been successfully joined our waiting list. We will notify you soon.'}}
+          {{
+            "You've been successfully joined our waiting list. We will notify you soon."
+          }}
         </mat-label>
       </div>
     </div>
 
-
-    <div class="loading" *ngIf="loading$ | async">
-    </div>
+    <div class="loading" *ngIf="loading$ | async"></div>
   </div>
   <div class="card border-0 text-center weight-600 pt-3 sponsor-card">
-    Sponsored by: {{generalService.initData?.sponsors[0]?.name}}
+    Sponsored by: {{ generalService.initData?.sponsors[0]?.name }}
   </div>
 </div>
 

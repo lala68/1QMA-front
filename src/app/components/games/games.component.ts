@@ -1,56 +1,80 @@
-import {Component, HostListener, Inject, OnInit, ViewEncapsulation} from '@angular/core';
-import {CommonModule} from "@angular/common";
-import {SharedModule} from "../../shared/shared.module";
+import {
+  Component,
+  HostListener,
+  Inject,
+  OnInit,
+  ViewEncapsulation,
+} from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { SharedModule } from '../../shared/shared.module';
 import {
   FormBuilder,
   FormControl,
   FormsModule,
   ReactiveFormsModule,
-  Validators
-} from "@angular/forms";
-import {ActivatedRoute, NavigationStart, Router, RouterModule} from "@angular/router";
-import {TranslateModule, TranslateService} from "@ngx-translate/core";
-import {GeneralService} from "../../services/general/general.service";
-import {GamesService} from "../../services/games/games.service";
-import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
-import {MaterialModule} from "../../shared/material/material.module";
-import {ConfigService} from "../../services/config/config.service";
-import {ClientService} from "../../services/client/client.service";
-import {io} from "socket.io-client";
-import {GameBoardComponent} from "../game-board/game-board.component";
-import {MatSnackBar} from "@angular/material/snack-bar";
-import {SnackbarContentComponent} from "../snackbar-content/snackbar-content.component";
-import {CountdownTimerComponent} from "../countdown-timer/countdown-timer.component";
-import {DaysAgoPipe} from "../../pipes/days-ago.pipe";
-import {ParsIntPipe} from "../../pipes/pars-int.pipe";
-import {ProcessHTTPMsgService} from "../../services/proccessHttpMsg/process-httpmsg.service";
-import translate from "translate";
-import {IntroJsService} from "../../services/introJs/intro-js.service";
-import introJs from "intro.js";
-import {Subscription} from "rxjs";
-import {franc} from "franc";
-import iso6391 from 'iso-639-1';  // Should work now
+  Validators,
+} from '@angular/forms';
+import {
+  ActivatedRoute,
+  NavigationStart,
+  Router,
+  RouterModule,
+} from '@angular/router';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { GeneralService } from '../../services/general/general.service';
+import { GamesService } from '../../services/games/games.service';
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogConfig,
+  MatDialogRef,
+} from '@angular/material/dialog';
+import { MaterialModule } from '../../shared/material/material.module';
+import { ConfigService } from '../../services/config/config.service';
+import { ClientService } from '../../services/client/client.service';
+import { io } from 'socket.io-client';
+import { GameBoardComponent } from '../game-board/game-board.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { SnackbarContentComponent } from '../snackbar-content/snackbar-content.component';
+import { CountdownTimerComponent } from '../countdown-timer/countdown-timer.component';
+import { DaysAgoPipe } from '../../pipes/days-ago.pipe';
+import { ParsIntPipe } from '../../pipes/pars-int.pipe';
+import { ProcessHTTPMsgService } from '../../services/proccessHttpMsg/process-httpmsg.service';
+import translate from 'translate';
+import { IntroJsService } from '../../services/introJs/intro-js.service';
+import introJs from 'intro.js';
+import { Subscription } from 'rxjs';
+import { franc } from 'franc';
+import iso6391 from 'iso-639-1'; // Should work now
 
 type SupportedLanguages =
-  'eng' | // English
-  'deu' | // German
-  'prs' | // Dari
-  'fas' | // Persian (Farsi)
-  'pes' | // Persian (alternate code)
-  'por' | // Portuguese
-  'hnj' | // Hmong
-  'sco' | // Scots
-  'uig';  // Uighur
+  | 'eng' // English
+  | 'deu' // German
+  | 'prs' // Dari
+  | 'fas' // Persian (Farsi)
+  | 'pes' // Persian (alternate code)
+  | 'por' // Portuguese
+  | 'hnj' // Hmong
+  | 'sco' // Scots
+  | 'uig'; // Uighur
 
 @Component({
   selector: 'app-games',
   standalone: true,
-  imports: [CommonModule, SharedModule, FormsModule, RouterModule, ReactiveFormsModule,
-    TranslateModule, DaysAgoPipe, ParsIntPipe],
+  imports: [
+    CommonModule,
+    SharedModule,
+    FormsModule,
+    RouterModule,
+    ReactiveFormsModule,
+    TranslateModule,
+    DaysAgoPipe,
+    ParsIntPipe,
+  ],
   templateUrl: './games.component.html',
   styleUrl: './games.component.scss',
   providers: [GameBoardComponent, CountdownTimerComponent],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class GamesComponent implements OnInit {
   loading: boolean = true;
@@ -60,10 +84,18 @@ export class GamesComponent implements OnInit {
   selectedCategory: any = '';
   selectedCategoryLive: any = '';
   inviteForm = this._formBuilder.group({
-    email: new FormControl({
-      value: '',
-      disabled: this.generalService.invitedPlayersArray?.length === this.generalService.gameInit?.numberOfPlayers
-    }, [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]),
+    email: new FormControl(
+      {
+        value: '',
+        disabled:
+          this.generalService.invitedPlayersArray?.length ===
+          this.generalService.gameInit?.numberOfPlayers,
+      },
+      [
+        Validators.required,
+        Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/),
+      ]
+    ),
   });
   wordCount: number;
   wordCountAnswer: number;
@@ -96,21 +128,31 @@ export class GamesComponent implements OnInit {
   private routerSubscription: any;
   private introInProgress: boolean = false; // Track whether the intro is showing
   private supportedLangs: Record<SupportedLanguages, string> = {
-    'eng': 'en',
-    'deu': 'de',
-    'prs': 'fa',
-    'fas': 'fa',
-    'pes': 'fa',
-    'por': 'en',  // Portuguese detected as English
-    'hnj': 'en',  // Hmong detected as English
-    'sco': 'en',  // Scots detected as English
-    'uig': 'en'   // Uighur detected as English
+    eng: 'en',
+    deu: 'de',
+    prs: 'fa',
+    fas: 'fa',
+    pes: 'fa',
+    por: 'en', // Portuguese detected as English
+    hnj: 'en', // Hmong detected as English
+    sco: 'en', // Scots detected as English
+    uig: 'en', // Uighur detected as English
   };
 
-  constructor(public generalService: GeneralService, private gameService: GamesService, public configService: ConfigService,
-              private _formBuilder: FormBuilder, private router: Router, public dialog: MatDialog, private _snackBar: MatSnackBar,
-              private route: ActivatedRoute, private intro: IntroJsService, private gameBoardComponent: GameBoardComponent,
-              private processHTTPMsgService: ProcessHTTPMsgService, private translate: TranslateService) {
+  constructor(
+    public generalService: GeneralService,
+    private gameService: GamesService,
+    public configService: ConfigService,
+    private _formBuilder: FormBuilder,
+    private router: Router,
+    public dialog: MatDialog,
+    private _snackBar: MatSnackBar,
+    private route: ActivatedRoute,
+    private intro: IntroJsService,
+    private gameBoardComponent: GameBoardComponent,
+    private processHTTPMsgService: ProcessHTTPMsgService,
+    private translate: TranslateService
+  ) {
     this.generalService.currentRout = '/games/overview';
     this.generalService.selectedTabIndexParentInTrivia = 0;
     this.generalService.selectedTabIndexQuestionChildInTrivia = 0;
@@ -125,14 +167,14 @@ export class GamesComponent implements OnInit {
 
   async ngOnInit() {
     // Subscribe to router events to detect page changes
-    this.routerSubscription = this.router.events.subscribe(event => {
+    this.routerSubscription = this.router.events.subscribe((event) => {
       if (event instanceof NavigationStart && this.introInProgress) {
         this.destroyIntro(); // Destroy the intro if the page is changing
       }
     });
 
     this.wordCountAnswer = this.generalService.gameInit?.answerWordsLimitation;
-    this.route.paramMap.subscribe(params => {
+    this.route.paramMap.subscribe((params) => {
       // console.log(params.get('id'));
       this.selectedTabIndex = params.get('id') || '';
     });
@@ -145,14 +187,14 @@ export class GamesComponent implements OnInit {
         friendsGamesData,
         scoreboardSurvivalData,
         liveSurvivalData,
-        friendsRecentSurvivalData
+        friendsRecentSurvivalData,
       ] = await Promise.all([
         this.gameService.getMyScoreboard(),
         this.gameService.getLiveGames(),
         this.gameService.getFriendsRecentGames(),
         this.gameService.getScoreboardSurvival(),
         this.gameService.getLiveSurvival(),
-        this.gameService.getFriendsRecentSurvival()
+        this.gameService.getFriendsRecentSurvival(),
       ]);
 
       // Handle scoreboard data
@@ -169,11 +211,14 @@ export class GamesComponent implements OnInit {
 
       // Assign other data
       if (liveGamesData.status === 1) this.liveGames = liveGamesData.data;
-      if (friendsGamesData.status === 1) this.friendsGames = friendsGamesData.data;
-      if (scoreboardSurvivalData.status === 1) this.scoreboardSurvival = scoreboardSurvivalData.data;
-      if (liveSurvivalData.status === 1) this.liveSurvival = liveSurvivalData.data;
-      if (friendsRecentSurvivalData.status === 1) this.friendsRecentSurvival = friendsRecentSurvivalData.data;
-
+      if (friendsGamesData.status === 1)
+        this.friendsGames = friendsGamesData.data;
+      if (scoreboardSurvivalData.status === 1)
+        this.scoreboardSurvival = scoreboardSurvivalData.data;
+      if (liveSurvivalData.status === 1)
+        this.liveSurvival = liveSurvivalData.data;
+      if (friendsRecentSurvivalData.status === 1)
+        this.friendsRecentSurvival = friendsRecentSurvivalData.data;
     } catch (error) {
       // Handle errors
       await this.processHTTPMsgService.handleError(error);
@@ -200,15 +245,16 @@ export class GamesComponent implements OnInit {
       ) {
         await this.showIntro(); // Wait for showIntro to finish
       } else {
-        console.warn('Intro not shown: conditions not met or no available steps.');
+        console.warn(
+          'Intro not shown: conditions not met or no available steps.'
+        );
       }
     }
   }
 
-
   async waitForClientInit() {
     while (!this.generalService.clientInit?.user?.hasSeenIntros) {
-      await new Promise(resolve => setTimeout(resolve, 1000)); // Check every 100ms
+      await new Promise((resolve) => setTimeout(resolve, 1000)); // Check every 100ms
     }
   }
 
@@ -250,7 +296,7 @@ export class GamesComponent implements OnInit {
           element: '#friendsSurvival',
           intro: this.translate.instant('friends-survival-games-section-intro'),
           position: 'bottom',
-        }
+        },
       ];
 
       const availableSteps = this.getAvailableSteps(steps);
@@ -303,22 +349,28 @@ export class GamesComponent implements OnInit {
         element: '#friendsSurvival',
         intro: this.translate.instant('friends-survival-games-section-intro'),
         position: 'bottom',
-      }
+      },
     ];
   }
 
   getAvailableSteps(steps: any[]): any[] {
     // Filter out steps where the element does not exist in the DOM
-    return steps.filter(step => document.querySelector(step.element) !== null);
+    return steps.filter(
+      (step) => document.querySelector(step.element) !== null
+    );
   }
 
-// Additional function to check for elements after a delay
-  async waitForElements(steps: any[], maxAttempts: number = 5, interval: number = 500): Promise<any[]> {
+  // Additional function to check for elements after a delay
+  async waitForElements(
+    steps: any[],
+    maxAttempts: number = 5,
+    interval: number = 500
+  ): Promise<any[]> {
     let attempts = 0;
     let availableSteps = this.getAvailableSteps(steps);
 
     while (availableSteps.length === 0 && attempts < maxAttempts) {
-      await new Promise(resolve => setTimeout(resolve, interval));
+      await new Promise((resolve) => setTimeout(resolve, interval));
       availableSteps = this.getAvailableSteps(steps);
       attempts++;
     }
@@ -349,20 +401,21 @@ export class GamesComponent implements OnInit {
     this.createGameStep = 1;
     this.findFriendStep = 1;
     this.questionForm.reset();
-
   }
 
   async chooseRandomCategory() {
-    const randomIndex = Math.floor(Math.random() * this.generalService.clientInit.categories.length);
+    const randomIndex = Math.floor(
+      Math.random() * this.generalService.clientInit.categories.length
+    );
     const randomItem = this.generalService.clientInit.categories[randomIndex];
-    this.selectedCategory = (randomItem);
+    this.selectedCategory = randomItem;
   }
 
   async startingGame() {
     this.loadingCreateGame = true;
     this.generalService.players = [];
 
-    this.generalService.socket.on("start game", (arg: any) => {
+    this.generalService.socket.on('start game', (arg: any) => {
       // if (this.generalService.disconnectedModal || this.generalService.isDisconnectedModal) {
       //   this.generalService.disconnectedModal.close();
       //   this.generalService.disconnectedModal = '';
@@ -378,67 +431,98 @@ export class GamesComponent implements OnInit {
       }
       this.gameBoardComponent.handleGameStep();
       // console.log(this.generalService.selectedTranslatedLanguage)
-      this.gameService.getGameQuestionBasedOnStep(this.generalService?.createdGameData?.game?.gameId, 1).then(async resQue => {
-        this.generalService.gameQuestion = resQue?.data;
-        if (this.generalService.selectedTranslatedLanguage && this.generalService.selectedTranslatedLanguage != '') {
-          // console.log(resQue?.data.question)
-          // console.log(this.generalService.selectedTranslatedLanguage)
-          this.generalService.gameQuestion.question = await this.detectAndTranslate(resQue?.data.question,
-            this.generalService.selectedTranslatedLanguage);
-        }
-        this.updateWordCountAnswerGame();
-        if (resQue?.data?.myAnswer) {
-          this.generalService.gameAnswerGeneral = resQue?.data?.myAnswer;
-          this.generalService.editingAnswer = true;
-        } else {
-          this.generalService.editingAnswer = false;
-        }
-      }, error => {
-        return this.processHTTPMsgService.handleError(error);
-      });
+      this.gameService
+        .getGameQuestionBasedOnStep(
+          this.generalService?.createdGameData?.game?.gameId,
+          1
+        )
+        .then(
+          async (resQue) => {
+            this.generalService.gameQuestion = resQue?.data;
+            if (
+              this.generalService.selectedTranslatedLanguage &&
+              this.generalService.selectedTranslatedLanguage != ''
+            ) {
+              // console.log(resQue?.data.question)
+              // console.log(this.generalService.selectedTranslatedLanguage)
+              this.generalService.gameQuestion.question =
+                await this.detectAndTranslate(
+                  resQue?.data.question,
+                  this.generalService.selectedTranslatedLanguage
+                );
+            }
+            this.updateWordCountAnswerGame();
+            if (resQue?.data?.myAnswer) {
+              this.generalService.gameAnswerGeneral = resQue?.data?.myAnswer;
+              this.generalService.editingAnswer = true;
+            } else {
+              this.generalService.editingAnswer = false;
+            }
+          },
+          (error) => {
+            return this.processHTTPMsgService.handleError(error);
+          }
+        );
     });
 
     setTimeout(() => {
-      this.gameService.createGame(this.selectedGameType[0], this.selectedGameMode.toString(), this.selectedCategory,
-        this.generalService.invitedPlayersArray, this.questionForm.controls.question.value, this.questionForm.controls.answer.value, this.questionId)
-        .then(async data => {
-          if (data.status == 1) {
-            this.generalService.startingGame = true;
-            let account = await this.generalService.getItem('account');
-            if (account) {
-              // Update the "assets" property
-              account.assets = data?.data?.newBalance;
-              // Save the updated "account" object back to storage
-              this.generalService.saveToStorage('account', JSON.stringify(account));
-            }
-            this.generalService.createdGameData = data.data;
-            await this.router.navigate(['/game-board'], {
-              state: {
-                data: data.data,
-                users: this.generalService.players
+      this.gameService
+        .createGame(
+          this.selectedGameType[0],
+          this.selectedGameMode.toString(),
+          this.selectedCategory,
+          this.generalService.invitedPlayersArray,
+          this.questionForm.controls.question.value,
+          this.questionForm.controls.answer.value,
+          this.questionId
+        )
+        .then(
+          async (data) => {
+            if (data.status == 1) {
+              this.generalService.startingGame = true;
+              let account = await this.generalService.getItem('account');
+              if (account) {
+                // Update the "assets" property
+                account.assets = data?.data?.newBalance;
+                // Save the updated "account" object back to storage
+                this.generalService.saveToStorage(
+                  'account',
+                  JSON.stringify(account)
+                );
               }
-            });
-          } else {
+              this.generalService.createdGameData = data.data;
+              await this.router.navigate(['/game-board'], {
+                state: {
+                  data: data.data,
+                  users: this.generalService.players,
+                },
+              });
+            } else {
+              this.loadingCreateGame = false;
+              this.openDialog(JSON.stringify(data.message), 'Error');
+            }
+          },
+          (error) => {
             this.loadingCreateGame = false;
-            this.openDialog(JSON.stringify(data.message), 'Error');
+            this.openDialog(JSON.stringify(error.error), 'Error');
           }
-        }, error => {
-          this.loadingCreateGame = false;
-          this.openDialog(JSON.stringify(error.error), 'Error');
-        })
-    }, 100)
+        );
+    }, 100);
   }
 
   openDialog(message: any, title: any) {
     this._snackBar.openFromComponent(SnackbarContentComponent, {
       data: {
         title: title,
-        message: message
+        message: message,
       },
       duration: 3000,
       verticalPosition: 'top',
       horizontalPosition: 'end',
-      panelClass: title == 'Success' ? 'app-notification-success' : 'app-notification-error'
+      panelClass:
+        title == 'Success'
+          ? 'app-notification-success'
+          : 'app-notification-error',
     });
   }
 
@@ -446,13 +530,17 @@ export class GamesComponent implements OnInit {
     return this.selectedGameType.some((game: any) => game === item);
   }
 
-  async detectAndTranslate(question: string, targetLanguage: string): Promise<string> {
+  async detectAndTranslate(
+    question: string,
+    targetLanguage: string
+  ): Promise<string> {
     // Use franc to detect the primary language
     const detectedLangISO6393: string = franc(question);
     // console.log(`Primary detected language (ISO 639-3): ${detectedLangISO6393}`);
 
     // Map the detected language to the ISO 639-1 code or default to English
-    let detectedLangISO6391 = this.supportedLangs[detectedLangISO6393 as SupportedLanguages] || 'en';
+    let detectedLangISO6391 =
+      this.supportedLangs[detectedLangISO6393 as SupportedLanguages] || 'en';
 
     // console.log(`ISO 639-1 code used for translation: ${detectedLangISO6391}`);
     // console.log(`Target language for translation: ${targetLanguage}`);
@@ -476,7 +564,9 @@ export class GamesComponent implements OnInit {
   }
 
   isSelected(item: any): boolean {
-    return this.selectedCategory.some((category: any) => category._id === item._id);
+    return this.selectedCategory.some(
+      (category: any) => category._id === item._id
+    );
   }
 
   selectCat(id: any) {
@@ -486,7 +576,9 @@ export class GamesComponent implements OnInit {
   }
 
   isSelectedLive(item: any): boolean {
-    return this.selectedCategoryLive.some((category: any) => category._id === item._id);
+    return this.selectedCategoryLive.some(
+      (category: any) => category._id === item._id
+    );
   }
 
   async selectCatLive(id: any) {
@@ -497,7 +589,9 @@ export class GamesComponent implements OnInit {
   }
 
   isSelectedLiveSurvival(item: any): boolean {
-    return this.selectedCategory.some((category: any) => category._id === item._id);
+    return this.selectedCategory.some(
+      (category: any) => category._id === item._id
+    );
   }
 
   async selectCatLiveSurvival(id: any) {
@@ -508,44 +602,63 @@ export class GamesComponent implements OnInit {
   }
 
   async getLiveSurvival() {
-    this.gameService.getLiveSurvival(this.selectedCategory ? this.selectedCategory : '').then(data => {
-      if (data.status == 1)
-        this.liveSurvival = data.data;
-    }, error => {
-      return this.processHTTPMsgService.handleError(error);
-    });
+    this.gameService
+      .getLiveSurvival(this.selectedCategory ? this.selectedCategory : '')
+      .then(
+        (data) => {
+          if (data.status == 1) this.liveSurvival = data.data;
+        },
+        (error) => {
+          return this.processHTTPMsgService.handleError(error);
+        }
+      );
   }
 
   async getLives() {
-    this.gameService.getLiveGames(this.selectedCategoryLive ? this.selectedCategoryLive : '').then(data => {
-      if (data.status == 1)
-        this.liveGames = data.data;
-    }, error => {
-      return this.processHTTPMsgService.handleError(error);
-    });
+    this.gameService
+      .getLiveGames(this.selectedCategoryLive ? this.selectedCategoryLive : '')
+      .then(
+        (data) => {
+          if (data.status == 1) this.liveGames = data.data;
+        },
+        (error) => {
+          return this.processHTTPMsgService.handleError(error);
+        }
+      );
   }
 
   onSubmitInvite() {
-    const index = this.generalService.invitedPlayersArray.findIndex((data: any) => data === this.inviteForm.controls.email.value);
+    const index = this.generalService.invitedPlayersArray.findIndex(
+      (data: any) => data === this.inviteForm.controls.email.value
+    );
     if (index !== -1) {
       // Remove the item from the array
     } else {
-      if (this.inviteForm.controls.email.value != this.generalService.userObj?.email) {
+      if (
+        this.inviteForm.controls.email.value !=
+        this.generalService.userObj?.email
+      ) {
         this.filteredEmails = [];
-        this.generalService.invitedPlayersArray.push(this.inviteForm.controls.email.value);
+        this.generalService.invitedPlayersArray.push(
+          this.inviteForm.controls.email.value
+        );
         this.inviteForm.reset();
-        if (this.generalService.invitedPlayersArray?.length == this.generalService.gameInit?.numberOfPlayers) {
+        if (
+          this.generalService.invitedPlayersArray?.length ==
+          this.generalService.gameInit?.numberOfPlayers
+        ) {
           this.inviteForm.controls.email.disable();
         }
       }
-
     }
     // console.log(this.generalService.invitedPlayersArray)
   }
 
   removeInvite(item: any) {
-    this.inviteForm.controls.email.enable()
-    const index = this.generalService.invitedPlayersArray.findIndex((data: any) => data === item);
+    this.inviteForm.controls.email.enable();
+    const index = this.generalService.invitedPlayersArray.findIndex(
+      (data: any) => data === item
+    );
     if (index !== -1) {
       // Remove the item from the array
       this.generalService.invitedPlayersArray.splice(index, 1);
@@ -553,16 +666,30 @@ export class GamesComponent implements OnInit {
   }
 
   updateWordCount() {
-    this.wordCount = this.questionForm.controls.question.value ? (this.generalService.gameInit.answerWordsLimitation - this.questionForm.controls.question.value.trim().split(/\s+/).length) : this.generalService.gameInit.answerWordsLimitation;
+    this.wordCount = this.questionForm.controls.question.value
+      ? this.generalService.gameInit.answerWordsLimitation -
+        this.questionForm.controls.question.value.trim().split(/\s+/).length
+      : this.generalService.gameInit.answerWordsLimitation;
   }
 
   updateWordCountAnswer() {
-    this.wordCountAnswer = this.questionForm.controls.answer.value ? ((this.generalService.gameInit?.answerWordsLimitation) - this.questionForm.controls.answer.value.trim().split(/\s+/).length) : this.generalService.gameInit?.answerWordsLimitation;
-    this.generalService.wordCountAnswer = this.questionForm.controls.answer.value ? ((this.generalService.gameInit?.answerWordsLimitation) - this.questionForm.controls.answer.value.trim().split(/\s+/).length) : this.generalService.gameInit?.answerWordsLimitation;
+    this.wordCountAnswer = this.questionForm.controls.answer.value
+      ? this.generalService.gameInit?.answerWordsLimitation -
+        this.questionForm.controls.answer.value.trim().split(/\s+/).length
+      : this.generalService.gameInit?.answerWordsLimitation;
+    this.generalService.wordCountAnswer = this.questionForm.controls.answer
+      .value
+      ? this.generalService.gameInit?.answerWordsLimitation -
+        this.questionForm.controls.answer.value.trim().split(/\s+/).length
+      : this.generalService.gameInit?.answerWordsLimitation;
   }
 
   updateWordCountAnswerGame() {
-    this.generalService.wordCountAnswer = this.questionForm.controls.answer.value ? (this.generalService.gameInit?.answerWordsLimitation - this.questionForm.controls.answer.value.trim().split(/\s+/).length) : this.generalService.gameInit?.answerWordsLimitation;
+    this.generalService.wordCountAnswer = this.questionForm.controls.answer
+      .value
+      ? this.generalService.gameInit?.answerWordsLimitation -
+        this.questionForm.controls.answer.value.trim().split(/\s+/).length
+      : this.generalService.gameInit?.answerWordsLimitation;
   }
 
   onToggleActiveTranslate(event: any) {
@@ -577,8 +704,10 @@ export class GamesComponent implements OnInit {
   }
 
   joinToGame(code: any = this.gameCode) {
-    this.generalService.socket = io('https://api.staging.1qma.games', {withCredentials: true});
-    this.generalService.socket.on("player added", async (arg: any) => {
+    this.generalService.socket = io('https://api.1qma.games', {
+      withCredentials: true,
+    });
+    this.generalService.socket.on('player added', async (arg: any) => {
       const now = new Date();
       const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
       // console.log("player added" + ' ' + `[${timeString}]  `);
@@ -591,15 +720,21 @@ export class GamesComponent implements OnInit {
       // if (!this.generalService.players.some((player: any) => player.email === arg.email)) {
       //   this.generalService.players.push(arg);
       // }
-      if (!this.generalService.players.some((player: any) => player.email === arg.email) &&
-        !this.generalService.invitedPlayersArray.some((player: any) => player.email === arg.email)) {
+      if (
+        !this.generalService.players.some(
+          (player: any) => player.email === arg.email
+        ) &&
+        !this.generalService.invitedPlayersArray.some(
+          (player: any) => player.email === arg.email
+        )
+      ) {
         this.generalService.players.push(arg);
       }
 
       await this.gameBoardComponent.removeFromInvited(arg.email);
     });
 
-    this.generalService.socket.on("start game", (arg: any) => {
+    this.generalService.socket.on('start game', (arg: any) => {
       const now = new Date();
       const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
       // console.log("start game" + ' ' + `[${timeString}]  `);
@@ -611,64 +746,84 @@ export class GamesComponent implements OnInit {
       this.generalService.gameStep = 2;
       setTimeout(() => {
         // console.log(this.generalService?.createdGameData)
-        this.gameService.getGameQuestionBasedOnStep(this.generalService?.createdGameData?.game?.gameId, 1).then(async resQue => {
-          this.generalService.gameQuestion = resQue?.data;
-          if (this.generalService.selectedTranslatedLanguage && this.generalService.selectedTranslatedLanguage != '') {
-            this.generalService.gameQuestion.question = await this.detectAndTranslate(resQue?.data.question,
-              this.generalService.selectedTranslatedLanguage);
-          }
-          this.updateWordCountAnswerGame();
-          if (resQue?.data?.myAnswer) {
-            this.generalService.gameAnswerGeneral = resQue?.data?.myAnswer;
-            this.generalService.editingAnswer = true;
-          } else {
-            this.generalService.editingAnswer = false;
-          }
-        }, error => {
-          return this.processHTTPMsgService.handleError(error);
-        });
-      }, 500)
-      this.gameBoardComponent.handleGameStep()
+        this.gameService
+          .getGameQuestionBasedOnStep(
+            this.generalService?.createdGameData?.game?.gameId,
+            1
+          )
+          .then(
+            async (resQue) => {
+              this.generalService.gameQuestion = resQue?.data;
+              if (
+                this.generalService.selectedTranslatedLanguage &&
+                this.generalService.selectedTranslatedLanguage != ''
+              ) {
+                this.generalService.gameQuestion.question =
+                  await this.detectAndTranslate(
+                    resQue?.data.question,
+                    this.generalService.selectedTranslatedLanguage
+                  );
+              }
+              this.updateWordCountAnswerGame();
+              if (resQue?.data?.myAnswer) {
+                this.generalService.gameAnswerGeneral = resQue?.data?.myAnswer;
+                this.generalService.editingAnswer = true;
+              } else {
+                this.generalService.editingAnswer = false;
+              }
+            },
+            (error) => {
+              return this.processHTTPMsgService.handleError(error);
+            }
+          );
+      }, 500);
+      this.gameBoardComponent.handleGameStep();
     });
 
     this.loadingJoinWithCode = true;
-    this.gameService.joinToGame(code).then(data => {
-      this.loadingJoinWithCode = false;
-      if (data.status == 1) {
-        const dialogConfig = new MatDialogConfig();
-        // Check if it's mobile
-        if (this.generalService.isMobileView) { // Assuming mobile devices are <= 768px
-          dialogConfig.width = '100vw';
-          dialogConfig.maxWidth = '100vw';
-          dialogConfig.height = 'auto'; // You can specify the height if needed
-          dialogConfig.position = {bottom: '0px'};
-          dialogConfig.panelClass = 'mobile-dialog'; // Add custom class for mobile
-          dialogConfig.data = {data: data.data, gameCode: code}
-        } else {
-          dialogConfig.data = {data: data.data, gameCode: code}
-          dialogConfig.width = '700px'; // Full size for desktop or larger screens
-        }
-        const dialogRef = this.dialog.open(JoiningGame, dialogConfig);
-        dialogRef.afterClosed().subscribe(async result => {
-          if (result == 'success') {
+    this.gameService.joinToGame(code).then(
+      (data) => {
+        this.loadingJoinWithCode = false;
+        if (data.status == 1) {
+          const dialogConfig = new MatDialogConfig();
+          // Check if it's mobile
+          if (this.generalService.isMobileView) {
+            // Assuming mobile devices are <= 768px
+            dialogConfig.width = '100vw';
+            dialogConfig.maxWidth = '100vw';
+            dialogConfig.height = 'auto'; // You can specify the height if needed
+            dialogConfig.position = { bottom: '0px' };
+            dialogConfig.panelClass = 'mobile-dialog'; // Add custom class for mobile
+            dialogConfig.data = { data: data.data, gameCode: code };
+          } else {
+            dialogConfig.data = { data: data.data, gameCode: code };
+            dialogConfig.width = '700px'; // Full size for desktop or larger screens
           }
-        });
-      } else {
-        this.openDialog(JSON.stringify(data.message), 'Error');
+          const dialogRef = this.dialog.open(JoiningGame, dialogConfig);
+          dialogRef.afterClosed().subscribe(async (result) => {
+            if (result == 'success') {
+            }
+          });
+        } else {
+          this.openDialog(JSON.stringify(data.message), 'Error');
+        }
+      },
+      (error) => {
+        return this.processHTTPMsgService.handleError(error);
       }
-    }, error => {
-      return this.processHTTPMsgService.handleError(error);
-    });
+    );
   }
 
-// Function to get the current tab index based on the selectedTabIndex value
+  // Function to get the current tab index based on the selectedTabIndex value
   getSelectedTabIndex(): number {
-    return this.selectedTabIndex === 'overview' ? 0 :
-      this.selectedTabIndex === 'create-game' ? 1 :
-        2;
+    return this.selectedTabIndex === 'overview'
+      ? 0
+      : this.selectedTabIndex === 'create-game'
+      ? 1
+      : 2;
   }
 
-// Function to handle changes in the tab index
+  // Function to handle changes in the tab index
   onTabIndexChange(index: number): void {
     if (index === 0) {
       this.selectedTabIndex = 'overview';
@@ -681,71 +836,92 @@ export class GamesComponent implements OnInit {
 
   findFriendGame() {
     this.loadingFindFriend = true;
-    this.gameService.findFriendGame(this.userEmail, 10, this.page).then(data => {
-      this.loadingFindFriend = false;
-      if (data.status == 1) {
-        this.findFriendGameData = data.data;
-        this.findFriendStep = 2;
-      } else {
-        this.openDialog(JSON.stringify(data.message), 'Error');
+    this.gameService.findFriendGame(this.userEmail, 10, this.page).then(
+      (data) => {
+        this.loadingFindFriend = false;
+        if (data.status == 1) {
+          this.findFriendGameData = data.data;
+          this.findFriendStep = 2;
+        } else {
+          this.openDialog(JSON.stringify(data.message), 'Error');
+        }
+      },
+      (error) => {
+        return this.processHTTPMsgService.handleError(error);
       }
-    }, error => {
-      return this.processHTTPMsgService.handleError(error);
-    });
+    );
   }
 
   showMoreGames() {
     this.loadingMore = true;
-    this.gameService.findFriendGame(this.userEmail, 10, this.page + 1).then(data => {
-      this.loadingMore = false;
-      this.page++;
-      if (data.status == 1) {
-        // this.findFriendGameData?.endedGames.concat(data.data?.endedGames);
-        this.findFriendGameData.endedGames = [...this.findFriendGameData.endedGames, ...data.data.endedGames];
-        this.noMoreItems = data.data.endedGames?.length < 10;
+    this.gameService.findFriendGame(this.userEmail, 10, this.page + 1).then(
+      (data) => {
+        this.loadingMore = false;
+        this.page++;
+        if (data.status == 1) {
+          // this.findFriendGameData?.endedGames.concat(data.data?.endedGames);
+          this.findFriendGameData.endedGames = [
+            ...this.findFriendGameData.endedGames,
+            ...data.data.endedGames,
+          ];
+          this.noMoreItems = data.data.endedGames?.length < 10;
 
-        // console.log(this.findFriendGameData?.endedGames)
-      } else {
-        this.openDialog(JSON.stringify(data.message), 'Error');
+          // console.log(this.findFriendGameData?.endedGames)
+        } else {
+          this.openDialog(JSON.stringify(data.message), 'Error');
+        }
+      },
+      (error) => {
+        return this.processHTTPMsgService.handleError(error);
       }
-    }, error => {
-      return this.processHTTPMsgService.handleError(error);
-    });
+    );
   }
 
   async getResultOfSearch() {
-    if (this.inviteForm.controls?.email?.value && this.inviteForm.controls?.email?.value?.length > 2) {
-      this.gameService.searchUserToInvite(this.inviteForm.controls.email.value).then(data => {
-        this.filteredEmails = (data.data);
-      }, error => {
-        return this.processHTTPMsgService.handleError(error);
-      });
+    if (
+      this.inviteForm.controls?.email?.value &&
+      this.inviteForm.controls?.email?.value?.length > 2
+    ) {
+      this.gameService
+        .searchUserToInvite(this.inviteForm.controls.email.value)
+        .then(
+          (data) => {
+            this.filteredEmails = data.data;
+          },
+          (error) => {
+            return this.processHTTPMsgService.handleError(error);
+          }
+        );
     }
-
   }
 
   openImportFromLib() {
     const dialogConfig = new MatDialogConfig();
     // Check if it's mobile
-    if (this.generalService.isMobileView) { // Assuming mobile devices are <= 768px
+    if (this.generalService.isMobileView) {
+      // Assuming mobile devices are <= 768px
       dialogConfig.width = '100vw';
       dialogConfig.maxWidth = '100vw';
       dialogConfig.height = 'auto'; // You can specify the height if needed
-      dialogConfig.position = {bottom: '0px'};
+      dialogConfig.position = { bottom: '0px' };
       dialogConfig.panelClass = 'mobile-dialog'; // Add custom class for mobile
       dialogConfig.data = {
-        category: this.selectedCategory?._id ? this.selectedCategory?._id : this.selectedCategory,
-        type: this.selectedGameType
-      }
+        category: this.selectedCategory?._id
+          ? this.selectedCategory?._id
+          : this.selectedCategory,
+        type: this.selectedGameType,
+      };
     } else {
       dialogConfig.data = {
-        category: this.selectedCategory?._id ? this.selectedCategory?._id : this.selectedCategory,
-        type: this.selectedGameType
-      }
+        category: this.selectedCategory?._id
+          ? this.selectedCategory?._id
+          : this.selectedCategory,
+        type: this.selectedGameType,
+      };
       dialogConfig.width = '700px'; // Full size for desktop or larger screens
     }
     const dialogRef = this.dialog.open(ImportFromLibrary, dialogConfig);
-    dialogRef.afterClosed().subscribe(async result => {
+    dialogRef.afterClosed().subscribe(async (result) => {
       // console.log(result)
       if (result) {
         if (result.data?.id) {
@@ -763,9 +939,8 @@ export class GamesComponent implements OnInit {
 
   async gotoResult(id: any) {
     // await this.router.navigate(['game-result'], {state: {id: id}});
-    await this.router.navigate(['game-result'], {queryParams: {id: id}});
+    await this.router.navigate(['game-result'], { queryParams: { id: id } });
   }
-
 
   handleImageError(event: Event) {
     const imgElement = event.target as HTMLImageElement;
@@ -777,9 +952,15 @@ export class GamesComponent implements OnInit {
   selector: 'joining-game',
   templateUrl: 'joining-game.html',
   standalone: true,
-  imports: [MaterialModule, CommonModule, FormsModule, ReactiveFormsModule, SharedModule, TranslateModule],
+  imports: [
+    MaterialModule,
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    SharedModule,
+    TranslateModule,
+  ],
 })
-
 export class JoiningGame {
   questionForm = this._formBuilder.group({
     question: new FormControl('', [Validators.required]),
@@ -790,9 +971,17 @@ export class JoiningGame {
   loading: boolean = false;
   questionId: any;
 
-  constructor(private _formBuilder: FormBuilder, public dialogRef: MatDialogRef<JoiningGame>, public configService: ConfigService,
-              public dialog: MatDialog, private gameService: GamesService, public generalService: GeneralService,
-              @Inject(MAT_DIALOG_DATA) public data: any, private router: Router, private _snackBar: MatSnackBar) {
+  constructor(
+    private _formBuilder: FormBuilder,
+    public dialogRef: MatDialogRef<JoiningGame>,
+    public configService: ConfigService,
+    public dialog: MatDialog,
+    private gameService: GamesService,
+    public generalService: GeneralService,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private router: Router,
+    private _snackBar: MatSnackBar
+  ) {
     this.wordCount = this.generalService.gameInit.answerWordsLimitation;
     this.wordCountAnswer = this.generalService.gameInit.answerWordsLimitation;
   }
@@ -805,19 +994,26 @@ export class JoiningGame {
     // console.log(this.data);
     const dialogConfig = new MatDialogConfig();
     // Check if it's mobile
-    if (this.generalService.isMobileView) { // Assuming mobile devices are <= 768px
+    if (this.generalService.isMobileView) {
+      // Assuming mobile devices are <= 768px
       dialogConfig.width = '100vw';
       dialogConfig.maxWidth = '100vw';
       dialogConfig.height = 'auto'; // You can specify the height if needed
-      dialogConfig.position = {bottom: '0px'};
+      dialogConfig.position = { bottom: '0px' };
       dialogConfig.panelClass = 'mobile-dialog'; // Add custom class for mobile
-      dialogConfig.data = {category: [this.data?.data?.game?.category?._id], type: this.data.data.game.gameType.id};
+      dialogConfig.data = {
+        category: [this.data?.data?.game?.category?._id],
+        type: this.data.data.game.gameType.id,
+      };
     } else {
-      dialogConfig.data = {category: [this.data?.data?.game?.category?._id], type: this.data.data.game.gameType.id};
+      dialogConfig.data = {
+        category: [this.data?.data?.game?.category?._id],
+        type: this.data.data.game.gameType.id,
+      };
       dialogConfig.width = '700px'; // Full size for desktop or larger screens
     }
     const dialogRef = this.dialog.open(ImportFromLibrary, dialogConfig);
-    dialogRef.afterClosed().subscribe(async result => {
+    dialogRef.afterClosed().subscribe(async (result) => {
       // console.log(result)
       if (result) {
         if (result.data?.id) {
@@ -835,35 +1031,56 @@ export class JoiningGame {
 
   async joinGame() {
     this.loading = true;
-    this.gameService.joinGameWithMyQuestion(this.data?.data?.game?._id, this.questionForm.controls.question.value, this.questionForm.controls.answer.value, this.questionId).then(async data => {
-      this.loading = false;
-      if (data.status == 1) {
-        this.dialogRef.close();
-        let account = await this.generalService.getItem('account');
-        if (account) {
-          // Update the "assets" property
-          account.assets = data?.data?.newBalance;
-          // Save the updated "account" object back to storage
-          this.generalService.saveToStorage('account', JSON.stringify(account));
+    this.gameService
+      .joinGameWithMyQuestion(
+        this.data?.data?.game?._id,
+        this.questionForm.controls.question.value,
+        this.questionForm.controls.answer.value,
+        this.questionId
+      )
+      .then(
+        async (data) => {
+          this.loading = false;
+          if (data.status == 1) {
+            this.dialogRef.close();
+            let account = await this.generalService.getItem('account');
+            if (account) {
+              // Update the "assets" property
+              account.assets = data?.data?.newBalance;
+              // Save the updated "account" object back to storage
+              this.generalService.saveToStorage(
+                'account',
+                JSON.stringify(account)
+              );
+            }
+            this.generalService.startingGame = true;
+            this.generalService.createdGameData = data.data;
+            await this.router.navigate(['/game-board'], {
+              state: { data: data.data, users: [] },
+            });
+          } else {
+            this.openDialog(JSON.stringify(data.message), 'Error');
+          }
+        },
+        (error) => {
+          this.loading = false;
+          this.openDialog(JSON.stringify(error.error), 'Error');
         }
-        this.generalService.startingGame = true;
-        this.generalService.createdGameData = data.data;
-        await this.router.navigate(['/game-board'], {state: {data: data.data, users: []}});
-      } else {
-        this.openDialog(JSON.stringify(data.message), 'Error');
-      }
-    }, error => {
-      this.loading = false;
-      this.openDialog(JSON.stringify(error.error), 'Error');
-    })
+      );
   }
 
   updateWordCount() {
-    this.wordCount = this.questionForm.controls.question.value ? (this.generalService.gameInit.answerWordsLimitation - this.questionForm.controls.question.value.trim().split(/\s+/).length) : this.generalService.gameInit.answerWordsLimitation;
+    this.wordCount = this.questionForm.controls.question.value
+      ? this.generalService.gameInit.answerWordsLimitation -
+        this.questionForm.controls.question.value.trim().split(/\s+/).length
+      : this.generalService.gameInit.answerWordsLimitation;
   }
 
   updateWordCountAnswer() {
-    this.wordCountAnswer = this.questionForm.controls.answer.value ? ((this.generalService.gameInit?.answerWordsLimitation) - this.questionForm.controls.answer.value.trim().split(/\s+/).length) : this.generalService.gameInit?.answerWordsLimitation;
+    this.wordCountAnswer = this.questionForm.controls.answer.value
+      ? this.generalService.gameInit?.answerWordsLimitation -
+        this.questionForm.controls.answer.value.trim().split(/\s+/).length
+      : this.generalService.gameInit?.answerWordsLimitation;
   }
 
   onToggleActiveTranslate(event: any) {
@@ -881,12 +1098,15 @@ export class JoiningGame {
     this._snackBar.openFromComponent(SnackbarContentComponent, {
       data: {
         title: title,
-        message: message
+        message: message,
       },
       duration: 3000,
       verticalPosition: 'top',
       horizontalPosition: 'end',
-      panelClass: title == 'Success' ? 'app-notification-success' : 'app-notification-error'
+      panelClass:
+        title == 'Success'
+          ? 'app-notification-success'
+          : 'app-notification-error',
     });
   }
 }
@@ -895,58 +1115,81 @@ export class JoiningGame {
   selector: 'import-from-library',
   templateUrl: 'import-from-library.html',
   standalone: true,
-  imports: [MaterialModule, CommonModule, FormsModule, ReactiveFormsModule, SharedModule, TranslateModule,
-    DaysAgoPipe],
+  imports: [
+    MaterialModule,
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    SharedModule,
+    TranslateModule,
+    DaysAgoPipe,
+  ],
 })
-
 export class ImportFromLibrary implements OnInit {
   search: any = '';
   selectedTabIndex: any = 0;
   library: any = [];
   loading: boolean = true;
 
-  constructor(private _formBuilder: FormBuilder, public dialogRef: MatDialogRef<ImportFromLibrary>,
-              private clientService: ClientService, @Inject(MAT_DIALOG_DATA) public data: any,
-              public configService: ConfigService, public generalService: GeneralService,
-              private processHTTPMsgService: ProcessHTTPMsgService, private gameService: GamesService) {
-  }
+  constructor(
+    private _formBuilder: FormBuilder,
+    public dialogRef: MatDialogRef<ImportFromLibrary>,
+    private clientService: ClientService,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    public configService: ConfigService,
+    public generalService: GeneralService,
+    private processHTTPMsgService: ProcessHTTPMsgService,
+    private gameService: GamesService
+  ) {}
 
   async ngOnInit(): Promise<any> {
     if (!this.search || this.search.length > 2) {
       this.library = [];
       this.loading = true;
-      this.clientService.getUserQuestions(this.data.category, this.selectedTabIndex == 0
-        ? 'private'
-        : this.selectedTabIndex == 1
-          ? 'public'
-          : 'bookmark', this.search).then(data => {
-        this.loading = false;
-        this.library = data.data;
-      }, error => {
-        return this.processHTTPMsgService.handleError(error);
-      });
+      this.clientService
+        .getUserQuestions(
+          this.data.category,
+          this.selectedTabIndex == 0
+            ? 'private'
+            : this.selectedTabIndex == 1
+            ? 'public'
+            : 'bookmark',
+          this.search
+        )
+        .then(
+          (data) => {
+            this.loading = false;
+            this.library = data.data;
+          },
+          (error) => {
+            return this.processHTTPMsgService.handleError(error);
+          }
+        );
     }
 
-    this.gameService.gameInit().then(data => {
-      if (data.status == 1) {
-        this.generalService.gameInit = data.data;
+    this.gameService.gameInit().then(
+      (data) => {
+        if (data.status == 1) {
+          this.generalService.gameInit = data.data;
+        }
+      },
+      (error) => {
+        return this.processHTTPMsgService.handleError(error);
       }
-    }, error => {
-      return this.processHTTPMsgService.handleError(error);
-    });
-
+    );
   }
-
 
   async closeModal() {
     this.dialogRef.close();
   }
 
   async importQuestionAnswer(question: any, answer: any, id: any) {
-    this.dialogRef.close({data: {question: question, answer: answer, id: id}})
+    this.dialogRef.close({
+      data: { question: question, answer: answer, id: id },
+    });
   }
 
   async importQuestion(question: any, id: any) {
-    this.dialogRef.close({data: {question: question, id: id}})
+    this.dialogRef.close({ data: { question: question, id: id } });
   }
 }

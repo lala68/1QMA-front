@@ -1,26 +1,49 @@
 <div class="footer">
-  <img src="https://api.staging.1qma.games/images/logo.png" width="110" class="footer-logo">
-  <div class="weight-500 sponsor-title-footer">{{'Sponsors' | translate}}:</div>
+  <img
+    src="https://api.1qma.games/images/logo.png"
+    width="110"
+    class="footer-logo"
+  />
+  <div class="weight-500 sponsor-title-footer">
+    {{ "Sponsors" | translate }}:
+  </div>
   <div class="sponsors">
-    <button *ngFor="let sponsor of generalService.initData ? generalService.initData?.sponsors : generalService.clientInit?.sponsors" (click)="gotoSponsorLink(sponsor.link)"
-            class="sponsor-button border-0">
-      <img [src]="'https://api.staging.1qma.games/' + sponsor.icon" width="45" height="45"/>
+    <button
+      *ngFor="
+        let sponsor of generalService.initData
+          ? generalService.initData?.sponsors
+          : generalService.clientInit?.sponsors
+      "
+      (click)="gotoSponsorLink(sponsor.link)"
+      class="sponsor-button border-0"
+    >
+      <img
+        [src]="'https://api.1qma.games/' + sponsor.icon"
+        width="45"
+        height="45"
+      />
     </button>
   </div>
-  <div class="parent-ul-li-footer"
-       [style]="generalService.userObj?.preferedLanguage?.code != 'fa' ? 'text-align: left' : 'text-align: right'">
+  <div
+    class="parent-ul-li-footer"
+    [style]="
+      generalService.userObj?.preferedLanguage?.code != 'fa'
+        ? 'text-align: left'
+        : 'text-align: right'
+    "
+  >
     <ul class="pe-1 d-flex mb-0">
       <li class="p-2 ul-li-footer">
         <label>
           <a [routerLink]="'/privacy'" class="nav-link pointer">
-            {{'Privacy and policy' | translate}}
+            {{ "Privacy and policy" | translate }}
           </a>
         </label>
       </li>
       <li class="p-2 ul-li-footer">
         <label>
           <a class="nav-link pointer">
-            {{'Careers' | translate}}
+            {{ "Careers" | translate }}
           </a>
         </label>
       </li>
@@ -29,14 +52,14 @@
       <li class="p-2 ul-li-footer">
         <label>
           <a [routerLink]="'/terms'" class="nav-link pointer">
-            {{'Terms Of Services' | translate}}
+            {{ "Terms Of Services" | translate }}
           </a>
         </label>
       </li>
       <li class="p-2 ul-li-footer" *ngIf="generalService?.hasCompletedSignup">
         <label>
           <a [routerLink]="'/tutorial'" class="nav-link pointer">
-            {{'Tutorials' | translate}}
+            {{ "Tutorials" | translate }}
           </a>
         </label>
       </li>
@@ -45,7 +68,7 @@
       <li class="p-2 ul-li-footer">
         <label>
           <a [routerLink]="'/faq'" class="nav-link pointer">
-            {{'FAQ' | translate}}
+            {{ "FAQ" | translate }}
           </a>
         </label>
       </li>
@@ -53,13 +76,14 @@
       <li class="p-2 ul-li-footer" *ngIf="generalService?.hasCompletedSignup">
         <label>
           <a [routerLink]="'/report-bug'" class="nav-link pointer">
-            {{'Report a bug' | translate}}
+            {{ "Report a bug" | translate }}
           </a>
         </label>
       </li>
     </ul>
   </div>
   <div class="copyright">
-    {{'Copyright' | translate}} © {{currentGregorianYear}} - 1QMA - {{'All rights reserved' | translate}}
+    {{ "Copyright" | translate }} © {{ currentGregorianYear }} - 1QMA -
+    {{ "All rights reserved" | translate }}
   </div>
 </div>

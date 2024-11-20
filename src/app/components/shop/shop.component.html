@@ -1,19 +1,44 @@
-<br>
-<div style="display: ruby-text;">
+<br />
+<div style="display: ruby-text">
   <mat-spinner *ngIf="loading" [diameter]="30"></mat-spinner>
 </div>
 <div class="card border-0" *ngIf="step == 2">
   <div class="w-100 d-flex">
     <mat-card class="shadow-none">
       <mat-card-header>
-        <img  *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'" src="assets/images/arrow-left.svg" width="24" height="24"
-             style="position: absolute; inset-inline-start: 10px; top: 0; bottom: 0; margin: auto;" (click)="step = 1">
-        <img  *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" src="assets/images/arrow-right-1.svg" width="24" height="24"
-             style="position: absolute; inset-inline-start: 10px; top: 0; bottom: 0; margin: auto;" (click)="step = 1">
+        <img
+          *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'"
+          src="assets/images/arrow-left.svg"
+          width="24"
+          height="24"
+          style="
+            position: absolute;
+            inset-inline-start: 10px;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+          "
+          (click)="step = 1"
+        />
+        <img
+          *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'"
+          src="assets/images/arrow-right-1.svg"
+          width="24"
+          height="24"
+          style="
+            position: absolute;
+            inset-inline-start: 10px;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+          "
+          (click)="step = 1"
+        />
 
         <div class="ms-2" style="height: 46px"></div>
-        <mat-label class="font-size-16 weight-600 ms-4">{{shopType | translate}}</mat-label>
-
+        <mat-label class="font-size-16 weight-600 ms-4">{{
+          shopType | translate
+        }}</mat-label>
       </mat-card-header>
     </mat-card>
   </div>
@@ -22,48 +47,105 @@
   <div class="w-100 d-flex">
     <mat-card class="shadow-none">
       <mat-card-header>
-        <img  *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'" src="assets/images/arrow-left.svg" width="24" height="24"
-             style="position: absolute; inset-inline-start: 10px; top: 0; bottom: 0; margin: auto;" (click)="step = 1">
-        <img  *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" src="assets/images/arrow-right-1.svg" width="24" height="24"
-             style="position: absolute; inset-inline-start: 10px; top: 0; bottom: 0; margin: auto;" (click)="step = 1">
+        <img
+          *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'"
+          src="assets/images/arrow-left.svg"
+          width="24"
+          height="24"
+          style="
+            position: absolute;
+            inset-inline-start: 10px;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+          "
+          (click)="step = 1"
+        />
+        <img
+          *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'"
+          src="assets/images/arrow-right-1.svg"
+          width="24"
+          height="24"
+          style="
+            position: absolute;
+            inset-inline-start: 10px;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+          "
+          (click)="step = 1"
+        />
         <div class="ms-2" style="height: 46px"></div>
-        <mat-label class="font-size-16 weight-600 ms-4">{{'Checkout' | translate}}</mat-label>
+        <mat-label class="font-size-16 weight-600 ms-4">{{
+          "Checkout" | translate
+        }}</mat-label>
       </mat-card-header>
     </mat-card>
   </div>
 </div>
-<br *ngIf="step != 1 && step != 4">
+<br *ngIf="step != 1 && step != 4" />
 <div *ngIf="!loading">
-  <div *ngIf="step ==1">
+  <div *ngIf="step == 1">
     <div class="card border-0">
       <div class="w-100 d-flex">
         <mat-card class="shadow-none w-100">
           <mat-card-header id="features">
-            <mat-card-title class="font-size-16 weight-600">{{'Features' | translate}}</mat-card-title>
-            <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
-              {{'Possible-description-title-features-shop' | translate}}
+            <mat-card-title class="font-size-16 weight-600">{{
+              "Features" | translate
+            }}</mat-card-title>
+            <mat-card-subtitle
+              class="font-size-14 weight-500 mt-2"
+              style="color: #585858"
+            >
+              {{ "Possible-description-title-features-shop" | translate }}
             </mat-card-subtitle>
           </mat-card-header>
-          <div class="link-text font-size-14 weight-500 position-absolute"
-               style="top: 30px; inset-inline-end: 30px" (click)="showAll('feature')">{{'See All' | translate}} >
+          <div
+            class="link-text font-size-14 weight-500 position-absolute"
+            style="top: 30px; inset-inline-end: 30px"
+            (click)="showAll('feature')"
+          >
+            {{ "See All" | translate }} >
           </div>
-          <br>
+          <br />
           <mat-card-content>
-            <mat-card *ngFor="let item of features"
-                      class="shadow-none text-center d-inline-flex"
-                      [class]="{'bordered-card': !generalService.isMobileView, 'bordered-card-mobile': generalService.isMobileView}">
-              <img [src]="item?.icon ? 'https://api.staging.1qma.games/' + item?.icon : 'assets/images/invitation.png'"
-                   width="50" height="50" style="margin: 0 auto">
-              <mat-card-header style="margin: 0 auto; display: block; padding: 5px">
-                <mat-card-title
-                  class="font-size-14 weight-600">{{item?.details[0]?.count}} {{item?.details[0]?.title}}</mat-card-title>
+            <mat-card
+              *ngFor="let item of features"
+              class="shadow-none text-center d-inline-flex"
+              [class]="{
+                'bordered-card': !generalService.isMobileView,
+                'bordered-card-mobile': generalService.isMobileView
+              }"
+            >
+              <img
+                [src]="
+                  item?.icon
+                    ? 'https://api.1qma.games/' + item?.icon
+                    : 'assets/images/invitation.png'
+                "
+                width="50"
+                height="50"
+                style="margin: 0 auto"
+              />
+              <mat-card-header
+                style="margin: 0 auto; display: block; padding: 5px"
+              >
+                <mat-card-title class="font-size-14 weight-600"
+                  >{{ item?.details[0]?.count }}
+                  {{ item?.details[0]?.title }}</mat-card-title
+                >
                 <mat-card-subtitle class="font-size-14 weight-500">
-                  {{item?.realPrice}} $
+                  {{ item?.realPrice }} $
                 </mat-card-subtitle>
               </mat-card-header>
-              <br>
+              <br />
               <mat-card-actions>
-                <button mat-raised-button class="game-button" (click)="gotoDetail(item)">{{'Buy' | translate}}
+                <button
+                  mat-raised-button
+                  class="game-button"
+                  (click)="gotoDetail(item)"
+                >
+                  {{ "Buy" | translate }}
                 </button>
               </mat-card-actions>
             </mat-card>
@@ -72,37 +154,67 @@
       </div>
     </div>
 
-    <br>
+    <br />
     <div class="card border-0">
       <div class="w-100 d-flex">
         <mat-card class="shadow-none w-100">
           <mat-card-header id="assets">
-            <mat-card-title class="font-size-16 weight-600">{{'Assets' | translate}}</mat-card-title>
-            <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
-              {{'Possible-description-title-assets-shop' | translate}}
+            <mat-card-title class="font-size-16 weight-600">{{
+              "Assets" | translate
+            }}</mat-card-title>
+            <mat-card-subtitle
+              class="font-size-14 weight-500 mt-2"
+              style="color: #585858"
+            >
+              {{ "Possible-description-title-assets-shop" | translate }}
             </mat-card-subtitle>
           </mat-card-header>
-          <div class="link-text font-size-14 weight-500 position-absolute"
-               style="top: 30px; inset-inline-end: 30px" (click)="showAll('asset')">{{'See All' | translate}} >
+          <div
+            class="link-text font-size-14 weight-500 position-absolute"
+            style="top: 30px; inset-inline-end: 30px"
+            (click)="showAll('asset')"
+          >
+            {{ "See All" | translate }} >
           </div>
-          <br>
+          <br />
           <mat-card-content>
-            <mat-card *ngFor="let item of assets"
-                      class="shadow-none text-center d-inline-flex"
-                      [class]="{'bordered-card': !generalService.isMobileView, 'bordered-card-mobile': generalService.isMobileView}">
-              <img [src]="item?.icon ? 'https://api.staging.1qma.games/' + item?.icon : 'assets/images/invitation.png'"
-                   width="50" height="50" style="margin: 0 auto">
-              <mat-card-header style="margin: 0 auto; display: block; padding: 5px">
-                <mat-card-title class="font-size-14 weight-600">{{item?.details[0]?.count}} {{item?.details[0]?.title}}
+            <mat-card
+              *ngFor="let item of assets"
+              class="shadow-none text-center d-inline-flex"
+              [class]="{
+                'bordered-card': !generalService.isMobileView,
+                'bordered-card-mobile': generalService.isMobileView
+              }"
+            >
+              <img
+                [src]="
+                  item?.icon
+                    ? 'https://api.1qma.games/' + item?.icon
+                    : 'assets/images/invitation.png'
+                "
+                width="50"
+                height="50"
+                style="margin: 0 auto"
+              />
+              <mat-card-header
+                style="margin: 0 auto; display: block; padding: 5px"
+              >
+                <mat-card-title class="font-size-14 weight-600"
+                  >{{ item?.details[0]?.count }} {{ item?.details[0]?.title }}
                   Coin
                 </mat-card-title>
                 <mat-card-subtitle class="font-size-14 weight-500">
-                  {{item?.realPrice}} $
+                  {{ item?.realPrice }} $
                 </mat-card-subtitle>
               </mat-card-header>
-              <br>
+              <br />
               <mat-card-actions>
-                <button mat-raised-button class="game-button" (click)="gotoDetail(item)">{{'Buy' | translate}}
+                <button
+                  mat-raised-button
+                  class="game-button"
+                  (click)="gotoDetail(item)"
+                >
+                  {{ "Buy" | translate }}
                 </button>
               </mat-card-actions>
             </mat-card>
@@ -111,40 +223,70 @@
       </div>
     </div>
 
-    <br>
+    <br />
     <div class="card border-0">
       <div class="w-100 d-flex">
         <mat-card class="shadow-none w-100">
           <mat-card-header id="bundles">
-            <mat-card-title class="font-size-16 weight-600">{{'Bundles' | translate}}</mat-card-title>
-            <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
-              {{'Possible-description-title-bundles-shop' | translate}}
+            <mat-card-title class="font-size-16 weight-600">{{
+              "Bundles" | translate
+            }}</mat-card-title>
+            <mat-card-subtitle
+              class="font-size-14 weight-500 mt-2"
+              style="color: #585858"
+            >
+              {{ "Possible-description-title-bundles-shop" | translate }}
             </mat-card-subtitle>
           </mat-card-header>
-          <div class="link-text font-size-14 weight-500 position-absolute"
-               style="top: 30px; inset-inline-end: 30px" (click)="showAll('bundle')">{{'See All' | translate}} >
+          <div
+            class="link-text font-size-14 weight-500 position-absolute"
+            style="top: 30px; inset-inline-end: 30px"
+            (click)="showAll('bundle')"
+          >
+            {{ "See All" | translate }} >
           </div>
-          <br>
+          <br />
           <mat-card-content>
-            <mat-card *ngFor="let item of bundles"
-                      class="shadow-none text-center d-inline-flex"
-                      [class]="{'bordered-card': !generalService.isMobileView, 'bordered-card-mobile': generalService.isMobileView}">
+            <mat-card
+              *ngFor="let item of bundles"
+              class="shadow-none text-center d-inline-flex"
+              [class]="{
+                'bordered-card': !generalService.isMobileView,
+                'bordered-card-mobile': generalService.isMobileView
+              }"
+            >
               <div class="d-inline-flex">
                 <img
-                  [src]="item?.icon ? 'https://api.staging.1qma.games/' + item?.icon : 'assets/images/invitation.png'"
-                  width="50" height="50" style="margin: 0 auto">
+                  [src]="
+                    item?.icon
+                      ? 'https://api.1qma.games/' + item?.icon
+                      : 'assets/images/invitation.png'
+                  "
+                  width="50"
+                  height="50"
+                  style="margin: 0 auto"
+                />
               </div>
-              <mat-card-header style="margin: 0 auto; display: block; padding: 5px">
-                <mat-card-title class="font-size-14 weight-600">{{item?.details[0]?.count}} {{item?.details[0]?.title}}
-                  + {{item?.details[1]?.count}} {{item?.details[1]?.title}} {{'Coin' | translate}}
+              <mat-card-header
+                style="margin: 0 auto; display: block; padding: 5px"
+              >
+                <mat-card-title class="font-size-14 weight-600"
+                  >{{ item?.details[0]?.count }} {{ item?.details[0]?.title }} +
+                  {{ item?.details[1]?.count }} {{ item?.details[1]?.title }}
+                  {{ "Coin" | translate }}
                 </mat-card-title>
                 <mat-card-subtitle class="font-size-14 weight-500">
-                  {{item?.realPrice}} $
+                  {{ item?.realPrice }} $
                 </mat-card-subtitle>
               </mat-card-header>
-              <br>
+              <br />
               <mat-card-actions>
-                <button mat-raised-button class="game-button" (click)="gotoDetail(item)">{{'Buy' | translate}}
+                <button
+                  mat-raised-button
+                  class="game-button"
+                  (click)="gotoDetail(item)"
+                >
+                  {{ "Buy" | translate }}
                 </button>
               </mat-card-actions>
             </mat-card>
@@ -154,34 +296,60 @@
     </div>
   </div>
 
-  <div *ngIf="step ==2">
+  <div *ngIf="step == 2">
     <div class="d-block w-100">
       <div class="card border-0">
         <div class="w-100 d-flex">
           <mat-card class="shadow-none w-100">
             <mat-card-header>
-              <mat-card-title class="font-size-16 weight-600">{{shopType | translate}}</mat-card-title>
-              <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
-                {{'Possible-Description-title-see-all-shop' | translate}}
+              <mat-card-title class="font-size-16 weight-600">{{
+                shopType | translate
+              }}</mat-card-title>
+              <mat-card-subtitle
+                class="font-size-14 weight-500 mt-2"
+                style="color: #585858"
+              >
+                {{ "Possible-Description-title-see-all-shop" | translate }}
               </mat-card-subtitle>
             </mat-card-header>
             <mat-card-content>
-              <mat-card *ngFor="let item of allData"
-                        class="shadow-none text-center d-inline-flex"
-                        [class]="{'bordered-card': !generalService.isMobileView, 'bordered-card-mobile': generalService.isMobileView}">
+              <mat-card
+                *ngFor="let item of allData"
+                class="shadow-none text-center d-inline-flex"
+                [class]="{
+                  'bordered-card': !generalService.isMobileView,
+                  'bordered-card-mobile': generalService.isMobileView
+                }"
+              >
                 <img
-                  [src]="item?.icon ? 'https://api.staging.1qma.games/' + item?.icon : 'assets/images/invitation.png'"
-                  width="50" height="50" style="margin: 0 auto">
-                <mat-card-header style="margin: 0 auto; display: block; padding: 5px">
-                  <mat-card-title
-                    class="font-size-14 weight-600">{{item?.details[0]?.count}} {{item?.details[0]?.title}}</mat-card-title>
+                  [src]="
+                    item?.icon
+                      ? 'https://api.1qma.games/' + item?.icon
+                      : 'assets/images/invitation.png'
+                  "
+                  width="50"
+                  height="50"
+                  style="margin: 0 auto"
+                />
+                <mat-card-header
+                  style="margin: 0 auto; display: block; padding: 5px"
+                >
+                  <mat-card-title class="font-size-14 weight-600"
+                    >{{ item?.details[0]?.count }}
+                    {{ item?.details[0]?.title }}</mat-card-title
+                  >
                   <mat-card-subtitle class="font-size-14 weight-500">
-                    {{item?.realPrice}} $
+                    {{ item?.realPrice }} $
                   </mat-card-subtitle>
                 </mat-card-header>
-                <br>
+                <br />
                 <mat-card-actions>
-                  <button mat-raised-button class="game-button" (click)="gotoDetail(item)">{{'Buy' | translate}}
+                  <button
+                    mat-raised-button
+                    class="game-button"
+                    (click)="gotoDetail(item)"
+                  >
+                    {{ "Buy" | translate }}
                   </button>
                 </mat-card-actions>
               </mat-card>
@@ -195,141 +363,281 @@
   <div *ngIf="step == 3">
     <div class="card border-0 w-100">
       <mat-card class="shadow-none w-100 d-inline-block p-4">
-        <div class="w-40 d-table-cell text-center" style="vertical-align: middle">
-          <img [src]="detail?.icon ? 'https://api.staging.1qma.games/' + detail?.icon : 'assets/images/invitation.png'"
-               width="120" height="120" style="margin: 0 auto">
+        <div
+          class="w-40 d-table-cell text-center"
+          style="vertical-align: middle"
+        >
+          <img
+            [src]="
+              detail?.icon
+                ? 'https://api.1qma.games/' + detail?.icon
+                : 'assets/images/invitation.png'
+            "
+            width="120"
+            height="120"
+            style="margin: 0 auto"
+          />
         </div>
         <div class="w-60 d-table-cell">
           <div class="weight-700 font-size-18">
-            {{detail?.details[0]?.count}} {{detail?.details[0]?.title}}
+            {{ detail?.details[0]?.count }} {{ detail?.details[0]?.title }}
           </div>
           <div>
             <div class="d-inline-flex" style="vertical-align: sub">
               <mat-label class="weight-600 font-size-16 d-inline-flex">
-                {{detail?.realPrice}} $
+                {{ detail?.realPrice }} $
               </mat-label>
               <div *ngIf="detail?.coinPrice" class="d-inline-flex">
-                <mat-label class="p-1 font-size-14 weight-600" style="color: #585858"> {{'OR' | translate}}</mat-label>
                 <mat-label
-                  class="font-size-16 weight-600">{{detail?.coinPrice?.price}} {{detail?.coinPrice?.coin}} {{'Coin' | translate}}
+                  class="p-1 font-size-14 weight-600"
+                  style="color: #585858"
+                >
+                  {{ "OR" | translate }}</mat-label
+                >
+                <mat-label class="font-size-16 weight-600"
+                  >{{ detail?.coinPrice?.price }} {{ detail?.coinPrice?.coin }}
+                  {{ "Coin" | translate }}
                 </mat-label>
               </div>
             </div>
             <mat-label class="d-block">
-              {{detail?.description}}
+              {{ detail?.description }}
             </mat-label>
             <div class="border-bottom mb-3 pt-3"></div>
             <mat-label class="pt-3 font-size-14 weight-700">
-              {{'Choose payment method' | translate}}:
+              {{ "Choose payment method" | translate }}:
             </mat-label>
             <div class="mt-3 mb-3">
-              <button mat-stroked-button class="m-2" style="border-radius: 10px; height: 56px"
-                      (click)="select('coin')"
-                      [class]="{'button-selected': isSelected('coin'), 'button-not-selected': !isSelected('coin')}">
-                <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <button
+                mat-stroked-button
+                class="m-2"
+                style="border-radius: 10px; height: 56px"
+                (click)="select('coin')"
+                [class]="{
+                  'button-selected': isSelected('coin'),
+                  'button-not-selected': !isSelected('coin')
+                }"
+              >
+                <svg
+                  width="25"
+                  height="25"
+                  viewBox="0 0 25 25"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
                   <path
                     d="M18.8965 13.4736V17.1736C18.8965 20.2936 15.9865 22.8236 12.3965 22.8236C8.80648 22.8236 5.89648 20.2936 5.89648 17.1736V13.4736C5.89648 16.5936 8.80648 18.8236 12.3965 18.8236C15.9865 18.8236 18.8965 16.5936 18.8965 13.4736Z"
-                    stroke="#2C2523" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    stroke="#2C2523"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
                   <path
                     d="M18.8965 8.47324C18.8965 9.38324 18.6465 10.2232 18.2065 10.9432C17.1365 12.7032 14.9365 13.8232 12.3965 13.8232C9.85648 13.8232 7.65649 12.7032 6.58649 10.9432C6.14649 10.2232 5.89648 9.38324 5.89648 8.47324C5.89648 6.91324 6.62648 5.50324 7.79648 4.48324C8.97648 3.45324 10.5965 2.82324 12.3965 2.82324C14.1965 2.82324 15.8165 3.45324 16.9965 4.47324C18.1665 5.50324 18.8965 6.91324 18.8965 8.47324Z"
-                    stroke="#2C2523" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    stroke="#2C2523"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
                   <path
                     d="M18.8965 8.47324V13.4732C18.8965 16.5932 15.9865 18.8232 12.3965 18.8232C8.80648 18.8232 5.89648 16.5932 5.89648 13.4732V8.47324C5.89648 5.35324 8.80648 2.82324 12.3965 2.82324C14.1965 2.82324 15.8165 3.45324 16.9965 4.47324C18.1665 5.50324 18.8965 6.91324 18.8965 8.47324Z"
-                    stroke="#2C2523" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    stroke="#2C2523"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
                 </svg>
-                {{'Pay with coin credit' | translate}}
+                {{ "Pay with coin credit" | translate }}
               </button>
 
-              <button mat-stroked-button class="m-2" style="border-radius: 10px; height: 56px"
-                      (click)="select('credit')"
-                      [class]="{'button-selected': isSelected('credit'), 'button-not-selected': !isSelected('credit')}">
-                <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M2.39648 9.32812H22.3965" stroke="#2C2523" stroke-width="1.5" stroke-miterlimit="10"
-                        stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M6.39648 17.3281H8.39648" stroke="#2C2523" stroke-width="1.5" stroke-miterlimit="10"
-                        stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M10.8965 17.3281H14.8965" stroke="#2C2523" stroke-width="1.5" stroke-miterlimit="10"
-                        stroke-linecap="round" stroke-linejoin="round"/>
+              <button
+                mat-stroked-button
+                class="m-2"
+                style="border-radius: 10px; height: 56px"
+                (click)="select('credit')"
+                [class]="{
+                  'button-selected': isSelected('credit'),
+                  'button-not-selected': !isSelected('credit')
+                }"
+              >
+                <svg
+                  width="25"
+                  height="25"
+                  viewBox="0 0 25 25"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M2.39648 9.32812H22.3965"
+                    stroke="#2C2523"
+                    stroke-width="1.5"
+                    stroke-miterlimit="10"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M6.39648 17.3281H8.39648"
+                    stroke="#2C2523"
+                    stroke-width="1.5"
+                    stroke-miterlimit="10"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M10.8965 17.3281H14.8965"
+                    stroke="#2C2523"
+                    stroke-width="1.5"
+                    stroke-miterlimit="10"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
                   <path
                     d="M6.83648 4.32812H17.9465C21.5065 4.32812 22.3965 5.20812 22.3965 8.71812V16.9281C22.3965 20.4381 21.5065 21.3181 17.9565 21.3181H6.83648C3.28648 21.3281 2.39648 20.4481 2.39648 16.9381V8.71812C2.39648 5.20812 3.28648 4.32812 6.83648 4.32812Z"
-                    stroke="#2C2523" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    stroke="#2C2523"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
                 </svg>
-                {{'Pay with credit card' | translate}}
+                {{ "Pay with credit card" | translate }}
               </button>
-
             </div>
           </div>
-
         </div>
       </mat-card>
     </div>
-    <br>
+    <br />
     <div class="card border-0">
       <mat-card class="shadow-none">
-        <mat-card-header style="
-        padding: 16px;">
+        <mat-card-header style="padding: 16px">
           <!--            <img mat-card-avatar src="assets/images/wallet-minus.svg" style="width: 24px; height: 24px">-->
           <svg
-            style="width: 24px !important;height: 24px !important;margin-top: 8px;margin-bottom: 0;padding: 0;display: flex;align-items: center;"
-            mat-card-avatar width="25" height="25" viewBox="0 0 25 25"
-            fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M15.1626 16.3145H10.1626" stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10"
-                  stroke-linecap="round" stroke-linejoin="round"/>
+            style="
+              width: 24px !important;
+              height: 24px !important;
+              margin-top: 8px;
+              margin-bottom: 0;
+              padding: 0;
+              display: flex;
+              align-items: center;
+            "
+            mat-card-avatar
+            width="25"
+            height="25"
+            viewBox="0 0 25 25"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M15.1626 16.3145H10.1626"
+              stroke="#292D32"
+              stroke-width="1.5"
+              stroke-miterlimit="10"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
             <path
               d="M13.5608 2.83454L13.5308 2.90454L10.6308 9.63454H7.78084C7.10084 9.63454 6.45084 9.77454 5.86084 10.0245L7.61084 5.84454L7.65084 5.74454L7.72084 5.58454C7.74084 5.52454 7.76084 5.46454 7.79084 5.41454C9.10084 2.38454 10.5808 1.69454 13.5608 2.83454Z"
-              stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              stroke="#292D32"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
             <path
               d="M18.9509 9.83496C18.5009 9.69496 18.0209 9.63496 17.5409 9.63496H10.6309L13.5309 2.90496L13.5609 2.83496C13.7109 2.88496 13.8509 2.95496 14.0009 3.01496L16.2109 3.94496C17.4409 4.45496 18.3009 4.98496 18.8209 5.62496C18.9209 5.74496 19.0009 5.85496 19.0709 5.98496C19.1609 6.12496 19.2309 6.26496 19.2709 6.41496C19.3109 6.50496 19.3409 6.59496 19.3609 6.67496C19.6309 7.51496 19.4709 8.54496 18.9509 9.83496Z"
-              stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              stroke="#292D32"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
             <path
               d="M22.4226 14.5148V16.4648C22.4226 16.6648 22.4126 16.8648 22.4026 17.0648C22.2126 20.5548 20.2626 22.3148 16.5626 22.3148H8.7626C8.5226 22.3148 8.2826 22.2948 8.0526 22.2648C4.8726 22.0548 3.1726 20.3548 2.9626 17.1748C2.9326 16.9448 2.9126 16.7048 2.9126 16.4648V14.5148C2.9126 12.5048 4.1326 10.7748 5.8726 10.0248C6.4726 9.77477 7.1126 9.63477 7.7926 9.63477H17.5526C18.0426 9.63477 18.5226 9.70477 18.9626 9.83477C20.9526 10.4448 22.4226 12.3048 22.4226 14.5148Z"
-              stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              stroke="#292D32"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
             <path
               d="M7.61088 5.84473L5.86088 10.0247C4.12088 10.7747 2.90088 12.5047 2.90088 14.5147V11.5847C2.90088 8.74473 4.92088 6.37473 7.61088 5.84473Z"
-              stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              stroke="#292D32"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
             <path
               d="M22.4195 11.5841V14.5141C22.4195 12.3141 20.9595 10.4441 18.9595 9.84406C19.4795 8.54406 19.6295 7.52406 19.3795 6.67406C19.3595 6.58406 19.3295 6.49406 19.2895 6.41406C21.1495 7.37406 22.4195 9.34406 22.4195 11.5841Z"
-              stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              stroke="#292D32"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
           </svg>
 
-          <mat-card-title class="font-size-12 weight-600"
-                          style="color: #585858">{{'My Balance' | translate}}</mat-card-title>
+          <mat-card-title
+            class="font-size-12 weight-600"
+            style="color: #585858"
+            >{{ "My Balance" | translate }}</mat-card-title
+          >
           <mat-card-subtitle>
-            <img src="assets/images/coin-bronze.png"
-                 width="15">&nbsp;<span>{{generalService.userObj?.assets?.coins?.bronze}}</span>&nbsp;
-            <img src="assets/images/coin-silver.png"
-                 width="15">&nbsp;<span>{{generalService.userObj?.assets?.coins?.silver}}</span>&nbsp;
-            <img src="assets/images/coin-gold.png"
-                 width="15">&nbsp;<span>{{generalService.userObj?.assets?.coins?.gold}}</span>
+            <img src="assets/images/coin-bronze.png" width="15" />&nbsp;<span>{{
+              generalService.userObj?.assets?.coins?.bronze
+            }}</span
+            >&nbsp;
+            <img src="assets/images/coin-silver.png" width="15" />&nbsp;<span>{{
+              generalService.userObj?.assets?.coins?.silver
+            }}</span
+            >&nbsp;
+            <img src="assets/images/coin-gold.png" width="15" />&nbsp;<span>{{
+              generalService.userObj?.assets?.coins?.gold
+            }}</span>
           </mat-card-subtitle>
         </mat-card-header>
-        <button mat-raised-button color="primary" class="next-step-shop" [disabled]="!selected"
-                (click)="payWithCoin(detail._id)">
-          {{'Checkout' | translate}}
-          <i *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'" class="bi bi-arrow-right"></i>
-          <i  *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" class="bi bi-arrow-left"></i>
+        <button
+          mat-raised-button
+          color="primary"
+          class="next-step-shop"
+          [disabled]="!selected"
+          (click)="payWithCoin(detail._id)"
+        >
+          {{ "Checkout" | translate }}
+          <i
+            *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'"
+            class="bi bi-arrow-right"
+          ></i>
+          <i
+            *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'"
+            class="bi bi-arrow-left"
+          ></i>
         </button>
       </mat-card>
     </div>
   </div>
 
-  <div *ngIf="step ==4">
+  <div *ngIf="step == 4">
     <div class="card border-0 w-100">
       <mat-card class="shadow-none w-100 d-inline-block p-4">
         <div class="d-block text-center">
-          <img src="assets/images/success.png" width="103" height="111">
-          <div class="font-size-16 weight-700">{{'Successful Payment' | translate}}</div>
-          <br>
+          <img src="assets/images/success.png" width="103" height="111" />
+          <div class="font-size-16 weight-700">
+            {{ "Successful Payment" | translate }}
+          </div>
+          <br />
           <mat-label class="font-size-14 weight-500" style="color: #585858">
-            {{'Your item has been purchased successfully' | translate}}
+            {{ "Your item has been purchased successfully" | translate }}
           </mat-label>
-          <br><br>
-          <mat-label class="font-size-16 weight-600">{{'Purchased Item' | translate}}: {{detail?.coinPrice?.price}} {{detail?.coinPrice?.coin}} {{'Coin' | translate}}
+          <br /><br />
+          <mat-label class="font-size-16 weight-600"
+            >{{ "Purchased Item" | translate }}: {{ detail?.coinPrice?.price }}
+            {{ detail?.coinPrice?.coin }} {{ "Coin" | translate }}
           </mat-label>
-          <br><br>
-          <button mat-raised-button color="primary"
-                  class="w-25 p-4" [routerLink]="['/dashboard']">
-            <span>{{'Go to dashboard' | translate}}</span>
+          <br /><br />
+          <button
+            mat-raised-button
+            color="primary"
+            class="w-25 p-4"
+            [routerLink]="['/dashboard']"
+          >
+            <span>{{ "Go to dashboard" | translate }}</span>
           </button>
         </div>
       </mat-card>

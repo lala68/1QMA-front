@@ -1,50 +1,80 @@
-import {Component, HostListener, Inject, NgZone, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {CommonModule} from "@angular/common";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {Router, RouterModule} from "@angular/router";
-import {SharedModule} from "../../shared/shared.module";
-import {TranslateModule} from "@ngx-translate/core";
-import {GeneralService} from "../../services/general/general.service";
-import {ClipboardModule} from "@angular/cdk/clipboard";
-import {CountdownTimerComponent} from "../countdown-timer/countdown-timer.component";
-import {GamesService} from "../../services/games/games.service";
-import {CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray} from "@angular/cdk/drag-drop";
-import {MatExpansionModule} from "@angular/material/expansion";
-import {ConfigService} from "../../services/config/config.service";
-import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
-import {MaterialModule} from "../../shared/material/material.module";
-import {TimeDifferencePipe} from "../../pipes/time-difference.pipe";
-import {SnackbarContentComponent} from "../snackbar-content/snackbar-content.component";
-import {MatSnackBar} from "@angular/material/snack-bar";
-import {HttpClient} from "@angular/common/http";
-import {ParsIntPipe} from "../../pipes/pars-int.pipe";
-import translate from "translate";
-import {ExitGame} from "../../shared/header/header.component";
-import {franc} from "franc";
-import iso6391 from "iso-639-1";
-import {io} from "socket.io-client";
-import {error} from "@angular/compiler-cli/src/transformers/util";
+import {
+  Component,
+  HostListener,
+  Inject,
+  NgZone,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
+import { SharedModule } from '../../shared/shared.module';
+import { TranslateModule } from '@ngx-translate/core';
+import { GeneralService } from '../../services/general/general.service';
+import { ClipboardModule } from '@angular/cdk/clipboard';
+import { CountdownTimerComponent } from '../countdown-timer/countdown-timer.component';
+import { GamesService } from '../../services/games/games.service';
+import {
+  CdkDrag,
+  CdkDragDrop,
+  CdkDropList,
+  moveItemInArray,
+} from '@angular/cdk/drag-drop';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { ConfigService } from '../../services/config/config.service';
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogConfig,
+  MatDialogRef,
+} from '@angular/material/dialog';
+import { MaterialModule } from '../../shared/material/material.module';
+import { TimeDifferencePipe } from '../../pipes/time-difference.pipe';
+import { SnackbarContentComponent } from '../snackbar-content/snackbar-content.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { HttpClient } from '@angular/common/http';
+import { ParsIntPipe } from '../../pipes/pars-int.pipe';
+import translate from 'translate';
+import { ExitGame } from '../../shared/header/header.component';
+import { franc } from 'franc';
+import iso6391 from 'iso-639-1';
+import { io } from 'socket.io-client';
+import { error } from '@angular/compiler-cli/src/transformers/util';
 
 type SupportedLanguages =
-  'eng' | // English
-  'deu' | // German
-  'prs' | // Dari
-  'fas' | // Persian (Farsi)
-  'pes' | // Persian (alternate code)
-  'por' | // Portuguese
-  'hnj' | // Hmong
-  'sco' | // Scots
-  'uig';  // Uighur
+  | 'eng' // English
+  | 'deu' // German
+  | 'prs' // Dari
+  | 'fas' // Persian (Farsi)
+  | 'pes' // Persian (alternate code)
+  | 'por' // Portuguese
+  | 'hnj' // Hmong
+  | 'sco' // Scots
+  | 'uig'; // Uighur
 
 @Component({
   selector: 'app-game-board',
   standalone: true,
-  imports: [CommonModule, SharedModule, FormsModule, RouterModule, ReactiveFormsModule, TranslateModule,
-    ClipboardModule, CountdownTimerComponent, CdkDropList, CdkDrag, MatExpansionModule, TimeDifferencePipe,
-    ParsIntPipe],
+  imports: [
+    CommonModule,
+    SharedModule,
+    FormsModule,
+    RouterModule,
+    ReactiveFormsModule,
+    TranslateModule,
+    ClipboardModule,
+    CountdownTimerComponent,
+    CdkDropList,
+    CdkDrag,
+    MatExpansionModule,
+    TimeDifferencePipe,
+    ParsIntPipe,
+  ],
   templateUrl: './game-board.component.html',
   styleUrl: './game-board.component.scss',
-  providers: [CountdownTimerComponent]
+  providers: [CountdownTimerComponent],
 })
 export class GameBoardComponent implements OnInit, OnDestroy {
   @ViewChild('answerTextArea') answerTextArea: any;
@@ -73,30 +103,34 @@ export class GameBoardComponent implements OnInit, OnDestroy {
   isDropped: boolean = false;
   isDroppedQuestion: boolean = false;
   myRank: any;
-  tooltipVisible1 = false;  // Control whether the tooltip is visible
+  tooltipVisible1 = false; // Control whether the tooltip is visible
   tooltipMessage1 = 'Click to copy!';
-  tooltipVisible2 = false;  // Control whether the tooltip is visible
+  tooltipVisible2 = false; // Control whether the tooltip is visible
   tooltipMessage2 = 'Click to copy!';
   isDropListDisabled: boolean = false;
   private supportedLangs: Record<SupportedLanguages, string> = {
-    'eng': 'en',
-    'deu': 'de',
-    'prs': 'fa',
-    'fas': 'fa',
-    'pes': 'fa',
-    'por': 'en',  // Portuguese detected as English
-    'hnj': 'en',  // Hmong detected as English
-    'sco': 'en',  // Scots detected as English
-    'uig': 'en'   // Uighur detected as English
+    eng: 'en',
+    deu: 'de',
+    prs: 'fa',
+    fas: 'fa',
+    pes: 'fa',
+    por: 'en', // Portuguese detected as English
+    hnj: 'en', // Hmong detected as English
+    sco: 'en', // Scots detected as English
+    uig: 'en', // Uighur detected as English
   };
 
   @HostListener('window:beforeunload', ['$event'])
   unloadNotification($event: any): void {
     if (this.hasUnsavedChanges()) {
-      $event.returnValue = 'You have unsaved changes! Are you sure you want to leave?';
+      $event.returnValue =
+        'You have unsaved changes! Are you sure you want to leave?';
 
       // Call exitGame with useBeacon set to true
-      this.gameService.exitGame(this.generalService.createdGameData.game.gameId, true);
+      this.gameService.exitGame(
+        this.generalService.createdGameData.game.gameId,
+        true
+      );
     }
   }
 
@@ -106,10 +140,17 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     return true; // Example: return true if there are unsaved changes
   }
 
-  constructor(public generalService: GeneralService, private router: Router, private gameService: GamesService,
-              public configService: ConfigService, private ngZone: NgZone, private _snackBar: MatSnackBar,
-              private countdownTimerComponent: CountdownTimerComponent, public dialog: MatDialog,
-              private http: HttpClient) {
+  constructor(
+    public generalService: GeneralService,
+    private router: Router,
+    private gameService: GamesService,
+    public configService: ConfigService,
+    private ngZone: NgZone,
+    private _snackBar: MatSnackBar,
+    private countdownTimerComponent: CountdownTimerComponent,
+    public dialog: MatDialog,
+    private http: HttpClient
+  ) {
     this.data = this.router.getCurrentNavigation()?.extras?.state?.['data'];
     //numberOfSubmitted maybe remove it
     this.submittedAnswer.numberOfSubmitted = 1;
@@ -117,18 +158,21 @@ export class GameBoardComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     // this.generalService.useGoogleTranslate();
-    this.generalService.wordCountAnswer = this.generalService.gameInit?.answerWordsLimitation;
-    this.generalService.players = (this.data?.game?.gamePlayers);
-    this.generalService.invitedPlayersArray = (this.data?.game?.gameInviteList);
-    this.generalService.invitedPlayersArray = this.generalService.invitedPlayersArray.filter(
-      (invitedPlayer: any) => !this.generalService.players.some(
-        (player: any) => player.email === invitedPlayer.email
-      )
-    );
+    this.generalService.wordCountAnswer =
+      this.generalService.gameInit?.answerWordsLimitation;
+    this.generalService.players = this.data?.game?.gamePlayers;
+    this.generalService.invitedPlayersArray = this.data?.game?.gameInviteList;
+    this.generalService.invitedPlayersArray =
+      this.generalService.invitedPlayersArray.filter(
+        (invitedPlayer: any) =>
+          !this.generalService.players.some(
+            (player: any) => player.email === invitedPlayer.email
+          )
+      );
     // console.log(this.data)
     // console.log(this.generalService.invitedPlayersArray)
     await this.removeFromInvited(this.generalService.userObj?.email);
-    this.generalService.socket.on("player added", async (arg: any) => {
+    this.generalService.socket.on('player added', async (arg: any) => {
       // console.log("player added " + arg);
       // console.log(this.generalService.players);
       // if (!this.generalService.players.some((player: any) => player.email === arg.email)) {
@@ -139,15 +183,21 @@ export class GameBoardComponent implements OnInit, OnDestroy {
       //   this.generalService.disconnectedModal = '';
       //   this.generalService.isDisconnectedModal = false;
       // }
-      if (!this.generalService.players.some((player: any) => player.email === arg.email) &&
-        !this.generalService.invitedPlayersArray.some((player: any) => player.email === arg.email)) {
+      if (
+        !this.generalService.players.some(
+          (player: any) => player.email === arg.email
+        ) &&
+        !this.generalService.invitedPlayersArray.some(
+          (player: any) => player.email === arg.email
+        )
+      ) {
         this.generalService.players.push(arg);
       }
 
       await this.removeFromInvited(arg.email);
     });
 
-    this.generalService.socket.on("next step", (arg: any) => {
+    this.generalService.socket.on('next step', (arg: any) => {
       // if (this.generalService.disconnectedModal || this.generalService.isDisconnectedModal) {
       //   this.generalService.disconnectedModal.close();
       //   this.generalService.disconnectedModal = '';
@@ -166,7 +216,8 @@ export class GameBoardComponent implements OnInit, OnDestroy {
         this.sendRateAnswerDisable = false;
         this.countdownTimer.resetTimer(3);
       } else if (this.generalService.gameStep == 3) {
-        this.generalService.wordCountAnswer = this.generalService.gameInit?.answerWordsLimitation;
+        this.generalService.wordCountAnswer =
+          this.generalService.gameInit?.answerWordsLimitation;
         this.nextStepTriggeredAnswer = false;
         this.nextStepTriggeredRatingAnswer = true;
         this.nextStepTriggeredRatingQuestions = false;
@@ -176,7 +227,12 @@ export class GameBoardComponent implements OnInit, OnDestroy {
         this.sendAnswerDisable = false;
         this.isDropped = false;
         // console.log(this.generalService?.gameQuestion)
-        this.countdownTimer.resetTimer(this.generalService.gameInit?.numberOfPlayers == parseInt(this.generalService.gameQuestion?.step) ? 4 : 2);
+        this.countdownTimer.resetTimer(
+          this.generalService.gameInit?.numberOfPlayers ==
+            parseInt(this.generalService.gameQuestion?.step)
+            ? 4
+            : 2
+        );
       } else if (this.generalService.gameStep == 4) {
         this.nextStepTriggeredAnswer = false;
         this.nextStepTriggeredRatingAnswer = false;
@@ -190,7 +246,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
       this.handleGameStep();
     });
 
-    this.generalService.socket.on("submit answer", (arg: any) => {
+    this.generalService.socket.on('submit answer', (arg: any) => {
       // if (this.generalService.disconnectedModal || this.generalService.isDisconnectedModal) {
       //   this.generalService.disconnectedModal.close();
       //   this.generalService.disconnectedModal = '';
@@ -203,7 +259,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
       this.submittedAnswer = arg;
     });
 
-    this.generalService.socket.on("player left", (arg: any) => {
+    this.generalService.socket.on('player left', (arg: any) => {
       // if (this.generalService.disconnectedModal || this.generalService.isDisconnectedModal) {
       //   this.generalService.disconnectedModal.close();
       //   this.generalService.disconnectedModal = '';
@@ -214,7 +270,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
       // console.log("player left" + ' ' + `[${timeString}]  `);
     });
 
-    this.generalService.socket.on("cancel game", (arg: any) => {
+    this.generalService.socket.on('cancel game', (arg: any) => {
       const now = new Date();
       const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
       // console.log("cancel game" + ' ' + `[${timeString}]  `);
@@ -227,13 +283,12 @@ export class GameBoardComponent implements OnInit, OnDestroy {
         this.generalService.isGameCancel = true;
         const dialogRef = this.dialog.open(CancelGame, {
           width: '500px',
-          disableClose: true
+          disableClose: true,
         });
       }
-
     });
 
-    this.generalService.socket.on("end game", (arg: any) => {
+    this.generalService.socket.on('end game', (arg: any) => {
       const now = new Date();
       const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
       // console.log("end game" + ' ' + `[${timeString}]  `);
@@ -246,7 +301,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
       this.getGameResult();
     });
 
-    this.generalService.socket.on("disconnect", () => {
+    this.generalService.socket.on('disconnect', () => {
       // console.log('disconnect');
       // if (this.generalService?.startingGame && (!this.generalService.isDisconnectedModal)) {
       //   this.generalService.disconnectedModal = this.dialog.open(Disconnected, {
@@ -266,10 +321,10 @@ export class GameBoardComponent implements OnInit, OnDestroy {
   }
 
   connect() {
-    this.generalService.socket = io('https://api.staging.1qma.games', {
+    this.generalService.socket = io('https://api.1qma.games', {
       reconnection: true,
       timeout: 5000,
-      withCredentials: true
+      withCredentials: true,
     });
 
     // Listen for connection and disconnection events
@@ -288,7 +343,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
       if (this.generalService?.startingGame) {
         this.generalService.disconnectedModal = this.dialog.open(Disconnected, {
           width: '500px',
-          disableClose: true
+          disableClose: true,
         });
         this.stopKeepAlive();
         this.reconnect(); // Attempt to reconnect
@@ -304,7 +359,6 @@ export class GameBoardComponent implements OnInit, OnDestroy {
       }
     }, 1000); // Send ping every 30 seconds
   }
-
 
   stopKeepAlive() {
     clearInterval(this.generalService.keepAliveInterval);
@@ -345,7 +399,6 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     }, 1000);
   }
 
-
   openModal() {
     this.isModalOpen = true;
   }
@@ -382,25 +435,24 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     clearInterval(this.generalService.keepAliveInterval);
     this.submittedAnswer = null;
     await this.router.navigate(['/report-bug']);
-
   }
 
   async openShareModalQR(type: any, data: any) {
-    const base64url = data
+    const base64url = data;
     const blob = await (await fetch(base64url)).blob();
-    const file = new File([blob], '1qma.png', {type: blob.type});
+    const file = new File([blob], '1qma.png', { type: blob.type });
     this.generalService.share({
       title: 'Hello! Welcome to 1QMA Games!',
       text: data,
       files: [file],
-    })
+    });
   }
 
   async openShareModal(type: any, data: any) {
     this.generalService.share({
       title: 'Hello! Welcome to 1QMA Games!',
       text: data,
-    })
+    });
   }
 
   async handleGameStep(): Promise<void> {
@@ -463,9 +515,16 @@ export class GameBoardComponent implements OnInit, OnDestroy {
 
       if (data.status === 1) {
         this.generalService.specificQuestionAnswers = data.data;
-        if (this.generalService.selectedTranslatedLanguage && this.generalService.selectedTranslatedLanguage != '') {
-          for (const answer of this.generalService.specificQuestionAnswers.answers) {
-            answer.answer = await this.detectAndTranslate(answer.answer, this.generalService.selectedTranslatedLanguage);
+        if (
+          this.generalService.selectedTranslatedLanguage &&
+          this.generalService.selectedTranslatedLanguage != ''
+        ) {
+          for (const answer of this.generalService.specificQuestionAnswers
+            .answers) {
+            answer.answer = await this.detectAndTranslate(
+              answer.answer,
+              this.generalService.selectedTranslatedLanguage
+            );
           }
         }
         this.updateRates(this.generalService.rateAnswers.length !== 0);
@@ -482,9 +541,15 @@ export class GameBoardComponent implements OnInit, OnDestroy {
 
       if (resQue.status === 1) {
         this.generalService.gameQuestion = resQue.data;
-        if (this.generalService.selectedTranslatedLanguage && this.generalService.selectedTranslatedLanguage != '') {
-          this.generalService.gameQuestion.question = await this.detectAndTranslate(resQue?.data.question,
-            this.generalService.selectedTranslatedLanguage);
+        if (
+          this.generalService.selectedTranslatedLanguage &&
+          this.generalService.selectedTranslatedLanguage != ''
+        ) {
+          this.generalService.gameQuestion.question =
+            await this.detectAndTranslate(
+              resQue?.data.question,
+              this.generalService.selectedTranslatedLanguage
+            );
         }
 
         this.generalService.gameAnswerGeneral = resQue.data.myAnswer || '';
@@ -502,19 +567,27 @@ export class GameBoardComponent implements OnInit, OnDestroy {
         await this.waitForConditionNextStepRatingAnswer();
         this.generalService.gameStep = 4;
         this.generalService.allQuestions = resQue.data;
-        if (this.generalService.selectedTranslatedLanguage && this.generalService.selectedTranslatedLanguage != '') {
+        if (
+          this.generalService.selectedTranslatedLanguage &&
+          this.generalService.selectedTranslatedLanguage != ''
+        ) {
           for (const question of this.generalService.allQuestions) {
-            question.question = await this.detectAndTranslate(question.question, this.generalService.selectedTranslatedLanguage);
+            question.question = await this.detectAndTranslate(
+              question.question,
+              this.generalService.selectedTranslatedLanguage
+            );
           }
         }
-        this.updateRatesQuestions(this.generalService.rateQuestions.length !== 0);
+        this.updateRatesQuestions(
+          this.generalService.rateQuestions.length !== 0
+        );
       }
     });
   }
 
   private async stepFourLogic(): Promise<void> {
     await this.ngZone.run(async () => {
-      await this.waitForConditionNextStepQuestions()
+      await this.waitForConditionNextStepQuestions();
     });
   }
 
@@ -586,31 +659,43 @@ export class GameBoardComponent implements OnInit, OnDestroy {
   }
 
   async getGameResult() {
-    this.gameService.getGameResult(this.generalService.createdGameData.game.gameId).then(async data => {
+    this.gameService
+      .getGameResult(this.generalService.createdGameData.game.gameId)
+      .then(async (data) => {
         this.generalService.gameResult = data.data;
-        if (this.generalService.selectedTranslatedLanguage && this.generalService.selectedTranslatedLanguage != '') {
-          for (const question of this.generalService.gameResult.result.details) {
-            question.question = await this.detectAndTranslate(question.question,
-              this.generalService.selectedTranslatedLanguage);
+        if (
+          this.generalService.selectedTranslatedLanguage &&
+          this.generalService.selectedTranslatedLanguage != ''
+        ) {
+          for (const question of this.generalService.gameResult.result
+            .details) {
+            question.question = await this.detectAndTranslate(
+              question.question,
+              this.generalService.selectedTranslatedLanguage
+            );
             for (const answer of question.answers) {
-              answer.answer = await this.detectAndTranslate(answer.answer, this.generalService.selectedTranslatedLanguage);
+              answer.answer = await this.detectAndTranslate(
+                answer.answer,
+                this.generalService.selectedTranslatedLanguage
+              );
             }
           }
         }
-        this.generalService.gameResult.result.scoreboard.filter((item: any, index: any) => {
-          if (item._id == this.generalService.userId) {
-            this.myRank = index + 1;
+        this.generalService.gameResult.result.scoreboard.filter(
+          (item: any, index: any) => {
+            if (item._id == this.generalService.userId) {
+              this.myRank = index + 1;
+            }
           }
-        });
-      }
-    )
+        );
+      });
   }
 
   inviteUser() {
     if (this.invitedUser && this.invitedUser?.length > 2) {
-      this.gameService.searchUserToInvite(this.invitedUser).then(data => {
-        this.filteredEmails = (data.data);
-      })
+      this.gameService.searchUserToInvite(this.invitedUser).then((data) => {
+        this.filteredEmails = data.data;
+      });
     }
   }
 
@@ -657,7 +742,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
         this.generalService.isGameCancel = true;
         const dialogRef = this.dialog.open(ForceExitGame, {
           width: '500px',
-          disableClose: true
+          disableClose: true,
         });
       }
       this.generalService.gameAnswerGeneral = '';
@@ -680,15 +765,21 @@ export class GameBoardComponent implements OnInit, OnDestroy {
         // for (const answer of this.generalService.specificQuestionAnswers.answers) {
         //   answer.answer = await translate(answer.answer, this.generalService.selectedTranslatedLanguage);
         // }
-        if (this.generalService.selectedTranslatedLanguage && this.generalService.selectedTranslatedLanguage != '') {
-          for (const answer of this.generalService.specificQuestionAnswers.answers) {
-            answer.answer = await this.detectAndTranslate(answer.answer, this.generalService.selectedTranslatedLanguage);
+        if (
+          this.generalService.selectedTranslatedLanguage &&
+          this.generalService.selectedTranslatedLanguage != ''
+        ) {
+          for (const answer of this.generalService.specificQuestionAnswers
+            .answers) {
+            answer.answer = await this.detectAndTranslate(
+              answer.answer,
+              this.generalService.selectedTranslatedLanguage
+            );
           }
         }
         this.updateRates(this.generalService.rateAnswers.length !== 0);
       }
     }
-
   }
 
   async handleCountdownRatingAnswerFinished() {
@@ -734,13 +825,16 @@ export class GameBoardComponent implements OnInit, OnDestroy {
         // }
       }
     } else {
-      if (this.generalService.gameQuestion?.step == this.generalService.gameInit?.numberOfPlayers) {
+      if (
+        this.generalService.gameQuestion?.step ==
+        this.generalService.gameInit?.numberOfPlayers
+      ) {
         this.numberOfDisconnectingInGameSteps++;
         if (this.numberOfDisconnectingInGameSteps > 2) {
           this.generalService.isGameCancel = true;
           const dialogRef = this.dialog.open(ForceExitGame, {
             width: '500px',
-            disableClose: true
+            disableClose: true,
           });
         }
         this.generalService.gameStep = 4;
@@ -749,20 +843,27 @@ export class GameBoardComponent implements OnInit, OnDestroy {
           this.generalService.createdGameData.game.gameId
         );
         this.generalService.allQuestions = resQue.data;
-        if (this.generalService.selectedTranslatedLanguage && this.generalService.selectedTranslatedLanguage != '') {
+        if (
+          this.generalService.selectedTranslatedLanguage &&
+          this.generalService.selectedTranslatedLanguage != ''
+        ) {
           for (const question of this.generalService.allQuestions.questions) {
-            question.question = await this.detectAndTranslate(question.question,
-              this.generalService.selectedTranslatedLanguage);
+            question.question = await this.detectAndTranslate(
+              question.question,
+              this.generalService.selectedTranslatedLanguage
+            );
           }
         }
-        this.updateRatesQuestions(this.generalService.rateQuestions.length !== 0);
+        this.updateRatesQuestions(
+          this.generalService.rateQuestions.length !== 0
+        );
       } else {
         this.numberOfDisconnectingInGameSteps++;
         if (this.numberOfDisconnectingInGameSteps > 2) {
           this.generalService.isGameCancel = true;
           const dialogRef = this.dialog.open(ForceExitGame, {
             width: '500px',
-            disableClose: true
+            disableClose: true,
           });
         }
         this.generalService.gameStep = 2;
@@ -780,9 +881,15 @@ export class GameBoardComponent implements OnInit, OnDestroy {
         );
         if (resQue.status === 1) {
           this.generalService.gameQuestion = resQue.data;
-          if (this.generalService.selectedTranslatedLanguage && this.generalService.selectedTranslatedLanguage != '') {
-            this.generalService.gameQuestion.question = await this.detectAndTranslate(this.generalService.gameQuestion.question,
-              this.generalService.selectedTranslatedLanguage);
+          if (
+            this.generalService.selectedTranslatedLanguage &&
+            this.generalService.selectedTranslatedLanguage != ''
+          ) {
+            this.generalService.gameQuestion.question =
+              await this.detectAndTranslate(
+                this.generalService.gameQuestion.question,
+                this.generalService.selectedTranslatedLanguage
+              );
           }
           this.generalService.gameAnswerGeneral = resQue.data.myAnswer || '';
           this.generalService.editingAnswer = !!resQue.data.myAnswer;
@@ -809,7 +916,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
         this.generalService.isGameCancel = true;
         const dialogRef = this.dialog.open(ForceExitGame, {
           width: '500px',
-          disableClose: true
+          disableClose: true,
         });
       }
       this.generalService.gameStep = 5;
@@ -824,25 +931,31 @@ export class GameBoardComponent implements OnInit, OnDestroy {
   async openWaitingModal() {
     this.generalService.waitingModal = this.dialog.open(WaitingModal, {
       width: '500px',
-      disableClose: true
+      disableClose: true,
     });
-    this.generalService.waitingModal.afterClosed().subscribe(async (result: any) => {
-      if (result == 'close') {
-        // this.backToCheckpoint = true;
-      } else if (result == 'keep') {
-        this.countdownTimer.resetTimer(0);
-      }
-    });
+    this.generalService.waitingModal
+      .afterClosed()
+      .subscribe(async (result: any) => {
+        if (result == 'close') {
+          // this.backToCheckpoint = true;
+        } else if (result == 'keep') {
+          this.countdownTimer.resetTimer(0);
+        }
+      });
   }
 
-  async detectAndTranslate(question: string, targetLanguage: string): Promise<string> {
+  async detectAndTranslate(
+    question: string,
+    targetLanguage: string
+  ): Promise<string> {
     // Use franc to detect the primary language
     if (question) {
       const detectedLangISO6393: string = franc(question);
       // console.log(`Primary detected language (ISO 639-3): ${detectedLangISO6393}`);
 
       // Map the detected language to the ISO 639-1 code or default to English
-      let detectedLangISO6391 = this.supportedLangs[detectedLangISO6393 as SupportedLanguages] || 'en';
+      let detectedLangISO6391 =
+        this.supportedLangs[detectedLangISO6393 as SupportedLanguages] || 'en';
 
       // console.log(`ISO 639-1 code used for translation: ${detectedLangISO6391}`);
       // console.log(`Target language for translation: ${targetLanguage}`);
@@ -861,7 +974,6 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     } else {
       return '';
     }
-
   }
 
   async sendAnswer(): Promise<any> {
@@ -869,20 +981,30 @@ export class GameBoardComponent implements OnInit, OnDestroy {
       this.sendAnswerDisable = true;
       this.sendRateAnswerDisable = false;
       this.numberOfDisconnectingInGameSteps = 0;
-      this.gameService.sendAnswer(this.generalService.createdGameData.game.gameId, this.generalService.gameQuestion._id, this.generalService.gameAnswerGeneral).then(data => {
-        if (data.status == 1) {
-          this.loading = false;
-          this.generalService.editingAnswer = true;
-        } else {
-          this.loading = false;
-        }
-      })
+      this.gameService
+        .sendAnswer(
+          this.generalService.createdGameData.game.gameId,
+          this.generalService.gameQuestion._id,
+          this.generalService.gameAnswerGeneral
+        )
+        .then((data) => {
+          if (data.status == 1) {
+            this.loading = false;
+            this.generalService.editingAnswer = true;
+          } else {
+            this.loading = false;
+          }
+        });
     });
   }
 
   drop(event: CdkDragDrop<any[]>) {
     // Update the order of answers array
-    moveItemInArray(this.generalService.specificQuestionAnswers.answers, event.previousIndex, event.currentIndex);
+    moveItemInArray(
+      this.generalService.specificQuestionAnswers.answers,
+      event.previousIndex,
+      event.currentIndex
+    );
     // moveItemInArray(this.questions, event.previousIndex, event.currentIndex);
 
     // Update the rates array based on the new order of answers
@@ -892,15 +1014,20 @@ export class GameBoardComponent implements OnInit, OnDestroy {
   moveUpAnswers(index: number) {
     if (index > 0) {
       const temp = this.generalService.specificQuestionAnswers.answers[index];
-      this.generalService.specificQuestionAnswers.answers[index] = this.generalService.specificQuestionAnswers.answers[index - 1];
+      this.generalService.specificQuestionAnswers.answers[index] =
+        this.generalService.specificQuestionAnswers.answers[index - 1];
       this.generalService.specificQuestionAnswers.answers[index - 1] = temp;
     }
   }
 
   moveDownAnswers(index: number) {
-    if (index < this.generalService.specificQuestionAnswers.answers.length - 1) {
+    if (
+      index <
+      this.generalService.specificQuestionAnswers.answers.length - 1
+    ) {
       const temp = this.generalService.specificQuestionAnswers.answers[index];
-      this.generalService.specificQuestionAnswers.answers[index] = this.generalService.specificQuestionAnswers.answers[index + 1];
+      this.generalService.specificQuestionAnswers.answers[index] =
+        this.generalService.specificQuestionAnswers.answers[index + 1];
       this.generalService.specificQuestionAnswers.answers[index + 1] = temp;
     }
   }
@@ -908,7 +1035,8 @@ export class GameBoardComponent implements OnInit, OnDestroy {
   moveUpQuestions(index: number) {
     if (index > 0) {
       const temp = this.generalService.allQuestions[index];
-      this.generalService.allQuestions[index] = this.generalService.allQuestions[index - 1];
+      this.generalService.allQuestions[index] =
+        this.generalService.allQuestions[index - 1];
       this.generalService.allQuestions[index - 1] = temp;
     }
   }
@@ -916,14 +1044,19 @@ export class GameBoardComponent implements OnInit, OnDestroy {
   moveDownQuestions(index: number) {
     if (index < this.generalService.allQuestions.length - 1) {
       const temp = this.generalService.allQuestions[index];
-      this.generalService.allQuestions[index] = this.generalService.allQuestions[index + 1];
+      this.generalService.allQuestions[index] =
+        this.generalService.allQuestions[index + 1];
       this.generalService.allQuestions[index + 1] = temp;
     }
   }
 
   dropQuestions(event: CdkDragDrop<any[]>) {
     // Update the order of answers array
-    moveItemInArray(this.generalService.allQuestions, event.previousIndex, event.currentIndex);
+    moveItemInArray(
+      this.generalService.allQuestions,
+      event.previousIndex,
+      event.currentIndex
+    );
 
     // Update the rates array based on the new order of answers
     this.updateRatesQuestions(true);
@@ -931,31 +1064,43 @@ export class GameBoardComponent implements OnInit, OnDestroy {
 
   updateRates(dropped: boolean = false) {
     if (!dropped) {
-      this.generalService.rateAnswers = this.generalService.specificQuestionAnswers.answers.map((answer: any, index: any) => ({
-        answer_id: answer._id,
-        rate: '1.01' // Assuming the rate is the new index + 1 as a string
-      }));
+      this.generalService.rateAnswers =
+        this.generalService.specificQuestionAnswers.answers.map(
+          (answer: any, index: any) => ({
+            answer_id: answer._id,
+            rate: '1.01', // Assuming the rate is the new index + 1 as a string
+          })
+        );
     } else {
       this.isDropped = true;
-      this.generalService.rateAnswers = this.generalService.specificQuestionAnswers.answers.map((answer: any, index: any) => ({
-        answer_id: answer._id,
-        rate: (this.generalService.specificQuestionAnswers.answers.length - index).toString() // Assuming the rate is the new index + 1 as a string
-      }));
+      this.generalService.rateAnswers =
+        this.generalService.specificQuestionAnswers.answers.map(
+          (answer: any, index: any) => ({
+            answer_id: answer._id,
+            rate: (
+              this.generalService.specificQuestionAnswers.answers.length - index
+            ).toString(), // Assuming the rate is the new index + 1 as a string
+          })
+        );
     }
   }
 
   updateRatesQuestions(dropped: boolean = false) {
     if (!dropped) {
-      this.generalService.rateQuestions = this.generalService.allQuestions.map((question: any, index: any) => ({
-        question_id: question._id,
-        rate: '1.01' // Assuming the rate is the new index + 1 as a string
-      }));
+      this.generalService.rateQuestions = this.generalService.allQuestions.map(
+        (question: any, index: any) => ({
+          question_id: question._id,
+          rate: '1.01', // Assuming the rate is the new index + 1 as a string
+        })
+      );
     } else {
       this.isDroppedQuestion = true;
-      this.generalService.rateQuestions = this.generalService.allQuestions.map((question: any, index: any) => ({
-        question_id: question._id,
-        rate: (this.generalService.allQuestions.length - index).toString() // Assuming the rate is the new index + 1 as a string
-      }));
+      this.generalService.rateQuestions = this.generalService.allQuestions.map(
+        (question: any, index: any) => ({
+          question_id: question._id,
+          rate: (this.generalService.allQuestions.length - index).toString(), // Assuming the rate is the new index + 1 as a string
+        })
+      );
     }
   }
 
@@ -970,13 +1115,19 @@ export class GameBoardComponent implements OnInit, OnDestroy {
       } else if (dropped) {
         await this.updateRates(true);
       }
-      this.gameService.sendRates(this.generalService.createdGameData.game.gameId, this.generalService.gameQuestion._id, this.generalService.rateAnswers).then(data => {
-        if (data.status == 1) {
-          this.loading = false;
-        } else {
-          this.loading = false;
-        }
-      })
+      this.gameService
+        .sendRates(
+          this.generalService.createdGameData.game.gameId,
+          this.generalService.gameQuestion._id,
+          this.generalService.rateAnswers
+        )
+        .then((data) => {
+          if (data.status == 1) {
+            this.loading = false;
+          } else {
+            this.loading = false;
+          }
+        });
     });
   }
 
@@ -990,17 +1141,25 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     } else if (dropped) {
       await this.updateRatesQuestions(true);
     }
-    this.gameService.sendRateQuestions(this.generalService.createdGameData.game.gameId, this.generalService.rateQuestions).then(data => {
-      if (data.status == 1) {
-        this.loading = false;
-      } else {
-        this.loading = false;
-      }
-    })
+    this.gameService
+      .sendRateQuestions(
+        this.generalService.createdGameData.game.gameId,
+        this.generalService.rateQuestions
+      )
+      .then((data) => {
+        if (data.status == 1) {
+          this.loading = false;
+        } else {
+          this.loading = false;
+        }
+      });
   }
 
   updateWordCountAnswer() {
-    this.generalService.wordCountAnswer = this.generalService?.gameAnswerGeneral ? ((this.generalService.gameInit?.answerWordsLimitation) - this.generalService?.gameAnswerGeneral.trim().split(/\s+/).length) : this.generalService.gameInit?.answerWordsLimitation;
+    this.generalService.wordCountAnswer = this.generalService?.gameAnswerGeneral
+      ? this.generalService.gameInit?.answerWordsLimitation -
+        this.generalService?.gameAnswerGeneral.trim().split(/\s+/).length
+      : this.generalService.gameInit?.answerWordsLimitation;
   }
 
   editAnswer() {
@@ -1008,14 +1167,21 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     this.sendAnswerDisable = false;
     //
     this.generalService.editingAnswer = false;
-    this.gameService.editAnswer(this.generalService.createdGameData.game.gameId, this.generalService.gameQuestion._id).then(data => {
-      if (data.status == 1) {
-      }
-    })
+    this.gameService
+      .editAnswer(
+        this.generalService.createdGameData.game.gameId,
+        this.generalService.gameQuestion._id
+      )
+      .then((data) => {
+        if (data.status == 1) {
+        }
+      });
   }
 
   async removeFromInvited(email: any) {
-    const index = this.generalService.invitedPlayersArray.findIndex((data: any) => data === email);
+    const index = this.generalService.invitedPlayersArray.findIndex(
+      (data: any) => data === email
+    );
     if (index !== -1) {
       // Remove the item from the array
       this.generalService.invitedPlayersArray.splice(index, 1);
@@ -1054,14 +1220,16 @@ export class GameBoardComponent implements OnInit, OnDestroy {
   addEmailToInvited(email: any) {
     if (this.isEmailFormat(email)) {
       this.filteredEmails = [];
-      this.gameService.invitePlayer(this.generalService.createdGameData.game.gameId, email).then(data => {
-        if (data.status == 1) {
-          this.invitedUser = '';
-          this.generalService.invitedPlayersArray.push(email);
-        } else {
-          this.invitedUser = '';
-        }
-      })
+      this.gameService
+        .invitePlayer(this.generalService.createdGameData.game.gameId, email)
+        .then((data) => {
+          if (data.status == 1) {
+            this.invitedUser = '';
+            this.generalService.invitedPlayersArray.push(email);
+          } else {
+            this.invitedUser = '';
+          }
+        });
     }
   }
 
@@ -1073,32 +1241,40 @@ export class GameBoardComponent implements OnInit, OnDestroy {
 
   addUserToPlayers() {
     // console.log(this.invitedUser);
-    this.gameService.invitePlayer(this.generalService.createdGameData.game.gameId, this.invitedUser).then(data => {
-      if (data.status == 1) {
-        this.generalService.invitedPlayersArray.push(this.invitedUser);
-        this.invitedUser = '';
-      } else {
-        this.invitedUser = '';
-        this.openDialog(JSON.stringify(data.message), 'Error');
-      }
-    })
+    this.gameService
+      .invitePlayer(
+        this.generalService.createdGameData.game.gameId,
+        this.invitedUser
+      )
+      .then((data) => {
+        if (data.status == 1) {
+          this.generalService.invitedPlayersArray.push(this.invitedUser);
+          this.invitedUser = '';
+        } else {
+          this.invitedUser = '';
+          this.openDialog(JSON.stringify(data.message), 'Error');
+        }
+      });
   }
 
   openDialog(message: any, title: any) {
     this._snackBar.openFromComponent(SnackbarContentComponent, {
       data: {
         title: title,
-        message: message
+        message: message,
       },
       duration: 3000,
       verticalPosition: 'top',
       horizontalPosition: 'end',
-      panelClass: title == 'Success' ? 'app-notification-success' : 'app-notification-error'
+      panelClass:
+        title == 'Success'
+          ? 'app-notification-success'
+          : 'app-notification-error',
     });
   }
 
   downloadImage(url: any) {
-    this.http.get(url, {responseType: 'blob'}).subscribe(blob => {
+    this.http.get(url, { responseType: 'blob' }).subscribe((blob) => {
       const a = document.createElement('a');
       const objectUrl = URL.createObjectURL(blob);
       a.href = objectUrl;
@@ -1110,22 +1286,22 @@ export class GameBoardComponent implements OnInit, OnDestroy {
 
   openScoreModal(score: any, totalScore: any) {
     const dialogConfig = new MatDialogConfig();
-    if (this.generalService.isMobileView) { // Assuming mobile devices are <= 768px
+    if (this.generalService.isMobileView) {
+      // Assuming mobile devices are <= 768px
       dialogConfig.width = '100vw';
       dialogConfig.maxWidth = '100vw';
       dialogConfig.height = 'auto'; // You can specify the height if needed
-      dialogConfig.position = {bottom: '0px'};
+      dialogConfig.position = { bottom: '0px' };
       dialogConfig.panelClass = 'mobile-dialog'; // Add custom class for mobile
-      dialogConfig.data = {score, totalScore};
+      dialogConfig.data = { score, totalScore };
       dialogConfig.disableClose = true;
     } else {
       dialogConfig.width = '600px'; // Full size for desktop or larger screens
-      dialogConfig.data = {score, totalScore};
+      dialogConfig.data = { score, totalScore };
       dialogConfig.disableClose = true;
-
     }
     const dialogRef = this.dialog.open(Score, dialogConfig);
-    dialogRef.afterClosed().subscribe(async result => {
+    dialogRef.afterClosed().subscribe(async (result) => {
       if (result == 'close') {
         // this.backToCheckpoint = true;
       } else if (result == 'keep') {
@@ -1135,13 +1311,15 @@ export class GameBoardComponent implements OnInit, OnDestroy {
   }
 
   backToCheckpointMethod() {
-    this.gameService.backToCheckpoint(this.generalService.createdGameData.game.gameId).then(data => {
-      if (data.status == 1) {
-        this.backToCheckpoint = true;
-      } else {
-        this.openDialog(JSON.stringify(data.message), 'Error');
-      }
-    })
+    this.gameService
+      .backToCheckpoint(this.generalService.createdGameData.game.gameId)
+      .then((data) => {
+        if (data.status == 1) {
+          this.backToCheckpoint = true;
+        } else {
+          this.openDialog(JSON.stringify(data.message), 'Error');
+        }
+      });
   }
 
   ngOnDestroy(): void {
@@ -1158,14 +1336,14 @@ export class GameBoardComponent implements OnInit, OnDestroy {
   selector: 'cancel-game',
   templateUrl: 'cancel-game.html',
   standalone: true,
-  imports: [MaterialModule, CommonModule, TranslateModule]
+  imports: [MaterialModule, CommonModule, TranslateModule],
 })
-
 export class CancelGame {
-
-  constructor(public dialogRef: MatDialogRef<CancelGame>, private generalService: GeneralService,
-              private router: Router) {
-  }
+  constructor(
+    public dialogRef: MatDialogRef<CancelGame>,
+    private generalService: GeneralService,
+    private router: Router
+  ) {}
 
   async gotoHome() {
     this.generalService.startingGame = false;
@@ -1191,67 +1369,83 @@ export class CancelGame {
   }
 }
 
-
 @Component({
   selector: 'disconnected',
   templateUrl: 'disconnected.html',
   standalone: true,
-  imports: [MaterialModule, CommonModule, TranslateModule, CountdownTimerComponent],
-  providers: [CountdownTimerComponent]
+  imports: [
+    MaterialModule,
+    CommonModule,
+    TranslateModule,
+    CountdownTimerComponent,
+  ],
+  providers: [CountdownTimerComponent],
 })
-
 export class Disconnected {
   disable: boolean = true;
 
-  constructor(public dialogRef: MatDialogRef<Disconnected>, private generalService: GeneralService,
-              private router: Router, private gameService: GamesService) {
+  constructor(
+    public dialogRef: MatDialogRef<Disconnected>,
+    private generalService: GeneralService,
+    private router: Router,
+    private gameService: GamesService
+  ) {
     this.generalService.isDisconnectedModal = true;
   }
 
   async gotoHome() {
-    this.gameService.exitGame(this.generalService?.startingGame ? this.generalService?.createdGameData?.game?.gameId : this.generalService?.createdGameData?._id).then(data => {
-      this.generalService.startingGame = false;
-      this.generalService.startingGameTutorial = false;
-      this.generalService.players = [];
-      this.generalService.gameInit = '';
-      this.generalService.gameStep = 1;
-      this.generalService.gameTutorialStep = 1;
-      this.generalService.createdGameData = '';
-      this.generalService.gameQuestion = '';
-      this.generalService.specificQuestionAnswers = '';
-      this.generalService.gameAnswerGeneral = '';
-      this.generalService.editingAnswer = true;
-      this.generalService.isGameCancel = false;
-      this.generalService.allQuestions = [];
-      this.generalService.gameResult = '';
-      this.generalService.rateAnswers = [];
-      this.generalService.rateQuestions = [];
-      this.generalService.invitedPlayersArray = [];
-      clearInterval(this.generalService.keepAliveInterval);
-      this.dialogRef.close();
-      this.router.navigate(['/dashboard']);
-    }, error => {
-      this.generalService.startingGame = false;
-      this.generalService.startingGameTutorial = false;
-      this.generalService.players = [];
-      this.generalService.gameInit = '';
-      this.generalService.gameStep = 1;
-      this.generalService.gameTutorialStep = 1;
-      this.generalService.createdGameData = '';
-      this.generalService.gameQuestion = '';
-      this.generalService.specificQuestionAnswers = '';
-      this.generalService.gameAnswerGeneral = '';
-      this.generalService.editingAnswer = true;
-      this.generalService.isGameCancel = false;
-      this.generalService.allQuestions = [];
-      this.generalService.gameResult = '';
-      this.generalService.rateAnswers = [];
-      this.generalService.rateQuestions = [];
-      this.generalService.invitedPlayersArray = [];
-      clearInterval(this.generalService.keepAliveInterval);
-      this.dialogRef.close();
-      this.router.navigate(['/dashboard']);
-    });
+    this.gameService
+      .exitGame(
+        this.generalService?.startingGame
+          ? this.generalService?.createdGameData?.game?.gameId
+          : this.generalService?.createdGameData?._id
+      )
+      .then(
+        (data) => {
+          this.generalService.startingGame = false;
+          this.generalService.startingGameTutorial = false;
+          this.generalService.players = [];
+          this.generalService.gameInit = '';
+          this.generalService.gameStep = 1;
+          this.generalService.gameTutorialStep = 1;
+          this.generalService.createdGameData = '';
+          this.generalService.gameQuestion = '';
+          this.generalService.specificQuestionAnswers = '';
+          this.generalService.gameAnswerGeneral = '';
+          this.generalService.editingAnswer = true;
+          this.generalService.isGameCancel = false;
+          this.generalService.allQuestions = [];
+          this.generalService.gameResult = '';
+          this.generalService.rateAnswers = [];
+          this.generalService.rateQuestions = [];
+          this.generalService.invitedPlayersArray = [];
+          clearInterval(this.generalService.keepAliveInterval);
+          this.dialogRef.close();
+          this.router.navigate(['/dashboard']);
+        },
+        (error) => {
+          this.generalService.startingGame = false;
+          this.generalService.startingGameTutorial = false;
+          this.generalService.players = [];
+          this.generalService.gameInit = '';
+          this.generalService.gameStep = 1;
+          this.generalService.gameTutorialStep = 1;
+          this.generalService.createdGameData = '';
+          this.generalService.gameQuestion = '';
+          this.generalService.specificQuestionAnswers = '';
+          this.generalService.gameAnswerGeneral = '';
+          this.generalService.editingAnswer = true;
+          this.generalService.isGameCancel = false;
+          this.generalService.allQuestions = [];
+          this.generalService.gameResult = '';
+          this.generalService.rateAnswers = [];
+          this.generalService.rateQuestions = [];
+          this.generalService.invitedPlayersArray = [];
+          clearInterval(this.generalService.keepAliveInterval);
+          this.dialogRef.close();
+          this.router.navigate(['/dashboard']);
+        }
+      );
   }
 
   finishedDisconnectTimer() {
@@ -1259,18 +1453,18 @@ export class Disconnected {
   }
 }
 
-
 @Component({
   selector: 'force-exit-game',
   templateUrl: 'force-exit-game.html',
   standalone: true,
-  imports: [MaterialModule, CommonModule, TranslateModule]
+  imports: [MaterialModule, CommonModule, TranslateModule],
 })
-
 export class ForceExitGame {
-
-  constructor(public dialogRef: MatDialogRef<ForceExitGame>, private generalService: GeneralService,
-              private router: Router) {
+  constructor(
+    public dialogRef: MatDialogRef<ForceExitGame>,
+    private generalService: GeneralService,
+    private router: Router
+  ) {
     this.gotoHome();
   }
 
@@ -1302,15 +1496,18 @@ export class ForceExitGame {
   selector: 'share',
   templateUrl: 'share.html',
   standalone: true,
-  imports: [MaterialModule, CommonModule, TranslateModule, ClipboardModule]
+  imports: [MaterialModule, CommonModule, TranslateModule, ClipboardModule],
 })
-
 export class ShareGame {
   type: any;
   result: any;
 
-  constructor(public dialogRef: MatDialogRef<ShareGame>, public generalService: GeneralService,
-              private router: Router, @Inject(MAT_DIALOG_DATA) public data: any,) {
+  constructor(
+    public dialogRef: MatDialogRef<ShareGame>,
+    public generalService: GeneralService,
+    private router: Router,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {
     this.type = this.data.type;
     this.result = this.data.result;
   }
@@ -1321,14 +1518,14 @@ export class ShareGame {
 
   async shareTelegram(text: any) {
     // if (this.type == '') {
-    const base64url = this.result
+    const base64url = this.result;
     const blob = await (await fetch(base64url)).blob();
-    const file = new File([blob], '1qma.png', {type: blob.type});
+    const file = new File([blob], '1qma.png', { type: blob.type });
     this.generalService.share({
       title: 'Hello! Welcome to 1QMA Games!',
       text: text,
       files: [file],
-    })
+    });
     // navigator.share({
     //   title: 'Hello',
     //   text: 'Welcome to 1QMA Games!',
@@ -1340,77 +1537,84 @@ export class ShareGame {
     //   window.open(telegramUrl, '_blank');
     //   this.dialogRef.close();
     // }
-
   }
 
   async shareWhatsapp(text: any) {
     // const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
     // window.open(whatsappUrl, '_blank');
-    const base64url = this.result
+    const base64url = this.result;
     const blob = await (await fetch(base64url)).blob();
-    const file = new File([blob], '1qma.png', {type: blob.type});
+    const file = new File([blob], '1qma.png', { type: blob.type });
     this.generalService.share({
       title: 'Hello! Welcome to 1QMA Games!',
       text: text,
       files: [file],
-    })
+    });
     this.dialogRef.close();
   }
 
   async shareFacebook(url: any, text: any) {
     // const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}&quote=${encodeURIComponent(text)}`;
     // window.open(facebookUrl, '_blank');
-    const base64url = this.result
+    const base64url = this.result;
     const blob = await (await fetch(base64url)).blob();
-    const file = new File([blob], '1qma.png', {type: blob.type});
+    const file = new File([blob], '1qma.png', { type: blob.type });
     this.generalService.share({
       title: 'Hello! Welcome to 1QMA Games!',
       text: text,
       files: [file],
-    })
+    });
     this.dialogRef.close();
   }
 
   async shareXMedia(text: any) {
     // const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
     // window.open(twitterUrl, '_blank');
-    const base64url = this.result
+    const base64url = this.result;
     const blob = await (await fetch(base64url)).blob();
-    const file = new File([blob], '1qma.png', {type: blob.type});
+    const file = new File([blob], '1qma.png', { type: blob.type });
     this.generalService.share({
       title: 'Hello! Welcome to 1QMA Games!',
       text: text,
       files: [file],
-    })
+    });
     this.dialogRef.close();
   }
-
 }
 
 @Component({
   selector: 'score',
   templateUrl: 'score.html',
   standalone: true,
-  imports: [MaterialModule, CommonModule, TranslateModule, ClipboardModule, ParsIntPipe]
+  imports: [
+    MaterialModule,
+    CommonModule,
+    TranslateModule,
+    ClipboardModule,
+    ParsIntPipe,
+  ],
 })
-
 export class Score {
-
-  constructor(public dialogRef: MatDialogRef<Score>, private gameService: GamesService,
-              private router: Router, @Inject(MAT_DIALOG_DATA) public data: any,
-              private _snackBar: MatSnackBar, public generalService: GeneralService) {
-
-  }
+  constructor(
+    public dialogRef: MatDialogRef<Score>,
+    private gameService: GamesService,
+    private router: Router,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private _snackBar: MatSnackBar,
+    public generalService: GeneralService
+  ) {}
 
   async closeModal(text: any) {
     if (text == 'keep') {
-      await this.gameService.keepMyScore(this.generalService.createdGameData.game.gameId).then(data => {
-        if (data.status == 1) {
-          this.dialogRef.close(text);
-        } else {
-          this.openDialog(JSON.stringify(data.message), 'Error');
-        }
-      });
+      await this.gameService
+        .keepMyScore(this.generalService.createdGameData.game.gameId)
+        .then((data) => {
+          if (data.status == 1) {
+            this.dialogRef.close(text);
+          } else {
+            this.openDialog(JSON.stringify(data.message), 'Error');
+          }
+        });
     } else {
       this.dialogRef.close(text);
     }
@@ -1420,12 +1624,15 @@ export class Score {
     this._snackBar.openFromComponent(SnackbarContentComponent, {
       data: {
         title: title,
-        message: message
+        message: message,
       },
       duration: 3000,
       verticalPosition: 'top',
       horizontalPosition: 'end',
-      panelClass: title == 'Success' ? 'app-notification-success' : 'app-notification-error'
+      panelClass:
+        title == 'Success'
+          ? 'app-notification-success'
+          : 'app-notification-error',
     });
   }
 }
@@ -1435,21 +1642,26 @@ export class Score {
   templateUrl: 'waiting-modal.html',
   standalone: true,
   imports: [MaterialModule, CommonModule, TranslateModule],
-  providers: [CountdownTimerComponent]
+  providers: [CountdownTimerComponent],
 })
-
 export class WaitingModal {
-
-  constructor(public dialogRef: MatDialogRef<WaitingModal>, private generalService: GeneralService,
-              private router: Router, private gameService: GamesService) {
-  }
+  constructor(
+    public dialogRef: MatDialogRef<WaitingModal>,
+    private generalService: GeneralService,
+    private router: Router,
+    private gameService: GamesService
+  ) {}
 
   async resetTimer() {
     this.dialogRef.close('keep');
   }
 
   async gotoHome() {
-    const data = await this.gameService.exitGame(this.generalService?.startingGame ? this.generalService?.createdGameData?.game?.gameId : this.generalService?.createdGameData?._id);
+    const data = await this.gameService.exitGame(
+      this.generalService?.startingGame
+        ? this.generalService?.createdGameData?.game?.gameId
+        : this.generalService?.createdGameData?._id
+    );
     if (data.status === 1) {
       this.generalService.startingGame = false;
       this.generalService.startingGameTutorial = false;

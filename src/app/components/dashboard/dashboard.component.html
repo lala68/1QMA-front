@@ -1,335 +1,806 @@
-<br>
-<div style="display: ruby-text;">
+<br />
+<div style="display: ruby-text">
   <mat-spinner *ngIf="loading" [diameter]="30"></mat-spinner>
 </div>
-<mat-toolbar *ngIf="generalService.isMobileView" class="mb-3 mt-1"
-             style="padding-inline-end: 0;background: transparent;">
-  <button mat-flat-button (click)="openAddQuestion()" id="addQuestion_mobile" style="height: 60px"
-          [class]="generalService.currentRout == '/shop' ? 'mat-list-item-selected' : ''"
-          routerLinkActive="active-link" class="w-30 m-1">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M6 12H18" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-      <path d="M12 18V6" stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<mat-toolbar
+  *ngIf="generalService.isMobileView"
+  class="mb-3 mt-1"
+  style="padding-inline-end: 0; background: transparent"
+>
+  <button
+    mat-flat-button
+    (click)="openAddQuestion()"
+    id="addQuestion_mobile"
+    style="height: 60px"
+    [class]="
+      generalService.currentRout == '/shop' ? 'mat-list-item-selected' : ''
+    "
+    routerLinkActive="active-link"
+    class="w-30 m-1"
+  >
+    <svg
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M6 12H18"
+        stroke="#000"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M12 18V6"
+        stroke="#000"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
     </svg>
-    <span class="d-block">{{'Add question' | translate}}</span>
+    <span class="d-block">{{ "Add question" | translate }}</span>
   </button>
-  <button mat-flat-button [routerLink]="['/games/find-game']" id="find_mobile" style="height: 60px"
-          [class]="generalService.currentRout == '/shop' ? 'mat-list-item-selected' : ''"
-          routerLinkActive="active-link" class="w-30 m-1">
-    <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <button
+    mat-flat-button
+    [routerLink]="['/games/find-game']"
+    id="find_mobile"
+    style="height: 60px"
+    [class]="
+      generalService.currentRout == '/shop' ? 'mat-list-item-selected' : ''
+    "
+    routerLinkActive="active-link"
+    class="w-30 m-1"
+  >
+    <svg
+      width="25"
+      height="25"
+      viewBox="0 0 25 25"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <path
         d="M12.2246 21.2402C17.4713 21.2402 21.7246 16.9869 21.7246 11.7402C21.7246 6.49353 17.4713 2.24023 12.2246 2.24023C6.9779 2.24023 2.72461 6.49353 2.72461 11.7402C2.72461 16.9869 6.9779 21.2402 12.2246 21.2402Z"
-        stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-      <path d="M22.7246 22.2402L20.7246 20.2402" stroke="#000" stroke-width="1.5" stroke-linecap="round"
-            stroke-linejoin="round"/>
+        stroke="#000"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M22.7246 22.2402L20.7246 20.2402"
+        stroke="#000"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
     </svg>
-    <span class="d-block">{{'Find game' | translate}}</span>
-
+    <span class="d-block">{{ "Find game" | translate }}</span>
   </button>
-  <button mat-flat-button [routerLink]="['/games/create-game']" id="create_mobile" style="height: 60px"
-          [class]="generalService.currentRout == '/shop' ? 'mat-list-item-selected' : ''"
-          routerLinkActive="active-link" class="w-30 m-1">
-    <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <button
+    mat-flat-button
+    [routerLink]="['/games/create-game']"
+    id="create_mobile"
+    style="height: 60px"
+    [class]="
+      generalService.currentRout == '/shop' ? 'mat-list-item-selected' : ''
+    "
+    routerLinkActive="active-link"
+    class="w-30 m-1"
+  >
+    <svg
+      width="25"
+      height="25"
+      viewBox="0 0 25 25"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <path
         d="M16.6226 2.58691H8.62256C4.62256 2.58691 2.62256 4.58691 2.62256 8.58691V21.5869C2.62256 22.1369 3.07256 22.5869 3.62256 22.5869H16.6226C20.6226 22.5869 22.6226 20.5869 22.6226 16.5869V8.58691C22.6226 4.58691 20.6226 2.58691 16.6226 2.58691Z"
-        stroke="#000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        stroke="#000"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
       <path
         d="M13.5324 8.42707L8.34235 13.6171C8.14235 13.8171 7.95236 14.2071 7.91236 14.4871L7.63236 16.4671C7.53236 17.1871 8.03235 17.6871 8.75235 17.5871L10.7323 17.3071C11.0123 17.2671 11.4024 17.0771 11.6024 16.8771L16.7924 11.6871C17.6824 10.7971 18.1124 9.75706 16.7924 8.43706C15.4724 7.10706 14.4324 7.52707 13.5324 8.42707Z"
-        stroke="#000" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-      <path d="M12.7925 9.16699C13.2325 10.737 14.4625 11.977 16.0425 12.417" stroke="#fff" stroke-width="1.5"
-            stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+        stroke="#000"
+        stroke-width="1.5"
+        stroke-miterlimit="10"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M12.7925 9.16699C13.2325 10.737 14.4625 11.977 16.0425 12.417"
+        stroke="#fff"
+        stroke-width="1.5"
+        stroke-miterlimit="10"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
     </svg>
-    <span class="d-block">{{'Create game' | translate}}</span>
-
+    <span class="d-block">{{ "Create game" | translate }}</span>
   </button>
-
 </mat-toolbar>
-<div class="card border-0" *ngIf="!loading"
-     [class]="{'p-4': !generalService.isMobileView, 'p-1': generalService.isMobileView}">
+<div
+  class="card border-0"
+  *ngIf="!loading"
+  [class]="{
+    'p-4': !generalService.isMobileView,
+    'p-1': generalService.isMobileView
+  }"
+>
   <div class="d-inline-flex" id="accountOverview">
-    <img src="assets/images/profile.png"
-         width="35" height="35">
-    <div class="font-size-16 weight-800 pt-2">&nbsp;{{'Account Overview' | translate}}</div>
+    <img src="assets/images/profile.png" width="35" height="35" />
+    <div class="font-size-16 weight-800 pt-2">
+      &nbsp;{{ "Account Overview" | translate }}
+    </div>
   </div>
-  <div [class]="{'d-flex': !generalService.isMobileView, 'd-block': generalService.isMobileView}">
-    <div [class]="{'p-3': !generalService.isMobileView, 'p-1': generalService.isMobileView}"
-         [style]="generalService.isMobileView ? 'width: 100%' : 'border-inline-end: 1px solid #E8E2E0; width: 40%'">
+  <div
+    [class]="{
+      'd-flex': !generalService.isMobileView,
+      'd-block': generalService.isMobileView
+    }"
+  >
+    <div
+      [class]="{
+        'p-3': !generalService.isMobileView,
+        'p-1': generalService.isMobileView
+      }"
+      [style]="
+        generalService.isMobileView
+          ? 'width: 100%'
+          : 'border-inline-end: 1px solid #E8E2E0; width: 40%'
+      "
+    >
       <mat-card class="shadow-none">
         <!--        <img src="assets/images/edit-2.svg" width="16" class="edit-img" [routerLink]="'/account-info'">-->
-        <svg width="16" class="edit-img cursor-pointer" [routerLink]="'/account-info'" viewBox="0 0 25 25" fill="none"
-             xmlns="http://www.w3.org/2000/svg">
+        <svg
+          width="16"
+          class="edit-img cursor-pointer"
+          [routerLink]="'/account-info'"
+          viewBox="0 0 25 25"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
           <path
             d="M13.3385 4.0885L5.12846 12.7785C4.81846 13.1085 4.51846 13.7585 4.45846 14.2085L4.08846 17.4485C3.95846 18.6185 4.79846 19.4185 5.95846 19.2185L9.17846 18.6685C9.62846 18.5885 10.2585 18.2585 10.5685 17.9185L18.7785 9.2285C20.1985 7.7285 20.8385 6.0185 18.6285 3.9285C16.4285 1.8585 14.7585 2.5885 13.3385 4.0885Z"
-            stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M11.9688 5.53809C12.3988 8.29809 14.6387 10.4081 17.4187 10.6881" stroke="#292D32" stroke-width="1.5"
-                stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M3.07861 22.4883H21.0786" stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10"
-                stroke-linecap="round" stroke-linejoin="round"/>
+            stroke="#292D32"
+            stroke-width="1.5"
+            stroke-miterlimit="10"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M11.9688 5.53809C12.3988 8.29809 14.6387 10.4081 17.4187 10.6881"
+            stroke="#292D32"
+            stroke-width="1.5"
+            stroke-miterlimit="10"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M3.07861 22.4883H21.0786"
+            stroke="#292D32"
+            stroke-width="1.5"
+            stroke-miterlimit="10"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
         </svg>
-        <mat-card-header class="pe-1 ps-1 border-bottom cursor-pointer" [routerLink]="'/account-info'">
+        <mat-card-header
+          class="pe-1 ps-1 border-bottom cursor-pointer"
+          [routerLink]="'/account-info'"
+        >
           <!--          <div mat-card-avatar class="avatar-header-image-profile-dashboard"></div>-->
-          <img mat-card-avatar class="avatar-bordered"
-               [src]="generalService.userObj?.profilePicture ? generalService.userObj?.profilePicture?.startsWith('http') ? generalService.userObj?.profilePicture : configService.url(generalService.userObj?.profilePicture) : 'assets/images/frame.png'"
-               (error)="handleImageError($event)"
-               width="35" height="35">
-          <mat-card-title
-            class="font-size-14 weight-700">{{generalService.userObj?.firstName + ' ' + generalService.userObj?.lastName }}</mat-card-title>
-          <mat-card-subtitle class="d-flex align-items-center font-size-12 weight-500 pt-1">
-            {{generalService.userObj?.anonymousName}}
+          <img
+            mat-card-avatar
+            class="avatar-bordered"
+            [src]="
+              generalService.userObj?.profilePicture
+                ? generalService.userObj?.profilePicture?.startsWith('http')
+                  ? generalService.userObj?.profilePicture
+                  : configService.url(generalService.userObj?.profilePicture)
+                : 'assets/images/frame.png'
+            "
+            (error)="handleImageError($event)"
+            width="35"
+            height="35"
+          />
+          <mat-card-title class="font-size-14 weight-700">{{
+            generalService.userObj?.firstName +
+              " " +
+              generalService.userObj?.lastName
+          }}</mat-card-title>
+          <mat-card-subtitle
+            class="d-flex align-items-center font-size-12 weight-500 pt-1"
+          >
+            {{ generalService.userObj?.anonymousName }}
           </mat-card-subtitle>
           <mat-card-subtitle>
-            <small *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'">{{'created at' | translate}}: {{generalService.userObj?.created_at | date}}</small>
-            <small *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'">{{'created at' | translate}}: {{generalService.userObj?.created_at | shamsiDate}}</small>
+            <small
+              *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'"
+              >{{ "created at" | translate }}:
+              {{ generalService.userObj?.created_at | date }}</small
+            >
+            <small
+              *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'"
+              >{{ "created at" | translate }}:
+              {{ generalService.userObj?.created_at | shamsiDate }}</small
+            >
           </mat-card-subtitle>
         </mat-card-header>
         <mat-card-header class="pe-1 ps-1 border-bottom position-relative">
-          <mat-card-title class="card-title-profile-dashboard mb-3" style="width: 120px">{{'Account' | translate}}:
+          <mat-card-title
+            class="card-title-profile-dashboard mb-3"
+            style="width: 120px"
+            >{{ "Account" | translate }}:
           </mat-card-title>
           <img
-            [src]="generalService.userObj?.accountType?.icon ? configService.url(generalService.userObj?.accountType?.icon) : 'assets/images/base.png'"
-            width="38" height="38">
-          <mat-label class="card-subtitle-profile-dashboard font-size-13 weight-500 text-light-color">
-            &nbsp;{{remainingDays}}
-            {{'Days Left' | translate}}
+            [src]="
+              generalService.userObj?.accountType?.icon
+                ? configService.url(generalService.userObj?.accountType?.icon)
+                : 'assets/images/base.png'
+            "
+            width="38"
+            height="38"
+          />
+          <mat-label
+            class="card-subtitle-profile-dashboard font-size-13 weight-500 text-light-color"
+          >
+            &nbsp;{{ remainingDays }}
+            {{ "Days Left" | translate }}
           </mat-label>
-          <small style="position: absolute; bottom: 5px; inset-inline-start: 165px"
-                 class="text-light-color">{{'Renew Automatically' | translate}}</small>
+          <small
+            style="position: absolute; bottom: 5px; inset-inline-start: 165px"
+            class="text-light-color"
+            >{{ "Renew Automatically" | translate }}</small
+          >
         </mat-card-header>
-        <mat-card-header class="pe-1 ps-1" *ngIf="generalService.userObj?.referer">
-          <mat-card-title class="card-title-profile-dashboard mb-3" style="width: 120px">{{'Referred By' | translate}}
+        <mat-card-header
+          class="pe-1 ps-1"
+          *ngIf="generalService.userObj?.referer"
+        >
+          <mat-card-title
+            class="card-title-profile-dashboard mb-3"
+            style="width: 120px"
+            >{{ "Referred By" | translate }}
             :
           </mat-card-title>
-          <img class="avatar-bordered"
-               [src]="generalService.userObj?.referer?.profilePicture ? generalService.userObj?.referer?.profilePicture?.startsWith('http') ? generalService.userObj?.referer?.profilePicture : configService.url(generalService.userObj?.referer?.profilePicture) : 'assets/images/frame.png'"
-               (error)="handleImageError($event)"
-               width="28" height="28">
+          <img
+            class="avatar-bordered"
+            [src]="
+              generalService.userObj?.referer?.profilePicture
+                ? generalService.userObj?.referer?.profilePicture?.startsWith(
+                    'http'
+                  )
+                  ? generalService.userObj?.referer?.profilePicture
+                  : configService.url(
+                      generalService.userObj?.referer?.profilePicture
+                    )
+                : 'assets/images/frame.png'
+            "
+            (error)="handleImageError($event)"
+            width="28"
+            height="28"
+          />
           <mat-label
             class="card-subtitle-profile-dashboard text-light-color mt-2 font-size-13 weight-500 cursor-pointer"
-            (click)="gotoUserDetail(generalService.userObj?.referer?._id)">
-            &nbsp;{{generalService.userObj?.referer?.firstName + ' ' + generalService.userObj?.referer?.lastName}}
+            (click)="gotoUserDetail(generalService.userObj?.referer?._id)"
+          >
+            &nbsp;{{
+              generalService.userObj?.referer?.firstName +
+                " " +
+                generalService.userObj?.referer?.lastName
+            }}
           </mat-label>
         </mat-card-header>
       </mat-card>
     </div>
-    <div class="p-3" [class]="{'w-60': !generalService.isMobileView, 'w-100': generalService.isMobileView}">
+    <div
+      class="p-3"
+      [class]="{
+        'w-60': !generalService.isMobileView,
+        'w-100': generalService.isMobileView
+      }"
+    >
       <div class="border-bottom pb-3">
-        <div class="position-relative d-inline-flex"
-             [style]="generalService.isMobileView ? 'width: 250px' : 'width: 320px'">
+        <div
+          class="position-relative d-inline-flex"
+          [style]="
+            generalService.isMobileView ? 'width: 250px' : 'width: 320px'
+          "
+        >
           <!--          <img src="assets/images/crown.svg" width="36" height="36"/>-->
-          <svg width="36" height="36" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg
+            width="36"
+            height="36"
+            viewBox="0 0 25 25"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
             <path
               d="M17.541 19.4686H8.14102C7.72102 19.4686 7.25102 19.1386 7.11102 18.7386L2.97102 7.15863C2.38102 5.49863 3.07102 4.98863 4.49102 6.00863L8.39102 8.79863C9.04102 9.24863 9.78102 9.01863 10.061 8.28863L11.821 3.59863C12.381 2.09863 13.311 2.09863 13.871 3.59863L15.631 8.28863C15.911 9.01863 16.651 9.24863 17.291 8.79863L20.951 6.18863C22.511 5.06863 23.261 5.63863 22.621 7.44863L18.581 18.7586C18.431 19.1386 17.961 19.4686 17.541 19.4686Z"
-              stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M7.34082 22.4883H18.3408" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
-                  stroke-linejoin="round"/>
-            <path d="M10.3408 14.4883H15.3408" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
-                  stroke-linejoin="round"/>
+              stroke="#292D32"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M7.34082 22.4883H18.3408"
+              stroke="#292D32"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M10.3408 14.4883H15.3408"
+              stroke="#292D32"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
           </svg>
 
-          <div style="position: absolute; bottom: 30px; width: 100%; inset-inline-start: 40px">
+          <div
+            style="
+              position: absolute;
+              bottom: 30px;
+              width: 100%;
+              inset-inline-start: 40px;
+            "
+          >
             <div class="font-size-14 weight-600 position-absolute start-0">
-              {{'Level' | translate}}: {{generalService.userObj?.statistics?.level}}</div>
+              {{ "Level" | translate }}:
+              {{ generalService.userObj?.statistics?.level }}
+            </div>
             <div
               class="font-size-12 weight-600 position-absolute"
-              style="inset-inline-end: 0">{{generalService.userObj?.statistics?.xpNeededForNextLevel - generalService.userObj?.statistics?.totalXP | parsInt}}
-              {{'XP till next level' | translate}}
+              style="inset-inline-end: 0"
+            >
+              {{
+                generalService.userObj?.statistics?.xpNeededForNextLevel -
+                  generalService.userObj?.statistics?.totalXP | parsInt
+              }}
+              {{ "XP till next level" | translate }}
             </div>
           </div>
-          <mat-progress-bar [style]="generalService.isMobileView ? 'width: 250px' : 'width: 320px;'"
-                            style="border-radius: 10px; display: inline-table;clip-path: inset(0 round 10px 10px 10px 10px);
-                             position: absolute; bottom: 0; inset-inline-start: 40px"
-                            color="primary"
-                            [value]="((generalService.userObj?.statistics?.totalXP - generalService.userObj?.statistics?.currentLevelXP) / (generalService.userObj?.statistics?.xpNeededForNextLevel - generalService.userObj?.statistics?.currentLevelXP)) * 100"
-                            [bufferValue]="100"
-                            mode="determinate"></mat-progress-bar>
+          <mat-progress-bar
+            [style]="
+              generalService.isMobileView ? 'width: 250px' : 'width: 320px;'
+            "
+            style="
+              border-radius: 10px;
+              display: inline-table;
+              clip-path: inset(0 round 10px 10px 10px 10px);
+              position: absolute;
+              bottom: 0;
+              inset-inline-start: 40px;
+            "
+            color="primary"
+            [value]="
+              ((generalService.userObj?.statistics?.totalXP -
+                generalService.userObj?.statistics?.currentLevelXP) /
+                (generalService.userObj?.statistics?.xpNeededForNextLevel -
+                  generalService.userObj?.statistics?.currentLevelXP)) *
+              100
+            "
+            [bufferValue]="100"
+            mode="determinate"
+          ></mat-progress-bar>
         </div>
         <div>
           <div class="card-games position-relative">
             <!--            <img src="assets/images/flash.svg" width="24">-->
-            <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg
+              width="24"
+              height="25"
+              viewBox="0 0 24 25"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
               <path
                 d="M6.0818 13.7682H9.1718V20.9682C9.1718 22.6482 10.0818 22.9882 11.1918 21.7282L18.7618 13.1282C19.6918 12.0782 19.3018 11.2082 17.8918 11.2082H14.8018V4.00818C14.8018 2.32818 13.8918 1.98818 12.7818 3.24818L5.2118 11.8482C4.2918 12.9082 4.6818 13.7682 6.0818 13.7682Z"
-                stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
-                stroke-linejoin="round"/>
+                stroke="#292D32"
+                stroke-width="1.5"
+                stroke-miterlimit="10"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
             </svg>
 
-            <div class="font-size-12 weight-400" style="padding: 5px">{{'Total' | translate}} <b
-              class="font-size-12 weight-600">{{'XP' | translate}}</b>:
+            <div class="font-size-12 weight-400" style="padding: 5px">
+              {{ "Total" | translate }}
+              <b class="font-size-12 weight-600">{{ "XP" | translate }}</b
+              >:
             </div>
-            <mat-label class="position-absolute font-size-14 weight-700"
-                       style="padding: 5px;inset-inline-end: 5px">{{generalService.userObj?.statistics?.totalXP | parsInt}}</mat-label>
+            <mat-label
+              class="position-absolute font-size-14 weight-700"
+              style="padding: 5px; inset-inline-end: 5px"
+              >{{
+                generalService.userObj?.statistics?.totalXP | parsInt
+              }}</mat-label
+            >
           </div>
           <div class="card-games position-relative">
             <!--            <img src="assets/images/star.svg" width="24">-->
-            <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg
+              width="25"
+              height="25"
+              viewBox="0 0 25 25"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
               <path
                 d="M14.4545 3.99793L16.2145 7.51793C16.4545 8.00793 17.0945 8.47793 17.6345 8.56793L20.8245 9.09793C22.8645 9.43793 23.3445 10.9179 21.8745 12.3779L19.3945 14.8579C18.9745 15.2779 18.7445 16.0879 18.8745 16.6679L19.5845 19.7379C20.1445 22.1679 18.8545 23.1079 16.7045 21.8379L13.7145 20.0679C13.1745 19.7479 12.2845 19.7479 11.7345 20.0679L8.74452 21.8379C6.60452 23.1079 5.30452 22.1579 5.86452 19.7379L6.57452 16.6679C6.70452 16.0879 6.47452 15.2779 6.05452 14.8579L3.57452 12.3779C2.11452 10.9179 2.58452 9.43793 4.62452 9.09793L7.81452 8.56793C8.34452 8.47793 8.98452 8.00793 9.22452 7.51793L10.9845 3.99793C11.9445 2.08793 13.5045 2.08793 14.4545 3.99793Z"
-                stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                stroke="#292D32"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
             </svg>
-            <div class="font-size-12 weight-400" style="padding: 5px">{{'Total' | translate}} <b
-              class="font-size-12 weight-600">{{'Score' | translate}}</b>:
+            <div class="font-size-12 weight-400" style="padding: 5px">
+              {{ "Total" | translate }}
+              <b class="font-size-12 weight-600">{{ "Score" | translate }}</b
+              >:
             </div>
-            <mat-label class="position-absolute font-size-14 weight-700"
-                       style="padding: 5px; inset-inline-end: 5px">{{generalService.userObj?.statistics?.normal?.totalScore | parsInt}}</mat-label>
+            <mat-label
+              class="position-absolute font-size-14 weight-700"
+              style="padding: 5px; inset-inline-end: 5px"
+              >{{
+                generalService.userObj?.statistics?.normal?.totalScore | parsInt
+              }}</mat-label
+            >
           </div>
         </div>
 
         <div>
           <div class="card-games-small position-relative">
             <!--            <img src="assets/images/cup.svg" width="24">-->
-            <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12.772 17.4219V19.5219" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
-                    stroke-linejoin="round"/>
+            <svg
+              width="25"
+              height="25"
+              viewBox="0 0 25 25"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12.772 17.4219V19.5219"
+                stroke="#292D32"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
               <path
                 d="M7.77197 22.9219H17.772V21.9219C17.772 20.8219 16.872 19.9219 15.772 19.9219H9.77197C8.67197 19.9219 7.77197 20.8219 7.77197 21.9219V22.9219V22.9219Z"
-                stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10"/>
-              <path d="M6.77197 22.9219H18.772" stroke="#292D32" stroke-width="1.5" stroke-linecap="round"
-                    stroke-linejoin="round"/>
+                stroke="#292D32"
+                stroke-width="1.5"
+                stroke-miterlimit="10"
+              />
+              <path
+                d="M6.77197 22.9219H18.772"
+                stroke="#292D32"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
               <path
                 d="M12.6221 16.9219C8.75207 16.9219 5.62207 13.7919 5.62207 9.92188V6.92188C5.62207 4.71187 7.41207 2.92188 9.62207 2.92188H15.6221C17.8321 2.92188 19.6221 4.71187 19.6221 6.92188V9.92188C19.6221 13.7919 16.4921 16.9219 12.6221 16.9219Z"
-                stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                stroke="#292D32"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
               <path
                 d="M6.09211 12.5715C5.34211 12.3315 4.68211 11.8915 4.16211 11.3715C3.26211 10.3715 2.66211 9.17148 2.66211 7.77148C2.66211 6.37148 3.76211 5.27148 5.16211 5.27148H5.81211C5.61211 5.73148 5.51211 6.24148 5.51211 6.77148V9.77148C5.51211 10.7715 5.72211 11.7115 6.09211 12.5715Z"
-                stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                stroke="#292D32"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
               <path
                 d="M19.1519 12.5715C19.9019 12.3315 20.5619 11.8915 21.0819 11.3715C21.9819 10.3715 22.5819 9.17148 22.5819 7.77148C22.5819 6.37148 21.4819 5.27148 20.0819 5.27148H19.4319C19.6319 5.73148 19.7319 6.24148 19.7319 6.77148V9.77148C19.7319 10.7715 19.5219 11.7115 19.1519 12.5715Z"
-                stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                stroke="#292D32"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
             </svg>
 
-            <div class="font-size-14 weight-700 position-absolute top-0"
-                 style="padding-inline-start: 5px; inset-inline-start: 30px">{{generalService.userObj?.games?.won}}</div>
-            <mat-label class="position-absolute font-size-12 weight-400 bottom-0"
-                       style="padding-inline-start: 5px;inset-inline-start: 30px">
-              {{'Win' | translate}}
+            <div
+              class="font-size-14 weight-700 position-absolute top-0"
+              style="padding-inline-start: 5px; inset-inline-start: 30px"
+            >
+              {{ generalService.userObj?.games?.won }}
+            </div>
+            <mat-label
+              class="position-absolute font-size-12 weight-400 bottom-0"
+              style="padding-inline-start: 5px; inset-inline-start: 30px"
+            >
+              {{ "Win" | translate }}
             </mat-label>
           </div>
           <div class="card-games-small position-relative">
             <!--            <img src="assets/images/message-edit.svg" width="24">-->
-            <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg
+              width="25"
+              height="25"
+              viewBox="0 0 25 25"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
               <path
                 d="M16.6226 2.58691H8.62256C4.62256 2.58691 2.62256 4.58691 2.62256 8.58691V21.5869C2.62256 22.1369 3.07256 22.5869 3.62256 22.5869H16.6226C20.6226 22.5869 22.6226 20.5869 22.6226 16.5869V8.58691C22.6226 4.58691 20.6226 2.58691 16.6226 2.58691Z"
-                stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                stroke="#292D32"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
               <path
                 d="M13.5324 8.42707L8.34235 13.6171C8.14235 13.8171 7.95236 14.2071 7.91236 14.4871L7.63236 16.4671C7.53236 17.1871 8.03235 17.6871 8.75235 17.5871L10.7323 17.3071C11.0123 17.2671 11.4024 17.0771 11.6024 16.8771L16.7924 11.6871C17.6824 10.7971 18.1124 9.75706 16.7924 8.43706C15.4724 7.10706 14.4324 7.52707 13.5324 8.42707Z"
-                stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
-                stroke-linejoin="round"/>
-              <path d="M12.7925 9.16699C13.2325 10.737 14.4625 11.977 16.0425 12.417" stroke="#292D32"
-                    stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                stroke="#292D32"
+                stroke-width="1.5"
+                stroke-miterlimit="10"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M12.7925 9.16699C13.2325 10.737 14.4625 11.977 16.0425 12.417"
+                stroke="#292D32"
+                stroke-width="1.5"
+                stroke-miterlimit="10"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
             </svg>
 
-            <div class="font-size-14 weight-700 position-absolute top-0"
-                 style="padding-inline-start: 5px; inset-inline-start: 30px">{{generalService.userObj?.games?.created}}</div>
-            <mat-label class="position-absolute font-size-12 weight-400 bottom-0"
-                       style="padding-inline-start: 5px;inset-inline-start: 30px">
-              {{'Created' | translate}}
+            <div
+              class="font-size-14 weight-700 position-absolute top-0"
+              style="padding-inline-start: 5px; inset-inline-start: 30px"
+            >
+              {{ generalService.userObj?.games?.created }}
+            </div>
+            <mat-label
+              class="position-absolute font-size-12 weight-400 bottom-0"
+              style="padding-inline-start: 5px; inset-inline-start: 30px"
+            >
+              {{ "Created" | translate }}
             </mat-label>
           </div>
           <div class="card-games-small position-relative">
             <!--            <img src="assets/images/game.svg" width="24">-->
-            <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M10.4709 12.6201L7.4209 15.6701" stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10"
-                    stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M7.45068 12.6504L10.5007 15.7004" stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10"
-                    stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M14.4307 14.1602H14.4407" stroke="#292D32" stroke-width="2" stroke-miterlimit="10"
-                    stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M18.3711 14.1602H18.3811" stroke="#292D32" stroke-width="2" stroke-miterlimit="10"
-                    stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M16.4009 16.1401V16.1201" stroke="#292D32" stroke-width="2" stroke-miterlimit="10"
-                    stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M16.4009 12.1997V12.1797" stroke="#292D32" stroke-width="2" stroke-miterlimit="10"
-                    stroke-linecap="round" stroke-linejoin="round"/>
+            <svg
+              width="25"
+              height="25"
+              viewBox="0 0 25 25"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M10.4709 12.6201L7.4209 15.6701"
+                stroke="#292D32"
+                stroke-width="1.5"
+                stroke-miterlimit="10"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M7.45068 12.6504L10.5007 15.7004"
+                stroke="#292D32"
+                stroke-width="1.5"
+                stroke-miterlimit="10"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M14.4307 14.1602H14.4407"
+                stroke="#292D32"
+                stroke-width="2"
+                stroke-miterlimit="10"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M18.3711 14.1602H18.3811"
+                stroke="#292D32"
+                stroke-width="2"
+                stroke-miterlimit="10"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M16.4009 16.1401V16.1201"
+                stroke="#292D32"
+                stroke-width="2"
+                stroke-miterlimit="10"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M16.4009 12.1997V12.1797"
+                stroke="#292D32"
+                stroke-width="2"
+                stroke-miterlimit="10"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
               <path
                 d="M9.90088 22.1602H15.9009C20.9009 22.1602 22.9009 20.1602 22.9009 15.1602V13.1602C22.9009 8.16016 20.9009 6.16016 15.9009 6.16016H9.90088C4.90088 6.16016 2.90088 8.16016 2.90088 13.1602V15.1602C2.90088 20.1602 4.90088 22.1602 9.90088 22.1602Z"
-                stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                stroke="#292D32"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
               <path
                 d="M13.9109 2.16016L13.9009 3.17016C13.8909 3.72016 13.4509 4.16016 12.9009 4.16016H12.8709C12.3209 4.16016 11.8809 4.61016 11.8809 5.16016C11.8809 5.71016 12.3309 6.16016 12.8809 6.16016H13.8809"
-                stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                stroke="#292D32"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
             </svg>
 
-            <div class="font-size-14 weight-700 position-absolute top-0"
-                 style="padding-inline-start: 5px; inset-inline-start: 30px">{{generalService.userObj?.games?.played}}</div>
-            <mat-label class="position-absolute font-size-12 weight-400 bottom-0"
-                       style="padding-inline-start: 5px;inset-inline-start: 30px">
-              {{'Play' | translate}}
+            <div
+              class="font-size-14 weight-700 position-absolute top-0"
+              style="padding-inline-start: 5px; inset-inline-start: 30px"
+            >
+              {{ generalService.userObj?.games?.played }}
+            </div>
+            <mat-label
+              class="position-absolute font-size-12 weight-400 bottom-0"
+              style="padding-inline-start: 5px; inset-inline-start: 30px"
+            >
+              {{ "Play" | translate }}
             </mat-label>
           </div>
           <div class="card-games-small position-relative">
             <!--            <img src="assets/images/ranking.svg" width="24">-->
-            <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg
+              width="25"
+              height="25"
+              viewBox="0 0 25 25"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
               <path
                 d="M9.57088 14.9229H4.90088C3.80088 14.9229 2.90088 15.8229 2.90088 16.9229V22.9229H9.57088V14.9229Z"
-                stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
-                stroke-linejoin="round"/>
+                stroke="#292D32"
+                stroke-width="1.5"
+                stroke-miterlimit="10"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
               <path
                 d="M14.231 10.9229H11.561C10.461 10.9229 9.56104 11.8229 9.56104 12.9229V22.9229H16.231V12.9229C16.231 11.8229 15.341 10.9229 14.231 10.9229Z"
-                stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
-                stroke-linejoin="round"/>
-              <path d="M20.901 17.9229H16.231V22.9229H22.901V19.9229C22.901 18.8229 22.001 17.9229 20.901 17.9229Z"
-                    stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
-                    stroke-linejoin="round"/>
+                stroke="#292D32"
+                stroke-width="1.5"
+                stroke-miterlimit="10"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M20.901 17.9229H16.231V22.9229H22.901V19.9229C22.901 18.8229 22.001 17.9229 20.901 17.9229Z"
+                stroke="#292D32"
+                stroke-width="1.5"
+                stroke-miterlimit="10"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
               <path
                 d="M13.4211 2.99267L13.9511 4.05267C14.0211 4.20267 14.2111 4.34267 14.3711 4.36267L15.3311 4.52267C15.9411 4.62267 16.0911 5.07265 15.6511 5.50265L14.9011 6.25265C14.7711 6.38265 14.7011 6.62266 14.7411 6.79266L14.9511 7.71268C15.1211 8.44268 14.7311 8.72268 14.0911 8.34268L13.1911 7.81268C13.0311 7.71268 12.7611 7.71268 12.6011 7.81268L11.7011 8.34268C11.0611 8.72268 10.6711 8.44268 10.8411 7.71268L11.0511 6.79266C11.0911 6.62266 11.0211 6.37265 10.8911 6.25265L10.1511 5.51266C9.71111 5.07266 9.85111 4.63265 10.4711 4.53265L11.4311 4.37268C11.5911 4.34268 11.7811 4.20268 11.8511 4.06268L12.3811 3.00265C12.6711 2.42265 13.1311 2.42267 13.4211 2.99267Z"
-                stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                stroke="#292D32"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
             </svg>
 
-            <div class="font-size-14 weight-700 position-absolute top-0"
-                 style="padding-inline-start: 5px; inset-inline-start: 30px">{{generalService.userObj?.games?.highScore | parsInt}}</div>
-            <mat-label class="position-absolute font-size-12 weight-400 bottom-0"
-                       style="padding-inline-start: 5px;inset-inline-start: 30px">
-              {{'High Score' | translate}}
+            <div
+              class="font-size-14 weight-700 position-absolute top-0"
+              style="padding-inline-start: 5px; inset-inline-start: 30px"
+            >
+              {{ generalService.userObj?.games?.highScore | parsInt }}
+            </div>
+            <mat-label
+              class="position-absolute font-size-12 weight-400 bottom-0"
+              style="padding-inline-start: 5px; inset-inline-start: 30px"
+            >
+              {{ "High Score" | translate }}
             </mat-label>
           </div>
         </div>
       </div>
       <mat-card class="shadow-none">
-        <mat-card-header class="pe-1 ps-1 position-relative d-flex align-items-center">
-          <mat-card-title class="card-title-profile-dashboard"
-                          [style]="generalService.isMobileView ? '' : 'width: 120px'">{{'Coins' | translate}}:
+        <mat-card-header
+          class="pe-1 ps-1 position-relative d-flex align-items-center"
+        >
+          <mat-card-title
+            class="card-title-profile-dashboard"
+            [style]="generalService.isMobileView ? '' : 'width: 120px'"
+            >{{ "Coins" | translate }}:
           </mat-card-title>
           <mat-card-subtitle>
-            <img src="assets/images/coin-bronze.png"
-                 width="24" height="24">&nbsp;<span>{{generalService.userObj?.assets?.coins?.bronze}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <img src="assets/images/coin-silver.png"
-                 width="24" height="24">&nbsp;<span>{{generalService.userObj?.assets?.coins?.silver}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <img src="assets/images/coin-gold.png"
-                 width="24" height="24">&nbsp;<span>{{generalService.userObj?.assets?.coins?.gold}}</span>
-            <div [routerLink]="['/transactions']"
-                 class="link-text font-size-14 weight-500 position-absolute bottom-10 cursor-pointer"
-                 style="inset-inline-end: 0">{{'Financial History' | translate}}
+            <img
+              src="assets/images/coin-bronze.png"
+              width="24"
+              height="24"
+            />&nbsp;<span>{{
+              generalService.userObj?.assets?.coins?.bronze
+            }}</span
+            >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <img
+              src="assets/images/coin-silver.png"
+              width="24"
+              height="24"
+            />&nbsp;<span>{{
+              generalService.userObj?.assets?.coins?.silver
+            }}</span
+            >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <img
+              src="assets/images/coin-gold.png"
+              width="24"
+              height="24"
+            />&nbsp;<span>{{
+              generalService.userObj?.assets?.coins?.gold
+            }}</span>
+            <div
+              [routerLink]="['/transactions']"
+              class="link-text font-size-14 weight-500 position-absolute bottom-10 cursor-pointer"
+              style="inset-inline-end: 0"
+            >
+              {{ "Financial History" | translate }}
               >
             </div>
-
           </mat-card-subtitle>
         </mat-card-header>
       </mat-card>
     </div>
   </div>
 </div>
-<br>
+<br />
 
-<div class="card border-0" *ngIf="!loading"
-     [class]="{'p-4': !generalService.isMobileView, 'p-1': generalService.isMobileView}">
+<div
+  class="card border-0"
+  *ngIf="!loading"
+  [class]="{
+    'p-4': !generalService.isMobileView,
+    'p-1': generalService.isMobileView
+  }"
+>
   <div class="d-inline-flex" id="topQuestions">
-    <img src="assets/images/top-question.png"
-         width="35" height="35">
-    <div class="font-size-16 weight-800 pt-2">&nbsp;{{'Top Questions' | translate}}</div>
+    <img src="assets/images/top-question.png" width="35" height="35" />
+    <div class="font-size-16 weight-800 pt-2">
+      &nbsp;{{ "Top Questions" | translate }}
+    </div>
   </div>
   <div class="w-100 d-flex">
-    <mat-card class="shadow-none w-100"
-              [class]="{'p-2': !generalService.isMobileView, 'p-0': generalService.isMobileView}">
-      <mat-card-header [class]="{'': !generalService.isMobileView, 'p-0': generalService.isMobileView}">
+    <mat-card
+      class="shadow-none w-100"
+      [class]="{
+        'p-2': !generalService.isMobileView,
+        'p-0': generalService.isMobileView
+      }"
+    >
+      <mat-card-header
+        [class]="{
+          '': !generalService.isMobileView,
+          'p-0': generalService.isMobileView
+        }"
+      >
         <div>
-          <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" class="tab-top-questions"
-                         [(selectedIndex)]="selectedTabTopQuestionsIndex" (selectedTabChange)="changeTopQuestions()">
-            <mat-tab label="{{'My Top Questions' | translate}}">
-            </mat-tab>
-            <mat-tab label="{{'All Top Questions' | translate}}">
-            </mat-tab>
+          <mat-tab-group
+            mat-stretch-tabs="false"
+            mat-align-tabs="start"
+            class="tab-top-questions"
+            [(selectedIndex)]="selectedTabTopQuestionsIndex"
+            (selectedTabChange)="changeTopQuestions()"
+          >
+            <mat-tab label="{{ 'My Top Questions' | translate }}"> </mat-tab>
+            <mat-tab label="{{ 'All Top Questions' | translate }}"> </mat-tab>
           </mat-tab-group>
         </div>
       </mat-card-header>
-      <br>
+      <br />
       <div class="d-flex overflow-scroll">
         <!--        <div class="m-2 d-inline-flex shadow-none cursor-pointer p-2"-->
         <!--             (click)="selectCatTopQuestion('')"-->
@@ -343,136 +814,266 @@
         <!--             (click)="selectCatTopQuestion(cat)"-->
         <!--             [class]="{'mat-card-pref-selected': isSelected(cat), 'mat-card-pref': !isSelected(cat)}">-->
         <!--          <div class="text-start">-->
-        <!--            <img [src]="'https://api.staging.1qma.games/' + cat?.icon" width="35">-->
+        <!--            <img [src]="'https://api.1qma.games/' + cat?.icon" width="35">-->
         <!--            <mat-label>{{ cat?.name }}</mat-label>-->
         <!--          </div>-->
         <!--        </div>-->
         <div class="w-100 d-inline-flex align-items-center">
-          <mat-label style="margin-bottom: 20px">{{ 'Category' | translate }}:&nbsp;</mat-label>
-          <mat-form-field appearance="fill" class="custom-form-field"
-                          [class]="{'w-25': !generalService.isMobileView, 'w-100': generalService.isMobileView}">
+          <mat-label style="margin-bottom: 20px"
+            >{{ "Category" | translate }}:&nbsp;</mat-label
+          >
+          <mat-form-field
+            appearance="fill"
+            class="custom-form-field"
+            [class]="{
+              'w-25': !generalService.isMobileView,
+              'w-100': generalService.isMobileView
+            }"
+          >
             <!--          <mat-label>{{ 'Category' | translate }}</mat-label>-->
-            <mat-select [(value)]="selectedCategory" (selectionChange)="selectCatTopQuestion($event.value)">
+            <mat-select
+              [(value)]="selectedCategory"
+              (selectionChange)="selectCatTopQuestion($event.value)"
+            >
               <mat-option [value]="''">
-                {{ 'all categories' | translate }}
+                {{ "all categories" | translate }}
               </mat-option>
-              <mat-option *ngFor="let cat of generalService.clientInit?.categories" [value]="cat._id">
-                <img [src]="'https://api.staging.1qma.games/' + cat?.icon" width="20" height="20">
+              <mat-option
+                *ngFor="let cat of generalService.clientInit?.categories"
+                [value]="cat._id"
+              >
+                <img
+                  [src]="'https://api.1qma.games/' + cat?.icon"
+                  width="20"
+                  height="20"
+                />
                 {{ cat?.name }}
               </mat-option>
             </mat-select>
           </mat-form-field>
         </div>
-
       </div>
       <div *ngIf="!generalService.isMobileView">
-        <mat-grid-list cols="12" rowHeight="50px" class="gray-card" [dir]="generalService.direction">
+        <mat-grid-list
+          cols="12"
+          rowHeight="50px"
+          class="gray-card"
+          [dir]="generalService.direction"
+        >
           <mat-grid-tile class="result-grid" [colspan]="1">
             <mat-label class="font-size-14 weight-700">#</mat-label>
           </mat-grid-tile>
           <mat-grid-tile class="result-grid" [colspan]="4">
-            <mat-label class="font-size-14 weight-700">{{'Question' | translate}}</mat-label>
+            <mat-label class="font-size-14 weight-700">{{
+              "Question" | translate
+            }}</mat-label>
           </mat-grid-tile>
           <mat-grid-tile class="result-grid" [colspan]="2">
-            <mat-label class="font-size-14 weight-700">{{'Category' | translate}}</mat-label>
+            <mat-label class="font-size-14 weight-700">{{
+              "Category" | translate
+            }}</mat-label>
           </mat-grid-tile>
           <mat-grid-tile [colspan]="2">
-            <mat-label class="font-size-14 weight-700">{{'Player' | translate}}</mat-label>
+            <mat-label class="font-size-14 weight-700">{{
+              "Player" | translate
+            }}</mat-label>
           </mat-grid-tile>
           <mat-grid-tile [colspan]="1">
-            <mat-label class="font-size-14 weight-700">{{'Total Plays' | translate}}</mat-label>
+            <mat-label class="font-size-14 weight-700">{{
+              "Total Plays" | translate
+            }}</mat-label>
           </mat-grid-tile>
           <mat-grid-tile [colspan]="1">
-            <mat-label class="font-size-14 weight-700">{{'Score' | translate}}</mat-label>
+            <mat-label class="font-size-14 weight-700">{{
+              "Score" | translate
+            }}</mat-label>
           </mat-grid-tile>
           <mat-grid-tile [colspan]="1">
             <mat-label class="font-size-14 weight-700"></mat-label>
           </mat-grid-tile>
         </mat-grid-list>
-        <mat-grid-list *ngFor="let res of topQuestions;let i=index" [dir]="generalService.direction"
-                       [class]="{'border-bottom-gray': i < topQuestions?.length - 1}"
-                       cols="12" rowHeight="70px" class="mb-2">
+        <mat-grid-list
+          *ngFor="let res of topQuestions; let i = index"
+          [dir]="generalService.direction"
+          [class]="{ 'border-bottom-gray': i < topQuestions?.length - 1 }"
+          cols="12"
+          rowHeight="70px"
+          class="mb-2"
+        >
           <mat-grid-tile class="result-grid" [colspan]="1">
-            <mat-label>{{i + 1}}</mat-label>
+            <mat-label>{{ i + 1 }}</mat-label>
           </mat-grid-tile>
           <mat-grid-tile class="result-grid" [colspan]="4">
-            {{res?.question}}
+            {{ res?.question }}
           </mat-grid-tile>
           <mat-grid-tile class="result-grid" [colspan]="2">
             <div color="primary">
-              <img [src]="'https://api.staging.1qma.games/' + res?.category?.icon" width="25">
-              <span class="font-size-12 weight-500">{{res?.category?.name}}</span>
+              <img
+                [src]="'https://api.1qma.games/' + res?.category?.icon"
+                width="25"
+              />
+              <span class="font-size-12 weight-500">{{
+                res?.category?.name
+              }}</span>
             </div>
           </mat-grid-tile>
           <mat-grid-tile [colspan]="2">
             <div class="w-100">
-              <img style="border: 1px solid #E8E2E0;border-radius: 50px; background: white;"
-                   [src]="res?.user?.profilePicture ? res?.user?.profilePicture?.startsWith('http') ? res?.user?.profilePicture : configService.url(res?.user?.profilePicture) : 'assets/images/frame.png'"
-                   (error)="handleImageError($event)"
-                   width="40">&nbsp;&nbsp;
-              <mat-label>{{res?.user?.firstName}} {{res?.user?.lastName}}</mat-label>
+              <img
+                style="
+                  border: 1px solid #e8e2e0;
+                  border-radius: 50px;
+                  background: white;
+                "
+                [src]="
+                  res?.user?.profilePicture
+                    ? res?.user?.profilePicture?.startsWith('http')
+                      ? res?.user?.profilePicture
+                      : configService.url(res?.user?.profilePicture)
+                    : 'assets/images/frame.png'
+                "
+                (error)="handleImageError($event)"
+                width="40"
+              />&nbsp;&nbsp;
+              <mat-label
+                >{{ res?.user?.firstName }} {{ res?.user?.lastName }}</mat-label
+              >
             </div>
           </mat-grid-tile>
           <mat-grid-tile [colspan]="1">
-            <mat-label class="font-size-14 weight-700 gray-card text-center"
-                       style="min-width: 75px;border-radius: 50px !important;">{{res?.plays | parsInt}}</mat-label>
+            <mat-label
+              class="font-size-14 weight-700 gray-card text-center"
+              style="min-width: 75px; border-radius: 50px !important"
+              >{{ res?.plays | parsInt }}</mat-label
+            >
           </mat-grid-tile>
           <mat-grid-tile [colspan]="1">
-            <mat-label class="font-size-14 weight-700 gray-card text-center"
-                       style="min-width: 75px; border-radius: 50px !important;">{{res?.score | parsInt}}</mat-label>
+            <mat-label
+              class="font-size-14 weight-700 gray-card text-center"
+              style="min-width: 75px; border-radius: 50px !important"
+              >{{ res?.score | parsInt }}</mat-label
+            >
           </mat-grid-tile>
-          <mat-grid-tile [colspan]="1" (click)="gotoQuestionDetail(res)" class="cursor-pointer">
-            <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg"
-                 *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'">
+          <mat-grid-tile
+            [colspan]="1"
+            (click)="gotoQuestionDetail(res)"
+            class="cursor-pointer"
+          >
+            <svg
+              width="25"
+              height="25"
+              viewBox="0 0 25 25"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'"
+            >
               <path
                 d="M9.53223 20.4084L16.0522 13.8884C16.8222 13.1184 16.8222 11.8584 16.0522 11.0884L9.53223 4.56836"
-                stroke="#0B6FEA" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
-                stroke-linejoin="round"/>
+                stroke="#0B6FEA"
+                stroke-width="1.5"
+                stroke-miterlimit="10"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
             </svg>
-            <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg"
-                 *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'">
-              <path d="M9.2439 11.2694L5.43766 7.75383C4.98816 7.33865 4.98816 6.65926 5.43766 6.24408L9.2439 2.72852"
-                    stroke="#0B6FEA" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
-                    stroke-linejoin="round"/>
+            <svg
+              width="25"
+              height="25"
+              viewBox="0 0 25 25"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'"
+            >
+              <path
+                d="M9.2439 11.2694L5.43766 7.75383C4.98816 7.33865 4.98816 6.65926 5.43766 6.24408L9.2439 2.72852"
+                stroke="#0B6FEA"
+                stroke-width="1.5"
+                stroke-miterlimit="10"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
             </svg>
-
           </mat-grid-tile>
         </mat-grid-list>
       </div>
       <div *ngIf="generalService.isMobileView">
-        <div *ngFor="let res of topQuestions;let i=index" class="p-2"
-             [class]="{'border-bottom-gray': i < topQuestions?.length - 1}">
-          <br>
-          <mat-label class="font-size-14 weight-600">{{i + 1}}.&nbsp;</mat-label>
-          <mat-label class="font-size-14 weight-600">{{res?.question}}</mat-label>
+        <div
+          *ngFor="let res of topQuestions; let i = index"
+          class="p-2"
+          [class]="{ 'border-bottom-gray': i < topQuestions?.length - 1 }"
+        >
+          <br />
+          <mat-label class="font-size-14 weight-600"
+            >{{ i + 1 }}.&nbsp;</mat-label
+          >
+          <mat-label class="font-size-14 weight-600">{{
+            res?.question
+          }}</mat-label>
           <div class="d-flex mt-3 mb-3">
             <div class="w-100">
-              <img style="border: 1px solid #E8E2E0;border-radius: 50px; background: white;"
-                   [src]="res?.user?.profilePicture ? res?.user?.profilePicture?.startsWith('http') ? res?.user?.profilePicture : configService.url(res?.user?.profilePicture) : 'assets/images/frame.png'"
-                   (error)="handleImageError($event)"
-                   width="40">&nbsp;&nbsp;
-              <mat-label>{{res?.user?.firstName}} {{res?.user?.lastName}}</mat-label>
+              <img
+                style="
+                  border: 1px solid #e8e2e0;
+                  border-radius: 50px;
+                  background: white;
+                "
+                [src]="
+                  res?.user?.profilePicture
+                    ? res?.user?.profilePicture?.startsWith('http')
+                      ? res?.user?.profilePicture
+                      : configService.url(res?.user?.profilePicture)
+                    : 'assets/images/frame.png'
+                "
+                (error)="handleImageError($event)"
+                width="40"
+              />&nbsp;&nbsp;
+              <mat-label
+                >{{ res?.user?.firstName }} {{ res?.user?.lastName }}</mat-label
+              >
             </div>
             <div color="primary" class="d-flex align-items-center">
-              <img [src]="'https://api.staging.1qma.games/' + res?.category?.icon" width="25">
-              <span class="font-size-12 weight-500">{{res?.category?.name}}</span>
+              <img
+                [src]="'https://api.1qma.games/' + res?.category?.icon"
+                width="25"
+              />
+              <span class="font-size-12 weight-500">{{
+                res?.category?.name
+              }}</span>
             </div>
           </div>
           <div class="gray-card-mobile d-flex m-1">
             <div style="flex: 1">
-              <mat-label class="font-size-12 weight-400">Total Plays:</mat-label>
-              <mat-label class="font-size-14 weight-500">{{res?.plays | parsInt}}</mat-label>
+              <mat-label class="font-size-12 weight-400"
+                >Total Plays:</mat-label
+              >
+              <mat-label class="font-size-14 weight-500">{{
+                res?.plays | parsInt
+              }}</mat-label>
             </div>
             <div style="flex: 1">
-              <mat-label class="font-size-12 weight-400">Total Score:</mat-label>
-              <mat-label class="font-size-14 weight-500">{{res?.score | parsInt}}</mat-label>
+              <mat-label class="font-size-12 weight-400"
+                >Total Score:</mat-label
+              >
+              <mat-label class="font-size-14 weight-500">{{
+                res?.score | parsInt
+              }}</mat-label>
             </div>
-            <svg (click)="gotoQuestionDetail(res)" width="25" height="25" viewBox="0 0 25 25" fill="none"
-                 xmlns="http://www.w3.org/2000/svg">
+            <svg
+              (click)="gotoQuestionDetail(res)"
+              width="25"
+              height="25"
+              viewBox="0 0 25 25"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
               <path
                 d="M9.53223 20.4084L16.0522 13.8884C16.8222 13.1184 16.8222 11.8584 16.0522 11.0884L9.53223 4.56836"
-                stroke="#0B6FEA" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
-                stroke-linejoin="round"/>
+                stroke="#0B6FEA"
+                stroke-width="1.5"
+                stroke-miterlimit="10"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
             </svg>
           </div>
         </div>
@@ -480,196 +1081,385 @@
     </mat-card>
   </div>
 </div>
-<br>
-<div class="w-100" [class]="{'d-flex': !generalService.isMobileView, 'd-block': generalService.isMobileView}">
-  <div class="card border-0 p-4 m-2" *ngIf="!loading"
-       [class]="{'w-50': !generalService.isMobileView, 'w-100': generalService.isMobileView}">
+<br />
+<div
+  class="w-100"
+  [class]="{
+    'd-flex': !generalService.isMobileView,
+    'd-block': generalService.isMobileView
+  }"
+>
+  <div
+    class="card border-0 p-4 m-2"
+    *ngIf="!loading"
+    [class]="{
+      'w-50': !generalService.isMobileView,
+      'w-100': generalService.isMobileView
+    }"
+  >
     <div class="d-inline-flex" id="InviteFriends">
-      <img src="assets/images/invite.png"
-           width="32" height="32">
-      <div class="font-size-16 weight-800 pt-2">&nbsp;{{'Invite Friends' | translate}}</div>
+      <img src="assets/images/invite.png" width="32" height="32" />
+      <div class="font-size-16 weight-800 pt-2">
+        &nbsp;{{ "Invite Friends" | translate }}
+      </div>
     </div>
-    <br>
+    <br />
     <div class="d-inline-flex w-100">
-      <form [formGroup]="inviteForm" class="w-100" (ngSubmit)="onSubmit()" autocomplete="off">
-        <input matInput class="invite-input ps-2" placeholder="{{'Enter your email' | translate}}" type="email"
-               [formControlName]="'email'">
+      <form
+        [formGroup]="inviteForm"
+        class="w-100"
+        (ngSubmit)="onSubmit()"
+        autocomplete="off"
+      >
+        <input
+          matInput
+          class="invite-input ps-2"
+          placeholder="{{ 'Enter your email' | translate }}"
+          type="email"
+          [formControlName]="'email'"
+        />
 
-        <button mat-raised-button color="primary" type="submit" [disabled]="!inviteForm.valid || loadingInvite"
-                class="w-25 p-4s ms-2 blue-button">
-          <span>{{'Invite' | translate}}</span>
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [disabled]="!inviteForm.valid || loadingInvite"
+          class="w-25 p-4s ms-2 blue-button"
+        >
+          <span>{{ "Invite" | translate }}</span>
         </button>
       </form>
     </div>
-    <br>
-    <div class="d-inline w-100 copy-referrer cursor-pointer position-relative"
-         [cdkCopyToClipboard]="generalService.userObj?.referCode"
-         (click)="showTooltip()"
-         (mouseleave)="tooltip.hide()">
-      <div class="d-inline text-start">{{'Referral Code' | translate}}</div>
-      <div class="d-inline text-end position-absolute"
-           style="inset-inline-end: 10px"
-           [matTooltip]="tooltipMessage"
-           [matTooltipPosition]="'above'"
-           [matTooltipHideDelay]="0"
-           [matTooltipShowDelay]="0"
-           matTooltipTouchGestures="auto"
-           [matTooltipDisabled]="tooltipVisible"
-           #tooltip="matTooltip">
-        {{generalService.userObj?.referCode}} <i class="bi bi-copy"></i>
+    <br />
+    <div
+      class="d-inline w-100 copy-referrer cursor-pointer position-relative"
+      [cdkCopyToClipboard]="generalService.userObj?.referCode"
+      (click)="showTooltip()"
+      (mouseleave)="tooltip.hide()"
+    >
+      <div class="d-inline text-start">{{ "Referral Code" | translate }}</div>
+      <div
+        class="d-inline text-end position-absolute"
+        style="inset-inline-end: 10px"
+        [matTooltip]="tooltipMessage"
+        [matTooltipPosition]="'above'"
+        [matTooltipHideDelay]="0"
+        [matTooltipShowDelay]="0"
+        matTooltipTouchGestures="auto"
+        [matTooltipDisabled]="tooltipVisible"
+        #tooltip="matTooltip"
+      >
+        {{ generalService.userObj?.referCode }} <i class="bi bi-copy"></i>
       </div>
     </div>
 
-
-    <br>
+    <br />
     <mat-card class="shadow-none">
-      <mat-card-header class="pe-1 ps-1 position-relative d-flex align-items-center border-top border-bottom"
-                       style="padding-bottom: 12px">
-        <mat-card-title class="card-title-profile-dashboard d-flex align-items-center">
-          <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <mat-card-header
+        class="pe-1 ps-1 position-relative d-flex align-items-center border-top border-bottom"
+        style="padding-bottom: 12px"
+      >
+        <mat-card-title
+          class="card-title-profile-dashboard d-flex align-items-center"
+        >
+          <svg
+            width="25"
+            height="25"
+            viewBox="0 0 25 25"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
             <path
               d="M7.32617 12.1362C3.32617 12.1362 3.32617 13.9262 3.32617 16.1362V17.1362C3.32617 19.8962 3.32617 22.1362 8.32617 22.1362H16.3262C20.3262 22.1362 21.3262 19.8962 21.3262 17.1362V16.1362C21.3262 13.9262 21.3262 12.1362 17.3262 12.1362C16.3262 12.1362 16.0462 12.3462 15.5262 12.7362L14.5062 13.8162C13.3262 15.0762 11.3262 15.0762 10.1362 13.8162L9.12617 12.7362C8.60617 12.3462 8.32617 12.1362 7.32617 12.1362Z"
-              stroke="#2C2523" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
-              stroke-linejoin="round"/>
+              stroke="#2C2523"
+              stroke-width="1.5"
+              stroke-miterlimit="10"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
             <path
               d="M19.3262 12.1362V6.13623C19.3262 3.92623 19.3262 2.13623 15.3262 2.13623H9.32617C5.32617 2.13623 5.32617 3.92623 5.32617 6.13623V12.1362"
-              stroke="#2C2523" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
-              stroke-linejoin="round"/>
-            <path d="M10.876 9.36621H14.206" stroke="#2C2523" stroke-width="1.5" stroke-linecap="round"
-                  stroke-linejoin="round"/>
-            <path d="M10.0459 6.36621H15.0459" stroke="#2C2523" stroke-width="1.5" stroke-linecap="round"
-                  stroke-linejoin="round"/>
+              stroke="#2C2523"
+              stroke-width="1.5"
+              stroke-miterlimit="10"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M10.876 9.36621H14.206"
+              stroke="#2C2523"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M10.0459 6.36621H15.0459"
+              stroke="#2C2523"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
           </svg>
-          {{generalService.userObj?.maxInvites - generalService.userObj?.invitations.length}}
-          / {{generalService.userObj?.maxInvites}} {{'Left Invitations' | translate}}
+          {{
+            generalService.userObj?.maxInvites -
+              generalService.userObj?.invitations.length
+          }}
+          / {{ generalService.userObj?.maxInvites }}
+          {{ "Left Invitations" | translate }}
         </mat-card-title>
-        <div [routerLink]="['/shop']"
-             class="link-text font-size-14 weight-500 position-absolute cursor-pointer"
-             style="inset-inline-end: 0">{{'Buy More' | translate}}
+        <div
+          [routerLink]="['/shop']"
+          class="link-text font-size-14 weight-500 position-absolute cursor-pointer"
+          style="inset-inline-end: 0"
+        >
+          {{ "Buy More" | translate }}
         </div>
       </mat-card-header>
     </mat-card>
-    <br>
-    <div class="font-size-14 weight-600 pt-2">&nbsp;{{'Invited Friends' | translate}}</div>
+    <br />
+    <div class="font-size-14 weight-600 pt-2">
+      &nbsp;{{ "Invited Friends" | translate }}
+    </div>
 
-    <mat-list style="max-height: 200px; overflow: scroll;">
+    <mat-list style="max-height: 200px; overflow: scroll">
       <mat-list-item *ngFor="let invite of generalService.userObj?.invitations">
-        <div matListItemIcon style="background: #D9D9D9; border-radius: 50px; width: 40px; height: 40px; margin: 20px">
-          <img src="assets/images/frame.png" width="35" style="padding-inline-start: 5px">
+        <div
+          matListItemIcon
+          style="
+            background: #d9d9d9;
+            border-radius: 50px;
+            width: 40px;
+            height: 40px;
+            margin: 20px;
+          "
+        >
+          <img
+            src="assets/images/frame.png"
+            width="35"
+            style="padding-inline-start: 5px"
+          />
         </div>
-        <div matListItemTitle>{{invite?.email}}</div>
-        <div matListItemLine *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'">{{invite?.createdAt | date}}</div>
-        <div matListItemLine *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'">{{invite?.createdAt | shamsiDate}}</div>
+        <div matListItemTitle>{{ invite?.email }}</div>
+        <div
+          matListItemLine
+          *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'"
+        >
+          {{ invite?.createdAt | date }}
+        </div>
+        <div
+          matListItemLine
+          *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'"
+        >
+          {{ invite?.createdAt | shamsiDate }}
+        </div>
       </mat-list-item>
     </mat-list>
   </div>
-  <div class="card border-0 p-4 m-2" *ngIf="!loading" style="max-height: 440px; min-height: 440px"
-       [class]="{'w-50': !generalService.isMobileView, 'w-100': generalService.isMobileView}">
+  <div
+    class="card border-0 p-4 m-2"
+    *ngIf="!loading"
+    style="max-height: 440px; min-height: 440px"
+    [class]="{
+      'w-50': !generalService.isMobileView,
+      'w-100': generalService.isMobileView
+    }"
+  >
     <div class="d-inline-flex" id="charity">
-      <img src="assets/images/handshake.png"
-           width="40" height="28">
-      <div class="font-size-16 weight-800">&nbsp;{{'Charity' | translate}}</div>
+      <img src="assets/images/handshake.png" width="40" height="28" />
+      <div class="font-size-16 weight-800">
+        &nbsp;{{ "Charity" | translate }}
+      </div>
     </div>
-    <br>
+    <br />
     <mat-card class="shadow-none border-0 bg-transparent">
       <mat-card-header class="ps-0">
-        <img mat-card-avatar src="assets/images/charity.png"
-             width="64" height="56"/>
-        <mat-card-title
-          class="font-size-14 weight-600 pb-2">{{'Play Game' | translate}},</mat-card-title>
-        <mat-card-subtitle
-          class="font-size-14 weight-600 pb-2 text-black">{{'Make A Difference!' | translate}}
+        <img
+          mat-card-avatar
+          src="assets/images/charity.png"
+          width="64"
+          height="56"
+        />
+        <mat-card-title class="font-size-14 weight-600 pb-2"
+          >{{ "Play Game" | translate }},</mat-card-title
+        >
+        <mat-card-subtitle class="font-size-14 weight-600 pb-2 text-black"
+          >{{ "Make A Difference!" | translate }}
         </mat-card-subtitle>
       </mat-card-header>
     </mat-card>
-    <br>
+    <br />
     <mat-label class="text-light-color">
-      {{'By-playing-you-making-difference' | translate}}
+      {{ "By-playing-you-making-difference" | translate }}
     </mat-label>
-    <br>
+    <br />
     <mat-label class="text-light-color">
-      {{'We-allocate-portion-income' | translate}}
+      {{ "We-allocate-portion-income" | translate }}
     </mat-label>
-    <br>
-    <mat-label class="text-light-color" *ngIf="!generalService.userObj?.preferedCharity">
-      {{'Select-category-closest-heart' | translate}}
+    <br />
+    <mat-label
+      class="text-light-color"
+      *ngIf="!generalService.userObj?.preferedCharity"
+    >
+      {{ "Select-category-closest-heart" | translate }}
     </mat-label>
-    <button *ngIf="!generalService.userObj?.preferedCharity" mat-raised-button (click)="openCharityModal()"
-            class="charity-button mt-4 start-10 w-40">{{'Choose Category' | translate}}
+    <button
+      *ngIf="!generalService.userObj?.preferedCharity"
+      mat-raised-button
+      (click)="openCharityModal()"
+      class="charity-button mt-4 start-10 w-40"
+    >
+      {{ "Choose Category" | translate }}
     </button>
-    <div *ngIf="generalService.userObj?.preferedCharity" class="copy-referrer cursor-pointer"
-         (click)="openCharityModal()">
-      <mat-label class="text-light-color">{{'You are participated in' | translate}}:</mat-label>
-      <br>
-      <mat-label class="font-size-14 weight-700">{{generalService.userObj?.preferedCharity?.charity?.title}}
-        > {{generalService.userObj?.preferedCharity?.activity?.title}}</mat-label>
-      <br>
+    <div
+      *ngIf="generalService.userObj?.preferedCharity"
+      class="copy-referrer cursor-pointer"
+      (click)="openCharityModal()"
+    >
+      <mat-label class="text-light-color"
+        >{{ "You are participated in" | translate }}:</mat-label
+      >
+      <br />
+      <mat-label class="font-size-14 weight-700"
+        >{{ generalService.userObj?.preferedCharity?.charity?.title }} >
+        {{
+          generalService.userObj?.preferedCharity?.activity?.title
+        }}</mat-label
+      >
+      <br />
       <mat-progress-bar
-        style="width: 100%; border-radius: 10px; display: inline-table;
-    --mdc-linear-progress-active-indicator-color: black;
-    --mdc-linear-progress-track-color: rgba(00, 00, 00, 0.25);
-clip-path: inset(0 round 10px 10px 10px 10px);"
+        style="
+          width: 100%;
+          border-radius: 10px;
+          display: inline-table;
+          --mdc-linear-progress-active-indicator-color: black;
+          --mdc-linear-progress-track-color: rgba(00, 00, 00, 0.25);
+          clip-path: inset(0 round 10px 10px 10px 10px);
+        "
         color="primary"
         [value]="generalService.clientInit?.charityProgress"
         [bufferValue]="100"
-        mode="determinate"></mat-progress-bar>
-      <br>
-      <mat-label class="mt-2 font-size-12 weight-500">{{generalService.clientInit?.charityProgress | parsInt}}
-        % {{'Completed' | translate}}</mat-label>
+        mode="determinate"
+      ></mat-progress-bar>
+      <br />
+      <mat-label class="mt-2 font-size-12 weight-500"
+        >{{ generalService.clientInit?.charityProgress | parsInt }} %
+        {{ "Completed" | translate }}</mat-label
+      >
     </div>
   </div>
 </div>
 
-<br>
-<div class="card w-100 border-0" *ngIf="!loadingQuestionsFromFriendsLatestGames"
-     [class]="{'p-4': !generalService.isMobileView, 'p-1': generalService.isMobileView}">
+<br />
+<div
+  class="card w-100 border-0"
+  *ngIf="!loadingQuestionsFromFriendsLatestGames"
+  [class]="{
+    'p-4': !generalService.isMobileView,
+    'p-1': generalService.isMobileView
+  }"
+>
   <div class="d-inline-flex" id="questionsFromFriends">
-    <img src="assets/images/Magic%20Book%201.png"
-         width="32" height="32">
-    <div class="font-size-16 weight-800 pt-2">&nbsp;{{'Questions From Friends Latest Games' | translate}}</div>
+    <img src="assets/images/Magic%20Book%201.png" width="32" height="32" />
+    <div class="font-size-16 weight-800 pt-2">
+      &nbsp;{{ "Questions From Friends Latest Games" | translate }}
+    </div>
   </div>
-  <br>
+  <br />
   <div class="d-block w-100">
-    <div *ngFor="let item of questionsFromFriendsLatestGames" class="gray-card m-2 d-inline-block"
-         [class]="{'p-4': !generalService.isMobileView, 'p-2': generalService.isMobileView}"
-         [style]="generalService.isMobileView ? 'width: 98%' : 'width: 48%'">
+    <div
+      *ngFor="let item of questionsFromFriendsLatestGames"
+      class="gray-card m-2 d-inline-block"
+      [class]="{
+        'p-4': !generalService.isMobileView,
+        'p-2': generalService.isMobileView
+      }"
+      [style]="generalService.isMobileView ? 'width: 98%' : 'width: 48%'"
+    >
       <div class="d-flex white-card position-relative p-1">
-        <img class="avatar-bordered"
-             [src]="item?.user?.profilePicture ? item?.user?.profilePicture?.startsWith('http') ? item?.user?.profilePicture : configService.url(item?.user?.profilePicture) : 'assets/images/frame.png'"
-             (error)="handleImageError($event)"
-             width="42" height="42">
-        <mat-label class="font-size-13 weight-500"
-                   style="margin: auto 10px">{{item?.user?.firstName}} {{item?.user?.lastName}}</mat-label>
-        <mat-label class="font-size-12 weight-500 position-absolute" style="inset-inline-end: 10px; margin: 10px auto">
-          {{item?.endedAt | daysAgo}}
+        <img
+          class="avatar-bordered"
+          [src]="
+            item?.user?.profilePicture
+              ? item?.user?.profilePicture?.startsWith('http')
+                ? item?.user?.profilePicture
+                : configService.url(item?.user?.profilePicture)
+              : 'assets/images/frame.png'
+          "
+          (error)="handleImageError($event)"
+          width="42"
+          height="42"
+        />
+        <mat-label class="font-size-13 weight-500" style="margin: auto 10px"
+          >{{ item?.user?.firstName }} {{ item?.user?.lastName }}</mat-label
+        >
+        <mat-label
+          class="font-size-12 weight-500 position-absolute"
+          style="inset-inline-end: 10px; margin: 10px auto"
+        >
+          {{ item?.endedAt | daysAgo }}
         </mat-label>
       </div>
-      <br>
-      <div class="font-size-14 weight-700" style="min-height: 80px; max-height: 80px;">
-        {{item?.question}}
+      <br />
+      <div
+        class="font-size-14 weight-700"
+        style="min-height: 80px; max-height: 80px"
+      >
+        {{ item?.question }}
       </div>
-      <div class="font-size-13 weight-400" style="max-height: 80px; min-height: 80px">
-        {{item?.answer}}
+      <div
+        class="font-size-13 weight-400"
+        style="max-height: 80px; min-height: 80px"
+      >
+        {{ item?.answer }}
       </div>
-      <br>
+      <br />
       <mat-card-actions class="position-relative">
-        <button mat-raised-button (click)="gotoResult(item.gameId)"
-                class="answer-button position-absolute end-10 bottom-0">{{'See Game' | translate}}
+        <button
+          mat-raised-button
+          (click)="gotoResult(item.gameId)"
+          class="answer-button position-absolute end-10 bottom-0"
+        >
+          {{ "See Game" | translate }}
         </button>
         <div class="position-absolute bottom-0">
-          <div class="d-inline-flex justify-content-between align-items-center m-1">
-            <div class="white-card p-1 d-flex align-items-center" style="width: fit-content">
+          <div
+            class="d-inline-flex justify-content-between align-items-center m-1"
+          >
+            <div
+              class="white-card p-1 d-flex align-items-center"
+              style="width: fit-content"
+            >
               <!--              <mat-label class="font-size-12 weight-600"-->
               <!--                         style="margin: auto 5px">{{item?.category}}</mat-label>-->
-              <img [src]="'https://api.staging.1qma.games/' + item?.category?.icon" width="25">
-              <span style="margin: auto 5px" class="font-size-12 weight-500">{{item?.category?.name}}</span>
+              <img
+                [src]="'https://api.1qma.games/' + item?.category?.icon"
+                width="25"
+              />
+              <span style="margin: auto 5px" class="font-size-12 weight-500">{{
+                item?.category?.name
+              }}</span>
             </div>
           </div>
-          <div class="d-inline-flex justify-content-between align-items-center m-1">
-            <div class="white-card p-1 d-flex align-items-center" style="width: fit-content">
-              <img src="assets/images/normal-game.png" *ngIf="item?.gameType?.id == 'normal'" width="25">
-              <img src="assets/images/survival-game.png" *ngIf="item?.gameType?.id == 'survival'" width="25">
-              <span style="margin: auto 5px" class="font-size-12 weight-500">{{item?.gameType?.text}}</span>
+          <div
+            class="d-inline-flex justify-content-between align-items-center m-1"
+          >
+            <div
+              class="white-card p-1 d-flex align-items-center"
+              style="width: fit-content"
+            >
+              <img
+                src="assets/images/normal-game.png"
+                *ngIf="item?.gameType?.id == 'normal'"
+                width="25"
+              />
+              <img
+                src="assets/images/survival-game.png"
+                *ngIf="item?.gameType?.id == 'survival'"
+                width="25"
+              />
+              <span style="margin: auto 5px" class="font-size-12 weight-500">{{
+                item?.gameType?.text
+              }}</span>
             </div>
           </div>
         </div>
@@ -677,13 +1467,21 @@ clip-path: inset(0 round 10px 10px 10px 10px);"
     </div>
   </div>
   <div style="margin: 20px auto">
-    <button mat-stroked-button color="primary" type="submit"
-            *ngIf="questionsFromFriendsLatestGames?.length > 0 && !loadingMore && !noMoreItems"
-            class="p-4s ms-2 blue-button" (click)="showMoreFriendsQuestions()"
-            style="min-width: 150px; border: 1px solid #0B6FEA">
-      <span>{{'More' | translate}}</span>
+    <button
+      mat-stroked-button
+      color="primary"
+      type="submit"
+      *ngIf="
+        questionsFromFriendsLatestGames?.length > 0 &&
+        !loadingMore &&
+        !noMoreItems
+      "
+      class="p-4s ms-2 blue-button"
+      (click)="showMoreFriendsQuestions()"
+      style="min-width: 150px; border: 1px solid #0b6fea"
+    >
+      <span>{{ "More" | translate }}</span>
     </button>
     <mat-spinner *ngIf="loadingMore" [diameter]="20"></mat-spinner>
   </div>
 </div>
-

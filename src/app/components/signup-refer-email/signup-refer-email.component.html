@@ -1,55 +1,103 @@
 <!--<app-header></app-header>-->
 <div class="w-100">
-  <br>
-  <br>
-  <br>
-  <div class="card p-4 pb-3 border-0 login-card" [style]="generalService.isMobileView ? 'margin-top: 20px' : ''">
-    <mat-icon class="back-btn-register" (click)="prevStep()">arrow_back_ios</mat-icon>
+  <br />
+  <br />
+  <br />
+  <div
+    class="card p-4 pb-3 border-0 login-card"
+    [style]="generalService.isMobileView ? 'margin-top: 20px' : ''"
+  >
+    <mat-icon class="back-btn-register" (click)="prevStep()"
+      >arrow_back_ios</mat-icon
+    >
     <div class="text-center mb-3">
-      <img src="https://api.staging.1qma.games/images/logo.png" width="128" height="98">
-      <br>
-      <div style="font-size: 16px; font-weight: 700">{{'Sign up for a new account'}}</div>
+      <img
+        src="https://api.1qma.games/images/logo.png"
+        width="128"
+        height="98"
+      />
+      <br />
+      <div style="font-size: 16px; font-weight: 700">
+        {{ "Sign up for a new account" }}
+      </div>
     </div>
-    <div *ngIf="step ==1">
-      <br>
-      <mat-label
-        style="font-size: 14px; font-weight: 500">{{'Enter your email address to continue:'}}</mat-label>
-      <br>
-      <br>
-      <form #f="ngForm" [formGroup]="signUpEmailForm" (ngSubmit)="onSubmitEmail()" autocomplete="off">
-        <mat-form-field appearance="fill" class="custom-form-field w-100 mb-2" [hideRequiredMarker]="true">
-          <mat-label>{{'E-mail Address'}}</mat-label>
-          <input matInput placeholder="{{'E-mail Address'}}" type="text" name="email" [readonly]="!!email"
-                 [formControlName]="'email'" required>
+    <div *ngIf="step == 1">
+      <br />
+      <mat-label style="font-size: 14px; font-weight: 500">{{
+        "Enter your email address to continue:"
+      }}</mat-label>
+      <br />
+      <br />
+      <form
+        #f="ngForm"
+        [formGroup]="signUpEmailForm"
+        (ngSubmit)="onSubmitEmail()"
+        autocomplete="off"
+      >
+        <mat-form-field
+          appearance="fill"
+          class="custom-form-field w-100 mb-2"
+          [hideRequiredMarker]="true"
+        >
+          <mat-label>{{ "E-mail Address" }}</mat-label>
+          <input
+            matInput
+            placeholder="{{ 'E-mail Address' }}"
+            type="text"
+            name="email"
+            [readonly]="!!email"
+            [formControlName]="'email'"
+            required
+          />
         </mat-form-field>
         <div role="alert" style="color: #ff5722; margin: 10px 0">
-          {{error}}
+          {{ error }}
         </div>
-        <button mat-raised-button color="primary" type="submit"
-                [disabled]="!signUpEmailForm.valid || loading"
-                class="w-100 p-4">
-          <span>{{'Verify'}}</span>
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [disabled]="!signUpEmailForm.valid || loading"
+          class="w-100 p-4"
+        >
+          <span>{{ "Verify" }}</span>
         </button>
       </form>
-      <br>
-      <br>
+      <br />
+      <br />
       <div class="mediaAccounts radius">
-        <a [href]="config.url('/auth/google?reason=register')" class="social-button-div border-0"><img
-          src="assets/images/google.png"
-          style="margin-top: 6px"
-          width="23"/></a>
-        <a [href]="config.url('/auth/facebook?reason=register')" class="social-button-div border-0"><img
-          src="assets/images/facebook.png"
-          style="margin-top: 6px"
-          width="23"/></a>
-        <a [href]="config.url('/auth/apple?reason=register')" class="social-button-div border-0"><img
-          src="assets/images/apple.png"
-          style="margin-top: 6px"
-          width="23"/></a>
-        <a [href]="config.url('/auth/x?reason=register')" class="social-button-div border-0"><img
-          src="assets/images/x-media.png"
-          style="margin-top: 6px"
-          width="23"/></a>
+        <a
+          [href]="config.url('/auth/google?reason=register')"
+          class="social-button-div border-0"
+          ><img
+            src="assets/images/google.png"
+            style="margin-top: 6px"
+            width="23"
+        /></a>
+        <a
+          [href]="config.url('/auth/facebook?reason=register')"
+          class="social-button-div border-0"
+          ><img
+            src="assets/images/facebook.png"
+            style="margin-top: 6px"
+            width="23"
+        /></a>
+        <a
+          [href]="config.url('/auth/apple?reason=register')"
+          class="social-button-div border-0"
+          ><img
+            src="assets/images/apple.png"
+            style="margin-top: 6px"
+            width="23"
+        /></a>
+        <a
+          [href]="config.url('/auth/x?reason=register')"
+          class="social-button-div border-0"
+          ><img
+            src="assets/images/x-media.png"
+            style="margin-top: 6px"
+            width="23"
+        /></a>
         <!--        <button class="social-button-div border-0" (click)="gotoWizard()"><img src="assets/images/facebook.png"-->
         <!--                                                                               width="23"/></button>-->
         <!--        <button class="social-button-div border-0" (click)="gotoWizard()"><img src="assets/images/apple.png"-->
@@ -57,53 +105,111 @@
         <!--        <button class="social-button-div border-0" (click)="gotoWizard()"><img src="assets/images/x-media.png"-->
         <!--                                                                               width="23"/></button>-->
       </div>
-      <br>
-      <br>
+      <br />
+      <br />
     </div>
 
-    <div *ngIf="step ==2">
-      <form #f="ngForm" [formGroup]="setPasswordForm" (ngSubmit)="onSubmitPassword()" autocomplete="off">
-        <mat-label class="weight-500">{{'Set a password for your account'}}</mat-label>
-        <br>
-        <br>
-        <img src="assets/images/user.png" width="18" style="background: #D9D9D9; border-radius: 50px">&nbsp;&nbsp;<div
-        class="d-inline-block weight-500">{{signUpEmailForm.controls.email.value}}</div>
-        <br><br>
-        <mat-form-field appearance="fill" class="custom-form-field w-100" [hideRequiredMarker]="true">
-          <mat-label>{{'Verification Code'}}</mat-label>
-          <input matInput placeholder="Verification Code" type="text" [formControlName]="'verificationCode'" autocomplete="off" required>
+    <div *ngIf="step == 2">
+      <form
+        #f="ngForm"
+        [formGroup]="setPasswordForm"
+        (ngSubmit)="onSubmitPassword()"
+        autocomplete="off"
+      >
+        <mat-label class="weight-500">{{
+          "Set a password for your account"
+        }}</mat-label>
+        <br />
+        <br />
+        <img
+          src="assets/images/user.png"
+          width="18"
+          style="background: #d9d9d9; border-radius: 50px"
+        />&nbsp;&nbsp;
+        <div class="d-inline-block weight-500">
+          {{ signUpEmailForm.controls.email.value }}
+        </div>
+        <br /><br />
+        <mat-form-field
+          appearance="fill"
+          class="custom-form-field w-100"
+          [hideRequiredMarker]="true"
+        >
+          <mat-label>{{ "Verification Code" }}</mat-label>
+          <input
+            matInput
+            placeholder="Verification Code"
+            type="text"
+            [formControlName]="'verificationCode'"
+            autocomplete="off"
+            required
+          />
         </mat-form-field>
-        <mat-form-field appearance="fill" class="custom-form-field w-100" [hideRequiredMarker]="true">
-          <mat-label>{{'New password'}}</mat-label>
+        <mat-form-field
+          appearance="fill"
+          class="custom-form-field w-100"
+          [hideRequiredMarker]="true"
+        >
+          <mat-label>{{ "New password" }}</mat-label>
           <div class="d-inline-flex w-100">
-            <input matInput placeholder="New password" [type]="hide ? 'password' : 'text'"
-                   [formControlName]="'password'" autocomplete="new-password" required>
-            <i (click)="hide = !hide" [class]="hide? 'bi-eye-slash' : 'bi-eye'"></i>
+            <input
+              matInput
+              placeholder="New password"
+              [type]="hide ? 'password' : 'text'"
+              [formControlName]="'password'"
+              autocomplete="new-password"
+              required
+            />
+            <i
+              (click)="hide = !hide"
+              [class]="hide ? 'bi-eye-slash' : 'bi-eye'"
+            ></i>
           </div>
         </mat-form-field>
-        <mat-form-field appearance="fill" class="custom-form-field w-100 mb-2" [hideRequiredMarker]="true">
-          <mat-label>{{'Retype new password'}}</mat-label>
+        <mat-form-field
+          appearance="fill"
+          class="custom-form-field w-100 mb-2"
+          [hideRequiredMarker]="true"
+        >
+          <mat-label>{{ "Retype new password" }}</mat-label>
           <div class="d-inline-flex w-100">
-            <input matInput placeholder="Retype new password" [type]="hideCopy ? 'password' : 'text'"
-                   [formControlName]="'passwordConfirmation'" autocomplete="new-password" required>
-            <i (click)="hideCopy = !hideCopy" [class]="hideCopy? 'bi-eye-slash' : 'bi-eye'"></i>
+            <input
+              matInput
+              placeholder="Retype new password"
+              [type]="hideCopy ? 'password' : 'text'"
+              [formControlName]="'passwordConfirmation'"
+              autocomplete="new-password"
+              required
+            />
+            <i
+              (click)="hideCopy = !hideCopy"
+              [class]="hideCopy ? 'bi-eye-slash' : 'bi-eye'"
+            ></i>
           </div>
         </mat-form-field>
         <div role="alert" style="color: #ff5722; margin: 10px 0">
-          {{error}}
+          {{ error }}
         </div>
-        <button mat-raised-button color="primary" type="submit"
-                class="w-100 p-4" [disabled]="!setPasswordForm.valid || loading">
-          <span>{{'Continue'}}</span>
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          class="w-100 p-4"
+          [disabled]="!setPasswordForm.valid || loading"
+        >
+          <span>{{ "Continue" }}</span>
         </button>
       </form>
 
-      <br>
-      <br>
-      <br>
+      <br />
+      <br />
+      <br />
       <div class="text-center" [routerLink]="['/signup']">
-        <div class="d-inline-flex font-size-14 weight-600">{{'Don\'t have an account?'}}
-          <div class="link text-decoration-none font-size-14 weight-600">&nbsp; {{'Sign Up'}}</div>
+        <div class="d-inline-flex font-size-14 weight-600">
+          {{ "Don't have an account?" }}
+          <div class="link text-decoration-none font-size-14 weight-600">
+            &nbsp; {{ "Sign Up" }}
+          </div>
         </div>
       </div>
     </div>
