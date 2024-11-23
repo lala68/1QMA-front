@@ -36,7 +36,7 @@
               (click)="selectCharity(chr)">
       <mat-card-content style="padding: 16px 5px"
                         [style]="generalService.userObj?.preferedLanguage?.code == 'fa' ? 'text-align: right': 'text-align: left'">
-        <img [src]="'https://api.staging.1qma.games/' + chr?.icon" width="35">
+        <img [src]="configService.baseUrl + chr?.icon" width="35">
         <mat-label>{{ chr.title }}</mat-label>
       </mat-card-content>
     </mat-card>
@@ -50,7 +50,7 @@
     <mat-card class="mt-2 me-1 d-inline-block shadow-none mat-card-pref-selected">
       <mat-card-content (click)="selectedCharity = ''" style="padding: 16px 5px"
                         [style]="generalService.userObj?.preferedLanguage?.code == 'fa' ? 'text-align: right': 'text-align: left'">
-        <img [src]="'https://api.staging.1qma.games/' + selectedCharity?.icon" width="35">
+        <img [src]="configService.baseUrl + selectedCharity?.icon" width="35">
         <mat-label>{{ selectedCharity.title }}</mat-label>
       </mat-card-content>
     </mat-card>

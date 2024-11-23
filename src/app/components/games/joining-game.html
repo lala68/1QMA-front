@@ -35,7 +35,7 @@
     <div class="w-100" [class]="{'d-flex': !generalService.isMobileView, 'd-inline-flex': generalService.isMobileView}">
       <mat-card class="shadow-none">
         <mat-card-header>
-          <img mat-card-avatar [src]="'https://api.staging.1qma.games/' + data?.data?.game?.category?.icon" width="35"
+          <img mat-card-avatar [src]="configService.baseUrl + data?.data?.game?.category?.icon" width="35"
                height="35">
           <mat-card-title
             class="font-size-14 weight-500 mt-2">{{data?.data?.game?.category?.name}}

@@ -343,7 +343,7 @@
         <!--             (click)="selectCatTopQuestion(cat)"-->
         <!--             [class]="{'mat-card-pref-selected': isSelected(cat), 'mat-card-pref': !isSelected(cat)}">-->
         <!--          <div class="text-start">-->
-        <!--            <img [src]="'https://api.staging.1qma.games/' + cat?.icon" width="35">-->
+        <!--            <img [src]="configService.baseUrl + cat?.icon" width="35">-->
         <!--            <mat-label>{{ cat?.name }}</mat-label>-->
         <!--          </div>-->
         <!--        </div>-->
@@ -357,7 +357,7 @@
                 {{ 'all categories' | translate }}
               </mat-option>
               <mat-option *ngFor="let cat of generalService.clientInit?.categories" [value]="cat._id">
-                <img [src]="'https://api.staging.1qma.games/' + cat?.icon" width="20" height="20">
+                <img [src]="configService.baseUrl + cat?.icon" width="20" height="20">
                 {{ cat?.name }}
               </mat-option>
             </mat-select>
@@ -400,7 +400,7 @@
           </mat-grid-tile>
           <mat-grid-tile class="result-grid" [colspan]="2">
             <div color="primary">
-              <img [src]="'https://api.staging.1qma.games/' + res?.category?.icon" width="25">
+              <img [src]="configService.baseUrl + res?.category?.icon" width="25">
               <span class="font-size-12 weight-500">{{res?.category?.name}}</span>
             </div>
           </mat-grid-tile>
@@ -454,7 +454,7 @@
               <mat-label>{{res?.user?.firstName}} {{res?.user?.lastName}}</mat-label>
             </div>
             <div color="primary" class="d-flex align-items-center">
-              <img [src]="'https://api.staging.1qma.games/' + res?.category?.icon" width="25">
+              <img [src]="configService.baseUrl + res?.category?.icon" width="25">
               <span class="font-size-12 weight-500">{{res?.category?.name}}</span>
             </div>
           </div>
@@ -661,7 +661,7 @@ clip-path: inset(0 round 10px 10px 10px 10px);"
             <div class="white-card p-1 d-flex align-items-center" style="width: fit-content">
               <!--              <mat-label class="font-size-12 weight-600"-->
               <!--                         style="margin: auto 5px">{{item?.category}}</mat-label>-->
-              <img [src]="'https://api.staging.1qma.games/' + item?.category?.icon" width="25">
+              <img [src]="configService.baseUrl + item?.category?.icon" width="25">
               <span style="margin: auto 5px" class="font-size-12 weight-500">{{item?.category?.name}}</span>
             </div>
           </div>

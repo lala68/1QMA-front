@@ -4,7 +4,7 @@
   <div class="sponsors">
     <button *ngFor="let sponsor of generalService.initData ? generalService.initData?.sponsors : generalService.clientInit?.sponsors" (click)="gotoSponsorLink(sponsor.link)"
             class="sponsor-button border-0">
-      <img [src]="'https://api.staging.1qma.games/' + sponsor.icon" width="45" height="45"/>
+      <img [src]="configService.baseUrl + sponsor.icon" width="45" height="45"/>
     </button>
   </div>
   <div class="parent-ul-li-footer"

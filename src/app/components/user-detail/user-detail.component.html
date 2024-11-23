@@ -219,7 +219,7 @@ clip-path: inset(0 round 10px 10px 10px 10px)"
     <div>
       <mat-card *ngFor="let endedGame of latestGames"
                 class="bordered-card shadow-none text-center d-inline-block">
-        <img [src]="'https://api.staging.1qma.games/' + endedGame?.category?.icon" width="50" height="50"
+        <img [src]="configService.baseUrl + endedGame?.category?.icon" width="50" height="50"
              style="margin: 0 auto">
         <mat-card-header style="margin: 0 auto; display: block">
           <mat-card-title class="font-size-14 weight-700">{{ endedGame?.category?.name }}</mat-card-title>

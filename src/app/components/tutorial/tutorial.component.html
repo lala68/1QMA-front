@@ -13,7 +13,7 @@
         </mat-card-subtitle>
         <mat-card-subtitle *ngIf="generalService.isMobileView">
           <mat-chip mat-raised-button color="primary" class="chip-header-category">
-            <img [src]="'https://api.staging.1qma.games/' + generalService.createdGameData?.category?.icon" width="25">
+            <img [src]="configService.baseUrl + generalService.createdGameData?.category?.icon" width="25">
             <span class="font-size-12 weight-500">{{generalService.createdGameData?.category?.name}}</span>
           </mat-chip>
           &nbsp; &nbsp;<mat-chip mat-raised-button color="primary" class="chip-header-type">
@@ -24,7 +24,7 @@
       </mat-card-header>
       <div class="position-absolute top-0 bottom-0 end-10 mt-4" *ngIf="!generalService.isMobileView">
         <mat-chip mat-raised-button color="primary" class="chip-header-category">
-          <img [src]="'https://api.staging.1qma.games/' + generalService.createdGameData?.category?.icon" width="25">
+          <img [src]="configService.baseUrl + generalService.createdGameData?.category?.icon" width="25">
           <span class="font-size-12 weight-500">{{generalService.createdGameData?.category?.name}}</span>
         </mat-chip>
         &nbsp; &nbsp;<mat-chip mat-raised-button color="primary" class="chip-header-type">
@@ -126,7 +126,7 @@
         </mat-card-subtitle>
         <mat-card-subtitle *ngIf="generalService.isMobileView">
           <mat-chip mat-raised-button color="primary" class="chip-header-category">
-            <img [src]="'https://api.staging.1qma.games/' + generalService.createdGameData?.category?.icon" width="25">
+            <img [src]="configService.baseUrl + generalService.createdGameData?.category?.icon" width="25">
             <span class="font-size-12 weight-500">{{generalService.createdGameData?.category?.name}}</span>
           </mat-chip>
           &nbsp; &nbsp;<mat-chip mat-raised-button color="primary" class="chip-header-type">
@@ -137,7 +137,7 @@
       </mat-card-header>
       <div class="position-absolute top-0 bottom-0 end-10 mt-4" *ngIf="!generalService.isMobileView">
         <mat-chip mat-raised-button color="primary" class="chip-header-category">
-          <img [src]="'https://api.staging.1qma.games/' + generalService.createdGameData?.category?.icon" width="25">
+          <img [src]="configService.baseUrl + generalService.createdGameData?.category?.icon" width="25">
           <span class="font-size-12 weight-500">{{generalService.createdGameData?.category?.name}}</span>
         </mat-chip>
         &nbsp; &nbsp;<mat-chip mat-raised-button color="primary" class="chip-header-type">
@@ -155,7 +155,7 @@
           <div class="w-100"
                [class]="{'d-inline-flex': !generalService.isMobileView, 'd-block': generalService.isMobileView}">
             <div class="gray-card p-2"
-                 [style]="generalService.isMobileView ? 'width: 102px; height: 40px; margin: 0 20px 16px' : 'width: 102px; height: 40px; margin: 0 auto'">
+                 [style]="generalService.isMobileView ? 'width: 104px; height: 40px; margin: 0 20px 16px' : 'width: 104px; height: 40px; margin: 0 auto'">
               <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                   d="M17.8408 18.5899H13.8408L9.39081 21.5499C8.73081 21.9899 7.84082 21.5199 7.84082 20.7199V18.5899C4.84082 18.5899 2.84082 16.5899 2.84082 13.5899V7.58984C2.84082 4.58984 4.84082 2.58984 7.84082 2.58984H17.8408C20.8408 2.58984 22.8408 4.58984 22.8408 7.58984V13.5899C22.8408 16.5899 20.8408 18.5899 17.8408 18.5899Z"
@@ -232,7 +232,7 @@
         </mat-card-subtitle>
         <mat-card-subtitle *ngIf="generalService.isMobileView">
           <mat-chip mat-raised-button color="primary" class="chip-header-category">
-            <img [src]="'https://api.staging.1qma.games/' + generalService.createdGameData?.category?.icon" width="25">
+            <img [src]="configService.baseUrl + generalService.createdGameData?.category?.icon" width="25">
             <span class="font-size-12 weight-500">{{generalService.createdGameData?.category?.name}}</span>
           </mat-chip>
           &nbsp; &nbsp;<mat-chip mat-raised-button color="primary" class="chip-header-type">
@@ -243,7 +243,7 @@
       </mat-card-header>
       <div class="position-absolute top-0 bottom-0 end-10 mt-4" *ngIf="!generalService.isMobileView">
         <mat-chip mat-raised-button color="primary" class="chip-header-category">
-          <img [src]="'https://api.staging.1qma.games/' + generalService.createdGameData?.category?.icon" width="25">
+          <img [src]="configService.baseUrl + generalService.createdGameData?.category?.icon" width="25">
           <span class="font-size-12 weight-500">{{generalService.createdGameData?.category?.name}}</span>
         </mat-chip>
         &nbsp; &nbsp;<mat-chip mat-raised-button color="primary" class="chip-header-type">
@@ -261,7 +261,7 @@
           <div class="w-100"
                [class]="{'d-inline-flex': !generalService.isMobileView, 'd-block': generalService.isMobileView}">
             <div class="gray-card p-2"
-                 [style]="generalService.isMobileView ? 'width: 102px; height: 40px; margin: 0 20px 16px' : 'width: 102px; height: 40px; margin: 0 auto'">
+                 [style]="generalService.isMobileView ? 'width: 104px; height: 40px; margin: 0 20px 16px' : 'width: 104px; height: 40px; margin: 0 auto'">
               <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                   d="M17.8408 18.5899H13.8408L9.39081 21.5499C8.73081 21.9899 7.84082 21.5199 7.84082 20.7199V18.5899C4.84082 18.5899 2.84082 16.5899 2.84082 13.5899V7.58984C2.84082 4.58984 4.84082 2.58984 7.84082 2.58984H17.8408C20.8408 2.58984 22.8408 4.58984 22.8408 7.58984V13.5899C22.8408 16.5899 20.8408 18.5899 17.8408 18.5899Z"
@@ -358,7 +358,7 @@
         </mat-card-subtitle>
         <mat-card-subtitle *ngIf="generalService.isMobileView">
           <mat-chip mat-raised-button color="primary" class="chip-header-category">
-            <img [src]="'https://api.staging.1qma.games/' + generalService.createdGameData?.category?.icon" width="25">
+            <img [src]="configService.baseUrl + generalService.createdGameData?.category?.icon" width="25">
             <span class="font-size-12 weight-500">{{generalService.createdGameData?.category?.name}}</span>
           </mat-chip>
           &nbsp; &nbsp;<mat-chip mat-raised-button color="primary" class="chip-header-type">
@@ -369,7 +369,7 @@
       </mat-card-header>
       <div class="position-absolute top-0 bottom-0 end-10 mt-4" *ngIf="!generalService.isMobileView">
         <mat-chip mat-raised-button color="primary" class="chip-header-category">
-          <img [src]="'https://api.staging.1qma.games/' + generalService.createdGameData?.category?.icon" width="25">
+          <img [src]="configService.baseUrl + generalService.createdGameData?.category?.icon" width="25">
           <span class="font-size-12 weight-500">{{generalService.createdGameData?.category?.name}}</span>
         </mat-chip>
         &nbsp; &nbsp;<mat-chip mat-raised-button color="primary" class="chip-header-type">
@@ -465,7 +465,9 @@
       </div>
       <div class="next-button">
         <app-countdown-timer
-          [style]="generalService.isMobileView ? 'position: absolute;top: -12px;inset-inline-end: 25px;' : ''"
+          [style]="generalService.isMobileView && generalService.userObj?.preferedLanguage?.code == 'en'
+          ? 'position: absolute; top: -12px; right: 25px;' :
+          generalService.isMobileView && generalService.userObj?.preferedLanguage?.code == 'fa' ? 'position: absolute; top: -12px; left: 25px;' : ''"
           [duration]="tutorialInit?.eachStepDurationSeconds"
           (countdownFinished)="generalService.gameTutorialStep == 2 ? handleCountdownSendAnswerFinished() :
                               generalService.gameTutorialStep == 3 ? handleCountdownRatingAnswerFinished() : handleCountdownRatingQuestionsFinished()"></app-countdown-timer>
@@ -514,7 +516,7 @@ generalService.gameTutorialStep == 3 ? sendRateAnswer(true) : sendRateQuestions(
         </mat-card-subtitle>
         <mat-card-subtitle *ngIf="generalService.isMobileView">
           <mat-chip mat-raised-button color="primary" class="chip-header-category">
-            <img [src]="'https://api.staging.1qma.games/' + generalService.createdGameData?.category?.icon" width="25">
+            <img [src]="configService.baseUrl + generalService.createdGameData?.category?.icon" width="25">
             <span class="font-size-12 weight-500">{{generalService.createdGameData?.category?.name}}</span>
           </mat-chip>
           &nbsp; &nbsp;<mat-chip mat-raised-button color="primary" class="chip-header-type">
@@ -525,7 +527,7 @@ generalService.gameTutorialStep == 3 ? sendRateAnswer(true) : sendRateQuestions(
       </mat-card-header>
       <div class="position-absolute top-0 bottom-0 end-10 mt-4" *ngIf="!generalService.isMobileView">
         <mat-chip mat-raised-button color="primary" class="chip-header-category">
-          <img [src]="'https://api.staging.1qma.games/' + generalService.createdGameData?.category?.icon" width="25">
+          <img [src]="configService.baseUrl + generalService.createdGameData?.category?.icon" width="25">
           <span class="font-size-12 weight-500">{{generalService.createdGameData?.category?.name}}</span>
         </mat-chip>
         &nbsp; &nbsp;<mat-chip mat-raised-button color="primary" class="chip-header-type">
@@ -567,17 +569,19 @@ generalService.gameTutorialStep == 3 ? sendRateAnswer(true) : sendRateQuestions(
                  [class]="{'w-40': !generalService.isMobileView, 'w-100': generalService.isMobileView}">
               <!--              2-->
               <img class="avatar-bordered bg-white"
-                   style="position: absolute; inset-inline-start: 100px; bottom: 80px;"
+                   style="position: absolute; bottom: 80px;"
+                   [style]="generalService.userObj?.preferedLanguage?.code == 'fa' ? 'left: 25%' : 'left: 25%'"
                    [src]="generalService.gameResult?.result?.scoreboard[1]?.profilePicture ? generalService.gameResult?.result?.scoreboard[1]?.profilePicture?.startsWith('http') ? generalService.gameResult?.result?.scoreboard[1]?.profilePicture : configService.url(generalService.gameResult?.result?.scoreboard[1]?.profilePicture) : 'assets/images/frame.png'"
                    width="48">
               <!--              1-->
               <img class="avatar-bordered bg-white"
-                   style="position: absolute; inset-inline-start: 170px; bottom: 90px;"
+                   style="position: absolute; inset-inline-start: 43%; bottom: 90px;"
                    [src]="generalService.gameResult?.result?.scoreboard[0]?.profilePicture ? generalService.gameResult?.result?.scoreboard[0]?.profilePicture?.startsWith('http') ? generalService.gameResult?.result?.scoreboard[0]?.profilePicture : configService.url(generalService.gameResult?.result?.scoreboard[0]?.profilePicture) : 'assets/images/frame.png'"
                    width="48">
               <!--              3-->
               <img class="avatar-bordered bg-white" *ngIf="generalService.gameResult?.result?.scoreboard?.length > 2"
-                   style="position: absolute; inset-inline-end: 100px; bottom: 70px"
+                   style="position: absolute; bottom: 70px"
+                   [style]="generalService.userObj?.preferedLanguage?.code == 'fa' ? 'right: 25%' : 'right: 25%'"
                    [src]="generalService.gameResult?.result?.scoreboard[2]?.profilePicture ? generalService.gameResult?.result?.scoreboard[2]?.profilePicture?.startsWith('http') ? generalService.gameResult?.result?.scoreboard[2]?.profilePicture : configService.url(generalService.gameResult?.result?.scoreboard[2]?.profilePicture) : 'assets/images/frame.png'"
                    width="48">
 
@@ -592,7 +596,7 @@ generalService.gameTutorialStep == 3 ? sendRateAnswer(true) : sendRateQuestions(
                     <img src="assets/images/score.png"
                          width="28" height="28">&nbsp;
                     <div class="font-size-14 weight-800 position-absolute green-color"
-                         style="padding-inline-start: 5px; inset-inline-start: 30px; top: -5px;">
+                         style="padding-inline-start: 5px; inset-inline-start: 30px; top: -5px; direction: ltr">
                       +{{generalService.gameResult?.statistics?.score | parsInt}}
                     </div>
                     <mat-label class="position-absolute font-size-14 weight-500"
@@ -604,7 +608,7 @@ generalService.gameTutorialStep == 3 ? sendRateAnswer(true) : sendRateQuestions(
                     <img src="assets/images/XP.png"
                          width="28" height="28">&nbsp;
                     <div class="font-size-14 weight-800 position-absolute green-color"
-                         style="padding-inline-start: 5px; inset-inline-start: 30px; top: -5px;">
+                         style="padding-inline-start: 5px; inset-inline-start: 30px; top: -5px;direction: ltr">
                       +{{generalService.gameResult?.statistics?.xp | parsInt}}
                     </div>
                     <mat-label class="position-absolute font-size-14 weight-500"
@@ -616,7 +620,7 @@ generalService.gameTutorialStep == 3 ? sendRateAnswer(true) : sendRateQuestions(
                     <img src="assets/images/coin-bronze.png"
                          width="28" height="28">&nbsp;
                     <div class="font-size-14 weight-800 position-absolute green-color"
-                         style="padding-inline-start: 5px; inset-inline-start: 30px; top: -5px;">
+                         style="padding-inline-start: 5px; inset-inline-start: 30px; top: -5px;direction: ltr">
                       +{{generalService.gameResult?.statistics?.reward?.bronze}}
                     </div>
                     <mat-label class="position-absolute font-size-14 weight-500"
@@ -631,12 +635,13 @@ generalService.gameTutorialStep == 3 ? sendRateAnswer(true) : sendRateQuestions(
                    [style]="generalService.isMobileView ? 'width: 270px' : 'width: 350px;'"
                    style="height: 80px; background-color: #EDF9FF">
                 <div style="position: absolute; top: 10px;inset-inline-start: 10px; width: 100%;">
-                  <div class="font-size-14 weight-600 position-absolute start-0">
+                  <div class="font-size-14 weight-600 position-absolute"
+                       style="inset-inline-start: 0px">
                     {{'Level' | translate}}: {{generalService.gameResult?.statistics?.level}}
                   </div>
                   <div
                     class="font-size-12 weight-600 position-absolute"
-                    style="inset-inline-end: 20px">{{generalService.gameResult?.statistics?.xpNeededForNextLevel - generalService.gameResult?.statistics?.totalXP | parsInt}}
+                    style="inset-inline-end: 20px">{{generalService.gameResult?.statistics?.xpNeededForNextLevel - generalService.gameResult?.statistics?.xp | parsInt}}
                     {{'XP till next level' | translate}}
                   </div>
                 </div>
@@ -649,7 +654,7 @@ generalService.gameTutorialStep == 3 ? sendRateAnswer(true) : sendRateQuestions(
                   mode="determinate"></mat-progress-bar>
                 <div
                   class="font-size-14 weight-600 position-absolute bottom-10" style="inset-inline-start: 10px">
-                  {{'Total XP' | translate}}: {{generalService.gameResult?.statistics?.totalXP | parsInt}}
+                  {{'Total XP' | translate}}: {{generalService.gameResult?.statistics?.xp | parsInt}}
                 </div>
               </div>
             </div>
@@ -752,7 +757,7 @@ generalService.gameTutorialStep == 3 ? sendRateAnswer(true) : sendRateQuestions(
                                  (closed)="panelOpenState[i] = false">
               <mat-expansion-panel-header
                 style="height: fit-content; padding-inline-start: 0; padding-bottom: 10px; padding-inline-end: 0">
-                <mat-panel-title style="min-width: 90%">
+                <mat-panel-title [style]="generalService.isMobileView ? 'min-width: 88%' : 'min-width: 90%'">
                   <mat-card class="shadow-none border-0 bg-transparent">
                     <mat-card-header>
                       <img mat-card-avatar

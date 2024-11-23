@@ -210,8 +210,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     });
   }
 
-  getGameInit() {
-    this.clientService.clientInit().then(async data => {
+  async getGameInit() {
+    await this.clientService.clientInit().then(async data => {
       this.generalService.clientInit = data.data;
       this.generalService.userObj = (data.data.user);
       //

@@ -9,6 +9,7 @@ import {GeneralService} from "../../services/general/general.service";
 import {SnackbarContentComponent} from "../snackbar-content/snackbar-content.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Preferences} from "@capacitor/preferences";
+import {ConfigService} from "../../services/config/config.service";
 
 @Component({
   selector: 'app-charity-modal',
@@ -21,7 +22,7 @@ export class CharityModalComponent implements OnInit {
   selectedCharity: any
 
   constructor(public dialogRef: MatDialogRef<CharityModalComponent>, private clientService: ClientService,
-              public generalService: GeneralService, private _snackBar: MatSnackBar,) {
+              public generalService: GeneralService, private _snackBar: MatSnackBar, public configService: ConfigService) {
   }
 
   async ngOnInit() {
@@ -37,28 +38,21 @@ export class CharityModalComponent implements OnInit {
 
   selectActivity(item: any) {
     const obj = {
-      "charity":this.selectedCharity?._id,
+      "charity": this.selectedCharity?._id,
       "activity": item._id
     }
     this.clientService.postCharity(obj).then(async data => {
       if (data.status == 1) {
         this.openDialog(data.message, 'Success');
-        let account = await this.generalService.getItem('account');
-        if (account) {
-          // Update the "assets" property
-          account = data?.data;
-          // Save the updated "account" object back to storage
-          this.generalService.saveToStorage('account', JSON.stringify(account));
-        }
+        this.generalService.clientInit.charityProgress = data.data.progress;
         await Preferences.remove({key: 'account'});
-        await Preferences.set({key: 'account', value: JSON.stringify(account)});
+        await Preferences.set({key: 'account', value: JSON.stringify(data?.data?.user)});
         await this.generalService.getUserData();
         this.dialogRef.close(false);
       } else {
         this.openDialog(data.message, 'Error');
       }
     })
-
   }
 
   openDialog(message: any, title: any) {

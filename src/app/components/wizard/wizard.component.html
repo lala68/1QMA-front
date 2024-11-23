@@ -161,7 +161,7 @@
                   (click)="selectCat(cat)"
                   [class]="{'mat-card-pref-selected': isSelected(cat), 'mat-card-pref': !isSelected(cat)}">
           <mat-card-content class="text-align-start" style="padding: 16px 5px">
-            <img [src]="'https://api.staging.1qma.games/' + cat?.icon" width="35">
+            <img [src]="configService.baseUrl + cat?.icon" width="35">
             <mat-label>{{ cat.name }}</mat-label>
           </mat-card-content>
         </mat-card>
@@ -239,7 +239,7 @@
                     [class]="{'mat-card-account-selected': selectedType == acc._id, 'mat-card-account': (selectedType != acc._id),
                     'mat-card-account-disable': acc?.name != 'Basic'}">
             <mat-card-content class="text-center">
-              <img [src]="'https://api.staging.1qma.games/' + acc?.icon" width="106" height="106">
+              <img [src]="configService.baseUrl + acc?.icon" width="106" height="106">
               <br>
               <br>
               <mat-label class="font-size-16 weight-700">{{acc.name}}</mat-label>

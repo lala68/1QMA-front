@@ -66,7 +66,7 @@
 <!--              (click)="selectCat(cat)"-->
 <!--              [class]="{'mat-card-pref-selected': isSelected(cat), 'mat-card-pref': !isSelected(cat)}">-->
 <!--      <mat-card-content class="text-start" style="padding: 16px 5px">-->
-<!--        <img [src]="'https://api.staging.1qma.games/' + cat?.icon" width="35">-->
+<!--        <img [src]="configService.baseUrl + cat?.icon" width="35">-->
 <!--        <mat-label>{{ cat.name }}</mat-label>-->
 <!--      </mat-card-content>-->
 <!--    </mat-card>-->
@@ -78,7 +78,7 @@
           <!--          <mat-label>{{ 'Category' | translate }}</mat-label>-->
           <mat-select (selectionChange)="selectCat($event.value)">
             <mat-option *ngFor="let cat of generalService.clientInit?.categories" [value]="cat._id">
-              <img [src]="'https://api.staging.1qma.games/' + cat?.icon" width="20" height="20">
+              <img [src]="configService.baseUrl + cat?.icon" width="20" height="20">
               {{ cat?.name }}
             </mat-option>
           </mat-select>

@@ -45,7 +45,7 @@
           </div>
           <div class="w-30">
             <div color="primary" class="gray-card category">
-              <img [src]="'https://api.staging.1qma.games/' + gameResult?.category?.icon" width="25">
+              <img [src]="configService.baseUrl + gameResult?.category?.icon" width="25">
               <span class="font-size-12 weight-500">{{gameResult?.category?.name}}</span>
             </div>
             &nbsp; &nbsp;
@@ -112,20 +112,22 @@
           <div style="width: 265px; position: relative; top: 120px; text-align: center;display: flex;margin: 0 auto;">
             <!--              2-->
             <img class="avatar-bordered bg-white"
-                 style="position: absolute; inset-inline-start: 60px; bottom: 80px;"
+                 style="position: absolute; bottom: 80px;"
+                 [style]="generalService.userObj?.preferedLanguage?.code == 'fa' ? 'left: 25%' : 'right: 25%'"
                  [src]="gameResult?.result?.scoreboard[1]?.profilePicture ? gameResult?.result?.scoreboard[1]?.profilePicture?.startsWith('http') ? gameResult?.result?.scoreboard[1]?.profilePicture : configService.url(gameResult?.result?.scoreboard[1]?.profilePicture) : 'assets/images/frame.png'"
                  (error)="handleImageError($event)"
                  width="48">
             <!--              1-->
             <img class="avatar-bordered bg-white"
-                 style="position: absolute; inset-inline-start: 120px; bottom: 90px;"
+                 style="position: absolute; inset-inline-start: 43%; bottom: 90px;"
                  [src]="gameResult?.result?.scoreboard[0]?.profilePicture ? gameResult?.result?.scoreboard[0]?.profilePicture?.startsWith('http') ? gameResult?.result?.scoreboard[0]?.profilePicture : configService.url(gameResult?.result?.scoreboard[0]?.profilePicture) : 'assets/images/frame.png'"
                  (error)="handleImageError($event)"
                  width="48">
             <!--              3-->
             <img *ngIf="gameResult?.result?.scoreboard?.length > 2"
                  class="avatar-bordered bg-white"
-                 style="position: absolute; inset-inline-start: 180px; bottom: 70px"
+                 style="position: absolute; bottom: 70px"
+                 [style]="generalService.userObj?.preferedLanguage?.code == 'fa' ? 'right: 25%' : 'left: 25%'"
                  [src]="gameResult?.result?.scoreboard[2]?.profilePicture ? gameResult?.result?.scoreboard[2]?.profilePicture?.startsWith('http') ? gameResult?.result?.scoreboard[2]?.profilePicture : configService.url(gameResult?.result?.scoreboard[2]?.profilePicture) : 'assets/images/frame.png'"
                  (error)="handleImageError($event)"
                  width="48">
@@ -135,7 +137,7 @@
           </div>
           <div class="w-100" style="position: absolute;top: 140px; display: flex;">
             <div color="primary" class="gray-card category">
-              <img [src]="'https://api.staging.1qma.games/' + gameResult?.category?.icon" width="25">
+              <img [src]="configService.baseUrl + gameResult?.category?.icon" width="25">
               <span class="font-size-12 weight-500">{{gameResult?.category?.name}}</span>
             </div>
             &nbsp; &nbsp;
@@ -260,7 +262,7 @@
                                (closed)="panelOpenState[i] = false">
             <mat-expansion-panel-header
               style="height: fit-content; padding-inline-start: 0; padding-bottom: 10px; padding-inline-end: 0">
-              <mat-panel-title style="min-width: 90%">
+              <mat-panel-title [style]="generalService.isMobileView ? 'min-width: 88%' : 'min-width: 90%'">
                 <mat-card class="shadow-none border-0 bg-transparent">
                   <mat-card-header>
                     <img mat-card-avatar

@@ -28,7 +28,8 @@
       <mat-label>{{'Font' | translate}}</mat-label>
       <!--     [ngModelOptions]="{standalone: true}" (selectionChange)="generalService.onFontSelect($event)" (selectionChange)="onFontSelect($event)"  [(ngModel)]="generalService.font"-->
       <mat-select [formControlName]="'font'">
-        <mat-option *ngFor="let font of availableFonts" [value]="font">{{font}}</mat-option>
+        <mat-option *ngFor="let font of availableFonts"
+                    [value]="font.code">{{generalService.userObj?.preferedLanguage?.code != 'fa' ? font.name : font.faName}}</mat-option>
       </mat-select>
     </mat-form-field>
     <br>

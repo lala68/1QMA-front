@@ -76,7 +76,7 @@
                   </mat-grid-tile>
                   <mat-grid-tile class="result-grid" [colspan]="2">
                     <div color="primary">
-                      <img [src]="'https://api.staging.1qma.games/' + res?.category?.icon" width="25">
+                      <img [src]="configService.baseUrl + res?.category?.icon" width="25">
                       <span class="font-size-12 weight-500">{{res?.category?.name}}</span>
                     </div>
                   </mat-grid-tile>
@@ -167,7 +167,7 @@
                       <span class="font-size-12 weight-500">{{res?.gameType?.text}}</span>
                     </div>
                     <div color="primary" class="d-flex align-items-center">
-                      <img [src]="'https://api.staging.1qma.games/' + res?.category?.icon" width="25">
+                      <img [src]="configService.baseUrl + res?.category?.icon" width="25">
                       <span class="font-size-12 weight-500">{{res?.category?.name}}</span>
                     </div>
                   </mat-grid-tile>
@@ -250,7 +250,7 @@
               <!--                   (click)="selectCatLive(cat)"-->
               <!--                   [class]="{'mat-card-pref-selected': isSelectedLive(cat), 'mat-card-pref': !isSelectedLive(cat)}">-->
               <!--                <div style="text-align: start;">-->
-              <!--                  <img [src]="'https://api.staging.1qma.games/' + cat?.icon" width="35">-->
+              <!--                  <img [src]="configService.baseUrl + cat?.icon" width="35">-->
               <!--                  <mat-label>{{ cat?.name }}</mat-label>-->
               <!--                </div>-->
               <!--              </div>-->
@@ -264,7 +264,7 @@
                       {{ 'all categories' | translate }}
                     </mat-option>
                     <mat-option *ngFor="let cat of generalService.clientInit?.categories" [value]="cat._id">
-                      <img [src]="'https://api.staging.1qma.games/' + cat?.icon" width="20" height="20">
+                      <img [src]="configService.baseUrl + cat?.icon" width="20" height="20">
                       {{ cat?.name }}
                     </mat-option>
                   </mat-select>
@@ -275,7 +275,7 @@
               <mat-card *ngFor="let liveGame of liveGames"
                         [class]="{'bordered-card': !generalService.isMobileView, 'bordered-card-mobile': generalService.isMobileView}"
                         class="shadow-none text-center d-inline-flex">
-                <img [src]="'https://api.staging.1qma.games/' + liveGame?.category?.icon" width="50" height="50"
+                <img [src]="configService.baseUrl + liveGame?.category?.icon" width="50" height="50"
                      style="margin: 0 auto">
                 <mat-card-header style="margin: 0 auto; display: block">
                   <mat-card-title class="font-size-14 weight-700">{{ liveGame?.category?.name }}</mat-card-title>
@@ -324,9 +324,9 @@
                 </div>
                 <br>
                 <span class="font-size-11 weight-500" style="text-align: start;"
-                      *ngIf="liveGame?.players.length < generalService.gameInit?.numberOfPlayers">Waiting for {{generalService.gameInit?.numberOfPlayers - liveGame?.players?.length}}
-                  /{{generalService.gameInit?.numberOfPlayers}}
-                  player</span>
+                      *ngIf="liveGame?.players.length < generalService.gameInit?.numberOfPlayers">{{'Waiting for' | translate}} {{generalService.gameInit?.numberOfPlayers - liveGame?.players?.length}}
+                  /{{liveGame?.numberOfPlayers}}
+                  {{'Players' | translate}}</span>
                 <br>
                 <mat-card-actions>
                   <button mat-raised-button class="game-button"
@@ -353,7 +353,7 @@
               <mat-card *ngFor="let fg of friendsGames"
                         class="shadow-none text-center d-inline-flex"
                         [class]="{'bordered-card': !generalService.isMobileView, 'bordered-card-mobile': generalService.isMobileView}">
-                <img [src]="'https://api.staging.1qma.games/' + fg?.category?.icon" width="50" height="50"
+                <img [src]="configService.baseUrl + fg?.category?.icon" width="50" height="50"
                      style="margin: 0 auto">
                 <mat-card-header style="margin: 0 auto; display: block">
                   <mat-card-title class="font-size-14 weight-700">{{ fg?.category?.name }}</mat-card-title>
@@ -407,7 +407,7 @@
                 </div>
                 <br>
                 <span class="font-size-11 weight-500"
-                      style="text-align: start;">{{fg?.players?.length}} {{'player' | translate}}</span>
+                      style="text-align: start;">{{fg?.players?.length}} {{'Players' | translate}}</span>
                 <br>
                 <mat-card-actions>
                   <button mat-raised-button class="game-button"
@@ -432,7 +432,7 @@
               </mat-card-subtitle>
             </mat-card-header>
             <mat-card-content class="w-100">
-              <div *ngIf="scoreboardSurvival?.length">
+              <div *ngIf="scoreboardSurvival?.users">
                 <br>
                 <mat-label
                   class="font-size-14 weight-600">{{'Survival games global scoreboard' | translate}}</mat-label>
@@ -450,24 +450,24 @@
                     <mat-label></mat-label>
                   </mat-grid-tile>
                   <mat-grid-tile class="result-grid" [colspan]="generalService.isMobileView? 2 : 1">
-                    <mat-label class="weight-700"
-                               [class]="{'font-size-14': !generalService.isMobileView, 'font-size-10': generalService.isMobileView}">{{'Avg.‌ Rank' | translate}}</mat-label>
+                    <mat-label class="weight-700 text-center"
+                               [class]="{'font-size-14': !generalService.isMobileView, 'font-size-10': generalService.isMobileView}">{{'Avg.Rank' | translate}}</mat-label>
                   </mat-grid-tile>
                   <mat-grid-tile [colspan]="generalService.isMobileView? 2 : 1">
-                    <mat-label class="weight-700"
+                    <mat-label class="weight-700 text-center"
                                [class]="{'font-size-14': !generalService.isMobileView, 'font-size-10': generalService.isMobileView}">{{'Avg Q.Rank' | translate}}</mat-label>
                   </mat-grid-tile>
                   <mat-grid-tile [colspan]="generalService.isMobileView? 2 : 1">
-                    <mat-label class="weight-700"
-                               [class]="{'font-size-14': !generalService.isMobileView, 'font-size-10': generalService.isMobileView}">{{'Avg. Score' | translate}}</mat-label>
+                    <mat-label class="weight-700 text-center"
+                               [class]="{'font-size-14': !generalService.isMobileView, 'font-size-10': generalService.isMobileView}">{{'Avg.Score' | translate}}</mat-label>
                   </mat-grid-tile>
                   <mat-grid-tile [colspan]="generalService.isMobileView? 2 : 1">
-                    <mat-label class="weight-700"
+                    <mat-label class="weight-700 text-center"
                                [class]="{'font-size-14': !generalService.isMobileView, 'font-size-10': generalService.isMobileView}">{{'Total Score' | translate}}</mat-label>
                   </mat-grid-tile>
                 </mat-grid-list>
 
-                <mat-grid-list *ngFor="let res of scoreboardSurvival;let i=index" [dir]="generalService.direction"
+                <mat-grid-list *ngFor="let res of scoreboardSurvival?.users;let i=index" [dir]="generalService.direction"
                                [cols]="generalService.isMobileView? 13 : 12" rowHeight="50px" class="gray-card mb-2">
                   <mat-grid-tile class="result-grid" [colspan]="1">
                     <mat-label class="font-size-14 weight-700">{{i + 1}}</mat-label>
@@ -524,7 +524,7 @@
                     <!--                         (click)="selectCatLiveSurvival(cat)"-->
                     <!--                         [class]="{'mat-card-pref-small-selected': isSelectedLiveSurvival(cat), 'mat-card-pref-small': !isSelectedLiveSurvival(cat)}">-->
                     <!--                      <div class="d-flex align-items-center">-->
-                    <!--                        <img [src]="'https://api.staging.1qma.games/' + cat?.icon" width="15">-->
+                    <!--                        <img [src]="configService.baseUrl + cat?.icon" width="15">-->
                     <!--                        <mat-label class="font-size-10 weight-600">{{ cat?.name }}</mat-label>-->
                     <!--                      </div>-->
                     <!--                    </div>-->
@@ -538,7 +538,7 @@
                             {{ 'all categories' | translate }}
                           </mat-option>
                           <mat-option *ngFor="let cat of generalService.clientInit?.categories" [value]="cat._id">
-                            <img [src]="'https://api.staging.1qma.games/' + cat?.icon" width="20" height="20">
+                            <img [src]="configService.baseUrl + cat?.icon" width="20" height="20">
                             {{ cat?.name }}
                           </mat-option>
                         </mat-select>
@@ -550,7 +550,7 @@
                                  cols="12" rowHeight="50px" class="gray-card mb-2">
                     <mat-grid-tile class="result-grid" [colspan]="4">
                       <div color="primary">
-                        <img [src]="'https://api.staging.1qma.games/' + res?.category?.icon" width="25">
+                        <img [src]="configService.baseUrl + res?.category?.icon" width="25">
                         <span class="font-size-12 weight-500">{{res?.category?.name}}</span>
                       </div>
                     </mat-grid-tile>
@@ -606,13 +606,12 @@
                     <mat-grid-tile class="result-grid" [colspan]="4">
                       <img style="border: 1px solid #E8E2E0;border-radius: 50px; background: white;"
                            [src]="res?.creator?.profilePicture ? res?.creator?.profilePicture?.startsWith('http') ? res?.creator?.profilePicture : configService.url(res?.creator?.profilePicture) : 'assets/images/frame.png'"
-                           (error)="handleImageError($event)" width="40">&nbsp;&nbsp;
-                      (error)="handleImageError($event)" width="40">&nbsp;&nbsp;
+                           (error)="handleImageError($event)" width="40">&nbsp;&nbsp;&nbsp;&nbsp;
                       <mat-label>{{res?.creator?.firstName}} {{res?.creator?.lastName}}</mat-label>
                     </mat-grid-tile>
                     <mat-grid-tile class="result-grid" [colspan]="3">
                       <div color="primary">
-                        <img [src]="'https://api.staging.1qma.games/' + res?.category?.icon" width="25">
+                        <img [src]="configService.baseUrl + res?.category?.icon" width="25">
                         <span class="font-size-12 weight-500">{{res?.category?.name}}</span>
                       </div>
                     </mat-grid-tile>
@@ -863,7 +862,7 @@
             <mat-card-content>
               <mat-card class="m-2 d-inline-block shadow-none mat-card-pref">
                 <mat-card-content style="text-align: start; padding: 16px 5px">
-                  <img [src]="'https://api.staging.1qma.games/' + selectedCategory?.icon" width="35">
+                  <img [src]="configService.baseUrl + selectedCategory?.icon" width="35">
                   <mat-label>{{ selectedCategory.name }}</mat-label>
                 </mat-card-content>
               </mat-card>
@@ -888,7 +887,7 @@
               <!--                        (click)="selectCat(cat)"-->
               <!--                        [class]="{'mat-card-pref-selected': isSelected(cat), 'mat-card-pref': !isSelected(cat)}">-->
               <!--                <mat-card-content style="text-align: start; padding: 16px 5px">-->
-              <!--                  <img [src]="'https://api.staging.1qma.games/' + cat?.icon" width="35">-->
+              <!--                  <img [src]="configService.baseUrl + cat?.icon" width="35">-->
               <!--                  <mat-label>{{ cat.name }}</mat-label>-->
               <!--                </mat-card-content>-->
               <!--              </mat-card>-->
@@ -900,7 +899,7 @@
                     <!--          <mat-label>{{ 'Category' | translate }}</mat-label>-->
                     <mat-select (selectionChange)="selectCat($event.value)">
                       <mat-option *ngFor="let cat of generalService.gameInit?.categories" [value]="cat._id">
-                        <img [src]="'https://api.staging.1qma.games/' + cat?.icon" width="20" height="20">
+                        <img [src]="configService.baseUrl + cat?.icon" width="20" height="20">
                         {{ cat?.name }}
                       </mat-option>
                     </mat-select>
@@ -1216,7 +1215,7 @@
           <mat-card *ngFor="let liveGame of findFriendGameData?.liveGames"
                     [class]="{'bordered-card': !generalService.isMobileView, 'bordered-card-mobile': generalService.isMobileView}"
                     class="shadow-none text-center d-inline-block">
-            <img [src]="'https://api.staging.1qma.games/' + liveGame?.category?.icon" width="50" height="50"
+            <img [src]="configService.baseUrl + liveGame?.category?.icon" width="50" height="50"
                  style="margin: 0 auto">
             <mat-card-header style="margin: 0 auto; display: block">
               <mat-card-title class="font-size-14 weight-700">{{ liveGame?.category?.name }}</mat-card-title>
@@ -1283,7 +1282,7 @@
           <mat-card *ngFor="let endedGame of findFriendGameData?.endedGames"
                     [class]="{'bordered-card': !generalService.isMobileView, 'bordered-card-mobile': generalService.isMobileView}"
                     class="shadow-none text-center d-inline-block">
-            <img [src]="'https://api.staging.1qma.games/' + endedGame?.category?.icon" width="50" height="50"
+            <img [src]="configService.baseUrl + endedGame?.category?.icon" width="50" height="50"
                  style="margin: 0 auto">
             <mat-card-header style="margin: 0 auto; display: block">
               <mat-card-title class="font-size-14 weight-700">{{ endedGame?.category?.name }}</mat-card-title>
@@ -1338,7 +1337,7 @@
             <br>
             <span
               class="font-size-11 weight-500"
-              style="text-align: start;">{{endedGame?.players?.length}} {{'player' | translate}}</span>
+              style="text-align: start;">{{endedGame?.players?.length}} {{'Players' | translate}}</span>
             <br>
             <mat-card-actions>
               <button mat-raised-button class="game-button"

@@ -238,7 +238,7 @@ export class AddQuestion {
   constructor(public dialogRef: MatDialogRef<AddQuestion>, private _formBuilder: FormBuilder,
               @Inject(MAT_DIALOG_DATA) public data: any, private authService: AuthService,
               public generalService: GeneralService, private clientService: ClientService,
-              public dialog: MatDialog, private _snackBar: MatSnackBar) {
+              public dialog: MatDialog, private _snackBar: MatSnackBar, public configService: ConfigService) {
     this.wordCount = this.generalService.clientInit.answerWordsLimitation;
     this.wordCountAnswer = this.generalService.clientInit.answerWordsLimitation;
   }

@@ -52,7 +52,7 @@
             <mat-card *ngFor="let item of features"
                       class="shadow-none text-center d-inline-flex"
                       [class]="{'bordered-card': !generalService.isMobileView, 'bordered-card-mobile': generalService.isMobileView}">
-              <img [src]="item?.icon ? 'https://api.staging.1qma.games/' + item?.icon : 'assets/images/invitation.png'"
+              <img [src]="item?.icon ? configService.baseUrl + item?.icon : 'assets/images/invitation.png'"
                    width="50" height="50" style="margin: 0 auto">
               <mat-card-header style="margin: 0 auto; display: block; padding: 5px">
                 <mat-card-title
@@ -90,7 +90,7 @@
             <mat-card *ngFor="let item of assets"
                       class="shadow-none text-center d-inline-flex"
                       [class]="{'bordered-card': !generalService.isMobileView, 'bordered-card-mobile': generalService.isMobileView}">
-              <img [src]="item?.icon ? 'https://api.staging.1qma.games/' + item?.icon : 'assets/images/invitation.png'"
+              <img [src]="item?.icon ? configService.baseUrl + item?.icon : 'assets/images/invitation.png'"
                    width="50" height="50" style="margin: 0 auto">
               <mat-card-header style="margin: 0 auto; display: block; padding: 5px">
                 <mat-card-title class="font-size-14 weight-600">{{item?.details[0]?.count}} {{item?.details[0]?.title}}
@@ -131,7 +131,7 @@
                       [class]="{'bordered-card': !generalService.isMobileView, 'bordered-card-mobile': generalService.isMobileView}">
               <div class="d-inline-flex">
                 <img
-                  [src]="item?.icon ? 'https://api.staging.1qma.games/' + item?.icon : 'assets/images/invitation.png'"
+                  [src]="item?.icon ? configService.baseUrl + item?.icon : 'assets/images/invitation.png'"
                   width="50" height="50" style="margin: 0 auto">
               </div>
               <mat-card-header style="margin: 0 auto; display: block; padding: 5px">
@@ -170,7 +170,7 @@
                         class="shadow-none text-center d-inline-flex"
                         [class]="{'bordered-card': !generalService.isMobileView, 'bordered-card-mobile': generalService.isMobileView}">
                 <img
-                  [src]="item?.icon ? 'https://api.staging.1qma.games/' + item?.icon : 'assets/images/invitation.png'"
+                  [src]="item?.icon ? configService.baseUrl + item?.icon : 'assets/images/invitation.png'"
                   width="50" height="50" style="margin: 0 auto">
                 <mat-card-header style="margin: 0 auto; display: block; padding: 5px">
                   <mat-card-title
@@ -196,7 +196,7 @@
     <div class="card border-0 w-100">
       <mat-card class="shadow-none w-100 d-inline-block p-4">
         <div class="w-40 d-table-cell text-center" style="vertical-align: middle">
-          <img [src]="detail?.icon ? 'https://api.staging.1qma.games/' + detail?.icon : 'assets/images/invitation.png'"
+          <img [src]="detail?.icon ? configService.baseUrl + detail?.icon : 'assets/images/invitation.png'"
                width="120" height="120" style="margin: 0 auto">
         </div>
         <div class="w-60 d-table-cell">
