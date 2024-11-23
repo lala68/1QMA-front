@@ -14,7 +14,6 @@ import {ProcessHTTPMsgService} from "../../services/proccessHttpMsg/process-http
 import {GeneralService} from "../../services/general/general.service";
 import translate from "translate";
 import {ShamsiDatePipe} from "../../pipes/shamsi-date.pipe";
-import {ESLint} from "eslint";
 
 @Component({
   selector: 'app-game-result',
