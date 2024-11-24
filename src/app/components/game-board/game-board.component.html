@@ -630,7 +630,7 @@
           </div>
         </div>
         <mat-label class="d-inline-block"
-                   style="margin-inline-start: 90px;">{{'Waiting for' | translate}} {{(submittedAnswer?.numberOfPlayers ? submittedAnswer?.numberOfPlayers : generalService.gameInit?.numberOfPlayers) - submittedAnswer?.numberOfSubmitted}}
+                   style="margin-inline-start: 110px;">{{'Waiting for' | translate}} {{(submittedAnswer?.numberOfPlayers ? submittedAnswer?.numberOfPlayers : generalService.gameInit?.numberOfPlayers) - submittedAnswer?.numberOfSubmitted}}
           {{'of' | translate}} {{(submittedAnswer?.numberOfPlayers ? submittedAnswer?.numberOfPlayers : generalService.gameInit?.numberOfPlayers) }}
           {{'Players' | translate}}...
         </mat-label>
@@ -782,7 +782,7 @@ generalService.gameStep == 3 ? sendRateAnswer(true) : sendRateQuestions(true)">
               <!--              2-->
               <img class="avatar-bordered bg-white"
                    style="position: absolute; bottom: 80px;"
-                   [style]="generalService.userObj?.preferedLanguage?.code == 'fa' ? 'left: 25%' : 'right: 25%'"
+                   [style]="generalService.userObj?.preferedLanguage?.code == 'fa' ? 'left: 25%' : 'left: 25%'"
                    [src]="generalService.gameResult?.result?.scoreboard[1]?.profilePicture ? generalService.gameResult?.result?.scoreboard[1]?.profilePicture?.startsWith('http') ? generalService.gameResult?.result?.scoreboard[1]?.profilePicture : configService.url(generalService.gameResult?.result?.scoreboard[1]?.profilePicture) : 'assets/images/frame.png'"
                    width="48">
               <!--              1-->
@@ -793,7 +793,7 @@ generalService.gameStep == 3 ? sendRateAnswer(true) : sendRateQuestions(true)">
               <!--              3-->
               <img class="avatar-bordered bg-white" *ngIf="generalService.gameResult?.result?.scoreboard?.length > 2"
                    style="position: absolute; bottom: 70px"
-                   [style]="generalService.userObj?.preferedLanguage?.code == 'fa' ? 'right: 25%' : 'left: 25%'"
+                   [style]="generalService.userObj?.preferedLanguage?.code == 'fa' ? 'right: 25%' : 'right: 25%'"
                    [src]="generalService.gameResult?.result?.scoreboard[2]?.profilePicture ? generalService.gameResult?.result?.scoreboard[2]?.profilePicture?.startsWith('http') ? generalService.gameResult?.result?.scoreboard[2]?.profilePicture : configService.url(generalService.gameResult?.result?.scoreboard[2]?.profilePicture) : 'assets/images/frame.png'"
                    width="48">
 

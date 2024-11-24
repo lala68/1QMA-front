@@ -371,8 +371,9 @@
   "Scr": "ام",
   "Rnk": "رت",
   "ID": "کد",
-  "Copyright" : "حق کپی",
-  "All rights reserved" : "محفوظ می باشد",
+  "Copyright": "حق کپی",
+  "All rights reserved": "محفوظ می باشد",
   "GREAT!": "خیلی خوب!",
-  "Game Finished": "اتمام بازی"
+  "Game Finished": "اتمام بازی",
+  "Keep my score": "امتیازم را نگه دار"
 }

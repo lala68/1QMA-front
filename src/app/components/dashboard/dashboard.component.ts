@@ -26,6 +26,7 @@ import {JoiningGame} from "../games/games.component";
 import introJs from "intro.js";
 import {Preferences} from "@capacitor/preferences";
 import {ShamsiDatePipe} from "../../pipes/shamsi-date.pipe";
+import {franc} from "franc-min";
 
 @Component({
   selector: 'app-dashboard',
@@ -87,15 +88,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     await this.getQuestionsFromFriendsLatestGames();
     this.loading = false;
     await this.waitForClientInit();
-
-    // Set up translation and direction
-    await this.translate.use(this.generalService.userObj?.preferedLanguage?.code).toPromise(); // Ensures language change is complete
-    document.documentElement.dir = this.generalService.userObj?.preferedLanguage?.code !== 'fa' ? 'ltr' : 'rtl';
-    this.generalService.direction = document.documentElement.dir;
-
-    const bootstrapRTL = document.getElementById('bootstrapRTL') as HTMLLinkElement;
-    bootstrapRTL.disabled = document.documentElement.dir !== 'rtl';
-    this.generalService.onFontSelect(this.generalService.userObj?.preferedFont);
 
     // Start the intro steps only after clientInit and translations are ready
     if (

@@ -38,6 +38,7 @@ export class SettingsComponent implements OnInit {
     {name: 'IRANSans', faName: 'ایرانسنس', code: 'IRANSans'},
     {name: 'Kohinoor', faName: 'کوهی نور', code: 'Kohinoor'},
     {name: 'Peyda', faName: 'پیدا', code: 'Peyda'},
+    {name: 'On', faName: 'آن', code: 'On'},
     {name: 'Pinar', faName: 'پینار', code: 'Pinar'}];
 
 

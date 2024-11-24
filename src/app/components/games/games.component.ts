@@ -27,20 +27,23 @@ import {ProcessHTTPMsgService} from "../../services/proccessHttpMsg/process-http
 import translate from "translate";
 import {IntroJsService} from "../../services/introJs/intro-js.service";
 import introJs from "intro.js";
-import {Subscription} from "rxjs";
-import {franc} from "franc";
-import iso6391 from 'iso-639-1';  // Should work now
+import {franc} from "franc-min";
 
 type SupportedLanguages =
-  'eng' | // English
-  'deu' | // German
-  'prs' | // Dari
-  'fas' | // Persian (Farsi)
-  'pes' | // Persian (alternate code)
-  'por' | // Portuguese
-  'hnj' | // Hmong
-  'sco' | // Scots
-  'uig';  // Uighur
+  | 'eng' // English
+  | 'deu' // German
+  | 'pes' // Dari
+  | 'por' // Persian (Farsi)
+  | 'ckb' // Persian (Farsi)
+  | 'spa' // Persian (Farsi)
+  | 'hun' // Persian (Farsi)
+  | 'hnj' // Persian (alternate code)
+  | 'pdu' // Portuguese
+  | 'jav' // Hmong
+  | 'uzb' // Scots
+  | 'kaz' //pashto
+  | 'arb'
+  | 'und'; //pashto
 
 @Component({
   selector: 'app-games',
@@ -96,15 +99,20 @@ export class GamesComponent implements OnInit {
   private routerSubscription: any;
   private introInProgress: boolean = false; // Track whether the intro is showing
   private supportedLangs: Record<SupportedLanguages, string> = {
-    'eng': 'en',
-    'deu': 'de',
-    'prs': 'fa',
-    'fas': 'fa',
-    'pes': 'fa',
+    'eng': 'en',  // English
+    'deu': 'en',  // German
+    'pes': 'fa',  // Persian (alternate code)
     'por': 'en',  // Portuguese detected as English
+    'ckb': 'en',  // Portuguese detected as English
+    'spa': 'en',  // Portuguese detected as English
+    'hun': 'en',  // Portuguese detected as English
     'hnj': 'en',  // Hmong detected as English
-    'sco': 'en',  // Scots detected as English
-    'uig': 'en'   // Uighur detected as English
+    'pdu': 'fa',  // Scots detected as English
+    'jav': 'fa',  // Scots detected as English
+    'uzb': 'fa',  // Uzbek (traditionally uses Arabic script, especially in Iran, although Latin script is now more common)
+    'kaz': 'fa',  // Kazakh (traditionally uses Arabic script in some regions, now primarily uses Cyrillic)
+    'arb': 'fa',  // Arabic (while it’s a different language, it uses the Perso-Arabic script, sometimes mapped to Farsi in mixed language settings)
+    'und': 'fa',  // Arabic (while it’s a different language, it uses the Perso-Arabic script, sometimes mapped to Farsi in mixed language settings)
   };
 
   constructor(public generalService: GeneralService, private gameService: GamesService, public configService: ConfigService,

@@ -18,12 +18,12 @@
 
 @font-face {
   font-family: 'Anjoman';
-  src: url('./assets/fonts/AnjomanFaNum-Medium.ttf') format('truetype');
+  src: url('./assets/fonts/AnjomanFaNum-Medium.woff2') format('truetype');
 }
 
 @font-face {
   font-family: 'Anjoman-en';
-  src: url('./assets/fonts/Anjoman-Medium.ttf') format('truetype');
+  src: url('./assets/fonts/Anjoman-Medium.woff2') format('woff2');
 }
 
 @font-face {
@@ -38,22 +38,22 @@
 
 @font-face {
   font-family: 'damavand';
-  src: url('./assets/fonts/Damavand-ExtraBold.ttf') format('truetype');
+  src: url('./assets/fonts/Damavand-ExtraBold.woff2') format('woff2');
 }
 
 @font-face {
   font-family: 'Dana';
-  src: url('./assets/fonts/Dana-FaNum-Regular.ttf') format('truetype');
+  src: url('./assets/fonts/dana-fanum-regular.woff2') format('woff2');
 }
 
 @font-face {
   font-family: 'Dana-en';
-  src: url('./assets/fonts/Dana-Regular.ttf') format('truetype');
+  src: url('./assets/fonts/dana-regular.woff2') format('woff2');
 }
 
 @font-face {
   font-family: 'Farhang';
-  src: url('./assets/fonts/Farhang-Regular.ttf') format('truetype');
+  src: url('./assets/fonts/Farhang-Regular.woff2') format('woff2');
 }
 
 @font-face {
@@ -63,12 +63,12 @@
 
 @font-face {
   font-family: 'IRANSans';
-  src: url('./assets/fonts/Dana-FaNum-Regular.ttf') format('truetype');
+  src: url('./assets/fonts/IRANSansWeb(FaNum).woff2') format('woff2');
 }
 
 @font-face {
   font-family: 'IRANSans-en';
-  src: url('./assets/fonts/IRANSans_Medium.ttf') format('truetype');
+  src: url('./assets/fonts/IRANSansWeb.woff2') format('woff2');
 }
 
 @font-face {
@@ -78,12 +78,25 @@
 
 @font-face {
   font-family: 'Peyda';
-  src: url('./assets/fonts/Peyda-Regular.ttf') format('truetype');
+  //src: url('./assets/fonts/Peyda-Regular.ttf') format('truetype');
+  src: url('./assets/fonts/PeydaWeb-Regular.woff2') format('woff2'),
+  url('./assets/fonts/PeydaWeb-Regular.woff') format('woff');
+  font-feature-settings: "tnum" off, "lnum" off;
 }
 
 @font-face {
   font-family: 'Pinar';
-  src: url('./assets/fonts/Pinar-DS4-FD-Regular.ttf') format('truetype');
+  src: url('./assets/fonts/Pinar-DS1-FD-Regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'On';
+  src: url('./assets/fonts/OnNormal.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Pinar-en';
+  src: url('./assets/fonts/Pinar-DS1-Regular.woff2') format('woff2');
 }
 
 @media (prefers-color-scheme: dark) {
@@ -132,6 +145,10 @@ body.irancell-font {
   font-family: 'Irancell', sans-serif; /* Fallback to sans-serif */
 }
 
+body.on-font {
+  font-family: 'On', sans-serif; /* Fallback to sans-serif */
+}
+
 body.IRANSans-font {
   font-family: 'IRANSans', sans-serif; /* Fallback to sans-serif */
 }
@@ -154,6 +171,10 @@ body.peyda-font {
 
 body.pinar-font {
   font-family: 'Pinar', sans-serif; /* Fallback to sans-serif */
+}
+
+body.pinar-font-en {
+  font-family: 'Pinar-en', sans-serif; /* Fallback to sans-serif */
 }
 
 
