@@ -12,7 +12,6 @@ import {Location} from '@angular/common';
 import {ParsIntPipe} from "../../pipes/pars-int.pipe";
 import {ProcessHTTPMsgService} from "../../services/proccessHttpMsg/process-httpmsg.service";
 import {GeneralService} from "../../services/general/general.service";
-import translate from "translate";
 import {ShamsiDatePipe} from "../../pipes/shamsi-date.pipe";
 
 @Component({
