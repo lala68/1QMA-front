@@ -473,7 +473,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
         this.generalService.specificQuestionAnswers = data.data;
         if (this.generalService.selectedTranslatedLanguage && this.generalService.selectedTranslatedLanguage != '') {
           for (const answer of this.generalService.specificQuestionAnswers.answers) {
-            answer.answer = await this.detectAndTranslate(answer.answer, this.generalService.selectedTranslatedLanguage);
+            answer.answer = await this.detectAndTranslate(answer.answer, this.generalService.selectedTranslatedLanguage, answer.language);
           }
         }
         this.updateRates(this.generalService.rateAnswers.length !== 0);
@@ -492,7 +492,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
         this.generalService.gameQuestion = resQue.data;
         if (this.generalService.selectedTranslatedLanguage && this.generalService.selectedTranslatedLanguage != '') {
           this.generalService.gameQuestion.question = await this.detectAndTranslate(resQue?.data.question,
-            this.generalService.selectedTranslatedLanguage);
+            this.generalService.selectedTranslatedLanguage, resQue?.data.language);
         }
 
         this.generalService.gameAnswerGeneral = resQue.data.myAnswer || '';
@@ -512,7 +512,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
         this.generalService.allQuestions = resQue.data;
         if (this.generalService.selectedTranslatedLanguage && this.generalService.selectedTranslatedLanguage != '') {
           for (const question of this.generalService.allQuestions) {
-            question.question = await this.detectAndTranslate(question.question, this.generalService.selectedTranslatedLanguage);
+            question.question = await this.detectAndTranslate(question.question, this.generalService.selectedTranslatedLanguage, question.language);
           }
         }
         this.updateRatesQuestions(this.generalService.rateQuestions.length !== 0);
@@ -599,9 +599,9 @@ export class GameBoardComponent implements OnInit, OnDestroy {
         if (this.generalService.selectedTranslatedLanguage && this.generalService.selectedTranslatedLanguage != '') {
           for (const question of this.generalService.gameResult.result.details) {
             question.question = await this.detectAndTranslate(question.question,
-              this.generalService.selectedTranslatedLanguage);
+              this.generalService.selectedTranslatedLanguage, question.language);
             for (const answer of question.answers) {
-              answer.answer = await this.detectAndTranslate(answer.answer, this.generalService.selectedTranslatedLanguage);
+              answer.answer = await this.detectAndTranslate(answer.answer, this.generalService.selectedTranslatedLanguage, answer.language);
             }
           }
         }
@@ -690,7 +690,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
         // }
         if (this.generalService.selectedTranslatedLanguage && this.generalService.selectedTranslatedLanguage != '') {
           for (const answer of this.generalService.specificQuestionAnswers.answers) {
-            answer.answer = await this.detectAndTranslate(answer.answer, this.generalService.selectedTranslatedLanguage);
+            answer.answer = await this.detectAndTranslate(answer.answer, this.generalService.selectedTranslatedLanguage, answer.language);
           }
         }
         this.updateRates(this.generalService.rateAnswers.length !== 0);
@@ -760,7 +760,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
         if (this.generalService.selectedTranslatedLanguage && this.generalService.selectedTranslatedLanguage != '') {
           for (const question of this.generalService.allQuestions.questions) {
             question.question = await this.detectAndTranslate(question.question,
-              this.generalService.selectedTranslatedLanguage);
+              this.generalService.selectedTranslatedLanguage, question.language);
           }
         }
         this.updateRatesQuestions(this.generalService.rateQuestions.length !== 0);
@@ -790,7 +790,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
           this.generalService.gameQuestion = resQue.data;
           if (this.generalService.selectedTranslatedLanguage && this.generalService.selectedTranslatedLanguage != '') {
             this.generalService.gameQuestion.question = await this.detectAndTranslate(this.generalService.gameQuestion.question,
-              this.generalService.selectedTranslatedLanguage);
+              this.generalService.selectedTranslatedLanguage, this.generalService.gameQuestion.language);
           }
           this.generalService.gameAnswerGeneral = resQue.data.myAnswer || '';
           this.generalService.editingAnswer = !!resQue.data.myAnswer;
@@ -843,26 +843,26 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     });
   }
 
-  async detectAndTranslate(question: string, targetLanguage: string): Promise<string> {
+  async detectAndTranslate(question: string, targetLanguage: string, detectedLanguage: any): Promise<string> {
     if (!question) {
       return '';
     }
 
     // Use franc-min to detect the primary language
-    const detectedLangISO6393: string = franc(question);
-    console.log(`Primary detected language (ISO 639-3): ${detectedLangISO6393}`);
+    // const detectedLangISO6393: string = franc(question);
+    // console.log(`Primary detected language (ISO 639-3): ${detectedLangISO6393}`);
 
     // Map the detected language to the standard ISO 639-1 code (or default to 'en' if not found)
-    const detectedLangISO6391: string = this.supportedLangs[detectedLangISO6393 as SupportedLanguages] || 'en';
-    console.log(`ISO 639-1 code used for translation: ${detectedLangISO6391}`);
-    console.log(`Target language for translation: ${targetLanguage}`);
+    // const detectedLangISO6391: string = this.supportedLangs[detectedLangISO6393 as SupportedLanguages] || 'en';
+    // console.log(`ISO 639-1 code used for translation: ${detectedLangISO6391}`);
+    // console.log(`Target language for translation: ${targetLanguage}`);
 
     // Perform the translation if needed
-    if (detectedLangISO6391 !== targetLanguage) {
+    if (detectedLanguage !== targetLanguage) {
       try {
         // Assuming you have a translate function that works with the target language
         const translatedText = await translate(question, {
-          from: detectedLangISO6391,
+          from: detectedLanguage,
           to: targetLanguage,
         });
         return translatedText;

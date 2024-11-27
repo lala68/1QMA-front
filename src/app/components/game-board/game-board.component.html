@@ -737,8 +737,8 @@ generalService.gameStep == 3 ? sendRateAnswer(true) : sendRateQuestions(true)">
                           stroke-linejoin="round"/>
                   </svg>
                 </div>
-                <button *ngIf="generalService.isMobileView" style="height: 40px !important; width: 100px !important;" mat-raised-button
-                        color="primary" class="next-step ms-3"
+                <button *ngIf="generalService.isMobileView" style="height: 40px !important; min-width: 112px !important;" mat-raised-button
+                        color="primary" class="next-step ms-2"
                         (click)="newGame()">
                   {{'New Game' | translate}}
                 </button>
