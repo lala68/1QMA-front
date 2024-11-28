@@ -472,6 +472,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
       if (data.status === 1) {
         this.generalService.specificQuestionAnswers = data.data;
         if (this.generalService.selectedTranslatedLanguage && this.generalService.selectedTranslatedLanguage != '') {
+          this.generalService.gameQuestion.question = await this.detectAndTranslate(this.generalService.gameQuestion.question, this.generalService.selectedTranslatedLanguage, data.data.questionLanguage);
           for (const answer of this.generalService.specificQuestionAnswers.answers) {
             answer.answer = await this.detectAndTranslate(answer.answer, this.generalService.selectedTranslatedLanguage, answer.language);
           }
@@ -689,6 +690,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
         //   answer.answer = await translate(answer.answer, this.generalService.selectedTranslatedLanguage);
         // }
         if (this.generalService.selectedTranslatedLanguage && this.generalService.selectedTranslatedLanguage != '') {
+          this.generalService.gameQuestion.question = await this.detectAndTranslate(this.generalService.gameQuestion.question, this.generalService.selectedTranslatedLanguage, data.data.questionLanguage);
           for (const answer of this.generalService.specificQuestionAnswers.answers) {
             answer.answer = await this.detectAndTranslate(answer.answer, this.generalService.selectedTranslatedLanguage, answer.language);
           }

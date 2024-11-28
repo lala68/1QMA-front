@@ -11,10 +11,6 @@
 }
 
 
-@font-face {
-  font-family: 'Rokh';
-  src: url('./assets/fonts/Rokh-Regular.ttf') format('truetype');
-}
 
 @font-face {
   font-family: 'Anjoman';
@@ -24,21 +20,6 @@
 @font-face {
   font-family: 'Anjoman-en';
   src: url('./assets/fonts/Anjoman-Medium.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'Daal';
-  src: url('./assets/fonts/DaalRegular.ttf') format('truetype');
-}
-
-@font-face {
-  font-family: 'Exo';
-  src: url('./assets/fonts/Exo2-Regular.ttf') format('truetype');
-}
-
-@font-face {
-  font-family: 'damavand';
-  src: url('./assets/fonts/Damavand-ExtraBold.woff2') format('woff2');
 }
 
 @font-face {
@@ -52,13 +33,13 @@
 }
 
 @font-face {
-  font-family: 'Farhang';
-  src: url('./assets/fonts/Farhang-Regular.woff2') format('woff2');
+  font-family: 'Modam';
+  src: url('./assets/fonts/ModamFaNumWeb-Regular.woff2') format('woff2');
 }
 
 @font-face {
-  font-family: 'Irancell';
-  src: url('./assets/fonts/Irancell.ttf') format('truetype');
+  font-family: 'Modam-en';
+  src: url('./assets/fonts/ModamWeb-Regular.woff2') format('woff2');
 }
 
 @font-face {
@@ -71,46 +52,11 @@
   src: url('./assets/fonts/IRANSansWeb.woff2') format('woff2');
 }
 
-@font-face {
-  font-family: 'Kohinoor';
-  src: url('./assets/fonts/Kohinoor Arabic Regular.TTF') format('truetype');
-}
-
-@font-face {
-  font-family: 'Peyda';
-  //src: url('./assets/fonts/Peyda-Regular.ttf') format('truetype');
-  src: url('./assets/fonts/PeydaWeb-Regular.woff2') format('woff2'),
-  url('./assets/fonts/PeydaWeb-Regular.woff') format('woff');
-  font-feature-settings: "tnum" off, "lnum" off;
-}
-
-@font-face {
-  font-family: 'Pinar';
-  src: url('./assets/fonts/Pinar-DS1-FD-Regular.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'On';
-  src: url('./assets/fonts/OnNormal.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'Pinar-en';
-  src: url('./assets/fonts/Pinar-DS1-Regular.woff2') format('woff2');
-}
 
 @media (prefers-color-scheme: dark) {
   :root {
     color-scheme: light;
   }
-}
-
-body.exo-font {
-  font-family: 'Exo', 'Daal', sans-serif; /* Fallback to sans-serif */
-}
-
-body.rokh-font {
-  font-family: 'Rokh', sans-serif; /* Fallback to sans-serif */
 }
 
 body.anjoman-font {
@@ -121,14 +67,6 @@ body.anjoman-font-en {
   font-family: 'Anjoman-en', sans-serif; /* Fallback to sans-serif */
 }
 
-body.daal-font {
-  font-family: 'Daal', sans-serif; /* Fallback to sans-serif */
-}
-
-body.damavand-font {
-  font-family: 'Damavand', sans-serif; /* Fallback to sans-serif */
-}
-
 body.dana-font {
   font-family: 'Dana', sans-serif; /* Fallback to sans-serif */
 }
@@ -137,16 +75,12 @@ body.dana-font-en {
   font-family: 'Dana-en', sans-serif; /* Fallback to sans-serif */
 }
 
-body.farhang-font {
-  font-family: 'Farhang', sans-serif; /* Fallback to sans-serif */
+body.modam-font {
+  font-family: 'Modam', sans-serif; /* Fallback to sans-serif */
 }
 
-body.irancell-font {
-  font-family: 'Irancell', sans-serif; /* Fallback to sans-serif */
-}
-
-body.on-font {
-  font-family: 'On', sans-serif; /* Fallback to sans-serif */
+body.modam-font-en {
+  font-family: 'Modam-en', sans-serif; /* Fallback to sans-serif */
 }
 
 body.IRANSans-font {
@@ -157,25 +91,6 @@ body.IRANSans-font-en {
   font-family: 'IRANSans-en', sans-serif; /* Fallback to sans-serif */
 }
 
-body.kohinoor-font {
-  font-family: 'Kohinoor', sans-serif; /* Fallback to sans-serif */
-}
-
-body.peyda-font {
-  font-family: 'Peyda', sans-serif; /* Fallback to sans-serif */
-}
-
-//.peyda-font {
-//  font-family: 'Peyda', sans-serif !important; /* Fallback to sans-serif */
-//}
-
-body.pinar-font {
-  font-family: 'Pinar', sans-serif; /* Fallback to sans-serif */
-}
-
-body.pinar-font-en {
-  font-family: 'Pinar-en', sans-serif; /* Fallback to sans-serif */
-}
 
 
 body *:not(#content-to-translate *) {

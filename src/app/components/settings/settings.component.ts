@@ -27,19 +27,11 @@ export class SettingsComponent implements OnInit {
   });
   loading: boolean = false;
   availableFonts: any = [
-    {name: 'Rokh', faName: 'رخ', code: 'Rokh'},
-    {name: 'Exo', faName: 'اکسو', code: 'Exo'},
     {name: 'Anjoman', faName: 'انجمن', code: 'Anjoman'},
-    {name: 'Daal', faName: 'دال', code: 'Daal'},
-    {name: 'Damavand', faName: 'دماوند', code: 'Damavand'},
     {name: 'Dana', faName: 'دانا', code: 'Dana'},
-    {name: 'Farhang', faName: 'فرهنگ', code: 'Farhang'},
-    {name: 'Irancell', faName: 'ایرانسل', code: 'Irancell'},
     {name: 'IRANSans', faName: 'ایرانسنس', code: 'IRANSans'},
-    {name: 'Kohinoor', faName: 'کوهی نور', code: 'Kohinoor'},
-    {name: 'Peyda', faName: 'پیدا', code: 'Peyda'},
-    {name: 'On', faName: 'آن', code: 'On'},
-    {name: 'Pinar', faName: 'پینار', code: 'Pinar'}];
+    {name: 'Modam', faName: 'مدام', code: 'Modam'},
+    ];
 
 
   constructor(public generalService: GeneralService, private _formBuilder: FormBuilder, public dialog: MatDialog,
