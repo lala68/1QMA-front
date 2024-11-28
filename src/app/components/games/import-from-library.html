@@ -94,8 +94,8 @@
     <div *ngFor="let item of library?.questions" class="gray-card mb-2"
          [class]="{'p-4': !generalService.isMobileView, 'p-1': generalService.isMobileView}">
       <div class="d-flex white-card position-relative">
-        <img src="assets/images/frame.png" width="42">
-        <mat-label class="font-size-13 weight-500" style="margin: auto 10px">Sam Smith</mat-label>
+        <img src="favicon.ico" width="42" class="p-2">
+        <mat-label class="font-size-13 weight-500" style="margin: auto 5px">1QMA</mat-label>
         <mat-label class="font-size-12 weight-500 position-absolute"
                    style="right: 10px; margin: 10px auto">{{item?.createdAt | daysAgo}}
         </mat-label>
@@ -115,7 +115,7 @@
         &nbsp;&nbsp;
         <div class="white-card p-1" style="width: fit-content">
           <img src="assets/images/score.png" width="24" height="24">
-          <mat-label class="font-size-12 weight-600" style="margin: auto 10px">176 <span
+          <mat-label class="font-size-12 weight-600" style="margin: auto 10px">{{item?.score}} <span
             class="text-gray">{{'Score' | translate}}</span>
           </mat-label>
         </div>
@@ -125,9 +125,10 @@
       <div class="border-bottom"></div>
       <br>
       <div class="d-block">
-        <div class="d-inline-block">
+        <div class="d-inline-block" *ngIf="!data?.fromTutorial">
           <img src="assets/images/coin-bronze.png" width="25">
-          &nbsp;&nbsp;<span class="font-size-14 weight-600 ">5 {{'Bronze' | translate}}</span>
+          &nbsp;<span
+          class="font-size-14 weight-600 ">{{generalService?.gameInit?.publicQuestionFee}} {{'Bronze' | translate}}</span>
         </div>
         <div [class]="{'': !generalService.isMobileView, 'd-flex align-items-center': generalService.isMobileView}">
           <button (click)="importQuestion(item.question, item._id)" mat-stroked-button color="primary"

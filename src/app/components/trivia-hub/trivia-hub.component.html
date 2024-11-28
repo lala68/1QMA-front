@@ -739,6 +739,15 @@
                   </mat-card-actions>
                 </mat-card>
               </div>
+              <div style="margin: 20px auto; text-align: center" *ngIf="gameData?.length > 0">
+                <button mat-stroked-button color="primary" type="submit" *ngIf="!loadingMore && !noMoreItems"
+                        class="p-4s ms-2 blue-button" (click)="showMoreGames()"
+                        style="min-width: 150px; border: 1px solid #0B6FEA">
+                  <span>{{'More' | translate}}</span>
+                </button>
+                <mat-spinner style="margin: 0 auto; display: block; text-align: center" *ngIf="loadingMore"
+                             [diameter]="20"></mat-spinner>
+              </div>
             </mat-card-content>
 
             <mat-card-content *ngIf="generalService.selectedTabIndexGameChildInTrivia == 1">
@@ -831,6 +840,15 @@
                     </button>
                   </mat-card-actions>
                 </mat-card>
+              </div>
+              <div style="margin: 20px auto; text-align: center" *ngIf="gameData?.length > 0">
+                <button mat-stroked-button color="primary" type="submit" *ngIf="!loadingMore && !noMoreItems"
+                        class="p-4s ms-2 blue-button" (click)="showMoreGames()"
+                        style="min-width: 150px; border: 1px solid #0B6FEA">
+                  <span>{{'More' | translate}}</span>
+                </button>
+                <mat-spinner style="margin: 0 auto; display: block; text-align: center" *ngIf="loadingMore"
+                             [diameter]="20"></mat-spinner>
               </div>
             </mat-card-content>
           </mat-card>
