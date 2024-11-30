@@ -423,9 +423,9 @@ export class AccountMobile {
 @Component({
   selector: 'notification-mobile',
   templateUrl: 'notification-mobile.html',
-  standalone: true,
-  imports: [TranslateModule, CommonModule, SharedModule, MatMenuModule, FormsModule,
-    RouterModule, ReactiveFormsModule, ShamsiDatePipe]
+  // standalone: true,
+  // imports: [TranslateModule, CommonModule, SharedModule, MatMenuModule, FormsModule,
+  //   RouterModule, ReactiveFormsModule, ShamsiDatePipe]
 })
 
 export class NotificationMobile {
