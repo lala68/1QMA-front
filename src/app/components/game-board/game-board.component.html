@@ -14,7 +14,7 @@
         <mat-card-subtitle *ngIf="generalService.isMobileView">
           <mat-chip mat-raised-button color="primary" class="chip-header-category">
             <img [src]="configService.baseUrl + data?.game?.gameCategory?.icon" width="25">
-            <span class="font-size-12 weight-500">{{data?.game?.gameCategory?.name}}</span>
+            <span class="font-size-12 weight-500">{{data?.game?.gameCategory?.name | translate}}</span>
           </mat-chip>
           &nbsp; &nbsp;<mat-chip mat-raised-button color="primary" class="chip-header-type">
           <img src="assets/images/normal-game.png" *ngIf="data?.game?.gameType?.id == 'normal'" width="25">
@@ -26,7 +26,7 @@
       <div class="position-absolute top-0 bottom-0 end-10 mt-4" *ngIf="!generalService.isMobileView">
         <mat-chip mat-raised-button color="primary" class="chip-header-category">
           <img [src]="configService.baseUrl + data?.game?.gameCategory?.icon" width="25">
-          <span class="font-size-12 weight-500">{{data?.game?.gameCategory?.name}}</span>
+          <span class="font-size-12 weight-500">{{data?.game?.gameCategory?.name | translate}}</span>
         </mat-chip>
         &nbsp; &nbsp;<mat-chip mat-raised-button color="primary" class="chip-header-type">
         <img src="assets/images/normal-game.png" *ngIf="data?.game?.gameType?.id == 'normal'" width="25">
@@ -290,7 +290,7 @@
         <mat-card-subtitle *ngIf="generalService.isMobileView">
           <mat-chip mat-raised-button color="primary" class="chip-header-category">
             <img [src]="configService.baseUrl + data?.game?.gameCategory?.icon" width="25">
-            <span class="font-size-12 weight-500">{{data?.game?.gameCategory?.name}}</span>
+            <span class="font-size-12 weight-500">{{data?.game?.gameCategory?.name | translate}}</span>
           </mat-chip>
           &nbsp; &nbsp;<mat-chip mat-raised-button color="primary" class="chip-header-type">
           <img src="assets/images/normal-game.png" *ngIf="data?.game?.gameType?.id == 'normal'" width="25">
@@ -302,7 +302,7 @@
       <div class="position-absolute top-0 bottom-0 end-10 mt-4" *ngIf="!generalService.isMobileView">
         <mat-chip mat-raised-button color="primary" class="chip-header-category">
           <img [src]="configService.baseUrl + data?.game?.gameCategory?.icon" width="25">
-          <span class="font-size-12 weight-500">{{data?.game?.gameCategory?.name}}</span>
+          <span class="font-size-12 weight-500">{{data?.game?.gameCategory?.name | translate}}</span>
         </mat-chip>
         &nbsp; &nbsp;<mat-chip mat-raised-button color="primary" class="chip-header-type">
         <img src="assets/images/normal-game.png" *ngIf="data?.game?.gameType?.id == 'normal'" width="25">
@@ -399,7 +399,7 @@
         <mat-card-subtitle *ngIf="generalService.isMobileView">
           <mat-chip mat-raised-button color="primary" class="chip-header-category">
             <img [src]="configService.baseUrl + data?.game?.gameCategory?.icon" width="25">
-            <span class="font-size-12 weight-500">{{data?.game?.gameCategory?.name}}</span>
+            <span class="font-size-12 weight-500">{{data?.game?.gameCategory?.name | translate}}</span>
           </mat-chip>
           &nbsp; &nbsp;<mat-chip mat-raised-button color="primary" class="chip-header-type">
           <img src="assets/images/normal-game.png" *ngIf="data?.game?.gameType?.id == 'normal'" width="25">
@@ -411,7 +411,7 @@
       <div class="position-absolute top-0 bottom-0 end-10 mt-4" *ngIf="!generalService.isMobileView">
         <mat-chip mat-raised-button color="primary" class="chip-header-category">
           <img [src]="configService.baseUrl + data?.game?.gameCategory?.icon" width="25">
-          <span class="font-size-12 weight-500">{{data?.game?.gameCategory?.name}}</span>
+          <span class="font-size-12 weight-500">{{data?.game?.gameCategory?.name | translate}}</span>
         </mat-chip>
         &nbsp; &nbsp;<mat-chip mat-raised-button color="primary" class="chip-header-type">
         <img src="assets/images/normal-game.png" *ngIf="data?.game?.gameType?.id == 'normal'" width="25">
@@ -528,7 +528,7 @@
         <mat-card-subtitle *ngIf="generalService.isMobileView">
           <mat-chip mat-raised-button color="primary" class="chip-header-category">
             <img [src]="configService.baseUrl + data?.game?.gameCategory?.icon" width="25">
-            <span class="font-size-12 weight-500">{{data?.game?.gameCategory?.name}}</span>
+            <span class="font-size-12 weight-500">{{data?.game?.gameCategory?.name | translate}}</span>
           </mat-chip>
           &nbsp; &nbsp;<mat-chip mat-raised-button color="primary" class="chip-header-type">
           <img src="assets/images/normal-game.png" *ngIf="data?.game?.gameType?.id == 'normal'" width="25">
@@ -540,7 +540,7 @@
       <div class="position-absolute top-0 bottom-0 end-10 mt-4" *ngIf="!generalService.isMobileView">
         <mat-chip mat-raised-button color="primary" class="chip-header-category">
           <img [src]="configService.baseUrl + data?.game?.gameCategory?.icon" width="25">
-          <span class="font-size-12 weight-500">{{data?.game?.gameCategory?.name}}</span>
+          <span class="font-size-12 weight-500">{{data?.game?.gameCategory?.name | translate}}</span>
         </mat-chip>
         &nbsp; &nbsp;<mat-chip mat-raised-button color="primary" class="chip-header-type">
         <img src="assets/images/normal-game.png" *ngIf="data?.game?.gameType?.id == 'normal'" width="25">
@@ -688,7 +688,7 @@ generalService.gameStep == 3 ? sendRateAnswer(true) : sendRateQuestions(true)">
         <mat-card-subtitle *ngIf="generalService.isMobileView">
           <mat-chip mat-raised-button color="primary" class="chip-header-category">
             <img [src]="configService.baseUrl + data?.game?.gameCategory?.icon" width="25">
-            <span class="font-size-12 weight-500">{{data?.game?.gameCategory?.name}}</span>
+            <span class="font-size-12 weight-500">{{data?.game?.gameCategory?.name | translate}}</span>
           </mat-chip>
           &nbsp; &nbsp;<mat-chip mat-raised-button color="primary" class="chip-header-type">
           <img src="assets/images/normal-game.png" *ngIf="data?.game?.gameType?.id == 'normal'" width="25">
@@ -700,7 +700,7 @@ generalService.gameStep == 3 ? sendRateAnswer(true) : sendRateQuestions(true)">
       <div class="position-absolute top-0 bottom-0 end-10 mt-4" *ngIf="!generalService.isMobileView">
         <mat-chip mat-raised-button color="primary" class="chip-header-category">
           <img [src]="configService.baseUrl + data?.game?.gameCategory?.icon" width="25">
-          <span class="font-size-12 weight-500">{{data?.game?.gameCategory?.name}}</span>
+          <span class="font-size-12 weight-500">{{data?.game?.gameCategory?.name | translate}}</span>
         </mat-chip>
         &nbsp; &nbsp;<mat-chip mat-raised-button color="primary" class="chip-header-type">
         <img src="assets/images/normal-game.png" *ngIf="data?.game?.gameType?.id == 'normal'" width="25">
@@ -1011,7 +1011,7 @@ generalService.gameStep == 3 ? sendRateAnswer(true) : sendRateQuestions(true)">
                        width="15">
 
                   <mat-label class="text-gray">
-                    {{generalService.gameInit?.keepScorePrice?.count}} {{generalService.gameInit?.keepScorePrice?.coin}}
+                    {{generalService.gameInit?.keepScorePrice?.count}} {{generalService.gameInit?.keepScorePrice?.coin | translate}}
                   </mat-label>
                   <div class="position-absolute end-10" style="top: 15px;">
                     <img *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'"

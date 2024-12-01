@@ -68,7 +68,7 @@
           <img
             [src]="configService.url(item.category?.icon)"
             width="24">
-          <mat-label class="font-size-12 weight-600" style="margin: auto 5px">{{item?.category?.name}}</mat-label>
+          <mat-label class="font-size-12 weight-600" style="margin: auto 5px">{{item?.category?.name | translate}}</mat-label>
         </div>
         <div class="mt-2">
           <button mat-stroked-button (click)="importQuestion(item.question, item._id)" color="primary"
@@ -110,7 +110,7 @@
           <img
             [src]="configService.url(item.category?.icon)"
             width="24">
-          <mat-label class="font-size-12 weight-600" style="margin: auto 5px">{{item?.category?.name}}</mat-label>
+          <mat-label class="font-size-12 weight-600" style="margin: auto 5px">{{item?.category?.name | translate}}</mat-label>
         </div>
         &nbsp;&nbsp;
         <div class="white-card p-1" style="width: fit-content">
@@ -170,7 +170,7 @@
           <img
             [src]="configService.url(item.category?.icon)"
             width="24">
-          <mat-label class="font-size-12 weight-600" style="margin: auto 5px">{{item?.category?.name}}</mat-label>
+          <mat-label class="font-size-12 weight-600" style="margin: auto 5px">{{item?.category?.name | translate}}</mat-label>
         </div>
         <div class="mt-2">
           <button mat-stroked-button (click)="importQuestion(item.question, item._id)" color="primary"

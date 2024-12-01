@@ -38,7 +38,7 @@
           <img mat-card-avatar [src]="configService.baseUrl + data?.data?.icon" width="35"
                height="35">
           <mat-card-title
-            class="font-size-14 weight-500 mt-2">{{data?.data?.name}}
+            class="font-size-14 weight-500 mt-2">{{data?.data?.name | translate}}
           </mat-card-title>
         </mat-card-header>
       </mat-card>

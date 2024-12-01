@@ -146,7 +146,7 @@
                         [src]="configService.url(item?.category?.icon)"
                         width="16">
                       <mat-label class="font-size-12 weight-600"
-                                 style="margin: auto 5px">{{item?.category?.name}}</mat-label>
+                                 style="margin: auto 5px">{{item?.category?.name | translate}}</mat-label>
                     </div>
                   </div>
                 </div>
@@ -311,7 +311,7 @@
                       [src]="configService.url(item.category?.icon)"
                       width="16">
                     <mat-label class="font-size-12 weight-600"
-                               style="margin: auto 5px">{{item?.category?.name}}</mat-label>
+                               style="margin: auto 5px">{{item?.category?.name | translate}}</mat-label>
                   </div>
                   &nbsp;&nbsp;
                   <div *ngIf="item?.score" class="white-card p-1 d-flex align-items-center"
@@ -493,7 +493,7 @@
                       [src]="configService.url(item.category?.icon)"
                       width="16">
                     <mat-label class="font-size-12 weight-600"
-                               style="margin: auto 5px">{{item?.category?.name}}</mat-label>
+                               style="margin: auto 5px">{{item?.category?.name | translate}}</mat-label>
                   </div>
                 </div>
                 <br>
@@ -684,7 +684,7 @@
                   <img [src]="configService.baseUrl + endedGame?.category?.icon" width="50" height="50"
                        style="margin: 0 auto">
                   <mat-card-header style="margin: 0 auto; display: block">
-                    <mat-card-title class="font-size-14 weight-700">{{ endedGame?.category?.name }}</mat-card-title>
+                    <mat-card-title class="font-size-14 weight-700">{{ endedGame?.category?.name | translate }}</mat-card-title>
                     <mat-card-subtitle class="font-size-12 weight-500">
                       {{endedGame?.endedAt | daysAgo}}
                     </mat-card-subtitle>
@@ -779,7 +779,7 @@
                   <img [src]="configService.baseUrl + endedGame?.category?.icon" width="50" height="50"
                        style="margin: 0 auto">
                   <mat-card-header style="margin: 0 auto; display: block">
-                    <mat-card-title class="font-size-14 weight-700">{{ endedGame?.category?.name }}</mat-card-title>
+                    <mat-card-title class="font-size-14 weight-700">{{ endedGame?.category?.name | translate}}</mat-card-title>
                     <mat-card-subtitle class="font-size-12 weight-500">
                       {{endedGame?.endedAt | daysAgo}}
                     </mat-card-subtitle>

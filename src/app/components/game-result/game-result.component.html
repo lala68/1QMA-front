@@ -46,7 +46,7 @@
           <div class="w-30">
             <div color="primary" class="gray-card category">
               <img [src]="configService.baseUrl + gameResult?.category?.icon" width="25">
-              <span class="font-size-12 weight-500">{{gameResult?.category?.name}}</span>
+              <span class="font-size-12 weight-500">{{gameResult?.category?.name | translate}}</span>
             </div>
             &nbsp; &nbsp;
             <div color="primary" class="gray-card category" color="primary">
@@ -85,7 +85,8 @@
           <div class="position-relative" style="width: 300px">
             <!--              2-->
             <img class="avatar-bordered bg-white"
-                 style="position: absolute; inset-inline-start: 60px; bottom: 80px;"
+                 style="position: absolute; bottom: 80px;"
+                 [style]="generalService.userObj?.preferedLanguage?.code == 'fa' ? 'left: 20%' : 'left: 20%'"
                  [src]="gameResult?.result?.scoreboard[1]?.profilePicture ? gameResult?.result?.scoreboard[1]?.profilePicture?.startsWith('http') ? gameResult?.result?.scoreboard[1]?.profilePicture : configService.url(gameResult?.result?.scoreboard[1]?.profilePicture) : 'assets/images/frame.png'"
                  (error)="handleImageError($event)"
                  width="48">
@@ -98,7 +99,8 @@
             <!--              3-->
             <img *ngIf="gameResult?.result?.scoreboard?.length > 2"
                  class="avatar-bordered bg-white"
-                 style="position: absolute; inset-inline-start: 180px; bottom: 70px"
+                 style="position: absolute; bottom: 70px"
+                 [style]="generalService.userObj?.preferedLanguage?.code == 'fa' ? 'right: 20%' : 'right: 20%'"
                  [src]="gameResult?.result?.scoreboard[2]?.profilePicture ? gameResult?.result?.scoreboard[2]?.profilePicture?.startsWith('http') ? gameResult?.result?.scoreboard[2]?.profilePicture : configService.url(gameResult?.result?.scoreboard[2]?.profilePicture) : 'assets/images/frame.png'"
                  (error)="handleImageError($event)"
                  width="48">
@@ -113,7 +115,7 @@
             <!--              2-->
             <img class="avatar-bordered bg-white"
                  style="position: absolute; bottom: 80px;"
-                 [style]="generalService.userObj?.preferedLanguage?.code == 'fa' ? 'left: 25%' : 'right: 25%'"
+                 [style]="generalService.userObj?.preferedLanguage?.code == 'fa' ? 'left: 25%' : 'left: 25%'"
                  [src]="gameResult?.result?.scoreboard[1]?.profilePicture ? gameResult?.result?.scoreboard[1]?.profilePicture?.startsWith('http') ? gameResult?.result?.scoreboard[1]?.profilePicture : configService.url(gameResult?.result?.scoreboard[1]?.profilePicture) : 'assets/images/frame.png'"
                  (error)="handleImageError($event)"
                  width="48">
@@ -127,7 +129,7 @@
             <img *ngIf="gameResult?.result?.scoreboard?.length > 2"
                  class="avatar-bordered bg-white"
                  style="position: absolute; bottom: 70px"
-                 [style]="generalService.userObj?.preferedLanguage?.code == 'fa' ? 'right: 25%' : 'left: 25%'"
+                 [style]="generalService.userObj?.preferedLanguage?.code == 'fa' ? 'right: 25%' : 'right: 25%'"
                  [src]="gameResult?.result?.scoreboard[2]?.profilePicture ? gameResult?.result?.scoreboard[2]?.profilePicture?.startsWith('http') ? gameResult?.result?.scoreboard[2]?.profilePicture : configService.url(gameResult?.result?.scoreboard[2]?.profilePicture) : 'assets/images/frame.png'"
                  (error)="handleImageError($event)"
                  width="48">
@@ -138,7 +140,7 @@
           <div class="w-100" style="position: absolute;top: 140px; display: flex;">
             <div color="primary" class="gray-card category">
               <img [src]="configService.baseUrl + gameResult?.category?.icon" width="25">
-              <span class="font-size-12 weight-500">{{gameResult?.category?.name}}</span>
+              <span class="font-size-12 weight-500">{{gameResult?.category?.name | translate}}</span>
             </div>
             &nbsp; &nbsp;
             <div color="primary" class="gray-card category" color="primary">

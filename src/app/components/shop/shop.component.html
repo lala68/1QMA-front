@@ -94,7 +94,7 @@
                    width="50" height="50" style="margin: 0 auto">
               <mat-card-header style="margin: 0 auto; display: block; padding: 5px">
                 <mat-card-title class="font-size-14 weight-600">{{item?.details[0]?.count}} {{item?.details[0]?.title}}
-                  Coin
+                  {{'Coin' | translate}}
                 </mat-card-title>
                 <mat-card-subtitle class="font-size-14 weight-500">
                   {{item?.realPrice}} $
@@ -211,7 +211,7 @@
               <div *ngIf="detail?.coinPrice" class="d-inline-flex">
                 <mat-label class="p-1 font-size-14 weight-600" style="color: #585858"> {{'OR' | translate}}</mat-label>
                 <mat-label
-                  class="font-size-16 weight-600">{{detail?.coinPrice?.price}} {{detail?.coinPrice?.coin}} {{'Coin' | translate}}
+                  class="font-size-16 weight-600">{{detail?.coinPrice?.price}} {{detail?.coinPrice?.coin | translate}} {{'Coin' | translate}}
                 </mat-label>
               </div>
             </div>
@@ -324,7 +324,7 @@
             {{'Your item has been purchased successfully' | translate}}
           </mat-label>
           <br><br>
-          <mat-label class="font-size-16 weight-600">{{'Purchased Item' | translate}}: {{detail?.coinPrice?.price}} {{detail?.coinPrice?.coin}} {{'Coin' | translate}}
+          <mat-label class="font-size-16 weight-600">{{'Purchased Item' | translate}}: {{detail?.coinPrice?.price}} {{detail?.coinPrice?.coin | translate}} {{'Coin' | translate}}
           </mat-label>
           <br><br>
           <button mat-raised-button color="primary"
