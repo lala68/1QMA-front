@@ -71,7 +71,7 @@
         <span *ngIf="!generalService.isMobileView">&nbsp;&nbsp;</span>
         <mat-form-field class="custom-form-field" appearance="fill"
                         [class]="{'w-50': !generalService.isMobileView, 'w-100': generalService.isMobileView}">
-          <mat-label>{{'Education' | translate}}</mat-label>
+          <mat-label>{{'Education_user' | translate}}</mat-label>
           <mat-select [formControlName]="'education'">
             <mat-option *ngFor="let edu of generalService?.clientInit?.educations"
                         [value]="edu._id">{{edu?.title}}</mat-option>
@@ -161,7 +161,7 @@
                [src]="generalService.userObj?.accountType?.icon ? configService.url(generalService.userObj?.accountType?.icon)  : 'assets/images/base.png'"
                width="80" height="80">
           <div class="position-absolute" style="inset-inline-start: 100px; top: 30px">
-            <div class="font-size-18 weight-700">{{generalService.userObj?.accountType?.name}}</div>
+            <div class="font-size-18 weight-700">{{generalService.userObj?.accountType?.name | translate}}</div>
             <mat-label
               class="font-size-16 weight-400">{{'Description-plan' | translate}}</mat-label>
           </div>

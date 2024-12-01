@@ -100,7 +100,7 @@
                 </mat-select>
               </mat-form-field>&nbsp;&nbsp;
               <mat-form-field class="custom-form-field w-50" appearance="fill">
-                <mat-label>{{'Education' | translate}}</mat-label>
+                <mat-label>{{'Education_user' | translate}}</mat-label>
                 <mat-select [formControlName]="'education'">
                   <mat-option *ngFor="let edu of generalService.initData?.educations"
                               [value]="edu._id">{{edu?.title}}</mat-option>
@@ -162,7 +162,7 @@
                   [class]="{'mat-card-pref-selected': isSelected(cat), 'mat-card-pref': !isSelected(cat)}">
           <mat-card-content class="text-align-start" style="padding: 16px 5px">
             <img [src]="configService.baseUrl + cat?.icon" width="35">
-            <mat-label>{{ cat.name }}</mat-label>
+            <mat-label>{{ cat.name | translate }}</mat-label>
           </mat-card-content>
         </mat-card>
         <div role="alert" style="color: #ff5722; margin: 10px 0">
@@ -242,7 +242,7 @@
               <img [src]="configService.baseUrl + acc?.icon" width="106" height="106">
               <br>
               <br>
-              <mat-label class="font-size-16 weight-700">{{acc.name}}</mat-label>
+              <mat-label class="font-size-16 weight-700">{{acc.name | translate}}</mat-label>
             </mat-card-content>
           </mat-card>
           <div role="alert" style="color: #ff5722; margin: 10px 0">

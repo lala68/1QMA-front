@@ -358,7 +358,7 @@
               </mat-option>
               <mat-option *ngFor="let cat of generalService.clientInit?.categories" [value]="cat._id">
                 <img [src]="configService.baseUrl + cat?.icon" width="20" height="20">
-                {{ cat?.name }}
+                {{ cat?.name | translate }}
               </mat-option>
             </mat-select>
           </mat-form-field>
@@ -601,8 +601,8 @@
          (click)="openCharityModal()">
       <mat-label class="text-light-color">{{'You are participated in' | translate}}:</mat-label>
       <br>
-      <mat-label class="font-size-14 weight-700">{{generalService.userObj?.preferedCharity?.charity?.title}}
-        > {{generalService.userObj?.preferedCharity?.activity?.title}}</mat-label>
+      <mat-label class="font-size-14 weight-700">{{generalService.userObj?.preferedCharity?.charity?.title | translate}}
+        > {{generalService.userObj?.preferedCharity?.activity?.title | translate}}</mat-label>
       <br>
       <mat-progress-bar
         style="width: 100%; border-radius: 10px; display: inline-table;

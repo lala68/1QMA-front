@@ -31,19 +31,19 @@
           <!-- Bronze Coins -->
           <div class="coin d-flex align-items-center">
             <img src="assets/images/coin-bronze.png" width="24" height="24">
-            &nbsp;<span>{{generalService.userObj?.assets?.coins?.bronze}}</span>
+            &nbsp;<span>{{generalService.userObj?.assets?.coins?.bronze | translate}}</span>
           </div>
 
           <!-- Silver Coins -->
           <div class="coin d-flex align-items-center">
             <img src="assets/images/coin-silver.png" width="24" height="24">
-            &nbsp;<span>{{generalService.userObj?.assets?.coins?.silver}}</span>
+            &nbsp;<span>{{generalService.userObj?.assets?.coins?.silver | translate}}</span>
           </div>
 
           <!-- Gold Coins -->
           <div class="coin d-flex align-items-center">
             <img src="assets/images/coin-gold.png" width="24" height="24">
-            &nbsp;<span>{{generalService.userObj?.assets?.coins?.gold}}</span>
+            &nbsp;<span>{{generalService.userObj?.assets?.coins?.gold | translate}}</span>
           </div>
         </div>
 
@@ -58,7 +58,7 @@
             <mat-label class="font-size-14 weight-700">{{'Type' | translate}}:</mat-label>
           </mat-grid-tile>
           <mat-grid-tile class="result-grid-transaction" [colspan]="7">
-            <mat-label class="font-size-14 weight-700">{{item?.type}}</mat-label>
+            <mat-label class="font-size-14 weight-700">{{item?.type | translate}}</mat-label>
           </mat-grid-tile>
           <mat-grid-tile class="result-grid-transaction text-end" [colspan]="generalService.isMobileView ? 0 : 2">
             <mat-label *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'" class="font-size-14 weight-700">{{item?.createdAt | date}}</mat-label>
@@ -70,7 +70,7 @@
             <mat-label class="font-size-14 weight-700">{{'Description' | translate}}:</mat-label>
           </mat-grid-tile>
           <mat-grid-tile class="result-grid-transaction" [colspan]="9">
-            <mat-label class="font-size-14 weight-700">{{item?.title}}</mat-label>
+            <mat-label class="font-size-14 weight-700">{{item?.title | translate}}</mat-label>
           </mat-grid-tile>
         </mat-grid-list>
         <mat-grid-list cols="12" rowHeight="40px" [dir]="generalService.direction">
@@ -79,7 +79,7 @@
           </mat-grid-tile>
           <mat-grid-tile class="result-grid-transaction" [colspan]="5">
             <mat-label
-              class="font-size-14 weight-700">{{item?.coinAmount?.price}} {{item?.coinAmount?.coin}}</mat-label>
+              class="font-size-14 weight-700">{{item?.coinAmount?.price}} {{item?.coinAmount?.coin | translate}}</mat-label>
           </mat-grid-tile>
         </mat-grid-list>
         <mat-grid-list cols="12" rowHeight="40px" [dir]="generalService.direction">
@@ -88,11 +88,11 @@
           </mat-grid-tile>
           <mat-grid-tile class="result-grid-transaction" [colspan]="5">
             <mat-label class="font-size-14 weight-700 d-flex align-items-center"><img
-              src="assets/images/coin-bronze.png" width="15">&nbsp;{{item?.newCoinBalance?.bronze}}
+              src="assets/images/coin-bronze.png" width="15">&nbsp;{{item?.newCoinBalance?.bronze | translate}}
               &nbsp;&nbsp;<img src="assets/images/coin-silver.png"
-                               width="15">&nbsp;{{item?.newCoinBalance?.silver}}
+                               width="15">&nbsp;{{item?.newCoinBalance?.silver | translate}}
               &nbsp;&nbsp; <img src="assets/images/coin-gold.png"
-                                width="15">&nbsp;{{item?.newCoinBalance?.gold}}
+                                width="15">&nbsp;{{item?.newCoinBalance?.gold | translate}}
             </mat-label>
           </mat-grid-tile>
         </mat-grid-list>

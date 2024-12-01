@@ -79,7 +79,7 @@
           <mat-select (selectionChange)="selectCat($event.value)">
             <mat-option *ngFor="let cat of generalService.clientInit?.categories" [value]="cat._id">
               <img [src]="configService.baseUrl + cat?.icon" width="20" height="20">
-              {{ cat?.name }}
+              {{ cat?.name | translate }}
             </mat-option>
           </mat-select>
         </mat-form-field>
