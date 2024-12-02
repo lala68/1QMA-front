@@ -256,7 +256,7 @@ clip-path: inset(0 round 10px 10px 10px 10px)"
           </div>
           <div class="font-size-14 weight-500 p-2 text-end">
                  <span class="font-size-14 weight-500 position-absolute bottom-0"
-                       style="inset-inline-end: 5px">{{endedGame?.gameType?.text}}</span>
+                       style="inset-inline-end: 5px">{{endedGame?.gameType?.text | translate}}</span>
             <img src="assets/images/normal-game.png" *ngIf="endedGame?.gameType?.id == 'normal'" width="22"
                  height="22"
                  class="mb-0 position-absolute" style="top: 25px; inset-inline-end: 55px">

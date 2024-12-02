@@ -302,7 +302,14 @@ export class AppComponent implements OnInit {
             }
           }
           if (game_code) {
-            this.gameComponent.joinToGame(game_code);
+            this.gameService.gameInit().then(data => {
+              if (data.status == 1) {
+                this.generalService.gameInit = data.data;
+                this.gameComponent.joinToGame(game_code);
+              }
+            }, error => {
+              return this.processHTTPMsgService.handleError(error);
+            });
           }
         })
       }, 2000);

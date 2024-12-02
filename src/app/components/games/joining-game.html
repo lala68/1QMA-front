@@ -51,7 +51,7 @@
                *ngIf="data?.data?.game?.gameType?.id == 'survival'"
                width="35" height="35">
           <mat-card-title
-            class="font-size-14 weight-500 mt-2">{{data?.data?.game?.gameType?.text}}
+            class="font-size-14 weight-500 mt-2">{{data?.data?.game?.gameType?.text | translate}}
           </mat-card-title>
         </mat-card-header>
       </mat-card>

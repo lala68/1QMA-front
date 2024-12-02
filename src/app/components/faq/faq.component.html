@@ -18,7 +18,7 @@
           <mat-card class="shadow-none border-0 bg-transparent">
             <mat-card-header class="pt-0">
               <mat-card-title style="white-space: nowrap"
-                class="font-size-14 weight-600">{{question?.question}}
+                class="font-size-14 weight-600">{{generalService.userObj?.preferedLanguage?.code == 'fa' ?  question?.questionFa  : question?.question}}
               </mat-card-title>
             </mat-card-header>
           </mat-card>
@@ -34,7 +34,7 @@
         <div class="container-accordion-item">
          <span
            class="font-size-14 weight-400 text-gray">
-           {{question?.answer}}
+           {{generalService.userObj?.preferedLanguage?.code == 'fa' ? question?.answerFa : question?.answer}}
          </span>
         </div>
       </div>

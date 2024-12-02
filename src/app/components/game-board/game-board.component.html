@@ -19,7 +19,7 @@
           &nbsp; &nbsp;<mat-chip mat-raised-button color="primary" class="chip-header-type">
           <img src="assets/images/normal-game.png" *ngIf="data?.game?.gameType?.id == 'normal'" width="25">
           <img src="assets/images/survival-game.png" *ngIf="data?.game?.gameType?.id == 'survival'" width="25">
-          <span class="font-size-12 weight-500">{{data?.game?.gameType?.text}}</span>
+          <span class="font-size-12 weight-500">{{data?.game?.gameType?.text | translate}}</span>
         </mat-chip>
         </mat-card-subtitle>
       </mat-card-header>
@@ -31,7 +31,7 @@
         &nbsp; &nbsp;<mat-chip mat-raised-button color="primary" class="chip-header-type">
         <img src="assets/images/normal-game.png" *ngIf="data?.game?.gameType?.id == 'normal'" width="25">
         <img src="assets/images/survival-game.png" *ngIf="data?.game?.gameType?.id == 'survival'" width="25">
-        <span class="font-size-12 weight-500">{{data?.game?.gameType?.text}}</span>
+        <span class="font-size-12 weight-500">{{data?.game?.gameType?.text | translate}}</span>
       </mat-chip>
       </div>
       <mat-card-content>
@@ -295,7 +295,7 @@
           &nbsp; &nbsp;<mat-chip mat-raised-button color="primary" class="chip-header-type">
           <img src="assets/images/normal-game.png" *ngIf="data?.game?.gameType?.id == 'normal'" width="25">
           <img src="assets/images/survival-game.png" *ngIf="data?.game?.gameType?.id == 'survival'" width="25">
-          <span class="font-size-12 weight-500">{{data?.game?.gameType?.text}}</span>
+          <span class="font-size-12 weight-500">{{data?.game?.gameType?.text | translate}}</span>
         </mat-chip>
         </mat-card-subtitle>
       </mat-card-header>
@@ -307,7 +307,7 @@
         &nbsp; &nbsp;<mat-chip mat-raised-button color="primary" class="chip-header-type">
         <img src="assets/images/normal-game.png" *ngIf="data?.game?.gameType?.id == 'normal'" width="25">
         <img src="assets/images/survival-game.png" *ngIf="data?.game?.gameType?.id == 'survival'" width="25">
-        <span class="font-size-12 weight-500">{{data?.game?.gameType?.text}}</span>
+        <span class="font-size-12 weight-500">{{data?.game?.gameType?.text | translate}}</span>
       </mat-chip>
       </div>
 
@@ -404,7 +404,7 @@
           &nbsp; &nbsp;<mat-chip mat-raised-button color="primary" class="chip-header-type">
           <img src="assets/images/normal-game.png" *ngIf="data?.game?.gameType?.id == 'normal'" width="25">
           <img src="assets/images/survival-game.png" *ngIf="data?.game?.gameType?.id == 'survival'" width="25">
-          <span class="font-size-12 weight-500">{{data?.game?.gameType?.text}}</span>
+          <span class="font-size-12 weight-500">{{data?.game?.gameType?.text | translate}}</span>
         </mat-chip>
         </mat-card-subtitle>
       </mat-card-header>
@@ -416,7 +416,7 @@
         &nbsp; &nbsp;<mat-chip mat-raised-button color="primary" class="chip-header-type">
         <img src="assets/images/normal-game.png" *ngIf="data?.game?.gameType?.id == 'normal'" width="25">
         <img src="assets/images/survival-game.png" *ngIf="data?.game?.gameType?.id == 'survival'" width="25">
-        <span class="font-size-12 weight-500">{{data?.game?.gameType?.text}}</span>
+        <span class="font-size-12 weight-500">{{data?.game?.gameType?.text | translate}}</span>
       </mat-chip>
       </div>
 
@@ -533,7 +533,7 @@
           &nbsp; &nbsp;<mat-chip mat-raised-button color="primary" class="chip-header-type">
           <img src="assets/images/normal-game.png" *ngIf="data?.game?.gameType?.id == 'normal'" width="25">
           <img src="assets/images/survival-game.png" *ngIf="data?.game?.gameType?.id == 'survival'" width="25">
-          <span class="font-size-12 weight-500">{{data?.game?.gameType?.text}}</span>
+          <span class="font-size-12 weight-500">{{data?.game?.gameType?.text | translate}}</span>
         </mat-chip>
         </mat-card-subtitle>
       </mat-card-header>
@@ -545,7 +545,7 @@
         &nbsp; &nbsp;<mat-chip mat-raised-button color="primary" class="chip-header-type">
         <img src="assets/images/normal-game.png" *ngIf="data?.game?.gameType?.id == 'normal'" width="25">
         <img src="assets/images/survival-game.png" *ngIf="data?.game?.gameType?.id == 'survival'" width="25">
-        <span class="font-size-12 weight-500">{{data?.game?.gameType?.text}}</span>
+        <span class="font-size-12 weight-500">{{data?.game?.gameType?.text | translate}}</span>
       </mat-chip>
       </div>
 
@@ -693,7 +693,7 @@ generalService.gameStep == 3 ? sendRateAnswer(true) : sendRateQuestions(true)">
           &nbsp; &nbsp;<mat-chip mat-raised-button color="primary" class="chip-header-type">
           <img src="assets/images/normal-game.png" *ngIf="data?.game?.gameType?.id == 'normal'" width="25">
           <img src="assets/images/survival-game.png" *ngIf="data?.game?.gameType?.id == 'survival'" width="25">
-          <span class="font-size-12 weight-500">{{data?.game?.gameType?.text}}</span>
+          <span class="font-size-12 weight-500">{{data?.game?.gameType?.text | translate}}</span>
         </mat-chip>
         </mat-card-subtitle>
       </mat-card-header>
@@ -705,7 +705,7 @@ generalService.gameStep == 3 ? sendRateAnswer(true) : sendRateQuestions(true)">
         &nbsp; &nbsp;<mat-chip mat-raised-button color="primary" class="chip-header-type">
         <img src="assets/images/normal-game.png" *ngIf="data?.game?.gameType?.id == 'normal'" width="25">
         <img src="assets/images/survival-game.png" *ngIf="data?.game?.gameType?.id == 'survival'" width="25">
-        <span class="font-size-12 weight-500">{{data?.game?.gameType?.text}}</span>
+        <span class="font-size-12 weight-500">{{data?.game?.gameType?.text | translate}}</span>
       </mat-chip>
       </div>
 

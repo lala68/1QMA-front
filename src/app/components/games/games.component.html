@@ -71,7 +71,7 @@
                     <div color="primary">
                       <img src="assets/images/normal-game.png" *ngIf="res?.gameType?.id == 'normal'" width="25">
                       <img src="assets/images/survival-game.png" *ngIf="res?.gameType?.id == 'survival'" width="25">
-                      <span class="font-size-12 weight-500">{{res?.gameType?.text}}</span>
+                      <span class="font-size-12 weight-500">{{res?.gameType?.text | translate}}</span>
                     </div>
                   </mat-grid-tile>
                   <mat-grid-tile class="result-grid" [colspan]="2">
@@ -164,7 +164,7 @@
                     <div color="primary" class="d-flex align-items-center">
                       <img src="assets/images/normal-game.png" *ngIf="res?.gameType?.id == 'normal'" width="25">
                       <img src="assets/images/survival-game.png" *ngIf="res?.gameType?.id == 'survival'" width="25">
-                      <span class="font-size-12 weight-500">{{res?.gameType?.text}}</span>
+                      <span class="font-size-12 weight-500">{{res?.gameType?.text | translate}}</span>
                     </div>
                     <div color="primary" class="d-flex align-items-center">
                       <img [src]="configService.baseUrl + res?.category?.icon" width="25">
@@ -263,7 +263,9 @@
                     <mat-option [value]="''">
                       {{ 'all categories' | translate }}
                     </mat-option>
-                    <mat-option *ngFor="let cat of generalService.clientInit?.categories" [value]="cat._id">
+                    <mat-option *ngFor="let cat of generalService.clientInit?.categories"
+                                [dir]="generalService.userObj?.preferedLanguage?.code == 'fa' ? 'rtl' : 'ltr'"
+                                [value]="cat._id">
                       <img [src]="configService.baseUrl + cat?.icon" width="20" height="20">
                       {{ cat?.name | translate }}
                     </mat-option>
@@ -278,7 +280,8 @@
                 <img [src]="configService.baseUrl + liveGame?.category?.icon" width="50" height="50"
                      style="margin: 0 auto">
                 <mat-card-header style="margin: 0 auto; display: block">
-                  <mat-card-title class="font-size-14 weight-700">{{ liveGame?.category?.name | translate }}</mat-card-title>
+                  <mat-card-title
+                    class="font-size-14 weight-700">{{ liveGame?.category?.name | translate }}</mat-card-title>
                   <mat-card-subtitle class="font-size-12 weight-500">
                     <mat-chip [ngStyle]="{'background-color': '#F0FEEF'}">
                       <svg width="10" height="10" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -313,7 +316,7 @@
                   </div>
                   <div class="font-size-14 weight-500 p-2" style="text-align: end;">
                  <span class="font-size-14 weight-500 position-absolute bottom-0"
-                       style="inset-inline-end: 5px">{{liveGame?.gameType?.text}}</span>
+                       style="inset-inline-end: 5px">{{liveGame?.gameType?.text | translate}}</span>
                     <img src="assets/images/normal-game.png" *ngIf="liveGame?.gameType?.id == 'normal'" width="22"
                          height="22"
                          class="mb-0 position-absolute" style="top: 25px; inset-inline-end: 55px">
@@ -339,7 +342,7 @@
         </div>
       </div>
       <br>
-      <div class="card border-0" >
+      <div class="card border-0">
         <div class="w-100 d-flex">
           <mat-card class="shadow-none" style="width: 100%">
             <mat-card-header id="friendsRecent">
@@ -396,7 +399,7 @@
                   </div>
                   <div class="font-size-14 weight-500 p-2" style="text-align: end;">
                  <span class="font-size-14 weight-500 position-absolute bottom-0"
-                       style="inset-inline-end: 5px">{{fg?.gameType?.text}}</span>
+                       style="inset-inline-end: 5px">{{fg?.gameType?.text | translate}}</span>
                     <img src="assets/images/normal-game.png" *ngIf="fg?.gameType?.id == 'normal'" width="22"
                          height="22"
                          class="mb-0 position-absolute" style="top: 25px; inset-inline-end: 55px">
@@ -420,13 +423,15 @@
         </div>
       </div>
       <br>
-      <div class="card border-0" >
+      <div class="card border-0">
         <div class="w-100 d-flex">
           <mat-card class="shadow-none w-100">
             <mat-card-header id="survival">
               <img mat-card-avatar src="assets/images/survival-game.png" width="45" height="45">
               <mat-card-title
-                class="font-size-16 weight-600">{{'Survival' | translate}} {{scoreboardSurvival?.survivalTitle}}</mat-card-title>
+                class="font-size-16 weight-600">{{'Survival' | translate}}
+                {{scoreboardSurvival?.survivalTitle}}
+              </mat-card-title>
               <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
                 {{'See and join survival games' | translate}}
               </mat-card-subtitle>
@@ -467,7 +472,8 @@
                   </mat-grid-tile>
                 </mat-grid-list>
 
-                <mat-grid-list *ngFor="let res of scoreboardSurvival?.users;let i=index" [dir]="generalService.direction"
+                <mat-grid-list *ngFor="let res of scoreboardSurvival?.users;let i=index"
+                               [dir]="generalService.direction"
                                [cols]="generalService.isMobileView? 13 : 12" rowHeight="50px" class="gray-card mb-2">
                   <mat-grid-tile class="result-grid" [colspan]="1">
                     <mat-label class="font-size-14 weight-700">{{i + 1}}</mat-label>
@@ -533,11 +539,14 @@
                       <mat-form-field appearance="fill" class="custom-form-field"
                                       [class]="{'w-50': !generalService.isMobileView, 'w-100': generalService.isMobileView}">
                         <!--          <mat-label>{{ 'Category' | translate }}</mat-label>-->
-                        <mat-select [(value)]="selectedCategory" (selectionChange)="selectCatLiveSurvival($event.value)">
+                        <mat-select [(value)]="selectedCategory"
+                                    (selectionChange)="selectCatLiveSurvival($event.value)">
                           <mat-option [value]="''">
                             {{ 'all categories' | translate }}
                           </mat-option>
-                          <mat-option *ngFor="let cat of generalService.clientInit?.categories" [value]="cat._id">
+                          <mat-option *ngFor="let cat of generalService.clientInit?.categories"
+                                      [dir]="generalService.userObj?.preferedLanguage?.code == 'fa' ? 'rtl' : 'ltr'"
+                                      [value]="cat._id">
                             <img [src]="configService.baseUrl + cat?.icon" width="20" height="20">
                             {{ cat?.name | translate }}
                           </mat-option>
@@ -558,7 +567,7 @@
                       <div color="primary">
                         <img src="assets/images/normal-game.png" *ngIf="res?.gameType?.id == 'normal'" width="25">
                         <img src="assets/images/survival-game.png" *ngIf="res?.gameType?.id == 'survival'" width="25">
-                        <span class="font-size-12 weight-500">{{res?.gameType?.text}}</span>
+                        <span class="font-size-12 weight-500">{{res?.gameType?.text | translate}}</span>
                       </div>
                     </mat-grid-tile>
                     <mat-grid-tile class="result-grid" [colspan]="4">
@@ -707,7 +716,8 @@
             <mat-card-title class="font-size-16 weight-600">{{'Players By Me' | translate}}</mat-card-title>
             <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
               {{'I choose:' | translate}} <span class="font-size-14 weight-600">{{'Players' | translate}}</span>
-              &nbsp;&nbsp; {{'System choose:' | translate}} <span class="font-size-14 weight-600">{{'Topic' | translate}}</span>
+              &nbsp;&nbsp; {{'System choose:' | translate}} <span
+              class="font-size-14 weight-600">{{'Topic' | translate}}</span>
             </mat-card-subtitle>
           </mat-card-header>
           <button mat-raised-button color="primary"
@@ -725,7 +735,8 @@
             <img mat-card-avatar src="assets/images/Account-type.png" width="36" height="36">
             <mat-card-title class="font-size-16 weight-600">{{'I’m In Full Control' | translate}}</mat-card-title>
             <mat-card-subtitle class="font-size-14 weight-500 mt-2" style="color: #585858">
-              {{'I choose:' | translate}} <span class="font-size-14 weight-600">{{'Topic' | translate}} + {{'Players' | translate}}</span>
+              {{'I choose:' | translate}} <span class="font-size-14 weight-600">{{'Topic' | translate}}
+              + {{'Players' | translate}}</span>
             </mat-card-subtitle>
           </mat-card-header>
           <button mat-raised-button color="primary"
@@ -831,7 +842,7 @@
                   <img src="assets/images/normal-game.png" *ngIf="gType.id == 'normal'" width="35">
                   <img src="assets/images/survival-game.png" *ngIf="gType.id == 'survival'" width="35">
                   <mat-label class="position-absolute font-size-14 weight-600"
-                             style="top: 10px; inset-inline-start: 60px">{{gType?.text}}
+                             style="top: 10px; inset-inline-start: 60px">{{gType?.text | translate}}
                   </mat-label>
                   <br>
                   <mat-label *ngIf="gType.id == 'normal'" class="font-size-14 weight-500 position-absolute"
@@ -976,7 +987,8 @@
                   </div>
                 </div>
                 <br>
-                <div class="align-items-center" [class]="{'d-flex': !generalService.isMobileView, 'd-block': generalService.isMobileView}">
+                <div class="align-items-center"
+                     [class]="{'d-flex': !generalService.isMobileView, 'd-block': generalService.isMobileView}">
                   <mat-slide-toggle labelPosition="before"
                                     (change)="onToggleActiveTranslate($event)">{{'Auto-translate questions and answers' | translate}}</mat-slide-toggle>
                   <mat-label *ngIf="generalService.toggleValueTranslate"
@@ -1251,7 +1263,7 @@
               </div>
               <div class="font-size-14 weight-500 p-2" style="text-align: end;">
                  <span class="font-size-14 weight-500 position-absolute bottom-0"
-                       style="inset-inline-end: 5px">{{liveGame?.gameType?.text}}</span>
+                       style="inset-inline-end: 5px">{{liveGame?.gameType?.text | translate}}</span>
                 <img src="assets/images/normal-game.png" *ngIf="liveGame?.gameType?.id == 'normal'" width="22"
                      height="22"
                      class="mb-0 position-absolute" style="top: 25px; inset-inline-end: 55px">
@@ -1285,7 +1297,8 @@
             <img [src]="configService.baseUrl + endedGame?.category?.icon" width="50" height="50"
                  style="margin: 0 auto">
             <mat-card-header style="margin: 0 auto; display: block">
-              <mat-card-title class="font-size-14 weight-700">{{ endedGame?.category?.name | translate}}</mat-card-title>
+              <mat-card-title
+                class="font-size-14 weight-700">{{ endedGame?.category?.name | translate}}</mat-card-title>
               <mat-card-subtitle class="font-size-12 weight-500">
                 {{endedGame?.endedAt | daysAgo}}
               </mat-card-subtitle>
@@ -1325,7 +1338,7 @@
               </div>
               <div class="font-size-14 weight-500 p-2" style="text-align: end;">
                  <span class="font-size-14 weight-500 position-absolute bottom-0"
-                       style="inset-inline-end: 5px">{{endedGame?.gameType?.text}}</span>
+                       style="inset-inline-end: 5px">{{endedGame?.gameType?.text | translate}}</span>
                 <img src="assets/images/normal-game.png" *ngIf="endedGame?.gameType?.id == 'normal'" width="22"
                      height="22"
                      class="mb-0 position-absolute" style="top: 25px; inset-inline-end: 55px">

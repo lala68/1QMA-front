@@ -239,8 +239,8 @@ export class AddQuestion {
               @Inject(MAT_DIALOG_DATA) public data: any, private authService: AuthService,
               public generalService: GeneralService, private clientService: ClientService,
               public dialog: MatDialog, private _snackBar: MatSnackBar, public configService: ConfigService) {
-    this.wordCount = this.generalService.clientInit.answerWordsLimitation;
-    this.wordCountAnswer = this.generalService.clientInit.answerWordsLimitation;
+    this.wordCount = this.generalService.clientInit?.answerWordsLimitation;
+    this.wordCountAnswer = this.generalService.clientInit?.answerWordsLimitation;
   }
 
   updateWordCount() {

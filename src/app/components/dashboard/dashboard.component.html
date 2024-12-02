@@ -1,5 +1,5 @@
 <br>
-<div style="display: ruby-text;">
+<div style="display: table; margin: 10px auto; text-align: center;">
   <mat-spinner *ngIf="loading" [diameter]="30"></mat-spinner>
 </div>
 <mat-toolbar *ngIf="generalService.isMobileView" class="mb-3 mt-1"
@@ -78,8 +78,10 @@
             {{generalService.userObj?.anonymousName}}
           </mat-card-subtitle>
           <mat-card-subtitle>
-            <small *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'">{{'created at' | translate}}: {{generalService.userObj?.created_at | date}}</small>
-            <small *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'">{{'created at' | translate}}: {{generalService.userObj?.created_at | shamsiDate}}</small>
+            <small *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'">{{'created at' | translate}}
+              : {{generalService.userObj?.created_at | date}}</small>
+            <small *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'">{{'created at' | translate}}
+              : {{generalService.userObj?.created_at | shamsiDate}}</small>
           </mat-card-subtitle>
         </mat-card-header>
         <mat-card-header class="pe-1 ps-1 border-bottom position-relative">
@@ -356,7 +358,8 @@
               <mat-option [value]="''">
                 {{ 'all categories' | translate }}
               </mat-option>
-              <mat-option *ngFor="let cat of generalService.clientInit?.categories" [value]="cat._id">
+              <mat-option *ngFor="let cat of generalService.clientInit?.categories" [value]="cat._id"
+                          [dir]="generalService.userObj?.preferedLanguage?.code == 'fa' ? 'rtl' : 'ltr'">
                 <img [src]="configService.baseUrl + cat?.icon" width="20" height="20">
                 {{ cat?.name | translate }}
               </mat-option>
@@ -460,11 +463,11 @@
           </div>
           <div class="gray-card-mobile d-flex m-1">
             <div style="flex: 1">
-              <mat-label class="font-size-12 weight-400">Total Plays:</mat-label>
+              <mat-label class="font-size-12 weight-400">{{'Total Plays' | translate}}:</mat-label>
               <mat-label class="font-size-14 weight-500">{{res?.plays | parsInt}}</mat-label>
             </div>
             <div style="flex: 1">
-              <mat-label class="font-size-12 weight-400">Total Score:</mat-label>
+              <mat-label class="font-size-12 weight-400">{{'Total Score' | translate}}:</mat-label>
               <mat-label class="font-size-14 weight-500">{{res?.score | parsInt}}</mat-label>
             </div>
             <svg (click)="gotoQuestionDetail(res)" width="25" height="25" viewBox="0 0 25 25" fill="none"
@@ -558,8 +561,10 @@
           <img src="assets/images/frame.png" width="35" style="padding-inline-start: 5px">
         </div>
         <div matListItemTitle>{{invite?.email}}</div>
-        <div matListItemLine *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'">{{invite?.createdAt | date}}</div>
-        <div matListItemLine *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'">{{invite?.createdAt | shamsiDate}}</div>
+        <div matListItemLine
+             *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'">{{invite?.createdAt | date}}</div>
+        <div matListItemLine
+             *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'">{{invite?.createdAt | shamsiDate}}</div>
       </mat-list-item>
     </mat-list>
   </div>
@@ -576,7 +581,8 @@
         <img mat-card-avatar src="assets/images/charity.png"
              width="64" height="56"/>
         <mat-card-title
-          class="font-size-14 weight-600 pb-2">{{'Play Game' | translate}},</mat-card-title>
+          class="font-size-14 weight-600 pb-2">{{'Play Game' | translate}},
+        </mat-card-title>
         <mat-card-subtitle
           class="font-size-14 weight-600 pb-2 text-black">{{'Make A Difference!' | translate}}
         </mat-card-subtitle>
@@ -669,7 +675,7 @@ clip-path: inset(0 round 10px 10px 10px 10px);"
             <div class="white-card p-1 d-flex align-items-center" style="width: fit-content">
               <img src="assets/images/normal-game.png" *ngIf="item?.gameType?.id == 'normal'" width="25">
               <img src="assets/images/survival-game.png" *ngIf="item?.gameType?.id == 'survival'" width="25">
-              <span style="margin: auto 5px" class="font-size-12 weight-500">{{item?.gameType?.text}}</span>
+              <span style="margin: auto 5px" class="font-size-12 weight-500">{{item?.gameType?.text | translate}}</span>
             </div>
           </div>
         </div>

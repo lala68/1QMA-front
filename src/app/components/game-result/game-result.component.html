@@ -52,7 +52,7 @@
             <div color="primary" class="gray-card category" color="primary">
               <img src="assets/images/normal-game.png" *ngIf="gameResult?.gameType?.id == 'normal'" width="25">
               <img src="assets/images/survival-game.png" *ngIf="gameResult?.gameType?.id == 'survival'" width="25">
-              <span class="font-size-12 weight-500">{{gameResult?.gameType?.text}}</span>
+              <span class="font-size-12 weight-500">{{gameResult?.gameType?.text | translate}}</span>
             </div>
           </div>
           <div *ngFor="let ply of gameResult?.result?.scoreboard; let i=index">
@@ -146,7 +146,7 @@
             <div color="primary" class="gray-card category" color="primary">
               <img src="assets/images/normal-game.png" *ngIf="gameResult?.gameType?.id == 'normal'" width="25">
               <img src="assets/images/survival-game.png" *ngIf="gameResult?.gameType?.id == 'survival'" width="25">
-              <span class="font-size-12 weight-500">{{gameResult?.gameType?.text}}</span>
+              <span class="font-size-12 weight-500">{{gameResult?.gameType?.text | translate}}</span>
             </div>
           </div>
           <div class="w-100 position-absolute" style="top: 190px">
