@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {GeneralService} from "../../services/general/general.service";
 import jalaliMoment from "jalali-moment";
+import {ConfigService} from "../../services/config/config.service";
 
 @Component({
   selector: 'app-footer',
@@ -9,8 +10,8 @@ import jalaliMoment from "jalali-moment";
 })
 export class FooterComponent {
   currentGregorianYear: any;
-  
-  constructor(public generalService: GeneralService) {
+
+  constructor(public generalService: GeneralService, public configService: ConfigService) {
     this.currentGregorianYear = generalService.userObj?.preferedLanguage?.code != 'fa' ? new Date().getFullYear() : jalaliMoment().locale('fa').format('jYYYY');
   }
 

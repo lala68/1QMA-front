@@ -10,15 +10,15 @@
 </div>
 <div mat-dialog-content class="m-2">
   <mat-label
-    style="font-size: 16px; font-weight: 600">{{'Are you sure you want to exit the game?'}}</mat-label>
+    style="font-size: 16px; font-weight: 600">{{'Are you sure you want to exit the game?' | translate}}</mat-label>
   <br>
   <mat-label
-    style="font-size: 14px; font-weight: 500">{{'You can not get back to the game'}}</mat-label>
+    style="font-size: 14px; font-weight: 500">{{'You can not get back to the game' | translate}}</mat-label>
   <br>
 </div>
 <div mat-dialog-actions class="float-end" style="margin: 0 auto">
   <button style="width: 134px; border: 1px solid #c62828" mat-stroked-button color="warn" (click)="exitGame()">
     {{'Exit Game' | translate}}
-  </button>
-  <button style="width: 134px" mat-raised-button color="primary" (click)="cancel()">{{'Back to game' | translate}}</button>
+  </button>&nbsp;&nbsp;
+  <button style="width: fit-content" mat-raised-button color="primary" (click)="cancel()">{{'Back to game' | translate}}</button>
 </div>

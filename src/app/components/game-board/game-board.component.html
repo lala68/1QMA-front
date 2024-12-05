@@ -28,76 +28,27 @@
           {{ "Possible-description-title-waiting-room" | translate }}
         </mat-card-subtitle>
         <mat-card-subtitle *ngIf="generalService.isMobileView">
-          <mat-chip
-            mat-raised-button
-            color="primary"
-            class="chip-header-category"
-          >
-            <img
-              [src]="'https://api.1qma.games/' + data?.game?.gameCategory?.icon"
-              width="25"
-            />
-            <span class="font-size-12 weight-500">{{
-              data?.game?.gameCategory?.name
-            }}</span>
+          <mat-chip mat-raised-button color="primary" class="chip-header-category">
+            <img [src]="configService.baseUrl + data?.game?.gameCategory?.icon" width="25">
+            <span class="font-size-12 weight-500">{{data?.game?.gameCategory?.name | translate}}</span>
           </mat-chip>
-          &nbsp; &nbsp;<mat-chip
-            mat-raised-button
-            color="primary"
-            class="chip-header-type"
-          >
-            <img
-              src="assets/images/normal-game.png"
-              *ngIf="data?.game?.gameType?.id == 'normal'"
-              width="25"
-            />
-            <img
-              src="assets/images/survival-game.png"
-              *ngIf="data?.game?.gameType?.id == 'survival'"
-              width="25"
-            />
-            <span class="font-size-12 weight-500">{{
-              data?.game?.gameType?.text
-            }}</span>
-          </mat-chip>
+          &nbsp; &nbsp;<mat-chip mat-raised-button color="primary" class="chip-header-type">
+          <img src="assets/images/normal-game.png" *ngIf="data?.game?.gameType?.id == 'normal'" width="25">
+          <img src="assets/images/survival-game.png" *ngIf="data?.game?.gameType?.id == 'survival'" width="25">
+          <span class="font-size-12 weight-500">{{data?.game?.gameType?.text | translate}}</span>
+        </mat-chip>
         </mat-card-subtitle>
       </mat-card-header>
-      <div
-        class="position-absolute top-0 bottom-0 end-10 mt-4"
-        *ngIf="!generalService.isMobileView"
-      >
-        <mat-chip
-          mat-raised-button
-          color="primary"
-          class="chip-header-category"
-        >
-          <img
-            [src]="'https://api.1qma.games/' + data?.game?.gameCategory?.icon"
-            width="25"
-          />
-          <span class="font-size-12 weight-500">{{
-            data?.game?.gameCategory?.name
-          }}</span>
+      <div class="position-absolute top-0 bottom-0 end-10 mt-4" *ngIf="!generalService.isMobileView">
+        <mat-chip mat-raised-button color="primary" class="chip-header-category">
+          <img [src]="configService.baseUrl + data?.game?.gameCategory?.icon" width="25">
+          <span class="font-size-12 weight-500">{{data?.game?.gameCategory?.name | translate}}</span>
         </mat-chip>
-        &nbsp; &nbsp;<mat-chip
-          mat-raised-button
-          color="primary"
-          class="chip-header-type"
-        >
-          <img
-            src="assets/images/normal-game.png"
-            *ngIf="data?.game?.gameType?.id == 'normal'"
-            width="25"
-          />
-          <img
-            src="assets/images/survival-game.png"
-            *ngIf="data?.game?.gameType?.id == 'survival'"
-            width="25"
-          />
-          <span class="font-size-12 weight-500">{{
-            data?.game?.gameType?.text
-          }}</span>
-        </mat-chip>
+        &nbsp; &nbsp;<mat-chip mat-raised-button color="primary" class="chip-header-type">
+        <img src="assets/images/normal-game.png" *ngIf="data?.game?.gameType?.id == 'normal'" width="25">
+        <img src="assets/images/survival-game.png" *ngIf="data?.game?.gameType?.id == 'survival'" width="25">
+        <span class="font-size-12 weight-500">{{data?.game?.gameType?.text | translate}}</span>
+      </mat-chip>
       </div>
       <mat-card-content>
         <mat-card class="shadow-none">
@@ -155,27 +106,12 @@
         <div *ngIf="generalService?.invitedPlayersArray?.length > 0">
           <div
             *ngFor="let playerNotJoined of generalService?.invitedPlayersArray"
-            class="user-card position-relative"
-          >
-            <img
-              class="avatar-bordered bg-white"
-              [src]="
-                playerNotJoined?.profilePicture
-                  ? playerNotJoined?.profilePicture?.startsWith('http')
-                    ? playerNotJoined?.profilePicture
-                    : configService.url(playerNotJoined?.profilePicture)
-                  : 'assets/images/frame.png'
-              "
-              width="32"
-              height="32"
-            />
-            <mat-label class="font-size-14 weight-500 m-auto"
-              >&nbsp;{{ playerNotJoined }}</mat-label
-            >
-            <div
-              class="d-inline-flex position-absolute end-10"
-              style="top: 10px"
-            >
+            class="user-card position-relative">
+            <img class="avatar-bordered bg-white"
+                 [src]="playerNotJoined?.profilePicture ? playerNotJoined?.profilePicture?.startsWith('http') ? playerNotJoined?.profilePicture : configService.url(playerNotJoined?.profilePicture) : 'assets/images/frame.png'"
+                 width="32" height="32"/>
+            <mat-label class="font-size-14 weight-500 m-auto">&nbsp;{{playerNotJoined}}</mat-label>
+            <div class="d-inline-flex position-absolute end-10" style="top: 10px">
               &nbsp;<mat-spinner [diameter]="20"></mat-spinner>&nbsp;
               <mat-label>{{ "waiting" | translate }}</mat-label>
             </div>
@@ -591,16 +527,10 @@
             <br />
           </div>
         </div>
-        <div
-          style="height: 52px; margin: 0px auto 20px"
-          class="card border-0 text-center weight-600 pt-3"
-        >
-          {{ "Sponsored by" | translate }}:
-          {{
-            generalService.initData
-              ? generalService.initData?.sponsors[0]?.name
-              : generalService.clientInit?.sponsors[0]?.name
-          }}
+        <div style="height: 52px; margin: 0px auto 20px"
+             class="card border-0 text-center weight-600 pt-3">
+          {{'Sponsored by' | translate}}
+          : {{generalService.initData ? generalService.initData?.sponsors[0]?.name : generalService.clientInit?.sponsors[0]?.name}}
         </div>
       </mat-card-content>
     </mat-card>
@@ -659,76 +589,27 @@
           {{ "Possible-description-title-answer-gameboard" | translate }}
         </mat-card-subtitle>
         <mat-card-subtitle *ngIf="generalService.isMobileView">
-          <mat-chip
-            mat-raised-button
-            color="primary"
-            class="chip-header-category"
-          >
-            <img
-              [src]="'https://api.1qma.games/' + data?.game?.gameCategory?.icon"
-              width="25"
-            />
-            <span class="font-size-12 weight-500">{{
-              data?.game?.gameCategory?.name
-            }}</span>
+          <mat-chip mat-raised-button color="primary" class="chip-header-category">
+            <img [src]="configService.baseUrl + data?.game?.gameCategory?.icon" width="25">
+            <span class="font-size-12 weight-500">{{data?.game?.gameCategory?.name | translate}}</span>
           </mat-chip>
-          &nbsp; &nbsp;<mat-chip
-            mat-raised-button
-            color="primary"
-            class="chip-header-type"
-          >
-            <img
-              src="assets/images/normal-game.png"
-              *ngIf="data?.game?.gameType?.id == 'normal'"
-              width="25"
-            />
-            <img
-              src="assets/images/survival-game.png"
-              *ngIf="data?.game?.gameType?.id == 'survival'"
-              width="25"
-            />
-            <span class="font-size-12 weight-500">{{
-              data?.game?.gameType?.text
-            }}</span>
-          </mat-chip>
+          &nbsp; &nbsp;<mat-chip mat-raised-button color="primary" class="chip-header-type">
+          <img src="assets/images/normal-game.png" *ngIf="data?.game?.gameType?.id == 'normal'" width="25">
+          <img src="assets/images/survival-game.png" *ngIf="data?.game?.gameType?.id == 'survival'" width="25">
+          <span class="font-size-12 weight-500">{{data?.game?.gameType?.text | translate}}</span>
+        </mat-chip>
         </mat-card-subtitle>
       </mat-card-header>
-      <div
-        class="position-absolute top-0 bottom-0 end-10 mt-4"
-        *ngIf="!generalService.isMobileView"
-      >
-        <mat-chip
-          mat-raised-button
-          color="primary"
-          class="chip-header-category"
-        >
-          <img
-            [src]="'https://api.1qma.games/' + data?.game?.gameCategory?.icon"
-            width="25"
-          />
-          <span class="font-size-12 weight-500">{{
-            data?.game?.gameCategory?.name
-          }}</span>
+      <div class="position-absolute top-0 bottom-0 end-10 mt-4" *ngIf="!generalService.isMobileView">
+        <mat-chip mat-raised-button color="primary" class="chip-header-category">
+          <img [src]="configService.baseUrl + data?.game?.gameCategory?.icon" width="25">
+          <span class="font-size-12 weight-500">{{data?.game?.gameCategory?.name | translate}}</span>
         </mat-chip>
-        &nbsp; &nbsp;<mat-chip
-          mat-raised-button
-          color="primary"
-          class="chip-header-type"
-        >
-          <img
-            src="assets/images/normal-game.png"
-            *ngIf="data?.game?.gameType?.id == 'normal'"
-            width="25"
-          />
-          <img
-            src="assets/images/survival-game.png"
-            *ngIf="data?.game?.gameType?.id == 'survival'"
-            width="25"
-          />
-          <span class="font-size-12 weight-500">{{
-            data?.game?.gameType?.text
-          }}</span>
-        </mat-chip>
+        &nbsp; &nbsp;<mat-chip mat-raised-button color="primary" class="chip-header-type">
+        <img src="assets/images/normal-game.png" *ngIf="data?.game?.gameType?.id == 'normal'" width="25">
+        <img src="assets/images/survival-game.png" *ngIf="data?.game?.gameType?.id == 'survival'" width="25">
+        <span class="font-size-12 weight-500">{{data?.game?.gameType?.text | translate}}</span>
+      </mat-chip>
       </div>
 
       <mat-card-content
@@ -745,28 +626,11 @@
           ></mat-spinner>
         </div>
         <div *ngIf="!loading && generalService.gameQuestion">
-          <div
-            class="w-100"
-            [class]="{
-              'd-inline-flex': !generalService.isMobileView,
-              'd-block': generalService.isMobileView
-            }"
-          >
-            <div
-              class="gray-card p-2"
-              [style]="
-                generalService.isMobileView
-                  ? 'width: 100px; height: 40px; margin: 0 20px 16px'
-                  : 'width: 100px; height: 40px; margin: 0 auto'
-              "
-            >
-              <svg
-                width="25"
-                height="25"
-                viewBox="0 0 25 25"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
+          <div class="w-100"
+               [class]="{'d-inline-flex': !generalService.isMobileView, 'd-block': generalService.isMobileView}">
+            <div class="gray-card p-2"
+                 [style]="generalService.isMobileView ? 'width: 104px; height: 40px; margin: 0 20px 16px' : 'width: 104px; height: 40px; margin: 0 auto'">
+              <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                   d="M17.8408 18.5899H13.8408L9.39081 21.5499C8.73081 21.9899 7.84082 21.5199 7.84082 20.7199V18.5899C4.84082 18.5899 2.84082 16.5899 2.84082 13.5899V7.58984C2.84082 4.58984 4.84082 2.58984 7.84082 2.58984H17.8408C20.8408 2.58984 22.8408 4.58984 22.8408 7.58984V13.5899C22.8408 16.5899 20.8408 18.5899 17.8408 18.5899Z"
                   stroke="#292D32"
@@ -920,76 +784,27 @@
           {{ "Possible-description-title-rate-answer-gameboard" | translate }}
         </mat-card-subtitle>
         <mat-card-subtitle *ngIf="generalService.isMobileView">
-          <mat-chip
-            mat-raised-button
-            color="primary"
-            class="chip-header-category"
-          >
-            <img
-              [src]="'https://api.1qma.games/' + data?.game?.gameCategory?.icon"
-              width="25"
-            />
-            <span class="font-size-12 weight-500">{{
-              data?.game?.gameCategory?.name
-            }}</span>
+          <mat-chip mat-raised-button color="primary" class="chip-header-category">
+            <img [src]="configService.baseUrl + data?.game?.gameCategory?.icon" width="25">
+            <span class="font-size-12 weight-500">{{data?.game?.gameCategory?.name | translate}}</span>
           </mat-chip>
-          &nbsp; &nbsp;<mat-chip
-            mat-raised-button
-            color="primary"
-            class="chip-header-type"
-          >
-            <img
-              src="assets/images/normal-game.png"
-              *ngIf="data?.game?.gameType?.id == 'normal'"
-              width="25"
-            />
-            <img
-              src="assets/images/survival-game.png"
-              *ngIf="data?.game?.gameType?.id == 'survival'"
-              width="25"
-            />
-            <span class="font-size-12 weight-500">{{
-              data?.game?.gameType?.text
-            }}</span>
-          </mat-chip>
+          &nbsp; &nbsp;<mat-chip mat-raised-button color="primary" class="chip-header-type">
+          <img src="assets/images/normal-game.png" *ngIf="data?.game?.gameType?.id == 'normal'" width="25">
+          <img src="assets/images/survival-game.png" *ngIf="data?.game?.gameType?.id == 'survival'" width="25">
+          <span class="font-size-12 weight-500">{{data?.game?.gameType?.text | translate}}</span>
+        </mat-chip>
         </mat-card-subtitle>
       </mat-card-header>
-      <div
-        class="position-absolute top-0 bottom-0 end-10 mt-4"
-        *ngIf="!generalService.isMobileView"
-      >
-        <mat-chip
-          mat-raised-button
-          color="primary"
-          class="chip-header-category"
-        >
-          <img
-            [src]="'https://api.1qma.games/' + data?.game?.gameCategory?.icon"
-            width="25"
-          />
-          <span class="font-size-12 weight-500">{{
-            data?.game?.gameCategory?.name
-          }}</span>
+      <div class="position-absolute top-0 bottom-0 end-10 mt-4" *ngIf="!generalService.isMobileView">
+        <mat-chip mat-raised-button color="primary" class="chip-header-category">
+          <img [src]="configService.baseUrl + data?.game?.gameCategory?.icon" width="25">
+          <span class="font-size-12 weight-500">{{data?.game?.gameCategory?.name | translate}}</span>
         </mat-chip>
-        &nbsp; &nbsp;<mat-chip
-          mat-raised-button
-          color="primary"
-          class="chip-header-type"
-        >
-          <img
-            src="assets/images/normal-game.png"
-            *ngIf="data?.game?.gameType?.id == 'normal'"
-            width="25"
-          />
-          <img
-            src="assets/images/survival-game.png"
-            *ngIf="data?.game?.gameType?.id == 'survival'"
-            width="25"
-          />
-          <span class="font-size-12 weight-500">{{
-            data?.game?.gameType?.text
-          }}</span>
-        </mat-chip>
+        &nbsp; &nbsp;<mat-chip mat-raised-button color="primary" class="chip-header-type">
+        <img src="assets/images/normal-game.png" *ngIf="data?.game?.gameType?.id == 'normal'" width="25">
+        <img src="assets/images/survival-game.png" *ngIf="data?.game?.gameType?.id == 'survival'" width="25">
+        <span class="font-size-12 weight-500">{{data?.game?.gameType?.text | translate}}</span>
+      </mat-chip>
       </div>
 
       <mat-card-content
@@ -1003,28 +818,11 @@
           <mat-spinner *ngIf="loading" [diameter]="30"></mat-spinner>
         </div>
         <div *ngIf="!loading">
-          <div
-            class="w-100"
-            [class]="{
-              'd-inline-flex': !generalService.isMobileView,
-              'd-block': generalService.isMobileView
-            }"
-          >
-            <div
-              class="gray-card p-2"
-              [style]="
-                generalService.isMobileView
-                  ? 'width: 100px; height: 40px; margin: 0 20px 16px'
-                  : 'width: 100px; height: 40px; margin: 0 auto'
-              "
-            >
-              <svg
-                width="25"
-                height="25"
-                viewBox="0 0 25 25"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
+          <div class="w-100"
+               [class]="{'d-inline-flex': !generalService.isMobileView, 'd-block': generalService.isMobileView}">
+            <div class="gray-card p-2"
+                 [style]="generalService.isMobileView ? 'width: 104px; height: 40px; margin: 0 20px 16px' : 'width: 104px; height: 40px; margin: 0 auto'">
+              <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                   d="M17.8408 18.5899H13.8408L9.39081 21.5499C8.73081 21.9899 7.84082 21.5199 7.84082 20.7199V18.5899C4.84082 18.5899 2.84082 16.5899 2.84082 13.5899V7.58984C2.84082 4.58984 4.84082 2.58984 7.84082 2.58984H17.8408C20.8408 2.58984 22.8408 4.58984 22.8408 7.58984V13.5899C22.8408 16.5899 20.8408 18.5899 17.8408 18.5899Z"
                   stroke="#292D32"
@@ -1247,76 +1045,27 @@
           {{ "Possible-description-title-rate-question-gameboard" | translate }}
         </mat-card-subtitle>
         <mat-card-subtitle *ngIf="generalService.isMobileView">
-          <mat-chip
-            mat-raised-button
-            color="primary"
-            class="chip-header-category"
-          >
-            <img
-              [src]="'https://api.1qma.games/' + data?.game?.gameCategory?.icon"
-              width="25"
-            />
-            <span class="font-size-12 weight-500">{{
-              data?.game?.gameCategory?.name
-            }}</span>
+          <mat-chip mat-raised-button color="primary" class="chip-header-category">
+            <img [src]="configService.baseUrl + data?.game?.gameCategory?.icon" width="25">
+            <span class="font-size-12 weight-500">{{data?.game?.gameCategory?.name | translate}}</span>
           </mat-chip>
-          &nbsp; &nbsp;<mat-chip
-            mat-raised-button
-            color="primary"
-            class="chip-header-type"
-          >
-            <img
-              src="assets/images/normal-game.png"
-              *ngIf="data?.game?.gameType?.id == 'normal'"
-              width="25"
-            />
-            <img
-              src="assets/images/survival-game.png"
-              *ngIf="data?.game?.gameType?.id == 'survival'"
-              width="25"
-            />
-            <span class="font-size-12 weight-500">{{
-              data?.game?.gameType?.text
-            }}</span>
-          </mat-chip>
+          &nbsp; &nbsp;<mat-chip mat-raised-button color="primary" class="chip-header-type">
+          <img src="assets/images/normal-game.png" *ngIf="data?.game?.gameType?.id == 'normal'" width="25">
+          <img src="assets/images/survival-game.png" *ngIf="data?.game?.gameType?.id == 'survival'" width="25">
+          <span class="font-size-12 weight-500">{{data?.game?.gameType?.text | translate}}</span>
+        </mat-chip>
         </mat-card-subtitle>
       </mat-card-header>
-      <div
-        class="position-absolute top-0 bottom-0 end-10 mt-4"
-        *ngIf="!generalService.isMobileView"
-      >
-        <mat-chip
-          mat-raised-button
-          color="primary"
-          class="chip-header-category"
-        >
-          <img
-            [src]="'https://api.1qma.games/' + data?.game?.gameCategory?.icon"
-            width="25"
-          />
-          <span class="font-size-12 weight-500">{{
-            data?.game?.gameCategory?.name
-          }}</span>
+      <div class="position-absolute top-0 bottom-0 end-10 mt-4" *ngIf="!generalService.isMobileView">
+        <mat-chip mat-raised-button color="primary" class="chip-header-category">
+          <img [src]="configService.baseUrl + data?.game?.gameCategory?.icon" width="25">
+          <span class="font-size-12 weight-500">{{data?.game?.gameCategory?.name | translate}}</span>
         </mat-chip>
-        &nbsp; &nbsp;<mat-chip
-          mat-raised-button
-          color="primary"
-          class="chip-header-type"
-        >
-          <img
-            src="assets/images/normal-game.png"
-            *ngIf="data?.game?.gameType?.id == 'normal'"
-            width="25"
-          />
-          <img
-            src="assets/images/survival-game.png"
-            *ngIf="data?.game?.gameType?.id == 'survival'"
-            width="25"
-          />
-          <span class="font-size-12 weight-500">{{
-            data?.game?.gameType?.text
-          }}</span>
-        </mat-chip>
+        &nbsp; &nbsp;<mat-chip mat-raised-button color="primary" class="chip-header-type">
+        <img src="assets/images/normal-game.png" *ngIf="data?.game?.gameType?.id == 'normal'" width="25">
+        <img src="assets/images/survival-game.png" *ngIf="data?.game?.gameType?.id == 'survival'" width="25">
+        <span class="font-size-12 weight-500">{{data?.game?.gameType?.text | translate}}</span>
+      </mat-chip>
       </div>
 
       <mat-card-content
@@ -1524,54 +1273,27 @@
             />
           </div>
         </div>
-        <mat-label class="d-inline-block" style="margin-inline-start: 90px"
-          >{{ "Waiting for" | translate }}
-          {{
-            (submittedAnswer?.numberOfPlayers
-              ? submittedAnswer?.numberOfPlayers
-              : generalService.gameInit?.numberOfPlayers) -
-              submittedAnswer?.numberOfSubmitted
-          }}
-          {{ "of" | translate }}
-          {{
-            submittedAnswer?.numberOfPlayers
-              ? submittedAnswer?.numberOfPlayers
-              : generalService.gameInit?.numberOfPlayers
-          }}
-          {{ "Players" | translate }}...
+        <mat-label class="d-inline-block"
+                   style="margin-inline-start: 110px;">{{'Waiting for' | translate}} {{(submittedAnswer?.numberOfPlayers ? submittedAnswer?.numberOfPlayers : generalService.gameInit?.numberOfPlayers) - submittedAnswer?.numberOfSubmitted}}
+          {{'of' | translate}} {{(submittedAnswer?.numberOfPlayers ? submittedAnswer?.numberOfPlayers : generalService.gameInit?.numberOfPlayers) }}
+          {{'Players' | translate}}...
         </mat-label>
       </div>
       <div class="next-button">
         <app-countdown-timer
-          [style]="
-            generalService.isMobileView
-              ? 'position: absolute;top: -12px;inset-inline-end: 25px;'
-              : ''
-          "
-          [duration]="
-            generalService.gameStep == 2
-              ? generalService.gameInit?.eachStepDurationSeconds
-              : generalService.gameStep == 3
-              ? generalService.gameInit?.rateAnswersDurationSeconds
-              : generalService.gameInit?.rateQuestionsDurationSeconds
-          "
-          (countdownFinished)="
-            generalService.gameStep == 2
-              ? handleCountdownSendAnswerFinished()
-              : generalService.gameStep == 3
-              ? handleCountdownRatingAnswerFinished()
-              : handleCountdownRatingQuestionsFinished()
-          "
-        ></app-countdown-timer>
-        <button
-          *ngIf="generalService.gameStep == 2"
-          mat-button
-          color="primary"
-          class="ms-3"
-          (click)="editAnswer()"
-          [disabled]="!generalService.editingAnswer"
-        >
-          {{ "Edit" | translate }}
+          [style]="generalService.isMobileView && generalService.userObj?.preferedLanguage?.code == 'en'
+          ? 'position: absolute; top: -12px; right: 25px;' :
+          generalService.isMobileView && generalService.userObj?.preferedLanguage?.code == 'fa' ? 'position: absolute; top: -12px; left: 25px;' : ''"
+          [duration]="generalService.gameStep == 2 ? generalService.gameInit?.eachStepDurationSeconds :
+generalService.gameStep == 3 ? generalService.gameInit?.rateAnswersDurationSeconds : generalService.gameInit?.rateQuestionsDurationSeconds"
+          (countdownFinished)="generalService.gameStep == 2 ? handleCountdownSendAnswerFinished() :
+                              generalService.gameStep == 3 ? handleCountdownRatingAnswerFinished() : handleCountdownRatingQuestionsFinished()"></app-countdown-timer>
+        <button *ngIf="generalService.gameStep == 2 "
+                mat-button
+                color="primary" class="ms-3"
+                (click)="editAnswer()"
+                [disabled]="!generalService.editingAnswer">
+          {{'Edit' | translate}}
         </button>
         <button
           mat-raised-button
@@ -1666,76 +1388,27 @@
           {{ "Possible-description-title-result-gameboard" | translate }}
         </mat-card-subtitle>
         <mat-card-subtitle *ngIf="generalService.isMobileView">
-          <mat-chip
-            mat-raised-button
-            color="primary"
-            class="chip-header-category"
-          >
-            <img
-              [src]="'https://api.1qma.games/' + data?.game?.gameCategory?.icon"
-              width="25"
-            />
-            <span class="font-size-12 weight-500">{{
-              data?.game?.gameCategory?.name
-            }}</span>
+          <mat-chip mat-raised-button color="primary" class="chip-header-category">
+            <img [src]="configService.baseUrl + data?.game?.gameCategory?.icon" width="25">
+            <span class="font-size-12 weight-500">{{data?.game?.gameCategory?.name | translate}}</span>
           </mat-chip>
-          &nbsp; &nbsp;<mat-chip
-            mat-raised-button
-            color="primary"
-            class="chip-header-type"
-          >
-            <img
-              src="assets/images/normal-game.png"
-              *ngIf="data?.game?.gameType?.id == 'normal'"
-              width="25"
-            />
-            <img
-              src="assets/images/survival-game.png"
-              *ngIf="data?.game?.gameType?.id == 'survival'"
-              width="25"
-            />
-            <span class="font-size-12 weight-500">{{
-              data?.game?.gameType?.text
-            }}</span>
-          </mat-chip>
+          &nbsp; &nbsp;<mat-chip mat-raised-button color="primary" class="chip-header-type">
+          <img src="assets/images/normal-game.png" *ngIf="data?.game?.gameType?.id == 'normal'" width="25">
+          <img src="assets/images/survival-game.png" *ngIf="data?.game?.gameType?.id == 'survival'" width="25">
+          <span class="font-size-12 weight-500">{{data?.game?.gameType?.text | translate}}</span>
+        </mat-chip>
         </mat-card-subtitle>
       </mat-card-header>
-      <div
-        class="position-absolute top-0 bottom-0 end-10 mt-4"
-        *ngIf="!generalService.isMobileView"
-      >
-        <mat-chip
-          mat-raised-button
-          color="primary"
-          class="chip-header-category"
-        >
-          <img
-            [src]="'https://api.1qma.games/' + data?.game?.gameCategory?.icon"
-            width="25"
-          />
-          <span class="font-size-12 weight-500">{{
-            data?.game?.gameCategory?.name
-          }}</span>
+      <div class="position-absolute top-0 bottom-0 end-10 mt-4" *ngIf="!generalService.isMobileView">
+        <mat-chip mat-raised-button color="primary" class="chip-header-category">
+          <img [src]="configService.baseUrl + data?.game?.gameCategory?.icon" width="25">
+          <span class="font-size-12 weight-500">{{data?.game?.gameCategory?.name | translate}}</span>
         </mat-chip>
-        &nbsp; &nbsp;<mat-chip
-          mat-raised-button
-          color="primary"
-          class="chip-header-type"
-        >
-          <img
-            src="assets/images/normal-game.png"
-            *ngIf="data?.game?.gameType?.id == 'normal'"
-            width="25"
-          />
-          <img
-            src="assets/images/survival-game.png"
-            *ngIf="data?.game?.gameType?.id == 'survival'"
-            width="25"
-          />
-          <span class="font-size-12 weight-500">{{
-            data?.game?.gameType?.text
-          }}</span>
-        </mat-chip>
+        &nbsp; &nbsp;<mat-chip mat-raised-button color="primary" class="chip-header-type">
+        <img src="assets/images/normal-game.png" *ngIf="data?.game?.gameType?.id == 'normal'" width="25">
+        <img src="assets/images/survival-game.png" *ngIf="data?.game?.gameType?.id == 'survival'" width="25">
+        <span class="font-size-12 weight-500">{{data?.game?.gameType?.text | translate}}</span>
+      </mat-chip>
       </div>
 
       <mat-card-content
@@ -1778,33 +1451,12 @@
                   {{ generalService.gameResult?.creator?.lastName }}</span
                 >
               </div>
-              <div
-                class="d-inline-flex position-absolute"
-                [style]="
-                  generalService.isMobileView
-                    ? 'width: 40%; top: 0; margin: 10px 20px 20px 0; inset-inline-end: 0'
-                    : 'inset-inline-end: 10px'
-                "
-              >
-                <div
-                  *ngIf="generalService.isMobileView"
-                  class="copy-referrer cursor-pointer"
-                  style="width: 40px; height: 40px; padding: 7px"
-                  (click)="
-                    openShareModal(
-                      'result',
-                      'https://staging.1qma.games/game-result?id=' +
-                        generalService.createdGameData.game.gameId
-                    )
-                  "
-                >
-                  <svg
-                    width="25"
-                    height="25"
-                    viewBox="0 0 25 25"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
+              <div class="d-inline-flex position-absolute"
+                   [style]="generalService.isMobileView ? 'width: 40%; top: 0; margin: 10px 20px 20px 0; inset-inline-end: 0' : 'inset-inline-end: 10px'">
+                <div *ngIf="generalService.isMobileView" class="copy-referrer cursor-pointer"
+                     style="width: 40px; height: 40px; padding: 7px"
+                     (click)="openShareModal('result','https://staging.1qma.games/game-result?id=' + generalService.createdGameData.game.gameId)">
+                  <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
                       d="M7.4783 6.63558L15.9683 3.80558C19.7783 2.53558 21.8483 4.61558 20.5883 8.42558L17.7583 16.9156C15.8583 22.6256 12.7383 22.6256 10.8383 16.9156L9.9983 14.3956L7.4783 13.5556C1.7683 11.6556 1.7683 8.54558 7.4783 6.63558Z"
                       stroke="#292D32"
@@ -1821,46 +1473,21 @@
                     />
                   </svg>
                 </div>
-                <button
-                  *ngIf="generalService.isMobileView"
-                  style="height: 40px !important"
-                  mat-raised-button
-                  color="primary"
-                  class="next-step ms-3"
-                  (click)="newGame()"
-                >
-                  {{ "New Game" | translate }}
+                <button *ngIf="generalService.isMobileView" style="height: 40px !important; min-width: 112px !important;" mat-raised-button
+                        color="primary" class="next-step ms-2"
+                        (click)="newGame()">
+                  {{'New Game' | translate}}
                 </button>
               </div>
             </div>
 
-            <div
-              class="d-inline-flex position-absolute"
-              [style]="
-                generalService.isMobileView
-                  ? 'width: 95%; margin: 10px 20px 20px 0; inset-inline-end: 0'
-                  : 'inset-inline-end: 10px'
-              "
-            >
-              <div
-                *ngIf="!generalService.isMobileView"
-                class="copy-referrer cursor-pointer"
-                style="width: 40px; height: 40px; padding: 7px"
-                (click)="
-                  openShareModal(
-                    'result',
-                    'https://staging.1qma.games/game-result?id=' +
-                      generalService.createdGameData.game.gameId
-                  )
-                "
-              >
-                <svg
-                  width="25"
-                  height="25"
-                  viewBox="0 0 25 25"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
+
+            <div class="d-inline-flex position-absolute"
+                 [style]="generalService.isMobileView ? 'width: 95%; margin: 10px 20px 20px 0; inset-inline-end: 0' : 'inset-inline-end: 10px'">
+              <div *ngIf="!generalService.isMobileView" class="copy-referrer cursor-pointer"
+                   style="width: 40px; height: 40px; padding: 7px"
+                   (click)="openShareModal('result','https://staging.1qma.games/game-result?id=' + generalService.createdGameData.game.gameId)">
+                <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M7.4783 6.63558L15.9683 3.80558C19.7783 2.53558 21.8483 4.61558 20.5883 8.42558L17.7583 16.9156C15.8583 22.6256 12.7383 22.6256 10.8383 16.9156L9.9983 14.3956L7.4783 13.5556C1.7683 11.6556 1.7683 8.54558 7.4783 6.63558Z"
                     stroke="#292D32"
@@ -1877,24 +1504,14 @@
                   />
                 </svg>
               </div>
-              <button
-                style="height: 40px !important"
-                mat-raised-button
-                color="primary"
-                class="next-step ms-3"
-                (click)="gotoReportPage()"
-              >
-                {{ "Report bug" | translate }}
+              <button style="height: 40px !important;" mat-raised-button color="primary" class="next-step ms-3"
+                      (click)="gotoReportPage()">
+                {{'Report a bug' | translate}}
               </button>
-              <button
-                *ngIf="!generalService.isMobileView"
-                style="height: 40px !important"
-                mat-raised-button
-                color="primary"
-                class="next-step ms-3"
-                (click)="newGame()"
-              >
-                {{ "New Game" | translate }}
+              <button *ngIf="!generalService.isMobileView" style="height: 40px !important;" mat-raised-button
+                      color="primary" class="next-step ms-3"
+                      (click)="newGame()">
+                {{'New Game' | translate}}
               </button>
             </div>
           </div>
@@ -1922,80 +1539,22 @@
               }"
             >
               <!--              2-->
-              <img
-                class="avatar-bordered bg-white"
-                style="
-                  position: absolute;
-                  inset-inline-start: 100px;
-                  bottom: 80px;
-                "
-                [src]="
-                  generalService.gameResult?.result?.scoreboard[1]
-                    ?.profilePicture
-                    ? generalService.gameResult?.result?.scoreboard[1]?.profilePicture?.startsWith(
-                        'http'
-                      )
-                      ? generalService.gameResult?.result?.scoreboard[1]
-                          ?.profilePicture
-                      : configService.url(
-                          generalService.gameResult?.result?.scoreboard[1]
-                            ?.profilePicture
-                        )
-                    : 'assets/images/frame.png'
-                "
-                width="48"
-              />
+              <img class="avatar-bordered bg-white"
+                   style="position: absolute; bottom: 80px;"
+                   [style]="generalService.userObj?.preferedLanguage?.code == 'fa' ? 'left: 25%' : 'left: 25%'"
+                   [src]="generalService.gameResult?.result?.scoreboard[1]?.profilePicture ? generalService.gameResult?.result?.scoreboard[1]?.profilePicture?.startsWith('http') ? generalService.gameResult?.result?.scoreboard[1]?.profilePicture : configService.url(generalService.gameResult?.result?.scoreboard[1]?.profilePicture) : 'assets/images/frame.png'"
+                   width="48">
               <!--              1-->
-              <img
-                class="avatar-bordered bg-white"
-                style="
-                  position: absolute;
-                  inset-inline-start: 170px;
-                  bottom: 90px;
-                "
-                [src]="
-                  generalService.gameResult?.result?.scoreboard[0]
-                    ?.profilePicture
-                    ? generalService.gameResult?.result?.scoreboard[0]?.profilePicture?.startsWith(
-                        'http'
-                      )
-                      ? generalService.gameResult?.result?.scoreboard[0]
-                          ?.profilePicture
-                      : configService.url(
-                          generalService.gameResult?.result?.scoreboard[0]
-                            ?.profilePicture
-                        )
-                    : 'assets/images/frame.png'
-                "
-                width="48"
-              />
+              <img class="avatar-bordered bg-white"
+                   style="position: absolute; inset-inline-start: 43%; bottom: 90px;"
+                   [src]="generalService.gameResult?.result?.scoreboard[0]?.profilePicture ? generalService.gameResult?.result?.scoreboard[0]?.profilePicture?.startsWith('http') ? generalService.gameResult?.result?.scoreboard[0]?.profilePicture : configService.url(generalService.gameResult?.result?.scoreboard[0]?.profilePicture) : 'assets/images/frame.png'"
+                   width="48">
               <!--              3-->
-              <img
-                class="avatar-bordered bg-white"
-                *ngIf="
-                  generalService.gameResult?.result?.scoreboard?.length > 2
-                "
-                style="
-                  position: absolute;
-                  inset-inline-end: 100px;
-                  bottom: 70px;
-                "
-                [src]="
-                  generalService.gameResult?.result?.scoreboard[2]
-                    ?.profilePicture
-                    ? generalService.gameResult?.result?.scoreboard[2]?.profilePicture?.startsWith(
-                        'http'
-                      )
-                      ? generalService.gameResult?.result?.scoreboard[2]
-                          ?.profilePicture
-                      : configService.url(
-                          generalService.gameResult?.result?.scoreboard[2]
-                            ?.profilePicture
-                        )
-                    : 'assets/images/frame.png'
-                "
-                width="48"
-              />
+              <img class="avatar-bordered bg-white" *ngIf="generalService.gameResult?.result?.scoreboard?.length > 2"
+                   style="position: absolute; bottom: 70px"
+                   [style]="generalService.userObj?.preferedLanguage?.code == 'fa' ? 'right: 25%' : 'right: 25%'"
+                   [src]="generalService.gameResult?.result?.scoreboard[2]?.profilePicture ? generalService.gameResult?.result?.scoreboard[2]?.profilePicture?.startsWith('http') ? generalService.gameResult?.result?.scoreboard[2]?.profilePicture : configService.url(generalService.gameResult?.result?.scoreboard[2]?.profilePicture) : 'assets/images/frame.png'"
+                   width="48">
 
               <img
                 src="assets/images/Leaderboards.png"
@@ -2010,134 +1569,53 @@
                 "
               />
             </div>
-            <div
-              [class]="{
-                'w-60': !generalService.isMobileView,
-                'w-100': generalService.isMobileView
-              }"
-            >
-              <mat-card
-                class="position-relative d-inline-flex text-start shadow-none"
-              >
+            <div [class]="{'w-60': !generalService.isMobileView, 'w-100': generalService.isMobileView}">
+              <mat-card class="position-relative d-inline-flex text-start shadow-none">
                 <mat-card-header
-                  [style]="
-                    generalService.userObj?.preferedLanguage?.code == 'fa'
-                      ? 'text-align: right'
-                      : 'text-align: left'
-                  "
-                >
+                  [style]="generalService.userObj?.preferedLanguage?.code == 'fa' ? 'text-align: right': 'text-align: left'">
                   <div class="position-relative" style="width: 100px">
-                    <img
-                      src="assets/images/score.png"
-                      width="28"
-                      height="28"
-                    />&nbsp;
-                    <div
-                      class="font-size-14 weight-800 position-absolute green-color"
-                      style="
-                        padding-inline-start: 5px;
-                        inset-inline-start: 30px;
-                        top: -5px;
-                      "
-                    >
-                      +{{
-                        generalService.gameResult?.statistics?.score | parsInt
-                      }}
-                    </div>
-                    <mat-label
-                      class="position-absolute font-size-14 weight-500"
-                      style="
-                        padding-inline-start: 5px;
-                        inset-inline-start: 30px;
-                        bottom: -5px;
-                        color: #828282;
-                      "
-                    >
-                      {{ "Score" | translate }}
+                    <img src="assets/images/score.png"
+                         width="28" height="28">&nbsp;
+                    <div class="font-size-14 weight-800 position-absolute green-color"
+                         style="padding-inline-start: 5px; inset-inline-start: 30px; top: -5px;direction: ltr">
+                      +{{generalService.gameResult?.statistics?.score | parsInt}}</div>
+                    <mat-label class="position-absolute font-size-14 weight-500"
+                               style="padding-inline-start: 5px;inset-inline-start: 30px; bottom: -5px;  color: #828282">
+                      {{'Score' | translate}}
                     </mat-label>
                   </div>
                   <div class="position-relative" style="width: 100px">
-                    <img
-                      src="assets/images/XP.png"
-                      width="28"
-                      height="28"
-                    />&nbsp;
-                    <div
-                      class="font-size-14 weight-800 position-absolute green-color"
-                      style="
-                        padding-inline-start: 5px;
-                        inset-inline-start: 30px;
-                        top: -5px;
-                      "
-                    >
-                      +{{ generalService.gameResult?.statistics?.xp | parsInt }}
-                    </div>
-                    <mat-label
-                      class="position-absolute font-size-14 weight-500"
-                      style="
-                        padding-inline-start: 5px;
-                        inset-inline-start: 30px;
-                        bottom: -5px;
-                        color: #828282;
-                      "
-                    >
-                      {{ "XP" | translate }} </mat-label
-                    >&nbsp;&nbsp;&nbsp;&nbsp;
+                    <img src="assets/images/XP.png"
+                         width="28" height="28">&nbsp;
+                    <div class="font-size-14 weight-800 position-absolute green-color"
+                         style="padding-inline-start: 5px; inset-inline-start: 30px; top: -5px;direction: ltr">
+                      +{{generalService.gameResult?.statistics?.xp | parsInt}}</div>
+                    <mat-label class="position-absolute font-size-14 weight-500"
+                               style="padding-inline-start: 5px;inset-inline-start: 30px; bottom: -5px;  color: #828282">
+                      {{'XP' | translate}}
+                    </mat-label>&nbsp;&nbsp;&nbsp;&nbsp;
                   </div>
                   <div class="position-relative" style="width: 100px">
-                    <img
-                      src="assets/images/coin-bronze.png"
-                      width="28"
-                      height="28"
-                    />&nbsp;
-                    <div
-                      class="font-size-14 weight-800 position-absolute green-color"
-                      style="
-                        padding-inline-start: 5px;
-                        inset-inline-start: 30px;
-                        top: -5px;
-                      "
-                    >
-                      +{{
-                        generalService.gameResult?.statistics?.reward?.bronze
-                      }}
-                    </div>
-                    <mat-label
-                      class="position-absolute font-size-14 weight-500"
-                      style="
-                        padding-inline-start: 5px;
-                        inset-inline-start: 30px;
-                        bottom: -5px;
-                        color: #828282;
-                      "
-                    >
-                      {{ "Bronze" | translate }}
+                    <img src="assets/images/coin-bronze.png"
+                         width="28" height="28">&nbsp;
+                    <div class="font-size-14 weight-800 position-absolute green-color"
+                         style="padding-inline-start: 5px; inset-inline-start: 30px; top: -5px;direction: ltr">
+                      +{{generalService.gameResult?.statistics?.reward?.bronze}}</div>
+                    <mat-label class="position-absolute font-size-14 weight-500"
+                               style="padding-inline-start: 5px;inset-inline-start: 30px; bottom: -5px; color: #828282">
+                      {{'Bronze' | translate}}
                     </mat-label>
                   </div>
                 </mat-card-header>
               </mat-card>
-              <br />
-              <div
-                class="position-relative d-inline-flex m-3 radius"
-                [style]="
-                  generalService.isMobileView ? 'width: 270px' : 'width: 350px;'
-                "
-                style="height: 80px; background-color: #edf9ff"
-              >
-                <div
-                  style="
-                    position: absolute;
-                    top: 10px;
-                    inset-inline-start: 10px;
-                    width: 100%;
-                  "
-                >
-                  <div
-                    class="font-size-14 weight-600 position-absolute start-0"
-                  >
-                    {{ "Level" | translate }}:
-                    {{ generalService.gameResult?.statistics?.level }}
-                  </div>
+              <br>
+              <div class="position-relative d-inline-flex m-3 radius"
+                   [style]="generalService.isMobileView ? 'width: 270px' : 'width: 350px;'"
+                   style="height: 80px; background-color: #EDF9FF">
+                <div style="position: absolute; top: 10px;inset-inline-start: 10px; width: 100%;">
+                  <div class="font-size-14 weight-600 position-absolute"
+                       style="inset-inline-start: 0px">
+                    {{'Level' | translate}}: {{generalService.gameResult?.statistics?.level}}</div>
                   <div
                     class="font-size-12 weight-600 position-absolute"
                     style="inset-inline-end: 20px"
@@ -2227,21 +1705,12 @@
               >
                 <div class="gray-card w-75 d-inline-flex">
                   <div
-                    style="
-                      width: 33%;
-                      border-top-left-radius: 6px;
-                      border-bottom-left-radius: 6px;
-                      border-right: 1px solid #e8e2e0;
-                    "
-                    class="text-center bg-white p-2"
-                  >
-                    <img
-                      src="assets/images/score.png"
-                      width="28"
-                      height="28"
-                    />&nbsp;
-                    <br />
-                    <mat-label class="font-size-12 weight-600">Score</mat-label>
+                    style="width: 33%; border-top-left-radius: 6px; border-bottom-left-radius: 6px;border-inline-end: 1px solid #E8E2E0"
+                    class="text-center bg-white p-2">
+                    <img src="assets/images/score.png"
+                         width="28" height="28">&nbsp;
+                    <br>
+                    <mat-label class="font-size-12 weight-600">{{'Score' | translate}}</mat-label>
                   </div>
                   <div style="width: 33%" class="text-center p-2">
                     <div
@@ -2344,18 +1813,9 @@
                     }}</mat-label>
                   </div>
                   <div
-                    style="
-                      width: 67%;
-                      border-top-right-radius: 6px;
-                      border-bottom-right-radius: 6px;
-                      border-left: 1px solid #e8e2e0;
-                    "
-                    class="text-center bg-white"
-                  >
-                    <div
-                      class="d-flex"
-                      style="border-bottom: 1px solid #e8e2e0"
-                    >
+                    style="width: 67%; border-top-right-radius: 6px; border-bottom-right-radius: 6px; border-inline-start: 1px solid #E8E2E0"
+                    class="text-center bg-white">
+                    <div class="d-flex" style="border-bottom: 1px solid #E8E2E0">
                       <div class="font-size-12 weight-500 w-50">
                         {{ "Average" | translate }}:
                       </div>
@@ -2369,7 +1829,7 @@
 
                     <div class="d-flex">
                       <div class="font-size-12 weight-500 w-50">
-                        {{ "This game" | translate }}:
+                        {{'This Game' | translate}}:
                       </div>
                       <div class="font-size-14 weight-700 w-50">
                         {{ myRank | parsInt }}
@@ -2388,10 +1848,7 @@
                       "Score" | translate
                     }}</mat-label>
                   </div>
-                  <div
-                    style="width: 33%; border-left: 1px solid #e8e2e0"
-                    class="text-center bg-white"
-                  >
+                  <div style="width: 33%; border-inline-start: 1px solid #E8E2E0" class="text-center bg-white">
                     <div class="font-size-14 weight-800 green-color">
                       +{{
                         generalService.gameResult?.statistics?.score | parsInt
@@ -2421,28 +1878,14 @@
                   </div>
                 </div>
               </div>
-              <div
-                class="m-3 p-5 bg-white"
-                [class]="{
-                  'w-50': !generalService.isMobileView,
-                  'w-100': generalService.isMobileView
-                }"
-                style="border-radius: 6px; border: 1px solid #e8e2e0"
-                *ngIf="
-                  !backToCheckpoint &&
-                  myRank >
-                    generalService.gameResult?.statistics?.survival?.avgRank
-                "
-              >
-                <mat-label class="font-size-16 weight-800">{{
-                  "OH SORRY!" | translate
-                }}</mat-label>
-                <br />
-                <mat-label class="font-size-12 weight-500"
-                  >{{
-                    "Your rank in this game is below your average rank:"
-                      | translate
-                  }}
+              <div class="m-3 p-5 bg-white"
+                   [class]="{'w-50': !generalService.isMobileView, 'w-100': generalService.isMobileView}"
+                   style="border-radius: 6px; border: 1px solid #E8E2E0"
+                   *ngIf="!backToCheckpoint && !congratulation && myRank > generalService.gameResult?.statistics?.survival?.avgRank">
+                <mat-label class="font-size-16 weight-800">{{'OH SORRY!' | translate}}</mat-label>
+                <br>
+                <mat-label
+                  class="font-size-12 weight-500">{{'Your rank in this game is below your average rank:' | translate}}
                 </mat-label>
                 <br />
                 <br />
@@ -2482,11 +1925,13 @@
                   />
 
                   <mat-label class="text-gray">
-                    {{ generalService.gameInit?.keepScorePrice?.count }}
-                    {{ generalService.gameInit?.keepScorePrice?.coin }}
+                    {{generalService.gameInit?.keepScorePrice?.count}} {{generalService.gameInit?.keepScorePrice?.coin | translate}}
                   </mat-label>
-                  <div class="position-absolute end-10" style="top: 15px">
-                    <img src="assets/images/arrow-right-1.svg" />
+                  <div class="position-absolute end-10" style="top: 15px;">
+                    <img *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'"
+                         src="assets/images/arrow-right-1.svg">
+                    <img *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'"
+                         src="assets/images/arrow-left.svg">
                   </div>
                 </div>
                 <br />
@@ -2504,32 +1949,22 @@
                     }}
                     {{ "Score" | translate }}
                   </mat-label>
-                  <div class="position-absolute end-10" style="top: 15px">
-                    <img src="assets/images/arrow-right-1.svg" />
+                  <div class="position-absolute end-10" style="top: 15px;">
+                    <img *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'"
+                         src="assets/images/arrow-right-1.svg">
+                    <img *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'"
+                         src="assets/images/arrow-left.svg">
                   </div>
                 </div>
               </div>
 
-              <div
-                class="m-3 p-5"
-                [class]="{
-                  'w-50': !generalService.isMobileView,
-                  'w-100': generalService.isMobileView
-                }"
-                *ngIf="
-                  myRank <=
-                  generalService.gameResult?.statistics?.survival?.avgRank
-                "
-              >
-                <mat-label class="font-size-16 weight-800 green-color"
-                  >GREAT!</mat-label
-                >
-                <br />
-                <mat-label class="font-size-12 weight-500"
-                  >{{
-                    "Your score has been added to your total survival score."
-                      | translate
-                  }}
+              <div class="m-3 p-5"
+                   [class]="{'w-50': !generalService.isMobileView, 'w-100': generalService.isMobileView}"
+                   *ngIf="myRank <= generalService.gameResult?.statistics?.survival?.avgRank">
+                <mat-label class="font-size-16 weight-800 green-color">{{'GREAT!' | translate}}</mat-label>
+                <br>
+                <mat-label
+                  class="font-size-12 weight-500">{{'Your score has been added to your total survival score.' | translate}}
                 </mat-label>
               </div>
 
@@ -2586,14 +2021,7 @@
                 <br />
                 <br />
                 <mat-label class="font-size-14 weight-500">
-                  {{
-                    "Your rank in this game is above your average rank."
-                      | translate
-                  }}
-                  {{
-                    "Score has been added to your total survival score."
-                      | translate
-                  }}
+                  {{'Score has been added to your total survival score.' | translate}}
                 </mat-label>
               </div>
             </mat-card-content>
@@ -2619,20 +2047,13 @@
             >
               <mat-label></mat-label>
             </mat-grid-tile>
-            <mat-grid-tile
-              class="result-grid"
-              *ngFor="
-                let col of generalService.gameResult?.result?.scoreboard;
-                let i = index
-              "
-              [colspan]="1"
-            >
-              <mat-label class="font-size-12 weight-700"
-                >A{{ i + 1 }}</mat-label
-              >
+            <mat-grid-tile class="result-grid"
+                           *ngFor="let col of generalService.gameResult?.result?.scoreboard; let i=index"
+                           [colspan]="1">
+              <mat-label class="font-size-12 weight-700">{{'A' | translate}}{{i + 1}}</mat-label>
             </mat-grid-tile>
             <mat-grid-tile class="result-grid" [colspan]="1">
-              <mat-label class="font-size-12 weight-700">Q</mat-label>
+              <mat-label class="font-size-12 weight-700">{{'Q' | translate}}</mat-label>
             </mat-grid-tile>
             <mat-grid-tile class="result-grid" [colspan]="1">
               <mat-label class="font-size-12 weight-700">{{
@@ -2767,12 +2188,7 @@
               </svg>
               <mat-label
                 class="font-size-14 weight-600"
-                style="direction: ltr"
-                >{{
-                  generalService.gameResult?.startedAt
-                    | timeDifference : generalService.gameResult?.endedAt
-                }}</mat-label
-              >
+                style="direction: ltr">{{generalService.gameResult?.startedAt | timeDifference:generalService.gameResult?.endedAt }}</mat-label>
             </div>
           </div>
           <br />
@@ -2795,14 +2211,8 @@
               (closed)="panelOpenState[i] = false"
             >
               <mat-expansion-panel-header
-                style="
-                  height: fit-content;
-                  padding-inline-start: 0;
-                  padding-bottom: 10px;
-                  padding-inline-end: 0;
-                "
-              >
-                <mat-panel-title style="min-width: 90%">
+                style="height: fit-content; padding-inline-start: 0; padding-bottom: 10px; padding-inline-end: 0">
+                <mat-panel-title [style]="generalService.isMobileView ? 'min-width: 88%' : 'min-width: 90%'">
                   <mat-card class="shadow-none border-0 bg-transparent">
                     <mat-card-header>
                       <img

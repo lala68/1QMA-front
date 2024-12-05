@@ -28,6 +28,7 @@ import SwiperCore from 'swiper';
 import {SwiperOptions} from "swiper/types";
 import {SwiperContainer} from 'swiper/element/bundle';
 import {Subject, takeUntil} from "rxjs";
+import {ConfigService} from "../../services/config/config.service";
 
 SwiperCore.use([]);
 
@@ -84,7 +85,8 @@ export class WizardComponent implements OnInit {
   private _onDestroy = new Subject<void>();
 
   constructor(private _formBuilder: FormBuilder, private router: Router, private translateService: TranslateService,
-              public generalService: GeneralService, public authService: AuthService, public dialog: MatDialog,) {
+              public generalService: GeneralService, public authService: AuthService, public dialog: MatDialog,
+              public configService: ConfigService) {
     if (this.generalService.userObj?.preferedCategories) {
       // this.selectedType = this.generalService.userObj?.accountType;
       this.selectedCategory = this.generalService.userObj?.preferedCategories;

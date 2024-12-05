@@ -47,17 +47,14 @@
   >
     <mat-card class="shadow-none w-100">
       <mat-card-header>
-        <img
-          mat-card-avatar
-          [src]="data?.data?.game?.creator?.profilePicture ? data?.data?.game?.creator?.profilePicture?.startsWith('http') ? data?.data?.game?.creator?.profilePicture : configService.url(data?.data?.game?.creator?.profilePicture) : 'assets/images/frame.png'"
-          width="35"
-          height="35"
-        />
-        <mat-card-title class="font-size-10 weight-500 mt-2 text-gray pe-0"
-          >{{'Created by' | translate}}
+        <img mat-card-avatar
+             src="favicon.ico"
+             width="35" height="35">
+        <mat-card-title
+          class="font-size-10 weight-500 mt-2 text-gray pe-0">{{'Created by' | translate}}
         </mat-card-title>
         <mat-card-subtitle class="font-size-14 weight-500">
-          Admin
+          1QMA
         </mat-card-subtitle>
       </mat-card-header>
     </mat-card>
@@ -67,27 +64,20 @@
     >
       <mat-card class="shadow-none">
         <mat-card-header>
-          <img
-            mat-card-avatar
-            [src]="'https://api.1qma.games/' + data?.data?.icon"
-            width="35"
-            height="35"
-          />
-          <mat-card-title class="font-size-14 weight-500 mt-2"
-            >{{data?.data?.name}}
+          <img mat-card-avatar [src]="configService.baseUrl + data?.data?.icon" width="35"
+               height="35">
+          <mat-card-title
+            class="font-size-14 weight-500 mt-2">{{data?.data?.name | translate}}
           </mat-card-title>
         </mat-card-header>
       </mat-card>
       <mat-card class="shadow-none">
         <mat-card-header>
-          <img
-            mat-card-avatar
-            src="assets/images/normal-game.png"
-            width="35"
-            height="35"
-          />
-          <mat-card-title class="font-size-14 weight-500 mt-2"
-            >Normal
+          <img mat-card-avatar src="assets/images/normal-game.png"
+               width="35"
+               height="35">
+          <mat-card-title
+            class="font-size-14 weight-500 mt-2">{{'Normal' | translate}}
           </mat-card-title>
         </mat-card-header>
       </mat-card>

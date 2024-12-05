@@ -497,16 +497,10 @@
 
   <div class="card-container m-0">
     <div>
-      <mat-card
-        *ngFor="let endedGame of latestGames"
-        class="bordered-card shadow-none text-center d-inline-block"
-      >
-        <img
-          [src]="'https://api.1qma.games/' + endedGame?.category?.icon"
-          width="50"
-          height="50"
-          style="margin: 0 auto"
-        />
+      <mat-card *ngFor="let endedGame of latestGames"
+                class="bordered-card shadow-none text-center d-inline-block">
+        <img [src]="configService.baseUrl + endedGame?.category?.icon" width="50" height="50"
+             style="margin: 0 auto">
         <mat-card-header style="margin: 0 auto; display: block">
           <mat-card-title class="font-size-14 weight-700">{{
             endedGame?.category?.name
@@ -571,27 +565,14 @@
             </div>
           </div>
           <div class="font-size-14 weight-500 p-2 text-end">
-            <span
-              class="font-size-14 weight-500 position-absolute bottom-0"
-              style="inset-inline-end: 5px"
-              >{{ endedGame?.gameType?.text }}</span
-            >
-            <img
-              src="assets/images/normal-game.png"
-              *ngIf="endedGame?.gameType?.id == 'normal'"
-              width="22"
-              height="22"
-              class="mb-0 position-absolute"
-              style="top: 25px; inset-inline-end: 55px"
-            />
-            <img
-              src="assets/images/survival-game.png"
-              *ngIf="endedGame?.gameType?.id == 'survival'"
-              width="22"
-              height="22"
-              class="mb-0 position-absolute"
-              style="top: 25px; inset-inline-end: 55px"
-            />
+                 <span class="font-size-14 weight-500 position-absolute bottom-0"
+                       style="inset-inline-end: 5px">{{endedGame?.gameType?.text | translate}}</span>
+            <img src="assets/images/normal-game.png" *ngIf="endedGame?.gameType?.id == 'normal'" width="22"
+                 height="22"
+                 class="mb-0 position-absolute" style="top: 25px; inset-inline-end: 55px">
+            <img src="assets/images/survival-game.png" *ngIf="endedGame?.gameType?.id == 'survival'"
+                 width="22" height="22"
+                 class="mb-0 position-absolute" style="top: 25px; inset-inline-end: 55px">
           </div>
         </div>
         <br />

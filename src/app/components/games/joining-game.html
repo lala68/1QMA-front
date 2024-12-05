@@ -68,35 +68,23 @@
     >
       <mat-card class="shadow-none">
         <mat-card-header>
-          <img
-            mat-card-avatar
-            [src]="'https://api.1qma.games/' + data?.data?.game?.category?.icon"
-            width="35"
-            height="35"
-          />
-          <mat-card-title class="font-size-14 weight-500 mt-2"
-            >{{data?.data?.game?.category?.name}}
+          <img mat-card-avatar [src]="configService.baseUrl + data?.data?.game?.category?.icon" width="35"
+               height="35">
+          <mat-card-title
+            class="font-size-14 weight-500 mt-2">{{data?.data?.game?.category?.name | translate}}
           </mat-card-title>
         </mat-card-header>
       </mat-card>
       <mat-card class="shadow-none">
         <mat-card-header>
-          <img
-            mat-card-avatar
-            src="assets/images/normal-game.png"
-            *ngIf="data?.data?.game?.gameType?.id == 'normal'"
-            width="35"
-            height="35"
-          />
-          <img
-            mat-card-avatar
-            src="assets/images/survival-game.png"
-            *ngIf="data?.data?.game?.gameType?.id == 'survival'"
-            width="35"
-            height="35"
-          />
-          <mat-card-title class="font-size-14 weight-500 mt-2"
-            >{{data?.data?.game?.gameType?.text}}
+          <img mat-card-avatar src="assets/images/normal-game.png" *ngIf="data?.data?.game?.gameType?.id == 'normal'"
+               width="35"
+               height="35">
+          <img mat-card-avatar src="assets/images/survival-game.png"
+               *ngIf="data?.data?.game?.gameType?.id == 'survival'"
+               width="35" height="35">
+          <mat-card-title
+            class="font-size-14 weight-500 mt-2">{{data?.data?.game?.gameType?.text | translate}}
           </mat-card-title>
         </mat-card-header>
       </mat-card>

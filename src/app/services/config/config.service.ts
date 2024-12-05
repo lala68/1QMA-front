@@ -5,8 +5,10 @@ import {environment} from "../../../environments/environment";
   providedIn: 'root'
 })
 export class ConfigService {
+  baseUrl: any;
 
   constructor() {
+    this.baseUrl = environment.baseUrl;
   }
 
   url(path: string, param?: string | number): string {

@@ -1,4 +1,4 @@
-<div class="font-size-14 weight-700 mt-2 ms-2">{{'Game Finished'}}</div>
+<div class="font-size-14 weight-700 mt-2 ms-2">{{'Game Finished' | translate}}</div>
 <div mat-dialog-content class="m-2">
   <mat-label
     style="font-size: 16px; font-weight: 600">{{'Game has been ended!' | translate}}</mat-label>
@@ -8,6 +8,6 @@
   <br>
 </div>
 <div mat-dialog-actions class="float-end" style="margin: 0 auto">
-  <button style="width: 134px" mat-raised-button color="primary"
+  <button style="width: fit-content" mat-raised-button color="primary"
           (click)="gotoHome()">{{'Go to home' | translate}}</button>
 </div>

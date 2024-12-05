@@ -6,6 +6,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {SnackbarContentComponent} from "../../components/snackbar-content/snackbar-content.component";
 import {Router} from "@angular/router";
 import {FormControl} from "@angular/forms";
+import {TranslateService} from "@ngx-translate/core";
 
 @Injectable({
   providedIn: 'root'
@@ -59,7 +60,7 @@ export class GeneralService implements OnInit {
   keepAliveInterval: any;
   isDisconnectedModal: boolean = false;
 
-  constructor(private http: HttpClient, private _snackBar: MatSnackBar, private router: Router) {
+  constructor(private http: HttpClient, private _snackBar: MatSnackBar, private translate: TranslateService) {
   }
 
   async ngOnInit(): Promise<void> {
@@ -87,6 +88,14 @@ export class GeneralService implements OnInit {
           this.userObj = (user.value);
           this.userId = this.userObj._id;
         }
+        // Set up translation and direction
+        await this.translate.use(this.userObj?.preferedLanguage?.code).toPromise(); // Ensures language change is complete
+        document.documentElement.dir = this.userObj?.preferedLanguage?.code !== 'fa' ? 'ltr' : 'rtl';
+        this.direction = document.documentElement.dir;
+
+        const bootstrapRTL = document.getElementById('bootstrapRTL') as HTMLLinkElement;
+        bootstrapRTL.disabled = document.documentElement.dir !== 'rtl';
+        this.onFontSelect(this.userObj?.preferedFont);
       } catch {
         this.userObj = (user.value);
         this.userId = this.userObj._id;
@@ -214,66 +223,24 @@ export class GeneralService implements OnInit {
     }
   }
 
-  updateFontBasedOnLanguage(lang: any) {
-    const body = document.body;
-    body.classList.remove('english-font', 'farsi-font'); // Remove previous font classes
-
-    switch (lang) {
-      case 'en':
-        body.classList.add('english-font'); // Apply English font
-        break;
-      case 'fa':
-        body.classList.add('farsi-font'); // Apply Farsi font
-        break;
-      default:
-        body.classList.add('english-font'); // Default to English font
-    }
-  }
-
   onFontSelect(font: any) {
     const body = document.body;
-    body.classList.remove('english-font', 'farsi-font', 'exo-font', 'rokh-font'
-      , 'anjoman-font', 'anjoman-font-en', 'daal-font', 'damavand-font', 'dana-font', 'dana-font-en', 'farhang-font', 'irancell-font',
-      'IRANSans-font' , 'IRANSans-font-en', 'kohinoor-font', 'peyda-font', 'pinar-font'); // Remove previous font classes
+    body.classList.remove('anjoman-font', 'anjoman-font-en', 'dana-font', 'dana-font-en',
+      'IRANSans-font', 'IRANSans-font-en', 'modam-font', 'modam-font-en'); // Remove previous font classes
     switch (font) {
-      case 'Exo':
-        body.classList.add('exo-font'); // Apply English font
-        break;
-      case 'Rokh':
-        body.classList.add('rokh-font'); // Apply Farsi font
-        break;
       case 'Anjoman':
         this.userObj?.preferedLanguage?.code == 'fa' ? body.classList.add('anjoman-font') : body.classList.add('anjoman-font-en'); // Apply Farsi font
-        break;
-      case 'Daal':
-        body.classList.add('daal-font'); // Apply Farsi font
-        break;
-      case 'Damavand':
-        body.classList.add('damavand-font'); // Apply Farsi font
         break;
       case 'Dana':
         this.userObj?.preferedLanguage?.code == 'fa' ? body.classList.add('dana-font') : body.classList.add('dana-font-en'); // Apply Farsi font
         break;
-      case 'Farhang':
-        body.classList.add('farhang-font'); // Apply Farsi font
-        break;
-      case 'Irancell':
-        body.classList.add('irancell-font'); // Apply Farsi font
-        break;
       case 'IRANSans':
         this.userObj?.preferedLanguage?.code == 'fa' ? body.classList.add('IRANSans-font') : body.classList.add('IRANSans-font-en'); // Apply Farsi font
         break;
-      case 'Kohinoor':
-        body.classList.add('kohinoor-font'); // Apply Farsi font
-        break;
-      case 'Peyda':
-        body.classList.add('peyda-font'); // Apply Farsi font
-        break;
-      case 'Pinar':
-        body.classList.add('pinar-font'); // Apply Farsi font
+      case 'Modam':
+        this.userObj?.preferedLanguage?.code == 'fa' ? body.classList.add('modam-font') : body.classList.add('modam-font-en'); // Apply Farsi font
         break;
       default:
-      // body.classList.add('english-font'); // Default to English font
     }
   }
 }

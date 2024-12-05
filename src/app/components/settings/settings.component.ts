@@ -26,8 +26,12 @@ export class SettingsComponent implements OnInit {
     defaultHomePage: [''],
   });
   loading: boolean = false;
-  availableFonts: string[] = ['Rokh', 'Exo', 'Anjoman', 'Daal', 'Damavand', 'Dana', 'Farhang', 'Irancell', 'IRANSans',
-    'Kohinoor', 'Peyda', 'Pinar'];
+  availableFonts: any = [
+    {name: 'Anjoman', faName: 'انجمن', code: 'Anjoman'},
+    {name: 'Dana', faName: 'دانا', code: 'Dana'},
+    {name: 'IRANSans', faName: 'ایرانسنس', code: 'IRANSans'},
+    {name: 'Modam', faName: 'مدام', code: 'Modam'},
+    ];
 
 
   constructor(public generalService: GeneralService, private _formBuilder: FormBuilder, public dialog: MatDialog,
@@ -53,6 +57,7 @@ export class SettingsComponent implements OnInit {
 
     this.clientService.updateSettings(this.settingsForm.value, this.generalService.userId).then(async data => {
       if (data.status == 1) {
+        console.log(data.data)
         await Preferences.remove({key: 'account'});
         await Preferences.set({key: 'account', value: JSON.stringify(data.data)});
         await this.generalService.getUserData();

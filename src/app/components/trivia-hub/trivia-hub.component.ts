@@ -98,8 +98,8 @@ export class TriviaHubComponent implements OnInit {
           this.generalService.clientInit.user.hasSeenIntros &&
           !this.generalService.clientInit.user.hasSeenIntros.triviaHub
         ) {
-          setTimeout(async() => {
-          await this.showIntro(); // Wait for showIntro to finish
+          setTimeout(async () => {
+            await this.showIntro(); // Wait for showIntro to finish
           }, 1000);
         }
       }, error => {
@@ -186,6 +186,7 @@ export class TriviaHubComponent implements OnInit {
   }
 
   questionOrGame() {
+    this.page = 1;
     if (this.generalService.selectedTabIndexParentInTrivia == 0) {
       this.ngOnInit();
     } else if (this.generalService.selectedTabIndexParentInTrivia == 1) {
@@ -246,6 +247,19 @@ export class TriviaHubComponent implements OnInit {
       this.library = (data.data);
       this.libraryQuestions = this.libraryQuestions.concat(data.data.questions);
       this.noMoreItems = data.data.questions?.length < 4;
+    }, error => {
+      return this.processHTTPMsgService.handleError(error);
+    });
+  }
+
+  async showMoreGames() {
+    this.page++;
+    this.loadingMore = true;
+    this.gameService.getAllOrMyGames(this.generalService.selectedTabIndexGameChildInTrivia == 0 ? '' : 'private',
+      this.selectedCategory ? this.selectedCategory : '', 10, this.page, this.selectedSortOptionGame).then(data => {
+      this.loadingMore = false;
+      this.gameData = this.gameData.concat(data.data);
+      this.noMoreItems = data.data?.length < 10;
     }, error => {
       return this.processHTTPMsgService.handleError(error);
     });
@@ -319,6 +333,8 @@ export class TriviaHubComponent implements OnInit {
 
   onSelectGameSort(option: string): void {
     this.selectedSortOptionGame = option;
+    this.noMoreItems = false;
+    this.page = 1;
     // console.log('Selected option:', this.selectedSortOption);
     this.changeGames();
     // You can also perform any additional logic here based on the selected option.

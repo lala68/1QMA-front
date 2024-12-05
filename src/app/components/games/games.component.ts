@@ -12,51 +12,44 @@ import {
   FormControl,
   FormsModule,
   ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
-import {
-  ActivatedRoute,
-  NavigationStart,
-  Router,
-  RouterModule,
-} from '@angular/router';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { GeneralService } from '../../services/general/general.service';
-import { GamesService } from '../../services/games/games.service';
-import {
-  MAT_DIALOG_DATA,
-  MatDialog,
-  MatDialogConfig,
-  MatDialogRef,
-} from '@angular/material/dialog';
-import { MaterialModule } from '../../shared/material/material.module';
-import { ConfigService } from '../../services/config/config.service';
-import { ClientService } from '../../services/client/client.service';
-import { io } from 'socket.io-client';
-import { GameBoardComponent } from '../game-board/game-board.component';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { SnackbarContentComponent } from '../snackbar-content/snackbar-content.component';
-import { CountdownTimerComponent } from '../countdown-timer/countdown-timer.component';
-import { DaysAgoPipe } from '../../pipes/days-ago.pipe';
-import { ParsIntPipe } from '../../pipes/pars-int.pipe';
-import { ProcessHTTPMsgService } from '../../services/proccessHttpMsg/process-httpmsg.service';
-import translate from 'translate';
-import { IntroJsService } from '../../services/introJs/intro-js.service';
-import introJs from 'intro.js';
-import { Subscription } from 'rxjs';
-import { franc } from 'franc';
-import iso6391 from 'iso-639-1'; // Should work now
+  Validators
+} from "@angular/forms";
+import {ActivatedRoute, NavigationStart, Router, RouterModule} from "@angular/router";
+import {TranslateModule, TranslateService} from "@ngx-translate/core";
+import {GeneralService} from "../../services/general/general.service";
+import {GamesService} from "../../services/games/games.service";
+import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
+import {MaterialModule} from "../../shared/material/material.module";
+import {ConfigService} from "../../services/config/config.service";
+import {ClientService} from "../../services/client/client.service";
+import {io} from "socket.io-client";
+import {GameBoardComponent} from "../game-board/game-board.component";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {SnackbarContentComponent} from "../snackbar-content/snackbar-content.component";
+import {CountdownTimerComponent} from "../countdown-timer/countdown-timer.component";
+import {DaysAgoPipe} from "../../pipes/days-ago.pipe";
+import {ParsIntPipe} from "../../pipes/pars-int.pipe";
+import {ProcessHTTPMsgService} from "../../services/proccessHttpMsg/process-httpmsg.service";
+import translate from "translate";
+import {IntroJsService} from "../../services/introJs/intro-js.service";
+import introJs from "intro.js";
+import {franc} from "franc-min";
 
 type SupportedLanguages =
   | 'eng' // English
   | 'deu' // German
-  | 'prs' // Dari
-  | 'fas' // Persian (Farsi)
-  | 'pes' // Persian (alternate code)
-  | 'por' // Portuguese
-  | 'hnj' // Hmong
-  | 'sco' // Scots
-  | 'uig'; // Uighur
+  | 'pes' // Dari
+  | 'por' // Persian (Farsi)
+  | 'ckb' // Persian (Farsi)
+  | 'spa' // Persian (Farsi)
+  | 'hun' // Persian (Farsi)
+  | 'hnj' // Persian (alternate code)
+  | 'pdu' // Portuguese
+  | 'jav' // Hmong
+  | 'uzb' // Scots
+  | 'kaz' //pashto
+  | 'arb'
+  | 'und'; //pashto
 
 @Component({
   selector: 'app-games',
@@ -128,15 +121,20 @@ export class GamesComponent implements OnInit {
   private routerSubscription: any;
   private introInProgress: boolean = false; // Track whether the intro is showing
   private supportedLangs: Record<SupportedLanguages, string> = {
-    eng: 'en',
-    deu: 'de',
-    prs: 'fa',
-    fas: 'fa',
-    pes: 'fa',
-    por: 'en', // Portuguese detected as English
-    hnj: 'en', // Hmong detected as English
-    sco: 'en', // Scots detected as English
-    uig: 'en', // Uighur detected as English
+    'eng': 'en',  // English
+    'deu': 'en',  // German
+    'pes': 'fa',  // Persian (alternate code)
+    'por': 'en',  // Portuguese detected as English
+    'ckb': 'en',  // Portuguese detected as English
+    'spa': 'en',  // Portuguese detected as English
+    'hun': 'en',  // Portuguese detected as English
+    'hnj': 'en',  // Hmong detected as English
+    'pdu': 'fa',  // Scots detected as English
+    'jav': 'fa',  // Scots detected as English
+    'uzb': 'fa',  // Uzbek (traditionally uses Arabic script, especially in Iran, although Latin script is now more common)
+    'kaz': 'fa',  // Kazakh (traditionally uses Arabic script in some regions, now primarily uses Cyrillic)
+    'arb': 'fa',  // Arabic (while it’s a different language, it uses the Perso-Arabic script, sometimes mapped to Farsi in mixed language settings)
+    'und': 'fa',  // Arabic (while it’s a different language, it uses the Perso-Arabic script, sometimes mapped to Farsi in mixed language settings)
   };
 
   constructor(
@@ -431,38 +429,24 @@ export class GamesComponent implements OnInit {
       }
       this.gameBoardComponent.handleGameStep();
       // console.log(this.generalService.selectedTranslatedLanguage)
-      this.gameService
-        .getGameQuestionBasedOnStep(
-          this.generalService?.createdGameData?.game?.gameId,
-          1
-        )
-        .then(
-          async (resQue) => {
-            this.generalService.gameQuestion = resQue?.data;
-            if (
-              this.generalService.selectedTranslatedLanguage &&
-              this.generalService.selectedTranslatedLanguage != ''
-            ) {
-              // console.log(resQue?.data.question)
-              // console.log(this.generalService.selectedTranslatedLanguage)
-              this.generalService.gameQuestion.question =
-                await this.detectAndTranslate(
-                  resQue?.data.question,
-                  this.generalService.selectedTranslatedLanguage
-                );
-            }
-            this.updateWordCountAnswerGame();
-            if (resQue?.data?.myAnswer) {
-              this.generalService.gameAnswerGeneral = resQue?.data?.myAnswer;
-              this.generalService.editingAnswer = true;
-            } else {
-              this.generalService.editingAnswer = false;
-            }
-          },
-          (error) => {
-            return this.processHTTPMsgService.handleError(error);
-          }
-        );
+      this.gameService.getGameQuestionBasedOnStep(this.generalService?.createdGameData?.game?.gameId, 1).then(async resQue => {
+        this.generalService.gameQuestion = resQue?.data;
+        if (this.generalService.selectedTranslatedLanguage && this.generalService.selectedTranslatedLanguage != '') {
+          // console.log(resQue?.data.question)
+          // console.log(this.generalService.selectedTranslatedLanguage)
+          this.generalService.gameQuestion.question = await this.detectAndTranslate(resQue?.data.question,
+            this.generalService.selectedTranslatedLanguage, resQue?.data.language);
+        }
+        this.updateWordCountAnswerGame();
+        if (resQue?.data?.myAnswer) {
+          this.generalService.gameAnswerGeneral = resQue?.data?.myAnswer;
+          this.generalService.editingAnswer = true;
+        } else {
+          this.generalService.editingAnswer = false;
+        }
+      }, error => {
+        return this.processHTTPMsgService.handleError(error);
+      });
     });
 
     setTimeout(() => {
@@ -530,31 +514,35 @@ export class GamesComponent implements OnInit {
     return this.selectedGameType.some((game: any) => game === item);
   }
 
-  async detectAndTranslate(
-    question: string,
-    targetLanguage: string
-  ): Promise<string> {
+  async detectAndTranslate(question: string, targetLanguage: string, detectedLanguage: any): Promise<string> {
     // Use franc to detect the primary language
-    const detectedLangISO6393: string = franc(question);
-    // console.log(`Primary detected language (ISO 639-3): ${detectedLangISO6393}`);
+    if (question) {
+      // const detectedLangISO6393: string = franc(question);
+      // console.log(`Primary detected language (ISO 639-3): ${detectedLangISO6393}`);
 
-    // Map the detected language to the ISO 639-1 code or default to English
-    let detectedLangISO6391 =
-      this.supportedLangs[detectedLangISO6393 as SupportedLanguages] || 'en';
+      // Map the detected language to the ISO 639-1 code or default to English
+      // let detectedLangISO6391 = this.supportedLangs[detectedLangISO6393 as SupportedLanguages] || 'en';
 
-    // console.log(`ISO 639-1 code used for translation: ${detectedLangISO6391}`);
-    // console.log(`Target language for translation: ${targetLanguage}`);
+      // console.log(`ISO 639-1 code used for translation: ${detectedLangISO6391}`);
+      // console.log(`Target language for translation: ${targetLanguage}`);
 
-    // Perform the translation
-    try {
-      const translatedText = await translate(question, {
-        from: detectedLangISO6391,
-        to: targetLanguage,
-      });
-      return translatedText;
-    } catch (error) {
-      console.error('Translation error:', error);
-      throw new Error('Translation failed.');
+      // Perform the translation
+      if (detectedLanguage !== targetLanguage) {
+        try {
+          const translatedText = await translate(question, {
+            from: detectedLanguage,
+            to: targetLanguage,
+          });
+          return translatedText;
+        } catch (error) {
+          console.error('Translation error:', error);
+          throw new Error('Translation failed.');
+        }
+      } else {
+        return question;
+      }
+    } else {
+      return '';
     }
   }
 
@@ -746,38 +734,24 @@ export class GamesComponent implements OnInit {
       this.generalService.gameStep = 2;
       setTimeout(() => {
         // console.log(this.generalService?.createdGameData)
-        this.gameService
-          .getGameQuestionBasedOnStep(
-            this.generalService?.createdGameData?.game?.gameId,
-            1
-          )
-          .then(
-            async (resQue) => {
-              this.generalService.gameQuestion = resQue?.data;
-              if (
-                this.generalService.selectedTranslatedLanguage &&
-                this.generalService.selectedTranslatedLanguage != ''
-              ) {
-                this.generalService.gameQuestion.question =
-                  await this.detectAndTranslate(
-                    resQue?.data.question,
-                    this.generalService.selectedTranslatedLanguage
-                  );
-              }
-              this.updateWordCountAnswerGame();
-              if (resQue?.data?.myAnswer) {
-                this.generalService.gameAnswerGeneral = resQue?.data?.myAnswer;
-                this.generalService.editingAnswer = true;
-              } else {
-                this.generalService.editingAnswer = false;
-              }
-            },
-            (error) => {
-              return this.processHTTPMsgService.handleError(error);
-            }
-          );
-      }, 500);
-      this.gameBoardComponent.handleGameStep();
+        this.gameService.getGameQuestionBasedOnStep(this.generalService?.createdGameData?.game?.gameId, 1).then(async resQue => {
+          this.generalService.gameQuestion = resQue?.data;
+          if (this.generalService.selectedTranslatedLanguage && this.generalService.selectedTranslatedLanguage != '') {
+            this.generalService.gameQuestion.question = await this.detectAndTranslate(resQue?.data.question,
+              this.generalService.selectedTranslatedLanguage, resQue?.data.language);
+          }
+          this.updateWordCountAnswerGame();
+          if (resQue?.data?.myAnswer) {
+            this.generalService.gameAnswerGeneral = resQue?.data?.myAnswer;
+            this.generalService.editingAnswer = true;
+          } else {
+            this.generalService.editingAnswer = false;
+          }
+        }, error => {
+          return this.processHTTPMsgService.handleError(error);
+        });
+      }, 500)
+      this.gameBoardComponent.handleGameStep()
     });
 
     this.loadingJoinWithCode = true;

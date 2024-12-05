@@ -14,6 +14,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {Preferences} from "@capacitor/preferences";
 import {IntroJsService} from "../../services/introJs/intro-js.service";
 import introJs from "intro.js";
+import {ConfigService} from "../../services/config/config.service";
 
 @Component({
   selector: 'app-shop',
@@ -40,7 +41,7 @@ export class ShopComponent implements OnInit {
 
   constructor(public generalService: GeneralService, private processHTTPMsgService: ProcessHTTPMsgService, private router: Router,
               private shopService: ShopService, private _snackBar: MatSnackBar, private intro: IntroJsService,
-              private translate: TranslateService) {
+              private translate: TranslateService, public configService: ConfigService) {
     this.generalService.currentRout = '/shop';
     this.generalService.selectedTabIndexParentInTrivia = 0;
     this.generalService.selectedTabIndexQuestionChildInTrivia = 0;

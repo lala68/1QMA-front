@@ -109,31 +109,14 @@
           </div>
           <br />
           <mat-card-content>
-            <mat-card
-              *ngFor="let item of features"
-              class="shadow-none text-center d-inline-flex"
-              [class]="{
-                'bordered-card': !generalService.isMobileView,
-                'bordered-card-mobile': generalService.isMobileView
-              }"
-            >
-              <img
-                [src]="
-                  item?.icon
-                    ? 'https://api.1qma.games/' + item?.icon
-                    : 'assets/images/invitation.png'
-                "
-                width="50"
-                height="50"
-                style="margin: 0 auto"
-              />
-              <mat-card-header
-                style="margin: 0 auto; display: block; padding: 5px"
-              >
-                <mat-card-title class="font-size-14 weight-600"
-                  >{{ item?.details[0]?.count }}
-                  {{ item?.details[0]?.title }}</mat-card-title
-                >
+            <mat-card *ngFor="let item of features"
+                      class="shadow-none text-center d-inline-flex"
+                      [class]="{'bordered-card': !generalService.isMobileView, 'bordered-card-mobile': generalService.isMobileView}">
+              <img [src]="item?.icon ? configService.baseUrl + item?.icon : 'assets/images/invitation.png'"
+                   width="50" height="50" style="margin: 0 auto">
+              <mat-card-header style="margin: 0 auto; display: block; padding: 5px">
+                <mat-card-title
+                  class="font-size-14 weight-600">{{item?.details[0]?.count}} {{item?.details[0]?.title}}</mat-card-title>
                 <mat-card-subtitle class="font-size-14 weight-500">
                   {{ item?.realPrice }} $
                 </mat-card-subtitle>
@@ -178,30 +161,14 @@
           </div>
           <br />
           <mat-card-content>
-            <mat-card
-              *ngFor="let item of assets"
-              class="shadow-none text-center d-inline-flex"
-              [class]="{
-                'bordered-card': !generalService.isMobileView,
-                'bordered-card-mobile': generalService.isMobileView
-              }"
-            >
-              <img
-                [src]="
-                  item?.icon
-                    ? 'https://api.1qma.games/' + item?.icon
-                    : 'assets/images/invitation.png'
-                "
-                width="50"
-                height="50"
-                style="margin: 0 auto"
-              />
-              <mat-card-header
-                style="margin: 0 auto; display: block; padding: 5px"
-              >
-                <mat-card-title class="font-size-14 weight-600"
-                  >{{ item?.details[0]?.count }} {{ item?.details[0]?.title }}
-                  Coin
+            <mat-card *ngFor="let item of assets"
+                      class="shadow-none text-center d-inline-flex"
+                      [class]="{'bordered-card': !generalService.isMobileView, 'bordered-card-mobile': generalService.isMobileView}">
+              <img [src]="item?.icon ? configService.baseUrl + item?.icon : 'assets/images/invitation.png'"
+                   width="50" height="50" style="margin: 0 auto">
+              <mat-card-header style="margin: 0 auto; display: block; padding: 5px">
+                <mat-card-title class="font-size-14 weight-600">{{item?.details[0]?.count}} {{item?.details[0]?.title}}
+                  {{'Coin' | translate}}
                 </mat-card-title>
                 <mat-card-subtitle class="font-size-14 weight-500">
                   {{ item?.realPrice }} $
@@ -257,15 +224,8 @@
             >
               <div class="d-inline-flex">
                 <img
-                  [src]="
-                    item?.icon
-                      ? 'https://api.1qma.games/' + item?.icon
-                      : 'assets/images/invitation.png'
-                  "
-                  width="50"
-                  height="50"
-                  style="margin: 0 auto"
-                />
+                  [src]="item?.icon ? configService.baseUrl + item?.icon : 'assets/images/invitation.png'"
+                  width="50" height="50" style="margin: 0 auto">
               </div>
               <mat-card-header
                 style="margin: 0 auto; display: block; padding: 5px"
@@ -322,22 +282,11 @@
                 }"
               >
                 <img
-                  [src]="
-                    item?.icon
-                      ? 'https://api.1qma.games/' + item?.icon
-                      : 'assets/images/invitation.png'
-                  "
-                  width="50"
-                  height="50"
-                  style="margin: 0 auto"
-                />
-                <mat-card-header
-                  style="margin: 0 auto; display: block; padding: 5px"
-                >
-                  <mat-card-title class="font-size-14 weight-600"
-                    >{{ item?.details[0]?.count }}
-                    {{ item?.details[0]?.title }}</mat-card-title
-                  >
+                  [src]="item?.icon ? configService.baseUrl + item?.icon : 'assets/images/invitation.png'"
+                  width="50" height="50" style="margin: 0 auto">
+                <mat-card-header style="margin: 0 auto; display: block; padding: 5px">
+                  <mat-card-title
+                    class="font-size-14 weight-600">{{item?.details[0]?.count}} {{item?.details[0]?.title}}</mat-card-title>
                   <mat-card-subtitle class="font-size-14 weight-500">
                     {{ item?.realPrice }} $
                   </mat-card-subtitle>
@@ -363,20 +312,9 @@
   <div *ngIf="step == 3">
     <div class="card border-0 w-100">
       <mat-card class="shadow-none w-100 d-inline-block p-4">
-        <div
-          class="w-40 d-table-cell text-center"
-          style="vertical-align: middle"
-        >
-          <img
-            [src]="
-              detail?.icon
-                ? 'https://api.1qma.games/' + detail?.icon
-                : 'assets/images/invitation.png'
-            "
-            width="120"
-            height="120"
-            style="margin: 0 auto"
-          />
+        <div class="w-40 d-table-cell text-center" style="vertical-align: middle">
+          <img [src]="detail?.icon ? configService.baseUrl + detail?.icon : 'assets/images/invitation.png'"
+               width="120" height="120" style="margin: 0 auto">
         </div>
         <div class="w-60 d-table-cell">
           <div class="weight-700 font-size-18">
@@ -389,19 +327,12 @@
               </mat-label>
               <div *ngIf="detail?.coinPrice" class="d-inline-flex">
                 <mat-label
-                  class="p-1 font-size-14 weight-600"
-                  style="color: #585858"
-                >
-                  {{ "OR" | translate }}</mat-label
-                >
-                <mat-label class="font-size-16 weight-600"
-                  >{{ detail?.coinPrice?.price }} {{ detail?.coinPrice?.coin }}
-                  {{ "Coin" | translate }}
+                  class="font-size-16 weight-600">{{detail?.coinPrice?.price}} {{detail?.coinPrice?.coin | translate}} {{'Coin' | translate}}
                 </mat-label>
               </div>
             </div>
             <mat-label class="d-block">
-              {{ detail?.description }}
+              {{generalService.userObj?.preferedLanguage?.code == 'fa' ? detail?.descriptionFa : detail?.description}}
             </mat-label>
             <div class="border-bottom mb-3 pt-3"></div>
             <mat-label class="pt-3 font-size-14 weight-700">
@@ -625,10 +556,8 @@
           <mat-label class="font-size-14 weight-500" style="color: #585858">
             {{ "Your item has been purchased successfully" | translate }}
           </mat-label>
-          <br /><br />
-          <mat-label class="font-size-16 weight-600"
-            >{{ "Purchased Item" | translate }}: {{ detail?.coinPrice?.price }}
-            {{ detail?.coinPrice?.coin }} {{ "Coin" | translate }}
+          <br><br>
+          <mat-label class="font-size-16 weight-600">{{'Purchased Item' | translate}}: {{detail?.coinPrice?.price}} {{detail?.coinPrice?.coin | translate}} {{'Coin' | translate}}
           </mat-label>
           <br /><br />
           <button

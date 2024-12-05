@@ -34,22 +34,22 @@
             <br />
             <!--  private-->
             <div class="d-flex overflow-scroll">
-              <!--              <div class="m-2 d-inline-flex shadow-none cursor-pointer p-2"-->
-              <!--                   (click)="selectCat('')"-->
-              <!--                   [class]="{'mat-card-pref-selected': isSelected(''), 'mat-card-pref': !isSelected('')}">-->
-              <!--                <div class="text-center w-100" style="padding-top: 8px">-->
-              <!--                  <mat-label class="font-size-14 weight-600">{{ 'all categories' }}</mat-label>-->
-              <!--                </div>-->
-              <!--              </div>-->
-              <!--              <div *ngFor="let cat of generalService?.clientInit?.categories"-->
-              <!--                   class="m-2 d-inline-flex shadow-none cursor-pointer p-2"-->
-              <!--                   (click)="selectCat(cat)"-->
-              <!--                   [class]="{'mat-card-pref-selected': isSelected(cat), 'mat-card-pref': !isSelected(cat)}">-->
-              <!--                <div class="text-start">-->
-              <!--                  <img [src]="'https://api.1qma.games/' + cat?.icon" width="35">-->
-              <!--                  <mat-label>{{ cat?.name }}</mat-label>-->
-              <!--                </div>-->
-              <!--              </div>-->
+<!--              <div class="m-2 d-inline-flex shadow-none cursor-pointer p-2"-->
+<!--                   (click)="selectCat('')"-->
+<!--                   [class]="{'mat-card-pref-selected': isSelected(''), 'mat-card-pref': !isSelected('')}">-->
+<!--                <div class="text-center w-100" style="padding-top: 8px">-->
+<!--                  <mat-label class="font-size-14 weight-600">{{ 'all categories' }}</mat-label>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              <div *ngFor="let cat of generalService?.clientInit?.categories"-->
+<!--                   class="m-2 d-inline-flex shadow-none cursor-pointer p-2"-->
+<!--                   (click)="selectCat(cat)"-->
+<!--                   [class]="{'mat-card-pref-selected': isSelected(cat), 'mat-card-pref': !isSelected(cat)}">-->
+<!--                <div class="text-start">-->
+<!--                  <img [src]="configService.baseUrl + cat?.icon" width="35">-->
+<!--                  <mat-label>{{ cat?.name }}</mat-label>-->
+<!--                </div>-->
+<!--              </div>-->
               <div class="ms-4 w-100 d-inline-flex align-items-center">
                 <mat-label style="margin-bottom: 20px"
                   >{{ "Category" | translate }}:&nbsp;</mat-label
@@ -70,16 +70,11 @@
                     <mat-option [value]="''">
                       {{ "all categories" | translate }}
                     </mat-option>
-                    <mat-option
-                      *ngFor="let cat of generalService.clientInit?.categories"
-                      [value]="cat._id"
-                    >
-                      <img
-                        [src]="'https://api.1qma.games/' + cat?.icon"
-                        width="20"
-                        height="20"
-                      />
-                      {{ cat?.name }}
+                    <mat-option *ngFor="let cat of generalService.clientInit?.categories"
+                                [dir]="generalService.userObj?.preferedLanguage?.code == 'fa' ? 'rtl' : 'ltr'"
+                                [value]="cat._id">
+                      <img [src]="configService.baseUrl + cat?.icon" width="20" height="20">
+                      {{ cat?.name | translate }}
                     </mat-option>
                   </mat-select>
                 </mat-form-field>
@@ -267,13 +262,9 @@
                     >
                       <img
                         [src]="configService.url(item?.category?.icon)"
-                        width="16"
-                      />
-                      <mat-label
-                        class="font-size-12 weight-600"
-                        style="margin: auto 5px"
-                        >{{ item?.category?.name }}</mat-label
-                      >
+                        width="16">
+                      <mat-label class="font-size-12 weight-600"
+                                 style="margin: auto 5px">{{item?.category?.name | translate}}</mat-label>
                     </div>
                   </div>
                 </div>
@@ -620,13 +611,9 @@
                   >
                     <img
                       [src]="configService.url(item.category?.icon)"
-                      width="16"
-                    />
-                    <mat-label
-                      class="font-size-12 weight-600"
-                      style="margin: auto 5px"
-                      >{{ item?.category?.name }}</mat-label
-                    >
+                      width="16">
+                    <mat-label class="font-size-12 weight-600"
+                               style="margin: auto 5px">{{item?.category?.name | translate}}</mat-label>
                   </div>
                   &nbsp;&nbsp;
                   <div
@@ -1006,13 +993,9 @@
                   >
                     <img
                       [src]="configService.url(item.category?.icon)"
-                      width="16"
-                    />
-                    <mat-label
-                      class="font-size-12 weight-600"
-                      style="margin: auto 5px"
-                      >{{ item?.category?.name }}</mat-label
-                    >
+                      width="16">
+                    <mat-label class="font-size-12 weight-600"
+                               style="margin: auto 5px">{{item?.category?.name | translate}}</mat-label>
                   </div>
                 </div>
                 <br />
@@ -1270,22 +1253,22 @@
             </mat-card-header>
             <br />
             <div class="d-flex overflow-scroll">
-              <!--              <div class="m-2 d-inline-flex shadow-none cursor-pointer p-2"-->
-              <!--                   (click)="selectCatGame('')"-->
-              <!--                   [class]="{'mat-card-pref-selected': isSelected(''), 'mat-card-pref': !isSelected('')}">-->
-              <!--                <div class="text-center w-100" style="padding-top: 8px">-->
-              <!--                  <mat-label class="font-size-14 weight-600">{{ 'all categories' }}</mat-label>-->
-              <!--                </div>-->
-              <!--              </div>-->
-              <!--              <div *ngFor="let cat of generalService?.clientInit?.categories"-->
-              <!--                   class="m-2 d-inline-flex shadow-none cursor-pointer p-2"-->
-              <!--                   (click)="selectCatGame(cat)"-->
-              <!--                   [class]="{'mat-card-pref-selected': isSelected(cat), 'mat-card-pref': !isSelected(cat)}">-->
-              <!--                <div class="text-start">-->
-              <!--                  <img [src]="'https://api.1qma.games/' + cat?.icon" width="35">-->
-              <!--                  <mat-label>{{ cat?.name }}</mat-label>-->
-              <!--                </div>-->
-              <!--              </div>-->
+<!--              <div class="m-2 d-inline-flex shadow-none cursor-pointer p-2"-->
+<!--                   (click)="selectCatGame('')"-->
+<!--                   [class]="{'mat-card-pref-selected': isSelected(''), 'mat-card-pref': !isSelected('')}">-->
+<!--                <div class="text-center w-100" style="padding-top: 8px">-->
+<!--                  <mat-label class="font-size-14 weight-600">{{ 'all categories' }}</mat-label>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              <div *ngFor="let cat of generalService?.clientInit?.categories"-->
+<!--                   class="m-2 d-inline-flex shadow-none cursor-pointer p-2"-->
+<!--                   (click)="selectCatGame(cat)"-->
+<!--                   [class]="{'mat-card-pref-selected': isSelected(cat), 'mat-card-pref': !isSelected(cat)}">-->
+<!--                <div class="text-start">-->
+<!--                  <img [src]="configService.baseUrl + cat?.icon" width="35">-->
+<!--                  <mat-label>{{ cat?.name }}</mat-label>-->
+<!--                </div>-->
+<!--              </div>-->
               <div class="ms-4 w-100 d-inline-flex align-items-center">
                 <mat-label style="margin-bottom: 20px"
                   >{{ "Category" | translate }}:&nbsp;</mat-label
@@ -1306,16 +1289,11 @@
                     <mat-option [value]="''">
                       {{ "all categories" | translate }}
                     </mat-option>
-                    <mat-option
-                      *ngFor="let cat of generalService.clientInit?.categories"
-                      [value]="cat._id"
-                    >
-                      <img
-                        [src]="'https://api.1qma.games/' + cat?.icon"
-                        width="20"
-                        height="20"
-                      />
-                      {{ cat?.name }}
+                    <mat-option *ngFor="let cat of generalService.clientInit?.categories"
+                                [dir]="generalService.userObj?.preferedLanguage?.code == 'fa' ? 'rtl' : 'ltr'"
+                                [value]="cat._id">
+                      <img [src]="configService.baseUrl + cat?.icon" width="20" height="20">
+                      {{ cat?.name | translate}}
                     </mat-option>
                   </mat-select>
                 </mat-form-field>
@@ -1360,28 +1338,15 @@
                     </div>
                   </mat-menu>
                 </div>
-                <br />
-                <br />
-                <mat-card
-                  *ngFor="let endedGame of gameData"
-                  class="shadow-none text-center d-inline-block"
-                  [class]="{
-                    'bordered-card': !generalService.isMobileView,
-                    'bordered-card-mobile': generalService.isMobileView
-                  }"
-                >
-                  <img
-                    [src]="
-                      'https://api.1qma.games/' + endedGame?.category?.icon
-                    "
-                    width="50"
-                    height="50"
-                    style="margin: 0 auto"
-                  />
+                <br>
+                <br>
+                <mat-card *ngFor="let endedGame of gameData"
+                          class="shadow-none text-center d-inline-block"
+                          [class]="{'bordered-card': !generalService.isMobileView, 'bordered-card-mobile': generalService.isMobileView}">
+                  <img [src]="configService.baseUrl + endedGame?.category?.icon" width="50" height="50"
+                       style="margin: 0 auto">
                   <mat-card-header style="margin: 0 auto; display: block">
-                    <mat-card-title class="font-size-14 weight-700">{{
-                      endedGame?.category?.name
-                    }}</mat-card-title>
+                    <mat-card-title class="font-size-14 weight-700">{{ endedGame?.category?.name | translate }}</mat-card-title>
                     <mat-card-subtitle class="font-size-12 weight-500">
                       {{ endedGame?.endedAt | daysAgo }}
                     </mat-card-subtitle>
@@ -1450,35 +1415,20 @@
                       </div>
                     </div>
                     <div class="font-size-14 weight-500 p-2 text-end">
-                      <span
-                        class="font-size-14 weight-500 position-absolute bottom-0"
-                        style="inset-inline-end: 5px"
-                        >{{ endedGame?.gameType?.text }}</span
-                      >
-                      <img
-                        src="assets/images/normal-game.png"
-                        *ngIf="endedGame?.gameType?.id == 'normal'"
-                        width="22"
-                        height="22"
-                        class="mb-0 position-absolute"
-                        style="top: 25px; inset-inline-end: 55px"
-                      />
-                      <img
-                        src="assets/images/survival-game.png"
-                        *ngIf="endedGame?.gameType?.id == 'survival'"
-                        width="22"
-                        height="22"
-                        class="mb-0 position-absolute"
-                        style="top: 25px; inset-inline-end: 55px"
-                      />
+                 <span class="font-size-14 weight-500 position-absolute bottom-0"
+                       style="inset-inline-end: 5px">{{endedGame?.gameType?.text | translate}}</span>
+                      <img src="assets/images/normal-game.png" *ngIf="endedGame?.gameType?.id == 'normal'" width="22"
+                           height="22"
+                           class="mb-0 position-absolute" style="top: 25px; inset-inline-end: 55px">
+                      <img src="assets/images/survival-game.png" *ngIf="endedGame?.gameType?.id == 'survival'"
+                           width="22" height="22"
+                           class="mb-0 position-absolute" style="top: 25px; inset-inline-end: 55px">
                     </div>
                   </div>
-                  <br />
-                  <span class="font-size-11 weight-500 text-start"
-                    >{{ endedGame?.players?.length }}
-                    {{ "Player" | translate }}</span
-                  >
-                  <br />
+                  <br>
+                  <span
+                    class="font-size-11 weight-500 text-start">{{endedGame?.players?.length}} {{'Players' | translate}}</span>
+                  <br>
                   <mat-card-actions>
                     <button
                       mat-raised-button
@@ -1489,6 +1439,15 @@
                     </button>
                   </mat-card-actions>
                 </mat-card>
+              </div>
+              <div style="margin: 20px auto; text-align: center" *ngIf="gameData?.length > 0">
+                <button mat-stroked-button color="primary" type="submit" *ngIf="!loadingMore && !noMoreItems"
+                        class="p-4s ms-2 blue-button" (click)="showMoreGames()"
+                        style="min-width: 150px; border: 1px solid #0B6FEA">
+                  <span>{{'More' | translate}}</span>
+                </button>
+                <mat-spinner style="margin: 0 auto; display: block; text-align: center" *ngIf="loadingMore"
+                             [diameter]="20"></mat-spinner>
               </div>
             </mat-card-content>
 
@@ -1533,26 +1492,13 @@
               <br />
               <br />
               <div class="">
-                <mat-card
-                  *ngFor="let endedGame of gameData"
-                  class="shadow-none text-center d-inline-block"
-                  [class]="{
-                    'bordered-card': !generalService.isMobileView,
-                    'bordered-card-mobile': generalService.isMobileView
-                  }"
-                >
-                  <img
-                    [src]="
-                      'https://api.1qma.games/' + endedGame?.category?.icon
-                    "
-                    width="50"
-                    height="50"
-                    style="margin: 0 auto"
-                  />
+                <mat-card *ngFor="let endedGame of gameData"
+                          class="shadow-none text-center d-inline-block"
+                          [class]="{'bordered-card': !generalService.isMobileView, 'bordered-card-mobile': generalService.isMobileView}">
+                  <img [src]="configService.baseUrl + endedGame?.category?.icon" width="50" height="50"
+                       style="margin: 0 auto">
                   <mat-card-header style="margin: 0 auto; display: block">
-                    <mat-card-title class="font-size-14 weight-700">{{
-                      endedGame?.category?.name
-                    }}</mat-card-title>
+                    <mat-card-title class="font-size-14 weight-700">{{ endedGame?.category?.name | translate}}</mat-card-title>
                     <mat-card-subtitle class="font-size-12 weight-500">
                       {{ endedGame?.endedAt | daysAgo }}
                     </mat-card-subtitle>
@@ -1640,35 +1586,20 @@
                       </div>
                     </div>
                     <div class="font-size-14 weight-500 p-2 text-end">
-                      <span
-                        class="font-size-14 weight-500 position-absolute bottom-0"
-                        style="inset-inline-end: 5px"
-                        >{{ endedGame?.gameType?.text }}</span
-                      >
-                      <img
-                        src="assets/images/normal-game.png"
-                        *ngIf="endedGame?.gameType?.id == 'normal'"
-                        width="22"
-                        height="22"
-                        class="mb-0 position-absolute"
-                        style="top: 25px; inset-inline-end: 55px"
-                      />
-                      <img
-                        src="assets/images/survival-game.png"
-                        *ngIf="endedGame?.gameType?.id == 'survival'"
-                        width="22"
-                        height="22"
-                        class="mb-0 position-absolute"
-                        style="top: 25px; inset-inline-end: 55px"
-                      />
+                 <span class="font-size-14 weight-500 position-absolute bottom-0"
+                       style="inset-inline-end: 5px">{{endedGame?.gameType?.text | translate}}</span>
+                      <img src="assets/images/normal-game.png" *ngIf="endedGame?.gameType?.id == 'normal'" width="22"
+                           height="22"
+                           class="mb-0 position-absolute" style="top: 25px; inset-inline-end: 55px">
+                      <img src="assets/images/survival-game.png" *ngIf="endedGame?.gameType?.id == 'survival'"
+                           width="22" height="22"
+                           class="mb-0 position-absolute" style="top: 25px; inset-inline-end: 55px">
                     </div>
                   </div>
-                  <br />
-                  <span class="font-size-11 weight-500 text-start"
-                    >{{ endedGame?.players?.length }}
-                    {{ "player" | translate }}</span
-                  >
-                  <br />
+                  <br>
+                  <span
+                    class="font-size-11 weight-500 text-start">{{endedGame?.players?.length}} {{'Players' | translate}}</span>
+                  <br>
                   <mat-card-actions>
                     <button
                       mat-raised-button
@@ -1679,6 +1610,15 @@
                     </button>
                   </mat-card-actions>
                 </mat-card>
+              </div>
+              <div style="margin: 20px auto; text-align: center" *ngIf="gameData?.length > 0">
+                <button mat-stroked-button color="primary" type="submit" *ngIf="!loadingMore && !noMoreItems"
+                        class="p-4s ms-2 blue-button" (click)="showMoreGames()"
+                        style="min-width: 150px; border: 1px solid #0B6FEA">
+                  <span>{{'More' | translate}}</span>
+                </button>
+                <mat-spinner style="margin: 0 auto; display: block; text-align: center" *ngIf="loadingMore"
+                             [diameter]="20"></mat-spinner>
               </div>
             </mat-card-content>
           </mat-card>

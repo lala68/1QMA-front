@@ -1,5 +1,5 @@
-<br />
-<div style="display: ruby-text">
+<br>
+<div style="display: table; margin: 10px auto; text-align: center;">
   <mat-spinner *ngIf="loading" [diameter]="30"></mat-spinner>
 </div>
 <mat-toolbar
@@ -218,16 +218,10 @@
             {{ generalService.userObj?.anonymousName }}
           </mat-card-subtitle>
           <mat-card-subtitle>
-            <small
-              *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'"
-              >{{ "created at" | translate }}:
-              {{ generalService.userObj?.created_at | date }}</small
-            >
-            <small
-              *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'"
-              >{{ "created at" | translate }}:
-              {{ generalService.userObj?.created_at | shamsiDate }}</small
-            >
+            <small *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'">{{'created at' | translate}}
+              : {{generalService.userObj?.created_at | date}}</small>
+            <small *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'">{{'created at' | translate}}
+              : {{generalService.userObj?.created_at | shamsiDate}}</small>
           </mat-card-subtitle>
         </mat-card-header>
         <mat-card-header class="pe-1 ps-1 border-bottom position-relative">
@@ -814,7 +808,7 @@
         <!--             (click)="selectCatTopQuestion(cat)"-->
         <!--             [class]="{'mat-card-pref-selected': isSelected(cat), 'mat-card-pref': !isSelected(cat)}">-->
         <!--          <div class="text-start">-->
-        <!--            <img [src]="'https://api.1qma.games/' + cat?.icon" width="35">-->
+        <!--            <img [src]="configService.baseUrl + cat?.icon" width="35">-->
         <!--            <mat-label>{{ cat?.name }}</mat-label>-->
         <!--          </div>-->
         <!--        </div>-->
@@ -838,16 +832,10 @@
               <mat-option [value]="''">
                 {{ "all categories" | translate }}
               </mat-option>
-              <mat-option
-                *ngFor="let cat of generalService.clientInit?.categories"
-                [value]="cat._id"
-              >
-                <img
-                  [src]="'https://api.1qma.games/' + cat?.icon"
-                  width="20"
-                  height="20"
-                />
-                {{ cat?.name }}
+              <mat-option *ngFor="let cat of generalService.clientInit?.categories" [value]="cat._id"
+                          [dir]="generalService.userObj?.preferedLanguage?.code == 'fa' ? 'rtl' : 'ltr'">
+                <img [src]="configService.baseUrl + cat?.icon" width="20" height="20">
+                {{ cat?.name | translate }}
               </mat-option>
             </mat-select>
           </mat-form-field>
@@ -908,13 +896,8 @@
           </mat-grid-tile>
           <mat-grid-tile class="result-grid" [colspan]="2">
             <div color="primary">
-              <img
-                [src]="'https://api.1qma.games/' + res?.category?.icon"
-                width="25"
-              />
-              <span class="font-size-12 weight-500">{{
-                res?.category?.name
-              }}</span>
+              <img [src]="configService.baseUrl + res?.category?.icon" width="25">
+              <span class="font-size-12 weight-500">{{res?.category?.name | translate}}</span>
             </div>
           </mat-grid-tile>
           <mat-grid-tile [colspan]="2">
@@ -1032,31 +1015,18 @@
               >
             </div>
             <div color="primary" class="d-flex align-items-center">
-              <img
-                [src]="'https://api.1qma.games/' + res?.category?.icon"
-                width="25"
-              />
-              <span class="font-size-12 weight-500">{{
-                res?.category?.name
-              }}</span>
+              <img [src]="configService.baseUrl + res?.category?.icon" width="25">
+              <span class="font-size-12 weight-500">{{res?.category?.name | translate}}</span>
             </div>
           </div>
           <div class="gray-card-mobile d-flex m-1">
             <div style="flex: 1">
-              <mat-label class="font-size-12 weight-400"
-                >Total Plays:</mat-label
-              >
-              <mat-label class="font-size-14 weight-500">{{
-                res?.plays | parsInt
-              }}</mat-label>
+              <mat-label class="font-size-12 weight-400">{{'Total Plays' | translate}}:</mat-label>
+              <mat-label class="font-size-14 weight-500">{{res?.plays | parsInt}}</mat-label>
             </div>
             <div style="flex: 1">
-              <mat-label class="font-size-12 weight-400"
-                >Total Score:</mat-label
-              >
-              <mat-label class="font-size-14 weight-500">{{
-                res?.score | parsInt
-              }}</mat-label>
+              <mat-label class="font-size-12 weight-400">{{'Total Score' | translate}}:</mat-label>
+              <mat-label class="font-size-14 weight-500">{{res?.score | parsInt}}</mat-label>
             </div>
             <svg
               (click)="gotoQuestionDetail(res)"
@@ -1239,19 +1209,11 @@
             style="padding-inline-start: 5px"
           />
         </div>
-        <div matListItemTitle>{{ invite?.email }}</div>
-        <div
-          matListItemLine
-          *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'"
-        >
-          {{ invite?.createdAt | date }}
-        </div>
-        <div
-          matListItemLine
-          *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'"
-        >
-          {{ invite?.createdAt | shamsiDate }}
-        </div>
+        <div matListItemTitle>{{invite?.email}}</div>
+        <div matListItemLine
+             *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'">{{invite?.createdAt | date}}</div>
+        <div matListItemLine
+             *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'">{{invite?.createdAt | shamsiDate}}</div>
       </mat-list-item>
     </mat-list>
   </div>
@@ -1273,17 +1235,13 @@
     <br />
     <mat-card class="shadow-none border-0 bg-transparent">
       <mat-card-header class="ps-0">
-        <img
-          mat-card-avatar
-          src="assets/images/charity.png"
-          width="64"
-          height="56"
-        />
-        <mat-card-title class="font-size-14 weight-600 pb-2"
-          >{{ "Play Game" | translate }},</mat-card-title
-        >
-        <mat-card-subtitle class="font-size-14 weight-600 pb-2 text-black"
-          >{{ "Make A Difference!" | translate }}
+        <img mat-card-avatar src="assets/images/charity.png"
+             width="64" height="56"/>
+        <mat-card-title
+          class="font-size-14 weight-600 pb-2">{{'Play Game' | translate}},
+        </mat-card-title>
+        <mat-card-subtitle
+          class="font-size-14 weight-600 pb-2 text-black">{{'Make A Difference!' | translate}}
         </mat-card-subtitle>
       </mat-card-header>
     </mat-card>
@@ -1310,22 +1268,13 @@
     >
       {{ "Choose Category" | translate }}
     </button>
-    <div
-      *ngIf="generalService.userObj?.preferedCharity"
-      class="copy-referrer cursor-pointer"
-      (click)="openCharityModal()"
-    >
-      <mat-label class="text-light-color"
-        >{{ "You are participated in" | translate }}:</mat-label
-      >
-      <br />
-      <mat-label class="font-size-14 weight-700"
-        >{{ generalService.userObj?.preferedCharity?.charity?.title }} >
-        {{
-          generalService.userObj?.preferedCharity?.activity?.title
-        }}</mat-label
-      >
-      <br />
+    <div *ngIf="generalService.userObj?.preferedCharity" class="copy-referrer cursor-pointer"
+         (click)="openCharityModal()">
+      <mat-label class="text-light-color">{{'You are participated in' | translate}}:</mat-label>
+      <br>
+      <mat-label class="font-size-14 weight-700">{{generalService.userObj?.preferedCharity?.charity?.title | translate}}
+        > {{generalService.userObj?.preferedCharity?.activity?.title | translate}}</mat-label>
+      <br>
       <mat-progress-bar
         style="
           width: 100%;
@@ -1431,35 +1380,15 @@
             >
               <!--              <mat-label class="font-size-12 weight-600"-->
               <!--                         style="margin: auto 5px">{{item?.category}}</mat-label>-->
-              <img
-                [src]="'https://api.1qma.games/' + item?.category?.icon"
-                width="25"
-              />
-              <span style="margin: auto 5px" class="font-size-12 weight-500">{{
-                item?.category?.name
-              }}</span>
+              <img [src]="configService.baseUrl + item?.category?.icon" width="25">
+              <span style="margin: auto 5px" class="font-size-12 weight-500">{{item?.category?.name | translate}}</span>
             </div>
           </div>
-          <div
-            class="d-inline-flex justify-content-between align-items-center m-1"
-          >
-            <div
-              class="white-card p-1 d-flex align-items-center"
-              style="width: fit-content"
-            >
-              <img
-                src="assets/images/normal-game.png"
-                *ngIf="item?.gameType?.id == 'normal'"
-                width="25"
-              />
-              <img
-                src="assets/images/survival-game.png"
-                *ngIf="item?.gameType?.id == 'survival'"
-                width="25"
-              />
-              <span style="margin: auto 5px" class="font-size-12 weight-500">{{
-                item?.gameType?.text
-              }}</span>
+          <div class="d-inline-flex justify-content-between align-items-center m-1">
+            <div class="white-card p-1 d-flex align-items-center" style="width: fit-content">
+              <img src="assets/images/normal-game.png" *ngIf="item?.gameType?.id == 'normal'" width="25">
+              <img src="assets/images/survival-game.png" *ngIf="item?.gameType?.id == 'survival'" width="25">
+              <span style="margin: auto 5px" class="font-size-12 weight-500">{{item?.gameType?.text | translate}}</span>
             </div>
           </div>
         </div>

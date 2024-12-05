@@ -12,22 +12,23 @@ import {
   NotificationMobile
 } from "./header/header.component";
 import {FooterComponent} from "./footer/footer.component";
-import {TranslateModule} from "@ngx-translate/core";
+import {TranslateModule, TranslateService} from "@ngx-translate/core";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ShamsiDatePipe} from "../pipes/shamsi-date.pipe";
 
 @NgModule({
     declarations: [
-        SidenavComponent, HeaderComponent, FooterComponent, AddQuestion, ExitGame, AccountMobile, GiftMobile, MoreMobile
+        SidenavComponent, HeaderComponent, FooterComponent, AddQuestion, ExitGame, AccountMobile, GiftMobile,
+      MoreMobile, NotificationMobile
     ],
   imports: [
     CommonModule, MaterialModule, RouterModule, TranslateModule, FormsModule, ReactiveFormsModule,
-
+    ShamsiDatePipe
   ],
   exports: [
     MaterialModule, SidenavComponent, HeaderComponent, FooterComponent, RouterModule
   ],
-  providers: [ShamsiDatePipe]
+  providers: [ShamsiDatePipe, TranslateService]
 })
 export class SharedModule {
 }
