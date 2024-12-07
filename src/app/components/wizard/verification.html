@@ -31,38 +31,38 @@
       {{errorEmail}}
     </div>
   </form>
-  <form #f="ngForm" [formGroup]="verifyFormMobile" class="mt-3" autocomplete="off"
-        *ngIf="!generalService.userObj?.mobileVerified">
-    <mat-form-field appearance="fill" class="custom-form-field w-100" [hideRequiredMarker]="true">
-      <mat-label>{{'Phone' | translate}}</mat-label>
-      <div class="d-inline-flex w-100">
-        <input matInput placeholder="{{'code' | translate}}" type="text" name="text"
-               [formControlName]="'mobile'" required>
-        <img src="assets/images/tick-circle.svg" width="25">
-      </div>
-    </mat-form-field>&nbsp;
-    <mat-form-field appearance="fill" class="custom-form-field w-100" [hideRequiredMarker]="true">
-      <mat-label>{{'Phone' | translate}}</mat-label>
-      <input matInput placeholder="{{'phone Code' | translate}}" type="text" name="text"
-             [formControlName]="'verificationCode'" required>
-    </mat-form-field>
-    <div *ngIf="!resendAblePhone" class="w-100">
-      <app-countdown-timer [duration]="generalService.initData?.nextVerificationMinutes * 60"
-                           (countdownFinished)="handleCountdownFinishedMobile()"></app-countdown-timer>
-    </div>
-    <mat-label class="w-100 mb-2 font-size-12" style="color: #0B6FEA" *ngIf="resendAblePhone"
-               (click)="resendCodePhone()">
-      {{'Resend' | translate}}
-    </mat-label>
-    <div role="alert" style="color: #ff5722; margin: 10px 0; font-size: small">
-      {{errorMobile}}
-    </div>
-  </form>
+<!--  <form #f="ngForm" [formGroup]="verifyFormMobile" class="mt-3" autocomplete="off"-->
+<!--        *ngIf="!generalService.userObj?.mobileVerified">-->
+<!--    <mat-form-field appearance="fill" class="custom-form-field w-100" [hideRequiredMarker]="true">-->
+<!--      <mat-label>{{'Phone' | translate}}</mat-label>-->
+<!--      <div class="d-inline-flex w-100">-->
+<!--        <input matInput placeholder="{{'code' | translate}}" type="text" name="text"-->
+<!--               [formControlName]="'mobile'" required>-->
+<!--        <img src="assets/images/tick-circle.svg" width="25">-->
+<!--      </div>-->
+<!--    </mat-form-field>&nbsp;-->
+<!--    <mat-form-field appearance="fill" class="custom-form-field w-100" [hideRequiredMarker]="true">-->
+<!--      <mat-label>{{'Phone' | translate}}</mat-label>-->
+<!--      <input matInput placeholder="{{'phone Code' | translate}}" type="text" name="text"-->
+<!--             [formControlName]="'verificationCode'" required>-->
+<!--    </mat-form-field>-->
+<!--    <div *ngIf="!resendAblePhone" class="w-100">-->
+<!--      <app-countdown-timer [duration]="generalService.initData?.nextVerificationMinutes * 60"-->
+<!--                           (countdownFinished)="handleCountdownFinishedMobile()"></app-countdown-timer>-->
+<!--    </div>-->
+<!--    <mat-label class="w-100 mb-2 font-size-12" style="color: #0B6FEA" *ngIf="resendAblePhone"-->
+<!--               (click)="resendCodePhone()">-->
+<!--      {{'Resend' | translate}}-->
+<!--    </mat-label>-->
+<!--    <div role="alert" style="color: #ff5722; margin: 10px 0; font-size: small">-->
+<!--      {{errorMobile}}-->
+<!--    </div>-->
+<!--  </form>-->
 </div>
 <div mat-dialog-actions class="m-2">
+<!--  (!this.generalService.userObj?.emailVerified && !verifyFormEmail.valid) || (!this.generalService.userObj?.mobileVerified && !verifyFormMobile.valid) || loading-->
   <button mat-raised-button color="primary" type="submit"
-          [disabled]="(!this.generalService.userObj?.emailVerified && !verifyFormEmail.valid) ||
-           (!this.generalService.userObj?.mobileVerified && !verifyFormMobile.valid) || loading"
+          [disabled]="(!this.generalService.userObj?.emailVerified && !verifyFormEmail.valid) || loading"
           class="w-75 p-4" style="margin: 0 auto" (click)="submit()">
     <span>{{'Verify' | translate}}</span>
   </button>

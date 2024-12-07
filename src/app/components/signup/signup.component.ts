@@ -30,16 +30,16 @@ export class SignupComponent {
   });
   signUpWaitListForm = this._formBuilder.group({
     email: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]),
-    mobile: new FormControl('', [Validators.required, Validators.minLength(10)]),
+    // mobile: new FormControl('', [Validators.required, Validators.minLength(10)]),
   });
   signUpVerifyFormEmail = this._formBuilder.group({
     email: new FormControl('', [Validators.required]),
     verificationCode: new FormControl('', [Validators.required]),
   });
-  signUpVerifyFormMobile = this._formBuilder.group({
-    mobile: new FormControl('', [Validators.required, Validators.minLength(10)]),
-    verificationCode: new FormControl('', [Validators.required]),
-  });
+  // signUpVerifyFormMobile = this._formBuilder.group({
+  //   mobile: new FormControl('', [Validators.required, Validators.minLength(10)]),
+  //   verificationCode: new FormControl('', [Validators.required]),
+  // });
   step: any = 1;
   resendAblePhone = false;
   resendAbleEmail = false;
@@ -95,8 +95,8 @@ export class SignupComponent {
       this.loading = false;
       if (data?.status == 1) {
         this.step = 2;
-        this.signUpVerifyFormMobile.controls.mobile.setValue(this.signUpWaitListForm.controls.mobile.value);
-        this.signUpVerifyFormMobile.controls.mobile.disable();
+        // this.signUpVerifyFormMobile.controls.mobile.setValue(this.signUpWaitListForm.controls.mobile.value);
+        // this.signUpVerifyFormMobile.controls.mobile.disable();
         this.signUpVerifyFormEmail.controls.email.setValue(this.signUpWaitListForm.controls.email.value);
         this.signUpVerifyFormEmail.controls.email.disable();
       } else if (data?.status == -1) {
@@ -114,15 +114,16 @@ export class SignupComponent {
         this.error = data?.message;
       }
     });
-    this.authService.verifyMobile(this.signUpVerifyFormMobile.getRawValue()).then(data => {
-      if (data?.status == 1) {
-        this.phoneVerified = true
-      } else {
-        this.error = data?.message
-      }
-    });
+    // this.authService.verifyMobile(this.signUpVerifyFormMobile.getRawValue()).then(data => {
+    //   if (data?.status == 1) {
+    //     this.phoneVerified = true
+    //   } else {
+    //     this.error = data?.message
+    //   }
+    // });
     setTimeout(() => {
-      if (this.phoneVerified && this.emailVerified)
+      // if (this.phoneVerified && this.emailVerified)
+      if (this.emailVerified)
         this.step = 3;
     }, 1000)
 
@@ -145,9 +146,9 @@ export class SignupComponent {
 
   async resendCodePhone() {
     this.resendAblePhone = false;
-    this.authService.resendCodeMobile(this.signUpVerifyFormMobile.controls.mobile.value).then(data => {
-
-    })
+    // this.authService.resendCodeMobile(this.signUpVerifyFormMobile.controls.mobile.value).then(data => {
+    //
+    // })
   }
 
   async prevStep() {

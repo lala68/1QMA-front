@@ -28,6 +28,7 @@ import translate from "translate";
 import {IntroJsService} from "../../services/introJs/intro-js.service";
 import introJs from "intro.js";
 import {franc} from "franc-min";
+import {TwoDecimalPipe} from "../../pipes/two-decimal.pipe";
 
 type SupportedLanguages =
   | 'eng' // English
@@ -49,7 +50,7 @@ type SupportedLanguages =
   selector: 'app-games',
   standalone: true,
   imports: [CommonModule, SharedModule, FormsModule, RouterModule, ReactiveFormsModule,
-    TranslateModule, DaysAgoPipe, ParsIntPipe],
+    TranslateModule, DaysAgoPipe, ParsIntPipe, TwoDecimalPipe],
   templateUrl: './games.component.html',
   styleUrl: './games.component.scss',
   providers: [GameBoardComponent, CountdownTimerComponent],

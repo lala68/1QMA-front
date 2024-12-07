@@ -181,10 +181,10 @@
                          [colspan]="1">
             <mat-label class="font-size-12 weight-700">{{'A' | translate}}{{i + 1}}</mat-label>
           </mat-grid-tile>
-          <mat-grid-tile class="result-grid" [colspan]="1">
+          <mat-grid-tile class="result-grid" [colspan]="1" *ngIf="!generalService.isMobileView">
             <mat-label class="font-size-12 weight-700">{{'Q' | translate}}</mat-label>
           </mat-grid-tile>
-          <mat-grid-tile class="result-grid" [colspan]="1">
+          <mat-grid-tile class="result-grid" [colspan]="!generalService.isMobileView ? 1 : 2">
             <mat-label class="font-size-12 weight-700">{{'Total' | translate}}</mat-label>
           </mat-grid-tile>
         </mat-grid-list>
@@ -227,11 +227,11 @@
                          [colspan]="1">
             <mat-label>{{score | parsInt}}</mat-label>
           </mat-grid-tile>
-          <mat-grid-tile class="result-grid" [colspan]="1">
+          <mat-grid-tile class="result-grid" [colspan]="1" *ngIf="!generalService.isMobileView">
             <mat-label>{{res?.questionRate| parsInt}}</mat-label>
           </mat-grid-tile>
-          <mat-grid-tile class="result-grid" [colspan]="1">
-            <mat-label>{{res?.totalScore | parsInt}}</mat-label>
+          <mat-grid-tile class="result-grid" [colspan]="!generalService.isMobileView ? 1 : 2">
+            <mat-label>{{res?.totalScore | twoDecimal}}</mat-label>
           </mat-grid-tile>
         </mat-grid-list>
         <br>

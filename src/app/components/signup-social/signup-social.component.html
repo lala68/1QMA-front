@@ -21,14 +21,14 @@
           </div>
           <!--          <mat-error>{{'Please enter your email address' | translate}}</mat-error>-->
         </mat-form-field>
-        <mat-form-field appearance="fill" class="custom-form-field w-100 mb-2">
-          <ngx-mat-intl-tel-input
-            [enablePlaceholder]="true"
-            [enableSearch]="true"
-            [preferredCountries]="['ir']"
-            name="phone"
-            [formControlName]="'mobile'"></ngx-mat-intl-tel-input>
-        </mat-form-field>
+<!--        <mat-form-field appearance="fill" class="custom-form-field w-100 mb-2">-->
+<!--          <ngx-mat-intl-tel-input-->
+<!--            [enablePlaceholder]="true"-->
+<!--            [enableSearch]="true"-->
+<!--            [preferredCountries]="['ir']"-->
+<!--            name="phone"-->
+<!--            [formControlName]="'mobile'"></ngx-mat-intl-tel-input>-->
+<!--        </mat-form-field>-->
         <div role="alert" style="color: #ff5722; margin: 10px 0">
           {{errorWaitList}}
         </div>
@@ -57,33 +57,33 @@
       </mat-form-field>
       <br>
       <br>
-      <form #f="ngForm" [formGroup]="signUpVerifyFormMobile" autocomplete="off">
-        <mat-form-field appearance="fill" class="custom-form-field w-100" [hideRequiredMarker]="true">
-          <mat-label>{{'Phone Number'}}</mat-label>
-          <div class="d-inline-flex w-100">
-          <input matInput placeholder="{{'Phone Number'}}" type="text" name="text"
-                 [formControlName]="'mobile'" required>
-            <img src="assets/images/tick-circle.svg" width="25">
-          </div>
-        </mat-form-field>
-        <mat-form-field appearance="fill" class="custom-form-field w-100" [hideRequiredMarker]="true">
-          <mat-label>{{'Phone Verification Code'}}</mat-label>
-          <input matInput placeholder="{{'Phone Verification Code'}}" type="text" name="text"
-                 [formControlName]="'verificationCode'" required>
-        </mat-form-field>
-        <div *ngIf="!resendAblePhone" class="w-100">
-          <app-countdown-timer [duration]="generalService.initData?.nextVerificationMinutes * 60" (countdownFinished)="handleCountdownFinishedMobile()"></app-countdown-timer>
-        </div>
-        <mat-label class="w-100 mb-2 font-size-12" style="color: #0B6FEA" *ngIf="resendAblePhone"
-                   (click)="resendCodePhone()">
-          {{'Resend'}}
-        </mat-label>
-      </form>
-      <button mat-raised-button color="primary" type="submit"
-              [disabled]="!signUpVerifyFormMobile.controls.verificationCode ||  loading"
-              class="w-100 p-4" (click)="onSubmitSignUpVerify()">
-        <span>{{'Verify'}}</span>
-      </button>
+<!--      <form #f="ngForm" [formGroup]="signUpVerifyFormMobile" autocomplete="off">-->
+<!--        <mat-form-field appearance="fill" class="custom-form-field w-100" [hideRequiredMarker]="true">-->
+<!--          <mat-label>{{'Phone Number'}}</mat-label>-->
+<!--          <div class="d-inline-flex w-100">-->
+<!--          <input matInput placeholder="{{'Phone Number'}}" type="text" name="text"-->
+<!--                 [formControlName]="'mobile'" required>-->
+<!--            <img src="assets/images/tick-circle.svg" width="25">-->
+<!--          </div>-->
+<!--        </mat-form-field>-->
+<!--        <mat-form-field appearance="fill" class="custom-form-field w-100" [hideRequiredMarker]="true">-->
+<!--          <mat-label>{{'Phone Verification Code'}}</mat-label>-->
+<!--          <input matInput placeholder="{{'Phone Verification Code'}}" type="text" name="text"-->
+<!--                 [formControlName]="'verificationCode'" required>-->
+<!--        </mat-form-field>-->
+<!--        <div *ngIf="!resendAblePhone" class="w-100">-->
+<!--          <app-countdown-timer [duration]="generalService.initData?.nextVerificationMinutes * 60" (countdownFinished)="handleCountdownFinishedMobile()"></app-countdown-timer>-->
+<!--        </div>-->
+<!--        <mat-label class="w-100 mb-2 font-size-12" style="color: #0B6FEA" *ngIf="resendAblePhone"-->
+<!--                   (click)="resendCodePhone()">-->
+<!--          {{'Resend'}}-->
+<!--        </mat-label>-->
+<!--      </form>-->
+<!--      <button mat-raised-button color="primary" type="submit"-->
+<!--              [disabled]="!signUpVerifyFormMobile.controls.verificationCode ||  loading"-->
+<!--              class="w-100 p-4" (click)="onSubmitSignUpVerify()">-->
+<!--        <span>{{'Verify'}}</span>-->
+<!--      </button>-->
     </div>
     <div *ngIf="step === 3">
       <div class="d-block text-center">

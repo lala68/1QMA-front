@@ -21,6 +21,7 @@ import {ParsIntPipe} from "../../pipes/pars-int.pipe";
 import translate from "translate";
 import {io} from "socket.io-client";
 import {franc} from "franc-min";
+import {TwoDecimalPipe} from "../../pipes/two-decimal.pipe";
 
 type SupportedLanguages =
   | 'eng' // English
@@ -44,7 +45,7 @@ type SupportedLanguages =
   standalone: true,
   imports: [CommonModule, SharedModule, FormsModule, RouterModule, ReactiveFormsModule, TranslateModule,
     ClipboardModule, CountdownTimerComponent, CdkDropList, CdkDrag, MatExpansionModule, TimeDifferencePipe,
-    ParsIntPipe],
+    ParsIntPipe, TwoDecimalPipe],
   templateUrl: './game-board.component.html',
   styleUrl: './game-board.component.scss',
   providers: [CountdownTimerComponent]
@@ -1404,7 +1405,7 @@ export class ShareGame {
   selector: 'score',
   templateUrl: 'score.html',
   standalone: true,
-  imports: [MaterialModule, CommonModule, TranslateModule, ClipboardModule, ParsIntPipe]
+  imports: [MaterialModule, CommonModule, TranslateModule, ClipboardModule, ParsIntPipe, TwoDecimalPipe]
 })
 
 export class Score {

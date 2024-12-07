@@ -13,14 +13,16 @@ import {ParsIntPipe} from "../../pipes/pars-int.pipe";
 import {ProcessHTTPMsgService} from "../../services/proccessHttpMsg/process-httpmsg.service";
 import {GeneralService} from "../../services/general/general.service";
 import {ShamsiDatePipe} from "../../pipes/shamsi-date.pipe";
+import {TwoDecimalPipe} from "../../pipes/two-decimal.pipe";
 
 @Component({
   selector: 'app-game-result',
   standalone: true,
   imports: [CommonModule, SharedModule, FormsModule, RouterModule, ReactiveFormsModule,
-    TranslateModule, DaysAgoPipe, TimeDifferencePipe, ParsIntPipe, ShamsiDatePipe],
+    TranslateModule, DaysAgoPipe, TimeDifferencePipe, ParsIntPipe, ShamsiDatePipe, TwoDecimalPipe],
   templateUrl: './game-result.component.html',
-  styleUrl: './game-result.component.scss'
+  styleUrl: './game-result.component.scss',
+  providers: [TwoDecimalPipe]
 })
 export class GameResultComponent implements OnInit, OnDestroy {
   loading: boolean = true;

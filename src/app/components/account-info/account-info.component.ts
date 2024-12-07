@@ -64,7 +64,7 @@ export class AccountInfoComponent {
         value: this.generalService.userObj?.email,
         disabled: true
       }, [Validators.required, Validators.email]],
-      mobile: [this.generalService.userObj?.mobile ? this.generalService.userObj?.mobile : '', [Validators.required, Validators.minLength(10)]],
+      // mobile: [this.generalService.userObj?.mobile ? this.generalService.userObj?.mobile : '', [Validators.required, Validators.minLength(10)]],
       gender: [this.generalService.userObj?.gender ? this.generalService.userObj?.gender?._id : '', [Validators.required]],
       country: [this.generalService.userObj?.country ? this.generalService.userObj?.country : '', [Validators.required]],
       education: [this.generalService.userObj?.education ? this.generalService.userObj?.education?._id : '', [Validators.required]],
