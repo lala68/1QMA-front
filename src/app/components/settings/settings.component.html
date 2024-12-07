@@ -7,12 +7,30 @@
   <form [formGroup]="settingsForm" (ngSubmit)="updateSettings()">
     <mat-form-field appearance="fill" class="custom-form-field"
                     [class]="{'w-50': !generalService.isMobileView, 'w-100': generalService.isMobileView}">
-      <mat-label>{{'Language' | translate}}</mat-label>
+      <mat-label>{{'Dashboard Language' | translate}}</mat-label>
       <mat-select [formControlName]="'language'">
         <mat-option *ngFor="let lang of generalService?.clientInit?.languages"
                     [value]="lang._id">{{lang.title}}</mat-option>
       </mat-select>
     </mat-form-field>
+    <br>
+    <div class="align-items-center"
+         [class]="{'d-flex': !generalService.isMobileView, 'd-block': generalService.isMobileView}">
+      <mat-slide-toggle labelPosition="before" (change)="onToggleActiveTranslate($event)"
+                        [checked]="generalService.userObj?.enableAutoTranslate"
+                        [formControlName]="'enableAutoTranslate'">{{'Auto-translate questions and answers' | translate}}</mat-slide-toggle>
+      <mat-label *ngIf="generalService.userObj?.enableAutoTranslate"
+                 class="ps-2 pe-2">{{'to' | translate}}</mat-label>
+      <mat-form-field *ngIf="generalService.userObj?.enableAutoTranslate" appearance="fill"
+                      class="custom-form-field mt-3"
+                      [class]="{'w-20': !generalService.isMobileView, 'w-100': generalService.isMobileView}">
+        <mat-label>{{'Language' | translate}}</mat-label>
+        <mat-select [formControlName]="'targetLanguage'">
+          <mat-option *ngFor="let lang of generalService?.clientInit?.languages"
+                      [value]="lang.code">{{lang.title}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
     <br>
     <mat-form-field appearance="fill" class="custom-form-field"
                     [class]="{'w-50': !generalService.isMobileView, 'w-100': generalService.isMobileView}">

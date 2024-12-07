@@ -583,9 +583,10 @@ export class GamesComponent implements OnInit {
   }
 
   onToggleActiveTranslate(event: any) {
-    this.generalService.toggleValueTranslate = event.checked ? 1 : 0;
+    this.generalService.toggleValueTranslate = !!event.checked;
     if (!this.generalService.toggleValueTranslate) {
       this.generalService.selectedTranslatedLanguage = '';
+      this.generalService.userObj.enableAutoTranslate = false;
     }
   }
 
@@ -884,9 +885,10 @@ export class JoiningGame {
   }
 
   onToggleActiveTranslate(event: any) {
-    this.generalService.toggleValueTranslate = event.checked ? 1 : 0;
+    this.generalService.toggleValueTranslate = !!event.checked;
     if (!this.generalService.toggleValueTranslate) {
       this.generalService.selectedTranslatedLanguage = '';
+      this.generalService.userObj.enableAutoTranslate = false;
     }
   }
 

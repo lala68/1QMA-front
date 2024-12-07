@@ -108,16 +108,18 @@
         <div class="word-counter">{{ wordCountAnswer }} {{'Words' | translate}}</div>
       </div>
     </div>
-    <div class="align-items-center" [class]="{'d-flex': !generalService.isMobileView, 'd-block': generalService.isMobileView}">
-      <mat-slide-toggle labelPosition="before"
+    <div class="align-items-center"
+         [class]="{'d-flex': !generalService.isMobileView, 'd-block': generalService.isMobileView}">
+      <mat-slide-toggle labelPosition="before" [checked]="generalService.userObj?.enableAutoTranslate"
                         (change)="onToggleActiveTranslate($event)">{{'Auto-translate questions and answers' | translate}}</mat-slide-toggle>
-      <mat-label *ngIf="generalService.toggleValueTranslate"
+      <mat-label *ngIf="generalService.toggleValueTranslate || generalService.userObj?.enableAutoTranslate"
                  class="ps-2 pe-2">{{'to' | translate}}</mat-label>
-      <mat-form-field *ngIf="generalService.toggleValueTranslate" appearance="fill"
+      <mat-form-field *ngIf="generalService.toggleValueTranslate || generalService.userObj?.enableAutoTranslate" appearance="fill"
                       class="custom-form-field"
                       [class]="{'w-25': !generalService.isMobileView, 'w-50': generalService.isMobileView}">
         <mat-label>{{'Language' | translate}}</mat-label>
-        <mat-select (selectionChange)="selectTranslatedLang($event.value)">
+        <mat-select (selectionChange)="selectTranslatedLang($event.value)"
+                    [value]="generalService.userObj?.targetLanguage">
           <mat-option *ngFor="let lang of generalService?.clientInit?.languages"
                       [value]="lang.code">{{lang.title}}</mat-option>
         </mat-select>
@@ -173,9 +175,9 @@
             <mat-card-title
               class="font-size-12 weight-600">{{'My Balance' | translate}}
             </mat-card-title>
-<!--            <mat-card-subtitle class="font-size-14 weight-600">-->
-<!--              {{data?.data?.balance}} {{'Bronze' | translate}}-->
-<!--            </mat-card-subtitle>-->
+            <!--            <mat-card-subtitle class="font-size-14 weight-600">-->
+            <!--              {{data?.data?.balance}} {{'Bronze' | translate}}-->
+            <!--            </mat-card-subtitle>-->
             <mat-card-subtitle>
               <img src="assets/images/coin-bronze.png"
                    width="15">&nbsp;<span>{{generalService.userObj?.assets?.coins?.bronze}}</span>&nbsp;
