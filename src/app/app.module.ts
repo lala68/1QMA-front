@@ -19,20 +19,9 @@ import {LoaderInterceptService} from "./services/interceptors/loader-intercept.s
 import {NgxMatSelectSearchModule} from "ngx-mat-select-search";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
-import {AngularFireModule} from "@angular/fire/compat";
-import {AngularFireAnalyticsModule} from "@angular/fire/compat/analytics";
+import {NgxGoogleAnalyticsModule} from "ngx-google-analytics";
 
 export const httpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(http, './assets/i18n/', '.json');
-
-const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_AUTH_DOMAIN",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_STORAGE_BUCKET",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID",
-  measurementId: "G-MBVLJ3R5JR",
-};
 
 @NgModule({
   declarations: [
@@ -60,14 +49,13 @@ const firebaseConfig = {
       },
     }),
     NgbModule,
+    NgxGoogleAnalyticsModule.forRoot('G-MBVLJ3R5JR'), // Replace with your tracking ID
     // ServiceWorkerModule.register('ngsw-worker.js', {
     //   enabled: !isDevMode(),
     //   // Register the ServiceWorker as soon as the application is stable
     //   // or after 30 seconds (whichever comes first).
     //   registrationStrategy: 'registerWhenStable:30000'
     // })
-    AngularFireModule.initializeApp({}),
-    AngularFireAnalyticsModule
   ],
   exports: [
   ],
@@ -78,3 +66,4 @@ const firebaseConfig = {
 })
 export class AppModule {
 }
+

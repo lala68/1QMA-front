@@ -23,7 +23,7 @@ import {ShopService} from "./services/shop.service";
 import {NotificationModalComponent} from "./components/notification-modal/notification-modal.component";
 import {VersionCheckService} from "./services/versionCheck/version-check.service";
 import {Platform} from "@angular/cdk/platform";
-import {AngularFireAnalytics} from "@angular/fire/compat/analytics";
+import {GoogleAnalyticsService} from "ngx-google-analytics";
 
 register();
 
@@ -42,7 +42,9 @@ export class AppComponent implements OnInit {
               private clientService: ClientService, private route: ActivatedRoute, private location: Location,
               private processHTTPMsgService: ProcessHTTPMsgService, private signupComponent: SignupComponent,
               private gameComponent: GamesComponent, private gameService: GamesService, private platform: Platform,
-              private loader: LoaderService, private shopService: ShopService, private versionCheckService: VersionCheckService, private analytics: AngularFireAnalytics) {
+              private loader: LoaderService, private shopService: ShopService,
+              private versionCheckService: VersionCheckService,
+              private googleAnalyticsService: GoogleAnalyticsService) {
     // Force light mode
     const html = document.documentElement;
     html.style.setProperty('color-scheme', 'light');
@@ -50,6 +52,8 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.starter().then(async (data) => {
+      this.googleAnalyticsService.pageView('home');  // Track page view for 'home'
+
       this.generalService.socket = io('https://api.staging.1qma.games', {withCredentials: true});
       this.generalService.socket.on("connect", () => {
       });

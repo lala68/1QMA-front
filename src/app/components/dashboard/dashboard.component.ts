@@ -26,7 +26,7 @@ import {JoiningGame} from "../games/games.component";
 import introJs from "intro.js";
 import {Preferences} from "@capacitor/preferences";
 import {ShamsiDatePipe} from "../../pipes/shamsi-date.pipe";
-import {franc} from "franc-min";
+import {GoogleAnalyticsService} from "ngx-google-analytics";
 
 @Component({
   selector: 'app-dashboard',
@@ -66,7 +66,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   constructor(private clientService: ClientService, private _formBuilder: FormBuilder, private processHTTPMsgService: ProcessHTTPMsgService,
               public generalService: GeneralService, public configService: ConfigService, private loader: LoaderService,
               private router: Router, public dialog: MatDialog, private _snackBar: MatSnackBar, private sideNavComponent: SidenavComponent,
-              private gameService: GamesService, private intro: IntroJsService,
+              private gameService: GamesService, private intro: IntroJsService, private googleAnalyticsService: GoogleAnalyticsService,
               private headerComponent: HeaderComponent, private translate: TranslateService) {
     this.generalService.currentRout = '/dashboard';
     this.generalService.selectedTabIndexParentInTrivia = 0;
@@ -80,6 +80,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.destroyIntro(); // Destroy the intro if the page is changing
       }
     });
+    this.googleAnalyticsService.pageView('home');  // Track page view for 'home'
+
 
     await this.generalService.getUserData();
     await this.getGameInit();
