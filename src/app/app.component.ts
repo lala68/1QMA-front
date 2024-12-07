@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
 import {register} from 'swiper/element/bundle';
 import {TranslateService} from "@ngx-translate/core";
 import {GeneralService} from "./services/general/general.service";
@@ -23,6 +23,7 @@ import {ShopService} from "./services/shop.service";
 import {NotificationModalComponent} from "./components/notification-modal/notification-modal.component";
 import {VersionCheckService} from "./services/versionCheck/version-check.service";
 import {Platform} from "@angular/cdk/platform";
+import {AngularFireAnalytics} from "@angular/fire/compat/analytics";
 
 register();
 
@@ -41,7 +42,7 @@ export class AppComponent implements OnInit {
               private clientService: ClientService, private route: ActivatedRoute, private location: Location,
               private processHTTPMsgService: ProcessHTTPMsgService, private signupComponent: SignupComponent,
               private gameComponent: GamesComponent, private gameService: GamesService, private platform: Platform,
-              private loader: LoaderService, private shopService: ShopService, private versionCheckService: VersionCheckService) {
+              private loader: LoaderService, private shopService: ShopService, private versionCheckService: VersionCheckService, private analytics: AngularFireAnalytics) {
     // Force light mode
     const html = document.documentElement;
     html.style.setProperty('color-scheme', 'light');
@@ -51,21 +52,9 @@ export class AppComponent implements OnInit {
     this.starter().then(async (data) => {
       this.generalService.socket = io('https://api.staging.1qma.games', {withCredentials: true});
       this.generalService.socket.on("connect", () => {
-        // if (this.generalService.disconnectedModal || this.generalService.isDisconnectedModal) {
-        //   this.generalService.disconnectedModal.close();
-        //   this.generalService.disconnectedModal = '';
-        //   this.generalService.isDisconnectedModal = false;
-        // }
-        // console.log('Socket connected');
       });
 
       this.generalService.socket.on("notification", (arg: any) => {
-        // console.log("notification" + arg)
-        // if (this.generalService.disconnectedModal || this.generalService.isDisconnectedModal) {
-        //   this.generalService.disconnectedModal.close();
-        //   this.generalService.disconnectedModal = '';
-        //   this.generalService.isDisconnectedModal = false;
-        // }
         this.generalService.newNotif = true;
         this.shopService.getNotifications(1, 3).then(data => {
           this.generalService.notifList = data.data;
@@ -73,12 +62,6 @@ export class AppComponent implements OnInit {
       });
 
       this.generalService.socket.on("notification:modal", (arg: any) => {
-        // console.log(arg)
-        // if (this.generalService.disconnectedModal || this.generalService.isDisconnectedModal) {
-        //   this.generalService.disconnectedModal.close();
-        //   this.generalService.disconnectedModal = '';
-        //   this.generalService.isDisconnectedModal = false;
-        // }
         const dialogConfig = new MatDialogConfig();
         if (this.generalService.isMobileView) { // Assuming mobile devices are <= 768px
           dialogConfig.width = '100vw';

@@ -12,12 +12,16 @@
 <div class="card border-0 wizard-card-subheader" *ngIf="innerStep == 2">
   <mat-card class="shadow-none">
     <mat-card-header>
-<!--      <img src="assets/images/arrow-left.svg" width="24" height="24" (click)="innerStep = 1"-->
-<!--           style="position: absolute; inset-inline-start: 10px; top: 0; bottom: 0; margin: auto;">-->
-      <img  *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'" src="assets/images/arrow-left.svg" width="24" height="24"
-            style="position: absolute; inset-inline-start: 10px; top: 0; bottom: 0; margin: auto;" (click)="innerStep = 1">
-      <img  *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" src="assets/images/arrow-right-1.svg" width="24" height="24"
-            style="position: absolute; inset-inline-start: 10px; top: 0; bottom: 0; margin: auto;" (click)="innerStep = 1">
+      <!--      <img src="assets/images/arrow-left.svg" width="24" height="24" (click)="innerStep = 1"-->
+      <!--           style="position: absolute; inset-inline-start: 10px; top: 0; bottom: 0; margin: auto;">-->
+      <img *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'" src="assets/images/arrow-left.svg" width="24"
+           height="24"
+           style="position: absolute; inset-inline-start: 10px; top: 0; bottom: 0; margin: auto;"
+           (click)="innerStep = 1">
+      <img *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" src="assets/images/arrow-right-1.svg"
+           width="24" height="24"
+           style="position: absolute; inset-inline-start: 10px; top: 0; bottom: 0; margin: auto;"
+           (click)="innerStep = 1">
 
       <div class="ms-4" style="height: 46px"></div>
       <img src="assets/images/normal-game.png" *ngIf="innerExplanation?.gameType?.includes('Normal')" width="22"
@@ -82,15 +86,15 @@
                 <img src="assets/images/tick-circle.svg" width="25">
               </div>
             </mat-form-field>
-<!--            <mat-form-field appearance="fill" class="custom-form-field w-100 force-ltr">-->
-<!--              <ngx-mat-intl-tel-input-->
-<!--                [enablePlaceholder]="true"-->
-<!--                [enableSearch]="true"-->
-<!--                [preferredCountries]="['ir']"-->
-<!--                name="phone"-->
-<!--                (countryChanged)="countryChangedEvent($event)"-->
-<!--                [formControlName]="'mobile'"></ngx-mat-intl-tel-input>-->
-<!--            </mat-form-field>-->
+            <!--            <mat-form-field appearance="fill" class="custom-form-field w-100 force-ltr">-->
+            <!--              <ngx-mat-intl-tel-input-->
+            <!--                [enablePlaceholder]="true"-->
+            <!--                [enableSearch]="true"-->
+            <!--                [preferredCountries]="['ir']"-->
+            <!--                name="phone"-->
+            <!--                (countryChanged)="countryChangedEvent($event)"-->
+            <!--                [formControlName]="'mobile'"></ngx-mat-intl-tel-input>-->
+            <!--            </mat-form-field>-->
             <div class="d-flex">
               <mat-form-field class="custom-form-field w-50" appearance="fill">
                 <mat-label>{{'Gender' | translate}}</mat-label>
@@ -169,59 +173,59 @@
           {{error}}
         </div>
       </mat-step>
-<!--      <mat-step>-->
-<!--        <div class="d-flex align-items-center">-->
-<!--          <img src="assets/images/Questions.png" width="52" height="52">-->
-<!--          <div class="position-absolute" style="left: 90px; top: 25px">-->
-<!--            <div class="font-size-18 weight-700">{{'Questions' | translate}}</div>-->
-<!--            <mat-label-->
-<!--              class="font-size-16 weight-400">{{'Please answer these questions' | translate}}</mat-label>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <br><br>-->
-<!--        <swiper-container #swiper [config]="config" effect="coverflow" pagination="true" navigation="true"-->
-<!--                          style="height: 250px">-->
-<!--          <ng-container *ngFor="let slide of generalService?.initData?.furtherQuestions; let i=index">-->
-<!--            <swiper-slide>-->
-<!--              <div *ngIf="slide?.type == 'text' " class="ps-5 pe-5">-->
-<!--                <div class="font-size-14 weight-600">{{slide?.question}}</div>-->
-<!--                <div class="textarea-container">-->
-<!--                  <textarea (input)="collectTextAnswer(slide, $event)" [placeholder]="slide?.placeholder"></textarea>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--              <div *ngIf="slide?.type == 'multiple_options'" class="ps-5 pe-5">-->
-<!--                <div class="font-size-14 weight-600">{{slide?.question}}</div>-->
-<!--                <mat-card *ngFor="let opt of slide?.options"-->
-<!--                          class="m-2 d-inline-block shadow-none"-->
-<!--                          (click)="selectQuestion(slide, opt)"-->
-<!--                          [ngClass]="{'mat-card-pref-selected': isSelectedQuestion(slide, opt), 'mat-card-pref': !isSelectedQuestion(slide, opt)}">-->
-<!--                  <mat-card-content class="text-start">-->
-<!--                    <mat-label>{{ opt }}</mat-label>-->
-<!--                  </mat-card-content>-->
-<!--                </mat-card>-->
-<!--              </div>-->
-<!--              <div *ngIf="slide?.type == 'select'" class="ps-5 pe-5">-->
-<!--                <div class="font-size-14 weight-600">{{slide?.question}}</div>-->
-<!--                <mat-form-field appearance="fill" class="custom-form-field">-->
-<!--                  <mat-select (selectionChange)="selectDropdownAnswer(slide, $event.value)">-->
-<!--                    <mat-option *ngFor="let opt of slide?.options"-->
-<!--                                [value]="opt">{{opt}}</mat-option>-->
-<!--                  </mat-select>-->
-<!--                </mat-form-field>-->
-<!--              </div>-->
-<!--              <div *ngIf="slide?.type == 'toggle'" class="ps-5 pe-5">-->
-<!--                <p>-->
-<!--                  <mat-slide-toggle labelPosition="before"-->
-<!--                                    (change)="onToggleChange(slide, $event)">{{slide?.question}}</mat-slide-toggle>-->
-<!--                </p>-->
-<!--              </div>-->
-<!--              <div role="alert" style="color: #ff5722; margin: 10px 0">-->
-<!--                {{error}}-->
-<!--              </div>-->
-<!--            </swiper-slide>-->
-<!--          </ng-container>-->
-<!--        </swiper-container>-->
-<!--      </mat-step>-->
+      <!--      <mat-step>-->
+      <!--        <div class="d-flex align-items-center">-->
+      <!--          <img src="assets/images/Questions.png" width="52" height="52">-->
+      <!--          <div class="position-absolute" style="left: 90px; top: 25px">-->
+      <!--            <div class="font-size-18 weight-700">{{'Questions' | translate}}</div>-->
+      <!--            <mat-label-->
+      <!--              class="font-size-16 weight-400">{{'Please answer these questions' | translate}}</mat-label>-->
+      <!--          </div>-->
+      <!--        </div>-->
+      <!--        <br><br>-->
+      <!--        <swiper-container #swiper [config]="config" effect="coverflow" pagination="true" navigation="true"-->
+      <!--                          style="height: 250px">-->
+      <!--          <ng-container *ngFor="let slide of generalService?.initData?.furtherQuestions; let i=index">-->
+      <!--            <swiper-slide>-->
+      <!--              <div *ngIf="slide?.type == 'text' " class="ps-5 pe-5">-->
+      <!--                <div class="font-size-14 weight-600">{{slide?.question}}</div>-->
+      <!--                <div class="textarea-container">-->
+      <!--                  <textarea (input)="collectTextAnswer(slide, $event)" [placeholder]="slide?.placeholder"></textarea>-->
+      <!--                </div>-->
+      <!--              </div>-->
+      <!--              <div *ngIf="slide?.type == 'multiple_options'" class="ps-5 pe-5">-->
+      <!--                <div class="font-size-14 weight-600">{{slide?.question}}</div>-->
+      <!--                <mat-card *ngFor="let opt of slide?.options"-->
+      <!--                          class="m-2 d-inline-block shadow-none"-->
+      <!--                          (click)="selectQuestion(slide, opt)"-->
+      <!--                          [ngClass]="{'mat-card-pref-selected': isSelectedQuestion(slide, opt), 'mat-card-pref': !isSelectedQuestion(slide, opt)}">-->
+      <!--                  <mat-card-content class="text-start">-->
+      <!--                    <mat-label>{{ opt }}</mat-label>-->
+      <!--                  </mat-card-content>-->
+      <!--                </mat-card>-->
+      <!--              </div>-->
+      <!--              <div *ngIf="slide?.type == 'select'" class="ps-5 pe-5">-->
+      <!--                <div class="font-size-14 weight-600">{{slide?.question}}</div>-->
+      <!--                <mat-form-field appearance="fill" class="custom-form-field">-->
+      <!--                  <mat-select (selectionChange)="selectDropdownAnswer(slide, $event.value)">-->
+      <!--                    <mat-option *ngFor="let opt of slide?.options"-->
+      <!--                                [value]="opt">{{opt}}</mat-option>-->
+      <!--                  </mat-select>-->
+      <!--                </mat-form-field>-->
+      <!--              </div>-->
+      <!--              <div *ngIf="slide?.type == 'toggle'" class="ps-5 pe-5">-->
+      <!--                <p>-->
+      <!--                  <mat-slide-toggle labelPosition="before"-->
+      <!--                                    (change)="onToggleChange(slide, $event)">{{slide?.question}}</mat-slide-toggle>-->
+      <!--                </p>-->
+      <!--              </div>-->
+      <!--              <div role="alert" style="color: #ff5722; margin: 10px 0">-->
+      <!--                {{error}}-->
+      <!--              </div>-->
+      <!--            </swiper-slide>-->
+      <!--          </ng-container>-->
+      <!--        </swiper-container>-->
+      <!--      </mat-step>-->
       <mat-step>
         <form [formGroup]="accountTypeForm">
           <div class="d-inline-block">
@@ -278,16 +282,18 @@
                      height="22">
                 <img src="assets/images/survival-game.png" *ngIf="item?.gameType.includes('Survival')"
                      width="22" height="22">
-                <div class="font-size-14 weight-600 d-inline ps-2">{{item?.gameType}}</div>
+                <div
+                  class="font-size-14 weight-600 d-inline ps-2">{{generalService.userObj?.preferedLanguage?.code != 'fa' ? item?.gameType : item?.gameTypeFa}}</div>
                 <br>
                 <br>
                 <mat-label
-                  class="font-size-14 weight-500">{{item?.explanation?.length > 150 ? (item?.explanation | slice:0:145) + ' ...' : item?.explanation}}
+                  class="font-size-14 weight-500">{{generalService.userObj?.preferedLanguage?.code != 'fa' ? (item?.explanation?.length > 150 ? (item?.explanation | slice:0:145) + ' ...' : item?.explanation) : (item?.explanationFa?.length > 150 ? (item?.explanationFa | slice:0:145) + ' ...' : item?.explanationFa)}}
                 </mat-label>
                 <button mat-button color="primary" class="next-step-explanation" (click)="gotoExplanationDetail(item)">
                   {{'Read More' | translate}}
-<!--                  <i class="bi bi-chevron-right"></i>-->
-                  <i *ngIf="!generalService.userObj || generalService.userObj?.preferedLanguage?.code != 'fa'" class="bi bi-arrow-right"></i>
+                  <!--                  <i class="bi bi-chevron-right"></i>-->
+                  <i *ngIf="!generalService.userObj || generalService.userObj?.preferedLanguage?.code != 'fa'"
+                     class="bi bi-arrow-right"></i>
                   <i *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" class="bi bi-arrow-left"></i>
                 </button>
               </div>
@@ -305,11 +311,12 @@
                    height="22">
               <img src="assets/images/survival-game.png" *ngIf="innerExplanation?.gameType.includes('Survival')"
                    width="22" height="22">
-              <div class="font-size-14 weight-600 d-inline ps-2">{{innerExplanation?.gameType}}</div>
+              <div
+                class="font-size-14 weight-600 d-inline ps-2">{{generalService.userObj?.preferedLanguage?.code != 'fa' ? innerExplanation?.gameType : innerExplanation?.gameTypeFa }}</div>
               <br>
             </div>
             <mat-label
-              class="font-size-14 weight-500">{{innerExplanation?.explanation}}
+              class="font-size-14 weight-500">{{generalService.userObj?.preferedLanguage?.code != 'fa' ? innerExplanation?.explanation : innerExplanation?.explanationFa}}
             </mat-label>
           </div>
         </div>
@@ -337,8 +344,9 @@
     <div class="bullet-navigation">
       <button mat-raised-button [disabled]="stepper?.selectedIndex == 0"
               (click)="gotoPrevStep()" class="prev-step" [class]="{'border-0': stepper?.selectedIndex == 0}">
-<!--        <i class="bi bi-arrow-left"></i>-->
-        <i *ngIf="!generalService.userObj || generalService.userObj?.preferedLanguage?.code != 'fa'" class="bi bi-arrow-left"></i>
+        <!--        <i class="bi bi-arrow-left"></i>-->
+        <i *ngIf="!generalService.userObj || generalService.userObj?.preferedLanguage?.code != 'fa'"
+           class="bi bi-arrow-left"></i>
         <i *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" class="bi bi-arrow-right"></i>
         {{'Previous' | translate}}
       </button>
@@ -355,38 +363,43 @@
                 [disabled]="!generalService.initData?.languages || loadingLanguage"
                 (click)="saveLanguage()" class="next-step">
           {{'Next Step' | translate}}
-<!--          <i class="bi bi-arrow-right"></i>-->
-          <i *ngIf="!generalService.userObj || generalService.userObj?.preferedLanguage?.code != 'fa'" class="bi bi-arrow-right"></i>
+          <!--          <i class="bi bi-arrow-right"></i>-->
+          <i *ngIf="!generalService.userObj || generalService.userObj?.preferedLanguage?.code != 'fa'"
+             class="bi bi-arrow-right"></i>
           <i *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" class="bi bi-arrow-left"></i>
         </button>
         <button mat-raised-button color="primary" *ngIf="stepper?.selectedIndex == 1" (click)="openVerificationModal()"
                 [disabled]="form.invalid || loading" class="next-step">{{'Next Step' | translate}}
-<!--          <i class="bi bi-arrow-right"></i>-->
-          <i *ngIf="!generalService.userObj || generalService.userObj?.preferedLanguage?.code != 'fa'" class="bi bi-arrow-right"></i>
+          <!--          <i class="bi bi-arrow-right"></i>-->
+          <i *ngIf="!generalService.userObj || generalService.userObj?.preferedLanguage?.code != 'fa'"
+             class="bi bi-arrow-right"></i>
           <i *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" class="bi bi-arrow-left"></i>
         </button>
         <button mat-raised-button color="primary" *ngIf="stepper?.selectedIndex == 2"
                 [disabled]="loading || selectedCategory?.length==0"
                 (click)="submitPref()" class="next-step">{{'Next Step' | translate}}
-<!--          <i class="bi bi-arrow-right"></i>-->
-          <i *ngIf="!generalService.userObj || generalService.userObj?.preferedLanguage?.code != 'fa'" class="bi bi-arrow-right"></i>
+          <!--          <i class="bi bi-arrow-right"></i>-->
+          <i *ngIf="!generalService.userObj || generalService.userObj?.preferedLanguage?.code != 'fa'"
+             class="bi bi-arrow-right"></i>
           <i *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" class="bi bi-arrow-left"></i>
         </button>
-<!--        <button mat-raised-button color="primary" *ngIf="stepper?.selectedIndex == 3"-->
-<!--                [disabled]="loading || answers.length != generalService.initData?.furtherQuestions?.length"-->
-<!--                (click)="submitAnswers()" class="next-step">{{'Next Step' | translate}}-->
-<!--          <i class="bi bi-arrow-right"></i>-->
-<!--        </button>-->
+        <!--        <button mat-raised-button color="primary" *ngIf="stepper?.selectedIndex == 3"-->
+        <!--                [disabled]="loading || answers.length != generalService.initData?.furtherQuestions?.length"-->
+        <!--                (click)="submitAnswers()" class="next-step">{{'Next Step' | translate}}-->
+        <!--          <i class="bi bi-arrow-right"></i>-->
+        <!--        </button>-->
         <button mat-raised-button color="primary" *ngIf="stepper?.selectedIndex == 3" [disabled]="loadingAccountType"
                 (click)="submitAccountType()" class="next-step">{{'Next Step' | translate}}
-<!--          <i class="bi bi-arrow-right"></i>-->
-          <i *ngIf="!generalService.userObj || generalService.userObj?.preferedLanguage?.code != 'fa'" class="bi bi-arrow-right"></i>
+          <!--          <i class="bi bi-arrow-right"></i>-->
+          <i *ngIf="!generalService.userObj || generalService.userObj?.preferedLanguage?.code != 'fa'"
+             class="bi bi-arrow-right"></i>
           <i *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" class="bi bi-arrow-left"></i>
         </button>
         <button mat-raised-button color="primary" *ngIf="stepper?.selectedIndex == 4"
                 (click)="stepper?.next()" class="next-step">{{'Next Step' | translate}}
-<!--          <i class="bi bi-arrow-right"></i>-->
-          <i *ngIf="!generalService.userObj || generalService.userObj?.preferedLanguage?.code != 'fa'" class="bi bi-arrow-right"></i>
+          <!--          <i class="bi bi-arrow-right"></i>-->
+          <i *ngIf="!generalService.userObj || generalService.userObj?.preferedLanguage?.code != 'fa'"
+             class="bi bi-arrow-right"></i>
           <i *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" class="bi bi-arrow-left"></i>
         </button>
       </div>

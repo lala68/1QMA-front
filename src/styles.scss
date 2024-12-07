@@ -6,11 +6,20 @@
 @import 'custom-theme';
 
 
+html {
+  color-scheme: light; /* Enforce light mode globally */
+}
+//
+//@media (prefers-color-scheme: dark) {
+//  html {
+//    color-scheme: light; /* Override dark mode styles */
+//  }
+//}
+
+
 * {
   font-size: 14px;
 }
-
-
 
 @font-face {
   font-family: 'Anjoman';
@@ -54,7 +63,7 @@
 
 
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root, html {
     color-scheme: light;
   }
 }
