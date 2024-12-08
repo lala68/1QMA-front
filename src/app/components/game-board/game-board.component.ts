@@ -878,7 +878,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
         } else {
           this.loading = false;
         }
-      }, error => {
+      }, async error => {
         this.numberOfDisconnectingInGameSteps++;
         if (this.numberOfDisconnectingInGameSteps > 2) {
           this.generalService.isGameCancel = true;
@@ -1015,7 +1015,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
         } else {
           this.loading = false;
         }
-      }, error => {
+      }, async error => {
         if (this.generalService.gameQuestion?.step == this.generalService.gameInit?.numberOfPlayers) {
           this.numberOfDisconnectingInGameSteps++;
           if (this.numberOfDisconnectingInGameSteps > 2) {
