@@ -1,7 +1,7 @@
 {
   "Login to your 1QMA account": "به حساب کاربری خود در 1QMA وارد شوید",
   "Please enter your email": "لطفاً ایمیل خود را وارد کنید",
-  "Enter your email": "ایمیل خود را وارد کنید",
+  "Enter your email": "ایمیل را وارد کنید",
   "Password": "رمز عبور",
   "Email": "ایمیل",
   "Enter your password": "رمز عبور خود را وارد کنید",
@@ -428,5 +428,5 @@
   "Create Game Price": "هزینه ساخت بازی",
   "Second Place Reward": "جایزه مقام دوم",
   "Normal": "عادی",
-  "Dashboard Language" : "زبان داشبورد"
+  "Dashboard Language": "زبان داشبورد"
 }
