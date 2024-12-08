@@ -22,6 +22,7 @@ import translate from "translate";
 import {io} from "socket.io-client";
 import {TwoDecimalPipe} from "../../pipes/two-decimal.pipe";
 import {environment} from "../../../environments/environment";
+import {error} from "@angular/compiler-cli/src/transformers/util";
 
 
 @Component({
@@ -646,43 +647,43 @@ export class GameBoardComponent implements OnInit, OnDestroy {
       //   //     this.updateRates(this.generalService.rateAnswers.length !== 0);
       //   //   }
       // // }
-    } else {
-      this.numberOfDisconnectingInGameSteps++;
-      if (this.numberOfDisconnectingInGameSteps > 2) {
-        this.generalService.isGameCancel = true;
-        const dialogRef = this.dialog.open(ForceExitGame, {
-          width: '500px',
-          disableClose: true
-        });
-      }
-      this.generalService.gameAnswerGeneral = '';
-      this.generalService.gameStep = 3;
-      this.countdownTimer.resetTimer(3);
-      this.nextStepTriggeredAnswer = false;
-      this.nextStepTriggeredRatingAnswer = false;
-      this.nextStepTriggeredRatingQuestions = false;
-      this.finishedTimerAnswer = false;
-      this.finishedTimerRatingAnswer = false;
-      this.finishedTimerRatingQuestions = false;
-      this.sendAnswerDisable = false;
-      const data = await this.gameService.getAllAnswersOfSpecificQuestion(
-        this.generalService.createdGameData.game.gameId,
-        this.generalService.gameQuestion._id
-      );
-
-      if (data.status === 1) {
-        this.generalService.specificQuestionAnswers = data.data;
-        // for (const answer of this.generalService.specificQuestionAnswers.answers) {
-        //   answer.answer = await translate(answer.answer, this.generalService.selectedTranslatedLanguage);
-        // }
-        if (this.generalService.toggleValueTranslate && this.generalService.selectedTranslatedLanguage != '') {
-          this.generalService.gameQuestion.question = await this.detectAndTranslate(this.generalService.gameQuestion.question, this.generalService.selectedTranslatedLanguage, data.data.questionLanguage);
-          for (const answer of this.generalService.specificQuestionAnswers.answers) {
-            answer.answer = await this.detectAndTranslate(answer.answer, this.generalService.selectedTranslatedLanguage, answer.language);
-          }
-        }
-        this.updateRates(this.generalService.rateAnswers.length !== 0);
-      }
+      // } else {
+      //   this.numberOfDisconnectingInGameSteps++;
+      //   if (this.numberOfDisconnectingInGameSteps > 2) {
+      //     this.generalService.isGameCancel = true;
+      //     const dialogRef = this.dialog.open(ForceExitGame, {
+      //       width: '500px',
+      //       disableClose: true
+      //     });
+      //   }
+      //   this.generalService.gameAnswerGeneral = '';
+      //   this.generalService.gameStep = 3;
+      //   this.countdownTimer.resetTimer(3);
+      //   this.nextStepTriggeredAnswer = false;
+      //   this.nextStepTriggeredRatingAnswer = false;
+      //   this.nextStepTriggeredRatingQuestions = false;
+      //   this.finishedTimerAnswer = false;
+      //   this.finishedTimerRatingAnswer = false;
+      //   this.finishedTimerRatingQuestions = false;
+      //   this.sendAnswerDisable = false;
+      //   const data = await this.gameService.getAllAnswersOfSpecificQuestion(
+      //     this.generalService.createdGameData.game.gameId,
+      //     this.generalService.gameQuestion._id
+      //   );
+      //
+      //   if (data.status === 1) {
+      //     this.generalService.specificQuestionAnswers = data.data;
+      //     // for (const answer of this.generalService.specificQuestionAnswers.answers) {
+      //     //   answer.answer = await translate(answer.answer, this.generalService.selectedTranslatedLanguage);
+      //     // }
+      //     if (this.generalService.toggleValueTranslate && this.generalService.selectedTranslatedLanguage != '') {
+      //       this.generalService.gameQuestion.question = await this.detectAndTranslate(this.generalService.gameQuestion.question, this.generalService.selectedTranslatedLanguage, data.data.questionLanguage);
+      //       for (const answer of this.generalService.specificQuestionAnswers.answers) {
+      //         answer.answer = await this.detectAndTranslate(answer.answer, this.generalService.selectedTranslatedLanguage, answer.language);
+      //       }
+      //     }
+      //     this.updateRates(this.generalService.rateAnswers.length !== 0);
+      //   }
     }
 
   }
@@ -694,102 +695,102 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     this.finishedTimerRatingAnswer = true;
     await this.sendRateAnswer(false);
     this.sendRateAnswerDisable = true;
-    if (!this.generalService.isDisconnectedModal) {
-      if (!this.sendRateAnswerDisable) {
-        // this.countdownTimer.resetTimer(2);
-        // await this.sendRateAnswer(false);
-        // this.sendRateAnswerDisable = true;
-      } else {
-        // console.log("elseeeeee");
-        /* // maybe
-        // await this.sendRateAnswer(false);
-         //*/
-        // this.generalService.gameStep = 2;
-        // this.nextStepTriggeredAnswer = false;
-        // this.nextStepTriggeredRatingAnswer = false;
-        // this.nextStepTriggeredRatingQuestions = false;
-        // this.finishedTimerAnswer = false;
-        // this.finishedTimerRatingAnswer = false;
-        // this.finishedTimerRatingQuestions = false;
-        // this.sendRateAnswerDisable = false;
-        // const resQue = await this.gameService.getGameQuestionBasedOnStep(
-        //   this.generalService.createdGameData.game.gameId,
-        //   parseInt(this.generalService.gameQuestion.step) + 1
-        // );
-        // if (resQue.status === 1) {
-        //   this.generalService.gameQuestion = resQue.data;
-        //   // this.generalService.gameQuestion.question = await translate(this.generalService.gameQuestion.question,
-        //   //   {
-        //   //     to: this.generalService?.userObj?.preferedLanguage == '0' ? 'en' :
-        //   //       this.generalService.userObj?.preferedLanguage == '1' ? 'de' : 'fa',
-        //   //     from: this.generalService.gameQuestion.language
-        //   //   });
-        //   this.generalService.gameAnswerGeneral = resQue.data.myAnswer || '';
-        //   this.generalService.editingAnswer = !!resQue.data.myAnswer;
-        //   // if(resQue.data.myAnswer){
-        //   this.updateWordCountAnswer();
-        //   // }
-        // }
-      }
-    } else {
-      if (this.generalService.gameQuestion?.step == this.generalService.gameInit?.numberOfPlayers) {
-        this.numberOfDisconnectingInGameSteps++;
-        if (this.numberOfDisconnectingInGameSteps > 2) {
-          this.generalService.isGameCancel = true;
-          const dialogRef = this.dialog.open(ForceExitGame, {
-            width: '500px',
-            disableClose: true
-          });
-        }
-        this.generalService.gameStep = 4;
-        this.countdownTimer.resetTimer(4);
-        const resQue = await this.gameService.getQuestionsOfGame(
-          this.generalService.createdGameData.game.gameId
-        );
-        this.generalService.allQuestions = resQue.data;
-        if (this.generalService.toggleValueTranslate && this.generalService.selectedTranslatedLanguage != '') {
-          for (const question of this.generalService.allQuestions.questions) {
-            question.question = await this.detectAndTranslate(question.question,
-              this.generalService.selectedTranslatedLanguage, question.language);
-          }
-        }
-        this.updateRatesQuestions(this.generalService.rateQuestions.length !== 0);
-      } else {
-        this.numberOfDisconnectingInGameSteps++;
-        if (this.numberOfDisconnectingInGameSteps > 2) {
-          this.generalService.isGameCancel = true;
-          const dialogRef = this.dialog.open(ForceExitGame, {
-            width: '500px',
-            disableClose: true
-          });
-        }
-        this.generalService.gameStep = 2;
-        this.countdownTimer.resetTimer(2);
-        this.nextStepTriggeredAnswer = false;
-        this.nextStepTriggeredRatingAnswer = false;
-        this.nextStepTriggeredRatingQuestions = false;
-        this.finishedTimerAnswer = false;
-        this.finishedTimerRatingAnswer = false;
-        this.finishedTimerRatingQuestions = false;
-        this.sendRateAnswerDisable = false;
-        const resQue = await this.gameService.getGameQuestionBasedOnStep(
-          this.generalService.createdGameData.game.gameId,
-          parseInt(this.generalService.gameQuestion.step) + 1
-        );
-        if (resQue.status === 1) {
-          this.generalService.gameQuestion = resQue.data;
-          if (this.generalService.toggleValueTranslate && this.generalService.selectedTranslatedLanguage != '') {
-            this.generalService.gameQuestion.question = await this.detectAndTranslate(this.generalService.gameQuestion.question,
-              this.generalService.selectedTranslatedLanguage, this.generalService.gameQuestion.language);
-          }
-          this.generalService.gameAnswerGeneral = resQue.data.myAnswer || '';
-          this.generalService.editingAnswer = !!resQue.data.myAnswer;
-          // if(resQue.data.myAnswer){
-          this.updateWordCountAnswer();
-          // }
-        }
-      }
-    }
+    // if (!this.generalService.isDisconnectedModal) {
+    //   if (!this.sendRateAnswerDisable) {
+    // this.countdownTimer.resetTimer(2);
+    // await this.sendRateAnswer(false);
+    // this.sendRateAnswerDisable = true;
+    // } else {
+    // console.log("elseeeeee");
+    /* // maybe
+    // await this.sendRateAnswer(false);
+     //*/
+    // this.generalService.gameStep = 2;
+    // this.nextStepTriggeredAnswer = false;
+    // this.nextStepTriggeredRatingAnswer = false;
+    // this.nextStepTriggeredRatingQuestions = false;
+    // this.finishedTimerAnswer = false;
+    // this.finishedTimerRatingAnswer = false;
+    // this.finishedTimerRatingQuestions = false;
+    // this.sendRateAnswerDisable = false;
+    // const resQue = await this.gameService.getGameQuestionBasedOnStep(
+    //   this.generalService.createdGameData.game.gameId,
+    //   parseInt(this.generalService.gameQuestion.step) + 1
+    // );
+    // if (resQue.status === 1) {
+    //   this.generalService.gameQuestion = resQue.data;
+    //   // this.generalService.gameQuestion.question = await translate(this.generalService.gameQuestion.question,
+    //   //   {
+    //   //     to: this.generalService?.userObj?.preferedLanguage == '0' ? 'en' :
+    //   //       this.generalService.userObj?.preferedLanguage == '1' ? 'de' : 'fa',
+    //   //     from: this.generalService.gameQuestion.language
+    //   //   });
+    //   this.generalService.gameAnswerGeneral = resQue.data.myAnswer || '';
+    //   this.generalService.editingAnswer = !!resQue.data.myAnswer;
+    //   // if(resQue.data.myAnswer){
+    //   this.updateWordCountAnswer();
+    //   // }
+    // }
+    // }
+    // } else {
+    //   if (this.generalService.gameQuestion?.step == this.generalService.gameInit?.numberOfPlayers) {
+    //     this.numberOfDisconnectingInGameSteps++;
+    //     if (this.numberOfDisconnectingInGameSteps > 2) {
+    //       this.generalService.isGameCancel = true;
+    //       const dialogRef = this.dialog.open(ForceExitGame, {
+    //         width: '500px',
+    //         disableClose: true
+    //       });
+    //     }
+    //     this.generalService.gameStep = 4;
+    //     this.countdownTimer.resetTimer(4);
+    //     const resQue = await this.gameService.getQuestionsOfGame(
+    //       this.generalService.createdGameData.game.gameId
+    //     );
+    //     this.generalService.allQuestions = resQue.data;
+    //     if (this.generalService.toggleValueTranslate && this.generalService.selectedTranslatedLanguage != '') {
+    //       for (const question of this.generalService.allQuestions.questions) {
+    //         question.question = await this.detectAndTranslate(question.question,
+    //           this.generalService.selectedTranslatedLanguage, question.language);
+    //       }
+    //     }
+    //     this.updateRatesQuestions(this.generalService.rateQuestions.length !== 0);
+    //   } else {
+    //     this.numberOfDisconnectingInGameSteps++;
+    //     if (this.numberOfDisconnectingInGameSteps > 2) {
+    //       this.generalService.isGameCancel = true;
+    //       const dialogRef = this.dialog.open(ForceExitGame, {
+    //         width: '500px',
+    //         disableClose: true
+    //       });
+    //     }
+    //     this.generalService.gameStep = 2;
+    //     this.countdownTimer.resetTimer(2);
+    //     this.nextStepTriggeredAnswer = false;
+    //     this.nextStepTriggeredRatingAnswer = false;
+    //     this.nextStepTriggeredRatingQuestions = false;
+    //     this.finishedTimerAnswer = false;
+    //     this.finishedTimerRatingAnswer = false;
+    //     this.finishedTimerRatingQuestions = false;
+    //     this.sendRateAnswerDisable = false;
+    //     const resQue = await this.gameService.getGameQuestionBasedOnStep(
+    //       this.generalService.createdGameData.game.gameId,
+    //       parseInt(this.generalService.gameQuestion.step) + 1
+    //     );
+    //     if (resQue.status === 1) {
+    //       this.generalService.gameQuestion = resQue.data;
+    //       if (this.generalService.toggleValueTranslate && this.generalService.selectedTranslatedLanguage != '') {
+    //         this.generalService.gameQuestion.question = await this.detectAndTranslate(this.generalService.gameQuestion.question,
+    //           this.generalService.selectedTranslatedLanguage, this.generalService.gameQuestion.language);
+    //       }
+    //       this.generalService.gameAnswerGeneral = resQue.data.myAnswer || '';
+    //       this.generalService.editingAnswer = !!resQue.data.myAnswer;
+    //       // if(resQue.data.myAnswer){
+    //       this.updateWordCountAnswer();
+    //       // }
+    //     }
+    // }
+    // }
   }
 
   async handleCountdownRatingQuestionsFinished() {
@@ -797,19 +798,19 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
     // console.log("finishedTimer" + ' ' + `[${timeString}]  `);
     this.finishedTimerRatingQuestions = true;
-    if (!this.sendRateQuestionsDisable) {
-      // this.countdownTimer.resetTimer(2);
-      await this.sendRateQuestions();
-      this.sendRateQuestionsDisable = true;
-    } else {
-      this.numberOfDisconnectingInGameSteps++;
-      if (this.numberOfDisconnectingInGameSteps > 2) {
-        this.generalService.isGameCancel = true;
-        const dialogRef = this.dialog.open(ForceExitGame, {
-          width: '500px',
-          disableClose: true
-        });
-      }
+    // if (!this.sendRateQuestionsDisable) {
+    // this.countdownTimer.resetTimer(2);
+    await this.sendRateQuestions();
+    this.sendRateQuestionsDisable = true;
+    // } else {
+    this.numberOfDisconnectingInGameSteps++;
+    if (this.numberOfDisconnectingInGameSteps > 2) {
+      this.generalService.isGameCancel = true;
+      const dialogRef = this.dialog.open(ForceExitGame, {
+        width: '500px',
+        disableClose: true
+      });
+      // }
       this.generalService.gameStep = 5;
       await this.getGameResult();
     }
@@ -876,6 +877,43 @@ export class GameBoardComponent implements OnInit, OnDestroy {
           this.generalService.editingAnswer = true;
         } else {
           this.loading = false;
+        }
+      }, error => {
+        this.numberOfDisconnectingInGameSteps++;
+        if (this.numberOfDisconnectingInGameSteps > 2) {
+          this.generalService.isGameCancel = true;
+          const dialogRef = this.dialog.open(ForceExitGame, {
+            width: '500px',
+            disableClose: true
+          });
+        }
+        this.generalService.gameAnswerGeneral = '';
+        this.generalService.gameStep = 3;
+        this.countdownTimer.resetTimer(3);
+        this.nextStepTriggeredAnswer = false;
+        this.nextStepTriggeredRatingAnswer = false;
+        this.nextStepTriggeredRatingQuestions = false;
+        this.finishedTimerAnswer = false;
+        this.finishedTimerRatingAnswer = false;
+        this.finishedTimerRatingQuestions = false;
+        this.sendAnswerDisable = false;
+        const data = await this.gameService.getAllAnswersOfSpecificQuestion(
+          this.generalService.createdGameData.game.gameId,
+          this.generalService.gameQuestion._id
+        );
+
+        if (data.status === 1) {
+          this.generalService.specificQuestionAnswers = data.data;
+          // for (const answer of this.generalService.specificQuestionAnswers.answers) {
+          //   answer.answer = await translate(answer.answer, this.generalService.selectedTranslatedLanguage);
+          // }
+          if (this.generalService.toggleValueTranslate && this.generalService.selectedTranslatedLanguage != '') {
+            this.generalService.gameQuestion.question = await this.detectAndTranslate(this.generalService.gameQuestion.question, this.generalService.selectedTranslatedLanguage, data.data.questionLanguage);
+            for (const answer of this.generalService.specificQuestionAnswers.answers) {
+              answer.answer = await this.detectAndTranslate(answer.answer, this.generalService.selectedTranslatedLanguage, answer.language);
+            }
+          }
+          this.updateRates(this.generalService.rateAnswers.length !== 0);
         }
       })
     });
@@ -976,6 +1014,64 @@ export class GameBoardComponent implements OnInit, OnDestroy {
           this.loading = false;
         } else {
           this.loading = false;
+        }
+      }, error => {
+        if (this.generalService.gameQuestion?.step == this.generalService.gameInit?.numberOfPlayers) {
+          this.numberOfDisconnectingInGameSteps++;
+          if (this.numberOfDisconnectingInGameSteps > 2) {
+            this.generalService.isGameCancel = true;
+            const dialogRef = this.dialog.open(ForceExitGame, {
+              width: '500px',
+              disableClose: true
+            });
+          }
+          this.generalService.gameStep = 4;
+          this.countdownTimer.resetTimer(4);
+          const resQue = await this.gameService.getQuestionsOfGame(
+            this.generalService.createdGameData.game.gameId
+          );
+          this.generalService.allQuestions = resQue.data;
+          if (this.generalService.toggleValueTranslate && this.generalService.selectedTranslatedLanguage != '') {
+            for (const question of this.generalService.allQuestions.questions) {
+              question.question = await this.detectAndTranslate(question.question,
+                this.generalService.selectedTranslatedLanguage, question.language);
+            }
+          }
+          this.updateRatesQuestions(this.generalService.rateQuestions.length !== 0);
+        } else {
+          this.numberOfDisconnectingInGameSteps++;
+          if (this.numberOfDisconnectingInGameSteps > 2) {
+            this.generalService.isGameCancel = true;
+            const dialogRef = this.dialog.open(ForceExitGame, {
+              width: '500px',
+              disableClose: true
+            });
+          }
+          this.generalService.gameStep = 2;
+          this.countdownTimer.resetTimer(2);
+          this.nextStepTriggeredAnswer = false;
+          this.nextStepTriggeredRatingAnswer = false;
+          this.nextStepTriggeredRatingQuestions = false;
+          this.finishedTimerAnswer = false;
+          this.finishedTimerRatingAnswer = false;
+          this.finishedTimerRatingQuestions = false;
+          this.sendRateAnswerDisable = false;
+          const resQue = await this.gameService.getGameQuestionBasedOnStep(
+            this.generalService.createdGameData.game.gameId,
+            parseInt(this.generalService.gameQuestion.step) + 1
+          );
+          if (resQue.status === 1) {
+            this.generalService.gameQuestion = resQue.data;
+            if (this.generalService.toggleValueTranslate && this.generalService.selectedTranslatedLanguage != '') {
+              this.generalService.gameQuestion.question = await this.detectAndTranslate(this.generalService.gameQuestion.question,
+                this.generalService.selectedTranslatedLanguage, this.generalService.gameQuestion.language);
+            }
+            this.generalService.gameAnswerGeneral = resQue.data.myAnswer || '';
+            this.generalService.editingAnswer = !!resQue.data.myAnswer;
+            // if(resQue.data.myAnswer){
+            this.updateWordCountAnswer();
+            // }
+          }
         }
       })
     });
