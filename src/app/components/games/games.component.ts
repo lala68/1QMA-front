@@ -340,6 +340,8 @@ export class GamesComponent implements OnInit {
     this.generalService.players = [];
 
     this.generalService.socket.on("start game", (arg: any) => {
+      this.generalService.isDisconnectedModal = false;
+
       // if (this.generalService.disconnectedModal || this.generalService.isDisconnectedModal) {
       //   this.generalService.disconnectedModal.close();
       //   this.generalService.disconnectedModal = '';
@@ -559,18 +561,19 @@ export class GamesComponent implements OnInit {
       this.generalService.selectedTranslatedLanguage = '';
       // this.generalService.userObj.enableAutoTranslate = false;
     } else {
-      this.generalService.selectedTranslatedLanguage = this.generalService.userObj.targetLanguage ? this.generalService.userObj.targetLanguage : 'en'
+      this.generalService.selectedTranslatedLanguage = this.generalService.selectedTranslatedLanguage ? this.generalService.selectedTranslatedLanguage : this.generalService.userObj.targetLanguage ? this.generalService.userObj.targetLanguage : 'en'
     }
   }
 
   selectTranslatedLang(id: any) {
     this.generalService.selectedTranslatedLanguage = id;
-    this.generalService.userObj.targetLanguage = id;
   }
 
   joinToGame(code: any = this.gameCode) {
     this.generalService.socket = io(environment.baseUrl, {withCredentials: true});
     this.generalService.socket.on("player added", async (arg: any) => {
+      this.generalService.isDisconnectedModal = false;
+
       const now = new Date();
       const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
       // console.log("player added" + ' ' + `[${timeString}]  `);
@@ -592,6 +595,7 @@ export class GamesComponent implements OnInit {
     });
 
     this.generalService.socket.on("start game", (arg: any) => {
+      this.generalService.isDisconnectedModal = false;
       const now = new Date();
       const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
       // console.log("start game" + ' ' + `[${timeString}]  `);
@@ -826,6 +830,8 @@ export class JoiningGame {
   }
 
   async joinGame() {
+    console.log(this.generalService.toggleValueTranslate)
+    console.log(this.generalService.selectedTranslatedLanguage)
     this.loading = true;
     this.gameService.joinGameWithMyQuestion(this.data?.data?.game?._id, this.questionForm.controls.question.value, this.questionForm.controls.answer.value, this.questionId).then(async data => {
       this.loading = false;
@@ -865,13 +871,12 @@ export class JoiningGame {
       this.generalService.selectedTranslatedLanguage = '';
       // this.generalService.userObj.enableAutoTranslate = false;
     } else {
-      this.generalService.selectedTranslatedLanguage = this.generalService.userObj.targetLanguage ? this.generalService.userObj.targetLanguage : 'en'
+      this.generalService.selectedTranslatedLanguage = this.generalService.selectedTranslatedLanguage ? this.generalService.selectedTranslatedLanguage : this.generalService.userObj.targetLanguage ? this.generalService.userObj.targetLanguage : 'en'
     }
   }
 
   selectTranslatedLang(id: any) {
     this.generalService.selectedTranslatedLanguage = id;
-    this.generalService.userObj.targetLanguage = id;
   }
 
   openDialog(message: any, title: any) {

@@ -95,8 +95,6 @@ export class GameBoardComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
-    console.log(this.generalService.userObj.enableAutoTranslate)
-    console.log(this.generalService.userObj.targetLanguage);
     this.generalService.wordCountAnswer = this.generalService.gameInit?.answerWordsLimitation;
     this.generalService.players = (this.data?.game?.gamePlayers);
     this.generalService.invitedPlayersArray = (this.data?.game?.gameInviteList);
@@ -109,6 +107,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     // console.log(this.generalService.invitedPlayersArray)
     await this.removeFromInvited(this.generalService.userObj?.email);
     this.generalService.socket.on("player added", async (arg: any) => {
+      this.generalService.isDisconnectedModal = false;
       // console.log("player added " + arg);
       // console.log(this.generalService.players);
       // if (!this.generalService.players.some((player: any) => player.email === arg.email)) {
@@ -128,6 +127,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     });
 
     this.generalService.socket.on("next step", (arg: any) => {
+      this.generalService.isDisconnectedModal = false;
       // if (this.generalService.disconnectedModal || this.generalService.isDisconnectedModal) {
       //   this.generalService.disconnectedModal.close();
       //   this.generalService.disconnectedModal = '';
@@ -171,6 +171,8 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     });
 
     this.generalService.socket.on("submit answer", (arg: any) => {
+      this.generalService.isDisconnectedModal = false;
+
       // if (this.generalService.disconnectedModal || this.generalService.isDisconnectedModal) {
       //   this.generalService.disconnectedModal.close();
       //   this.generalService.disconnectedModal = '';
@@ -184,6 +186,8 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     });
 
     this.generalService.socket.on("player left", (arg: any) => {
+      this.generalService.isDisconnectedModal = false;
+
       // if (this.generalService.disconnectedModal || this.generalService.isDisconnectedModal) {
       //   this.generalService.disconnectedModal.close();
       //   this.generalService.disconnectedModal = '';
@@ -195,6 +199,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     });
 
     this.generalService.socket.on("cancel game", (arg: any) => {
+      this.generalService.isDisconnectedModal = false;
       const now = new Date();
       const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
       // console.log("cancel game" + ' ' + `[${timeString}]  `);
@@ -214,6 +219,8 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     });
 
     this.generalService.socket.on("end game", (arg: any) => {
+      this.generalService.isDisconnectedModal = false;
+
       const now = new Date();
       const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
       // console.log("end game" + ' ' + `[${timeString}]  `);
@@ -227,7 +234,8 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     });
 
     this.generalService.socket.on("disconnect", () => {
-      // console.log('disconnect');
+      console.log('disconnect');
+      this.generalService.isDisconnectedModal = true;
       // if (this.generalService?.startingGame && (!this.generalService.isDisconnectedModal)) {
       //   this.generalService.disconnectedModal = this.dialog.open(Disconnected, {
       //     width: '500px',
@@ -254,6 +262,8 @@ export class GameBoardComponent implements OnInit, OnDestroy {
 
     // Listen for connection and disconnection events
     this.generalService.socket.on('connect', () => {
+      this.generalService.isDisconnectedModal = false;
+
       // if (this.generalService.disconnectedModal || this.generalService.isDisconnectedModal) {
       //   this.generalService.disconnectedModal.close();
       //   this.generalService.disconnectedModal = '';
@@ -265,7 +275,10 @@ export class GameBoardComponent implements OnInit, OnDestroy {
 
     this.generalService.socket.on('disconnect', () => {
       // console.log('disconnect');
+      this.generalService.isDisconnectedModal = true;
+
       if (this.generalService?.startingGame) {
+        this.generalService.isDisconnectedModal = true;
         this.generalService.disconnectedModal = this.dialog.open(Disconnected, {
           width: '500px',
           disableClose: true
@@ -599,7 +612,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     const now = new Date();
     const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
     this.finishedTimerAnswer = true;
-    if (this.generalService.disconnectedModal == '') {
+    if (!this.generalService.isDisconnectedModal) {
       if (!this.sendAnswerDisable) {
         // this.countdownTimer.resetTimer(3);
         await this.sendAnswer();
@@ -678,7 +691,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
     // console.log("finishedTimer" + ' ' + `[${timeString}]  `);
     this.finishedTimerRatingAnswer = true;
-    if (this.generalService.disconnectedModal == '') {
+    if (!this.generalService.isDisconnectedModal) {
       if (!this.sendRateAnswerDisable) {
         // this.countdownTimer.resetTimer(2);
         await this.sendRateAnswer(false);

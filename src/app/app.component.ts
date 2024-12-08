@@ -57,9 +57,13 @@ export class AppComponent implements OnInit {
 
       this.generalService.socket = io(environment.baseUrl, {withCredentials: true});
       this.generalService.socket.on("connect", () => {
+        this.generalService.isDisconnectedModal = false;
+
       });
 
       this.generalService.socket.on("notification", (arg: any) => {
+        this.generalService.isDisconnectedModal = false;
+
         this.generalService.newNotif = true;
         this.shopService.getNotifications(1, 3).then(data => {
           this.generalService.notifList = data.data;
@@ -67,6 +71,8 @@ export class AppComponent implements OnInit {
       });
 
       this.generalService.socket.on("notification:modal", (arg: any) => {
+        this.generalService.isDisconnectedModal = false;
+
         const dialogConfig = new MatDialogConfig();
         if (this.generalService.isMobileView) { // Assuming mobile devices are <= 768px
           dialogConfig.width = '100vw';
