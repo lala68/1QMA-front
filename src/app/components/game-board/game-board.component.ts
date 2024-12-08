@@ -612,38 +612,40 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     const now = new Date();
     const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
     this.finishedTimerAnswer = true;
+    await this.sendAnswer();
+    this.sendAnswerDisable = true;
     if (!this.generalService.isDisconnectedModal) {
-      // if (!this.sendAnswerDisable) {
-        await this.sendAnswer();
-        this.sendAnswerDisable = true;
-      // } else {
-        // console.log("elseeeeee");
-        //   this.generalService.gameAnswerGeneral = '';
-        //   this.generalService.gameStep = 3;
-        //   this.nextStepTriggeredAnswer = false;
-        //   this.nextStepTriggeredRatingAnswer = false;
-        //   this.nextStepTriggeredRatingQuestions = false;
-        //   this.finishedTimerAnswer = false;
-        //   this.finishedTimerRatingAnswer = false;
-        //   this.finishedTimerRatingQuestions = false;
-        //   this.sendAnswerDisable = false;
-        //   const data = await this.gameService.getAllAnswersOfSpecificQuestion(
-        //     this.generalService.createdGameData.game.gameId,
-        //     this.generalService.gameQuestion._id
-        //   );
-        //
-        //   if (data.status === 1) {
-        //     this.generalService.specificQuestionAnswers = data.data;
-        //     // for (const answer of this.generalService.specificQuestionAnswers.answers) {
-        //     //   answer.answer = await translate(answer.answer, {
-        //     //     to:
-        //     //       this.generalService?.userObj?.preferedLanguage == '0' ? 'en' :
-        //     //         this.generalService.userObj?.preferedLanguage == '1' ? 'de' : 'fa', from: answer.language
-        //     //   });
-        //     // }
-        //     this.updateRates(this.generalService.rateAnswers.length !== 0);
-        //   }
-      // }
+      // // if (!this.sendAnswerDisable) {
+      //   await this.sendAnswer();
+      //   this.sendAnswerDisable = true;
+      // // } else {
+      //   // console.log("elseeeeee");
+      //   //   this.generalService.gameAnswerGeneral = '';
+      //   //   this.generalService.gameStep = 3;
+      //   //   this.nextStepTriggeredAnswer = false;
+      //   //   this.nextStepTriggeredRatingAnswer = false;
+      //   //   this.nextStepTriggeredRatingQuestions = false;
+      //   //   this.finishedTimerAnswer = false;
+      //   //   this.finishedTimerRatingAnswer = false;
+      //   //   this.finishedTimerRatingQuestions = false;
+      //   //   this.sendAnswerDisable = false;
+      //   //   const data = await this.gameService.getAllAnswersOfSpecificQuestion(
+      //   //     this.generalService.createdGameData.game.gameId,
+      //   //     this.generalService.gameQuestion._id
+      //   //   );
+      //   //
+      //   //   if (data.status === 1) {
+      //   //     this.generalService.specificQuestionAnswers = data.data;
+      //   //     // for (const answer of this.generalService.specificQuestionAnswers.answers) {
+      //   //     //   answer.answer = await translate(answer.answer, {
+      //   //     //     to:
+      //   //     //       this.generalService?.userObj?.preferedLanguage == '0' ? 'en' :
+      //   //     //         this.generalService.userObj?.preferedLanguage == '1' ? 'de' : 'fa', from: answer.language
+      //   //     //   });
+      //   //     // }
+      //   //     this.updateRates(this.generalService.rateAnswers.length !== 0);
+      //   //   }
+      // // }
     } else {
       this.numberOfDisconnectingInGameSteps++;
       if (this.numberOfDisconnectingInGameSteps > 2) {
@@ -690,11 +692,13 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
     // console.log("finishedTimer" + ' ' + `[${timeString}]  `);
     this.finishedTimerRatingAnswer = true;
+    await this.sendRateAnswer(false);
+    this.sendRateAnswerDisable = true;
     if (!this.generalService.isDisconnectedModal) {
       if (!this.sendRateAnswerDisable) {
         // this.countdownTimer.resetTimer(2);
-        await this.sendRateAnswer(false);
-        this.sendRateAnswerDisable = true;
+        // await this.sendRateAnswer(false);
+        // this.sendRateAnswerDisable = true;
       } else {
         // console.log("elseeeeee");
         /* // maybe
