@@ -613,11 +613,10 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
     this.finishedTimerAnswer = true;
     if (!this.generalService.isDisconnectedModal) {
-      if (!this.sendAnswerDisable) {
-        // this.countdownTimer.resetTimer(3);
+      // if (!this.sendAnswerDisable) {
         await this.sendAnswer();
         this.sendAnswerDisable = true;
-      } else {
+      // } else {
         // console.log("elseeeeee");
         //   this.generalService.gameAnswerGeneral = '';
         //   this.generalService.gameStep = 3;
@@ -644,7 +643,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
         //     // }
         //     this.updateRates(this.generalService.rateAnswers.length !== 0);
         //   }
-      }
+      // }
     } else {
       this.numberOfDisconnectingInGameSteps++;
       if (this.numberOfDisconnectingInGameSteps > 2) {
