@@ -12,6 +12,7 @@ import {Preferences} from "@capacitor/preferences";
 import {CountdownTimerComponent} from "../countdown-timer/countdown-timer.component";
 import {GeneralService} from "../../services/general/general.service";
 import {ConfigService} from "../../services/config/config.service";
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-signup',
@@ -51,6 +52,7 @@ export class SignupComponent {
   waitList: boolean = false;
   emailVerified: boolean = false;
   phoneVerified: boolean = false;
+  environment = environment;
 
   constructor(private _formBuilder: FormBuilder, private loader: LoaderService, private router: Router,
               public authService: AuthService, public generalService: GeneralService, public config: ConfigService) {

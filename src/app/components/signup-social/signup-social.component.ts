@@ -9,6 +9,7 @@ import {NgxMatIntlTelInputComponent} from "ngx-mat-intl-tel-input";
 import {TranslateModule} from "@ngx-translate/core";
 import {CountdownTimerComponent} from "../countdown-timer/countdown-timer.component";
 import {GeneralService} from "../../services/general/general.service";
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-signup-social',
@@ -33,6 +34,7 @@ export class SignupSocialComponent {
   loading: boolean = false;
   email: any;
   resendAblePhone = false;
+  environment = environment;
 
   constructor(private _formBuilder: FormBuilder, public authService: AuthService, private router: Router,
               public generalService: GeneralService) {

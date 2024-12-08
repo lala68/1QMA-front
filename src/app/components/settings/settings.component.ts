@@ -43,6 +43,7 @@ export class SettingsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(this.generalService.userObj)
     this.settingsForm = this._formBuilder.group({
       language: [this.generalService.userObj?.preferedLanguage ? this.generalService.userObj?.preferedLanguage?._id : '0'],
       enableAutoTranslate: [!!this.generalService.userObj?.enableAutoTranslate],

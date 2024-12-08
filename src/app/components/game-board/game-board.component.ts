@@ -20,24 +20,8 @@ import {HttpClient} from "@angular/common/http";
 import {ParsIntPipe} from "../../pipes/pars-int.pipe";
 import translate from "translate";
 import {io} from "socket.io-client";
-import {franc} from "franc-min";
 import {TwoDecimalPipe} from "../../pipes/two-decimal.pipe";
-
-type SupportedLanguages =
-  | 'eng' // English
-  | 'deu' // German
-  | 'pes' // Dari
-  | 'por' // Persian (Farsi)
-  | 'ckb' // Persian (Farsi)
-  | 'spa' // Persian (Farsi)
-  | 'hun' // Persian (Farsi)
-  | 'hnj' // Persian (alternate code)
-  | 'pdu' // Portuguese
-  | 'jav' // Hmong
-  | 'uzb' // Scots
-  | 'kaz' //pashto
-  | 'arb'
-  | 'und'; //pashto
+import {environment} from "../../../environments/environment";
 
 
 @Component({
@@ -82,22 +66,6 @@ export class GameBoardComponent implements OnInit, OnDestroy {
   tooltipVisible2 = false;  // Control whether the tooltip is visible
   tooltipMessage2 = 'Click to copy!';
   isDropListDisabled: boolean = false;
-  private supportedLangs: Record<SupportedLanguages, string> = {
-    'eng': 'en',  // English
-    'deu': 'en',  // German
-    'pes': 'fa',  // Persian (alternate code)
-    'por': 'en',  // Portuguese detected as English
-    'ckb': 'en',  // Portuguese detected as English
-    'spa': 'en',  // Portuguese detected as English
-    'hun': 'en',  // Portuguese detected as English
-    'hnj': 'en',  // Hmong detected as English
-    'pdu': 'fa',  // Scots detected as English
-    'jav': 'fa',  // Scots detected as English
-    'uzb': 'fa',  // Uzbek (traditionally uses Arabic script, especially in Iran, although Latin script is now more common)
-    'kaz': 'fa',  // Kazakh (traditionally uses Arabic script in some regions, now primarily uses Cyrillic)
-    'arb': 'fa',  // Arabic (while it’s a different language, it uses the Perso-Arabic script, sometimes mapped to Farsi in mixed language settings)
-    'und': 'fa',  // Arabic (while it’s a different language, it uses the Perso-Arabic script, sometimes mapped to Farsi in mixed language settings)
-  };
 
   @HostListener('window:beforeunload', ['$event'])
   unloadNotification($event: any): void {
@@ -115,6 +83,8 @@ export class GameBoardComponent implements OnInit, OnDestroy {
     return true; // Example: return true if there are unsaved changes
   }
 
+  environment = environment;
+
   constructor(public generalService: GeneralService, private router: Router, private gameService: GamesService,
               public configService: ConfigService, private ngZone: NgZone, private _snackBar: MatSnackBar,
               private countdownTimerComponent: CountdownTimerComponent, public dialog: MatDialog,
@@ -125,7 +95,8 @@ export class GameBoardComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
-    // this.generalService.useGoogleTranslate();
+    console.log(this.generalService.userObj.enableAutoTranslate)
+    console.log(this.generalService.userObj.targetLanguage);
     this.generalService.wordCountAnswer = this.generalService.gameInit?.answerWordsLimitation;
     this.generalService.players = (this.data?.game?.gamePlayers);
     this.generalService.invitedPlayersArray = (this.data?.game?.gameInviteList);
@@ -275,7 +246,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
   }
 
   connect() {
-    this.generalService.socket = io('https://api.staging.1qma.games', {
+    this.generalService.socket = io(environment.baseUrl, {
       reconnection: true,
       timeout: 5000,
       withCredentials: true
@@ -472,7 +443,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
 
       if (data.status === 1) {
         this.generalService.specificQuestionAnswers = data.data;
-        if (this.generalService.selectedTranslatedLanguage && this.generalService.selectedTranslatedLanguage != '') {
+        if (this.generalService.toggleValueTranslate && this.generalService.selectedTranslatedLanguage != '') {
           this.generalService.gameQuestion.question = await this.detectAndTranslate(this.generalService.gameQuestion.question, this.generalService.selectedTranslatedLanguage, data.data.questionLanguage);
           for (const answer of this.generalService.specificQuestionAnswers.answers) {
             answer.answer = await this.detectAndTranslate(answer.answer, this.generalService.selectedTranslatedLanguage, answer.language);
@@ -492,7 +463,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
 
       if (resQue.status === 1) {
         this.generalService.gameQuestion = resQue.data;
-        if (this.generalService.selectedTranslatedLanguage && this.generalService.selectedTranslatedLanguage != '') {
+        if (this.generalService.toggleValueTranslate && this.generalService.selectedTranslatedLanguage != '') {
           this.generalService.gameQuestion.question = await this.detectAndTranslate(resQue?.data.question,
             this.generalService.selectedTranslatedLanguage, resQue?.data.language);
         }
@@ -512,7 +483,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
         await this.waitForConditionNextStepRatingAnswer();
         this.generalService.gameStep = 4;
         this.generalService.allQuestions = resQue.data;
-        if (this.generalService.selectedTranslatedLanguage && this.generalService.selectedTranslatedLanguage != '') {
+        if (this.generalService.toggleValueTranslate && this.generalService.selectedTranslatedLanguage != '') {
           for (const question of this.generalService.allQuestions) {
             question.question = await this.detectAndTranslate(question.question, this.generalService.selectedTranslatedLanguage, question.language);
           }
@@ -598,7 +569,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
   async getGameResult() {
     this.gameService.getGameResult(this.generalService.createdGameData.game.gameId).then(async data => {
         this.generalService.gameResult = data.data;
-        if (this.generalService.selectedTranslatedLanguage && this.generalService.selectedTranslatedLanguage != '') {
+        if (this.generalService.toggleValueTranslate && this.generalService.selectedTranslatedLanguage != '') {
           for (const question of this.generalService.gameResult.result.details) {
             question.question = await this.detectAndTranslate(question.question,
               this.generalService.selectedTranslatedLanguage, question.language);
@@ -690,7 +661,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
         // for (const answer of this.generalService.specificQuestionAnswers.answers) {
         //   answer.answer = await translate(answer.answer, this.generalService.selectedTranslatedLanguage);
         // }
-        if (this.generalService.selectedTranslatedLanguage && this.generalService.selectedTranslatedLanguage != '') {
+        if (this.generalService.toggleValueTranslate && this.generalService.selectedTranslatedLanguage != '') {
           this.generalService.gameQuestion.question = await this.detectAndTranslate(this.generalService.gameQuestion.question, this.generalService.selectedTranslatedLanguage, data.data.questionLanguage);
           for (const answer of this.generalService.specificQuestionAnswers.answers) {
             answer.answer = await this.detectAndTranslate(answer.answer, this.generalService.selectedTranslatedLanguage, answer.language);
@@ -760,7 +731,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
           this.generalService.createdGameData.game.gameId
         );
         this.generalService.allQuestions = resQue.data;
-        if (this.generalService.selectedTranslatedLanguage && this.generalService.selectedTranslatedLanguage != '') {
+        if (this.generalService.toggleValueTranslate && this.generalService.selectedTranslatedLanguage != '') {
           for (const question of this.generalService.allQuestions.questions) {
             question.question = await this.detectAndTranslate(question.question,
               this.generalService.selectedTranslatedLanguage, question.language);
@@ -791,7 +762,7 @@ export class GameBoardComponent implements OnInit, OnDestroy {
         );
         if (resQue.status === 1) {
           this.generalService.gameQuestion = resQue.data;
-          if (this.generalService.selectedTranslatedLanguage && this.generalService.selectedTranslatedLanguage != '') {
+          if (this.generalService.toggleValueTranslate && this.generalService.selectedTranslatedLanguage != '') {
             this.generalService.gameQuestion.question = await this.detectAndTranslate(this.generalService.gameQuestion.question,
               this.generalService.selectedTranslatedLanguage, this.generalService.gameQuestion.language);
           }

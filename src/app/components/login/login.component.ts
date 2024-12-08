@@ -9,14 +9,12 @@ import {MaterialModule} from "../../shared/material/material.module";
 import {TranslateModule} from "@ngx-translate/core";
 import {Preferences} from "@capacitor/preferences";
 import {GeneralService} from "../../services/general/general.service";
-import {MatStepper} from "@angular/material/stepper";
-import {CountdownTimerComponent} from "../countdown-timer/countdown-timer.component";
 import {ClientService} from "../../services/client/client.service";
 import {ConfigService} from "../../services/config/config.service";
-import {io} from "socket.io-client";
 import {GamesService} from "../../services/games/games.service";
 import {SnackbarContentComponent} from "../snackbar-content/snackbar-content.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -34,6 +32,7 @@ export class LoginComponent {
     password: new FormControl('', [Validators.required]),
   });
   hide = true;
+  environment = environment;
 
   constructor(private _formBuilder: FormBuilder, private loader: LoaderService, private clientService: ClientService,
               public authService: AuthService, private router: Router, public generalService: GeneralService,

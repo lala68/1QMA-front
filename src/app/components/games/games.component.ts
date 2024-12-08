@@ -27,24 +27,8 @@ import {ProcessHTTPMsgService} from "../../services/proccessHttpMsg/process-http
 import translate from "translate";
 import {IntroJsService} from "../../services/introJs/intro-js.service";
 import introJs from "intro.js";
-import {franc} from "franc-min";
 import {TwoDecimalPipe} from "../../pipes/two-decimal.pipe";
-
-type SupportedLanguages =
-  | 'eng' // English
-  | 'deu' // German
-  | 'pes' // Dari
-  | 'por' // Persian (Farsi)
-  | 'ckb' // Persian (Farsi)
-  | 'spa' // Persian (Farsi)
-  | 'hun' // Persian (Farsi)
-  | 'hnj' // Persian (alternate code)
-  | 'pdu' // Portuguese
-  | 'jav' // Hmong
-  | 'uzb' // Scots
-  | 'kaz' //pashto
-  | 'arb'
-  | 'und'; //pashto
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-games',
@@ -99,22 +83,6 @@ export class GamesComponent implements OnInit {
   longestAnswerRateIndex: any = 0;
   private routerSubscription: any;
   private introInProgress: boolean = false; // Track whether the intro is showing
-  private supportedLangs: Record<SupportedLanguages, string> = {
-    'eng': 'en',  // English
-    'deu': 'en',  // German
-    'pes': 'fa',  // Persian (alternate code)
-    'por': 'en',  // Portuguese detected as English
-    'ckb': 'en',  // Portuguese detected as English
-    'spa': 'en',  // Portuguese detected as English
-    'hun': 'en',  // Portuguese detected as English
-    'hnj': 'en',  // Hmong detected as English
-    'pdu': 'fa',  // Scots detected as English
-    'jav': 'fa',  // Scots detected as English
-    'uzb': 'fa',  // Uzbek (traditionally uses Arabic script, especially in Iran, although Latin script is now more common)
-    'kaz': 'fa',  // Kazakh (traditionally uses Arabic script in some regions, now primarily uses Cyrillic)
-    'arb': 'fa',  // Arabic (while it’s a different language, it uses the Perso-Arabic script, sometimes mapped to Farsi in mixed language settings)
-    'und': 'fa',  // Arabic (while it’s a different language, it uses the Perso-Arabic script, sometimes mapped to Farsi in mixed language settings)
-  };
 
   constructor(public generalService: GeneralService, private gameService: GamesService, public configService: ConfigService,
               private _formBuilder: FormBuilder, private router: Router, public dialog: MatDialog, private _snackBar: MatSnackBar,
@@ -126,8 +94,8 @@ export class GamesComponent implements OnInit {
     this.generalService.selectedTabIndexGameChildInTrivia = 0;
     this.generalService.invitedPlayersArray = [];
     this.generalService.players = [];
-    this.generalService.toggleValueTranslate = '';
-    this.generalService.selectedTranslatedLanguage = '';
+    this.generalService.toggleValueTranslate = this.generalService.userObj?.enableAutoTranslate;
+    this.generalService.selectedTranslatedLanguage = this.generalService.userObj?.targetLanguage;
     this.wordCount = this.generalService.gameInit?.answerWordsLimitation;
     this.wordCountAnswer = this.generalService.gameInit?.answerWordsLimitation;
   }
@@ -389,7 +357,7 @@ export class GamesComponent implements OnInit {
       // console.log(this.generalService.selectedTranslatedLanguage)
       this.gameService.getGameQuestionBasedOnStep(this.generalService?.createdGameData?.game?.gameId, 1).then(async resQue => {
         this.generalService.gameQuestion = resQue?.data;
-        if (this.generalService.selectedTranslatedLanguage && this.generalService.selectedTranslatedLanguage != '') {
+        if (this.generalService.toggleValueTranslate && this.generalService.selectedTranslatedLanguage != '') {
           // console.log(resQue?.data.question)
           // console.log(this.generalService.selectedTranslatedLanguage)
           this.generalService.gameQuestion.question = await this.detectAndTranslate(resQue?.data.question,
@@ -408,6 +376,8 @@ export class GamesComponent implements OnInit {
     });
 
     setTimeout(() => {
+      console.log(this.generalService.toggleValueTranslate)
+      console.log(this.generalService.selectedTranslatedLanguage)
       this.gameService.createGame(this.selectedGameType[0], this.selectedGameMode.toString(), this.selectedCategory,
         this.generalService.invitedPlayersArray, this.questionForm.controls.question.value, this.questionForm.controls.answer.value, this.questionId)
         .then(async data => {
@@ -584,18 +554,22 @@ export class GamesComponent implements OnInit {
 
   onToggleActiveTranslate(event: any) {
     this.generalService.toggleValueTranslate = !!event.checked;
+    // this.generalService.userObj.enableAutoTranslate = true;
     if (!this.generalService.toggleValueTranslate) {
       this.generalService.selectedTranslatedLanguage = '';
-      this.generalService.userObj.enableAutoTranslate = false;
+      // this.generalService.userObj.enableAutoTranslate = false;
+    } else {
+      this.generalService.selectedTranslatedLanguage = this.generalService.userObj.targetLanguage ? this.generalService.userObj.targetLanguage : 'en'
     }
   }
 
   selectTranslatedLang(id: any) {
     this.generalService.selectedTranslatedLanguage = id;
+    this.generalService.userObj.targetLanguage = id;
   }
 
   joinToGame(code: any = this.gameCode) {
-    this.generalService.socket = io('https://api.staging.1qma.games', {withCredentials: true});
+    this.generalService.socket = io(environment.baseUrl, {withCredentials: true});
     this.generalService.socket.on("player added", async (arg: any) => {
       const now = new Date();
       const timeString = now.toLocaleTimeString(); // This will include hours, minutes, and seconds
@@ -631,7 +605,7 @@ export class GamesComponent implements OnInit {
         // console.log(this.generalService?.createdGameData)
         this.gameService.getGameQuestionBasedOnStep(this.generalService?.createdGameData?.game?.gameId, 1).then(async resQue => {
           this.generalService.gameQuestion = resQue?.data;
-          if (this.generalService.selectedTranslatedLanguage && this.generalService.selectedTranslatedLanguage != '') {
+          if (this.generalService.toggleValueTranslate && this.generalService.selectedTranslatedLanguage != '') {
             this.generalService.gameQuestion.question = await this.detectAndTranslate(resQue?.data.question,
               this.generalService.selectedTranslatedLanguage, resQue?.data.language);
           }
@@ -886,14 +860,18 @@ export class JoiningGame {
 
   onToggleActiveTranslate(event: any) {
     this.generalService.toggleValueTranslate = !!event.checked;
+    // this.generalService.userObj.enableAutoTranslate = true;
     if (!this.generalService.toggleValueTranslate) {
       this.generalService.selectedTranslatedLanguage = '';
-      this.generalService.userObj.enableAutoTranslate = false;
+      // this.generalService.userObj.enableAutoTranslate = false;
+    } else {
+      this.generalService.selectedTranslatedLanguage = this.generalService.userObj.targetLanguage ? this.generalService.userObj.targetLanguage : 'en'
     }
   }
 
   selectTranslatedLang(id: any) {
     this.generalService.selectedTranslatedLanguage = id;
+    this.generalService.userObj.targetLanguage = id;
   }
 
   openDialog(message: any, title: any) {

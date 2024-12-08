@@ -24,6 +24,7 @@ import {NotificationModalComponent} from "./components/notification-modal/notifi
 import {VersionCheckService} from "./services/versionCheck/version-check.service";
 import {Platform} from "@angular/cdk/platform";
 import {GoogleAnalyticsService} from "ngx-google-analytics";
+import {environment} from "../environments/environment";
 
 register();
 
@@ -54,7 +55,7 @@ export class AppComponent implements OnInit {
     this.starter().then(async (data) => {
       this.googleAnalyticsService.pageView('home');  // Track page view for 'home'
 
-      this.generalService.socket = io('https://api.staging.1qma.games', {withCredentials: true});
+      this.generalService.socket = io(environment.baseUrl, {withCredentials: true});
       this.generalService.socket.on("connect", () => {
       });
 

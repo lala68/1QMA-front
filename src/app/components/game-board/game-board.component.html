@@ -728,7 +728,7 @@ generalService.gameStep == 3 ? sendRateAnswer(true) : sendRateQuestions(true)">
                    [style]="generalService.isMobileView ? 'width: 40%; top: 0; margin: 10px 20px 20px 0; inset-inline-end: 0' : 'inset-inline-end: 10px'">
                 <div *ngIf="generalService.isMobileView" class="copy-referrer cursor-pointer"
                      style="width: 40px; height: 40px; padding: 7px"
-                     (click)="openShareModal('result','https://staging.1qma.games/game-result?id=' + generalService.createdGameData.game.gameId)">
+                     (click)="openShareModal('result',environment.baseUrl + 'game-result?id=' + generalService.createdGameData.game.gameId)">
                   <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
                       d="M7.4783 6.63558L15.9683 3.80558C19.7783 2.53558 21.8483 4.61558 20.5883 8.42558L17.7583 16.9156C15.8583 22.6256 12.7383 22.6256 10.8383 16.9156L9.9983 14.3956L7.4783 13.5556C1.7683 11.6556 1.7683 8.54558 7.4783 6.63558Z"
@@ -737,7 +737,8 @@ generalService.gameStep == 3 ? sendRateAnswer(true) : sendRateQuestions(true)">
                           stroke-linejoin="round"/>
                   </svg>
                 </div>
-                <button *ngIf="generalService.isMobileView" style="height: 40px !important; min-width: 112px !important;" mat-raised-button
+                <button *ngIf="generalService.isMobileView"
+                        style="height: 40px !important; min-width: 112px !important;" mat-raised-button
                         color="primary" class="next-step ms-2"
                         (click)="newGame()">
                   {{'New Game' | translate}}
@@ -750,7 +751,7 @@ generalService.gameStep == 3 ? sendRateAnswer(true) : sendRateQuestions(true)">
                  [style]="generalService.isMobileView ? 'width: 95%; margin: 10px 20px 20px 0; inset-inline-end: 0' : 'inset-inline-end: 10px'">
               <div *ngIf="!generalService.isMobileView" class="copy-referrer cursor-pointer"
                    style="width: 40px; height: 40px; padding: 7px"
-                   (click)="openShareModal('result','https://staging.1qma.games/game-result?id=' + generalService.createdGameData.game.gameId)">
+                   (click)="openShareModal('result',environment.baseUrl + 'game-result?id=' + generalService.createdGameData.game.gameId)">
                 <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
                     d="M7.4783 6.63558L15.9683 3.80558C19.7783 2.53558 21.8483 4.61558 20.5883 8.42558L17.7583 16.9156C15.8583 22.6256 12.7383 22.6256 10.8383 16.9156L9.9983 14.3956L7.4783 13.5556C1.7683 11.6556 1.7683 8.54558 7.4783 6.63558Z"
