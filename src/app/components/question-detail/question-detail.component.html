@@ -348,8 +348,7 @@
                           }
                         </i>
                       </ng-template>
-
-                      <ngb-rating [(rate)]="answer.avgRate" [starTemplate]="t" [readonly]="true" [max]="5"/>
+                      <ngb-rating [(rate)]="perf.calcRate" [starTemplate]="t" [readonly]="true" [max]="5"/>
                     </div>
                     <div class="d-inline-flex text-gray">
                       <mat-label *ngIf="answer?.avgRate">{{answer?.avgRate | number}}</mat-label>
