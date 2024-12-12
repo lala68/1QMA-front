@@ -62,7 +62,9 @@ export class QuestionDetailComponent {
     this.clientService.getQuestionPerformance(id).then(data => {
       this.performance = data.data;
       this.performance.performance.filter((item: any, index: any) => {
-        item.calcRate = (item.question.rate * 5) / (item.numberOfPlayers * item.numberOfPlayers);
+        item.question.answers.filter((answer: any, index: any) => {
+          answer.calcRate = (answer.rate * 5) / (item.numberOfPlayers * item.numberOfPlayers);
+        });
       });
     }, error => {
       return this.processHTTPMsgService.handleError(error);
