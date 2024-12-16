@@ -25,34 +25,14 @@
     <mat-card-header>
       <!--      <img src="assets/images/arrow-left.svg" width="24" height="24" (click)="innerStep = 1"-->
       <!--           style="position: absolute; inset-inline-start: 10px; top: 0; bottom: 0; margin: auto;">-->
-      <img
-        *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'"
-        src="assets/images/arrow-left.svg"
-        width="24"
-        height="24"
-        style="
-          position: absolute;
-          inset-inline-start: 10px;
-          top: 0;
-          bottom: 0;
-          margin: auto;
-        "
-        (click)="innerStep = 1"
-      />
-      <img
-        *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'"
-        src="assets/images/arrow-right-1.svg"
-        width="24"
-        height="24"
-        style="
-          position: absolute;
-          inset-inline-start: 10px;
-          top: 0;
-          bottom: 0;
-          margin: auto;
-        "
-        (click)="innerStep = 1"
-      />
+      <img *ngIf="generalService.userObj?.preferedLanguage?.code != 'fa'" src="assets/images/arrow-left.svg" width="24"
+           height="24"
+           style="position: absolute; inset-inline-start: 10px; top: 0; bottom: 0; margin: auto;"
+           (click)="innerStep = 1">
+      <img *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" src="assets/images/arrow-right-1.svg"
+           width="24" height="24"
+           style="position: absolute; inset-inline-start: 10px; top: 0; bottom: 0; margin: auto;"
+           (click)="innerStep = 1">
 
       <div class="ms-4" style="height: 46px"></div>
       <img
@@ -125,33 +105,15 @@
                 }}</mat-label>
               </div>
             </div>
-            <br />
-            <br />
-            <mat-form-field
-              appearance="fill"
-              class="custom-form-field w-100"
-              [hideRequiredMarker]="true"
-            >
-              <mat-label>{{ "Name" | translate }}</mat-label>
-              <input
-                matInput
-                placeholder="{{ 'First name' | translate }}"
-                type="text"
-                [formControlName]="'firstName'"
-              />
+            <br>
+            <br>
+            <mat-form-field appearance="fill" class="custom-form-field w-100" [hideRequiredMarker]="false">
+              <mat-label>{{'Name' | translate}}</mat-label>
+              <input matInput placeholder="{{'First name' | translate}}" type="text" [formControlName]="'firstName'">
             </mat-form-field>
-            <mat-form-field
-              appearance="fill"
-              class="custom-form-field w-100"
-              [hideRequiredMarker]="true"
-            >
-              <mat-label>{{ "Last Name" | translate }}</mat-label>
-              <input
-                matInput
-                placeholder="{{ 'Last Name' | translate }}"
-                type="text"
-                [formControlName]="'lastName'"
-              />
+            <mat-form-field appearance="fill" class="custom-form-field w-100" [hideRequiredMarker]="false">
+              <mat-label>{{'Last Name' | translate}}</mat-label>
+              <input matInput placeholder="{{'Last Name' | translate}}" type="text" [formControlName]="'lastName'">
             </mat-form-field>
             <mat-form-field
               appearance="fill"
@@ -169,19 +131,15 @@
                 <img src="assets/images/tick-circle.svg" width="25" />
               </div>
             </mat-form-field>
-            <mat-form-field
-              appearance="fill"
-              class="custom-form-field w-100 force-ltr"
-            >
-              <ngx-mat-intl-tel-input
-                [enablePlaceholder]="true"
-                [enableSearch]="true"
-                [preferredCountries]="['ir']"
-                name="phone"
-                (countryChanged)="countryChangedEvent($event)"
-                [formControlName]="'mobile'"
-              ></ngx-mat-intl-tel-input>
-            </mat-form-field>
+            <!--            <mat-form-field appearance="fill" class="custom-form-field w-100 force-ltr">-->
+            <!--              <ngx-mat-intl-tel-input-->
+            <!--                [enablePlaceholder]="true"-->
+            <!--                [enableSearch]="true"-->
+            <!--                [preferredCountries]="['ir']"-->
+            <!--                name="phone"-->
+            <!--                (countryChanged)="countryChangedEvent($event)"-->
+            <!--                [formControlName]="'mobile'"></ngx-mat-intl-tel-input>-->
+            <!--            </mat-form-field>-->
             <div class="d-flex">
               <mat-form-field class="custom-form-field w-50" appearance="fill">
                 <mat-label>{{ "Gender" | translate }}</mat-label>
@@ -434,61 +392,25 @@
               ></iframe>
 
               <div
-                [class]="{
-                  'position-absolute': !generalService.isMobileView,
-                  'position-relative': generalService.isMobileView
-                }"
-                [style]="
-                  !generalService.isMobileView
-                    ? 'inset-inline-start: 200px; top: 0px'
-                    : 'inset-inline-start: 0; '
-                "
-              >
-                <img
-                  src="assets/images/normal-game.png"
-                  *ngIf="item?.gameType.includes('Normal')"
-                  width="22"
-                  height="22"
-                />
-                <img
-                  src="assets/images/survival-game.png"
-                  *ngIf="item?.gameType.includes('Survival')"
-                  width="22"
-                  height="22"
-                />
-                <div class="font-size-14 weight-600 d-inline ps-2">
-                  {{ item?.gameType }}
-                </div>
-                <br />
-                <br />
-                <mat-label class="font-size-14 weight-500"
-                  >{{
-                    item?.explanation?.length > 150
-                      ? (item?.explanation | slice : 0 : 145) + " ..."
-                      : item?.explanation
-                  }}
+                [class]="{'position-absolute': !generalService.isMobileView, 'position-relative': generalService.isMobileView}"
+                [style]="!generalService.isMobileView ? 'inset-inline-start: 200px; top: 0px' : 'inset-inline-start: 0; '">
+                <img src="assets/images/normal-game.png" *ngIf="item?.gameType.includes('Normal')" width="22"
+                     height="22">
+                <img src="assets/images/survival-game.png" *ngIf="item?.gameType.includes('Survival')"
+                     width="22" height="22">
+                <div
+                  class="font-size-14 weight-600 d-inline ps-2">{{generalService.userObj?.preferedLanguage?.code != 'fa' ? item?.gameType : item?.gameTypeFa}}</div>
+                <br>
+                <br>
+                <mat-label
+                  class="font-size-14 weight-500">{{generalService.userObj?.preferedLanguage?.code != 'fa' ? (item?.explanation?.length > 150 ? (item?.explanation | slice:0:145) + ' ...' : item?.explanation) : (item?.explanationFa?.length > 150 ? (item?.explanationFa | slice:0:145) + ' ...' : item?.explanationFa)}}
                 </mat-label>
-                <button
-                  mat-button
-                  color="primary"
-                  class="next-step-explanation"
-                  (click)="gotoExplanationDetail(item)"
-                >
-                  {{ "Read More" | translate }}
+                <button mat-button color="primary" class="next-step-explanation" (click)="gotoExplanationDetail(item)">
+                  {{'Read More' | translate}}
                   <!--                  <i class="bi bi-chevron-right"></i>-->
-                  <i
-                    *ngIf="
-                      !generalService.userObj ||
-                      generalService.userObj?.preferedLanguage?.code != 'fa'
-                    "
-                    class="bi bi-arrow-right"
-                  ></i>
-                  <i
-                    *ngIf="
-                      generalService.userObj?.preferedLanguage?.code == 'fa'
-                    "
-                    class="bi bi-arrow-left"
-                  ></i>
+                  <i *ngIf="!generalService.userObj || generalService.userObj?.preferedLanguage?.code != 'fa'"
+                     class="bi bi-arrow-right"></i>
+                  <i *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" class="bi bi-arrow-left"></i>
                 </button>
               </div>
             </div>
@@ -505,25 +427,16 @@
               allowfullscreen
             ></iframe>
             <div class="d-flex" style="margin: 20px 0">
-              <img
-                src="assets/images/normal-game.png"
-                *ngIf="innerExplanation?.gameType.includes('Normal')"
-                width="22"
-                height="22"
-              />
-              <img
-                src="assets/images/survival-game.png"
-                *ngIf="innerExplanation?.gameType.includes('Survival')"
-                width="22"
-                height="22"
-              />
-              <div class="font-size-14 weight-600 d-inline ps-2">
-                {{ innerExplanation?.gameType }}
-              </div>
-              <br />
+              <img src="assets/images/normal-game.png" *ngIf="innerExplanation?.gameType.includes('Normal')" width="22"
+                   height="22">
+              <img src="assets/images/survival-game.png" *ngIf="innerExplanation?.gameType.includes('Survival')"
+                   width="22" height="22">
+              <div
+                class="font-size-14 weight-600 d-inline ps-2">{{generalService.userObj?.preferedLanguage?.code != 'fa' ? innerExplanation?.gameType : innerExplanation?.gameTypeFa }}</div>
+              <br>
             </div>
-            <mat-label class="font-size-14 weight-500"
-              >{{ innerExplanation?.explanation }}
+            <mat-label
+              class="font-size-14 weight-500">{{generalService.userObj?.preferedLanguage?.code != 'fa' ? innerExplanation?.explanation : innerExplanation?.explanationFa}}
             </mat-label>
           </div>
         </div>
@@ -556,26 +469,13 @@
 <div class="card p-3 border-0 wizard-card-subheader">
   <footer>
     <div class="bullet-navigation">
-      <button
-        mat-raised-button
-        [disabled]="stepper?.selectedIndex == 0"
-        (click)="gotoPrevStep()"
-        class="prev-step"
-        [class]="{ 'border-0': stepper?.selectedIndex == 0 }"
-      >
+      <button mat-raised-button [disabled]="stepper?.selectedIndex == 0"
+              (click)="gotoPrevStep()" class="prev-step" [class]="{'border-0': stepper?.selectedIndex == 0}">
         <!--        <i class="bi bi-arrow-left"></i>-->
-        <i
-          *ngIf="
-            !generalService.userObj ||
-            generalService.userObj?.preferedLanguage?.code != 'fa'
-          "
-          class="bi bi-arrow-left"
-        ></i>
-        <i
-          *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'"
-          class="bi bi-arrow-right"
-        ></i>
-        {{ "Previous" | translate }}
+        <i *ngIf="!generalService.userObj || generalService.userObj?.preferedLanguage?.code != 'fa'"
+           class="bi bi-arrow-left"></i>
+        <i *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" class="bi bi-arrow-right"></i>
+        {{'Previous' | translate}}
       </button>
       <div class="bullet-container">
         <div
@@ -596,119 +496,48 @@
         </div>
       </div>
       <div class="next-button">
-        <button
-          mat-raised-button
-          color="primary"
-          *ngIf="stepper?.selectedIndex == 0"
-          [disabled]="!generalService.initData?.languages || loadingLanguage"
-          (click)="saveLanguage()"
-          class="next-step"
-        >
-          {{ "Next Step" | translate }}
+        <button mat-raised-button color="primary" *ngIf="stepper?.selectedIndex == 0"
+                [disabled]="!generalService.initData?.languages || loadingLanguage"
+                (click)="saveLanguage()" class="next-step">
+          {{'Next Step' | translate}}
           <!--          <i class="bi bi-arrow-right"></i>-->
-          <i
-            *ngIf="
-              !generalService.userObj ||
-              generalService.userObj?.preferedLanguage?.code != 'fa'
-            "
-            class="bi bi-arrow-right"
-          ></i>
-          <i
-            *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'"
-            class="bi bi-arrow-left"
-          ></i>
+          <i *ngIf="!generalService.userObj || generalService.userObj?.preferedLanguage?.code != 'fa'"
+             class="bi bi-arrow-right"></i>
+          <i *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" class="bi bi-arrow-left"></i>
         </button>
-        <button
-          mat-raised-button
-          color="primary"
-          *ngIf="stepper?.selectedIndex == 1"
-          (click)="openVerificationModal()"
-          [disabled]="form.invalid || loading"
-          class="next-step"
-        >
-          {{ "Next Step" | translate }}
+        <button mat-raised-button color="primary" *ngIf="stepper?.selectedIndex == 1" (click)="openVerificationModal()"
+                [disabled]="form.invalid || loading" class="next-step">{{'Next Step' | translate}}
           <!--          <i class="bi bi-arrow-right"></i>-->
-          <i
-            *ngIf="
-              !generalService.userObj ||
-              generalService.userObj?.preferedLanguage?.code != 'fa'
-            "
-            class="bi bi-arrow-right"
-          ></i>
-          <i
-            *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'"
-            class="bi bi-arrow-left"
-          ></i>
+          <i *ngIf="!generalService.userObj || generalService.userObj?.preferedLanguage?.code != 'fa'"
+             class="bi bi-arrow-right"></i>
+          <i *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" class="bi bi-arrow-left"></i>
         </button>
-        <button
-          mat-raised-button
-          color="primary"
-          *ngIf="stepper?.selectedIndex == 2"
-          [disabled]="loading || selectedCategory?.length == 0"
-          (click)="submitPref()"
-          class="next-step"
-        >
-          {{ "Next Step" | translate }}
+        <button mat-raised-button color="primary" *ngIf="stepper?.selectedIndex == 2"
+                [disabled]="loading || selectedCategory?.length==0"
+                (click)="submitPref()" class="next-step">{{'Next Step' | translate}}
           <!--          <i class="bi bi-arrow-right"></i>-->
-          <i
-            *ngIf="
-              !generalService.userObj ||
-              generalService.userObj?.preferedLanguage?.code != 'fa'
-            "
-            class="bi bi-arrow-right"
-          ></i>
-          <i
-            *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'"
-            class="bi bi-arrow-left"
-          ></i>
+          <i *ngIf="!generalService.userObj || generalService.userObj?.preferedLanguage?.code != 'fa'"
+             class="bi bi-arrow-right"></i>
+          <i *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" class="bi bi-arrow-left"></i>
         </button>
         <!--        <button mat-raised-button color="primary" *ngIf="stepper?.selectedIndex == 3"-->
         <!--                [disabled]="loading || answers.length != generalService.initData?.furtherQuestions?.length"-->
         <!--                (click)="submitAnswers()" class="next-step">{{'Next Step' | translate}}-->
         <!--          <i class="bi bi-arrow-right"></i>-->
         <!--        </button>-->
-        <button
-          mat-raised-button
-          color="primary"
-          *ngIf="stepper?.selectedIndex == 3"
-          [disabled]="loadingAccountType"
-          (click)="submitAccountType()"
-          class="next-step"
-        >
-          {{ "Next Step" | translate }}
+        <button mat-raised-button color="primary" *ngIf="stepper?.selectedIndex == 3" [disabled]="loadingAccountType"
+                (click)="submitAccountType()" class="next-step">{{'Next Step' | translate}}
           <!--          <i class="bi bi-arrow-right"></i>-->
-          <i
-            *ngIf="
-              !generalService.userObj ||
-              generalService.userObj?.preferedLanguage?.code != 'fa'
-            "
-            class="bi bi-arrow-right"
-          ></i>
-          <i
-            *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'"
-            class="bi bi-arrow-left"
-          ></i>
+          <i *ngIf="!generalService.userObj || generalService.userObj?.preferedLanguage?.code != 'fa'"
+             class="bi bi-arrow-right"></i>
+          <i *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" class="bi bi-arrow-left"></i>
         </button>
-        <button
-          mat-raised-button
-          color="primary"
-          *ngIf="stepper?.selectedIndex == 4"
-          (click)="stepper?.next()"
-          class="next-step"
-        >
-          {{ "Next Step" | translate }}
+        <button mat-raised-button color="primary" *ngIf="stepper?.selectedIndex == 4"
+                (click)="stepper?.next()" class="next-step">{{'Next Step' | translate}}
           <!--          <i class="bi bi-arrow-right"></i>-->
-          <i
-            *ngIf="
-              !generalService.userObj ||
-              generalService.userObj?.preferedLanguage?.code != 'fa'
-            "
-            class="bi bi-arrow-right"
-          ></i>
-          <i
-            *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'"
-            class="bi bi-arrow-left"
-          ></i>
+          <i *ngIf="!generalService.userObj || generalService.userObj?.preferedLanguage?.code != 'fa'"
+             class="bi bi-arrow-right"></i>
+          <i *ngIf="generalService.userObj?.preferedLanguage?.code == 'fa'" class="bi bi-arrow-left"></i>
         </button>
       </div>
     </div>

@@ -22,6 +22,8 @@ import {ProcessHTTPMsgService} from "../../services/proccessHttpMsg/process-http
 export class SettingsComponent implements OnInit {
   settingsForm = this._formBuilder.group({
     language: [''],
+    enableAutoTranslate: false,
+    targetLanguage: [''],
     font: [''],
     defaultHomePage: [''],
   });
@@ -31,7 +33,7 @@ export class SettingsComponent implements OnInit {
     {name: 'Dana', faName: 'دانا', code: 'Dana'},
     {name: 'IRANSans', faName: 'ایرانسنس', code: 'IRANSans'},
     {name: 'Modam', faName: 'مدام', code: 'Modam'},
-    ];
+  ];
 
 
   constructor(public generalService: GeneralService, private _formBuilder: FormBuilder, public dialog: MatDialog,
@@ -41,8 +43,11 @@ export class SettingsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(this.generalService.userObj)
     this.settingsForm = this._formBuilder.group({
       language: [this.generalService.userObj?.preferedLanguage ? this.generalService.userObj?.preferedLanguage?._id : '0'],
+      enableAutoTranslate: [!!this.generalService.userObj?.enableAutoTranslate],
+      targetLanguage: [this.generalService.userObj?.targetLanguage ? this.generalService.userObj?.targetLanguage : 'en'],
       font: [this.generalService.userObj?.preferedFont ? this.generalService.userObj?.preferedFont : 'Exo'],
       defaultHomePage: [this.generalService.userObj?.defaultHomePage ? this.generalService.userObj?.defaultHomePage : '/dashboard'],
     });
@@ -91,5 +96,11 @@ export class SettingsComponent implements OnInit {
       horizontalPosition: 'end',
       panelClass: title == 'Success' ? 'app-notification-success' : 'app-notification-error'
     });
+  }
+
+  onToggleActiveTranslate(event: any) {
+    console.log(event)
+    this.generalService.userObj.enableAutoTranslate = !!event.checked;
+    console.log(this.generalService.userObj.enableAutoTranslate)
   }
 }

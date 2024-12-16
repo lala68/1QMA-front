@@ -399,6 +399,25 @@ export class ClientService {
     }
   }
 
+  async postContactUs(data: any): Promise<any> {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    })
+    try {
+      const response = this.http.post<any>(this.config.url('contactUs'), {
+        ...data
+      }, {
+        headers: headers,
+        withCredentials: true
+      })
+        .toPromise();
+      return response;
+    } catch (error) {
+      // Use ProcessHTTPMsgService to handle the error
+      return this.processHTTPMsgService.handleError(error);
+    }
+  }
+
   async getFaqs(): Promise<any> {
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',

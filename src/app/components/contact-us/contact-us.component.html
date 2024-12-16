@@ -1,0 +1,43 @@
+<br><br>
+<div *ngIf="!generalService.userId"><br><br></div>
+
+<div class="card border-0 p-4 font-size-16 weight-600" *ngIf="generalService.userObj">
+  {{'Contact Us' | translate}}
+</div>
+<br>
+<div class="card border-0"
+     [class]="{'p-5': !generalService.isMobileView, 'p-2': generalService.isMobileView}">
+  <mat-card class="shadow-none m-auto p-3"
+            [class]="{'w-60': !generalService.isMobileView, 'w-100': generalService.isMobileView}">
+    <br>
+    <mat-card-content>
+      <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+          <mat-form-field appearance="fill" class="custom-form-field w-100" [hideRequiredMarker]="true">
+            <mat-label>{{'Name' | translate}}</mat-label>
+            <input matInput placeholder="{{'Name' | translate}}" type="text" [formControlName]="'name'">
+          </mat-form-field>
+          <mat-form-field appearance="fill" class="custom-form-field w-100" [hideRequiredMarker]="true">
+            <mat-label>{{'E-mail' | translate}}</mat-label>
+            <input matInput placeholder="{{'email' | translate}}" type="email" [formControlName]="'email'">
+          </mat-form-field>
+        <div class="textarea-container">
+            <textarea [formControlName]="'message'"
+                      [(ngModel)]="contactForm.controls.message.value"
+                      rows="6"
+                      placeholder="{{'Message' | translate}}"></textarea>
+        </div>
+        <br>
+        <button mat-raised-button color="primary" class="float-end"
+                [class]="{'submit-buttons': !generalService.isMobileView, 'submit-button-mobile': generalService.isMobileView}"
+                [disabled]="!contactForm.valid">
+          {{'Submit' | translate}}
+        </button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<div *ngIf="!generalService.userId">
+  <br>
+  <app-footer></app-footer>
+</div>

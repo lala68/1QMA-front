@@ -38,11 +38,11 @@
     <mat-label class="font-size-14 weight-700">{{'Personal information' | translate}}</mat-label>
     <form class="mb-3" [formGroup]="form" (ngSubmit)="updateProfile()">
       <br>
-      <mat-form-field appearance="fill" class="custom-form-field w-100" [hideRequiredMarker]="true">
+      <mat-form-field appearance="fill" class="custom-form-field w-100" [hideRequiredMarker]="false">
         <mat-label>{{'Name' | translate}}</mat-label>
         <input matInput placeholder="{{'First name' | translate}}" type="text" [formControlName]="'firstName'">
       </mat-form-field>
-      <mat-form-field appearance="fill" class="custom-form-field w-100" [hideRequiredMarker]="true">
+      <mat-form-field appearance="fill" class="custom-form-field w-100" [hideRequiredMarker]="false">
         <mat-label>{{'Last Name' | translate}}</mat-label>
         <input matInput placeholder="{{'Last name' | translate}}" type="text" [formControlName]="'lastName'">
       </mat-form-field>
@@ -50,14 +50,14 @@
         <mat-label>{{'E-mail' | translate}}</mat-label>
         <input matInput placeholder="{{'email' | translate}}" type="email" [formControlName]="'email'">
       </mat-form-field>
-      <mat-form-field appearance="fill" class="custom-form-field w-100 force-ltr">
-        <ngx-mat-intl-tel-input
-          [enablePlaceholder]="true"
-          [enableSearch]="true"
-          [preferredCountries]="['ir']"
-          name="phone"
-          [formControlName]="'mobile'"></ngx-mat-intl-tel-input>
-      </mat-form-field>
+<!--      <mat-form-field appearance="fill" class="custom-form-field w-100 force-ltr">-->
+<!--        <ngx-mat-intl-tel-input-->
+<!--          [enablePlaceholder]="true"-->
+<!--          [enableSearch]="true"-->
+<!--          [preferredCountries]="['ir']"-->
+<!--          name="phone"-->
+<!--          [formControlName]="'mobile'"></ngx-mat-intl-tel-input>-->
+<!--      </mat-form-field>-->
       <div [class]="{'d-flex': !generalService.isMobileView, 'd-block': generalService.isMobileView}">
         <mat-form-field class="custom-form-field"
                         [class]="{'w-50': !generalService.isMobileView, 'w-100': generalService.isMobileView}"

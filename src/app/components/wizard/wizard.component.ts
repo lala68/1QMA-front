@@ -135,7 +135,7 @@ export class WizardComponent implements OnInit {
         value: this.email ? this.email : this.generalService.userObj?.email,
         disabled: true
       }, [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]],
-      mobile: [this.generalService.userObj?.mobile ? this.generalService.userObj?.mobile : '', [Validators.required, Validators.minLength(10)]],
+      // mobile: [this.generalService.userObj?.mobile ? this.generalService.userObj?.mobile : '', [Validators.required, Validators.minLength(10)]],
       gender: [this.generalService.userObj?.gender ? this.generalService.userObj?.gender?._id : '', [Validators.required]],
       country: [this.generalService.userObj?.country ? this.generalService.userObj?.country : '', [Validators.required]],
       education: [this.generalService.userObj?.education ? this.generalService.userObj?.education?._id : '', [Validators.required]],
@@ -197,7 +197,7 @@ export class WizardComponent implements OnInit {
               value: this.email ? this.email : this.generalService.userObj?.email,
               disabled: true
             }, [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]],
-            mobile: [this.generalService.userObj?.mobile ? this.generalService.userObj?.mobile : '', [Validators.required, Validators.minLength(10)]],
+            // mobile: [this.generalService.userObj?.mobile ? this.generalService.userObj?.mobile : '', [Validators.required, Validators.minLength(10)]],
             gender: [this.generalService.userObj?.gender ? this.generalService.userObj?.gender?._id : '', [Validators.required]],
             country: [this.generalService.userObj?.country ? this.generalService.userObj?.country : '', [Validators.required]],
             education: [this.generalService.userObj?.education ? this.generalService.userObj?.education?._id : '', [Validators.required]],
@@ -267,7 +267,8 @@ export class WizardComponent implements OnInit {
         await Preferences.remove({key: 'account'});
         await Preferences.set({key: 'account', value: JSON.stringify(data.data)});
         await this.generalService.getUserData();
-        if (!this.generalService.userObj?.emailVerified || !this.generalService.userObj?.mobileVerified) {
+        // if (!this.generalService.userObj?.emailVerified || !this.generalService.userObj?.mobileVerified) {
+        if (!this.generalService.userObj?.emailVerified) {
           this.openDialogVerification('0', '0');
         } else {
           this.stepper.next();
@@ -288,11 +289,13 @@ export class WizardComponent implements OnInit {
       dialogConfig.height = 'auto'; // You can specify the height if needed
       dialogConfig.position = {bottom: '0px'};
       dialogConfig.panelClass = 'mobile-dialog'; // Add custom class for mobile
-      dialogConfig.data = {email: this.form.get('email')?.value, phone: this.form.get('mobile')?.value};
+      // dialogConfig.data = {email: this.form.get('email')?.value, phone: this.form.get('mobile')?.value};
+      dialogConfig.data = {email: this.form.get('email')?.value};
       dialogConfig.enterAnimationDuration = enterAnimationDuration;
       dialogConfig.exitAnimationDuration = exitAnimationDuration
     } else {
-      dialogConfig.data = {email: this.form.get('email')?.value, phone: this.form.get('mobile')?.value};
+      // dialogConfig.data = {email: this.form.get('email')?.value, phone: this.form.get('mobile')?.value};
+      dialogConfig.data = {email: this.form.get('email')?.value};
       dialogConfig.enterAnimationDuration = enterAnimationDuration;
       dialogConfig.exitAnimationDuration = exitAnimationDuration
       dialogConfig.width = '700px'; // Full size for desktop or larger screens
@@ -436,10 +439,10 @@ export class VerificationDialog {
     email: new FormControl({value: '', disabled: true}, [Validators.required,]),
     verificationCode: new FormControl('', [Validators.required]),
   });
-  verifyFormMobile = this._formBuilder.group({
-    mobile: new FormControl({value: '', disabled: true}, [Validators.required]),
-    verificationCode: new FormControl('', [Validators.required]),
-  });
+  // verifyFormMobile = this._formBuilder.group({
+  //   mobile: new FormControl({value: '', disabled: true}, [Validators.required]),
+  //   verificationCode: new FormControl('', [Validators.required]),
+  // });
   resendAblePhone = false;
   resendAbleEmail = false;
   loadingCodeEmail = false;
@@ -454,7 +457,7 @@ export class VerificationDialog {
               @Inject(MAT_DIALOG_DATA) public data: any, private authService: AuthService, public generalService: GeneralService) {
     // console.log(data)
     this.verifyFormEmail.controls.email.setValue(data?.email);
-    this.verifyFormMobile.controls.mobile.setValue(data?.phone);
+    // this.verifyFormMobile.controls.mobile.setValue(data?.phone);
   }
 
 
@@ -475,9 +478,9 @@ export class VerificationDialog {
 
   async resendCodePhone() {
     this.resendAblePhone = false;
-    this.authService.resendCodeMobile({mobile: this.verifyFormMobile.controls.mobile.value}).then(data => {
+    // this.authService.resendCodeMobile({mobile: this.verifyFormMobile.controls.mobile.value}).then(data => {
 
-    })
+    // })
   }
 
   async submit() {
@@ -498,22 +501,23 @@ export class VerificationDialog {
     } else {
       this.emailSuccess = true;
     }
-    if (!this.generalService.userObj?.mobileVerified) {
-      await this.authService.verifyMobile(this.verifyFormMobile.getRawValue()).then(async data => {
-        this.loading = false;
-        if (data?.status == 1) {
-          // await Preferences.remove({key: 'account'});
-          // await Preferences.set({key: 'account', value: JSON.stringify(data.data)});
-          // await this.generalService.getUserData();
-          this.mobileSuccess = true;
-        } else if (data?.status == -1) {
-          this.errorMobile = data?.message;
-        }
-      });
-    } else {
-      this.mobileSuccess = true;
-    }
-    if (this.mobileSuccess && this.emailSuccess) {
+    // if (!this.generalService.userObj?.mobileVerified) {
+    //   await this.authService.verifyMobile(this.verifyFormMobile.getRawValue()).then(async data => {
+    //     this.loading = false;
+    //     if (data?.status == 1) {
+    //       // await Preferences.remove({key: 'account'});
+    //       // await Preferences.set({key: 'account', value: JSON.stringify(data.data)});
+    //       // await this.generalService.getUserData();
+    //       this.mobileSuccess = true;
+    //     } else if (data?.status == -1) {
+    //       this.errorMobile = data?.message;
+    //     }
+    //   });
+    // } else {
+    //   this.mobileSuccess = true;
+    // }
+    // if (this.mobileSuccess && this.emailSuccess) {
+    if (this.emailSuccess) {
       this.dialogRef.close('success')
     }
 

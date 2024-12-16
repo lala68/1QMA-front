@@ -15,10 +15,8 @@ import {ProcessHTTPMsgService} from "../../services/proccessHttpMsg/process-http
 import {ConfigService} from "../../services/config/config.service";
 import {TutorialService} from "../../services/tutorial/tutorial.service";
 import {TranslateModule, TranslateService} from '@ngx-translate/core';
-import {CommonModule} from "@angular/common";
-import {SharedModule} from "../shared.module";
-import {MatMenuModule} from "@angular/material/menu";
-import {ShamsiDatePipe} from "../../pipes/shamsi-date.pipe";
+import { environment } from '../../../environments/environment';
+
 
 @Component({
   selector: 'app-header',
@@ -29,6 +27,7 @@ import {ShamsiDatePipe} from "../../pipes/shamsi-date.pipe";
 })
 export class HeaderComponent implements OnInit {
   notifList: any = [];
+  environment = environment;
 
   constructor(public generalService: GeneralService, public authService: AuthService, private intro: IntroJsService,
               private router: Router, public dialog: MatDialog, private shopService: ShopService,

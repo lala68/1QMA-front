@@ -1781,7 +1781,8 @@
                 <br>
                 <div class="align-items-center"
                      [class]="{'d-flex': !generalService.isMobileView, 'd-block': generalService.isMobileView}">
-                  <mat-slide-toggle labelPosition="before"
+                  <mat-slide-toggle labelPosition="before" [checked]="generalService.userObj?.enableAutoTranslate"
+                                    [(ngModel)]="generalService.toggleValueTranslate" [ngModelOptions]="{standalone: true}"
                                     (change)="onToggleActiveTranslate($event)">{{'Auto-translate questions and answers' | translate}}</mat-slide-toggle>
                   <mat-label *ngIf="generalService.toggleValueTranslate"
                              class="ps-2 pe-2">{{'to' | translate}}</mat-label>
@@ -1789,7 +1790,10 @@
                                   class="custom-form-field" style="padding-top: 20px"
                                   [class]="{'w-25': !generalService.isMobileView, 'w-50': generalService.isMobileView}">
                     <mat-label>{{'Language' | translate}}</mat-label>
-                    <mat-select (selectionChange)="selectTranslatedLang($event.value)">
+                    <mat-select (selectionChange)="selectTranslatedLang($event.value)"
+                                [(ngModel)]="generalService.selectedTranslatedLanguage"
+                                [ngModelOptions]="{standalone: true}"
+                                [value]="generalService.userObj?.targetLanguage">
                       <mat-option *ngFor="let lang of generalService?.clientInit?.languages"
                                   [value]="lang.code">{{lang.title}}</mat-option>
                     </mat-select>

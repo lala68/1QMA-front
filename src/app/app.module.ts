@@ -19,6 +19,7 @@ import {LoaderInterceptService} from "./services/interceptors/loader-intercept.s
 import {NgxMatSelectSearchModule} from "ngx-mat-select-search";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgbRatingModule } from '@ng-bootstrap/ng-bootstrap';
+import {NgxGoogleAnalyticsModule} from "ngx-google-analytics";
 
 export const httpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(http, './assets/i18n/', '.json');
 
@@ -48,6 +49,7 @@ export const httpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(h
       },
     }),
     NgbModule,
+    NgxGoogleAnalyticsModule.forRoot('G-MBVLJ3R5JR'), // Replace with your tracking ID
     // ServiceWorkerModule.register('ngsw-worker.js', {
     //   enabled: !isDevMode(),
     //   // Register the ServiceWorker as soon as the application is stable
@@ -64,3 +66,4 @@ export const httpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(h
 })
 export class AppModule {
 }
+

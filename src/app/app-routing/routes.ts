@@ -27,6 +27,7 @@ import {ReportBugComponent} from "../components/report-bug/report-bug.component"
 import {PrivacyComponent} from "../components/privacy/privacy.component";
 import {TutorialComponent} from "../components/tutorial/tutorial.component";
 import {QuestionDetailComponent} from "../components/question-detail/question-detail.component";
+import {ContactUsComponent} from "../components/contact-us/contact-us.component";
 
 export const routes: Routes = [
   {path: 'login', component: LoginComponent, canActivate: [AuthRedirectGuard]},
@@ -55,6 +56,7 @@ export const routes: Routes = [
   {path: 'account-info', component: AccountInfoComponent, canActivate: [authGuard]},
   {path: 'user-detail', component: UserDetailComponent, canActivate: [authGuard]},
   {path: 'question-detail', component: QuestionDetailComponent, canActivate: [authGuard]},
+  {path: 'contact-us', component: ContactUsComponent},
   {path: 'social/callback', component: SocialCallbackComponent},
   {path: '', redirectTo: '/dashboard', pathMatch: 'full'},
 ];

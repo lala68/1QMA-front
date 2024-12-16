@@ -1,7 +1,7 @@
 {
   "Login to your 1QMA account": "Login to your 1QMA account",
   "Please enter your email": "Please enter your email",
-  "Enter your email": "Enter your email",
+  "Enter your email": "Enter email",
   "Password": "Password",
   "Email": "Email",
   "Enter your password": "Enter your password",
@@ -427,5 +427,8 @@
   "Use Public Question": "Use Public Question",
   "Create Game Price": "Create Game Price",
   "Second Place Reward": "Second Place Reward",
-  "Normal": "Normal"
+  "Normal": "Normal",
+  "Dashboard Language": "Dashboard Language",
+  "Message": "Message",
+  "Contact Us": "Contact Us"
 }

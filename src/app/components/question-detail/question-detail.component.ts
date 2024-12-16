@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {GamesService} from "../../services/games/games.service";
 import {ClientService} from "../../services/client/client.service";
 import {GeneralService} from "../../services/general/general.service";
@@ -61,6 +61,11 @@ export class QuestionDetailComponent {
   async getPerformance(id: any) {
     this.clientService.getQuestionPerformance(id).then(data => {
       this.performance = data.data;
+      this.performance.performance.filter((item: any, index: any) => {
+        item.question.answers.filter((answer: any, index: any) => {
+          answer.calcRate = (answer.rate * 5) / (item.numberOfPlayers * item.numberOfPlayers);
+        });
+      });
     }, error => {
       return this.processHTTPMsgService.handleError(error);
     });

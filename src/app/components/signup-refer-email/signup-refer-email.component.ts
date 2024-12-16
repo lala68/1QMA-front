@@ -11,6 +11,7 @@ import {TranslateModule} from "@ngx-translate/core";
 import {GeneralService} from "../../services/general/general.service";
 import {ConfigService} from "../../services/config/config.service";
 import {Preferences} from "@capacitor/preferences";
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-signup-refer-email',
@@ -37,6 +38,7 @@ export class SignupReferEmailComponent {
   hide = true;
   email: any;
   invitationId: any;
+  environment = environment;
 
   constructor(private _formBuilder: FormBuilder, private loader: LoaderService, private router: Router,
               public authService: AuthService, public generalService: GeneralService, public config: ConfigService) {

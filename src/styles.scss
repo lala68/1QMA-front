@@ -1,16 +1,25 @@
 @use '@angular/material' as mat;
-@import "../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css";
+//@import "../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css";
 @import "../node_modules/bootstrap/dist/css/bootstrap.css";
 @import 'material-icons/iconfont/material-icons.css';
 @import "../node_modules/bootstrap-icons/font/bootstrap-icons.css";
 @import 'custom-theme';
-//@import 'css-star-rating/scss/star-rating';
+
+
+html {
+  color-scheme: light; /* Enforce light mode globally */
+}
+//
+//@media (prefers-color-scheme: dark) {
+//  html {
+//    color-scheme: light; /* Override dark mode styles */
+//  }
+//}
+
 
 * {
   font-size: 14px;
 }
-
-
 
 @font-face {
   font-family: 'Anjoman';
@@ -54,7 +63,7 @@
 
 
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root, html {
     color-scheme: light;
   }
 }

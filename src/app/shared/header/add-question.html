@@ -193,15 +193,9 @@
     </mat-card>
   </form>
   <div class="mt-4 text-center position-sticky bottom-0 bg-white">
-    <button
-      mat-raised-button
-      color="primary"
-      type="submit"
-      [disabled]="questionForm.invalid"
-      class="w-75 p-4"
-      style="margin: 10px auto"
-      (click)="submit()"
-    >
+    <button mat-raised-button color="primary" type="submit"
+            [disabled]="questionForm.invalid || !selectedCategory?.length"
+            class="w-75 p-4" style="margin: 10px auto;" (click)="submit()">
       <span>{{'Add' | translate}}</span>
     </button>
   </div>

@@ -143,8 +143,8 @@ export class GamesService {
       'Content-Type': 'application/json',
     });
 
-    const maxRetries = 10; // Maximum number of retries
-    const delayMs = 2000; // Delay between retries in milliseconds
+    const maxRetries = 12; // Maximum number of retries
+    const delayMs = 5000; // Delay between retries in milliseconds
 
     const response = this.http.get(this.config.url('game/' + gameId + '/questions'), {
       headers: headers,
@@ -181,8 +181,8 @@ export class GamesService {
       'Content-Type': 'application/json',
     });
 
-    const maxRetries = 10; // Maximum number of retries
-    const delayMs = 2000; // Delay between retries in milliseconds
+    const maxRetries = 12; // Maximum number of retries
+    const delayMs = 5000; // Delay between retries in milliseconds
 
     const response = this.http.get(this.config.url('game/' + gameId + '/question/' + step), {
       headers: headers,
@@ -283,8 +283,8 @@ export class GamesService {
       'Content-Type': 'application/json',
     });
 
-    const maxRetries = 10; // Maximum number of retries
-    const delayMs = 2000; // Delay between retries in milliseconds
+    const maxRetries = 12; // Maximum number of retries
+    const delayMs = 5000; // Delay between retries in milliseconds
 
     const response = this.http.get(this.config.url('game/' + gameId + '/' + questionId + '/answers'), {
       headers: headers,
@@ -311,8 +311,8 @@ export class GamesService {
       'Content-Type': 'application/json',
     })
 
-    const maxRetries = 10; // Maximum number of retries
-    const delayMs = 2000; // Delay between retries in milliseconds
+    const maxRetries = 12; // Maximum number of retries
+    const delayMs = 5000; // Delay between retries in milliseconds
 
     const response = this.http.get(this.config.url('game/' + gameId + '/result'), {
       headers: headers,

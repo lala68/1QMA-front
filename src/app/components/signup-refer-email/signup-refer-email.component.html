@@ -11,15 +11,9 @@
       >arrow_back_ios</mat-icon
     >
     <div class="text-center mb-3">
-      <img
-        src="https://api.1qma.games/images/logo.png"
-        width="128"
-        height="98"
-      />
-      <br />
-      <div style="font-size: 16px; font-weight: 700">
-        {{ "Sign up for a new account" }}
-      </div>
+      <img [src]="environment.baseUrl + 'images/logo.png'" width="128" height="98">
+      <br>
+      <div style="font-size: 16px; font-weight: 700">{{'Sign up for a new account'}}</div>
     </div>
     <div *ngIf="step == 1">
       <br />

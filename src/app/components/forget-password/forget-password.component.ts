@@ -8,6 +8,7 @@ import {NgxMatIntlTelInputComponent} from "ngx-mat-intl-tel-input";
 import {TranslateModule} from "@ngx-translate/core";
 import {AuthService} from "../../services/auth/auth.service";
 import {GeneralService} from "../../services/general/general.service";
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-forget-password',
@@ -39,6 +40,7 @@ export class ForgetPasswordComponent {
   ]);
   error: any;
   message: any;
+  environment = environment;
 
   constructor(private _formBuilder: FormBuilder, private router: Router,
               private authService: AuthService, public generalService: GeneralService) {
