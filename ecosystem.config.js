@@ -2,7 +2,7 @@ module.exports = {
   deploy: {
     production: {
       user: "root",
-      host: "64.226.74.250",
+      host: "167.172.166.147",
       ref: "origin/main",
       repo: "git@github.com:lala68/1QMA-front.git",
       path: "/root/projects/sources/1qma.front",
