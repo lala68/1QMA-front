@@ -4,7 +4,7 @@ module.exports = {
       user: "root",
       host: "167.172.166.147",
       ref: "origin/main",
-      repo: "git@github.com:lala68/1QMA-front.git",
+      repo: "git@github.com-1QMA-front:lala68/1QMA-front.git",
       path: "/root/projects/sources/1qma.front",
       "pre-deploy": "git reset --hard",
       "post-deploy":
